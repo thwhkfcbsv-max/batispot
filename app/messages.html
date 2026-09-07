@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Messages · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <style>
+    body { background:#FFFFFF; color:#1C2B22; font-family:"Inter",system-ui,-apple-system,sans-serif; margin:0; -webkit-font-smoothing:antialiased; }
+    .phone-screen { max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; background:#FFFFFF; position:relative; }
+    .app-h { background:#FFFFFF; border-bottom:1.5px solid #E7EEEA; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .scr-body { flex:1; padding:16px; padding-bottom:96px; display:flex; flex-direction:column; gap:14px; }
+    /* Les rangées de cette liste sont des .mq-row (css/app.css, tâche 24) :
+       avatar rond, nom, aperçu sur UNE ligne, heure relative et pastille de
+       non-lus, le tout dans 64px. Rien à redéfinir ici — c'est justement le
+       but : le même dessin sur la liste des clients et celle de l'équipe. */
+    #clients-area, #equipe-area { display:flex; flex-direction:column; gap:8px; }
+    #clients-area[hidden], #equipe-area[hidden] { display:none; }
+    .ui-tab { position:relative; }
+    .mq-nb-onglet { position:absolute; top:6px; right:10px; min-width:18px; height:18px; font-size:10.5px; line-height:18px; }
+    .mq-nb-onglet[hidden] { display:none; }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header épuré : identique à dashboard.html. app-nav.js y insère le
+         sous-titre (date + « Messages ») et transforme le bouton en avatar. -->
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-msg-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-msg-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+    <!-- Corps principal -->
+    <div class="mq-screen" id="scr-body">
+      <!-- Titre d'écran porté par l'en-tête (app-nav.js), pas de h1 local. -->
+
+      <!-- Deux répertoires, jamais mélangés (Moctar, 05/09 : « je clique sur
+           Clients je vois le répertoire client, et Équipe pareil »). Un
+           onglet à la fois, le nombre de non-lus sur chacun. -->
+      <div class="ui-tabs" id="msgOnglets" role="tablist">
+        <button type="button" class="ui-tab on" role="tab" data-onglet="clients" aria-selected="true">Clients<span class="mq-nb mq-nb-onglet" id="nbClients" hidden></span></button>
+        <button type="button" class="ui-tab" role="tab" data-onglet="equipe" aria-selected="false">Équipe<span class="mq-nb mq-nb-onglet" id="nbEquipe" hidden></span></button>
+      </div>
+      <div id="clients-area" role="tabpanel"></div>
+      <div id="equipe-area" role="tabpanel" hidden></div>
+
+      <!-- L'assistant propose : deux actions concrètes de messagerie,
+           jamais un texte générique. -->
+      <div class="mq-assist" id="mqAssist">
+        <div class="mq-h"><span class="mq-dot"></span>L'assistant propose</div>
+        <div class="mq-chips" id="mqAssistChips"></div>
+      </div>
+    </div>
+
+    <!-- Barre du bas : générée par js/app-nav.js. -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script>
+    // js/app-assistant.js insère par défaut sa propre carte « L'assistant
+    // propose » générique (.ui-assist). Cet écran en construit une à la main
+    // (fidèle au reste de l'app, cf. dashboard.html) avec les deux actions de
+    // messagerie demandées par le fondateur — on ne veut donc pas des deux.
+    // Un libellé vide fait filtrer la suggestion par bsSuggestionsPourPage()
+    // (elle exige un s.label truthy) : la liste retombe à vide, sa carte ne
+    // s'insère pas.
+    window.bsSuggestions = [{ label: "" }];
+  </script>
+  <script type="module">
+    import {
+      supabase, requireAuth, listChantiers, TYPE_TRAVAUX_LABEL,
+    } from "./js/supabase.js";
+    import { listContacts, apercuConversations } from "./js/messages-directs.js";
+    import { actualiserBadgeMessages, initialesDe, heureRelative, apercuContenu } from "./js/mq-thread.js";
+    import { telAppelable } from "./js/tel.js";
+
+    // Mon identifiant : sert à ne pas compter mes propres messages d'équipe
+    // comme « non lus ». Posé par initMessages() juste après requireAuth().
+    let MON_ID = null;
+
+    // ── Déduction de l'"objet" du chantier ─────────────────
+    // Même logique que dashboard.html (objetChantier) : le type déclaré prime,
+    // sinon on le devine dans la description. Dupliquée volontairement — ni
+    // dashboard.html ni chantier.js n'exportent rien, ce sont des scripts de
+    // page, pas des libs.
+    const MOTS_TYPE = [
+      [/cuisine/, "cuisine"],
+      [/salle\s*de\s*bain|sdb|douche|baignoire/, "salle_bain"],
+      [/électric|electric|tableau|prise/, "electricite"],
+      [/toiture|toit|charpente|tuile/, "toiture"],
+      [/plomb|fuite|robinet|évier|evier|chauffe-eau/, "plomberie"],
+      [/peinture|peindre|enduit|revêtement|revetement/, "peinture"],
+      [/façade|facade|ravalement|crépi|crepi/, "facade"],
+    ];
+    function objetChantier(c) {
+      if (c.type_travaux && TYPE_TRAVAUX_LABEL[c.type_travaux]) return TYPE_TRAVAUX_LABEL[c.type_travaux];
+      const txt = String(c.description || "").toLowerCase();
+      for (const [re, cle] of MOTS_TYPE) if (re.test(txt)) return TYPE_TRAVAUX_LABEL[cle];
+      return TYPE_TRAVAUX_LABEL.autre;
+    }
+
+    function tronquer(texte, n = 80) {
+      const t = String(texte ?? "").replace(/\s+/g, " ").trim();
+      return t.length > n ? t.slice(0, n).trimEnd() + "…" : t;
+    }
+
+    // Une rangée de la liste : avatar rond, nom, aperçu sur UNE ligne,
+    // heure relative à droite, pastille verte des non-lus. 64px maximum —
+    // on y lit qui attend une réponse, pas le message lui-même.
+    // Tout est posé en textContent : un aperçu de message est du texte
+    // écrit par quelqu'un d'autre, il ne devient jamais du HTML.
+    function rangeeFil({ href, initiales, icone, nom, apercu, quand, nb = 0, inactif = false, tel = null }) {
+      const r = document.createElement(href ? "a" : "div");
+      r.className = "mq-row" + (nb > 0 ? " mq-nonlu" : "") + (inactif ? " mq-inactif" : "");
+      if (href) r.href = href;
+      // Répertoire client : appeler depuis la ligne (tel:), sans ouvrir le fil.
+      if (tel) {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "mq-row-tel"; b.setAttribute("aria-label", "Appeler");
+        b.innerHTML = window.bsIcon ? window.bsIcon("phone", 16) : "";
+        b.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); location.href = "tel:" + tel; });
+        r.appendChild(b);
+      }
+
+      const av = document.createElement("div");
+      av.className = "mq-av";
+      if (icone) av.innerHTML = window.bsIcon ? window.bsIcon(icone, 20) : "";
+      else av.textContent = initiales;
+      r.appendChild(av);
+
+      const n = document.createElement("div");
+      n.className = "mq-nom";
+      n.textContent = nom;
+      r.appendChild(n);
+
+      const a = document.createElement("div");
+      a.className = "mq-apercu";
+      a.textContent = apercu;
+      r.appendChild(a);
+
+      const q = document.createElement("div");
+      q.className = "mq-quand";
+      q.textContent = quand || "";
+      r.appendChild(q);
+
+      if (nb > 0) {
+        const b = document.createElement("div");
+        b.className = "mq-nb";
+        b.textContent = nb > 99 ? "99+" : String(nb);
+        b.setAttribute("aria-label", `${nb} message${nb > 1 ? "s" : ""} non lu${nb > 1 ? "s" : ""}`);
+        r.appendChild(b);
+      }
+      return r;
+    }
+
+    // Texte centré et discret — état vide.
+    function noteCentree(texte) {
+      const p = document.createElement("p");
+      p.className = "mq-center";
+      p.textContent = texte;
+      return p;
+    }
+
+    // ── Chargement groupé : chantiers du pro + UNE requête messages (300
+    // derniers, tous chantiers confondus, RLS pro_own_messages s'occupe déjà
+    // de ne rendre que les siens) — jamais une requête par chantier. ────────
+    async function chargerDonnees() {
+      const tous = await listChantiers();
+
+      let msgs = [];
+      try {
+        const { data, error } = await supabase
+          .from("messages")
+          // lu_le est lu ici pour compter les non-lus dans la pastille de
+          // chaque rangée (tâche 24). Colonne ajoutée le 04/09 ; si elle
+          // manquait, la requête entière échouerait — d'où le repli plus bas
+          // sur une seconde requête sans elle, plutôt qu'un écran vide.
+          .select("chantier_id, author, auteur_id, content, created_at, visible_client, lu_le")
+          .order("created_at", { ascending: false })
+          .limit(300);
+        if (error) throw error;
+        msgs = data || [];
+      } catch (e) {
+        console.warn("[messages] lu_le indisponible, liste sans pastilles", e);
+        try {
+          const { data } = await supabase
+            .from("messages")
+            .select("chantier_id, author, auteur_id, content, created_at, visible_client")
+            .order("created_at", { ascending: false })
+            .limit(300);
+          msgs = data || [];
+        } catch (e2) { console.warn("[messages] messages indisponibles", e2); }
+      }
+
+      // Dernier message CLIENT ⇄ ARTISAN (visible_client=true, pro/client)
+      // par chantier — même filtre que listMessages() dans supabase.js, pour
+      // ne jamais montrer au patron un message interne d'équipe comme s'il
+      // venait d'un client. `msgs` est déjà trié created_at desc : le
+      // premier rencontré par chantier est le plus récent.
+      const dernierClientParChantier = new Map();
+      const nonLusParChantier = new Map();
+      // Dernier message INTERNE (visible_client=false, membre ou patron en
+      // coulisses) PAR CHANTIER — un groupe d'équipe par chantier (Moctar,
+      // 05/09), plus le total pour la rangée générique quand aucun groupe
+      // n'a encore parlé.
+      let derniereInterne = null;
+      let nonLusEquipe = 0;
+      const derniereInterneParChantier = new Map();
+      const nonLusInterneParChantier = new Map();
+
+      for (const m of msgs) {
+        if (m.visible_client === true && (m.author === "pro" || m.author === "client")) {
+          if (!dernierClientParChantier.has(m.chantier_id)) {
+            dernierClientParChantier.set(m.chantier_id, m);
+          }
+          // Non lu = message du CLIENT que l'artisan n'a pas encore ouvert.
+          if (m.author === "client" && !m.lu_le) {
+            nonLusParChantier.set(m.chantier_id, (nonLusParChantier.get(m.chantier_id) || 0) + 1);
+          }
+        } else if (m.visible_client === false) {
+          if (!derniereInterne) derniereInterne = m;
+          if (!derniereInterneParChantier.has(m.chantier_id)) derniereInterneParChantier.set(m.chantier_id, m);
+          if (!m.lu_le && m.auteur_id !== MON_ID) {
+            nonLusEquipe += 1;
+            nonLusInterneParChantier.set(m.chantier_id, (nonLusInterneParChantier.get(m.chantier_id) || 0) + 1);
+          }
+        }
+      }
+
+      return { tous, dernierClientParChantier, nonLusParChantier, derniereInterne, nonLusEquipe, derniereInterneParChantier, nonLusInterneParChantier };
+    }
+
+    function renderClients(tous, dernierClientParChantier, nonLusParChantier) {
+      const area = document.getElementById("clients-area");
+      area.replaceChildren();
+
+      // Répertoire : un client par chantier, tous les chantiers (les terminés
+      // en dernier) — c'est un carnet, pas seulement une boîte de réception.
+      const items = tous.slice();
+
+      if (!items.length) {
+        area.appendChild(noteCentree(
+          "Aucun client pour l'instant. Créez un chantier : votre client vous écrit depuis sa page de suivi.",
+        ));
+        return;
+      }
+
+      // Tri : à répondre (dernier message du client) d'abord, puis par date
+      // du dernier message (les chantiers sans aucun message encore, mais
+      // en cours, retombent en fin de liste via leur date de mise à jour).
+      items.sort((a, b) => {
+        const ma = dernierClientParChantier.get(a.id);
+        const mb = dernierClientParChantier.get(b.id);
+        // Le dernier message remonte (Moctar, 05/09), reçu ou envoyé ;
+        // les chantiers sans message restent derrière, terminés en dernier.
+        const aDesMsgA = ma ? 1 : 0, aDesMsgB = mb ? 1 : 0;
+        if (aDesMsgA !== aDesMsgB) return aDesMsgB - aDesMsgA;
+        const finiA = a.status === "termine" ? 1 : 0;
+        const finiB = b.status === "termine" ? 1 : 0;
+        if (finiA !== finiB) return finiA - finiB;
+        const dateA = (ma && ma.created_at) || a.updated_at || a.created_at || "";
+        const dateB = (mb && mb.created_at) || b.updated_at || b.created_at || "";
+        return dateB.localeCompare(dateA);
+      });
+
+      items.forEach((c) => {
+        const dernier = dernierClientParChantier.get(c.id);
+        area.appendChild(rangeeFil({
+          href: `./chantier.html?id=${c.id}#messages`,
+          initiales: initialesDe(c.client_name),
+          nom: `${c.client_name || "Client"} · ${objetChantier(c)}`,
+          // L'aperçu dit QUI a parlé en dernier : sans ça, l'artisan relit son
+          // propre message en croyant que son client a répondu.
+          apercu: dernier
+            ? (dernier.author === "pro" ? "Vous : " : "") + tronquer(dernier.content)
+            : "Aucun message pour l'instant.",
+          quand: dernier ? heureRelative(dernier.created_at) : "",
+          nb: nonLusParChantier.get(c.id) || 0,
+          // (05/09, Moctar) pas de bouton Appeler ici : il est déjà sur la
+          // fiche du chantier qu'ouvre la ligne.
+        }));
+      });
+    }
+
+    function renderEquipe(derniereInterne, nonLusEquipe, tous = [], derniereInterneParChantier = new Map(), nonLusInterneParChantier = new Map()) {
+      const area = document.getElementById("equipe-area");
+      area.replaceChildren();
+      // Un groupe par chantier qui a déjà parlé, le plus récent d'abord ;
+      // chaque rangée ouvre directement ce groupe dans equipe.html.
+      const parId = new Map(tous.map((c) => [c.id, c]));
+      const groupes = Array.from(derniereInterneParChantier.entries())
+        .filter(([id]) => parId.has(id))
+        .sort((a, b) => String(b[1].created_at).localeCompare(String(a[1].created_at)));
+      groupes.forEach(([id, dernier]) => {
+        const c = parId.get(id);
+        area.appendChild(rangeeFil({
+          href: `./equipe.html?chantier=${id}#fil`,
+          initiales: initialesDe(c.client_name || "Chantier"),
+          nom: `Groupe · ${c.client_name || "Chantier"}`,
+          apercu: (dernier.auteur_id === MON_ID ? "Vous : " : "") + tronquer(apercuContenu(dernier.content)),
+          quand: heureRelative(dernier.created_at),
+          nb: nonLusInterneParChantier.get(id) || 0,
+        }));
+      });
+      area.appendChild(rangeeFil({
+        href: "./equipe.html#fil",
+        icone: "users",
+        nom: groupes.length ? "Tous les groupes de chantier" : "Fil d'équipe",
+        apercu: groupes.length ? "Un groupe par chantier, jamais visible par le client." : "Échanges internes par chantier, jamais visibles par le client.",
+        quand: "",
+        nb: groupes.length ? 0 : nonLusEquipe,
+      }));
+    }
+
+    // Une rangée par collègue qu'on peut contacter en message direct —
+    // ajoutée APRÈS la rangée « Fil d'équipe » posée par renderEquipe(), dans
+    // la même zone #equipe-area (on ne la vide pas ici, elle l'a déjà été).
+    // listContacts() place le patron en premier si je suis un compagnon.
+    async function renderCollegues() {
+      const area = document.getElementById("equipe-area");
+      let monId, contacts;
+      try {
+        ({ monId, contacts } = await listContacts());
+      } catch (e) {
+        console.warn("[messages] collègues indisponibles", e);
+        return;
+      }
+      if (!contacts.length) return;
+
+      let apercu = new Map();
+      try {
+        apercu = monId ? await apercuConversations(monId) : apercu;
+      } catch (e) {
+        console.warn("[messages] aperçu des messages directs indisponible", e);
+      }
+
+      // Invitations en attente en bas (Moctar, 05/09) : on n'écrit pas à
+      // quelqu'un qui n'est pas encore là.
+      contacts.slice().sort((a, b) => Number(!!(a.enAttente || !a.userId)) - Number(!!(b.enAttente || !b.userId))).forEach((c) => {
+        // Invité sans compte (statut != actif ou user_id absent) : grisé,
+        // aucun lien — il n'y a personne à qui écrire pour l'instant.
+        if (c.enAttente || !c.userId) {
+          area.appendChild(rangeeFil({
+            initiales: initialesDe(c.nom),
+            nom: `${c.nom} · ${c.roleLabel}`,
+            apercu: "Invitation en attente",
+            quand: "",
+            inactif: true,
+          }));
+          return;
+        }
+
+        const dernier = apercu.get(c.userId);
+        area.appendChild(rangeeFil({
+          href: `./dm.html?avec=${c.userId}`,
+          initiales: initialesDe(c.nom),
+          nom: `${c.nom} · ${c.roleLabel}`,
+          apercu: dernier
+            ? (dernier.dernier.de_user_id === monId ? "Vous : " : "") + tronquer(dernier.dernier.content)
+            : "Aucun message pour l'instant.",
+          quand: dernier ? heureRelative(dernier.dernier.created_at) : "",
+          nb: dernier ? (dernier.nb || 0) : 0,
+        }));
+      });
+    }
+
+    function renderAssistChips() {
+      const area = document.getElementById("mqAssistChips");
+      area.replaceChildren();
+      ["Prévenir un client d'un décalage", "Envoyer les photos du jour"].forEach((label) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "mq-chip";
+        chip.textContent = label;
+        chip.addEventListener("click", () => {
+          if (typeof window.bsAssistantEnvoyerQuestion === "function") {
+            window.bsAssistantEnvoyerQuestion(label);
+          }
+        });
+        area.appendChild(chip);
+      });
+    }
+
+    // ── Onglets Clients / Équipe ──────────────────────────────────────
+    const CLE_ONGLET = 'messages_onglet';
+    function montrerOnglet(nom) {
+      const clients = nom !== 'equipe';
+      document.getElementById('clients-area').hidden = !clients;
+      document.getElementById('equipe-area').hidden = clients;
+      document.querySelectorAll('#msgOnglets .ui-tab').forEach((b) => {
+        const on = b.dataset.onglet === (clients ? 'clients' : 'equipe');
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      try { localStorage.setItem(CLE_ONGLET, clients ? 'clients' : 'equipe'); } catch (_) {}
+    }
+    function poserBadgeOnglet(id, n) {
+      const b = document.getElementById(id);
+      if (!b) return;
+      b.hidden = !(n > 0);
+      b.textContent = n > 99 ? '99+' : String(n);
+    }
+    document.querySelectorAll('#msgOnglets .ui-tab').forEach((b) => b.addEventListener('click', () => montrerOnglet(b.dataset.onglet)));
+    (function ongletInitial() {
+      let voulu = null;
+      if (location.hash === '#equipe') voulu = 'equipe';
+      else if (location.hash === '#clients') voulu = 'clients';
+      else { try { voulu = localStorage.getItem(CLE_ONGLET); } catch (_) {} }
+      montrerOnglet(voulu || 'clients');
+    })();
+
+    async function initMessages() {
+      const session = await requireAuth();
+      MON_ID = session && session.user ? session.user.id : null;
+
+      const clientsArea = document.getElementById("clients-area");
+      const equipeArea = document.getElementById("equipe-area");
+      const attente = () => (typeof window.bsSquelette === "function"
+        ? window.bsSquelette(2, { court: true })
+        : noteCentree("Chargement…"));
+      clientsArea.replaceChildren(attente());
+      equipeArea.replaceChildren(attente());
+      if (typeof window.bsCascade === "function") { window.bsCascade(clientsArea); window.bsCascade(equipeArea); }
+
+      try {
+        const { tous, dernierClientParChantier, nonLusParChantier, derniereInterne, nonLusEquipe, derniereInterneParChantier, nonLusInterneParChantier } = await chargerDonnees();
+        renderClients(tous, dernierClientParChantier, nonLusParChantier);
+        renderEquipe(derniereInterne, nonLusEquipe, tous, derniereInterneParChantier, nonLusInterneParChantier);
+        await renderCollegues();
+        // Non-lus par onglet : clients = messages de clients pas encore
+        // ouverts ; équipe = messages internes des autres.
+        let nbC = 0; nonLusParChantier.forEach((n) => { nbC += n; });
+        poserBadgeOnglet('nbClients', nbC);
+        poserBadgeOnglet('nbEquipe', nonLusEquipe);
+      } catch (e) {
+        console.warn("[messages] chargement impossible", e);
+        clientsArea.replaceChildren(noteCentree("Indisponible pour le moment. Réessayez."));
+        equipeArea.replaceChildren(noteCentree("Indisponible pour le moment. Réessayez."));
+      }
+
+      renderAssistChips();
+      // La liste vient d'être affichée : c'est le bon moment pour rafraîchir
+      // le badge de la barre du bas (non bloquant, voir mq-thread.js).
+      actualiserBadgeMessages();
+    }
+
+    initMessages();
+  </script>
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

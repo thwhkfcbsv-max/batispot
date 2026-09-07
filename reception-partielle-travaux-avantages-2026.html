@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Réception partielle de travaux : avantages et procédure 2026 | BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/reception-partielle-travaux-avantages-2026">
+<meta name="description" content="Réceptionner les travaux poste par poste plutôt qu'en bloc. Quand le faire, comment, et pourquoi ça vous protège." />
+<meta name="keywords" content="reception partielle travaux, recevoir travaux poste par poste, reception fractionnee chantier" />
+<meta property="og:title" content="Réception partielle des travaux — Guide 2026" />
+<meta property="og:description" content="Pourquoi réceptionner par lots peut vous éviter des semaines de blocage." />
+<meta property="og:type" content="article" /><meta property="og:image" content="https://batispot.pro/og/reception-partielle-travaux-avantages-2026.png" />
+<meta property="og:url" content="https://batispot.pro/reception-partielle-travaux-avantages-2026" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'Segoe UI',system-ui,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.6}
+:root{--g1:#1A6B45;--g2:#228B5B;--g3:#4CAF82;--g-soft:#EBF7F1;--cta:#2A9D6E;--text:#1C2B22;--sub:#5A7268;--border:rgba(34,139,91,0.12);--orange:#F97316;--red:#dc2626}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:inline-flex;align-items:center;text-decoration:none}.nav-links{display:flex;gap:1.5rem}.nav-links a{color:var(--sub);text-decoration:none;font-size:.85rem;font-weight:500}
+.hero{background:linear-gradient(135deg,var(--g1),var(--g2));padding:3rem 5% 2.5rem;text-align:center;color:#fff}.hero h1{font-size:2rem;font-weight:900;margin-bottom:.75rem}.hero p{opacity:.9;font-size:1.05rem;max-width:680px;margin:0 auto}
+.breadcrumb{font-size:.8rem;opacity:.75;margin-bottom:.75rem}.breadcrumb a{color:rgba(255,255,255,.85);text-decoration:none}
+.container{max-width:820px;margin:0 auto;padding:2.5rem 1.2rem 3rem}
+.card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:1.8rem}
+.card h2{font-size:1.4rem;font-weight:900;color:var(--g1);margin-bottom:1rem}.card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem}.card p{margin-bottom:.9rem;font-size:.95rem}.card ul,.card ol{margin:.6rem 0 .9rem 1.5rem}.card li{padding:.25rem 0;font-size:.92rem}
+.alert-red{background:#FEF2F2;border-left:4px solid var(--red);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#991B1B}
+.alert-green{background:#F0FDF4;border-left:4px solid #16a34a;padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#166534}
+.alert-orange{background:#FEF3C7;border-left:4px solid var(--orange);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#92400E}
+.cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2.2rem;text-align:center;color:#fff;margin-bottom:1.8rem}.cta-section h2{font-size:1.4rem;font-weight:900;margin-bottom:.5rem;color:#fff}.cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;text-decoration:none}
+table{width:100%;border-collapse:collapse;margin:1rem 0}th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}th{background:var(--g-soft);color:var(--g1);font-weight:700}
+.courrier{background:#F9FAFB;border:1px dashed var(--border);border-radius:8px;padding:1rem;font-family:Georgia,serif;font-size:.85rem;line-height:1.7;margin:1rem 0;white-space:pre-wrap}
+footer{background:var(--g1);color:rgba(255,255,255,.8);text-align:center;padding:1.5rem;font-size:.8rem;margin-top:2rem}footer a{color:rgba(255,255,255,.95);text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.5rem}.card{padding:1.3rem}}
+</style><script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Réception partielle de travaux : avantages et procédure 2026 | BatiSpot",
+ "description": "Réceptionner les travaux poste par poste plutôt qu",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-04-25",
+ "dateModified": "2026-06-12",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/reception-partielle-travaux-avantages-2026"
+ }
+}
+</script>
+</head><body>
+<nav><a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a><div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimer</a><a href="/">Artisan ?</a></div></nav>
+
+<section class="hero">
+<div class="breadcrumb"><a href="/">Accueil</a> › Guides › Réception partielle</div>
+<h1>Réception partielle de travaux</h1>
+<p>Recevoir l'ensemble du chantier en une fois n'est pas toujours optimal. La réception partielle (ou par lots) peut vous protéger mieux et libérer les paiements progressivement.</p>
+</section>
+
+<div class="container">
+<div class="card">
+<h2>Réception unique vs réception partielle</h2>
+<p>La <strong>réception unique</strong> consiste à recevoir tout le chantier le même jour à la fin. C'est la méthode classique mais elle a des limites pour les chantiers complexes.</p>
+<p>La <strong>réception partielle</strong> consiste à recevoir <strong>chaque corps d'état séparément</strong> dès qu'il est terminé. Elle est prévue par la jurisprudence (notamment Cass. 3e civ. 12 oct. 1994) sous condition que les parties soient identifiables et autonomes.</p>
+</div>
+
+<div class="card">
+<h2>Quand opter pour la réception partielle</h2>
+<h3>Chantier multi-corps d'état</h3>
+<p>Rénovation complète qui mobilise plomberie, électricité, peinture, menuiserie. Chaque lot peut être achevé à des dates différentes.</p>
+<h3>Délais étirés</h3>
+<p>Si un poste tarde (ex : carrelage en rupture), pas de raison de bloquer tout le chantier ni les paiements.</p>
+<h3>Sous-traitants distincts</h3>
+<p>Si l'artisan principal sous-traite, chaque sous-traitant peut être réceptionné individuellement.</p>
+<h3>Mise en service progressive</h3>
+<p>Pour vivre dans le logement pendant les travaux, mieux vaut recevoir les pièces au fur et à mesure (cuisine ou salle de bain dès qu'elle est utilisable).</p>
+</div>
+
+<div class="card">
+<style>.bs-midcta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.1rem;background:#EBF7F1;border:1px solid rgba(34,139,91,.18);border-left:5px solid #1A6B45;border-radius:14px;padding:1.4rem 1.6rem;margin:2rem 0}.bs-midcta .bs-midcta-txt{flex:1 1 260px;min-width:0}.bs-midcta .bs-midcta-t{font-weight:900;color:#1A6B45;font-size:1.08rem;margin:0 0 .3rem}.bs-midcta .bs-midcta-p{color:#5A7268;font-size:.92rem;line-height:1.5;margin:0}.bs-midcta .cta-btn{white-space:nowrap;flex-shrink:0}@media(max-width:560px){.bs-midcta{flex-direction:column;align-items:flex-start}}</style>
+<aside class="bs-midcta" aria-label="Devis gratuit BatiSpot">
+ <div class="bs-midcta-txt">
+ <p class="bs-midcta-t">Un chantier à réceptionner ou des travaux à lancer ?</p>
+ <p class="bs-midcta-p">Décrivez votre projet en 1 minute : un artisan vérifié en Île-de-France vous recontacte sous 24 à 48 h. Gratuit et sans engagement.</p>
+ </div>
+ <a href="/estimateur" class="cta-btn">Obtenir mon devis gratuit →</a>
+</aside>
+
+<h2>Avantages concrets pour vous</h2>
+<ul>
+<li><strong>Garanties qui démarrent par lot</strong> : vous comptez 10 ans dès la réception du lot, pas à la fin du chantier global</li>
+<li><strong>Paiements échelonnés sur lots terminés</strong> : vous libérez l'acompte du lot reçu, pas plus</li>
+<li><strong>Identification des problèmes plus rapide</strong> : si la plomberie a un souci, on le voit avant que la peinture ne le cache</li>
+<li><strong>Pression utile sur l'artisan</strong> : il sait que chaque lot doit être OK pour libérer son paiement</li>
+<li><strong>Flexibilité</strong> : vous pouvez emménager dans une partie du logement avant la fin totale</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Procédure pratique</h2>
+<ol>
+<li><strong>Au moment du devis</strong>, demandez à l'artisan de découper son devis en lots distincts (plomberie / élec / peinture / etc.) avec des échéances et paiements par lot</li>
+<li><strong>Inscrire la réception partielle</strong> dans les conditions du devis : "L'ouvrage sera réceptionné par lots à mesure de l'achèvement de chaque corps d'état"</li>
+<li><strong>Convocation par lot</strong> : à chaque achèvement de lot, convoquez l'artisan par email pour une mini-réception (15-30 min)</li>
+<li><strong>PV partiel à chaque lot</strong> : utilisez le même format que le PV global mais limité au lot. Voir notre <a href="/reception-travaux-checklist-pv-2026">modèle de PV</a></li>
+<li><strong>Solde du lot libéré</strong> à la levée des réserves de ce lot uniquement</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Limites et précautions</h2>
+<div class="alert-orange"><strong>Le piège</strong> : si certains lots sont interdépendants (ex : peinture après finition électrique), vous ne pouvez pas recevoir la peinture sans avoir reçu l'élec d'abord. Cohérence à anticiper.</div>
+<ul>
+<li>Le DOE (Dossier des Ouvrages Exécutés) est <strong>cumulatif</strong> : ne le rendez pas par lot</li>
+<li>L'attestation décennale globale reste due par le principal pour l'ensemble</li>
+<li>Si vous payez un solde de lot puis trouvez un défaut lié à un autre lot non encore reçu, votre recours peut se compliquer</li>
+</ul>
+</div>
+<div class="cta-section">
+<h2>Chantier multi-lots ? On gère</h2>
+<p>Pour les rénovations complètes BatiSpot organise les réceptions par poste : plomberie, électricité, peinture, finitions.</p>
+<a href="/" class="cta-btn">Demander un devis →</a>
+</div>
+</div>
+
+<footer>© 2026 BatiSpot · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a></footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>

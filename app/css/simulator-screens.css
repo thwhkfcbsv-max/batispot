@@ -1,0 +1,304 @@
+/* ============================================================
+   simulator-screens.css — Classes scopees portees du simulator
+   Source : /app/simulator-screens.html lines 13-117 (validated mockups)
+   But    : permettre aux pages /app/*.html d'utiliser le HTML strict
+            des mockups simulator sans les iPhone frames.
+   ============================================================ */
+
+/* App header (Épuré Blanc Moderne avec bordure douce) — match Figma / Maquette */
+.app-h {
+  background: #FFFFFF !important;
+  color: #1C2B22 !important;
+  border-bottom: 1px solid #E7EEEA !important;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.app-h-logo {
+  width: 28px; height: 28px;
+  flex-shrink: 0;
+}
+
+/* Body + composants — match simulator L62-67 */
+.scr-body {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text, #1C2B22);
+  background: #FFFFFF;
+}
+.scr-h {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--g1, #1A6B45);
+}
+.scr-sub {
+  font-size: 13px;
+  color: var(--sub, #3D5A4E);
+  margin-top: -8px;
+}
+
+/* Chip row (segment scrollable) */
+.chip-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+.chip-row::-webkit-scrollbar { height: 0; display: none; }
+.chip-row .chip {
+  background: #fff;
+  border: 1px solid var(--border, rgba(34,139,91,0.12));
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .15s;
+}
+.chip-row .chip.active {
+  background: #228B5B;
+  color: #fff;
+  border-color: #228B5B;
+}
+
+/* Card riche avec card-img colore par type — match simulator L69-83 */
+.sim-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(26,107,69,0.06);
+  border: 1px solid var(--border, rgba(34,139,91,0.12));
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s, box-shadow .15s;
+  display: block;
+}
+.sim-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,107,69,0.10); }
+
+.sim-card .card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.sim-card .card-title {
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.sim-card .card-sub {
+  font-size: 12px;
+  color: var(--sub);
+}
+
+/* Badges colorees — match simulator L76-81 */
+.b-badge {
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: inline-block;
+}
+.b-yellow { background: #228B5B; color: #7c2d12; }
+.b-green  { background: var(--g3, #4CAF82); color: #fff; }
+.b-red    { background: #dc2626; color: #fff; }
+.b-blue   { background: #3B82F6; color: #fff; }
+.b-grey   { background: #e5e7eb; color: #374151; }
+.b-orange { background: #228B5B; color: #fff; }
+
+/* CTA buttons (compact) — match simulator L85-86 */
+.btn-cta {
+  background: var(--cta, #166534);
+  color: #fff;
+  text-align: center;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  transition: background .15s, transform .1s;
+}
+.btn-cta:hover { background: #0F4A2A; transform: translateY(-1px); }
+.btn-light {
+  background: #fff;
+  color: var(--g1, #1A6B45);
+  border: 1.5px solid var(--g3, #4CAF82);
+  text-align: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  transition: background .15s;
+}
+.btn-light:hover { background: var(--g-cream, #F7FBF8); }
+
+/* Bottom nav simulator — Parfaitement contenu dans le cadre phone-screen */
+.bn {
+  position: sticky !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+  background: #FFFFFF !important;
+  border-top: 1.5px solid #E7EEEA !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 0 6px calc(env(safe-area-inset-bottom, 0px)) !important;
+  margin-top: auto !important;
+  z-index: 50 !important;
+  box-sizing: border-box !important;
+}
+
+.bn-i {
+  flex: 1 !important;
+  min-width: 0 !important;
+  height: 52px !important;
+  max-height: 52px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #5A7268 !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  background: none !important;
+  border: none !important;
+  font-family: inherit !important;
+  padding: 4px 2px !important;
+  border-radius: 8px !important;
+  transition: color 0.15s ease !important;
+  box-sizing: border-box !important;
+}
+
+.bn-i:hover {
+  color: #0F5132 !important;
+}
+
+.bn-i.active {
+  color: #0F5132 !important;
+  font-weight: 900 !important;
+}
+
+.bn-ic {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+}
+
+
+
+/* Form inputs — match simulator L104-107 */
+.f-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.f-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.f-input {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color .15s;
+}
+.f-input:focus {
+  border-color: var(--g1, #1A6B45);
+  outline: none;
+}
+.f-input::placeholder { color: #9ca3af; }
+
+/* KPI / Stats — match simulator L110-113 */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.stat-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid var(--border, rgba(34,139,91,0.12));
+}
+.stat-num {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--g1, #1A6B45);
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 10px;
+  color: var(--sub);
+  text-transform: uppercase;
+  margin-top: 4px;
+  letter-spacing: 0.4px;
+  font-weight: 800;
+}
+
+/* Pricing block — match simulator L115-117 */
+.pricing-mock {
+  background: linear-gradient(135deg, var(--g-cream, #F7FBF8), #fff);
+  border: 2px solid var(--g3, #4CAF82);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+}
+.pricing-num {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--g1, #1A6B45);
+  line-height: 1;
+  margin: 6px 0;
+  letter-spacing: -0.02em;
+}
+.pricing-num small {
+  font-size: 13px;
+  color: var(--sub);
+  font-weight: 700;
+}

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <link rel="canonical" href="https://batispot.pro/maprimerenov-2026-artisan-certifie-rge">
+ <title>MaPrimeRénov' 2026 — Comment choisir son artisan certifié RGE | BatiSpot</title>
+ <meta name="description" content="MaPrimeRénov' 2026 : trouver un artisan RGE en Île-de-France, vérifier les certifications (QualiPV, QualiPAC, QualiBat, Qualifelec), montants par catégorie." />
+ <meta property="og:title" content="MaPrimeRénov' 2026 — Choisir son artisan RGE" />
+ <meta property="og:description" content="Guide complet 2026 : artisan RGE certifié, conditions MaPrimeRénov', erreurs à éviter pour ne pas perdre son aide." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/maprimerenov-2026-artisan-certifie-rge" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .9; font-size: 1rem; max-width: 640px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 800; color: var(--g1); margin: 1.2rem 0 .5rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge-cat-bleu { display: inline-block; background: #dbeafe; color: #1e40af; border-radius: 20px; padding: .15rem .65rem; font-size: .76rem; font-weight: 700; }
+ .badge-cat-jaune { display: inline-block; background: #fef3c7; color: #92400e; border-radius: 20px; padding: .15rem .65rem; font-size: .76rem; font-weight: 700; }
+ .badge-cat-violet { display: inline-block; background: #ede9fe; color: #6b21a8; border-radius: 20px; padding: .15rem .65rem; font-size: .76rem; font-weight: 700; }
+ .badge-cat-rose { display: inline-block; background: #fce7f3; color: #9f1239; border-radius: 20px; padding: .15rem .65rem; font-size: .76rem; font-weight: 700; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; }
+ .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+ .cert-card { background: var(--g-soft); border-radius: 12px; padding: 1.2rem; }
+ .cert-card .cert-name { font-size: 1rem; font-weight: 800; color: var(--g1); margin-bottom: .35rem; }
+ .cert-card .cert-desc { font-size: .82rem; color: var(--sub); }
+ .step-list { list-style: none; padding: 0; counter-reset: step; }
+ .step-list li { padding: 1rem 0 1rem 3rem; border-bottom: 1px solid var(--border); position: relative; font-size: .92rem; }
+ .step-list li:last-child { border-bottom: none; }
+ .step-list li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 1rem; width: 2rem; height: 2rem; background: var(--g2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .9rem; }
+ .step-list li strong { color: var(--g1); display: block; margin-bottom: .2rem; }
+ .alert-box { background: #fef3c7; border: 2px solid #fbbf24; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem; }
+ .alert-box p { color: #78350f; font-size: .88rem; font-weight: 600; margin: 0; }
+ .source-note { background: #f3f4f6; border-left: 3px solid var(--g2); padding: .8rem 1rem; font-size: .82rem; color: var(--sub); margin: 1rem 0; }
+ .source-note a { color: var(--g1); font-weight: 700; }
+ .faq-section { margin-top: .5rem; }
+ .faq-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+ .faq-item:last-child { border-bottom: none; }
+ .faq-item h3 { font-size: .95rem; font-weight: 700; color: var(--g1); margin-bottom: .4rem; }
+ .faq-item p { font-size: .88rem; color: var(--sub); }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {"@type": "Question", "name": "Qu'est-ce qu'un artisan RGE et pourquoi est-il obligatoire pour MaPrimeRénov' 2026 ?", "acceptedAnswer": {"@type": "Answer", "text": "RGE signifie Reconnu Garant de l'Environnement. C'est une qualification délivrée par des organismes accrédités (Qualibat, Qualifelec, Qualit'EnR) qui garantit la compétence d'un artisan en rénovation énergétique. Pour percevoir MaPrimeRénov', les travaux doivent être réalisés par un artisan RGE — sans cette qualification, l'aide est refusée même si le devis est correct."}},
+ {"@type": "Question", "name": "Comment vérifier qu'un artisan est bien certifié RGE en 2026 ?", "acceptedAnswer": {"@type": "Answer", "text": "Vérifiez sur france-renov.gouv.fr (annuaire officiel). Demandez l'attestation RGE en cours de validité (les certifications expirent tous les 4 ans). Vérifiez que la mention RGE couvre bien le geste précis : QualiPV pour le solaire, QualiPAC pour la pompe à chaleur, QualiBat 8611 pour l'isolation, etc."}},
+ {"@type": "Question", "name": "Combien de temps faut-il pour obtenir MaPrimeRénov' 2026 ?", "acceptedAnswer": {"@type": "Answer", "text": "Comptez 2 à 4 mois entre le dépôt du dossier sur maprimerenov.gouv.fr et le versement. Le devis doit être signé APRÈS l'accusé de réception du dossier, sinon l'aide est refusée. Les travaux ne peuvent commencer qu'après validation."}},
+ {"@type": "Question", "name": "Que se passe-t-il si l'artisan n'est plus RGE pendant les travaux ?", "acceptedAnswer": {"@type": "Answer", "text": "Si la certification RGE expire ou est suspendue avant la fin des travaux, l'aide MaPrimeRénov' peut être annulée. Demandez systématiquement une attestation datée de moins de 3 mois et vérifiez la date d'expiration sur l'attestation."}},
+ {"@type": "Question", "name": "Peut-on cumuler MaPrimeRénov' avec d'autres aides en 2026 ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui : MaPrimeRénov' se cumule avec les CEE (Coup de pouce), l'Éco-PTZ, le chèque énergie, la TVA réduite à 5,5 %, et les aides régionales Île-de-France. Le cumul peut couvrir 60 à 90 % du montant total des travaux selon les revenus et le geste."}}
+ ]
+ }
+ </script>
+</head>
+<body>
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimateur</a><a href="/">Artisan</a></div>
+</nav>
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &gt; <a href="/aides-renovation-energetique-idf-2026">Aides rénovation</a> &gt; MaPrimeRénov' 2026</div>
+ <h1>MaPrimeRénov' 2026 : choisir son artisan certifié RGE</h1>
+<p>Comment trouver un artisan RGE en Île-de-France, vérifier ses certifications et éviter les 5 erreurs qui font perdre l'aide chaque année. Guide complet 2026.</p>
+</div>
+<div class="container">
+
+ <div class="alert-box">
+ <p>️ ERREUR LA PLUS FRÉQUENTE EN 2026 : signer le devis AVANT d'avoir reçu l'accusé de réception MaPrimeRénov'. Conséquence : refus de l'aide. Toujours déposer le dossier sur maprimerenov.gouv.fr en premier, attendre la validation, puis signer.</p>
+ </div>
+
+ <div class="card">
+ <h2>Pourquoi l'artisan RGE est obligatoire pour MaPrimeRénov' 2026</h2>
+ <p>Depuis 2020, la quasi-totalité des aides à la rénovation énergétique sont conditionnées à l'éco-conditionnalité : les travaux doivent être réalisés par une entreprise titulaire d'une qualification <strong>RGE (Reconnu Garant de l'Environnement)</strong>. Sans cette qualification, MaPrimeRénov', les CEE (Certificats d'Économies d'Énergie) et l'Éco-PTZ vous sont refusés, même si le devis est techniquement correct.</p>
+ <p>La qualification RGE n'est pas une auto-déclaration. Elle est délivrée par des organismes accrédités par le COFRAC (Comité français d'accréditation), avec audit technique sur chantier et contrôle de la formation continue de l'artisan. Elle est <strong>renouvelée tous les 4 ans</strong> avec contrôle complet, et un audit annuel intermédiaire.</p>
+ <div class="source-note">
+ Source : décret n° 2014-812 du 16 juillet 2014 relatif à l'éco-conditionnalité, texte toujours en vigueur en 2026. Consultable sur <a href="https://www.legifrance.gouv.fr" target="_blank" rel="noopener">legifrance.gouv.fr</a>.
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Les 4 certifications RGE à connaître par geste</h2>
+ <p>Toutes les qualifications RGE ne couvrent pas tous les gestes. Vérifiez que le numéro RGE de votre artisan correspond au geste précis que vous voulez réaliser :</p>
+ <div class="cert-grid">
+ <div class="cert-card">
+ <div class="cert-name">QualiPV</div>
+ <div class="cert-desc">Photovoltaïque (panneaux solaires électriques). Délivrée par Qualit'EnR. Obligatoire pour aide solaire MaPrimeRénov' + obligation de pose par l'artisan certifié (sous-traitance interdite).</div>
+ </div>
+ <div class="cert-card">
+ <div class="cert-name">QualiPAC</div>
+ <div class="cert-desc">Pompes à chaleur air/eau, eau/eau et géothermie. Délivrée par Qualit'EnR. Obligatoire pour MaPrimeRénov' PAC + bonus de sortie de passoire thermique.</div>
+ </div>
+ <div class="cert-card">
+ <div class="cert-name">QualiBat (mention RGE)</div>
+ <div class="cert-desc">Isolation thermique (toiture, murs, planchers), menuiserie performante, équipements bois énergie. Code à vérifier : 8611 isolation, 8612 menuiserie, 8621 fenêtres.</div>
+ </div>
+ <div class="cert-card">
+ <div class="cert-name">Qualifelec (mention RGE)</div>
+ <div class="cert-desc">Installations électriques performantes : bornes IRVE véhicule électrique, ventilation double flux, équipements connectés liés à la performance énergétique.</div>
+ </div>
+ </div>
+ <p style="margin-top:1rem;"><strong>Pièges fréquents :</strong></p>
+ <ul style="padding-left:1.2rem;color:var(--sub);font-size:.88rem;">
+ <li>Un artisan QualiBat sans mention RGE n'est PAS éligible aux aides.</li>
+ <li>QualiPV ne couvre PAS le solaire thermique (eau chaude solaire), il faut Qualisol.</li>
+ <li>La sous-traitance d'une partie des travaux par un non-RGE = annulation totale de l'aide.</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Trouver un artisan RGE certifié en Île-de-France</h2>
+ <p>BatiSpot vérifie les certifications RGE de chaque artisan référencé : Kbis, RC Pro, Décennale, attestation RGE en cours.</p>
+ <a href="/" class="cta-btn">Voir les artisans RGE BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Les 4 catégories MaPrimeRénov' 2026 (selon revenus)</h2>
+ <p>Le montant de l'aide dépend de votre catégorie de revenus, déterminée par le RFR (Revenu Fiscal de Référence) du foyer rapporté à la composition familiale. En Île-de-France, les plafonds sont plus élevés qu'en province.</p>
+ <table class="price-table">
+ <thead><tr><th>Catégorie</th><th>Profil</th><th>Aide relative</th></tr></thead>
+ <tbody>
+ <tr><td><span class="badge-cat-bleu">Bleu</span></td><td>Très modestes</td><td>Aide maximale (jusqu'à 90 % du devis pour rénovation globale)</td></tr>
+ <tr><td><span class="badge-cat-jaune">Jaune</span></td><td>Modestes</td><td>Aide forte (60 à 75 % selon geste)</td></tr>
+ <tr><td><span class="badge-cat-violet">Violet</span></td><td>Intermédiaires</td><td>Aide moyenne (35 à 50 % selon geste)</td></tr>
+ <tr><td><span class="badge-cat-rose">Rose</span></td><td>Aisés</td><td>Aide réduite (gestes spécifiques uniquement, hors PAC à partir de 2024)</td></tr>
+ </tbody>
+ </table>
+ <div class="source-note">
+ Les plafonds revenus exacts pour chaque catégorie et le montant précis par geste sont mis à jour chaque année par décret. Consultez les barèmes officiels en vigueur sur <a href="https://france-renov.gouv.fr" target="_blank" rel="noopener">france-renov.gouv.fr</a> avant signature de tout devis.
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Les 6 étapes pour bénéficier de MaPrimeRénov' sans erreur</h2>
+ <ul class="step-list">
+ <li>
+ <strong>Faire une simulation officielle</strong>
+ Sur france-renov.gouv.fr ou via un Espace Conseil France Rénov' (gratuit en IDF, présent dans chaque département). Vous obtenez une estimation de votre catégorie et du montant prévisionnel.
+ </li>
+ <li>
+ <strong>Trouver et choisir un artisan RGE</strong>
+ Vérifiez la qualification RGE sur france-renov.gouv.fr (annuaire officiel) ou demandez l'attestation directement à l'artisan. Comparez 3 devis minimum, comparez à compétence RGE équivalente.
+ </li>
+ <li>
+ <strong>Faire établir un devis détaillé</strong>
+ Le devis doit comporter : matériaux exacts (marque, modèle, performances thermiques), main-d'œuvre, mention RGE de l'entreprise, numéro de qualification, durée des travaux, garantie décennale.
+ </li>
+ <li>
+ <strong>Déposer le dossier sur maprimerenov.gouv.fr</strong>
+ Pièces nécessaires : avis d'imposition N-1 et N-2, devis signé daté, RIB. Pas encore de signature de devis ! L'accusé de réception doit arriver AVANT.
+ </li>
+ <li>
+ <strong>Attendre la notification d'attribution</strong>
+ Délai officiel : 15 jours minimum, en pratique 4 à 8 semaines en 2026. Vous recevez un courrier officiel avec le montant validé. Vous pouvez maintenant signer le devis et lancer les travaux.
+ </li>
+ <li>
+ <strong>Faire valider la fin des travaux</strong>
+ À la fin du chantier, transmettez la facture définitive sur le site. Versement de l'aide en 2 à 4 semaines après validation. En cas d'écart entre devis et facture, l'aide peut être recalculée.
+ </li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Cumuler MaPrimeRénov' avec d'autres aides 2026</h2>
+ <p>L'erreur courante est de croire que MaPrimeRénov' suffit. En réalité, les ménages qui financent leurs travaux le plus efficacement combinent plusieurs aides :</p>
+ <table class="price-table">
+ <thead><tr><th>Aide</th><th>Cumul avec MaPrimeRénov'</th><th>Notes</th></tr></thead>
+ <tbody>
+ <tr><td>CEE (Certificats d'Économies d'Énergie)</td><td> Oui</td><td>Complète à hauteur de 10 à 30 % du devis selon geste</td></tr>
+ <tr><td>Coup de pouce CEE</td><td> Oui</td><td>Bonus pour gestes prioritaires (chauffage, isolation)</td></tr>
+ <tr><td>Éco-PTZ</td><td> Oui</td><td>Prêt à taux zéro jusqu'à 50 000 € sur 20 ans</td></tr>
+ <tr><td>Chèque énergie</td><td> Oui</td><td>Peut servir à payer le reste à charge</td></tr>
+ <tr><td>TVA réduite 5,5 %</td><td> Oui (automatique)</td><td>Sur main-d'œuvre + matériaux installés par l'artisan</td></tr>
+ <tr><td>Aides régionales Île-de-France</td><td> Oui</td><td>Coup de pouce ÎdF Énergie + aides communales (Paris, Versailles, Saint-Denis...)</td></tr>
+ </tbody>
+ </table>
+ <p style="margin-top:.8rem;">Le cumul peut couvrir <strong>60 à 90 % du devis total</strong> pour un foyer modeste réalisant une rénovation globale (passage d'une étiquette F à C par exemple).</p>
+ </div>
+
+ <div class="card">
+ <h2>Les 5 erreurs qui font perdre MaPrimeRénov' chaque année</h2>
+ <ol style="padding-left:1.5rem;color:var(--sub);font-size:.92rem;">
+ <li style="margin-bottom:.7rem;"><strong style="color:var(--g1);">Signer le devis avant l'accusé de réception du dossier.</strong> L'aide ne couvre que les devis signés APRÈS dépôt. Cette erreur représente environ 30 % des refus selon France Rénov'.</li>
+ <li style="margin-bottom:.7rem;"><strong style="color:var(--g1);">Choisir un artisan dont la mention RGE ne couvre pas le geste.</strong> Un artisan QualiBat sans mention RGE explicite, ou un QualiPV pour de l'isolation = refus garanti.</li>
+ <li style="margin-bottom:.7rem;"><strong style="color:var(--g1);">Lancer les travaux avant la validation.</strong> Toute facture datée avant l'attribution officielle est inéligible, sauf rare procédure d'urgence (passoire thermique avec péril structurel).</li>
+ <li style="margin-bottom:.7rem;"><strong style="color:var(--g1);">Sous-traiter à un artisan non-RGE.</strong> L'artisan principal doit avoir la qualification RGE pour le geste précis, et la pose doit être réalisée par lui ou un sous-traitant lui-même RGE pour le même geste.</li>
+ <li><strong style="color:var(--g1);">Oublier la traçabilité des matériaux.</strong> Les pompes à chaleur, isolants, fenêtres doivent répondre à des critères techniques précis (coefficient U, COP, résistance thermique). La facture doit mentionner les références exactes.</li>
+ </ol>
+ </div>
+
+ <div class="card">
+ <h2>Spécificités MaPrimeRénov' en Île-de-France</h2>
+ <p>L'Île-de-France bénéficie de plafonds revenus plus élevés que le reste de la France métropolitaine, ce qui élargit l'accès aux catégories Bleu et Jaune (les plus avantageuses). En complément des aides nationales :</p>
+ <ul style="padding-left:1.2rem;color:var(--sub);font-size:.88rem;">
+ <li><strong>Coup de pouce Île-de-France Énergie</strong> : aide régionale jusqu'à 5 000 € pour rénovation globale, cumulable.</li>
+ <li><strong>Programme Énergie Habitat (Métropole du Grand Paris)</strong> : audit énergétique gratuit + accompagnement.</li>
+ <li><strong>Aides communales</strong> : Paris (Éco-rénovons Paris+), Versailles, Saint-Denis, Boulogne-Billancourt, Vincennes proposent des bonus locaux jusqu'à 2 000 €.</li>
+ <li><strong>Réseau France Rénov' IDF</strong> : conseillers gratuits dans chaque département pour vous aider à constituer le dossier.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Questions fréquentes : MaPrimeRénov' 2026</h2>
+ <div class="faq-section">
+ <div class="faq-item">
+ <h3>Combien de temps faut-il pour obtenir MaPrimeRénov' 2026 ?</h3>
+ <p>2 à 4 mois entre le dépôt du dossier et le versement. Le délai dépend de la charge de l'instruction (printemps = pic de dépôts), de la complexité du dossier et du nombre de gestes combinés.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Peut-on faire la demande pour son locataire ?</h3>
+ <p>Oui. Depuis 2024, les propriétaires bailleurs peuvent percevoir MaPrimeRénov' pour les travaux dans leur logement loué (avec engagement de location nue à titre principal). Le barème est réduit par rapport aux propriétaires occupants.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Que faire si l'artisan perd sa certification RGE pendant les travaux ?</h3>
+ <p>Si l'attestation expire en cours de chantier : exigez le renouvellement immédiat. Si elle est suspendue (sanction), arrêtez les travaux, demandez un avenant à un autre artisan RGE, et signalez le cas à France Rénov' pour ne pas perdre l'aide.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Puis-je financer le reste à charge avec un crédit travaux ?</h3>
+ <p>Oui, classique ou Éco-PTZ. L'Éco-PTZ permet d'emprunter jusqu'à 50 000 € à taux zéro sur 20 ans pour les travaux de rénovation énergétique éligibles MaPrimeRénov'. Cumul automatiquement accepté.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Mon artisan refuse de me fournir son attestation RGE, que faire ?</h3>
+ <p>C'est un drapeau rouge. Tout artisan RGE peut fournir son attestation en 48h (téléchargeable sur l'espace pro de Qualibat / Qualifelec / Qualit'EnR). Un refus = changez d'artisan immédiatement.</p>
+ </div>
+ </div>
+ </div>
+
+ <div class="cta-section">
+ <h2>Démarrer votre projet de rénovation</h2>
+ <p>Recevez 3 devis d'artisans RGE vérifiés en 48h. Service gratuit, sans engagement.</p>
+ <a href="/devis/" class="cta-btn">Faire ma demande de devis</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles liés</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/blog-pro/devenir-rge-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Devenir RGE en 2026</div><div style="font-size:.76rem;color:var(--sub);">Guide artisan : démarches, coût, délais</div></a>
+ <a href="/blog/dossier-maprimerenov-comment-faire-soi-meme-2025" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Faire son dossier MaPrimeRénov'</div><div style="font-size:.76rem;color:var(--sub);">Étape par étape</div></a>
+ <a href="/blog/maprimrenov-refuse-5-motifs" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">5 motifs de refus</div><div style="font-size:.76rem;color:var(--sub);">Comprendre et contester</div></a>
+ <a href="/comment-choisir-artisan-rge-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Choisir un artisan RGE</div><div style="font-size:.76rem;color:var(--sub);">Critères et vérifications</div></a>
+ <a href="/aides-renovation-energetique-idf-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Toutes les aides IDF 2026</div><div style="font-size:.76rem;color:var(--sub);">Guide complet</div></a>
+ </div>
+ </div>
+</div>
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

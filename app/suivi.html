@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Page CLIENT (lien public, sans compte) : aucun traceur. Les scripts
+       consent.js / geo-ip.js / attribution.js / analytics.js / clarity-init.js
+       et le tag Google Analytics ont ete retires le 04/09/2026 — "un client
+       ne se traque pas" (regle UI cible validee le meme jour). Ce sont les
+       SEULS scripts que cette page n'embarque pas : toutes les autres pages
+       de l'appli les gardent. -->
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Suivi de mon chantier · BatiSpot</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/photos.css?v=2026_09_06">
+  <style>
+    body {
+      background: #FFFFFF;
+      color: #1C2B22;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* .mq-screen (css/app.css) fournit le rembourrage et les composants. La
+       mise en page a bandeau (.sv-app, .sv-vues, .sv-vue, .sv-bn…) vit dans
+       css/app.css : elle n'est pas propre a cette page, c'est le meme dessin
+       de barre du bas que l'appli artisan. Ici, seul le retrait de la
+       gouttiere de l'en-tete, qui n'est plus enfant de .mq-screen. */
+    .mq-client-top { margin: 0; }
+
+    /* ⚠️ INDISPENSABLE. Beaucoup de blocs de cette page portent `hidden` en
+       attribut ET des styles inline (`display:flex`) sur leurs enfants. Sans
+       cette regle globale, un style inline bat systematiquement la feuille
+       par defaut du navigateur (`[hidden]{display:none}`) — un defaut deja
+       constate ici une fois sur la carte financiere, une autre fois sur le
+       bloc de SIGNATURE : un client pouvait alors s'engager sur un montant
+       ou un pad de signature resté visible alors que `hidden` était vrai en
+       JS. On couvre donc TOUT element porteur de `hidden`, une fois pour
+       toutes. */
+    [hidden] { display: none !important; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1C2B22;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast.yellow { border-left-color: #228B5B; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Messagerie client ──────────────────────────────────────────
+       Depuis la tâche 24 (05/09/2026), le client et l'artisan voient
+       EXACTEMENT les mêmes bulles : tout vient de .mq-thread / .mq-msg
+       (css/app.css) et de rendreBulle() (js/mq-thread.js). Les côtés ne
+       sont plus inversés à coups de CSS — c'est `mienne` qui décide, et
+       « moi » ici, c'est le client. Ne reste dans ce fichier que ce qui
+       est propre à cette page : la carte qui contient le fil. */
+    .msg-card { padding: 0 !important; overflow: hidden; gap: 0 !important; }
+    .msg-head {
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      padding: 13px 16px; border-bottom: 1px solid #E7EEEA; background: #FFFFFF;
+    }
+    /* Le fil n'est plus replié dans une carte au milieu d'une page qui
+       défile (05/09/2026, bandeau) : il occupe tout l'onglet Messages, comme
+       côté artisan. Sa hauteur vient donc de .sv-vue-fil (css/app.css), pas
+       d'un max-height posé ici. */
+    #msgList .mq-msg.pending { opacity: .55; }
+
+    .msg-bar {
+      display: flex; padding: 10px 12px; background: #FFFFFF; border-top: 1px solid #E7EEEA;
+    }
+    .msg-bar .mq-compose { flex: 1; }
+    /* Le sélecteur d'emoji reprend le dessin de l'appli (.mq-emoji-*), il
+       n'est plus une deuxième implémentation avec ses propres couleurs. */
+    .mq-emoji-panel { margin: 0 12px 10px; }
+
+    .msg-counter { font-size: 10.5px; color: #8AA096; text-align: right; padding: 0 16px 8px; background: #FFFFFF; }
+    .msg-counter.over { color: #DC2626; font-weight: 800; }
+
+    /* Avant / après — comparateur photo (04/09/2026), lecture seule. Slider
+       natif <input range>, bande tactile pleine largeur/hauteur (44 px
+       mini) : au doigt, viser une poignée de quelques pixels ne marche pas.
+       Masque clip-path sur la photo « après » superposée à la photo « avant ». */
+    .mq-avap { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; background: #DCE6E0; touch-action: pan-y; }
+    .mq-avap-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mq-avap-after { clip-path: inset(0 0 0 50%); }
+    @media (prefers-reduced-motion: no-preference) {
+      .mq-avap-after, .mq-avap-div, .mq-avap-handle { transition: left .12s ease, clip-path .12s ease; }
+    }
+    .mq-avap-cap { position: absolute; bottom: 8px; font-size: 11px; font-weight: 700; color: #fff; background: rgba(28,43,34,.75); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+    .mq-avap-cap-before { left: 8px; }
+    .mq-avap-cap-after { right: 8px; }
+    .mq-avap-div { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.18); pointer-events: none; transform: translateX(-1px); }
+    .mq-avap-handle { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.28); pointer-events: none; }
+    .mq-avap-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; touch-action: pan-y; }
+    .mq-avap-range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; }
+    .mq-avap-range::-moz-range-thumb { width: 44px; height: 44px; border: none; background: transparent; }
+
+    /* Couleur de marque de l'artisan (04/09/2026) : --artisan est posée sur
+       :root par appliquerCouleurArtisan() dès que pro_profiles.couleur
+       revient (repli #228B5B tant qu'elle n'est pas encore connue, ou si
+       l'artisan n'en a pas choisi). --artisan-tint / --artisan-line sont
+       des teintes dérivées (mélange avec du blanc), calculées en JS —
+       color-mix() n'est pas assez soutenu sur les mobiles de nos artisans
+       et de leurs clients pour s'y fier. Ces règles réécrivent les couleurs
+       fixes de css/app.css (même sélecteur, déclaré après => elle gagne). */
+    :root { --artisan: #228B5B; --artisan-tint: #EAF3EE; --artisan-line: #A9D6C0; }
+    .mq-client-top { background: var(--artisan-tint); border-bottom: 1px solid var(--artisan-line); }
+    .mq-progress i { background: var(--artisan); }
+    .mq-step i { border-color: var(--artisan); }
+    .mq-step i.mq-done { background: var(--artisan); }
+    .mq-step i.mq-now { border-color: var(--artisan); color: var(--artisan); }
+    .mq-btn.mq-primary { background: var(--artisan); }
+  </style>
+</head>
+<body>
+  <!-- Bandeau de navigation en bas + un seul contenu a la fois (05/09/2026,
+       demande de Moctar : « un bandeau avec les differentes icones pour
+       messages, planning etc, et ne pas avoir de pages encombrees »). La page
+       ne defile plus en entier : .sv-app est bornee a la hauteur reelle de
+       l'ecran (100dvh) et SEULE la vue active defile. Le bandeau est donc
+       toujours visible, et le composeur de la messagerie tombe naturellement
+       au-dessus de lui — il est son frere dans le meme flex column, jamais un
+       element positionne par-dessus (lecon iOS du 04/09 : pas de position:fixed).
+       AUCUN assistant IA sur cette page : c'est la page du CLIENT. -->
+  <div class="sv-app">
+
+    <!-- En-tete : aux COULEURS DE L'ARTISAN, jamais BatiSpot (ecran 13 de la
+         maquette validee le 03/09/2026). Le client de l'artisan ouvre cette
+         page depuis son lien de suivi — il n'a jamais besoin de savoir quel
+         logiciel son artisan utilise. Logo signe (pro_profiles.logo_storage_path,
+         signe cote serveur car ce visiteur n'a pas de session — voir
+         supabase/functions/chantier-documents/index.ts) ou, a defaut,
+         initiales dans un carre degrade. -->
+    <div class="mq-client-top">
+      <div class="mq-logo" style="margin:0;font-size:18px;justify-content:flex-start">
+        <i id="entLogoBox" style="width:28px;height:28px;border-radius:8px" aria-hidden="true"></i>
+        <span id="entNom">Chargement…</span>
+      </div>
+      <small style="color:#6B7F76;font-weight:600" id="entSousTitre"></small>
+    </div>
+
+    <!-- Deux avertissements qui ne dependent d'aucun onglet : ils valent pour
+         toute la page, donc ils restent sous l'en-tete. Masques par defaut, ils
+         ne prennent aucune place tant qu'ils n'ont rien a dire. -->
+    <div class="sv-alertes">
+      <!-- Lien invalide ou chantier introuvable : rien d'autre a montrer. -->
+      <div id="mqError" class="mq-box" hidden style="text-align:center;color:#9B2C1C;font-weight:700;"></div>
+
+      <!-- Compte a rebours de fin d'acces. Le lien n'expirait JAMAIS jusqu'au
+           01/09/2026 : il donne le nom du client, l'adresse de son logement et
+           des photos de son interieur. Il ferme desormais 14 jours apres la fin
+           du chantier — mais fermer sans prevenir, c'est prendre au client des
+           documents qui sont les siens. On l'avertit, et on lui dit quoi faire. -->
+      <div id="finExpire" hidden style="font-size:12px;line-height:1.45;border-radius:9px;padding:10px 11px;"></div>
+    </div>
+
+    <!-- Les quatre vues. Une seule est visible a la fois (attribut `hidden`) :
+         l'onglet actif remplit l'ecran, les autres sortent completement du flux.
+         Le deep-link est conserve : #messages / #devis / #planning / #factures. -->
+    <main class="sv-vues" id="svVues">
+
+      <!-- ── Messages ─────────────────────────────────────────────────────
+           Le fil livre par la tache 24 (js/mq-thread.js) tel quel : il occupe
+           simplement toute la vue au lieu d'etre replie dans une carte. -->
+      <section class="sv-vue sv-vue-fil" id="vue-messages" role="tabpanel"
+                 aria-labelledby="svOnglet-messages">
+        <!-- Messagerie client ↔ artisan.
+             Le client n'a pas de session Supabase : tout passe par les fonctions
+             publiques get_messages_by_token / post_client_message, qui valident le
+             token du lien. Le realtime Supabase est inutilisable ici (la table
+             `messages` n'a aucune policy RLS pour le rôle anon) — on rafraîchit
+             par polling. -->
+        <div class="msg-card" id="msgCard" hidden>
+          <div class="msg-head">
+            <strong style="font-size:14px;color:#1C2B22;">Messages avec votre artisan</strong>
+            <span id="msgSync" style="font-size:10.5px;font-weight:700;color:#8AA096;"></span>
+          </div>
+
+          <div id="msgList" class="mq-thread" role="log" aria-live="polite" aria-label="Conversation avec votre artisan">
+            <div class="mq-vide">Chargement des messages…</div>
+          </div>
+
+          <div class="msg-bar">
+            <div class="mq-compose mq-saisie">
+              <button class="mq-compose-emoji" id="msgEmojiBtn" type="button"
+                      aria-label="Insérer un emoji" aria-expanded="false"></button>
+              <textarea id="msgInput" rows="1" maxlength="2000"
+                        placeholder="Écrire un message…"
+                        aria-label="Votre message"></textarea>
+              <button class="mq-compose-send" id="msgSend" type="button" aria-label="Envoyer le message"></button>
+            </div>
+          </div>
+
+          <!-- Sélecteur d'emoji maison : pas de librairie externe, le client
+               charge cette page sur mobile en 4G et la CSP du site interdit
+               les scripts tiers. -->
+          <div class="mq-emoji-panel" id="msgEmojiPanel" hidden>
+            <div class="mq-emoji-tabs" id="msgEmojiTabs" role="tablist"></div>
+            <div class="mq-emoji-grid" id="msgEmojiGrid"></div>
+          </div>
+
+          <div class="msg-counter" id="msgCounter" hidden>0 / 2000</div>
+        </div>
+      </section>
+
+      <!-- ── Devis ─────────────────────────────────────────────────────── -->
+      <section class="mq-screen sv-vue" id="vue-devis" role="tabpanel"
+                 aria-labelledby="svOnglet-devis" hidden>
+        <!-- N'apparait que si le devis attend une signature : ouvre le bloc de
+             signature EXISTANT dans le meme onglet (non modifie). -->
+        <button type="button" class="mq-btn mq-primary" id="mqBtnSigner" hidden style="width:100%">
+          Lire et signer le devis
+        </button>
+
+        <!-- Le devis signe se telecharge en un geste : c'est le document que le
+             client emporte. N'apparait que si un devis est accepte. -->
+        <a id="mqBtnPdfDevis" href="#" hidden target="_blank" rel="noopener noreferrer"
+           class="mq-btn mq-ghost" style="width:100%;text-decoration:none;">
+          Télécharger le devis signé (PDF)
+        </a>
+
+        <!-- Le devis : montants, echeances de reglement, detail par lot, et
+             l'acceptation elle-meme. -->
+        <div id="devisSection" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="mq-sec">Votre devis</div>
+
+          <div class="mq-box">
+            <div class="mq-kpis4">
+              <div class="mq-kpi">
+                <div class="mq-l">Total devis TTC</div>
+                <div class="mq-v" id="finTotTtc">—</div>
+              </div>
+              <div class="mq-kpi mq-amber">
+                <div class="mq-l">Solde à régler</div>
+                <div class="mq-v" id="finSolde">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Les etapes de reglement, dites clairement. Le client voyait un
+               acompte et un solde sans savoir QUAND il paie quoi. -->
+          <div id="finEcheances" hidden class="mq-box" style="display:flex;flex-direction:column;gap:8px;">
+            <div class="mq-sec" style="margin-top:0;">Étapes de règlement</div>
+            <div class="mq-lines" id="finEcheancesListe"></div>
+          </div>
+
+          <!-- Le detail du devis. get_devis_by_token renvoyait deja `lines`, mais
+               la page n'affichait que les totaux : le client voyait « 5 962 € »
+               sans savoir ce qu'il payait. -->
+          <a id="finLienDevis" href="#" hidden target="_blank" rel="noopener noreferrer"
+             class="mq-btn mq-ghost" style="width:100%;text-decoration:none;">
+            Voir et télécharger mon devis
+          </a>
+
+          <details id="finDetailBox" hidden class="mq-box">
+            <summary style="cursor:pointer;font-size:12.5px;font-weight:800;color:#1B7049;list-style:none;">
+              Voir le détail du devis
+            </summary>
+            <div id="finDetail" style="padding-top:10px;display:flex;flex-direction:column;gap:10px;"></div>
+          </details>
+
+          <!-- Acceptation du devis par le client — BLOC EXISTANT, INCHANGE, verifie
+               de bout en bout (signature electronique, article 1367 du code civil ;
+               droit de retractation, article L221-18 du code de la consommation).
+               On ne touche qu'a sa POSITION dans la page et a son conteneur. -->
+          <div id="finSignature" hidden class="mq-box" style="border:1.5px solid #228B5B;border-radius:14px;background:#F7FBF8;padding:12px;display:flex;flex-direction:column;gap:9px;">
+            <div style="font-size:13px;font-weight:800;color:#0F5132;">Accepter ce devis</div>
+            <div style="font-size:12px;color:#3D5A4E;line-height:1.45;">
+              En acceptant, vous donnez votre accord à votre artisan pour réaliser les
+              travaux décrits ci-dessus, aux conditions et au montant indiqués.
+            </div>
+            <!-- Signature electronique (01/09 au soir). Un champ texte seul ne
+                 constituait pas une signature au sens de l'article 1367 du code
+                 civil : il faut un procede qui identifie l'auteur ET manifeste son
+                 consentement. On tient donc trois choses distinctes — l'identite
+                 (prenom, nom), le consentement (case a cocher qui nomme le montant),
+                 et le trace manuscrit. -->
+            <div class="sign-rangee" style="display:flex;gap:8px;">
+              <input type="text" id="finSignPrenom" maxlength="40" autocomplete="given-name"
+                     placeholder="Prénom" aria-label="Votre prénom"
+                     style="flex:1;min-width:0;padding:10px 12px;border:1.5px solid #C7D9CE;border-radius:9px;font-size:13.5px;font-family:inherit;">
+              <input type="text" id="finSignNom" maxlength="60" autocomplete="family-name"
+                     placeholder="Nom" aria-label="Votre nom"
+                     style="flex:1;min-width:0;padding:10px 12px;border:1.5px solid #C7D9CE;border-radius:9px;font-size:13.5px;font-family:inherit;">
+            </div>
+
+            <div>
+              <div style="font-size:11.5px;font-weight:700;color:#3D5A4E;margin-bottom:5px;">
+                Signez avec votre doigt ou votre souris
+              </div>
+              <canvas id="finSignCanvas" width="600" height="200" aria-label="Zone de signature"
+                      style="width:100%;height:120px;border:1.5px dashed #C7D9CE;border-radius:9px;background:#FFFFFF;touch-action:none;display:block;"></canvas>
+              <!-- ⚠️ Cible portee a 44 px et ecartee du pave (02/09/2026). Elle
+                   faisait 26 px de haut, collee a la zone de signature, et elle est
+                   DESTRUCTRICE : un frolement de gant effacait la signature que le
+                   client venait de tracer. -->
+              <button type="button" id="finSignEffacer"
+                      aria-label="Effacer la signature et recommencer"
+                      style="margin-top:10px;padding:0 16px;min-height:44px;border:1.5px solid #D3E3DA;border-radius:9px;background:#FFF;color:#5A7268;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;">
+                Effacer et recommencer
+              </button>
+            </div>
+
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#3D5A4E;line-height:1.45;cursor:pointer;">
+              <input type="checkbox" id="finSignLu" style="margin-top:2px;flex-shrink:0;width:17px;height:17px;accent-color:#228B5B;">
+              <span id="finSignEngagement">J’ai lu le devis et j’en accepte le contenu.</span>
+            </label>
+
+            <!-- Droit de retractation. Un devis signe depuis un lien recu par email
+                 est un contrat conclu A DISTANCE : le client dispose de 14 jours
+                 (art. L221-18 du code de la consommation). -->
+            <div style="font-size:11.5px;color:#5A7268;line-height:1.45;background:#FFFFFF;border:1px solid #E7EEEA;border-radius:8px;padding:9px 10px;">
+              <strong style="color:#3D5A4E;">Votre droit de rétractation</strong><br>
+              Vous signez à distance : vous pouvez revenir sur votre décision pendant
+              <strong>14 jours</strong> à compter de ce jour, sans avoir à vous justifier.
+              Il suffit de l’écrire à votre artisan, dans l’onglet Messages.
+            </div>
+
+            <div class="sign-rangee" style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" id="finBtnAccepter"
+                      style="flex:1;min-width:150px;padding:12px;border:none;border-radius:10px;background:#228B5B;color:#FFF;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;">
+                J'accepte le devis
+              </button>
+              <button type="button" id="finBtnRefuser"
+                      style="padding:12px 16px;border:1.5px solid #D3E3DA;border-radius:10px;background:#FFF;color:#5A7268;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;">
+                Refuser
+              </button>
+            </div>
+            <div id="finSignMsg" style="font-size:12px;line-height:1.45;"></div>
+            <div style="font-size:11.5px;color:#5A7268;line-height:1.45;">
+              Une question avant de vous décider ? Écrivez à votre artisan dans
+              l’onglet Messages — il reçoit votre message directement.
+            </div>
+          </div>
+
+          <div style="font-size:11.5px;color:#6B7F76;line-height:1.45;" id="finNote">
+            Une question sur votre chantier ? Écrivez à votre artisan — onglet Messages, en bas de l’écran.
+          </div>
+        </div>
+        <div class="sv-vide" hidden>Aucun devis n'est encore rattaché à ce chantier. Votre artisan vous le transmettra.</div>
+      </section>
+
+      <!-- ── Planning ──────────────────────────────────────────────────── -->
+      <section class="mq-screen sv-vue" id="vue-planning" role="tabpanel"
+                 aria-labelledby="svOnglet-planning" hidden>
+        <!-- Avancement global, deduit des taches reellement planifiees — jamais
+             un chiffre invente quand aucune planification n'existe encore. -->
+        <div id="mqProgressWrap" hidden>
+          <div class="mq-progress"><i id="mqProgressBar" style="width:0%"></i></div>
+          <div class="mq-center" id="mqCenter"></div>
+        </div>
+
+        <!-- Les 4 jalons du chantier, deduits des donnees reelles : devis.accepted_at,
+             factures (acompte/solde payees), dates du chantier. -->
+        <div class="mq-box">
+          <div class="mq-steps" id="mqSteps"></div>
+        </div>
+
+        <!-- Le deroule du chantier (01/09). Les etapes viennent de la table
+             `taches`, remplie a la planification. -->
+        <div id="planCard" hidden style="display:flex;flex-direction:column;gap:10px;">
+          <div class="mq-sec" style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span>Le déroulé de votre chantier</span>
+            <span id="planPeriode" style="font-weight:600;text-transform:none;letter-spacing:0;color:#6B7F76;font-size:11px;"></span>
+          </div>
+          <div id="planEtapes" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div style="font-size:11.5px;color:#6B7F76;line-height:1.45;">
+            Ce calendrier est prévisionnel. Votre artisan vous préviendra de tout changement.
+          </div>
+        </div>
+
+        <!-- Avant / après (06/09/2026, « Photos de chantier en trois temps ») :
+             les DEUX photos que l'artisan a marquées « Avant » et « Après »
+             (photos.role_client), comparées au curseur. Tant qu'il n'a pas
+             choisi, la case dit « Chantier en cours » — rien n'est réclamé. -->
+        <div id="avapCard" hidden style="display:flex;flex-direction:column;gap:10px;">
+          <div class="mq-sec">Avant / après</div>
+          <div class="mq-card" id="avapCompare" style="padding:0;overflow:hidden;"></div>
+        </div>
+
+        <!-- Photos envoyées par l'artisan (photos.visible_client = true) —
+             filtrées côté serveur (get_photos_by_token) ET ici : rien d'autre
+             ne s'affiche. Les URL arrivent DEJA signees par l'Edge Function. -->
+        <div id="phoCard" hidden style="display:flex;flex-direction:column;gap:10px;">
+          <div class="mq-sec">Photos envoyées par l'artisan</div>
+          <div class="mq-ph-grid" id="phoListe"></div>
+        </div>
+        <div class="sv-vide" hidden>Le calendrier de votre chantier n'est pas encore établi. Votre artisan vous préviendra dès qu'il le sera.</div>
+      </section>
+
+      <!-- ── Factures et documents ─────────────────────────────────────── -->
+      <section class="mq-screen sv-vue" id="vue-factures" role="tabpanel"
+                 aria-labelledby="svOnglet-factures" hidden>
+        <!-- Les factures du chantier, telechargeables par le client (01/09).
+             Acompte a la commande, situations en cours, solde a la fin. -->
+        <div id="facCard" hidden style="display:flex;flex-direction:column;gap:10px;">
+          <div class="mq-sec" style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span>Vos factures</span>
+            <span id="facTotal" style="font-weight:600;text-transform:none;letter-spacing:0;color:#6B7F76;font-size:11px;"></span>
+          </div>
+          <div id="facListe" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <!-- « Votre dossier » (04/09/2026) — central, juste sous les jalons : le
+             lien de suivi EST le dossier vivant. Deux groupes, avant travaux /
+             fin de chantier, chacun avec ses pieces deja disponibles UNIQUEMENT
+             — ce qui n'existe pas encore est absent, jamais annonce comme
+             « manquant » (ce mot-la reste reserve a l'ecran artisan). Rempli par
+             rendreDossierCentral(). -->
+        <div id="dossierCard" hidden style="display:flex;flex-direction:column;gap:14px;">
+          <div class="mq-sec">Votre dossier</div>
+          <div id="dossierAvant" style="display:flex;flex-direction:column;gap:8px;"></div>
+          <div id="dossierFin" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+        <div class="sv-vide" hidden>Aucune facture ni document pour l'instant. Ils apparaîtront ici dès que votre artisan les aura émis.</div>
+      </section>
+
+    </main>
+
+    <!-- Mention discrete : c'est l'outil de l'artisan, pas une marque que le
+         client doit connaitre. Masquee sur l'onglet Messages, ou le fil doit
+         aller jusqu'au composeur (regle CSS, aucun JS). -->
+    <div class="sv-marque">Suivi propulsé par BatiSpot</div>
+
+    <!-- Le bandeau. Meme dessin que la barre du bas de l'appli artisan (.bn /
+         .bn-i / .bn-ic, css/app.css) — mais ecrit ici en dur, PAS genere par
+         js/app-nav.js : ce script fabrique la navigation de l'ARTISAN
+         (chantiers, devis, equipe) et n'a rien a faire sur la page du client. -->
+    <nav class="bn sv-bn" role="tablist" aria-label="Navigation du suivi">
+      <button type="button" class="bn-i active" id="svOnglet-messages" data-onglet="messages"
+              role="tab" aria-controls="vue-messages" aria-selected="true">
+        <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Messages</span>
+        <span class="bn-badge" id="svBadgeMsg" hidden aria-hidden="true"></span>
+      </button>
+      <button type="button" class="bn-i" id="svOnglet-devis" data-onglet="devis"
+              role="tab" aria-controls="vue-devis" aria-selected="false">
+        <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
+        <span>Devis</span>
+      </button>
+      <button type="button" class="bn-i" id="svOnglet-planning" data-onglet="planning"
+              role="tab" aria-controls="vue-planning" aria-selected="false">
+        <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Planning</span>
+      </button>
+      <button type="button" class="bn-i" id="svOnglet-factures" data-onglet="factures"
+              role="tab" aria-controls="vue-factures" aria-selected="false">
+        <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5.5A8 8 0 0 0 13 3a8 8 0 0 0 0 18 8 8 0 0 0 6-2.5"/><line x1="3" y1="10" x2="14" y2="10"/><line x1="3" y1="14" x2="14" y2="14"/></svg>
+        <span>Factures</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Conteneur de Toasts Non-Bloquants -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <!-- app-menu.js (tiroir Profil / Entreprise / Equipe / Assurances) et
+       app-assistant.js (bouton flottant de l'assistant artisan) ne sont plus
+       charges : ils injectaient de l'interface ARTISAN dans une page CLIENT.
+       app-dates.js n'a plus de [data-date] a alimenter ici. -->
+  <script>
+    function showToast(msg, isYellow = false) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${isYellow ? 'yellow' : ''}`;
+      // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+      // messages qui viennent parfois du LLM — resume d'un ticket passe a
+      // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+      // ecrit sur un ticket photographie peut porter une instruction, et le
+      // modele la restituer telle quelle : le balisage s'executait alors dans
+      // l'origine authentifiee de l'artisan.
+      const bsT = document.createElement("span");
+      bsT.textContent = msg;
+      const bsX = document.createElement("span");
+      bsX.style.cursor = "pointer";
+      bsX.textContent = 'X';
+      bsX.addEventListener("click", () => toast.remove());
+      toast.replaceChildren(bsT, bsX);
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 250); }, 2500);
+    }
+  </script>
+  <script type="module">
+    // Cette page est ouverte par le CLIENT via un lien public suivi.html?t=<token>.
+    import { pub_getChantier, pub_getDevis, pub_getTaches, pub_getFactures, pub_getPhotos, pub_getDocuments, pub_getEntreprise, pub_getMessages, pub_postMessage, pub_respondDevis, pub_getPieces, fmtEuro } from './js/supabase.js';
+    import { rendreFil, brancherComposeur, estEnBasDuFil, definirResolveurPhoto } from './js/mq-thread.js';
+
+    const token = new URLSearchParams(location.search).get('t');
+    const poser = (id, txt) => { const e = document.getElementById(id); if (e) e.textContent = txt || ''; };
+
+    // ── Bandeau : un seul contenu affiche a la fois ───────────────────────
+    // Quatre vues, quatre boutons, et l'attribut `hidden` pour tout le reste.
+    // Les liens profonds sont conserves : suivi.html?t=…#devis ouvre l'onglet
+    // Devis. Aucun lien de ce genre n'existe aujourd'hui dans le depot
+    // (verifie le 05/09 : `grep -rn 'suivi.html#'` ne renvoie rien, et les
+    // liens poses par app-actions.js / photos.html / client.html s'arretent
+    // tous a `?t=<jeton>`), mais un e-mail deja parti peut en porter un.
+    const ONGLETS = ['messages', 'devis', 'planning', 'factures'];
+    let ongletActif = 'messages';
+
+    function ongletDeHash() {
+      const h = decodeURIComponent((location.hash || '').replace(/^#/, '')).toLowerCase();
+      return ONGLETS.includes(h) ? h : 'messages';
+    }
+
+    function activerOnglet(nom, { ecrireHash = true } = {}) {
+      if (!ONGLETS.includes(nom)) nom = 'messages';
+      ongletActif = nom;
+      document.body.dataset.onglet = nom;
+      for (const cle of ONGLETS) {
+        const vue = document.getElementById('vue-' + cle);
+        if (vue) vue.hidden = (cle !== nom);
+        const bouton = document.getElementById('svOnglet-' + cle);
+        if (bouton) {
+          bouton.classList.toggle('active', cle === nom);
+          bouton.setAttribute('aria-selected', cle === nom ? 'true' : 'false');
+        }
+      }
+      if (ecrireHash && ongletDeHash() !== nom) {
+        // replaceState, pas pushState : le bandeau n'est pas un historique de
+        // navigation. Le bouton « retour » du telephone doit ramener le client
+        // d'ou il vient (son e-mail, son SMS), pas lui faire remonter les
+        // quatre onglets un par un.
+        history.replaceState(null, '', location.pathname + location.search + '#' + nom);
+      }
+      if (nom === 'messages') ouvrirMessages();
+    }
+
+    // Une vue peut n'avoir strictement rien a montrer (aucune facture, aucun
+    // planning) : on affiche alors une phrase, jamais un ecran blanc.
+    function majEtatsVides() {
+      for (const cle of ONGLETS) {
+        const vue = document.getElementById('vue-' + cle);
+        const marqueur = vue?.querySelector('.sv-vide');
+        if (!marqueur) continue;
+        const utiles = Array.from(vue.children).filter((el) => el !== marqueur && !el.hidden);
+        marqueur.hidden = utiles.length > 0;
+      }
+    }
+
+    // Le chantier courant, garde en memoire de module : l'en-tete (nom de
+    // l'entreprise, objet, adresse) et la progression en ont besoin tous les
+    // deux, sans le re-demander au serveur une seconde fois.
+    let chantierActuel = null;
+
+    function vide(message) {
+      poser('entNom', 'BatiSpot');
+      poser('entSousTitre', '');
+      const box = document.getElementById('mqError');
+      if (box) { box.hidden = false; box.textContent = message; }
+      // Lien mort : il n'y a ni message, ni devis, ni planning, ni facture a
+      // montrer. Un bandeau qui ouvre quatre vues vides mentirait au client.
+      const vues = document.getElementById('svVues');
+      if (vues) vues.hidden = true;
+      const bandeau = document.querySelector('.sv-bn');
+      if (bandeau) bandeau.hidden = true;
+      const marque = document.querySelector('.sv-marque');
+      if (marque) marque.hidden = true;
+    }
+
+    async function chargerChantier() {
+      if (!token) { vide('Lien de suivi invalide'); return; }
+      try {
+        const chantier = await pub_getChantier(token);
+        if (!chantier) throw new Error('introuvable');
+        chantierActuel = chantier;
+        avertirExpiration(chantier);
+
+        let devis = [];
+        try { devis = (await pub_getDevis(token)) || []; } catch (_) {}
+        const ttc = devis.reduce((s, x) => s + Number(x.total_ttc || 0), 0);
+
+        let factures = [];
+        try { factures = (await pub_getFactures(token)) || []; } catch (_) { /* les factures sont un bonus */ }
+        let taches = [];
+        try { taches = (await pub_getTaches(token)) || []; } catch (_) { /* le deroule est un bonus */ }
+
+        if (ttc > 0) {
+          poser('finTotTtc', fmtEuro(ttc));
+          poser('finSolde', fmtEuro(calculerSoldeRestant(ttc, factures)));
+        } else {
+          // Aucun devis rattache : on affiche des tirets, jamais un montant de secours.
+          poser('finTotTtc', '—'); poser('finSolde', '—');
+          poser('finNote', "Aucun devis n'est encore rattaché à ce chantier. Votre artisan vous le transmettra.");
+        }
+
+        rendreJalonsEtProgression(chantier, devis, factures, taches, ttc);
+        rendreDetailDevis(devis);
+        rendreEcheances(ttc, devis);
+        rendreSignature(devis);
+        rendreFactures(factures);
+        rendreDeroule(taches);
+        let photos = [];
+        try { photos = (await pub_getPhotos(token)) || []; rendrePhotos(photos); } catch (_) { /* les photos sont un bonus */ }
+        // Photos dans les MESSAGES (06/09) : pas de session ici, l'URL vient
+        // de la même liste signée par chantier-photos ; une photo envoyée
+        // après le chargement déclenche une relecture, une seule fois par chemin.
+        definirResolveurPhoto(async (chemin) => {
+          const trouver = () => (photos || []).find((p) => p.storage_path === chemin);
+          let p = trouver();
+          if (!p) { try { photos = (await pub_getPhotos(token)) || []; } catch (_) { /* rien */ } p = trouver(); }
+          return p ? (p.url || p.signedUrl || null) : null;
+        });
+
+        // L'entreprise sert a DEUX endroits : l'en-tete (logo, nom) et le
+        // dossier (assurances, mediateur). Une seule requete pour les deux.
+        // Le logo (logo_url) est signe par la MEME fonction Edge que les
+        // documents reglementaires — le client n'a pas de session, il ne
+        // peut pas signer l'URL du bucket prive lui-meme.
+        let entreprise = null;
+        let docReponse = { documents: [], logo_url: null };
+        try {
+          [docReponse, entreprise] = await Promise.all([
+            pub_getDocuments(token).catch(() => ({ documents: [], logo_url: null })),
+            pub_getEntreprise(token).catch(() => null),
+          ]);
+        } catch (_) { /* le dossier est un bonus, jamais un bloquant — pas l'en-tete */ }
+        rendreEntreprise(entreprise, docReponse.logo_url);
+        // Même réglage que rendrePhotos() : si l'artisan a masqué les photos
+        // au client, la ligne « Photos avant / après » de « Votre dossier »
+        // ne doit pas non plus trahir leur existence.
+        const photosPourDossier = (chantier.photos_visibles_client === false) ? [] : photos;
+        // Pièces rangées automatiquement (04/09/2026) : signer-devis,
+        // pv-reception et envoyer-facture-client y écrivent chacune une
+        // ligne. Bonus, jamais bloquant.
+        let pieces = [];
+        try { pieces = (await pub_getPieces(token)) || []; } catch (_) {}
+        try { rendreDossierCentral(docReponse.documents, entreprise, devis, factures, taches, photosPourDossier, pieces); } catch (_) {}
+      } catch (e) {
+        vide('Chantier introuvable ou lien expiré');
+        return;
+      }
+      // Hors du try : un plantage de la messagerie ne doit pas faire afficher
+      // « Chantier introuvable » alors que le chantier vient d'être chargé.
+      majEtatsVides();
+      demarrerMessagerie();
+    }
+
+    // Couleur de marque de l'artisan (pro_profiles.couleur, exposee par
+    // get_entreprise_by_token / pub_getEntreprise). Pose --artisan sur
+    // :root, plus deux teintes derivees calculees ici (melange avec du
+    // blanc) : le fond tres clair de l'en-tete et son trait. Repli
+    // #228B5B — deja la valeur par defaut posee sur :root dans le <style>
+    // — si l'artisan n'a pas choisi de couleur ou si le format est invalide.
+    function melangerBlanc(hex, ratio) {
+      const n = parseInt(hex.slice(1), 16);
+      const r = (n >> 16) & 255, v = (n >> 8) & 255, b = n & 255;
+      const m = (c) => Math.round(c * ratio + 255 * (1 - ratio));
+      return `rgb(${m(r)}, ${m(v)}, ${m(b)})`;
+    }
+    function appliquerCouleurArtisan(couleur) {
+      const valide = /^#[0-9a-f]{6}$/i.test(couleur || '') ? couleur : '#228B5B';
+      const racine = document.documentElement.style;
+      racine.setProperty('--artisan', valide);
+      racine.setProperty('--artisan-tint', melangerBlanc(valide, 0.08));
+      racine.setProperty('--artisan-line', melangerBlanc(valide, 0.35));
+    }
+
+    // Qui realise les travaux, aux couleurs de l'artisan (04/09/2026) : logo
+    // signe si l'artisan en a depose un, sinon initiales sur un carre degrade
+    // (meme fallback que la maquette). On ne fabrique jamais un prenom que la
+    // base ne connait pas : `pro_profiles` ne porte qu'un nom d'entreprise.
+    function rendreEntreprise(ent, logoUrl) {
+      appliquerCouleurArtisan(ent?.couleur);
+      const nom = ent?.display_name || 'BatiSpot';
+      poser('entNom', nom);
+
+      // En-tete volontairement maigre (05/09/2026) : qui fait les travaux,
+      // quoi, ou. Rien d'autre — le reste est a un doigt dans le bandeau.
+      // « Votre chantier » ne sert plus de prefixe quand l'objet est connu :
+      // sur 390 px, ces deux mots faisaient passer la ligne sur trois lignes.
+      const sousTitre = [chantierActuel?.description, chantierActuel?.adresse]
+        .filter(Boolean).join(' · ') || 'Votre chantier';
+      poser('entSousTitre', sousTitre);
+
+      const box = document.getElementById('entLogoBox');
+      if (!box) return;
+      box.replaceChildren();
+      box.removeAttribute('style');
+      box.style.cssText = 'width:28px;height:28px;border-radius:8px;flex:none;';
+      if (logoUrl) {
+        box.style.backgroundImage = `url("${logoUrl}")`;
+        box.style.backgroundSize = 'cover';
+        box.style.backgroundPosition = 'center';
+      } else {
+        box.style.background = 'var(--artisan, #228B5B)';
+        box.style.display = 'flex';
+        box.style.alignItems = 'center';
+        box.style.justifyContent = 'center';
+        box.style.color = '#fff';
+        box.style.fontWeight = '800';
+        box.style.fontSize = '11px';
+        const initiales = nom.split(/\s+/).filter(Boolean).slice(0, 2).map((m) => m[0].toUpperCase()).join('');
+        box.textContent = initiales || 'B';
+      }
+    }
+
+    // Combien de jours reste-t-il, et qu'est-ce qu'il faut faire avant.
+    // On ne parle QUE quand le chantier est termine : tant qu'il tourne, il n'y
+    // a pas d'echeance, et un compte a rebours permanent serait une menace inutile.
+    function avertirExpiration(chantier) {
+      const box = document.getElementById('finExpire');
+      if (!box || !chantier?.lien_expire_le) return;
+      const fin = new Date(chantier.lien_expire_le + 'T23:59:59');
+      const jours = Math.ceil((fin - new Date()) / 86400000);
+      if (jours < 0) return;   // le serveur ne repond deja plus : rien a dire ici
+
+      // Rouge dans la derniere semaine, sobre avant : l'urgence doit vouloir
+      // dire quelque chose le jour ou elle apparait.
+      const urgent = jours <= 7;
+      box.style.background = urgent ? '#FEF2F2' : '#F7FBF8';
+      box.style.border = `1px solid ${urgent ? '#FCA5A5' : '#D3E3DA'}`;
+      box.style.color = urgent ? '#9B2C1C' : '#3D5A4E';
+      const quand = jours === 0 ? "aujourd’hui"
+                  : jours === 1 ? "demain"
+                  : `dans ${jours} jours`;
+      box.innerHTML = `<strong>Cet accès ferme ${quand}</strong>`
+        + `<br>Votre chantier est terminé. Téléchargez dès maintenant ce que vous`
+        + ` souhaitez conserver — devis, factures, photos et attestations de votre`
+        + ` artisan. Passé cette date, le lien ne fonctionnera plus.`;
+      box.hidden = false;
+    }
+
+    // Le solde reel s'appuie sur les factures REELLEMENT payees des qu'elles
+    // existent ; a defaut (aucune facture emise encore), on retombe sur
+    // l'hypothese d'acompte 30 % / solde 70 % deja utilisee par les echeances
+    // ci-dessous — jamais un chiffre invente de plus.
+    function calculerSoldeRestant(ttc, factures) {
+      const payees = (factures || []).filter((f) => f.statut === 'payee')
+        .reduce((s, f) => s + Number(f.total_ttc || 0), 0);
+      return payees > 0 ? Math.max(ttc - payees, 0) : ttc * 0.7;
+    }
+
+    function fmtCourt(iso) {
+      if (!iso) return '';
+      const d = new Date(String(iso).length > 10 ? iso : iso + 'T12:00:00');
+      if (isNaN(d)) return '';
+      return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    }
+
+    // L'avancement (barre + "Étape X sur Y") et les 4 jalons du bas de l'ecran
+    // 13 de la maquette. Tout est deduit des donnees reelles : les taches
+    // planifiees pour la progression, devis.accepted_at / les factures
+    // payees / les dates du chantier pour les jalons. Un seul jalon porte
+    // l'etat "en cours" (mq-now) : le premier qui n'est pas encore fait.
+    function rendreJalonsEtProgression(chantier, devis, factures, taches, ttc) {
+      const wrap = document.getElementById('mqProgressWrap');
+      const barre = document.getElementById('mqProgressBar');
+      const centre = document.getElementById('mqCenter');
+      const planifiees = (taches || []).filter((t) => t.jour);
+      const total = planifiees.length;
+      const faites = planifiees.filter((t) => t.statut === 'termine' || t.statut === 'fait').length;
+      if (wrap && barre && centre) {
+        if (total > 0) {
+          const courante = Math.min(faites + 1, total);
+          const pct = Math.round((faites / total) * 100);
+          barre.style.width = pct + '%';
+          const finTxt = chantier?.date_fin_prevue
+            ? new Date(chantier.date_fin_prevue + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })
+            : '';
+          centre.textContent = `Étape ${courante} sur ${total}` + (finTxt ? ` · fin prévue le ${finTxt}` : '');
+          wrap.hidden = false;
+        } else {
+          wrap.hidden = true;
+        }
+      }
+
+      const enAttente = (devis || []).find((d) => d.status === 'envoye');
+      const accepte = (devis || []).find((d) => d.status === 'accepte');
+      const factureAcompte = (factures || []).find((f) => f.type === 'acompte');
+      const factureSolde = (factures || []).find((f) => f.type === 'solde' || f.type === 'situation');
+      const chantierTermine = chantier?.status === 'termine' || !!chantier?.termine_le;
+
+      const jourDebut = chantier?.date_debut ? new Date(chantier.date_debut + 'T12:00:00').getDate() : null;
+      const finCourt = fmtCourt(chantier?.date_fin_prevue);
+      const periodeTravaux = jourDebut && finCourt ? `${jourDebut} → ${finCourt}` : (finCourt || (jourDebut ? String(jourDebut) : ''));
+
+      const jalons = [
+        {
+          done: !!accepte,
+          label: accepte ? 'Devis signé' : 'Devis à signer',
+          small: accepte ? fmtCourt(accepte.accepted_at) : '',
+        },
+        {
+          done: !!(factureAcompte && factureAcompte.statut === 'payee'),
+          label: 'Acompte 30 % reçu',
+          small: (factureAcompte && factureAcompte.statut === 'payee') ? fmtCourt(factureAcompte.payee_le) : '',
+        },
+        {
+          done: chantierTermine,
+          label: 'Travaux en cours',
+          small: periodeTravaux,
+        },
+        {
+          done: !!(factureSolde && factureSolde.statut === 'payee'),
+          label: 'Solde à la réception',
+          small: ttc > 0 ? fmtEuro(calculerSoldeRestant(ttc, factures)) : '',
+        },
+      ];
+
+      let dejaMarque = false;
+      for (const j of jalons) {
+        if (j.done) { j.etat = 'done'; }
+        else if (!dejaMarque) { j.etat = 'now'; dejaMarque = true; }
+        else { j.etat = 'pending'; }
+      }
+
+      const conteneur = document.getElementById('mqSteps');
+      if (conteneur) {
+        conteneur.replaceChildren();
+        for (const j of jalons) {
+          const ligne = document.createElement('div');
+          ligne.className = 'mq-step';
+          const i = document.createElement('i');
+          if (j.etat === 'done') { i.className = 'mq-done'; i.textContent = '✓'; }
+          else if (j.etat === 'now') { i.className = 'mq-now'; i.textContent = '●'; }
+          ligne.appendChild(i);
+          ligne.appendChild(document.createTextNode(j.label));
+          if (j.small) {
+            const petit = document.createElement('small');
+            petit.textContent = j.small;
+            ligne.appendChild(petit);
+          }
+          conteneur.appendChild(ligne);
+        }
+      }
+
+      // Le bouton ne s'affiche que si le devis est le jalon actif ET qu'il
+      // existe vraiment un devis en attente a signer.
+      const btnSigner = document.getElementById('mqBtnSigner');
+      if (btnSigner) btnSigner.hidden = !(jalons[0].etat === 'now' && enAttente);
+
+      // Le devis signe se telecharge en un geste, tout en haut de la page.
+      const btnPdf = document.getElementById('mqBtnPdfDevis');
+      if (btnPdf) {
+        if (accepte) {
+          btnPdf.href = `./devis-document.html?t=${encodeURIComponent(token)}&id=${encodeURIComponent(accepte.id)}`;
+          btnPdf.hidden = false;
+        } else {
+          btnPdf.hidden = true;
+        }
+      }
+    }
+
+    // Les pieces reglementaires de l'artisan. La loi 2014-626 lui impose de
+    // justifier de son assurance decennale : jusqu'ici il n'avait aucun moyen
+    // de la transmettre, la valeur `visibilite = 'client'` n'existait pas.
+    // Le dossier reglementaire, en quatre blocs. C'est ce que le client doit
+    // pouvoir sortir dix ans plus tard s'il a un sinistre : le contrat, la
+    // preuve d'assurance, les pieces, et vers qui se tourner en cas de litige.
+    //
+    // Regle de conduite : quand une piece manque, on le DIT. Un dossier qui
+    // affiche trois lignes sur quatre laisse croire qu'il est complet.
+    function sousTitre(t) {
+      const e = document.createElement('div');
+      e.style.cssText = 'font-size:11px;font-weight:800;color:#1B7049;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px;';
+      e.textContent = t;
+      return e;
+    }
+    function ligneDoc({ titre, detail, href, absent }) {
+      const el = document.createElement(href ? 'a' : 'div');
+      if (href) { el.href = href; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+      el.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;'
+        + `border:1.5px ${absent ? 'dashed #E2C9C9' : 'solid #DCE6E0'};`
+        + `background:${absent ? '#FFFBFB' : '#FFFFFF'};text-decoration:none;margin-bottom:6px;`;
+      const g = document.createElement('div');
+      g.style.cssText = 'min-width:0;flex:1;';
+      const t = document.createElement('div');
+      t.style.cssText = `font-size:12.5px;font-weight:800;color:${absent ? '#9B2C1C' : '#1C2B22'};`;
+      t.textContent = titre;
+      g.appendChild(t);
+      if (detail) {
+        const d = document.createElement('div');
+        d.style.cssText = 'font-size:11px;color:#6B7F76;line-height:1.35;';
+        d.textContent = detail;
+        g.appendChild(d);
+      }
+      el.appendChild(g);
+      if (href) {
+        const fl = document.createElement('span');
+        fl.style.cssText = 'font-size:11.5px;font-weight:800;color:#1B7049;white-space:nowrap;';
+        fl.textContent = 'Ouvrir';
+        el.appendChild(fl);
+      }
+      return el;
+    }
+
+    const CATEGORIES_DOC = {
+      decennale: 'Attestation d’assurance décennale', rc_pro: 'Responsabilité civile professionnelle',
+      kbis: 'Extrait Kbis', urssaf: 'Attestation de vigilance URSSAF',
+      fiscale: 'Attestation de régularité fiscale', plan: 'Plan',
+      pv_reception: 'Procès-verbal de réception', garantie: 'Garantie', autre: 'Document',
+    };
+
+    // Les pièces rangées automatiquement (04/09/2026) : `pieces_chantier`,
+    // écrite par signer-devis / pv-reception / envoyer-facture-client, jamais
+    // par un dépôt manuel. `url_relative` est relatif à /app/.
+    const LABEL_PIECE = {
+      devis_signe: 'Devis signé', pv_reception: 'Procès-verbal de réception',
+      facture: 'Facture', attestation: 'Attestation', autre: 'Document',
+    };
+    function lienPieceLocal(urlRelative) {
+      if (!urlRelative) return null;
+      return `${location.origin}/app/${String(urlRelative).replace(/^\/?app\//, '').replace(/^\//, '')}`;
+    }
+
+    // ── « Votre dossier », central, sous les jalons (04/09/2026) ────────────
+    // Remplace l'ancien docCard (Contrat / Assurances / Pièces / Litige) :
+    // même matière, réorganisée en deux groupes « Avant travaux » / « Fin de
+    // chantier », et un principe différent — ce qui n'existe pas encore est
+    // ABSENT, jamais annoncé comme « manquant » ou « non fourni » (ce
+    // vocabulaire-là reste réservé à l'écran de l'artisan, chantier-dossier.js).
+    // Les factures détaillées restent dans leur propre carte plus bas
+    // (rendreFactures) — ici, seule la facture de solde signale que le
+    // dossier de fin est complet.
+    function rendreDossierCentral(documents, entreprise, devis, factures, taches, photos, pieces) {
+      const box = document.getElementById('dossierCard');
+      const zoneAvant = document.getElementById('dossierAvant');
+      const zoneFin = document.getElementById('dossierFin');
+      if (!box || !zoneAvant || !zoneFin) return;
+      zoneAvant.replaceChildren();
+      zoneFin.replaceChildren();
+
+      const docs = (documents || []).filter((d) => d && d.url);
+      const parCat = new Map(docs.map((d) => [d.categorie, d]));
+
+      // ── Avant travaux ──────────────────────────────────────────────────
+      const signe = (devis || []).find((d) => d.status === 'accepte');
+      if (signe) {
+        zoneAvant.appendChild(ligneDoc({
+          titre: `Devis signé n° ${signe.numero || ''}`.trim(),
+          detail: `Accepté${signe.accepte_par ? ' par ' + signe.accepte_par : ''}`
+            + `${signe.accepted_at ? ' le ' + new Date(signe.accepted_at).toLocaleDateString('fr-FR') : ''}`,
+          href: `./devis-document.html?t=${encodeURIComponent(token)}&id=${encodeURIComponent(signe.id)}`,
+        }));
+      }
+      const fDec = parCat.get('decennale');
+      if (fDec) {
+        zoneAvant.appendChild(ligneDoc({ titre: CATEGORIES_DOC.decennale, detail: fDec.nom || '', href: fDec.url }));
+      } else if (entreprise?.assurance_nom) {
+        zoneAvant.appendChild(ligneDoc({
+          titre: 'Assurance décennale — références',
+          detail: [entreprise.assurance_nom,
+                   entreprise.assurance_police ? 'police n° ' + entreprise.assurance_police : '',
+                   entreprise.assurance_couverture].filter(Boolean).join(' · '),
+        }));
+      }
+      const fKbis = parCat.get('kbis');
+      if (fKbis) zoneAvant.appendChild(ligneDoc({ titre: CATEGORIES_DOC.kbis, detail: fKbis.nom || '', href: fKbis.url }));
+      const fRc = parCat.get('rc_pro');
+      if (fRc) zoneAvant.appendChild(ligneDoc({ titre: CATEGORIES_DOC.rc_pro, detail: fRc.nom || '', href: fRc.url }));
+      if ((taches || []).length) {
+        zoneAvant.appendChild(ligneDoc({
+          titre: 'Calendrier des travaux',
+          detail: `${taches.length} étape${taches.length > 1 ? 's' : ''} planifiée${taches.length > 1 ? 's' : ''}`,
+          href: '#planCard',
+        }));
+      }
+      // Pièces rangées automatiquement, triées par date — un devis signé ou
+      // une attestation supplémentaire que le tour ci-dessus n'aurait pas
+      // capté (ex. plusieurs devis signés sur le même chantier).
+      (pieces || [])
+        .filter((pc) => pc && (pc.type === 'devis_signe' || pc.type === 'attestation'))
+        .sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0))
+        .forEach((pc) => {
+          zoneAvant.appendChild(ligneDoc({
+            titre: `${LABEL_PIECE[pc.type] || 'Document'}${pc.label ? ' — ' + pc.label : ''}`,
+            href: lienPieceLocal(pc.url_relative),
+          }));
+        });
+      if (zoneAvant.childElementCount) zoneAvant.prepend(sousTitre('Avant travaux'));
+
+      // ── Fin de chantier ────────────────────────────────────────────────
+      const fPv = parCat.get('pv_reception');
+      if (fPv) zoneFin.appendChild(ligneDoc({ titre: CATEGORIES_DOC.pv_reception, detail: fPv.nom || '', href: fPv.url }));
+      const solde = (factures || []).find((f) => f.type === 'solde' && f.statut !== 'brouillon');
+      if (solde) {
+        zoneFin.appendChild(ligneDoc({
+          titre: `Facture de solde n° ${solde.numero || ''}`.trim(),
+          detail: `${fmtEuro(solde.total_ttc)} · ${solde.statut === 'payee' ? 'payée' : 'à régler'}`,
+          href: `./facture-document.html?t=${encodeURIComponent(token)}&f=${encodeURIComponent(solde.id)}`,
+        }));
+      }
+      const aAvant = (photos || []).some((p) => p && p.url && p.visible_client === true && p.role_client === 'avant');
+      const aApres = (photos || []).some((p) => p && p.url && p.visible_client === true && p.role_client === 'apres');
+      if (aAvant && aApres) {
+        zoneFin.appendChild(ligneDoc({ titre: 'Photos avant / après', detail: 'Comparez l’avant et l’après', href: '#avapCard' }));
+      }
+      const fGarantie = parCat.get('garantie');
+      if (fGarantie) zoneFin.appendChild(ligneDoc({ titre: CATEGORIES_DOC.garantie, detail: fGarantie.nom || '', href: fGarantie.url }));
+      else if (fDec && solde) {
+        zoneFin.appendChild(ligneDoc({
+          titre: 'Garanties en cours',
+          detail: 'Parfait achèvement (1 an), biennale (2 ans) et décennale (10 ans) à compter de la réception.',
+        }));
+      }
+      if (entreprise?.mediateur_nom) {
+        zoneFin.appendChild(ligneDoc({
+          titre: 'Médiateur de la consommation',
+          detail: [entreprise.mediateur_nom, entreprise.mediateur_coordonnees].filter(Boolean).join(' — '),
+        }));
+      }
+      // Pièces rangées automatiquement — PV et factures tracés par le
+      // serveur au fil de l'eau (signer-devis / pv-reception /
+      // envoyer-facture-client), triées par date.
+      (pieces || [])
+        .filter((pc) => pc && (pc.type === 'pv_reception' || pc.type === 'facture' || pc.type === 'autre'))
+        .sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0))
+        .forEach((pc) => {
+          zoneFin.appendChild(ligneDoc({
+            titre: `${LABEL_PIECE[pc.type] || 'Document'}${pc.label ? ' — ' + pc.label : ''}`,
+            href: lienPieceLocal(pc.url_relative),
+          }));
+        });
+      if (zoneFin.childElementCount) zoneFin.prepend(sousTitre('Fin de chantier'));
+
+      box.hidden = !(zoneAvant.childElementCount || zoneFin.childElementCount);
+    }
+
+    // Ce que voit le client (06/09/2026) : uniquement ce que l'artisan a
+    // ENVOYÉ (visible_client = true). Le serveur filtre déjà
+    // (get_photos_by_token, app/supabase-photos-client-2026-09-06.sql) ; on
+    // refiltre ici, défensif : tant que la migration ou la fonction Edge ne
+    // renvoient pas le champ, rien ne s'affiche — c'est le repli voulu.
+    // Les URL arrivent DEJA signees : on ne construit aucune adresse ici.
+    function photosEnvoyees(photos) {
+      return (photos || []).filter((p) => p && p.url && p.visible_client === true);
+    }
+
+    function jourCourtAvap(iso) {
+      if (!iso) return 'date inconnue';
+      const d = new Date(iso);
+      if (isNaN(d)) return 'date inconnue';
+      return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    }
+
+    // Avant / après : les deux photos MARQUÉES par l'artisan (role_client),
+    // jamais « la première et la dernière » d'une phase. Sans les deux, la
+    // case dit « Chantier en cours ».
+    function rendreAvantApres(photos) {
+      const box = document.getElementById('avapCard');
+      const zone = document.getElementById('avapCompare');
+      if (!box || !zone) return;
+
+      const envoyees = photosEnvoyees(photos);
+      const avant = envoyees.find((p) => p.role_client === 'avant') || null;
+      const apres = envoyees.find((p) => p.role_client === 'apres') || null;
+
+      if (!avant || !apres) {
+        const vide = document.createElement('div');
+        vide.className = 'ph-avap-vide';
+        const b = document.createElement('b');
+        b.textContent = 'Chantier en cours';
+        vide.append(b, document.createTextNode('Votre artisan composera l’avant / après à la fin des travaux.'));
+        zone.replaceChildren(vide);
+        box.hidden = false;
+        return;
+      }
+
+      const wrap = document.createElement('div');
+      wrap.className = 'mq-avap';
+
+      const imgAvant = document.createElement('img');
+      imgAvant.className = 'mq-avap-img mq-avap-before';
+      imgAvant.src = avant.url;
+      imgAvant.loading = 'lazy';
+      imgAvant.alt = 'Avant';
+
+      const imgApres = document.createElement('img');
+      imgApres.className = 'mq-avap-img mq-avap-after';
+      imgApres.src = apres.url;
+      imgApres.loading = 'lazy';
+      imgApres.alt = 'Après';
+
+      const capAvant = document.createElement('span');
+      capAvant.className = 'mq-avap-cap mq-avap-cap-before';
+      capAvant.textContent = 'Avant · ' + jourCourtAvap(avant.taken_at);
+
+      const capApres = document.createElement('span');
+      capApres.className = 'mq-avap-cap mq-avap-cap-after';
+      capApres.textContent = 'Après · ' + jourCourtAvap(apres.taken_at);
+
+      const div = document.createElement('div');
+      div.className = 'mq-avap-div';
+
+      const handle = document.createElement('div');
+      handle.className = 'mq-avap-handle';
+
+      const range = document.createElement('input');
+      range.type = 'range';
+      range.className = 'mq-avap-range';
+      range.min = '0';
+      range.max = '100';
+      range.value = '50';
+      range.setAttribute('aria-label', 'Comparer avant et après');
+
+      const majPosition = (val) => {
+        imgApres.style.clipPath = 'inset(0 0 0 ' + val + '%)';
+        div.style.left = val + '%';
+        handle.style.left = val + '%';
+      };
+      range.addEventListener('input', () => majPosition(range.value));
+      majPosition(50);
+
+      wrap.append(imgAvant, imgApres, capAvant, capApres, div, handle, range);
+      zone.replaceChildren(wrap);
+      box.hidden = false;
+    }
+
+    function rendrePhotos(photos) {
+      const box = document.getElementById('phoCard');
+      const zone = document.getElementById('phoListe');
+      if (!box || !zone) return;
+      // Coupe-circuit artisan (04/09/2026, chantier.photos_visibles_client) :
+      // à false, ni galerie ni avant / après, même pour des photos envoyées.
+      // Défensif côté écran ; le filtrage réel est côté serveur.
+      if (chantierActuel && chantierActuel.photos_visibles_client === false) {
+        box.hidden = true;
+        const avap = document.getElementById('avapCard');
+        if (avap) avap.hidden = true;
+        return;
+      }
+      rendreAvantApres(photos);
+      const utiles = photosEnvoyees(photos)
+        .filter((p) => p.taken_at)
+        .sort((a, b) => new Date(b.taken_at) - new Date(a.taken_at));
+      if (!utiles.length) { box.hidden = true; return; }
+      zone.replaceChildren();
+      for (const p of utiles) {
+        const a = document.createElement('a');
+        a.className = 'mq-ph';
+        a.href = p.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.style.display = 'block';
+        a.style.textDecoration = 'none';
+        a.style.backgroundImage = `url("${p.url}")`;
+        a.style.backgroundSize = 'cover';
+        a.style.backgroundPosition = 'center';
+        a.setAttribute('aria-label', p.caption || 'Voir la photo');
+        const jour = new Date(p.taken_at);
+        const b = document.createElement('b');
+        b.textContent = jour.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+        a.appendChild(b);
+        zone.appendChild(a);
+      }
+      box.hidden = false;
+    }
+
+    // Les etapes de reglement. Acompte a la commande, solde a la fin : on le DIT,
+    // au lieu d'afficher deux montants sans dire quand ils sont dus.
+    function rendreEcheances(ttc, devis) {
+      const box = document.getElementById('finEcheances');
+      const zone = document.getElementById('finEcheancesListe');
+      if (!box || !zone || !(ttc > 0)) return;
+      zone.replaceChildren();
+      const accepte = (devis || []).some((d) => d.status === 'accepte');
+      const etapes = [
+        { quand: 'À l’acceptation du devis', montant: ttc * 0.3, libelle: 'Acompte 30 %', fait: accepte },
+        { quand: 'À la fin des travaux',           montant: ttc * 0.7, libelle: 'Solde',        fait: false },
+      ];
+      for (const e of etapes) {
+        const l = document.createElement('div');
+        l.className = 'mq-line';
+        l.style.alignItems = 'flex-start';
+        const g = document.createElement('span');
+        g.innerHTML = `<strong>${e.libelle}</strong><br><span style="color:#6B7F76;font-size:11px;font-weight:600;">${e.quand}</span>`;
+        const d = document.createElement('span');
+        d.style.cssText = 'white-space:nowrap;font-weight:800;color:#1B7049;';
+        d.textContent = fmtEuro(e.montant);
+        l.append(g, d);
+        zone.appendChild(l);
+      }
+      box.hidden = false;
+    }
+
+    // Acceptation du devis. Aucune page n'appelait client_respond_devis: le client
+    // n'avait nulle part ou dire oui, alors que la base savait deja le traiter.
+    function rendreSignature(devis) {
+      const box = document.getElementById('finSignature');
+      if (!box) return;
+      const enAttente = (devis || []).find((d) => d.status === 'envoye');
+      const accepte   = (devis || []).find((d) => d.status === 'accepte');
+      const msg = document.getElementById('finSignMsg');
+
+      // Tout ce qui sert a signer disparait une fois que c'est signe.
+      const champs = ['#finSignPrenom', '#finSignNom', '#finSignCanvas', '#finSignEffacer',
+                      '#finBtnAccepter', '#finBtnRefuser', '#finSignLu'];
+      // ⚠️ CORRIGE LE 02/09/2026 — ce masquage se mordait la queue.
+      //
+      // Il cherchait le conteneur avec `closest('div[style*="flex"]')` PUIS
+      // ecrivait `display:none` dans ce meme attribut `style`. Des le premier
+      // champ traite, l'attribut ne contenait plus « flex » : le selecteur ne
+      // matchait plus la rangee, et la remontee atteignait #finSignature —
+      // le bloc ENTIER, avec #finSignMsg dedans.
+      //
+      // On vise desormais une CLASSE, que rien ne reecrit.
+      const masquer = () => champs.forEach((sel) => {
+        const e = box.querySelector(sel);
+        if (!e) return;
+        const cible = e.closest('label') || e.closest('.sign-rangee') || e;
+        // Jamais le bloc entier : il porte le message de confirmation.
+        if (cible !== box) cible.style.display = 'none';
+      });
+
+      if (accepte) {
+        box.hidden = false;
+        masquer();
+        const quand = accepte.accepted_at ? new Date(accepte.accepted_at).toLocaleDateString('fr-FR') : '';
+        msg.style.color = '#0F5132';
+        msg.textContent = `Devis accepté${accepte.accepte_par ? ' par ' + accepte.accepte_par : ''}${quand ? ' le ' + quand : ''}.`;
+        return;
+      }
+      if (!enAttente) return;   // refuse ou expire : on ne propose rien
+
+      // ⚠️ ON NE FAIT PAS SIGNER UN MONTANT QU'ON N'AFFICHE PAS (02/09/2026).
+      //
+      // Hors ligne, la coquille de la page s'affiche depuis le cache mais les
+      // donnees n'arrivent pas : les totaux montraient « — » et les boutons
+      // « J'accepte le devis » restaient actifs, pad de signature compris. Un
+      // client pouvait donc s'engager contractuellement sur un montant
+      // invisible.
+      if (!(Number(enAttente.total_ttc) > 0)) {
+        box.hidden = false;
+        masquer();
+        msg.style.color = '#9B2C1C';
+        msg.textContent = navigator.onLine
+          ? "Le montant de ce devis n'a pas pu être chargé. Rechargez la page avant d'accepter — nous ne vous ferons pas signer un montant que vous ne voyez pas."
+          : "Vous êtes hors connexion : le montant du devis ne s'affiche pas. Reconnectez-vous pour le consulter et le signer.";
+        return;
+      }
+
+      box.hidden = false;
+      const prenom = document.getElementById('finSignPrenom');
+      const nom  = document.getElementById('finSignNom');
+      const lu   = document.getElementById('finSignLu');
+      const bOui = document.getElementById('finBtnAccepter');
+      const bNon = document.getElementById('finBtnRefuser');
+
+      // Nommer le montant dans l'engagement. « J'accepte » sans chiffre
+      // n'engage sur rien de precis — et c'est precisement ce qui se conteste.
+      const eng = document.getElementById('finSignEngagement');
+      if (eng && Number(enAttente.total_ttc) > 0) {
+        eng.textContent = `J’ai lu le devis${enAttente.numero ? ' n° ' + enAttente.numero : ''} `
+          + `d’un montant de ${fmtEuro(enAttente.total_ttc)} TTC et j’en accepte le contenu.`;
+      }
+
+      const trace = installerSignature(document.getElementById('finSignCanvas'),
+                                       document.getElementById('finSignEffacer'));
+
+      function refuser(texte, cible) {
+        msg.style.color = '#9B2C1C';
+        msg.textContent = texte;
+        cible?.focus();
+      }
+
+      async function repondre(reponse) {
+        const p = (prenom.value || '').trim();
+        const n = (nom.value || '').trim();
+        const signataire = `${p} ${n}`.trim();
+
+        if (reponse === 'accepte') {
+          // Trois verifications distinctes, trois messages distincts : on dit
+          // ce qui manque, on ne renvoie pas un « champ invalide » generique.
+          if (p.length < 2) return refuser('Indiquez votre prénom.', prenom);
+          if (n.length < 2) return refuser('Indiquez votre nom.', nom);
+          if (!lu.checked)  return refuser('Cochez la case pour confirmer votre accord.', lu);
+          if (trace.vide()) return refuser('Signez dans le cadre avec votre doigt ou votre souris.', null);
+        }
+
+        bOui.disabled = bNon.disabled = true;
+        const avant = bOui.textContent;
+        bOui.textContent = 'Un instant…';
+        try {
+          await pub_respondDevis(token, enAttente.id, reponse, signataire,
+            reponse === 'accepte' ? trace.image() : null);
+          msg.style.color = '#0F5132';
+          msg.textContent = reponse === 'accepte'
+            ? 'Merci, votre accord est enregistré. Votre artisan en est informé. '
+              + 'Vous disposez de 14 jours pour vous rétracter.'
+            : 'Votre refus est enregistré. Votre artisan en est informé.';
+          masquer();
+        } catch (e) {
+          // On dit ce qui a echoue, on ne fait pas semblant que c'est enregistre.
+          msg.style.color = '#9B2C1C';
+          msg.textContent = (e && e.message) || "L'enregistrement a échoué. Réessayez.";
+          bOui.disabled = bNon.disabled = false;
+          bOui.textContent = avant;
+        }
+      }
+
+      bOui.addEventListener('click', () => repondre('accepte'));
+      bNon.addEventListener('click', () => repondre('refuse'));
+    }
+
+    // Trace manuscrit. Pointer Events couvre doigt, stylet et souris d'un seul
+    // jeu de handlers — l'artisan comme le client peuvent etre sur n'importe quoi.
+    // Le canvas a une resolution fixe (600×200) plus grande que son affichage :
+    // sur un ecran dense, une signature capturee a la taille CSS ressort floue
+    // sur le document imprime.
+    function installerSignature(canvas, boutonEffacer) {
+      if (!canvas) return { vide: () => true, image: () => null };
+      const ctx = canvas.getContext('2d');
+      ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1C2B22';
+      let dessine = false, trace = false;
+
+      const point = (e) => {
+        const r = canvas.getBoundingClientRect();
+        return [(e.clientX - r.left) * (canvas.width / r.width),
+                (e.clientY - r.top)  * (canvas.height / r.height)];
+      };
+      canvas.addEventListener('pointerdown', (e) => {
+        dessine = true;
+        ctx.beginPath(); ctx.moveTo(...point(e));
+        // La capture vient APRES le debut du trace, et sous try : elle leve
+        // une NotFoundError si le pointeur n'est plus actif, ce qui tuait le
+        // handler avant meme le premier moveTo. Le confort de capture ne doit
+        // pas pouvoir empecher la signature.
+        try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      });
+      canvas.addEventListener('pointermove', (e) => {
+        if (!dessine) return;
+        ctx.lineTo(...point(e)); ctx.stroke(); trace = true;
+        e.preventDefault();
+      });
+      // pointerup ET pointercancel : un doigt qui sort du cadre, un appel qui
+      // arrive, et sans pointercancel le trait continuerait au retour.
+      for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) {
+        canvas.addEventListener(ev, () => { dessine = false; });
+      }
+      boutonEffacer?.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); trace = false;
+      });
+
+      return {
+        vide: () => !trace,
+        image: () => (trace ? canvas.toDataURL('image/png') : null),
+      };
+    }
+
+    // Detail du devis, groupe par lot comme sur le document papier.
+    function rendreDetailDevis(devis) {
+      const box = document.getElementById('finDetailBox');
+      const zone = document.getElementById('finDetail');
+      if (!box || !zone) return;
+      // Le document complet, avec toutes les mentions obligatoires.
+      const premier = (devis || [])[0];
+      const lien = document.getElementById('finLienDevis');
+      if (lien && premier) {
+        lien.href = `./devis-document.html?t=${encodeURIComponent(token)}&id=${encodeURIComponent(premier.id)}`;
+        lien.hidden = false;
+      }
+      const lignes = (devis || []).flatMap((d) => Array.isArray(d.lines) ? d.lines : []);
+      if (!lignes.length) return;
+
+      zone.replaceChildren();
+      const parLot = new Map();
+      for (const l of lignes) {
+        const lot = l.lot || 'Prestations';
+        if (!parLot.has(lot)) parLot.set(lot, []);
+        parLot.get(lot).push(l);
+      }
+      for (const [lot, items] of parLot) {
+        const bloc = document.createElement('div');
+        const titre = document.createElement('div');
+        titre.style.cssText = 'font-size:11px;font-weight:800;color:#1B7049;text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;';
+        titre.textContent = lot;
+        bloc.appendChild(titre);
+        for (const l of items) {
+          const ligne = document.createElement('div');
+          ligne.style.cssText = 'display:flex;gap:10px;justify-content:space-between;padding:5px 0;border-bottom:1px solid #EEF4F0;font-size:12.5px;color:#1C2B22;line-height:1.4;';
+          const g = document.createElement('span');
+          g.style.cssText = 'flex:1;';
+          g.textContent = l.description || 'Prestation';
+          const dr = document.createElement('span');
+          dr.style.cssText = 'color:#6B7F76;white-space:nowrap;';
+          const q = Number(l.quantity || 0);
+          dr.textContent = q ? `${q} ${l.unit || ''}`.trim() : '';
+          ligne.append(g, dr);
+          bloc.appendChild(ligne);
+        }
+        zone.appendChild(bloc);
+      }
+      box.hidden = false;
+    }
+
+    // Les factures : acompte, situations, solde. Chacune telechargeable.
+    // Un brouillon n'est jamais montre au client : get_factures_by_token les
+    // exclut deja cote base, mais on filtre une seconde fois ici — un client
+    // ne doit JAMAIS voir un montant que son artisan n'a pas encore valide,
+    // meme si un futur changement cote base laissait passer un brouillon.
+    const TYPE_FACTURE = { acompte: 'Acompte', situation: 'Situation de travaux', solde: 'Solde' };
+    function rendreFactures(factures) {
+      const card = document.getElementById('facCard');
+      const zone = document.getElementById('facListe');
+      if (!card || !zone) return;
+      const liste = (factures || []).filter((f) => f.statut !== 'brouillon');
+      if (!liste.length) { card.hidden = true; return; }
+      zone.replaceChildren();
+
+      let cumul = 0;
+      for (const f of liste) {
+        cumul += Number(f.total_ttc) || 0;
+        const payee = f.statut === 'payee';
+
+        const item = document.createElement('div');
+        item.className = 'mq-card';
+        item.style.cssText = 'flex-direction:column;align-items:stretch;gap:8px;';
+
+        const rangee = document.createElement('div');
+        rangee.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:10px;';
+
+        const g = document.createElement('div');
+        g.className = 'mq-t';
+        const d = f.date_emission ? new Date(f.date_emission + 'T12:00:00').toLocaleDateString('fr-FR') : '';
+        g.innerHTML = `${TYPE_FACTURE[f.type] || 'Facture'}<small>${f.numero}${d ? ' · ' + d : ''}</small>`;
+
+        const dr = document.createElement('div');
+        dr.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;gap:4px;';
+        const m = document.createElement('span');
+        m.className = 'mq-amt';
+        m.textContent = fmtEuro(f.total_ttc);
+        const st = document.createElement('span');
+        st.className = 'mq-pill ' + (payee ? 'mq-ok' : 'mq-wait');
+        st.textContent = payee ? 'Payée' : 'À régler';
+        dr.append(m, st);
+
+        rangee.append(g, dr);
+        item.appendChild(rangee);
+
+        // Facture envoyée, pas encore réglée : le solde et son échéance,
+        // pour que le client sache combien et pour quand sans ouvrir le PDF.
+        if (f.statut === 'envoyee') {
+          const encart = document.createElement('div');
+          encart.style.cssText = 'background:#FBF1E6;border:1px solid #EAD3B5;border-radius:8px;'
+            + 'padding:8px 10px;font-size:11.5px;font-weight:700;color:#B45309;';
+          const ech = f.date_echeance ? new Date(f.date_echeance + 'T12:00:00').toLocaleDateString('fr-FR') : null;
+          encart.textContent = `Solde à régler : ${fmtEuro(f.total_ttc)}` + (ech ? ` avant le ${ech}` : '');
+          item.appendChild(encart);
+        }
+
+        const l = document.createElement('a');
+        l.href = `./facture-document.html?t=${encodeURIComponent(token)}&f=${encodeURIComponent(f.id)}`;
+        l.className = 'mq-btn mq-ghost';
+        l.style.textDecoration = 'none';
+        l.textContent = 'Voir la facture (PDF)';
+        item.appendChild(l);
+
+        zone.appendChild(item);
+      }
+      const tot = document.getElementById('facTotal');
+      if (tot) tot.textContent = `${liste.length} facture${liste.length > 1 ? 's' : ''} · ${fmtEuro(cumul)}`;
+      card.hidden = false;
+    }
+
+    // Le deroule previsionnel : une etape par tache, regroupee par jour.
+    function rendreDeroule(taches) {
+      const card = document.getElementById('planCard');
+      const zone = document.getElementById('planEtapes');
+      if (!card || !zone) return;
+      const liste = (taches || []).filter((t) => t.jour);
+      if (!liste.length) { card.hidden = true; return; }
+
+      zone.replaceChildren();
+      const fr = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+      const periode = document.getElementById('planPeriode');
+      const dernier = liste.reduce((m, t) => (t.jour_fin && t.jour_fin > m ? t.jour_fin : m), liste[0].jour);
+      if (periode) periode.textContent = `du ${fr(liste[0].jour)} au ${fr(dernier)}`;
+
+      // Une etape longue s'affiche comme une PERIODE (« du 3 au 8 sept. ») et non
+      // comme un jour isole : sinon le client croit que l'artisan ne vient qu'une
+      // fois et disparait toute la semaine.
+      const parJour = new Map();
+      for (const t of liste) {
+        if (!parJour.has(t.jour)) parJour.set(t.jour, []);
+        parJour.get(t.jour).push(t);
+      }
+      for (const [jour, items] of parJour) {
+        const bloc = document.createElement('div');
+        bloc.style.cssText = 'display:flex;gap:10px;align-items:flex-start;';
+        const date = document.createElement('div');
+        date.style.cssText = 'min-width:96px;font-size:11.5px;font-weight:800;color:#1B7049;padding-top:2px;line-height:1.35;';
+        const fins = items.map((t) => t.jour_fin).filter((f) => f && f > jour).sort();
+        date.textContent = fins.length ? `du ${fr(jour)}\nau ${fr(fins[fins.length - 1])}` : fr(jour);
+        date.style.whiteSpace = 'pre-line';
+        const col = document.createElement('div');
+        col.style.cssText = 'flex:1;display:flex;flex-direction:column;gap:4px;';
+        for (const t of items) {
+          const e = document.createElement('div');
+          const fait = t.statut === 'termine' || t.statut === 'fait';
+          e.style.cssText = `font-size:12.5px;line-height:1.4;color:${fait ? '#6B7F76' : '#1C2B22'};${fait ? 'text-decoration:line-through;' : ''}`;
+          e.textContent = t.titre;
+          col.appendChild(e);
+        }
+        bloc.append(date, col);
+        zone.appendChild(bloc);
+      }
+      card.hidden = false;
+    }
+
+    // ── Messagerie ─────────────────────────────────────────────────
+    // Rendue seulement si le chantier a bien été chargé : sans token valide
+    // il n'y a personne à qui écrire.
+    const INTERVALLE_POLL = 10000;   // 10 s : le client lit, il n'écrit pas en rafale
+    const MAX_CAR = 2000;            // aligné sur post_client_message (raise exception au-delà)
+
+    let signatureFil = null;         // empreinte du fil affiché, pour ne pas re-rendre pour rien
+    let timerPoll = null;
+    let envoiEnCours = false;
+
+    const elCard    = document.getElementById('msgCard');
+    const elList    = document.getElementById('msgList');
+    const elInput   = document.getElementById('msgInput');
+    const elSend    = document.getElementById('msgSend');
+    const elSync    = document.getElementById('msgSync');
+    const elCounter = document.getElementById('msgCounter');
+    const elEmojiBtn   = document.getElementById('msgEmojiBtn');
+    const elEmojiPanel = document.getElementById('msgEmojiPanel');
+    const elEmojiTabs  = document.getElementById('msgEmojiTabs');
+    const elEmojiGrid  = document.getElementById('msgEmojiGrid');
+
+    // Le pave « Écrire à … » qui servait de raccourci vers la messagerie plus
+    // bas a disparu avec le bandeau (05/09/2026) : l'onglet Messages fait le
+    // meme travail en un doigt, et un raccourci de plus, c'est un bloc de
+    // plus sur une page qu'on voulait justement desencombrer.
+    document.getElementById('mqBtnSigner')?.addEventListener('click', () => {
+      // Le bouton vit deja dans l'onglet Devis, mais il peut etre atteint au
+      // clavier depuis un autre onglet : on s'assure d'y etre avant de faire
+      // defiler, sinon scrollIntoView() vise un element display:none.
+      activerOnglet('devis');
+      const box = document.getElementById('finSignature');
+      box?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('finSignPrenom')?.focus();
+    });
+
+    // Vrai si l'utilisateur est déjà en bas du fil. On ne le repositionne de
+    // force que dans ce cas, sinon on lui arrache sa lecture à chaque poll.
+    function estEnBas() {
+      return estEnBasDuFil(elList);
+    }
+
+    // ── Pastille « nouveau message » sur l'onglet Messages ────────────────
+    // Le client n'a pas de compte : rien en base ne dit ce qu'il a lu, et
+    // get_messages_by_token ne renvoie pas lu_le. Le repere est donc LOCAL —
+    // l'horodatage du dernier message de l'artisan que ce navigateur a
+    // affiché, gardé par jeton de suivi. C'est un confort d'affichage, pas
+    // une donnée : localStorage peut être vide, refusé ou purgé, et la page
+    // doit rester juste (dans le doute, on considère que rien n'a été lu).
+    //
+    // ⚠️ On compare des EPOCHS, jamais des chaînes : deux horodatages ISO
+    // valides peuvent porter des décalages différents (règle du 03/09).
+    const CLE_VU = 'bs-suivi-vu-' + (token || '');
+    let derniersMessages = [];
+
+    const enMs = (v) => { const t = Date.parse(v || ''); return Number.isFinite(t) ? t : 0; };
+    function lireVu() { try { return Number(localStorage.getItem(CLE_VU)) || 0; } catch (_) { return 0; } }
+    function ecrireVu(ms) { try { localStorage.setItem(CLE_VU, String(ms)); } catch (_) {} }
+
+    function dernierArtisanMs(messages) {
+      return messages.reduce((max, m) => (m.author !== 'client' ? Math.max(max, enMs(m.created_at)) : max), 0);
+    }
+
+    function majPastilleMessages() {
+      const badge = document.getElementById('svBadgeMsg');
+      if (!badge) return;
+      if (ongletActif === 'messages') { badge.hidden = true; badge.textContent = ''; return; }
+      const vu = lireVu();
+      const n = derniersMessages.filter((m) => m.author !== 'client' && enMs(m.created_at) > vu).length;
+      badge.hidden = (n === 0);
+      badge.textContent = n > 9 ? '9+' : String(n);
+    }
+
+    function marquerMessagesVus() {
+      const dernier = dernierArtisanMs(derniersMessages);
+      if (dernier) ecrireVu(dernier);
+      majPastilleMessages();
+    }
+
+    // Appelée par activerOnglet() quand Messages devient l'onglet actif.
+    function ouvrirMessages() {
+      marquerMessagesVus();
+      // Le fil était display:none : son scrollTop ne voulait rien dire. On le
+      // recolle en bas une fois la mise en page refaite.
+      requestAnimationFrame(() => { if (elList) elList.scrollTop = elList.scrollHeight; });
+    }
+
+    // Le rendu vient de js/mq-thread.js : le client voit exactement les mêmes
+    // bulles que son artisan (ergot, heure dans la bulle, séparateurs de jour,
+    // liens cliquables). Ici « moi », c'est le client.
+    function rendreFilClient(messages, { forcerBas = false } = {}) {
+      const signature = messages.map(m => m.id).join(',');
+      if (signature === signatureFil) return;
+      const collerEnBas = forcerBas || signatureFil === null || estEnBas();
+      signatureFil = signature;
+
+      rendreFil(elList, messages, {
+        mienne: (m) => m.author === 'client',
+        auteur: (m) => (m.author === 'client' ? 'Vous' : 'Votre artisan'),
+        // get_messages_by_token ne renvoie pas lu_le (voir supabase-schema.sql) :
+        // pas d'accusé de lecture ici, plutôt qu'une coche qui mentirait.
+        lu: () => null,
+        vide: "Aucun message pour l'instant. Posez votre question, votre artisan la recevra directement.",
+        collerEnBas,
+      });
+    }
+
+    async function rafraichirFil(opts) {
+      try {
+        const messages = await pub_getMessages(token);
+        derniersMessages = messages;
+        rendreFilClient(messages, opts);
+        if (ongletActif === 'messages') marquerMessagesVus(); else majPastilleMessages();
+        elSync.textContent = '';
+        return true;
+      } catch (_) {
+        // Réseau coupé ou fonction indisponible : on garde le fil affiché tel
+        // quel et on le dit, plutôt que de vider l'écran du client.
+        elSync.textContent = 'Hors ligne';
+        return false;
+      }
+    }
+
+    function majCompteur() {
+      const n = elInput.value.length;
+      elCounter.hidden = n < MAX_CAR * 0.75;
+      elCounter.textContent = `${n} / ${MAX_CAR}`;
+      elCounter.classList.toggle('over', n >= MAX_CAR);
+    }
+
+    async function envoyer() {
+      const contenu = elInput.value.trim();
+      if (!contenu || envoiEnCours) return;
+      if (contenu.length > MAX_CAR) { showToast('Message trop long (2000 caractères max).', true); return; }
+
+      envoiEnCours = true;
+      // Le bouton contient une icône SVG : on ne touche pas à son contenu,
+      // seulement à l'état désactivé (le CSS gère l'opacité).
+      elSend.disabled = true;
+      try {
+        await pub_postMessage(token, contenu);
+        elInput.value = '';
+        majCompteur();
+        await rafraichirFil({ forcerBas: true });
+        relancerPoll();
+      } catch (err) {
+        // post_client_message lève des exceptions métier lisibles (rate limit,
+        // token invalide) : on les remonte telles quelles au client.
+        showToast(err?.message || "Envoi impossible. Réessayez.", true);
+      } finally {
+        envoiEnCours = false;
+        elSend.disabled = false;
+      }
+    }
+
+    function relancerPoll() {
+      clearInterval(timerPoll);
+      timerPoll = setInterval(() => {
+        if (document.visibilityState === 'visible') rafraichirFil();
+      }, INTERVALLE_POLL);
+    }
+
+    function demarrerMessagerie() {
+      elCard.hidden = false;
+      // Capsule de saisie commune à toute l'app : emoji à gauche, texte au
+      // milieu, bouton rond d'envoi à droite.
+      //
+      // PAS DE MICRO ICI, et c'est délibéré. La dictée passe par l'Edge
+      // Function `transcrire-dictee`, dont le quota est adossé à la session
+      // de l'ARTISAN ; un visiteur anonyme de cette page retomberait sur le
+      // quota de la clé publique et consommerait l'enveloppe Gemini de
+      // l'artisan sans qu'il l'ait demandé. Le client écrit deux phrases,
+      // il ne dicte pas un devis : le bouton d'envoi reste seul.
+      brancherComposeur({
+        textarea: elInput,
+        sendBtn: elSend,
+        emojiBtn: elEmojiBtn,
+        panel: elEmojiPanel,
+        tabs: elEmojiTabs,
+        grid: elEmojiGrid,
+        micro: false,
+        onMessage: (texte) => showToast(texte, true),
+        onEnvoyer: envoyer,
+      });
+      elInput.addEventListener('input', majCompteur);
+
+      // Revenir sur l'onglet doit rattraper immédiatement les messages manqués,
+      // sans attendre le prochain tick de 10 s.
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') rafraichirFil();
+      });
+      rafraichirFil({ forcerBas: true });
+      relancerPoll();
+    }
+
+    // ── Amorcage ─────────────────────────────────────────────────────────
+    document.querySelectorAll('.sv-bn .bn-i').forEach((bouton) => {
+      bouton.addEventListener('click', () => activerOnglet(bouton.dataset.onglet));
+    });
+    // Un lien profond ouvert alors que la page tourne deja (ancre cliquee,
+    // retour arriere) doit bouger l'onglet, pas recharger la page.
+    window.addEventListener('hashchange', () => activerOnglet(ongletDeHash(), { ecrireHash: false }));
+    // ecrireHash:false : sans ancre dans l'URL, on n'en ajoute pas une —
+    // l'adresse que le client a recue reste celle qu'il voit.
+    activerOnglet(ongletDeHash(), { ecrireHash: false });
+
+    chargerChantier();
+  </script>
+</body>
+</html>

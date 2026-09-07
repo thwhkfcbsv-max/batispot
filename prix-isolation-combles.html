@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix isolation des combles au m² en 2026 : perdus, aménagés, soufflage | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-isolation-combles">
+ <meta name="description" content="Prix de l'isolation des combles au m² en 2026 : combles perdus par soufflage 25-45 €/m², par déroulé 20-40 €/m², combles aménagés (rampants) 50-90 €/m², sarking 100-200 €/m². Budget par surface, aides et 3 devis gratuits d'artisans RGE vérifiés." />
+ <meta property="og:title" content="Prix isolation des combles au m² en 2026 : perdus, aménagés, soufflage" />
+ <meta property="og:description" content="Combien coûte l'isolation des combles au m² en 2026 ? Soufflage, déroulé, rampants, sarking : tarifs détaillés, aides et 3 devis gratuits d'artisans RGE vérifiés." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-isolation-combles" />
+ <style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.65}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EBF7F1;--cta:#2A9D6E;--sub:#5A7268;--border:rgba(34,139,91,0.14);--orange:#F97316}
+ .wrap{max-width:840px;margin:0 auto;padding:0 1.2rem}
+ .nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0}
+ .nav .wrap{display:flex;justify-content:space-between;align-items:center}
+ .logo{font-weight:900;color:var(--g1);font-size:1.2rem;text-decoration:none}.logo span{color:var(--g2)}
+ .nav a.cta{background:var(--cta);color:#fff;padding:.5rem 1.1rem;border-radius:9px;font-weight:800;font-size:.85rem;text-decoration:none}
+ h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--g1);line-height:1.2;margin:1.6rem 0 .6rem}
+ .lead{color:var(--sub);font-size:1.02rem;margin-bottom:1.4rem}
+ h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin:2rem 0 .8rem}
+ h3{font-size:1.05rem;font-weight:700;color:var(--g2);margin:1.2rem 0 .4rem}
+ p{margin-bottom:1rem}ul,ol{margin:0 0 1rem 1.3rem}li{margin-bottom:.4rem}
+ strong{color:var(--g1)}a{color:var(--g2)}
+ table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.95rem}
+ th,td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #eef2f0}
+ th{background:var(--g1);color:#fff;font-weight:700;font-size:.9rem}
+ tr:nth-child(even) td{background:#FAFCFB}
+ .box{background:var(--g-soft);border-left:4px solid var(--g2);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2rem;text-align:center;color:#fff;margin:2rem 0}
+ .cta-section h2{color:#fff;margin:0 0 .5rem}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.8rem 1.9rem;border-radius:12px;font-weight:800;text-decoration:none}
+ .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+ .faq-item h3{margin:0 0 .3rem;color:#1F2937}.faq-item p{margin:0;color:var(--sub);font-size:.95rem}
+ .cities{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+ .cities a{background:#fff;border:1px solid var(--border);border-radius:9px;padding:.45rem .8rem;font-size:.88rem;text-decoration:none;color:var(--g2);font-weight:600}
+ footer{background:var(--g1);color:#fff;text-align:center;padding:1.6rem 1rem;font-size:.85rem;margin-top:2rem}
+ footer a{color:#9be3c1;text-decoration:none}
+ </style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Quel est le prix de l'isolation des combles au m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Combles perdus : 25 à 45 €/m² par soufflage de laine, 20 à 40 €/m² en laine déroulée. Combles aménagés (isolation des rampants sous toiture) : 50 à 90 €/m². Isolation par l'extérieur de la toiture (sarking) : 100 à 200 €/m². Prix pose comprise, avant aides."}},
+ {"@type":"Question","name":"Combien coûte l'isolation de 100 m² de combles perdus ?","acceptedAnswer":{"@type":"Answer","text":"Comptez 2 500 à 4 500 € par soufflage pour 100 m² de combles perdus, pose comprise. C'est l'un des travaux d'économie d'énergie au meilleur rapport coût/efficacité : jusqu'à 30 % des pertes de chaleur d'une maison passent par le toit."}},
+ {"@type":"Question","name":"Quelles aides pour isoler ses combles en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"L'isolation des combles peut être soutenue par les certificats d'économie d'énergie (CEE) et MaPrimeRénov' selon les conditions en vigueur, sous réserve de faire appel à un artisan RGE et de respecter une résistance thermique minimale. Vérifiez les conditions actuelles sur france-renov.gouv.fr avant de signer."}},
+ {"@type":"Question","name":"Soufflage ou laine déroulée : que choisir ?","acceptedAnswer":{"@type":"Answer","text":"Pour des combles perdus difficiles d'accès, le soufflage est rapide et couvre parfaitement les recoins. La laine déroulée convient aux planchers de combles accessibles et réguliers. À performance égale, les prix sont proches : c'est l'accessibilité qui décide."}}
+ ]}</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+ <a href="/" class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></a>
+ <a href="/estimateur" class="cta">Estimer mes travaux</a>
+</div></nav>
+
+<div class="wrap">
+ <h1>Prix de l'isolation des combles au m² en 2026</h1>
+<p class="lead">Combien coûte l'<strong>isolation des combles</strong> en 2026 ? Les <strong>tarifs au m²</strong> selon la technique (soufflage, déroulé, rampants, sarking), le <strong>budget par surface</strong> et les <strong>aides</strong> mobilisables, le chantier d'économie d'énergie le plus rentable d'une maison.</p>
+
+ <h2>Prix de l'isolation des combles au m² par technique</h2>
+ <table>
+ <tr><th>Technique</th><th>Prix au m² pose comprise (2026)</th></tr>
+ <tr><td>Combles perdus, soufflage (laine de verre, roche, ouate)</td><td>25 – 45 €/m²</td></tr>
+ <tr><td>Combles perdus, laine déroulée</td><td>20 – 40 €/m²</td></tr>
+ <tr><td>Combles aménagés, isolation des rampants</td><td>50 – 90 €/m²</td></tr>
+ <tr><td>Isolation par l'extérieur de la toiture (sarking)</td><td>100 – 200 €/m²</td></tr>
+ </table>
+ <p>Jusqu'à <strong>30 % des pertes de chaleur</strong> d'une maison passent par le toit : isoler les combles est le geste au <strong>meilleur rapport coût/efficacité</strong>, avant même les murs ou les fenêtres.</p>
+
+ <h2>Budget selon la surface de combles</h2>
+ <table>
+ <tr><th>Surface</th><th>Combles perdus (soufflage)</th><th>Combles aménagés (rampants)</th></tr>
+ <tr><td>50 m²</td><td>1 250 – 2 250 €</td><td>2 500 – 4 500 €</td></tr>
+ <tr><td>80 m²</td><td>2 000 – 3 600 €</td><td>4 000 – 7 200 €</td></tr>
+ <tr><td>100 m²</td><td>2 500 – 4 500 €</td><td>5 000 – 9 000 €</td></tr>
+ <tr><td>120 m²</td><td>3 000 – 5 400 €</td><td>6 000 – 10 800 €</td></tr>
+ </table>
+ <div class="box"><strong>Repère :</strong> ces prix s'entendent <strong>avant aides</strong>. Avec les CEE et MaPrimeRénov' (selon conditions en vigueur et artisan RGE), le reste à charge peut baisser sensiblement, faites chiffrer les deux montants dans le devis.</div>
+
+ <h2>Ce qui fait varier le prix</h2>
+ <ul>
+ <li><strong>La technique</strong> : soufflage en perdus &lt; rampants en aménagés &lt; sarking par l'extérieur.</li>
+ <li><strong>L'isolant</strong> : laine de verre &lt; laine de roche &lt; ouate de cellulose &lt; isolants biosourcés (fibre de bois).</li>
+ <li><strong>L'épaisseur visée</strong> : une résistance thermique élevée (exigée pour les aides) demande 30 à 40 cm en perdus.</li>
+ <li><strong>L'état existant</strong> : dépose d'un ancien isolant, traitement de la charpente, reprise d'étanchéité.</li>
+ <li><strong>L'accessibilité</strong> : trappe étroite, hauteur, plancher fragile rallongent le chantier.</li>
+ </ul>
+
+ <h2>Quelles aides pour isoler ses combles en 2026 ?</h2>
+ <p>L'isolation des combles fait partie des travaux soutenus par les <strong>certificats d'économie d'énergie (CEE)</strong> et, selon les conditions en vigueur, par <strong>MaPrimeRénov'</strong> — sous réserve de passer par un <strong>artisan RGE</strong> et de respecter la résistance thermique minimale exigée. Les règles évoluant régulièrement, vérifiez les conditions actuelles sur <a href="https://france-renov.gouv.fr" rel="noopener" target="_blank">france-renov.gouv.fr</a> et consultez nos <a href="/aides-renovation-energetique-idf-2026">aides à la rénovation énergétique en Île-de-France</a>.</p>
+
+ <h2>Et si vous aménagiez vos combles ?</h2>
+ <p>Si la hauteur sous faîtage le permet, l'isolation des rampants est aussi l'occasion de <strong>gagner des m² habitables</strong> : voir notre <a href="/guide-amenagement-combles-idf">guide de l'aménagement de combles en Île-de-France</a>. Et si la couverture est fatiguée, mutualisez avec une <a href="/prix-toiture">réfection de toiture</a> (le sarking s'installe à ce moment-là).</p>
+
+ <div class="cta-section">
+ <h2>Obtenez le prix exact pour vos combles</h2>
+ <p style="opacity:.9;margin-bottom:1.2rem">Le seul prix fiable, c'est un devis après visite. Recevez jusqu'à 3 devis gratuits d'artisans RGE vérifiés sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de mes travaux →</a>
+ </div>
+
+ <h2>Prix de l'isolation près de chez vous</h2>
+ <div class="cities">
+ <a href="/guide-isolation-thermique-interieure">Paris</a>
+ <a href="/guide-isolation-thermique-interieure">Boulogne-Billancourt</a>
+ <a href="/guide-isolation-thermique-interieure">Montreuil</a>
+ <a href="/guide-isolation-thermique-interieure">Nanterre</a>
+ <a href="/guide-isolation-thermique-interieure">Saint-Denis</a>
+ <a href="/guide-isolation-thermique-interieure">Versailles</a>
+ </div>
+
+ <h2>Questions fréquentes, prix isolation combles</h2>
+ <div class="faq-item"><h3>Quel prix au m² pour isoler des combles ?</h3><p>Perdus : 20-45 €/m² (soufflage ou déroulé). Aménagés (rampants) : 50-90 €/m². Sarking : 100-200 €/m².</p></div>
+ <div class="faq-item"><h3>Combien pour 100 m² de combles perdus ?</h3><p>2 500 à 4 500 € par soufflage, pose comprise, avant aides.</p></div>
+ <div class="faq-item"><h3>Quelles aides en 2026 ?</h3><p>CEE et MaPrimeRénov' selon conditions en vigueur, avec artisan RGE. Vérifiez sur france-renov.gouv.fr.</p></div>
+ <div class="faq-item"><h3>Soufflage ou déroulé ?</h3><p>Soufflage pour les combles difficiles d'accès, déroulé pour les planchers accessibles. Prix proches, c'est l'accès qui décide.</p></div>
+
+ <h2>À lire aussi</h2>
+ <ul>
+ <li><a href="/prix-isolation-exterieure">Prix isolation extérieure (ITE) au m²</a></li>
+ <li><a href="/comparatif-isolation-interieure-vs-exterieure">Isolation intérieure ou extérieure : comparatif</a></li>
+ <li><a href="/prix-toiture">Prix d'une toiture au m²</a></li>
+ <li><a href="/aides-renovation-energetique-idf-2026">Aides rénovation énergétique IDF 2026</a></li>
+ <li><a href="/blog-pro/devenir-rge-2026">Artisans : devenir RGE en 2026</a></li>
+ </ul>
+</div>
+
+<div class="wrap" style="margin-bottom:2rem">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis gratuits d'artisans RGE vérifiés</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Des artisans vérifiés (Kbis, assurance, décennale, RGE) en Île-de-France vous répondent sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez votre projet (surface, combles perdus/aménagés…)" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Un artisan vérifié vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'isolation combles',description:(d.desc||'Demande via page prix isolation combles')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_prix'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/prix-isolation-exterieure">Prix isolation extérieure</a> &nbsp;|&nbsp;
+ <a href="/prix-toiture">Prix toiture</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

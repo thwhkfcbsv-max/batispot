@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#FFFFFF">
+ <title>Nouvelle demande — BatiSpot</title>
+ <meta name="description" content="Décrivez vos travaux, recevez des propositions d'artisans vérifiés IDF en 48h. Gratuit, sans engagement.">
+ <link rel="manifest" href="./manifest.json">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+ <style>
+ /* Header back button + connect link, intégrés dans .app-h */
+ .app-h .ah-back {
+ width: 28px; height: 28px;
+ display: flex; align-items: center; justify-content: center;
+ color: #fff; text-decoration: none; flex-shrink: 0;
+ }
+ .app-h .ah-spacer { flex: 1; }
+ .app-h .ah-login {
+ color: #fff; text-decoration: none;
+ font-size: 12px; font-weight: 700; opacity: 0.95;
+ padding: 6px 10px; border-radius: 6px;
+ background: rgba(255,255,255,0.12);
+ }
+
+ /* Chips comme simulator (.chip) avec radio inputs cachés */
+ .chip-row label {
+ display: inline-block;
+ cursor: pointer;
+ flex-shrink: 0;
+ }
+ .chip-row label input {
+ position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+ }
+ /* .chip-row.wrap : pour budget/délai où on veut wrapping */
+ .chip-row.wrap {
+ flex-wrap: wrap;
+ overflow-x: visible;
+ }
+
+ /* Photos grid — 3 cells aspect 1/1 conservées */
+ .photo-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 6px;
+ }
+ .photo-grid .photo-cell {
+ aspect-ratio: 1/1;
+ border: 2px dashed #e5e7eb;
+ border-radius: 8px;
+ display: flex; align-items: center; justify-content: center;
+ cursor: pointer;
+ background: #fafbf9;
+ color: var(--sub);
+ transition: border-color .15s, background .15s;
+ position: relative; overflow: hidden;
+ }
+ .photo-grid .photo-cell:hover {
+ border-color: var(--g1, #1A6B45);
+ background: var(--g-cream, #F7FBF8);
+ color: var(--g1, #1A6B45);
+ }
+ .photo-grid .photo-cell svg { width: 22px; height: 22px; }
+ .photo-grid .photo-cell img { width: 100%; height: 100%; object-fit: cover; }
+ .photo-grid .photo-cell .remove-x {
+ position: absolute; top: 4px; right: 4px;
+ background: rgba(0,0,0,0.6); color: #fff;
+ border: none; border-radius: 50%; width: 22px; height: 22px;
+ cursor: pointer; display: flex; align-items: center; justify-content: center;
+ font-size: 14px; line-height: 1;
+ }
+ #file-input-hidden { display: none; }
+
+ /* textarea héritant de .f-input */
+ textarea.f-input { resize: vertical; min-height: 96px; font-family: inherit; }
+
+ .legal-note {
+ font-size: 12px; color: var(--sub); line-height: 1.5;
+ }
+
+ /* ── Wizard post-soumission ── */
+ .wz-step {
+ padding: 28px 16px 32px;
+ display: flex; flex-direction: column; gap: 18px;
+ align-items: center; text-align: center;
+ }
+ .wz-check {
+ width: 72px; height: 72px; border-radius: 50%;
+ background: #D1FAE5;
+ display: flex; align-items: center; justify-content: center;
+ flex-shrink: 0;
+ }
+ @keyframes check-pop {
+ 0% { transform: scale(.5); opacity: 0; }
+ 60% { transform: scale(1.15); opacity: 1; }
+ 100% { transform: scale(1); }
+ }
+ .wz-check svg { animation: check-pop .4s ease both; }
+ .wz-title { font-size: 20px; font-weight: 900; color: var(--text); letter-spacing: -.02em; margin: 0; }
+ .wz-sub { font-size: 14px; color: var(--sub); margin: 0; line-height: 1.55; max-width: 300px; }
+
+ /* Timeline */
+ .wz-timeline { width: 100%; max-width: 300px; display: flex; flex-direction: column; gap: 0; }
+ .wz-tl-item {
+ display: flex; align-items: flex-start; gap: 12px; text-align: left; position: relative;
+ }
+ .wz-tl-item:not(:last-child)::after {
+ content: ''; position: absolute; left: 13px; top: 28px;
+ width: 2px; height: calc(100% + 2px); background: #d1fae5;
+ }
+ .wz-tl-dot {
+ width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+ display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900;
+ }
+ .wz-tl-dot.done { background: #D1FAE5; color: #065F46; }
+ .wz-tl-dot.wait { background: #f3f4f6; color: #9ca3af; border: 1.5px solid #e5e7eb; }
+ .wz-tl-body { padding: 3px 0 14px; }
+ .wz-tl-title { font-weight: 800; font-size: 13px; color: var(--text); }
+ .wz-tl-hint { font-size: 11px; color: var(--sub); margin-top: 1px; }
+
+ /* Step 2 — email */
+ .wz-email-pill {
+ display: inline-flex; align-items: center; gap: 8px;
+ background: var(--g-cream, #F7FBF8); border: 1.5px solid var(--g3, #4CAF82);
+ border-radius: 999px; padding: 9px 18px;
+ font-size: 14px; font-weight: 700; color: var(--text);
+ max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+ }
+ .wz-tip {
+ background: #fffbeb; border: 1px solid #228B5B; border-radius: 10px;
+ padding: 10px 14px; font-size: 12px; color: #78350f; text-align: left; width: 100%; max-width: 300px;
+ }
+ .wz-resend {
+ background: none; border: none; color: var(--g1); font-size: 13px; font-weight: 700;
+ font-family: inherit; cursor: pointer; text-decoration: underline; padding: 4px 0;
+ }
+ .wz-resend:disabled { color: var(--sub); text-decoration: none; cursor: default; }
+ .wz-poll-bar {
+ width: 48px; height: 4px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+ }
+ .wz-poll-fill {
+ height: 100%; background: linear-gradient(90deg, #1A6B45, #4CAF82);
+ width: 0%; transition: width .5s linear;
+ }
+ </style>
+ <script src="/js/clarity-init.js" defer></script>
+ <script src="/js/sentry-init.js" defer></script>
+ <script src="/js/turnstile-helper.js" defer></script>
+ <!-- Open Graph + Twitter Card -->
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="BatiSpot">
+ <meta property="og:locale" content="fr_FR">
+ <meta property="og:title" content="Nouvelle demande de travaux — BatiSpot">
+ <meta property="og:description" content="Décrivez vos travaux, recevez des propositions d'artisans vérifiés. Gratuit, sans engagement.">
+ <meta property="og:url" content="https://batispot.pro/app/demande-devis">
+ <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+ <meta property="og:image:height" content="630">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Nouvelle demande de travaux — BatiSpot">
+ <meta name="twitter:description" content="Décrivez vos travaux, recevez des propositions d'artisans vérifiés. Gratuit, sans engagement.">
+ <meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+ <!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <!-- End Meta Pixel -->
+</head>
+<body>
+ <div class="app-shell">
+
+ <header class="app-h">
+ <a href="./client.html" class="ah-back" aria-label="Retour" onclick="if(history.length>1){event.preventDefault();history.back();}" >
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+ </a>
+ <svg class="app-h-logo" viewBox="0 0 48 48" aria-hidden="true">
+ <defs><linearGradient id="lg-dd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+ <rect width="48" height="48" rx="11" fill="url(#lg-dd)"/>
+ <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+ <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.9"/>
+ </svg>
+ <span>Décrire mon projet</span>
+ <span class="ah-spacer"></span>
+ <a href="./client-login.html" class="ah-login">Connexion</a>
+ </header>
+
+ <form id="demande-form" class="scr-body" autocomplete="on">
+
+    <!-- Progress Tracker -->
+    <div class="mq-box" style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:12px;font-weight:800;color:var(--g1)" id="step-title-display">Étape 1 sur 3 · Votre projet</span>
+        <span class="mq-pill mq-info" id="step-pct-display">33%</span>
+      </div>
+      <div style="width:100%;height:6px;background:var(--border);border-radius:6px;overflow:hidden;">
+        <div id="step-progress-fill" style="width:33%;height:100%;background:var(--g1);transition:width .3s ease;"></div>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 1 : LE PROJET ── -->
+    <div class="form-step active" id="form-step-1" style="display:flex;flex-direction:column;gap:12px;">
+      <div class="scr-h" style="margin-top:0">1. Type de travaux</div>
+      <div class="chip-row" id="chips-type" role="radiogroup" aria-label="Type de travaux">
+        <!-- Aucune puce pre-cochee. « Salle de bain » l'etait, et stylee `active` :
+             tout visiteur qui n'en touchait aucune envoyait « Salle de bain » sans
+             le savoir. Une vraie demande de reparation de fissure de facade est
+             ainsi arrivee classee « salle de bain » (27/08/2026) : donnee fausse,
+             lead non routable, et rien dans l'interface ne le signalait.
+             Un defaut ne remplace jamais une reponse manquante — on la demande. -->
+        <label><input type="radio" name="type_travaux" value="salle_bain" required><span class="chip">Salle de bain</span></label>
+        <label><input type="radio" name="type_travaux" value="cuisine"><span class="chip">Cuisine</span></label>
+        <label><input type="radio" name="type_travaux" value="peinture"><span class="chip">Peinture</span></label>
+        <label><input type="radio" name="type_travaux" value="plomberie"><span class="chip">Plomberie</span></label>
+        <label><input type="radio" name="type_travaux" value="electricite"><span class="chip">Électricité</span></label>
+        <label><input type="radio" name="type_travaux" value="toiture"><span class="chip">Toiture</span></label>
+        <label><input type="radio" name="type_travaux" value="facade"><span class="chip">Façade</span></label>
+        <label><input type="radio" name="type_travaux" value="autre"><span class="chip">Autre</span></label>
+      </div>
+
+      <div class="f-row">
+        <label for="f-description" class="f-label">Description des travaux *</label>
+        <textarea id="f-description" class="f-input" required rows="3" placeholder="Ex : Rénovation salle de bain 6m², remplacement baignoire par douche italienne..."></textarea>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <div class="f-row" style="flex:2; margin-bottom:0">
+          <label for="f-adresse" class="f-label">Adresse *</label>
+          <input type="text" id="f-adresse" class="f-input" required autocomplete="street-address" placeholder="12 rue du Commerce">
+        </div>
+        <div class="f-row" style="flex:1; margin-bottom:0">
+          <label for="f-cp" class="f-label">Code Postal *</label>
+          <input type="text" id="f-cp" class="f-input" required autocomplete="postal-code" pattern="[0-9]{5}" placeholder="75011">
+        </div>
+      </div>
+
+      <button type="button" class="mq-btn mq-primary" id="btn-goto-step2" style="margin-top:12px;width:100%">Continuer vers le budget</button>
+    </div>
+
+    <!-- ── ÉTAPE 2 : BUDGET & CALENDRIER ── -->
+    <div class="form-step" id="form-step-2" style="display:none;flex-direction:column;gap:12px;">
+      <div class="scr-h" style="margin-top:0">2. Budget prévisionnel</div>
+      <div class="chip-row wrap" role="radiogroup" aria-label="Budget">
+        <label><input type="radio" name="budget_estime" value="" checked><span class="chip active">Pas d'idée</span></label>
+        <label><input type="radio" name="budget_estime" value="< 2000"><span class="chip">&lt; 2 000 €</span></label>
+        <label><input type="radio" name="budget_estime" value="2000-5000"><span class="chip">2 — 5k €</span></label>
+        <label><input type="radio" name="budget_estime" value="5000-10000"><span class="chip">5 — 10k €</span></label>
+        <label><input type="radio" name="budget_estime" value="10000-30000"><span class="chip">10 — 30k €</span></label>
+        <label><input type="radio" name="budget_estime" value="> 30000"><span class="chip">&gt; 30k €</span></label>
+      </div>
+
+      <div class="scr-h">Délai souhaité</div>
+      <div class="chip-row wrap" role="radiogroup" aria-label="Délai">
+        <label><input type="radio" name="delai" value="" checked><span class="chip active">Non précisé</span></label>
+        <label><input type="radio" name="delai" value="urgent"><span class="chip">Urgent (&lt; 15 j)</span></label>
+        <label><input type="radio" name="delai" value="1_mois"><span class="chip">Dans le mois</span></label>
+        <label><input type="radio" name="delai" value="3_mois"><span class="chip">Dans 3 mois</span></label>
+        <label><input type="radio" name="delai" value="pas_presse"><span class="chip">Pas pressé</span></label>
+      </div>
+
+      <div class="scr-h">Photos du chantier <span style="font-size:11px; font-weight:600; color:var(--sub); text-transform:none; letter-spacing:0">(optionnel · max 3)</span></div>
+      <input type="file" id="file-input-hidden" accept="image/*" multiple>
+      <div class="photo-grid" id="photo-grid">
+        <div class="photo-cell" data-slot="0" id="slot-0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="photo-cell" data-slot="1" id="slot-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="photo-cell" data-slot="2" id="slot-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button type="button" class="mq-btn mq-ghost" id="btn-back-step1" style="flex:1;">Retour</button>
+        <button type="button" class="mq-btn mq-primary" id="btn-goto-step3" style="flex:2;">Continuer vers mes coordonnées</button>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 3 : COORDONNÉES & VALIDATION ── -->
+    <div class="form-step" id="form-step-3" style="display:none;flex-direction:column;gap:12px;">
+      <div class="scr-h" style="margin-top:0">3. Vos coordonnées</div>
+      <div class="f-row">
+        <label for="f-name" class="f-label">Prénom et nom *</label>
+        <input type="text" id="f-name" class="f-input" required autocomplete="name" placeholder="Marie Dupont">
+      </div>
+      <div style="display:flex; gap:8px;">
+        <div class="f-row" style="flex:1; margin-bottom:0">
+          <label for="f-email" class="f-label">Email *</label>
+          <input type="email" id="f-email" class="f-input" required autocomplete="email" placeholder="marie@exemple.fr">
+        </div>
+        <div class="f-row" style="flex:1; margin-bottom:0">
+          <label for="f-phone" class="f-label">Téléphone</label>
+          <input type="tel" id="f-phone" class="f-input" autocomplete="tel" inputmode="tel" pattern="(?:\+33|0)[1-9](?:[\s.\-]?\d{2}){4}" placeholder="06 12 34 56 78" title="Numéro français à 10 chiffres">
+        </div>
+      </div>
+
+      <p class="legal-note">En validant, vous recevrez jusqu'à 3 devis d'artisans vérifiés. Vos coordonnées restent 100% confidentielles.</p>
+
+      <!-- Cloudflare Turnstile (anti-spam) -->
+      <div class="bs-turnstile" data-action="demande_devis" style="margin:4px 0"></div>
+      
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button type="button" class="mq-btn mq-ghost" id="btn-back-step2" style="flex:1;">Retour</button>
+        <button type="submit" class="mq-btn mq-primary" id="submit-btn" style="flex:2;">Recevoir mes 3 devis</button>
+      </div>
+    </div>
+  </form>
+
+ <!-- ── WIZARD post-soumission ── -->
+ <div id="wizard-area" class="hidden">
+
+ <!-- Étape 1 : confirmation + prochaines étapes -->
+ <div id="wz-step1" class="wz-step">
+ <div class="wz-check">
+ <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+ </div>
+ <p class="wz-title">Votre projet est en route&nbsp;!</p>
+ <p class="wz-sub">On notifie maintenant les artisans vérifiés de votre zone.</p>
+
+ <div class="wz-timeline">
+ <div class="wz-tl-item">
+ <div class="wz-tl-dot done"></div>
+ <div class="wz-tl-body">
+ <div class="wz-tl-title">Projet déposé</div>
+ <div class="wz-tl-hint">À l'instant</div>
+ </div>
+ </div>
+ <div class="wz-tl-item">
+ <div class="wz-tl-dot done"></div>
+ <div class="wz-tl-body">
+ <div class="wz-tl-title">Artisans notifiés</div>
+ <div class="wz-tl-hint">Dans les 2 minutes</div>
+ </div>
+ </div>
+ <div class="wz-tl-item">
+ <div class="wz-tl-dot wait">2</div>
+ <div class="wz-tl-body">
+ <div class="wz-tl-title">Mise en relation</div>
+ <div class="wz-tl-hint">Sous 48h</div>
+ </div>
+ </div>
+ <div class="wz-tl-item">
+ <div class="wz-tl-dot wait">3</div>
+ <div class="wz-tl-body">
+ <div class="wz-tl-title">Début du chantier</div>
+ <div class="wz-tl-hint">Date à convenir avec l'artisan</div>
+ </div>
+ </div>
+ </div>
+
+ <button id="wz-cta1" class="mq-btn mq-primary" style="max-width:320px;width:100%">
+ Créer mon espace de suivi
+ </button>
+ <a href="./client-login.html" style="font-size:13px;color:var(--sub);font-weight:700">
+ J'ai déjà un compte
+ </a>
+ </div>
+
+ <!-- Étape 2 : lien magique + polling session -->
+ <div id="wz-step2" class="wz-step hidden">
+ <div style="width:64px;height:64px;border-radius:50%;background:#EBF7F1;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+ <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1A6B45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+ </div>
+ <p class="wz-title">Vérifiez votre boîte mail</p>
+ <p class="wz-sub">On a envoyé un lien de connexion sécurisé à :</p>
+ <span class="wz-email-pill" id="wz-email-display">votre email</span>
+
+ <p style="font-size:13px;color:var(--text);max-width:280px;line-height:1.6;margin:0">
+ Cliquez sur le lien dans l'email BatiSpot — vous serez redirigé vers votre espace de suivi.
+ </p>
+
+ <!-- Polling bar (indique qu'on attend la session) -->
+ <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+ <div class="wz-poll-bar"><div class="wz-poll-fill" id="wz-poll-fill"></div></div>
+ <span style="font-size:11px;color:var(--sub)" id="wz-poll-label">En attente de votre connexion…</span>
+ </div>
+
+ <div class="wz-tip">
+ <strong> Conseil :</strong> L'email arrive en quelques secondes. Si vous ne le voyez pas, vérifiez vos <strong>courriers indésirables</strong>.
+ </div>
+
+ <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+ <span style="font-size:12px;color:var(--sub)">Pas reçu ?</span>
+ <button id="wz-resend" class="wz-resend">Renvoyer le lien</button>
+ <span id="wz-resend-cd" style="font-size:11px;color:var(--sub);display:none"></span>
+ </div>
+
+ <a href="./client-login.html" class="mq-btn mq-ghost" style="max-width:300px;width:100%">
+ Se connecter manuellement
+ </a>
+ </div>
+
+ </div>
+
+ </div>
+
+ <template id="tpl-plus-icon">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+ </template>
+
+ <script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+ <script type="module">
+ import { supabase, toast, submitDemandeDevis, getSession } from './js/supabase.js';
+
+ const form = document.getElementById('demande-form');
+ const wizardArea = document.getElementById('wizard-area');
+ const submitBtn = document.getElementById('submit-btn');
+ const fileInput = document.getElementById('file-input-hidden');
+ const plusTpl = document.getElementById('tpl-plus-icon');
+
+ // Toggle .chip.active when radio changes (chips simulator)
+ function syncChipActive(group) {
+ const radios = form.querySelectorAll(`input[name="${group}"]`);
+ radios.forEach(r => {
+ const chip = r.nextElementSibling;
+ if (!chip) return;
+ if (r.checked) chip.classList.add('active');
+ else chip.classList.remove('active');
+ });
+ }
+ ['type_travaux', 'budget_estime', 'delai'].forEach(group => {
+ form.querySelectorAll(`input[name="${group}"]`).forEach(r => {
+ r.addEventListener('change', () => syncChipActive(group));
+ });
+ });
+
+ // ── Step Navigation Controller (Mobile Fluid Wizard) ──
+ const step1 = document.getElementById('form-step-1');
+ const step2 = document.getElementById('form-step-2');
+ const step3 = document.getElementById('form-step-3');
+ const stepTitleDisplay = document.getElementById('step-title-display');
+ const stepPctDisplay = document.getElementById('step-pct-display');
+ const stepProgressFill = document.getElementById('step-progress-fill');
+
+ function showStep(stepNum) {
+   step1.style.display = stepNum === 1 ? 'flex' : 'none';
+   step2.style.display = stepNum === 2 ? 'flex' : 'none';
+   step3.style.display = stepNum === 3 ? 'flex' : 'none';
+   
+   if (stepNum === 1) {
+     stepTitleDisplay.textContent = 'Étape 1 sur 3 · Votre projet';
+     stepPctDisplay.textContent = '33%';
+     stepProgressFill.style.width = '33%';
+   } else if (stepNum === 2) {
+     stepTitleDisplay.textContent = 'Étape 2 sur 3 · Budget & Délais';
+     stepPctDisplay.textContent = '66%';
+     stepProgressFill.style.width = '66%';
+   } else if (stepNum === 3) {
+     stepTitleDisplay.textContent = 'Étape 3 sur 3 · Vos coordonnées';
+     stepPctDisplay.textContent = '100%';
+     stepProgressFill.style.width = '100%';
+   }
+   window.scrollTo({ top: 0, behavior: 'smooth' });
+ }
+
+ document.getElementById('btn-goto-step2').addEventListener('click', () => {
+   // Le type de travaux n'est plus pre-coche : il faut donc le valider ici.
+   // Sans ce garde, on passerait a l'etape 2 et l'erreur ne tomberait qu'a
+   // l'envoi final, trois ecrans plus loin — au moment ou l'on abandonne.
+   const typeChoisi = form.querySelector('input[name="type_travaux"]:checked');
+   if (!typeChoisi) {
+     document.getElementById('chips-type').scrollIntoView({ behavior: 'smooth', block: 'center' });
+     toast('Choisissez le type de travaux.');
+     return;
+   }
+   const desc = document.getElementById('f-description');
+   const adr = document.getElementById('f-adresse');
+   const cp = document.getElementById('f-cp');
+   if (!desc.value.trim()) { desc.focus(); toast('Veuillez décrire brièvement vos travaux.'); return; }
+   if (!adr.value.trim()) { adr.focus(); toast('Veuillez indiquer votre adresse.'); return; }
+   if (!cp.value.trim() || !/^\d{5}$/.test(cp.value.trim())) { cp.focus(); toast('Code postal à 5 chiffres requis (ex: 75011).'); return; }
+   showStep(2);
+ });
+
+ document.getElementById('btn-back-step1').addEventListener('click', () => showStep(1));
+ document.getElementById('btn-goto-step3').addEventListener('click', () => showStep(3));
+ document.getElementById('btn-back-step2').addEventListener('click', () => showStep(2));
+
+ const selectedFiles = [];
+ function renderPhotos() {
+ for (let i = 0; i < 3; i++) {
+ const slot = document.getElementById('slot-' + i);
+ slot.replaceChildren();
+ if (selectedFiles[i]) {
+ const img = document.createElement('img');
+ img.src = URL.createObjectURL(selectedFiles[i]);
+ img.alt = 'Photo ' + (i + 1);
+ slot.appendChild(img);
+ const x = document.createElement('button');
+ x.type = 'button';
+ x.className = 'remove-x';
+ x.setAttribute('aria-label', 'Supprimer photo');
+ x.textContent = '×';
+ x.addEventListener('click', (ev) => {
+ ev.stopPropagation();
+ selectedFiles.splice(i, 1);
+ renderPhotos();
+ });
+ slot.appendChild(x);
+ } else {
+ slot.appendChild(plusTpl.content.cloneNode(true));
+ }
+ }
+ }
+ document.querySelectorAll('.photo-cell').forEach(cell => {
+ cell.addEventListener('click', () => {
+ const slotIdx = parseInt(cell.dataset.slot, 10);
+ if (selectedFiles[slotIdx]) return;
+ fileInput.click();
+ });
+ });
+ // Compression canvas si l'image fait > 1.5 MB (~ photo iPhone). Reduit l'upload
+ // depuis mobile lent : 8 MB → ~700 KB sans perte visible. Identique a la
+ // logique de uploadPhoto() dans supabase.js.
+ async function compressIfLarge(file, targetMaxBytes = 1_500_000, maxDim = 1920) {
+ if (!file || file.size <= targetMaxBytes) return file;
+ if (!file.type || !file.type.startsWith('image/')) return file;
+ if (file.type === 'image/heic') return file; // canvas ne lit pas HEIC
+ try {
+ const bitmap = await createImageBitmap(file);
+ const ratio = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+ const w = Math.round(bitmap.width * ratio);
+ const h = Math.round(bitmap.height * ratio);
+ const canvas = document.createElement('canvas');
+ canvas.width = w; canvas.height = h;
+ canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+ const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.82));
+ if (blob && blob.size < file.size) {
+ const newName = file.name.replace(/\.\w+$/, '') + '.jpg';
+ return new File([blob], newName, { type: 'image/jpeg' });
+ }
+ } catch (e) {
+ console.warn('[demande-devis compressIfLarge] echec, on garde le fichier brut', e);
+ }
+ return file;
+ }
+
+ fileInput.addEventListener('change', async (e) => {
+ const files = Array.from(e.target.files || []);
+ for (const f of files) {
+ if (selectedFiles.length >= 3) break;
+ // Compression eager : on stocke le fichier compressé pour gagner du temps a l'upload
+ try {
+ const compressed = await compressIfLarge(f);
+ selectedFiles.push(compressed);
+ } catch (_) {
+ selectedFiles.push(f);
+ }
+ }
+ e.target.value = '';
+ renderPhotos();
+ });
+
+ form.addEventListener('submit', async (e) => {
+ e.preventDefault();
+ submitBtn.disabled = true;
+ submitBtn.replaceChildren();
+ const sp = document.createElement('span'); sp.className = 'loading'; submitBtn.appendChild(sp);
+ try {
+ const typeRadio = form.querySelector('input[name="type_travaux"]:checked');
+ if (!typeRadio) {
+ toast('Sélectionnez un type de travaux', 'error');
+ submitBtn.disabled = false;
+ submitBtn.textContent = 'Envoyer ma demande';
+ return;
+ }
+ const budgetRadio = form.querySelector('input[name="budget_estime"]:checked');
+ const delaiRadio = form.querySelector('input[name="delai"]:checked');
+
+ const payload = {
+ client_name: document.getElementById('f-name').value.trim(),
+ client_email: document.getElementById('f-email').value.trim().toLowerCase(),
+ client_phone: document.getElementById('f-phone').value.trim() || null,
+ adresse: document.getElementById('f-adresse').value.trim(),
+ code_postal: document.getElementById('f-cp').value.trim(),
+ type_travaux: typeRadio.value,
+ description: document.getElementById('f-description').value.trim(),
+ budget_estime: (budgetRadio && budgetRadio.value) ? budgetRadio.value : null,
+ delai: (delaiRadio && delaiRadio.value) ? delaiRadio.value : null,
+ };
+
+ const turnstileToken = (window.bsTurnstile && window.bsTurnstile.getToken) ? window.bsTurnstile.getToken(form) : '';
+ const demande = await submitDemandeDevis(payload, turnstileToken);
+ if (window.fbq) fbq('track', 'Lead'); // conversion Meta Pixel
+
+ if (selectedFiles.length > 0 && demande && demande.id) {
+ try {
+ const config = window.__BATISPOT_CONFIG__ || {};
+ let uploaded = 0;
+ for (const file of selectedFiles) {
+ try {
+ const path = `demandes/${demande.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+ const res = await fetch(`${config.SUPABASE_URL}/storage/v1/object/artisan-docs/${path}`, {
+ method: 'POST',
+ headers: {
+ 'Authorization': `Bearer ${config.SUPABASE_ANON_KEY}`,
+ 'Content-Type': file.type || 'application/octet-stream',
+ 'x-upsert': 'true',
+ },
+ body: file,
+ });
+ if (res.ok) uploaded++;
+ } catch (photoErr) { console.warn('[photo upload]', photoErr); }
+ }
+ if (uploaded > 0) toast(`Photos jointes : ${uploaded}`, 'success');
+ } catch (e) { console.warn('[photos upload global]', e); }
+ }
+
+ try {
+ const typeLabel = {salle_bain:'Salle de bain',cuisine:'Cuisine',peinture:'Peinture / revêtements',plomberie:'Plomberie',electricite:'Électricité',toiture:'Toiture',facade:'Façade / ravalement',autre:'Autre'};
+ const budgetLabel = {'< 2000':'Moins de 2 000 €','2000-5000':'2 000 – 5 000 €','5000-10000':'5 000 – 10 000 €','10000-30000':'10 000 – 30 000 €','> 30000':'Plus de 30 000 €'};
+ const delaiLabel = {urgent:'Urgent (< 15 jours)','1_mois':'Dans le mois','3_mois':'Dans les 3 mois',pas_presse:'Pas pressé'};
+ const cfg = window.__BATISPOT_CONFIG__ || {};
+ await fetch(`${cfg.SUPABASE_URL}/functions/v1/notify-admin`, {
+ method: 'POST',
+ headers: {
+ 'apikey': cfg.SUPABASE_ANON_KEY,
+ 'authorization': `Bearer ${cfg.SUPABASE_ANON_KEY}`,
+ 'content-type': 'application/json',
+ },
+ body: JSON.stringify({
+ subject: `Nouvelle demande — ${typeLabel[payload.type_travaux] || payload.type_travaux} — ${payload.code_postal}`,
+ data: {
+ client_name: payload.client_name,
+ client_email: payload.client_email,
+ client_phone: payload.client_phone || '—',
+ travaux: typeLabel[payload.type_travaux] || payload.type_travaux,
+ adresse: `${payload.adresse} ${payload.code_postal}`,
+ budget: budgetLabel[payload.budget_estime] || '—',
+ delai: delaiLabel[payload.delai] || '—',
+ description: payload.description,
+ },
+ reply_to: payload.client_email,
+ }),
+ });
+
+ // Accusé de réception au CLIENT ("votre demande est bien reçue")
+ await fetch(`${cfg.SUPABASE_URL}/functions/v1/notify-client-received`, {
+ method: 'POST',
+ headers: {
+ 'apikey': cfg.SUPABASE_ANON_KEY,
+ 'authorization': `Bearer ${cfg.SUPABASE_ANON_KEY}`,
+ 'content-type': 'application/json',
+ },
+ body: JSON.stringify({
+ client_email: payload.client_email,
+ client_name: payload.client_name,
+ data: {
+ travaux: typeLabel[payload.type_travaux] || payload.type_travaux,
+ adresse: `${payload.adresse} ${payload.code_postal}`,
+ budget: budgetLabel[payload.budget_estime] || '—',
+ delai: delaiLabel[payload.delai] || '—',
+ },
+ }),
+ });
+ } catch (notifErr) { console.warn('[admin/client notif]', notifErr); }
+
+ // Si déjà connecté → rediriger directement sans OTP
+ const existingSession = await getSession();
+ if (existingSession) {
+ window.location.href = './client.html';
+ return;
+ }
+
+ const redirectTo = `${window.location.origin}/app/auth-callback.html?next=./client.html`;
+ // Meme widget que celui du formulaire de demande, reutilise pour ce
+ // deuxieme appel — Turnstile est verifie par Supabase Auth cote serveur.
+ const { error: otpErr } = await supabase.auth.signInWithOtp({
+ email: payload.client_email,
+ options: { emailRedirectTo: redirectTo, shouldCreateUser: true, captchaToken: turnstileToken },
+ });
+ if (otpErr) throw otpErr;
+
+ // Afficher le wizard
+ form.classList.add('hidden');
+ wizardArea.classList.remove('hidden');
+ startWizard(payload.client_email, payload.client_email);
+ } catch (err) {
+ console.error(err);
+ toast(err.message || 'Erreur lors de l\'envoi', 'error');
+ submitBtn.disabled = false;
+ submitBtn.textContent = 'Envoyer ma demande';
+ }
+ });
+
+ // ── Wizard logic ──────────────────────────────────────
+ let wizardEmail = '';
+
+ function startWizard(email) {
+ wizardEmail = email;
+
+ // Aller directement à l'étape email — pas besoin de clic intermédiaire
+ document.getElementById('wz-step1').classList.add('hidden');
+ document.getElementById('wz-step2').classList.remove('hidden');
+ startStep2(email);
+ }
+
+ function startStep2(email) {
+ document.getElementById('wz-email-display').textContent = email;
+
+ // Polling session : 60 tentatives × 1s = 1 minute
+ let attempts = 0;
+ const MAX = 60;
+ const fill = document.getElementById('wz-poll-fill');
+ const label = document.getElementById('wz-poll-label');
+
+ const poll = setInterval(async () => {
+ attempts++;
+ fill.style.width = `${Math.min(100, (attempts / MAX) * 100)}%`;
+ const session = await getSession();
+ if (session) {
+ clearInterval(poll);
+ label.textContent = 'Connecté ! Redirection…';
+ fill.style.width = '100%';
+ setTimeout(() => { window.location.href = './client.html'; }, 600);
+ return;
+ }
+ if (attempts >= MAX) {
+ clearInterval(poll);
+ label.textContent = 'Cliquez sur le lien dans votre email pour vous connecter.';
+ }
+ }, 1000);
+
+ // Bouton "Renvoyer le lien" avec countdown 60s
+ const resendBtn = document.getElementById('wz-resend');
+ const resendCd = document.getElementById('wz-resend-cd');
+ let cdLeft = 0;
+
+ function startCountdown(secs) {
+ cdLeft = secs;
+ resendBtn.disabled = true;
+ resendCd.style.display = 'block';
+ const cdTimer = setInterval(() => {
+ cdLeft--;
+ resendCd.textContent = `Disponible dans ${cdLeft}s`;
+ if (cdLeft <= 0) {
+ clearInterval(cdTimer);
+ resendBtn.disabled = false;
+ resendCd.style.display = 'none';
+ }
+ }, 1000);
+ }
+
+ // Désactiver 30s dès l'affichage (OTP vient d'être envoyé)
+ startCountdown(30);
+
+ resendBtn.addEventListener('click', async () => {
+ try {
+ const redirectTo = `${window.location.origin}/app/auth-callback.html?next=./client.html`;
+ const { error } = await supabase.auth.signInWithOtp({
+ email,
+ options: { emailRedirectTo: redirectTo, shouldCreateUser: true },
+ });
+ if (error) throw error;
+ toast('Lien renvoyé !', 'success');
+ startCountdown(60);
+ } catch (e) {
+ toast(e.message || 'Erreur lors du renvoi', 'error');
+ }
+ });
+ }
+ </script>
+ <script src="/js/update-detector.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,2477 @@
+/* ── Inter, hébergée ici (05/09/2026) ─────────────────────────────────
+   Retour Moctar : « on n'a pas les mêmes polices partout dans l'app ».
+   Cause : Inter venait de Google Fonts à chaque page et le service worker
+   ne la mettait jamais en cache ; sur une 4G faible ou hors ligne, certains
+   écrans retombaient sur la police système. Fichiers dans app/fonts/,
+   pré-cachés par sw.js. Une seule déclaration, variable 400 → 900. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* (05/09/2026) Manrope retirée : une seule police dans l'appli, Inter, hébergée ici. */
+/* BatiSpot App — PWA suivi de chantier
+   v2 — alignée design system Claude Design (palette #1A6B45 / charte client unifiée)
+   Le teal #0A7265 reste pour les CTA (différenciation pro) */
+
+:root {
+  /* Palette principale : Fond à majorité blanc pur #FFFFFF */
+  --bg: #F4F7F5;
+  --white: #FFFFFF;
+  --text: #1C2B22;
+  --sub: #3D5A4E;
+  --muted: #5A7268;
+  --border: #DCE6E0;
+  --border-soft: #E6EDE9;
+
+  /* Touches Vert Forêt & Émeraude de marque — réalignées charte #228B5B (03/09/2026) */
+  --g1: #228B5B;          /* vert forêt noble — boutons, accents, validation */
+  --g2: #2E9E6E;          /* vert émeraude (ex-turquoise #0D9488) */
+  --g3: #3FB27F;          /* vert vif */
+  --g4: #5BC392;
+  --g-soft: #F0FDF4;      /* fond très doux pour badges/chips */
+  --g-cream: #FFFFFF;     /* blanc pur pour cartes */
+
+  /* Teal CTA (action principale) */
+  --t1: #1B7049;          /* vert hover — charte foncie */
+  --t2: #228B5B;          /* vert CTA */
+  --t3: #2E9E6E;
+  --t-soft: #F0FDF4;
+
+  /* Status */
+  --danger: #DC2626;
+  /* ⚠️ CORRIGE LE 02/09/2026 — la couleur d'AVERTISSEMENT etait le vert de la
+     MARQUE. Un artisan ne pouvait donc pas distinguer « attention » de « c'est
+     bon » : c'etait exactement le meme vert. Le fond de l'icone d'alerte
+     (.notif-row-icon.warn) etait pourtant deja ambre — seul le texte etait
+     reste vert, ce qui trahit une erreur de saisie, pas un choix.
+     #B45309 : ambre foncé, 5,02:1 sur blanc, donc conforme AA en texte normal
+     — contre 4,28:1 pour l'ancien, qui echouait. */
+  --warn: #B45309;
+  /* 3,30:1 sur blanc : sous le seuil AA de 4,5. #1B7049 (charte foncie, 03/09/2026)
+     tient 6,07:1 sur blanc — meme exigence de lisibilite plein soleil, aligne
+     sur --t1/--g-deep. */
+  --ok: #1B7049;
+  --info: #2563EB;
+
+  /* Radius modernes et élégants */
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 18px;
+
+  /* Shadows douces et subtiles */
+  --shadow: 0 2px 10px rgba(0, 0, 0, .04);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, .07);
+
+  /* Type scale */
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-base: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-2xl: 28px;
+
+  /* iOS safe area */
+  --safe-top: env(safe-area-inset-top, 0);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
+
+  /* Hauteur réelle de la barre de navigation du bas (.bn/.bottom-nav,
+     règle !important plus bas dans ce fichier : height:60px, box-sizing
+     border-box — la safe-area y est déjà absorbée). Sert de repère aux
+     écrans de fil (mq-compose) pour rester juste au-dessus, jamais dessous
+     ni avec un grand vide. */
+  --bn-h: 60px;
+}
+
+/* ──────────────────────────────────────────────────────
+   Composants Claude Design — chips multi-select
+   Utilisé sur inscription-pro.html (métiers + zones IDF)
+   ────────────────────────────────────────────────────── */
+.chip-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid #D1E7DB;
+  color: var(--sub);
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .15s ease;
+  user-select: none;
+}
+.chip:hover {
+  border-color: var(--g3);
+  background: var(--g-cream);
+  color: var(--g1);
+}
+.chip.active {
+  background: var(--g1);
+  border-color: var(--g1);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(26,107,69,.18);
+}
+.chip.active::before {
+  content: '✓';
+  font-weight: 900;
+  margin-right: 2px;
+  font-size: 12px;
+}
+.chip:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.chip:disabled:hover {
+  border-color: #D1E7DB;
+  background: #fff;
+  color: var(--sub);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+a { color: var(--t2); text-decoration: none; }
+a:hover { color: var(--t1); text-decoration: underline; }
+
+button { font-family: inherit; font-size: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; font-size: inherit; color: var(--text); }
+
+/* ── Layout ── */
+
+.app-shell { max-width: 720px; margin: 0 auto; min-height: 100vh; background: var(--white); box-shadow: 0 0 0 1px var(--border-soft); }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; background: var(--g1); color: var(--white);
+  position: sticky; top: var(--safe-top); z-index: 10;
+}
+.topbar h1 { font-size: var(--fs-lg); font-weight: 800; letter-spacing: -.01em; }
+.topbar .brand { display: flex; align-items: center; gap: 10px; }
+.topbar .brand-mark { width: 28px; height: 28px; border-radius: 6px; display: block; }
+.brand-mark { display: inline-block; border-radius: 10px; object-fit: contain; background: transparent; }
+.topbar .topbar-actions { display: flex; gap: 8px; }
+
+.container { padding: 18px; }
+.section { margin-bottom: 28px; }
+
+.page-title { font-size: var(--fs-2xl); font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+.page-sub { color: var(--sub); font-size: var(--fs-sm); margin-bottom: 22px; }
+
+/* ── Cards ── */
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.card + .card { margin-top: 12px; }
+.card-title { font-size: var(--fs-lg); font-weight: 700; margin-bottom: 4px; }
+.card-sub { color: var(--sub); font-size: var(--fs-sm); }
+
+/* ── Buttons ── */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 18px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: var(--fs-base);
+  transition: background .15s, transform .05s;
+  min-height: 44px; /* tap target */
+  user-select: none;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--t2); color: var(--white); }
+.btn-primary:hover { background: var(--t1); }
+.btn-secondary { background: var(--g-soft); color: var(--g1); }
+.btn-secondary:hover { background: var(--t-soft); }
+.btn-ghost { background: transparent; color: var(--t2); }
+.btn-ghost:hover { background: var(--t-soft); }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-danger:hover { background: #b91c1c; }
+.btn-block { width: 100%; }
+.btn-sm { padding: 6px 12px; font-size: var(--fs-sm); min-height: 44px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Forms ── */
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: var(--fs-sm); font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.form-control {
+  width: 100%; padding: 11px 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-base);
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-control:focus {
+  outline: none;
+  border-color: var(--t2);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, .12);
+}
+textarea.form-control { min-height: 90px; resize: vertical; }
+.form-hint { color: var(--muted); font-size: var(--fs-xs); margin-top: 4px; }
+.form-error { color: var(--danger); font-size: var(--fs-sm); margin-top: 6px; }
+
+/* ── Status badges ── */
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: var(--fs-xs); font-weight: 600;
+  background: var(--g-soft); color: var(--g1);
+}
+.badge.status-en_cours { background: #DBEAFE; color: #1E40AF; }
+.badge.status-en_attente { background: #F3F4F6; color: #4B5563; }
+.badge.status-retard { background: #FEE2E2; color: #991B1B; }
+.badge.status-termine { background: #DCFCE7; color: #166534; }
+/* Statuts demandes_devis */
+.badge.status-nouvelle { background: #DBEAFE; color: #1E40AF; }
+.badge.status-en_traitement { background: #EBF7F1; color: #1A6B45; }
+.badge.status-matchee { background: #DCFCE7; color: #166534; }
+.badge.status-chantier_cree { background: #DCFCE7; color: #166534; }
+.badge.status-abandonnee { background: #F3F4F6; color: #6B7280; }
+/* Statuts artisan_leads */
+.badge.status-actif { background: #DCFCE7; color: #166534; }
+.badge.status-documents_valides { background: #CCFBF1; color: #0F766E; }
+.badge.status-refuse { background: #FEE2E2; color: #991B1B; }
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ── Chantier list item ── */
+
+.chantier-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  transition: transform .1s, box-shadow .15s;
+  cursor: pointer;
+}
+.chantier-item:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.chantier-item .info { flex: 1; min-width: 0; }
+.chantier-item h3 { font-size: var(--fs-base); font-weight: 700; margin-bottom: 2px; }
+.chantier-item .meta { color: var(--sub); font-size: var(--fs-sm); }
+
+/* ── Empty state ── */
+.empty {
+  text-align: center; padding: 48px 20px;
+  color: var(--sub);
+}
+.empty h3 { font-size: var(--fs-lg); font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.empty p { font-size: var(--fs-sm); margin-bottom: 18px; }
+
+/* ── Toasts ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--g1); color: var(--white);
+  padding: 12px 20px; border-radius: var(--radius);
+  font-size: var(--fs-sm); font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  animation: toastIn .2s ease-out;
+}
+.toast.error { background: var(--danger); }
+.toast.success { background: var(--ok); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ── Photos grid ── */
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+.photo-tile {
+  position: relative; aspect-ratio: 1 / 1; border-radius: var(--radius-sm);
+  overflow: hidden; background: var(--border-soft); cursor: pointer;
+}
+.photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-tile .caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 6px 8px; background: linear-gradient(transparent, rgba(0,0,0,.6));
+  color: var(--white); font-size: var(--fs-xs);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.photo-tile .remove-btn {
+  position: absolute; top: 4px; right: 4px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(0,0,0,.6); color: var(--white);
+  display: grid; place-items: center; font-size: 14px;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--border);
+  margin-bottom: 18px; overflow-x: auto;
+}
+.tab {
+  padding: 10px 16px; font-size: var(--fs-sm); font-weight: 600;
+  color: var(--sub); border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+.tab.active { color: var(--t2); border-bottom-color: var(--t2); }
+
+/* ── Messages ── */
+.msg-list { display: flex; flex-direction: column; gap: 10px; }
+.msg {
+  max-width: 80%; padding: 10px 14px;
+  border-radius: 14px;
+  font-size: var(--fs-sm);
+  word-wrap: break-word;
+}
+.msg .author { font-size: var(--fs-xs); color: var(--sub); margin-bottom: 3px; font-weight: 600; }
+.msg .time { font-size: var(--fs-xs); color: var(--muted); margin-top: 3px; }
+.msg.from-pro { align-self: flex-end; background: var(--t-soft); color: var(--g1); border-bottom-right-radius: 4px; }
+.msg.from-client { align-self: flex-start; background: var(--border-soft); color: var(--text); border-bottom-left-radius: 4px; }
+
+.msg-compose {
+  display: flex; gap: 8px; margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid var(--border-soft);
+}
+.msg-compose textarea { flex: 1; min-height: 44px; }
+
+/* ── Loading ── */
+.loading {
+  display: inline-block; width: 18px; height: 18px;
+  border: 2.5px solid var(--border); border-top-color: var(--t2);
+  border-radius: 50%; animation: spin .6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-center { display: grid; place-items: center; padding: 48px; color: var(--sub); }
+
+/* ── Modal léger ── */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 81, 50, .5);
+  display: grid; place-items: center; padding: 20px; z-index: 100;
+  animation: fadeIn .15s;
+}
+.modal {
+  background: var(--white); border-radius: var(--radius-lg);
+  width: 100%; max-width: 480px;
+  max-height: 90vh; overflow-y: auto;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+}
+.modal h2 { font-size: var(--fs-xl); font-weight: 800; margin-bottom: 16px; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── FAB ── */
+.fab {
+  position: fixed; bottom: calc(20px + var(--safe-bottom)); right: 20px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--t2); color: var(--white);
+  display: grid; place-items: center;
+  font-size: 28px; font-weight: 300;
+  box-shadow: var(--shadow-lg);
+  z-index: 20;
+}
+.fab:hover { background: var(--t1); }
+
+/* ── Client view ── */
+.client-hero {
+  padding: 28px 22px;
+  background: linear-gradient(135deg, var(--g1) 0%, var(--t1) 100%);
+  color: var(--white);
+}
+.client-hero h1 { font-size: var(--fs-2xl); font-weight: 800; margin-bottom: 4px; }
+.client-hero .sub { opacity: .9; font-size: var(--fs-sm); }
+
+/* ── Utils ── */
+.text-sub { color: var(--sub); }
+.text-muted { color: var(--muted); }
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; } .mb-16 { margin-bottom: 16px; } .mb-24 { margin-bottom: 24px; }
+.hidden { display: none !important; }
+.row { display: flex; align-items: center; gap: 10px; }
+.row-between { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+@media (max-width: 480px) {
+  .container { padding: 14px; }
+  .page-title { font-size: 24px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CLAUDE DESIGN — Composants PWA artisan
+   Ajouts additifs : tous les selectors existants restent valides.
+   ═══════════════════════════════════════════════════════════ */
+
+/* — Bande gradient (top of every card/header) — */
+.gradient-band {
+  height: 4px;
+  background: linear-gradient(90deg, #1A6B45 0%, #228B5B 50%, #4CAF82 100%);
+}
+.gradient-band-thin { height: 3px; }
+.gradient-band-thick { height: 6px; }
+
+/* — Header sombre branded (dashboard, profil) — */
+.app-header-dark {
+  background: var(--g1);
+  color: var(--white);
+  padding-top: var(--safe-top);
+}
+.app-header-dark .ah-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+.app-header-dark .ah-icon-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 6px;
+  cursor: pointer;
+  position: relative;
+}
+.app-header-dark .ah-icon-btn .ah-bell-count {
+  position: absolute;
+  top: 2px; right: 2px;
+  min-width: 16px; height: 16px;
+  background: #228B5B;
+  color: #FFFFFF;
+  font-size: 10px; font-weight: 800;
+  border-radius: 999px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--g1);
+}
+.app-header-dark .ah-greeting {
+  padding: 0 20px 18px;
+}
+.app-header-dark .ah-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.85;
+  letter-spacing: -0.01em;
+}
+.app-header-dark .ah-title {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+/* — Header clair (sous-pages) — */
+.app-header-light {
+  background: var(--white);
+  border-bottom: 1px solid var(--border-soft);
+  padding-top: var(--safe-top);
+}
+.app-header-light .ah-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.app-header-light .ah-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--text);
+}
+.app-header-light .ah-step {
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 600;
+}
+.app-header-light .ah-step-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.app-header-light .ah-progress {
+  height: 4px;
+  background: var(--border-soft);
+  position: relative;
+}
+.app-header-light .ah-progress-fill {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--g1), var(--g3));
+}
+
+/* — Métier badge (catégorie colorée) — */
+.metier-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--border-soft);
+  color: var(--sub);
+}
+.metier-badge[data-metier="Plomberie"]    { background: #DBEAFE; color: #1E40AF; }
+.metier-badge[data-metier="Électricité"]  { background: #EBF7F1; color: #1A6B45; }
+.metier-badge[data-metier="Maçonnerie"]   { background: #E5E7EB; color: #374151; }
+.metier-badge[data-metier="Menuiserie"]   { background: #FED7AA; color: #9A3412; }
+.metier-badge[data-metier="Couverture"]   { background: #DDD6FE; color: #5B21B6; }
+.metier-badge[data-metier="Peinture"]     { background: #FBCFE8; color: #9D174D; }
+.metier-badge[data-metier="Cuisine"]      { background: #FED7AA; color: #9A3412; }
+.metier-badge[data-metier="Énergie"]      { background: #DBEAFE; color: #1E40AF; }
+.metier-badge[data-metier="DPE"]          { background: #EBF7F1; color: #1A6B45; }
+
+/* — Status pill (Nouveau, En attente, Validé…) — */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.status-pill::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.status-pill.s-new       { background: #EBF7F1; color: #1A6B45; }
+.status-pill.s-pending   { background: #DBEAFE; color: #1E40AF; }
+.status-pill.s-accepted  { background: #D1FAE5; color: #065F46; }
+.status-pill.s-inprogress{ background: #EBF7F1; color: #854D0E; }
+.status-pill.s-validated { background: #D1FAE5; color: #065F46; }
+.status-pill.s-refused   { background: #FEE2E2; color: #991B1B; }
+.status-pill.s-urgent    { background: #FEE2E2; color: #991B1B; }
+
+/* — Chantier card riche (feed dashboard) — */
+.chantier-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 1px 3px rgba(15,31,23,.04);
+  cursor: pointer;
+  transition: transform .12s, box-shadow .15s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.chantier-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,107,69,.10);
+}
+.chantier-card-body {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+}
+.chantier-card-thumb {
+  width: 88px; height: 88px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: var(--border-soft) center/cover;
+  display: grid;
+  place-items: center;
+  color: var(--g3);
+  font-size: 28px;
+  font-weight: 900;
+}
+.chantier-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chantier-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.chantier-card-title {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.chantier-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sub);
+  font-size: 13px;
+  font-weight: 500;
+}
+.chantier-card-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+}
+.chantier-card-budget {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.chantier-card-budget strong {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--g1);
+  letter-spacing: -0.02em;
+}
+.chantier-card-budget span {
+  font-size: 12px;
+  color: var(--sub);
+  font-weight: 600;
+}
+.chantier-card-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sub);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* — Filter chips (horizontal scroll) — */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-soft);
+}
+.filter-chips::-webkit-scrollbar { display: none; }
+.filter-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--text);
+  border: 1.5px solid var(--border-soft);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -0.01em;
+  transition: all .15s;
+}
+.filter-chip:hover {
+  border-color: var(--g3);
+  background: var(--g-cream);
+}
+.filter-chip.active {
+  background: var(--g1);
+  color: var(--white);
+  border-color: var(--g1);
+}
+.filter-chip-count {
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+/* — Section label (Disponibles · 4) — */
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--sub);
+  text-transform: uppercase;
+  margin: 4px 0 8px;
+}
+
+/* — Document upload row (statuts) — */
+.doc-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 14px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform .1s, box-shadow .15s;
+}
+.doc-row:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+.doc-row.s-pending  { background: var(--bg); border-color: var(--border-soft); }
+.doc-row.s-uploaded { background: #EBF7F1; border-color: #D3E3DA; }
+.doc-row.s-validated{ background: #D1FAE5; border-color: #A7F3D0; }
+.doc-row.s-rejected { background: #FEE2E2; border-color: #FECACA; }
+.doc-row-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid var(--border-soft);
+  color: var(--sub);
+  font-size: 22px;
+}
+.doc-row.s-validated .doc-row-icon {
+  background: var(--ok);
+  color: var(--white);
+  border: none;
+}
+.doc-row.s-uploaded .doc-row-icon { color: #1A6B45; border-color: #D3E3DA; }
+.doc-row.s-rejected .doc-row-icon { color: var(--danger); border-color: #FECACA; }
+.doc-row-info { flex: 1; min-width: 0; }
+.doc-row-label {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.doc-row-status {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.doc-row.s-pending  .doc-row-status { color: var(--sub); }
+.doc-row.s-uploaded .doc-row-status { color: #1A6B45; }
+.doc-row.s-validated.doc-row-status,
+.doc-row.s-validated .doc-row-status { color: #065F46; }
+.doc-row.s-rejected .doc-row-status { color: #991B1B; }
+.doc-row-chevron {
+  color: var(--sub);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* — KPI grid (mini stats) — */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.kpi-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid var(--border-soft);
+}
+.kpi-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.kpi-card-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--g1);
+  letter-spacing: -0.025em;
+  margin-top: 6px;
+}
+.kpi-card-trend {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.kpi-card-trend.up   { color: var(--ok); }
+.kpi-card-trend.down { color: var(--danger); }
+.kpi-card-trend.flat { color: var(--sub); }
+
+/* — Detail card (fiche chantier sections) — */
+.detail-grid {
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  border: 1px solid var(--border-soft);
+}
+.detail-grid-cell-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.detail-grid-cell-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 4px;
+}
+.detail-grid-cell-value.highlight {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--g1);
+  letter-spacing: -0.02em;
+  margin-top: 2px;
+}
+
+/* — Avatar circle — */
+.avatar {
+  border-radius: 999px;
+  background: var(--g3);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.avatar-sm { width: 32px; height: 32px; font-size: 13px; }
+.avatar-md { width: 44px; height: 44px; font-size: 16px; }
+.avatar-lg { width: 64px; height: 64px; font-size: 22px; border: 3px solid rgba(255,255,255,0.2); }
+
+/* — Footer CTA (sticky bas de page sous-pages) — */
+.footer-cta {
+  position: sticky;
+  bottom: 0;
+  padding: 14px 16px calc(14px + var(--safe-bottom));
+  background: var(--white);
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  gap: 10px;
+}
+
+/* — Hero image header (fiche chantier) — */
+.hero-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.hero-image::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(15,31,23,0.55) 0%, transparent 40%, rgba(15,31,23,0.5) 100%);
+}
+.hero-image-img {
+  position: absolute; inset: 0;
+  background: var(--g2) center/cover;
+}
+.hero-image-back {
+  position: absolute;
+  top: calc(8px + var(--safe-top));
+  left: 14px;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 20px;
+  z-index: 2;
+}
+.hero-image-tags {
+  position: absolute;
+  top: calc(8px + var(--safe-top));
+  right: 14px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.hero-image-bottom {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+.hero-content {
+  background: var(--white);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-top: -16px;
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+/* — Bottom nav (4 onglets) — */
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(255,255,255,0.94);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--border-soft);
+  padding: 8px 0 calc(8px + var(--safe-bottom));
+  display: flex;
+  z-index: 5;
+}
+.bottom-nav-item {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--sub);
+  padding: 6px 0;
+  position: relative;
+  text-decoration: none;
+}
+.bottom-nav-item.active { color: var(--g1); }
+.bottom-nav-item .bn-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+.bottom-nav-item .bn-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.bottom-nav-item.active .bn-label { font-weight: 700; }
+.bottom-nav-item .bn-badge {
+  position: absolute;
+  top: 2px; right: 50%;
+  transform: translateX(16px);
+  min-width: 16px; height: 16px;
+  padding: 0 4px;
+  background: var(--danger);
+  color: var(--white);
+  font-size: 10px; font-weight: 800;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+}
+
+/* — Tags onboarding (essai gratuit) — */
+.pill-on-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(252,211,77,0.18);
+  color: #228B5B;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.pill-on-dark::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: #228B5B;
+  border-radius: 999px;
+}
+
+/* — Buttons large (Claude Design size: lg) — */
+.btn-lg {
+  height: 60px;
+  padding: 0 22px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 14px;
+  letter-spacing: -0.01em;
+}
+.btn-yellow {
+  background: #228B5B;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(252,211,77,.4);
+}
+.btn-yellow:hover { background: #1A6B45; }
+.btn-dark {
+  background: var(--g1);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(15,81,50,.32);
+}
+.btn-dark:hover { background: #0F4A2F; }
+
+/* — Notification list item — */
+.notif-row {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  position: relative;
+  background: var(--white);
+}
+.notif-row.unread { background: #F0FDF4; }
+.notif-row.unread::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 22px;
+  width: 6px; height: 6px;
+  background: var(--t2);
+  border-radius: 999px;
+}
+.notif-row-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: rgba(26,107,69,0.10);
+  color: var(--g1);
+}
+.notif-row-icon.success { background: rgba(22,163,74,0.10); color: var(--ok); }
+.notif-row-icon.info    { background: rgba(37,99,235,0.10); color: var(--info); }
+.notif-row-icon.warn    { background: rgba(245,158,11,0.10); color: var(--warn); }
+.notif-row-info { flex: 1; min-width: 0; }
+.notif-row-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.notif-row-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.notif-row-time {
+  font-size: 11px;
+  color: var(--sub);
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.notif-row-body {
+  font-size: 13px;
+  color: var(--sub);
+  font-weight: 500;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* — Espace bottom-nav (compense la hauteur sticky) — */
+.bn-spacer { height: 80px; }
+
+/* ═══════════════════════════════════════════════════════════
+   CLAUDE DESIGN V3 — Composants additifs
+   Source : social/claude_design_export/v3_scraped/css/app.css
+   Aucun selector existant écrasé — convivez avec les classes V2.
+   ═══════════════════════════════════════════════════════════ */
+
+/* — Tokens V3 supplémentaires — */
+:root {
+  --g-deep: #1B7049;          /* header dark V3 — aligné charte 03/09/2026 : 6,07:1
+     sur blanc (>4,5 AA), le 0F5132 n'était plus requis par le contraste. Token
+     non consommé (aucun var(--g-deep) dans app.css ni les pages), risque nul. */
+  --g4-cta-hover: #166534;    /* CTA hover/pressed V3 */
+
+  /* Métiers color-coded (V3) */
+  --m-plomberie: #2563EB;
+  --m-elec: #228B5B;
+  --m-maconnerie: #6B7280;
+  --m-cuisine: #EA580C;
+  --m-couverture: #7C3AED;
+  --m-peinture: #DB2777;
+  --m-energie: #0891B2;
+  --m-dpe: #1A6B45;
+
+  /* Statuts (V3) */
+  --status-new: #228B5B;
+  --status-pending: #3B82F6;
+  --status-accepted: #22C55E;
+  --status-inprogress: #228B5B;
+  --status-validated: #15803D;
+  --status-refused: #EF4444;
+  --status-urgent: #DC2626;
+
+  /* A11y floors — gants / plein soleil */
+  --tap-min: 48px;
+  --body-min: 16px;
+
+  /* Spacing scale 4px V3 */
+  --s-1: 4px;  --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
+  --s-5: 20px; --s-6: 24px;  --s-8: 32px;  --s-10: 40px;
+  --s-12: 48px;
+}
+
+/* — Theme variants V3 (dark + high-contrast plein soleil) — */
+[data-theme="dark"] {
+  --bg: #0a1612;
+  --white: #111e18;
+  --text: #E6F0EA;
+  --sub: #9DB5A8;
+  --muted: #6B7F73;
+  --border-soft: #1f2e26;
+}
+[data-contrast="high"] {
+  --text: #000;
+  --sub: #1C2B22;
+  --border-soft: #1C2B22;
+  --shadow: 0 4px 16px rgba(0,0,0,.20);
+}
+
+/* — Tap targets minimaux (a11y) — */
+.tap-min { min-height: var(--tap-min); }
+
+/* — Generic Card BEM (V3) — coexiste avec .card existant — */
+.card-bem {
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.card-bem--lift { box-shadow: var(--shadow); border: none; }
+.card-bem__header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-bem__label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+.card-bem__body { padding: 16px; }
+
+/* — Field BEM (form, V3) — pour pages V3-style sans toucher .form-control — */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.field__hint { font-size: 12px; color: var(--sub); }
+.field__input,
+.field__textarea,
+.field__select {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 14px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--text);
+  transition: border-color 120ms;
+}
+.field__input:focus,
+.field__textarea:focus,
+.field__select:focus {
+  outline: none;
+  border-color: var(--g2);
+}
+.field__textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════
+   HOT LEAD CARD — Demandes entrantes en hero (ROI #1 du 39€)
+   Animation pulse rouge pour attirer l'œil de l'artisan en chantier.
+   ═══════════════════════════════════════════════════════════ */
+.hot-lead {
+  position: relative;
+  background: linear-gradient(180deg, #FFF1F0 0%, #FFFFFF 60%);
+  border: 2px solid #FCA5A5;
+  border-radius: 16px;
+  padding: 16px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.hot-lead::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #DC2626 0%, #F97316 100%);
+}
+.hot-lead__count-badge {
+  position: absolute; top: 14px; right: 14px;
+  min-width: 28px; height: 28px; padding: 0 8px;
+  border-radius: 999px;
+  background: #DC2626;
+  color: #fff;
+  font-size: 13px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(220,38,38,.4);
+  animation: hot-pulse 2s ease-in-out infinite;
+}
+@keyframes hot-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+.hot-lead__eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: #DC2626;
+}
+.hot-lead__eyebrow-dot {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: #DC2626;
+  animation: hot-pulse 1.4s ease-in-out infinite;
+}
+.hot-lead__title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-top: 8px;
+}
+.hot-lead__sub { font-size: 14px; color: var(--sub); margin-top: 4px; }
+.hot-lead__list { display: grid; gap: 8px; margin-top: 12px; }
+.hot-lead__item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px;
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  min-height: var(--tap-min);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 120ms;
+}
+.hot-lead__item:hover { border-color: var(--g3); }
+.hot-lead__item-meta { flex: 1; min-width: 0; }
+.hot-lead__item-title { font-size: 14px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+.hot-lead__item-loc { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.hot-lead__item-fresh {
+  font-size: 11px; font-weight: 800;
+  color: #DC2626;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INSTALL PROMPT — PWA install (iOS / Android)
+   ═══════════════════════════════════════════════════════════ */
+.install-prompt {
+  position: fixed;
+  left: 12px; right: 12px; bottom: 12px;
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(26,107,69,.12);
+  padding: 16px;
+  display: flex; gap: 12px;
+  z-index: 100;
+  animation: install-slide-up 320ms cubic-bezier(.2,.8,.2,1);
+}
+@keyframes install-slide-up {
+  from { transform: translateY(120%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.install-prompt__icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  background: var(--g1);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(26,107,69,.32);
+}
+.install-prompt__body { flex: 1; min-width: 0; }
+.install-prompt__title {
+  font-size: 15px; font-weight: 800; color: var(--text);
+  letter-spacing: -0.01em;
+}
+.install-prompt__text {
+  font-size: 13px; color: var(--sub); margin-top: 2px;
+  line-height: 1.4;
+}
+.install-prompt__steps {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--g-cream);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.install-prompt__steps strong { color: var(--g1); font-weight: 800; }
+.install-prompt__actions { display: flex; gap: 8px; margin-top: 12px; }
+.install-prompt__close {
+  position: absolute; top: 10px; right: 10px;
+  width: 32px; height: 32px; border-radius: 999px;
+  border: none; background: var(--border-soft);
+  color: var(--sub);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.install-prompt--ios { padding-right: 40px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RGE CARD — Certifications (QualiPV, QualiPAC, QualiBat, Qualifelec)
+   Card avec icône Lucide qui colle au métier (sun/thermometer/building/zap).
+   ═══════════════════════════════════════════════════════════ */
+.rge-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--white);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 120ms, background 120ms;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+}
+.rge-card:hover { border-color: var(--g3); }
+.rge-card--active { border-color: var(--g1); background: var(--g-cream); }
+.rge-card__icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.rge-card__icon--pv  { background: #EBF7F1; color: #087F45; }   /* QualiPV — soleil */
+.rge-card__icon--pac { background: #DBEAFE; color: #1E40AF; }   /* QualiPAC — thermomètre */
+.rge-card__icon--bat { background: var(--border-soft); color: var(--sub); } /* QualiBat — building */
+.rge-card__icon--elec{ background: #EBF7F1; color: #1A6B45; }   /* Qualifelec — zap */
+.rge-card__body { flex: 1; min-width: 0; }
+.rge-card__name { font-size: 14px; font-weight: 800; color: var(--text); }
+.rge-card__desc { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.rge-card__check {
+  width: 22px; height: 22px;
+  border-radius: 999px;
+  border: 2px solid var(--border-soft);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white);
+  color: transparent;
+}
+.rge-card--active .rge-card__check {
+  background: var(--g1); border-color: var(--g1); color: #fff;
+}
+
+/* — Helper pour utiliser les icônes du sprite (<svg class="i"><use href="/app/icons/icons.svg#name"/></svg>) — */
+.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.i-sm { width: 16px; height: 16px; }
+.i-lg { width: 28px; height: 28px; }
+.i-xl { width: 40px; height: 40px; }
+
+/* ──────────────────────────────────────────────────────
+   Design BatiSpot Pro — Pure White & High Contrast
+   Garantit une interface à majorité blanc pur #FFFFFF
+   avec touches de vert noble #0F5132 et lisibilité maximale
+   ────────────────────────────────────────────────────── */
+body, .phone-screen, .app-shell, .scr-body {
+  background-color: #FFFFFF !important;
+  color: #1C2B22 !important;
+}
+
+.card, .devis-card, .sim-card, .scr-empty, .skel-card {
+  background: #FFFFFF !important;
+  color: #1C2B22 !important;
+  border-color: #E7EEEA !important;
+}
+
+.skel-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E7EEEA !important;
+}
+.skel-line {
+  background: #E7EEEA !important;
+}
+
+.f-input, input, textarea, select {
+  background: #FFFFFF !important;
+  color: #1C2B22 !important;
+  border-color: #D3E3DA !important;
+}
+
+.chip {
+  background: #FFFFFF !important;
+  border-color: #D3E3DA !important;
+  color: #3D5A4E !important;
+}
+
+.chip.active {
+  background: #228B5B !important;
+  border-color: #228B5B !important;
+  color: #FFFFFF !important;
+}
+
+.bn, .bottom-nav {
+  position: sticky !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 480px !important;      /* aligne la nav sur la colonne .phone-screen */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  /* iPhone (05/09, Moctar : « le bandeau du bas… ») : la zone sûre du bas était
+     ABSORBÉE dans les 60 px (box-sizing border-box + padding-bottom) et
+     écrasait icônes et libellés. Même correctif que .sv-bn : on l'AJOUTE. */
+  /* Le vide sous les libellés = zone du trait d'accueil iPhone ; on n'en garde
+     que ce qu'il faut pour ne pas déclencher le geste (≈ 2/3 de la zone). */
+  height: calc(58px + env(safe-area-inset-bottom, 0px) * 0.66) !important;
+  min-height: calc(58px + env(safe-area-inset-bottom, 0px) * 0.66) !important;
+  max-height: calc(58px + env(safe-area-inset-bottom, 0px) * 0.66) !important;
+  background: #FFFFFF !important;
+  border-top: 1.5px solid #E7EEEA !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 0 6px calc(env(safe-area-inset-bottom, 0px) * 0.66) !important;
+  margin-top: auto !important;
+  z-index: 50 !important;
+  box-sizing: border-box !important;
+}
+
+.bn-i, .bottom-nav-item {
+  position: relative !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  height: 52px !important;
+  max-height: 52px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #5A7268 !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  background: none !important;
+  border: none !important;
+  font-family: inherit !important;
+  padding: 4px 2px !important;
+  border-radius: 8px !important;
+  transition: color 0.15s ease !important;
+  box-sizing: border-box !important;
+}
+
+.bn-i:hover, .bottom-nav-item:hover {
+  color: #0F5132 !important;
+}
+
+.bn-i.active, .bottom-nav-item.active {
+  color: #0F5132 !important;
+  font-weight: 900 !important;
+}
+
+.bn-ic, .bottom-nav-item .bn-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+}
+
+.app-h {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E7EEEA !important;
+  color: #1C2B22 !important;
+}
+
+
+
+
+/* ── Déroulement de chantier & vue journée ────────────────────────
+   Ajouté le 2026-08-22. Le jaune revient ici et nulle part ailleurs :
+   il signale l'ATTENTE (séchage, prise, durcissement), c'est-à-dire le
+   temps où le chantier avance sans l'artisan. Un jaune décoratif se
+   serait ajouté au vert sans rien dire ; celui-ci porte une information. */
+:root {
+  --jaune: #F5C542;         /* accent citron de la charte */
+  --jaune-fonce: #A87A00;   /* texte lisible sur fond clair (contraste AA) */
+  --jaune-soft: #FFF9E8;    /* fond de bloc d'attente */
+  --jaune-bord: #F2DFA0;
+}
+
+.der-resume {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 14px;
+}
+.der-stat {
+  flex: 1 1 92px; min-width: 92px;
+  background: var(--g-soft); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 10px;
+}
+.der-stat b { display: block; font-size: 17px; font-weight: 900; color: var(--g1); line-height: 1.15; }
+.der-stat span { font-size: 10.5px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+
+.der-jour { margin-bottom: 16px; }
+.der-jour-titre {
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 12.5px; font-weight: 900; color: var(--g1);
+  margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1.5px solid var(--border);
+}
+.der-jour-titre > span::first-letter { text-transform: uppercase; }
+.der-jour-titre small { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: none; }
+
+.der-tache {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #FFFFFF; border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 11px 12px; margin-bottom: 7px;
+}
+.der-tache.termine { background: var(--g-soft); border-color: #CFE8D8; }
+.der-tache.termine .der-titre { text-decoration: line-through; color: var(--muted); }
+
+.der-num {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 7px;
+  background: var(--g1); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 900;
+}
+.der-tache.termine .der-num { background: var(--g3); }
+
+.der-corps { min-width: 0; flex: 1; }
+.der-titre { font-size: 13.5px; font-weight: 800; color: var(--text); line-height: 1.3; }
+.der-meta { font-size: 11.5px; color: var(--muted); margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.der-desc { font-size: 12px; color: var(--sub); margin-top: 5px; line-height: 1.4; }
+
+.der-qui {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--g-soft); border: 1px solid #CFE8D8;
+  border-radius: 20px; padding: 2px 8px;
+  font-size: 11px; font-weight: 800; color: var(--g1);
+}
+.der-qui.libre { background: #F5F7F6; border-color: var(--border); color: var(--muted); font-weight: 700; }
+
+/* Attente : le seul endroit jaune de l'app */
+.der-sechage {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--jaune-soft); border: 1px solid var(--jaune-bord);
+  border-left: 3px solid var(--jaune);
+  border-radius: 9px; padding: 7px 10px; margin: 0 0 7px 34px;
+  font-size: 11.5px; font-weight: 700; color: var(--jaune-fonce);
+}
+
+.der-vide {
+  text-align: center; padding: 26px 16px;
+  background: var(--g-soft); border: 1.5px dashed var(--border);
+  border-radius: 12px; color: var(--muted); font-size: 12.5px; line-height: 1.5;
+}
+
+/* Vue journée du planning : qui travaille et où */
+.jour-personne {
+  background: #FFFFFF; border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 12px; margin-bottom: 10px;
+}
+.jour-personne-tete {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; margin-bottom: 9px;
+}
+.jour-nom { font-size: 13.5px; font-weight: 900; color: var(--text); }
+.jour-heures { font-size: 11.5px; font-weight: 800; color: var(--g1); background: var(--g-soft); border-radius: 20px; padding: 3px 9px; }
+.jour-heures.surcharge { color: #9A3412; background: #FFF1E6; }
+.jour-lieu {
+  border-left: 2.5px solid var(--g1); padding: 2px 0 2px 9px; margin-bottom: 8px;
+}
+.jour-lieu:last-child { margin-bottom: 0; }
+.jour-adresse { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+.jour-taches { font-size: 12px; color: var(--sub); margin-top: 3px; line-height: 1.45; }
+
+/* ── Focus clavier (02/09/2026) ────────────────────────────────────────────
+   AUCUNE des 15 pages artisan n'avait de style de focus visible : 10 regles
+   `outline:none` actives, et la seule `:focus-visible` du projet vivait dans
+   `app-v3-reference.css` — un fichier que PLUS AUCUNE page ne charge. Le
+   remplacement avait donc ete ecrit, jamais branche.
+
+   Consequence : quiconque navigue au clavier ne sait pas ou il se trouve. Ca
+   concerne l'accessibilite, mais aussi l'usage courant — un artisan qui
+   enchaine des champs a la tabulation sur un devis long.
+
+   `:focus-visible` et non `:focus` : le navigateur ne l'applique qu'a une
+   navigation au CLAVIER, jamais apres un clic a la souris ou un appui au
+   doigt. On rend donc le clavier lisible sans poser un contour disgracieux
+   sur chaque bouton touche.
+
+   Couleur : #0F5132 (9,36:1 sur blanc), pas le vert de marque qui echoue AA. */
+:focus-visible {
+  /* `!important` assume : un indicateur de focus ne doit JAMAIS pouvoir etre
+     supprime par une regle plus tardive ou plus specifique. C'est le seul cas
+     du projet ou je m'autorise cette arme — mesure faite, sans elle le contour
+     calculait `outline-style: none` malgre une regle correcte, ecrasee par une
+     feuille chargee apres. Un focus invisible equivaut a pas de focus. */
+  outline: 3px solid #0F5132 !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+/* ⚠️ SPECIFICITE : `.form-control:focus { outline:none }` (0,2,0) bat un
+   `:focus-visible` nu (0,1,0). Les champs de saisie n'auraient donc RIEN eu.
+   Leur `:focus` remplace bien l'outline par une bordure + une ombre — mais a
+   12 % d'opacite, ce n'est pas un indicateur visible. On les nomme donc
+   explicitement, au meme niveau de specificite. */
+.form-control:focus-visible,
+.field__input:focus-visible,
+.field__textarea:focus-visible,
+.field__select:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #0F5132 !important;
+  outline-offset: 2px !important;
+}
+
+/* Sur un fond vert fonce, un contour vert fonce est invisible : on inverse. */
+.btn-hero:focus-visible,
+.btn-cta:focus-visible,
+.bn-i:focus-visible,
+[style*="background:#228B5B"]:focus-visible,
+[style*="background:#0F5132"]:focus-visible {
+  outline-color: #FFFFFF !important;
+  outline-offset: -4px !important;
+}
+
+/* =====================================================================
+   UI CIBLE 04/09/2026 — composants partagés issus de la maquette validée
+   (feedback_batispot_ui_cible_validee_20260903). Un seul vert d'action
+   (--g1), l'ambre = en attente / à encaisser, le bleu = information.
+   Ces classes sont LES composants : ne pas les recopier page par page.
+   ===================================================================== */
+:root {
+  --amber: #B45309; --amber-soft: #FBF1E6; --amber-line: #EAD3B5;
+  --info: #2563EB;  --info-soft: #E8EEFB;
+  --g-soft2: #E6F4EC;
+}
+.ui-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ui-kpi { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
+.ui-kpi .l { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.ui-kpi .v { font-size: 20px; font-weight: 800; margin-top: 2px; white-space: nowrap; letter-spacing: -.01em; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; }
+.ui-kpi.amber { border-color: var(--amber-line); background: var(--amber-soft); }
+.ui-kpi.amber .v { color: var(--amber); }
+.ui-amt { font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ui-pill { display: inline-block; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 999px; white-space: nowrap; line-height: 1.2; }
+.ui-pill.wait { background: var(--amber-soft); color: var(--amber); }
+.ui-pill.ok   { background: var(--g-soft2); color: var(--t1); }
+.ui-pill.info { background: var(--info-soft); color: var(--info); }
+.ui-pill.muted{ background: var(--border-soft); color: var(--muted); }
+.ui-sec { font-size: 12px; font-weight: 800; color: var(--sub); text-transform: uppercase; letter-spacing: .07em; margin: 14px 0 8px; }
+.ui-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; gap: 12px; min-height: 56px; }
+.ui-card + .ui-card { margin-top: 8px; }
+.ui-card .t { font-weight: 700; flex: 1; min-width: 0; overflow: hidden; }
+.ui-card .t small { display: block; font-weight: 600; color: var(--muted); font-size: 12px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ui-progress { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.ui-progress i { display: block; height: 100%; width: 0; background: var(--g1); transition: width .3s ease; }
+.ui-progress i.amber { background: var(--amber); }
+.ui-tabs { display: flex; gap: 6px; }
+.ui-tab { flex: 1; text-align: center; font-size: 12px; font-weight: 800; padding: 10px 0; min-height: 44px; border-radius: 10px; color: var(--muted); background: var(--white); border: 1px solid var(--border); cursor: pointer; font-family: inherit; }
+.ui-tab.on { background: var(--g1); color: var(--white); border-color: var(--g1); }
+.ui-subtabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ui-subtabs::-webkit-scrollbar { display: none; }
+.ui-subtab { flex: 0 0 auto; font-size: 12px; font-weight: 800; padding: 9px 12px; min-height: 40px; border-radius: 999px; color: var(--muted); background: var(--white); border: 1px solid var(--border); cursor: pointer; font-family: inherit; }
+.ui-subtab.on { background: var(--t1); color: var(--white); border-color: var(--t1); }
+.ui-empty { background: var(--white); border: 1px dashed var(--border); border-radius: var(--radius-lg); padding: 24px 18px; text-align: center; }
+.ui-empty h3 { margin: 0 0 6px; font-size: var(--fs-lg); font-weight: 800; }
+.ui-empty p { margin: 0 0 14px; color: var(--muted); font-weight: 600; font-size: var(--fs-sm); }
+.ui-assist { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.ui-assist .h { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--t1); }
+.ui-assist .h::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--g1); }
+.ui-chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.ui-chips::-webkit-scrollbar { display: none; }
+.ui-chip { flex: 0 0 auto; font-size: 12px; font-weight: 700; color: var(--t1); background: var(--g-soft2); border: 0; border-radius: 999px; padding: 8px 12px; min-height: 36px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.ui-chip:active { background: var(--g1); color: var(--white); }
+.ui-member { display: flex; align-items: center; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+.ui-member .av { width: 38px; height: 38px; border-radius: 50%; background: var(--g-soft2); color: var(--t1); display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+.ui-member .t { flex: 1; font-weight: 700; font-size: 13px; min-width: 0; }
+.ui-member .t small { display: block; color: var(--muted); font-weight: 600; font-size: 11.5px; }
+.ui-load { width: 54px; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; flex: none; }
+.ui-load i { display: block; height: 100%; background: var(--g1); }
+.ui-load i.amber { background: var(--amber); }
+.ui-note { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12.5px; font-weight: 600; color: var(--sub); }
+.ui-note.warn { color: var(--amber); border-color: var(--amber-line); background: var(--amber-soft); font-weight: 700; }
+.ui-primary { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 12px; font-weight: 800; font-size: 15px; padding: 0 16px; background: var(--g1); color: var(--white); border: 0; width: 100%; cursor: pointer; font-family: inherit; text-decoration: none; }
+.ui-ghost { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border-radius: 12px; font-weight: 800; font-size: 14px; padding: 0 16px; background: var(--white); color: var(--t1); border: 1px solid var(--border); width: 100%; cursor: pointer; font-family: inherit; text-decoration: none; }
+.ui-card-actions { display: flex; gap: 6px; margin: 6px 0 10px; }
+.ui-mini { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; border-radius: 10px; font-size: 12.5px; font-weight: 800; color: var(--t1); background: var(--white); border: 1px solid var(--border); text-decoration: none; }
+.ui-card-actions + .ui-card { margin-top: 0; }
+
+/* ── En-tête compact généré par app-nav.js (maquette 04/09) ─────────── */
+/* Zone sûre iPhone (05/09, Moctar : « problème de format sur iPhone ») : le
+   padding forcé écrasait env(safe-area-inset-top) — l'en-tête passait sous
+   la barre d'état et l'encoche, en PWA comme dans l'enveloppe native. */
+/* body porte déjà padding-top: var(--safe-top) (ligne ~162) ; sur les écrans à
+   en-tête collant (.app-h), c'est l'en-tête qui doit la porter, sinon il passe
+   sous la barre d'état dès qu'on fait défiler — et sans ce :has, on la
+   comptait deux fois (grand vide en haut de la page chantier, 05/09). */
+body:has(.app-h) { padding-top: 0; }
+.app-h { padding: calc(10px + var(--safe-top)) 16px 10px !important; min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-h .bs-logo-cache { display: none !important; }
+.ui-top { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ui-top small { font-size: 12px; color: var(--muted); font-weight: 600; line-height: 1.2; }
+.ui-top h2 { font-size: 22px; font-weight: 800; margin: 0; line-height: 1.15; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-h .bs-avatar { width: 40px !important; height: 40px !important; border-radius: 50% !important; background: var(--g1) !important; color: #fff !important; border: 0 !important; display: grid !important; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+.app-h .bs-avatar svg { stroke: #fff; }
+h1, h2, h3 { letter-spacing: -.01em; }
+.bs-titre-cache { display: none !important; }
+
+/* ── Barre « Dites-lui quoi faire » (tâche 9, 04/09) : entrée principale de
+   l'appli sous l'en-tête de chaque écran artisan. Elle ne fait rien
+   elle-même — elle envoie à l'assistant existant. ─────────────────────── */
+.bs-barre { display: flex; align-items: center; gap: 8px; margin: 8px 16px 4px; padding: 6px 8px 6px 12px; background: #fff; border: 1.5px solid #228B5B; border-radius: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.bs-barre-input { flex: 1; min-width: 0; border: 0; outline: 0; font: inherit; font-size: 16px; background: transparent; }
+.bs-barre-btn { width: 40px; height: 40px; border: 0; border-radius: 10px; background: #E6F4EC; color: #228B5B; display: inline-flex; align-items: center; justify-content: center; touch-action: none; }
+.bs-barre-mic.on { background: #228B5B; color: #fff; }
+.phone-screen, .app-shell, main { background: var(--bg); }
+
+/* ── MAQUETTE 04/09 portée telle quelle (classes préfixées mq-) ─────── */
+.mq-screen{display:flex;flex-direction:column;gap:12px;padding:0 16px 96px;font-size:14px;color:#1C2B22}
+/* Téléphone : rendu clair volontaire, c'est l'appli en plein soleil */
+.mq-phone{width:100%;max-width:330px;aspect-ratio:9/19.2;background:#F6F8F7;border-radius:36px;border:1px solid var(--line);
+  box-shadow:0 18px 40px rgba(20,40,30,.14);overflow:hidden;position:relative;display:flex;flex-direction:column;color:#1C2B22;font-size:14px}
+.mq-top{display:flex;align-items:center;justify-content:space-between;padding:6px 0 2px}
+.mq-top h2{font-size:22px;font-weight:800;margin:0;letter-spacing:-.01em}
+.mq-top small{display:block;font-size:12px;color:#6B7F76;font-weight:600}
+.mq-avatar{width:36px;height:36px;border-radius:50%;background:#228B5B;color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.mq-back{font-size:13px;font-weight:700;color:#228B5B}
+.mq-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mq-kpi{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px}
+.mq-kpi .mq-l{font-size:11px;color:#6B7F76;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mq-kpi .mq-v{font-size:20px;font-weight:800;margin-top:2px;white-space:nowrap;letter-spacing:-.01em}
+.mq-kpi.mq-amber{border-color:#EAD3B5;background:#FBF1E6}
+.mq-kpi.mq-amber .mq-v{color:#B45309}
+.mq-sec{font-size:12px;font-weight:800;color:#3D5A4E;text-transform:uppercase;letter-spacing:.07em;margin-top:4px}
+.mq-card{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.mq-card .mq-t{font-weight:700;flex:1;min-width:0}
+.mq-card .mq-t small{display:block;font-weight:600;color:#6B7F76;font-size:12px;margin-top:1px}
+.mq-amt{font-weight:800;white-space:nowrap}
+.mq-pill{font-size:11px;font-weight:800;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.mq-pill.mq-wait{background:#FBF1E6;color:#B45309}
+.mq-pill.mq-ok{background:#E6F4EC;color:#1B7049}
+.mq-pill.mq-info{background:#E8EEFB;color:#2563EB}
+.mq-btn{min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;font-weight:800;font-size:15px;padding:0 16px}
+.mq-btn.mq-primary{background:#228B5B;color:#fff}
+.mq-btn.mq-ghost{background:#fff;border:1px solid #DCE6E0;color:#1B7049}
+.mq-btn.mq-hold{background:#228B5B;color:#fff;width:112px;height:112px;border-radius:50%;margin:8px auto 0;padding:0;box-shadow:0 0 0 12px #E6F4EC;font-size:12.5px;text-align:center;line-height:1.25;flex:none}
+.mq-assist{margin-top:auto;background:#fff;border:1px solid #DCE6E0;border-radius:16px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.mq-assist .mq-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#1B7049}
+.mq-assist .mq-dot{width:8px;height:8px;border-radius:50%;background:#228B5B}
+.mq-chips{display:flex;gap:6px;flex-wrap:wrap}
+.mq-chip{flex:0 0 auto;font-size:12px;font-weight:700;color:#1B7049;background:#E6F4EC;border-radius:999px;padding:8px 10px;min-height:32px}
+.mq-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.mq-tab{flex:1;text-align:center;font-size:12px;font-weight:800;padding:9px 0;border-radius:10px;color:#6B7F76;background:#fff;border:1px solid #DCE6E0}
+.mq-tab.mq-on{background:#228B5B;color:#fff;border-color:#228B5B}
+.mq-day{display:flex;gap:10px}
+.mq-day .mq-d{width:44px;flex:none;text-align:center;font-size:11px;font-weight:800;color:#6B7F76;padding-top:6px}
+.mq-day .mq-d b{display:block;font-size:18px;color:#1C2B22}
+.mq-tasks{flex:1;display:flex;flex-direction:column;gap:6px}
+.mq-task{background:#fff;border:1px solid #DCE6E0;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px}
+.mq-task .mq-who{margin-left:auto;font-size:11px;color:#6B7F76;font-weight:700}
+.mq-task .mq-cb{width:20px;height:20px;border-radius:6px;border:2px solid #228B5B;flex:none}
+.mq-task .mq-cb.mq-done{background:#228B5B}
+.mq-task.mq-done{color:#6B7F76;text-decoration:line-through}
+.mq-progress{height:8px;background:#DCE6E0;border-radius:999px;overflow:hidden}
+.mq-progress i{display:block;height:100%;width:38%;background:#228B5B}
+.mq-heard{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.45}
+.mq-heard .mq-l{font-size:11px;font-weight:800;color:#1B7049;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.mq-lines{display:flex;flex-direction:column;gap:6px}
+.mq-line{display:flex;justify-content:space-between;font-size:13px;font-weight:700;background:#fff;border:1px solid #DCE6E0;border-radius:10px;padding:8px 12px}
+.mq-line span:last-child{color:#6B7F76;font-weight:700}
+.mq-wave{display:flex;align-items:center;justify-content:center;gap:3px;height:28px}
+.mq-wave i{width:3px;background:#228B5B;border-radius:2px;display:block}
+.mq-center{text-align:center;color:#6B7F76;font-size:12px;font-weight:700}
+.mq-subtabs{display:flex;gap:6px;flex-wrap:wrap}
+.mq-subtab{flex:0 0 auto;font-size:11.5px;font-weight:800;padding:7px 10px;border-radius:999px;color:#6B7F76;background:#fff;border:1px solid #DCE6E0}
+.mq-subtab.mq-on{background:#1B7049;color:#fff;border-color:#1B7049}
+.mq-period{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #DCE6E0;border-radius:12px;padding:9px 12px;font-weight:800;font-size:13px}
+.mq-period span:last-child{color:#228B5B}
+.mq-kpis4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mq-kpis4 .mq-kpi{padding:10px 12px}
+.mq-kpis4 .mq-kpi .mq-v{font-size:17px}
+.mq-tva{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.mq-tva .mq-r{display:flex;justify-content:space-between}
+.mq-tva .mq-r.mq-total{border-top:1px solid #DCE6E0;padding-top:6px;font-weight:800}
+.mq-tva .mq-hint{font-size:11px;color:#6B7F76;font-weight:600}
+.mq-chart{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.mq-chart .mq-l{font-size:11px;font-weight:800;color:#6B7F76;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.mq-bars{display:flex;align-items:flex-end;gap:6px;height:56px}
+.mq-bars i{flex:1;background:#DCE6E0;border-radius:4px 4px 0 0;display:block}
+.mq-bars i.mq-on{background:#228B5B}
+.mq-bars i.mq-amb{background:#B45309}
+.mq-xl{display:flex;justify-content:space-between;font-size:10px;color:#6B7F76;font-weight:700;margin-top:4px}
+.mq-ph-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.mq-ph{aspect-ratio:1;border-radius:10px;background:linear-gradient(135deg,#C9D9CF,#9FB8AA);position:relative;overflow:hidden}
+.mq-ph.mq-add{background:#fff;border:2px dashed #228B5B;display:grid;place-items:center;color:#228B5B;font-weight:800;font-size:22px}
+.mq-ph b{position:absolute;left:6px;bottom:6px;font-size:10px;background:rgba(28,43,34,.75);color:#fff;padding:2px 6px;border-radius:6px;font-weight:700}
+.mq-week{display:grid;grid-template-columns:34px repeat(5,1fr);gap:3px;font-size:10px;font-weight:800;color:#6B7F76}
+.mq-week .mq-h{text-align:center;padding:4px 0}
+.mq-week .mq-h b{display:block;font-size:14px;color:#1C2B22}
+.mq-week .mq-h.mq-today b{color:#228B5B}
+.mq-week .mq-hr{padding:2px 0;text-align:right;padding-right:4px}
+.mq-week .mq-cell{min-height:26px;border-top:1px solid #E6EDE9}
+.mq-week .mq-ev{background:#E6F4EC;border-left:3px solid #228B5B;border-radius:4px;padding:3px 4px;color:#1B7049;font-size:9.5px;line-height:1.15;min-height:26px}
+.mq-week .mq-ev.mq-amb{background:#FBF1E6;border-color:#B45309;color:#B45309}
+.mq-member{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.mq-member .mq-av{width:38px;height:38px;border-radius:50%;background:#E6F4EC;color:#1B7049;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.mq-member .mq-t{flex:1;font-weight:700;font-size:13px}
+.mq-member .mq-t small{display:block;color:#6B7F76;font-weight:600;font-size:11.5px}
+.mq-load{width:54px;height:6px;background:#DCE6E0;border-radius:99px;overflow:hidden}
+.mq-load i{display:block;height:100%;background:#228B5B}
+.mq-load i.mq-amb{background:#B45309}
+.mq-menu{display:flex;flex-direction:column;background:#fff;border:1px solid #DCE6E0;border-radius:14px;overflow:hidden}
+.mq-menu a{display:flex;align-items:center;gap:10px;padding:13px 14px;font-weight:700;font-size:14px;border-top:1px solid #E6EDE9;color:#1C2B22;min-height:48px;white-space:nowrap}
+.mq-menu a:first-child{border-top:0}
+.mq-menu a i{width:30px;height:30px;border-radius:8px;background:#E6F4EC;display:grid;place-items:center;flex:none;color:var(--t1);font-style:normal}
+.mq-menu a i svg{width:16px;height:16px}
+.mq-menu a i.bs-ico{margin-right:0}
+.mq-menu a span:last-child{margin-left:auto;color:#6B7F76;font-size:12px;font-weight:700}
+/* Composeur accroché en bas (correctif révision tâche 19, 04/09) : jamais
+   position:fixed (pire sur iOS avec le clavier — la barre se détache du
+   flux visuel) — sticky au bas de la zone de contenu défilante, juste
+   au-dessus de la barre de navigation du bas. Reste dans le flux normal
+   sur les écrans où le fil est déjà borné en hauteur (voir dm.html,
+   equipe.html, .app-shell.mq-fil-plein sur chantier.html) : là, il n'y a
+   rien à « stick », il est simplement toujours visible. */
+.mq-compose{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #DCE6E0;border-radius:999px;padding:6px 6px 6px 14px;font-size:13px;color:#6B7F76;font-weight:600;flex:none}
+/* .mq-compose n'est plus sticky (04/09 soir) : les écrans de fil sont bornés en hauteur (le composeur est déjà hors zone défilante), et suivi.html réutilise cette classe comme BOUTON en milieu de page — sticky l'aurait fait flotter sur le devis du client. */
+.mq-compose i{width:36px;height:36px;border-radius:50%;background:#228B5B;display:block;flex:none;margin-left:auto}
+
+/* ── Messagerie « comme WhatsApp » (tâche 19, 04/09/2026) ────────────────
+   Séparateur de jour, sélecteur d'emoji, bouton Envoyer avec icône, badge
+   de non-lus sur l'onglet Messages de la barre du bas. Partagé par
+   chantier.html (fil client), dm.html (messages directs) et equipe.html
+   (fil d'équipe) — voir js/mq-thread.js pour la logique JS commune. */
+/* 44px : même règle tactile que .mq-cb-hit/.action-btn ailleurs dans l'app —
+   jamais un rond cliquable en dessous de 44px sur un chantier. */
+.mq-emoji-panel{background:#fff;border:1px solid #DCE6E0;border-radius:16px;margin-top:8px;max-height:220px;display:flex;flex-direction:column;overflow:hidden}
+.mq-emoji-panel[hidden]{display:none}
+.mq-emoji-tabs{display:flex;gap:2px;padding:6px 8px 4px;border-bottom:1px solid #EEF3F0;overflow-x:auto}
+/* Onglets en libellé texte, pas en emoji brut (correctif révision tâche 19,
+   04/09) : un onglet d'interface n'est pas du contenu. */
+.mq-emoji-tab{flex-shrink:0;border:0;background:transparent;cursor:pointer;font-size:12px;font-weight:700;color:#4B5D55;white-space:nowrap;padding:6px 10px;border-radius:8px;line-height:1;opacity:.6;transition:all .15s}
+.mq-emoji-tab:hover{background:#F3F8F5;opacity:.85}
+.mq-emoji-tab.active{background:#E6F4EC;opacity:1}
+.mq-emoji-grid{flex:1;overflow-y:auto;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mq-emoji-grid button{border:0;background:transparent;cursor:pointer;font-size:20px;line-height:1;padding:6px 0;border-radius:8px;transition:background .12s,transform .12s}
+.mq-emoji-grid button:hover{background:#F0F7F3;transform:scale(1.15)}
+.bn-badge{position:absolute;top:0;right:14%;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#228B5B;color:#fff;font-size:11.5px;font-weight:900;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 2px #fff}
+.mq-qline{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;padding:8px 0;border-top:1px solid #E6EDE9}
+.mq-qline:first-child{border-top:0}
+.mq-qline small{display:block;color:#6B7F76;font-weight:600;font-size:11.5px}
+.mq-qline .mq-pr{white-space:nowrap;text-align:right}
+.mq-qline .mq-pr small{color:#6B7F76}
+.mq-tot{display:flex;justify-content:space-between;font-weight:800;font-size:15px;padding-top:8px;border-top:2px solid #1C2B22}
+.mq-box{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.mq-field{background:#fff;border:1.5px solid #DCE6E0;border-radius:12px;padding:12px 14px;font-weight:600;color:#6B7F76;font-size:14px;min-height:48px;display:flex;align-items:center}
+.mq-field.mq-filled{color:#1C2B22}
+.mq-logo{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:36px;font-weight:800;font-size:24px;letter-spacing:-.02em}
+.mq-logo i{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#228B5B,#4CAF82);display:block}
+.mq-logo em{font-style:normal;background:#228B5B;color:#fff;font-size:11px;padding:3px 7px;border-radius:6px;letter-spacing:.05em}
+.mq-client-top{background:#fff;border-bottom:1px solid #DCE6E0;margin:0 -16px;padding:10px 16px 12px}
+.mq-steps{display:flex;flex-direction:column;gap:6px}
+.mq-step{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
+.mq-step i{width:22px;height:22px;border-radius:50%;border:2px solid #228B5B;display:grid;place-items:center;font-size:11px;color:#fff;flex:none}
+.mq-step i.mq-done{background:#228B5B}
+.mq-step i.mq-now{border-color:#B45309;color:#B45309}
+.mq-step small{margin-left:auto;color:#6B7F76;font-weight:600;font-size:11px}
+@keyframes mq-w{from{opacity:.55}to{opacity:1}}
+@media (prefers-reduced-motion:no-preference){ .mq-wave i{animation:mq-w 1.1s ease-in-out infinite alternate} }
+
+[hidden] { display: none !important; }
+/* Espacement des blocs de la maquette quand ils sont dans un conteneur
+   intermédiaire (panneaux d'onglets, etc.) — retour Moctar : « les bulles
+   sont collées ». Les enfants directs de .mq-screen ont déjà le gap. */
+.mq-screen :is(.mq-kpis, .mq-kpis4, .mq-tva, .mq-chart, .mq-box, .mq-period, .mq-sec, .mq-assist, .mq-subtabs, .mq-tabs, .mq-card, .mq-btn, .mq-member, .mq-heard, .mq-lines, .mq-ph-grid, .mq-week):not(.mq-screen > *) { margin-top: 12px; }
+.mq-screen :is(.mq-sec + *, .mq-card + .mq-card, .mq-member + .mq-member, :first-child, .mq-kpis4 > *, .mq-kpis > *, .mq-tabs > *, .mq-subtabs > *, .mq-lines > *) { margin-top: 0; }
+.mq-screen .mq-card + .mq-card, .mq-screen .mq-member + .mq-member { margin-top: 8px; }
+
+/* Harmonie des espaces et centrage des icônes (retours Moctar 04/09 05h) */
+.mq-menu a i.bs-ico, .mq-menu a i { display: grid !important; place-items: center; margin: 0 !important; }
+.mq-menu a i svg { display: block; }
+#sous-nav { padding: 10px 16px 12px !important; }
+.mq-screen { padding-top: 12px; }
+.mq-screen > * { margin-top: 0; }
+.ui-card-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 12px; }
+.ui-card-actions .mq-btn { min-height: 40px; font-size: 13px; padding: 0 8px; width: auto; }
+.ui-card-actions .mq-btn.mq-ghost { border-color: var(--border); }
+.ui-card-actions .mq-btn .bs-ico { margin-right: 4px; }
+.mq-card + .ui-card-actions { margin-top: 8px; }
+.ui-card-actions > * { min-height: 44px !important; font-size: 13px !important; line-height: 1.2 !important; padding: 0 6px !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; font-weight: 800; border-radius: 12px; width: auto !important; }
+.ui-card-actions > * svg { width: 16px; height: 16px; flex: none; }
+
+/* Actions rapides : trois boutons strictement identiques (retour Moctar) */
+.ui-card-actions { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; margin: 8px 0 12px !important; }
+.ui-card-actions > a, .ui-card-actions > button { box-sizing: border-box; min-height: 44px !important; height: 44px !important; font-size: 13px !important; font-weight: 800 !important; line-height: 1 !important; padding: 0 6px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; border-radius: 12px !important; border: 1px solid var(--border) !important; background: var(--white) !important; color: var(--t1) !important; text-decoration: none !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: auto !important; min-width: 0; }
+.ui-card-actions > a svg, .ui-card-actions > button svg { width: 16px !important; height: 16px !important; flex: none; }
+
+/* En-tête : le bouton rond est le Menu (icône), plus l'avatar */
+.app-h .bs-avatar svg { width: 22px; height: 22px; stroke: #fff; }
+.app-h .bs-avatar .bn-ic { width: 22px; height: 22px; }
+
+/* Les trois actions rapides : aucune marge individuelle (le premier enfant recevait 0, les autres 12 px) */
+.ui-card-actions > * { margin: 0 !important; align-self: stretch; }
+
+/* « Nouveau devis » coupé sur téléphone (retour Moctar 04/09 : « bouton pas à
+   la bonne taille par rapport à ce qu'il y a écrit dedans »). Sur 390 px la
+   colonne fait 114 px et le contenu 121 px : le libellé perdait son « s ».
+   La police suit la largeur de l'écran au lieu d'être figée à 13 px, l'icône
+   et le libellé se serrent, et sous 370 px l'icône s'efface — le mot est
+   l'information, pas le pictogramme. */
+@media (max-width: 430px) {
+  .ui-card-actions > a, .ui-card-actions > button { font-size: clamp(11px, 3vw, 13px) !important; gap: 4px !important; padding: 0 3px !important; }
+}
+@media (max-width: 370px) {
+  .ui-card-actions > a svg, .ui-card-actions > button svg { display: none !important; }
+}
+
+/* Task 8 : confirmation renforcée pour les actions destructives de l'assistant
+   (app-assistant.js, bsAstRendreProposition). Rouge distinct du vert d'action
+   unique #228B5B : le rouge ne sert qu'à signaler l'irréversible. !important
+   nécessaire : la fenêtre de l'assistant injecte son propre <style> avec
+   .bs-ast-card-result et .bs-ast-card-btn déjà en !important. */
+.bs-ast-card-result.danger { border-color: #B42318 !important; background: #FEF3F2 !important; }
+.bs-ast-card-result.danger .bs-ast-valider { background: #B42318 !important; touch-action: none; }
+
+/* iOS Safari : zoom auto quand un champ tactile affiche du texte < 16px
+   (bug remonté par le cofondateur, priorité 04/09/2026) — et la page reste
+   zoomée après (défilement latéral). Filet de sécurité pour tout input
+   texte/textarea/select non couvert par un correctif dédié ; !important +
+   media (pointer:coarse) car des règles page par page (.mq-compose textarea,
+   .champ, .bs-ast-input, champs des modales de devis) sont déjà à <16px
+   et chargées après app.css. */
+@media (max-width: 767px), (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   MESSAGERIE — habillage (tâche 24, 05/09/2026, demande de Moctar
+   « améliore l'aspect de la messagerie »).
+
+   Une seule feuille pour les QUATRE fils : chantier.html (client ⇄
+   artisan), dm.html (message direct), equipe.html (fil interne) et
+   suivi.html (page publique du client). Le rendu des bulles vit dans
+   js/mq-thread.js — ici il n'y a que l'habillage.
+
+   Parti pris : le fond du fil est un quadrillage très pâle, comme le
+   carnet à petits carreaux que l'artisan a dans sa camionnette. Motif
+   CSS pur (deux dégradés), aucune image à charger, et assez discret pour
+   que les bulles blanches ressortent sans que l'œil aille au fond.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.mq-thread {
+  display: flex; flex-direction: column; gap: 2px;
+  flex: 1; min-height: 0;
+  overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+  padding: 12px 10px 14px;
+  background-color: #F1F6F3;
+  background-image:
+    linear-gradient(to right, #E4EDE7 1px, transparent 1px),
+    linear-gradient(to bottom, #E4EDE7 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── La bulle ─────────────────────────────────────────────────────────── */
+.mq-msg {
+  position: relative;
+  max-width: 80%;
+  padding: 7px 11px;
+  border-radius: 16px;
+  font-size: 14.5px; line-height: 1.42; font-weight: 500;
+  letter-spacing: -.005em;
+  /* Une adresse de suivi (60 caractères sans espace) ne doit jamais
+     élargir la bulle au-delà de l'écran. */
+  overflow-wrap: anywhere;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .06);
+}
+.mq-msg.mq-in  { background: #FFFFFF; color: #1C2B22; align-self: flex-start; border-bottom-left-radius: 5px; }
+.mq-msg.mq-out { background: #228B5B; color: #FFFFFF; align-self: flex-end;   border-bottom-right-radius: 5px; }
+
+/* Ergot : seulement sur le DERNIER message d'une série (mq-thread.js pose
+   la classe). Sinon la colonne est hérissée de pointes. */
+.mq-msg.mq-tail { margin-bottom: 6px; }
+/* Modifier / supprimer son message (06/09) : retour visuel de l'appui long, feuille d'actions, édition en place */
+.mq-msg.mq-editable { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.mq-msg.mq-presse { filter: brightness(.92); transform: scale(.985); transition: transform .12s ease; }
+.mq-menu-msg { position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 3000; display: flex; align-items: flex-end; justify-content: center; }
+.mq-menu-msg-feuille { width: 100%; max-width: 520px; background: #fff; border-radius: 18px 18px 0 0; padding: 12px 14px calc(14px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 8px; }
+.mq-menu-msg-titre { font-size: 14px; font-weight: 700; color: #1C2B22; padding: 4px 4px 6px; }
+.mq-menu-msg-btn { min-height: 46px; border-radius: 12px; border: 0; background: #228B5B; color: #fff; font: 800 15px Inter, system-ui, sans-serif; }
+.mq-menu-msg-btn.mq-danger { background: #DC2626; }
+.mq-menu-msg-btn.mq-ghost { background: #F4F7F5; color: #1C2B22; border: 1.5px solid #DCE6E0; }
+.mq-edit { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.mq-edit-ta { width: 100%; box-sizing: border-box; font: 16px/1.4 Inter, system-ui, sans-serif; border-radius: 10px; border: 1.5px solid #DCE6E0; padding: 8px 10px; color: #1C2B22; background: #fff; resize: vertical; }
+.mq-edit-barre { display: flex; gap: 8px; justify-content: flex-end; }
+.mq-edit-ok, .mq-edit-non { min-height: 36px; border-radius: 10px; border: 0; padding: 0 12px; font: 800 13px Inter, system-ui, sans-serif; }
+.mq-edit-ok { background: #fff; color: #228B5B; }
+.mq-edit-non { background: rgba(255,255,255,.2); color: #fff; }
+.bs-ast-apercu-ta { width: 100%; box-sizing: border-box; font: 16px/1.45 Inter, system-ui, sans-serif; color: #1C2B22; background: #F7FBF8; border: 1.5px solid #CFE8DA; border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; resize: vertical; }
+.mq-photo-grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-height: 52vh; overflow: auto; padding: 2px; }
+.mq-photo-choix { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; background: #E6EDE9; cursor: pointer; }
+.mq-msg-erreur { margin-top: 6px; font-size: 12.5px; font-weight: 700; background: #FEF2F2; color: #B91C1C; border-radius: 8px; padding: 6px 8px; }
+.mq-msg.mq-tail::after {
+  content: ''; position: absolute; bottom: 0; width: 0; height: 0;
+  border: 7px solid transparent; border-bottom-width: 6px;
+}
+.mq-in.mq-tail::after  { left: -6px;  border-right-color: #FFFFFF; border-bottom-color: #FFFFFF; border-left-width: 0; }
+.mq-out.mq-tail::after { right: -6px; border-left-color: #228B5B;  border-bottom-color: #228B5B; border-right-width: 0; }
+
+.mq-msg .mq-auteur {
+  display: block; font-size: 11.5px; font-weight: 800; color: #1B7049;
+  margin-bottom: 1px; letter-spacing: .1px;
+}
+.mq-msg.mq-out .mq-auteur { color: rgba(255, 255, 255, .82); }
+.mq-msg .mq-txt { display: inline; }
+
+/* Horodatage (et accusé de lecture) DANS la bulle, en bas à droite — plus
+   de ligne « Vous · 5:42 » qui prenait une ligne entière pour rien.
+   float:right posé après le texte : il remonte sur la dernière ligne, et
+   les espaces insécables ajoutés par rendreBulle() lui gardent la place. */
+.mq-msg .mq-h {
+  float: right; display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10.5px; font-weight: 700; font-variant-numeric: tabular-nums;
+  line-height: 1; margin: 7px -2px -1px 8px;
+  user-select: none; -webkit-user-select: none;
+  color: #7E958A;
+}
+.mq-msg.mq-out .mq-h { color: rgba(255, 255, 255, .72); }
+/* Une coche « verte » sur une bulle #228B5B serait invisible : la coche de
+   LECTURE est un vert clair, elle se lit comme du vert sur le vert foncé,
+   là où la coche « envoyé » reste blanche translucide. */
+.mq-coche { flex: none; }
+.mq-coche.mq-lu { color: #8FE3B8; }
+
+/* Liens : http(s) seulement, fabriqués par ecrireContenu() (mq-thread.js). */
+.mq-msg .mq-lien {
+  color: inherit; overflow-wrap: anywhere;
+  text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px;
+}
+.mq-msg.mq-in .mq-lien  { color: #1B7049; }
+.mq-msg.mq-out .mq-lien { text-decoration-color: rgba(255, 255, 255, .55); }
+
+/* Un ou deux emoji seuls : en grand, sans bulle (comportement attendu). */
+.mq-msg.mq-emoji-seul { background: transparent; box-shadow: none; padding: 2px 4px; }
+.mq-msg.mq-emoji-seul::after { display: none; }
+.mq-msg.mq-emoji-seul .mq-txt { font-size: 34px; line-height: 1.15; }
+.mq-msg.mq-emoji-seul .mq-h { color: #5A7268; }
+
+/* ── Séparateur de jour : pastille blanche centrée ────────────────────── */
+.mq-day-sep {
+  align-self: center; margin: 12px 0 8px;
+  background: #FFFFFF; color: #4B6357;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase;
+  padding: 5px 13px; border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(11, 42, 27, .10);
+}
+.mq-day-sep:first-child { margin-top: 2px; }
+
+/* ── Fil vide : une invitation à écrire, pas un écran blanc ───────────── */
+.mq-vide {
+  align-self: center; margin: auto 0; max-width: 270px;
+  text-align: center; background: #FFFFFF; border-radius: 16px;
+  padding: 20px 18px; font-size: 13px; line-height: 1.55; font-weight: 600;
+  color: #4B6357; box-shadow: 0 1px 2px rgba(11, 42, 27, .08);
+}
+
+/* ── Capsule de saisie ────────────────────────────────────────────────── */
+/* .mq-compose a deux usages : la vraie capsule de saisie (.mq-saisie, seule
+   à aligner ses boutons en bas quand la zone grandit) et un pavé-bouton
+   décoratif. Le pavé « Écrire à votre artisan » de suivi.html, qui était le
+   second usage, a disparu le 05/09/2026 avec le bandeau : l'onglet Messages
+   fait le même travail. */
+.mq-compose.mq-saisie {
+  align-items: flex-end; gap: 4px;
+  border-width: 1.5px; border-radius: 24px;
+  padding: 4px 4px 4px 5px;
+  min-width: 0; max-width: 100%;
+  transition: border-color .15s;
+}
+.mq-compose.mq-saisie:focus-within { border-color: #228B5B; }
+.mq-compose.mq-saisie textarea {
+  flex: 1; min-width: 0; max-width: 100%;
+  border: 0; outline: 0; background: transparent;
+  font-family: inherit; font-size: 16px; line-height: 1.4; font-weight: 500;
+  color: #1C2B22; resize: none;
+  padding: 9px 4px; min-height: 20px; max-height: 110px; overflow-y: auto;
+}
+.mq-compose.mq-saisie textarea::placeholder { color: #8AA096; font-weight: 500; }
+
+.mq-compose-emoji {
+  width: 38px; height: 38px; margin-bottom: 1px; border-radius: 50%;
+  background: none; border: 0; color: #6B7F76; flex: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s;
+}
+.mq-compose-emoji:hover,
+.mq-compose-emoji[aria-expanded="true"] { background: #E6F4EC; color: #228B5B; }
+
+/* 44px : même règle tactile que partout ailleurs dans l'app. */
+.mq-compose-send, .mq-compose-mic {
+  width: 44px; height: 44px; border-radius: 50%; border: 0; flex: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .15s, transform .1s, box-shadow .15s;
+}
+.mq-compose-send { background: #228B5B; color: #FFFFFF; }
+.mq-compose-send:hover { background: #1A6B45; }
+.mq-compose-send:active, .mq-compose-mic:active { transform: scale(.94); }
+.mq-compose-send:disabled { opacity: .45; cursor: not-allowed; }
+/* Le micro n'écrit rien tout seul : bouton clair tant qu'on ne le tient
+   pas, plein et cerclé de vert pendant qu'il enregistre. */
+.mq-compose-mic { background: #FFFFFF; color: #228B5B; border: 1.5px solid #D3E3DA; box-sizing: border-box; }
+.mq-compose-mic:hover { background: #E6F4EC; }
+.mq-compose-mic.mq-dicte { background: #228B5B; color: #FFFFFF; border-color: #228B5B; box-shadow: 0 0 0 5px rgba(34, 139, 91, .18); }
+.mq-compose-indice { font-size: 11.5px; font-weight: 700; color: #1B7049; text-align: center; padding: 6px 4px 0; }
+
+/* ── En-tête compact d'un fil ─────────────────────────────────────────── */
+/* justify-content explicite : sur dm.html cet en-tête porte AUSSI .mq-top
+   (point d'ancrage de la barre d'assistant), qui écarte ses enfants aux
+   deux bords — ici on les veut serrés à gauche. */
+.mq-fil-tete { display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 6px 0 10px; }
+.mq-fil-retour {
+  width: 30px; height: 44px; margin-left: -7px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #228B5B; text-decoration: none;
+}
+.mq-fil-tete .mq-av {
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  background: #E6F4EC; color: #1B7049;
+  display: grid; place-items: center; font-weight: 800; font-size: 14px;
+}
+.mq-fil-ident { min-width: 0; flex: 1; }
+.mq-fil-ident h2 {
+  margin: 0; font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px; font-weight: 800; letter-spacing: -.01em; color: #1C2B22;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mq-fil-ident small {
+  display: block; font-size: 11.5px; font-weight: 600; color: #6B7F76;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Rangée de la liste des fils (messages.html) ──────────────────────── */
+/* 64 px : on y lit QUI attend une réponse, pas le message. Le nom passe en
+   gras et la pastille verte apparaît quand il y a du non-lu. */
+.mq-row {
+  position: relative; /* (06/09, Moctar) ancre de la pastille rouge à l'angle */
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center; column-gap: 12px; row-gap: 1px;
+  background: #FFFFFF; border: 1px solid #DCE6E0; border-radius: 14px;
+  padding: 9px 12px; min-height: 64px; box-sizing: border-box;
+  text-decoration: none; color: inherit;
+}
+.mq-row .mq-av {
+  grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 50%;
+  background: #E6F4EC; color: #1B7049;
+  display: grid; place-items: center; font-weight: 800; font-size: 14px;
+}
+.mq-row .mq-av svg { width: 20px; height: 20px; }
+.mq-row .mq-nom {
+  grid-column: 2; grid-row: 1;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px; font-weight: 600; color: #1C2B22;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mq-row .mq-apercu {
+  grid-column: 2; grid-row: 2;
+  font-size: 12.5px; font-weight: 500; color: #6B7F76;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mq-row .mq-quand {
+  grid-column: 3; grid-row: 1; justify-self: end;
+  font-size: 11px; font-weight: 700; color: #7E958A; white-space: nowrap;
+}
+.mq-row .mq-nb {
+  /* (06/09, Moctar) « un rond rouge à l'angle des encadrés avec le nombre de
+     messages, pareil à Messages dans le bandeau du bas » : même rouge, même
+     anneau blanc que .bn-badge, posé sur l'angle haut-droit de la carte. */
+  position: absolute; top: -7px; right: -7px;
+  min-width: 22px; height: 22px; padding: 0 7px; box-sizing: border-box;
+  border-radius: 999px; background: var(--danger, #DC2626); color: #FFFFFF;
+  font-size: 12.5px; font-weight: 900; line-height: 1; letter-spacing: 0;
+  font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+}
+.mq-row.mq-nonlu .mq-nom { font-weight: 800; }
+.mq-row.mq-nonlu .mq-apercu { color: #3D5A4E; font-weight: 600; }
+.mq-row.mq-nonlu .mq-quand { color: #1B7049; }
+.mq-row.mq-inactif { opacity: .55; }
+
+/* Écrans de fil : le bouton flottant de l'assistant se posait exactement
+   sur le bouton Envoyer (mesuré le 05/09 : FAB 434→484, envoi 417→461).
+   Sur un fil plein écran, rien ne flotte au-dessus du composeur — même
+   décision que .mq-assist, déjà masquée dans ce mode. La classe est posée
+   sur <body> par la page (chantier.js) ou écrite en dur (dm.html). */
+body.bs-fil .bs-assistant-fab { display: none !important; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   PAGE DE SUIVI CLIENT (app/suivi.html) — mise en page à bandeau
+   05/09/2026, demande de Moctar : « on avait dit un bandeau avec les
+   différentes icônes pour messages, planning etc, et ne pas avoir de pages
+   encombrées ».
+
+   Le principe : la page ne défile plus d'un bloc. .sv-app est bornée à la
+   hauteur RÉELLE de l'écran (100dvh, replis 100svh puis 100vh) et n'a que
+   trois enfants qui comptent — l'en-tête, la zone des vues, le bandeau.
+   Seule la vue active défile ; le bandeau reste donc toujours visible, et
+   le composeur de la messagerie se pose naturellement au-dessus de lui
+   parce qu'il est DANS la zone des vues, jamais un élément positionné
+   par-dessus (leçon iOS du 04/09 : pas de position:fixed pour un composeur).
+
+   Le bandeau réutilise .bn / .bn-i / .bn-ic / .bn-badge — le même dessin que
+   la barre du bas de l'appli artisan. Rien n'est redessiné ici.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.sv-app {
+  max-width: 480px; margin: 0 auto;
+  height: 100vh; height: 100svh; height: 100dvh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+/* Avertissements hors onglets (lien invalide, fin d'accès). Padding
+   horizontal seulement : masqués, ils ne prennent aucune hauteur. */
+.sv-alertes { flex: none; padding: 0 16px; }
+.sv-alertes > *:not([hidden]) { margin-top: 10px; }
+
+.sv-vues { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+/* Une seule vue à la fois : les autres portent `hidden` et sortent du flux. */
+.sv-vue { flex: 1; min-height: 0; }
+.sv-vue[hidden] { display: none !important; }
+
+/* Les trois vues « document » (Devis, Planning, Factures) défilent chacune
+   pour elle-même. Le padding-bas de .mq-screen (96px, prévu pour une barre
+   flottante) n'a plus lieu d'être : le bandeau est un frère, sa hauteur est
+   déjà exclue de celle de la vue. */
+.sv-vue.mq-screen {
+  overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+  padding: 12px 16px 18px;
+}
+
+/* L'onglet Messages, lui, ne défile PAS : c'est le fil (.mq-thread, flex:1,
+   overflow-y:auto) qui défile à l'intérieur, en-tête et composeur fixes —
+   exactement comme les fils de l'artisan (dm.html, chantier.html#messages). */
+.sv-vue-fil { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
+.sv-vue-fil .msg-card { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.sv-vue-fil .mq-thread { flex: 1; min-height: 0; max-height: none; }
+
+/* Une vue peut n'avoir strictement rien à montrer (pas encore de facture,
+   pas encore de planning) : on le dit, on ne laisse pas un écran blanc. */
+.sv-vide {
+  text-align: center; background: #FFFFFF; border: 1px solid #DCE6E0;
+  border-radius: 14px; padding: 22px 18px;
+  font-size: 13px; line-height: 1.55; font-weight: 600; color: #4B6357;
+}
+
+/* Mention discrète, sous les vues et au-dessus du bandeau. Masquée sur
+   l'onglet Messages : là, le fil doit descendre jusqu'au composeur. */
+.sv-marque { flex: none; text-align: center; font-size: 10.5px; color: #9AAFA4; padding: 6px 0 4px; }
+body[data-onglet="messages"] .sv-marque { display: none; }
+
+/* Le bandeau. .bn fige height:60px avec box-sizing:border-box : la
+   safe-area iOS y est ABSORBÉE, elle mange donc la hauteur des icônes sur
+   un iPhone à encoche. Ici on l'AJOUTE à la hauteur, ce qui laisse les
+   60px de zone tactile intacts au-dessus du trait du bas de l'écran. */
+.sv-bn {
+  height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  min-height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  max-height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ── Photos et groupes dans le fil d'équipe (05/09/2026) ─────────────── */
+.mq-photo { display: block; width: 100%; max-width: 240px; min-height: 80px; border-radius: 12px; background: #E4EDE7; object-fit: cover; margin: 2px 0 4px; cursor: zoom-in; }
+.mq-msg.mq-avec-photo { padding: 5px; }
+.mq-msg.mq-avec-photo .mq-txt { display: block; padding: 2px 6px 0; }
+.mq-msg.mq-avec-photo .mq-txt:empty { display: none; }
+.mq-compose-cam { color: #6B7F76; }
+.mq-compose-cam:hover { background: #E6F4EC; color: #228B5B; }
+/* « L'assistant propose » sous un message qui ressemble à une tâche. */
+.mq-astuce { align-self: flex-start; margin: -2px 0 6px 6px; font-size: 12px; font-weight: 700; color: #1B7049; background: #E6F4EC; border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.mq-astuce:active { background: #CFE8DA; }
+.mq-out + .mq-astuce { align-self: flex-end; margin-right: 6px; }
+/* En-tête d'un groupe ouvert depuis la liste (bouton retour, pas un lien). */
+.mq-fil-tete-groupe { display: flex; align-items: center; gap: 10px; padding: 6px 4px 10px; }
+.mq-fil-tete-groupe .mq-fil-retour { background: none; border: 0; cursor: pointer; padding: 6px; border-radius: 50%; color: #1C2B22; display: flex; }
+.mq-fil-tete-groupe .mq-fil-ident { min-width: 0; }
+.mq-fil-tete-groupe h2 { margin: 0; font-size: 15px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mq-fil-tete-groupe small { display: block; font-size: 11.5px; color: #5A7268; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mq-groupes { display: flex; flex-direction: column; gap: 8px; }
+.mq-groupes[hidden] { display: none; }
+
+/* ── Appeler · Itinéraire · Répertoire sous l'en-tête d'un chantier (05/09) ── */
+.mq-contact-actions{display:flex;gap:6px;margin:6px 0 2px}
+.mq-contact-actions{align-items:center}
+.mq-contact-actions .mq-btn{flex:1;padding:0 8px;font-size:12.5px;min-height:40px;max-height:40px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1;margin:0!important}
+.mq-contact-actions .mq-btn svg{width:16px;height:16px;flex:none}
+.mq-contact-actions[hidden]{display:none}
+
+/* ── Écran Devis : un tiroir par statut (décision Moctar 05/09) ──────────── */
+.mq-tiroir{background:#fff;border:1.5px solid #DCE6E0;border-radius:14px;overflow:hidden;margin-top:12px}
+.mq-tiroir:first-child{margin-top:4px}
+.mq-tiroir + .mq-tiroir{margin-top:14px}
+.mq-tiroir-tete{width:100%;display:flex;align-items:center;gap:10px;padding:14px 14px;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.mq-tiroir-tete .n{font-size:13.5px;font-weight:900}
+.mq-tiroir-tete .s{font-size:11.5px;color:#6B7F76;font-weight:600;margin-top:1px}
+.mq-tiroir-tete .cnt{margin-left:auto;font-size:12.5px;font-weight:900;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mq-tiroir-tete .chev{width:18px;height:18px;color:#6B7F76;flex:none;transition:transform .15s}
+.mq-tiroir[open] .mq-tiroir-tete .chev{transform:rotate(180deg)}
+.mq-tiroir.mq-tiroir-amber{border-color:#E9C989}
+.mq-tiroir.mq-tiroir-amber .mq-tiroir-tete{background:#FBF1E6}
+.mq-tiroir.mq-tiroir-amber .cnt{color:#B45309}
+.mq-tiroir-corps{display:flex;flex-direction:column;gap:8px;padding:2px 8px 10px}
+.mq-tiroir-corps[hidden]{display:none}
+.mq-tiroir-corps .mq-card{border-radius:10px}
+.mq-tiroir-mois{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#3D5A4E;padding:6px 4px 0}
+.mq-tiroir-plus{background:none;border:0;font:inherit;font-size:12px;font-weight:800;color:#1B7049;padding:8px;cursor:pointer;text-align:center}
+@media (prefers-reduced-motion: reduce){.mq-tiroir-tete .chev{transition:none}}
+
+/* ── Factures : la carte se déplie (05/09) ─────────────────────────── */
+.mq-facture-card{cursor:pointer}
+.mq-facture-chev{width:18px;height:18px;color:#6B7F76;display:inline-block;vertical-align:middle;margin-left:6px;transition:transform .15s}
+.mq-facture-card.mq-facture-ouverte .mq-facture-chev{transform:rotate(180deg)}
+.mq-facture-actions{display:flex;flex-direction:column;gap:8px}
+.mq-facture-actions[hidden]{display:none}
+/* ── Messages : bouton Appeler dans une rangée du répertoire ───────── */
+.mq-row{position:relative}
+.mq-row-tel{position:absolute;right:52px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1.5px solid #D3E3DA;background:#fff;color:#228B5B;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.mq-row-tel:active{background:#E6F4EC}
+@media (prefers-reduced-motion: reduce){.mq-facture-chev{transition:none}}
+.mq-contact-actions .mq-btn-manque{color:#B45309;border-color:#E9C989;background:#FBF1E6}
+
+/* ── Barre du haut = bouton Assistant BatiSpot (05/09) ────────────────── */
+.bs-barre-btn-assistant{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;background:none;border:0;padding:2px 0;cursor:pointer;color:#1C2B22;min-width:0}
+.bs-barre-btn-assistant b{font-size:14px;font-weight:900;color:#1B7049;line-height:1.15}
+.bs-barre-btn-assistant small{font-size:12px;font-weight:600;color:#6B7F76;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+/* Le rond flottant fait doublon avec ce bouton : caché quand la barre est là. */
+body.bs-barre-presente.bs-barre-visible .bs-assistant-fab{display:none!important}
+/* Pages avec la barre de navigation (data-nav) : l'en-tête est réécrit par
+   app-nav.js (date + titre). Le logo statique du HTML ne doit jamais
+   apparaître, même un instant, avant ce remplacement (Moctar, 05/09 :
+   « je vois le logo BatiSpot quelques instants »). */
+body[data-nav] .app-h > a:first-child { visibility: hidden; }
+
+/* Groupe d'équipe ouvert depuis Messages : plein écran, le reste se masque. */
+body.mq-groupe-plein #listeMembres, body.mq-groupe-plein #blocVide, body.mq-groupe-plein #btnInviter,
+body.mq-groupe-plein #formInvite, body.mq-groupe-plein #noteNonPatron, body.mq-groupe-plein #btnFilToggle,
+body.mq-groupe-plein #filListe, body.mq-groupe-plein .mq-screen > div:has(> .mq-sec) { display: none !important; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   MOUVEMENT (07/09/2026 — Moctar : « rendre l'appli plus dynamique »)
+
+   Ce que ces règles cherchent n'est pas la décoration : c'est la VITESSE
+   PERÇUE. Un écran qui affiche « Chargement… » puis tout d'un coup paraît
+   lent même quand la base a répondu en 200 ms ; les mêmes 200 ms passées
+   derrière des blocs qui se remplissent paraissent immédiates.
+
+   Trois règles qu'on ne franchit pas :
+     • rien au-delà de 250 ms — l'appli est tenue d'une main sur un chantier,
+       une animation qui dure est une animation qui gêne ;
+     • rien dont la lecture dépende : si les animations ne jouent pas, l'écran
+       est le même, simplement immobile ;
+     • tout est coupé quand le téléphone demande « animations réduites ».
+   ════════════════════════════════════════════════════════════════════════ */
+
+@keyframes bs-monte { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes bs-glisse { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+@keyframes bs-remplit { from { width: 0; } }
+@keyframes bs-scintille { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+/* Squelettes de chargement — la forme de ce qui arrive, pas un mot d'attente.
+   `<div class="bs-skel"><i></i><i></i><i></i></div>` ; `bs-skel-court` pour
+   des lignes de liste, hauteur par défaut = une carte. */
+.bs-skel { display: flex; flex-direction: column; gap: 8px; }
+.bs-skel i {
+  display: block; height: 66px; border-radius: 14px;
+  background: linear-gradient(90deg, #EDF2EF 25%, #F8FBF9 50%, #EDF2EF 75%);
+  background-size: 200% 100%;
+}
+.bs-skel.bs-skel-court i { height: 40px; border-radius: 10px; }
+
+/* Retour au toucher. Ce n'est pas un effet : c'est la confirmation que
+   l'appui a été pris en compte, la seule chose qui manque vraiment sur
+   Android entre le doigt et le changement d'écran. Conservé même en
+   « animations réduites » — c'est un retour d'interface, pas du mouvement
+   décoratif — mais réduit à un enfoncement instantané. */
+.mq-btn, .mq-card, .mq-tab, .mq-pill, .bs-ast-chip { transition: transform .08s ease, box-shadow .15s ease, background .15s ease; }
+.mq-btn:active, .mq-card:active, .mq-tab:active, .bs-ast-chip:active { transform: scale(.97); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Une liste se pose au lieu de surgir : chaque enfant monte de 6 px, décalé
+     de 30 ms sur le précédent. Au-delà de 10, plus de décalage — une liste
+     longue ne doit pas se dérouler pendant une seconde. */
+  .bs-cascade > * { animation: bs-monte .22s ease-out both; }
+  .bs-cascade > *:nth-child(2) { animation-delay: .03s; }
+  .bs-cascade > *:nth-child(3) { animation-delay: .06s; }
+  .bs-cascade > *:nth-child(4) { animation-delay: .09s; }
+  .bs-cascade > *:nth-child(5) { animation-delay: .12s; }
+  .bs-cascade > *:nth-child(6) { animation-delay: .15s; }
+  .bs-cascade > *:nth-child(7) { animation-delay: .18s; }
+  .bs-cascade > *:nth-child(8) { animation-delay: .21s; }
+  .bs-cascade > *:nth-child(n+9) { animation-delay: .24s; }
+
+  .bs-apparait { animation: bs-monte .22s ease-out both; }
+  /* Changement d'onglet : le contenu entre par la droite. On ne fait pas
+     glisser l'écran entier — on dit « c'est un autre contenu, au même
+     endroit ». */
+  .bs-glisse { animation: bs-glisse .18s ease-out both; }
+
+  .bs-skel i { animation: bs-scintille 1.3s linear infinite; }
+
+  /* La barre d'avancement part de zéro : le pourcentage devient une
+     information qu'on regarde, au lieu d'un décor déjà posé. */
+  .mq-progress i, .ui-progress i { animation: bs-remplit .45s cubic-bezier(.22,.61,.36,1) both; }
+
+  /* Bulles de l'assistant : une conversation, pas un affichage. */
+  .bs-ast-msg { animation: bs-monte .2s ease-out both; }
+}
+
+/* Animations réduites : plus rien ne bouge, tout reste lisible et complet. */
+@media (prefers-reduced-motion: reduce) {
+  .bs-cascade > *, .bs-apparait, .bs-glisse, .bs-skel i, .mq-progress i, .ui-progress i, .bs-ast-msg { animation: none !important; }
+  .mq-btn:active, .mq-card:active, .mq-tab:active, .bs-ast-chip:active { transform: none; background-color: #EDF2EF; }
+}

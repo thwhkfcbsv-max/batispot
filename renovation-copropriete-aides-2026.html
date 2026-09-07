@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Renovation copropriete : aides 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/renovation-copropriete-aides-2026">
+ <meta name="description" content="Renovation energetique copropriete 2026 : MaPrimeRenov' Copro, vote AG, aides syndic, travaux collectifs. Guide complet pour coproprietes en IDF." />
+ <meta name="keywords" content="renovation copropriete aides, maprimerénov copropriete, travaux copropriete 2026, isolation copropriete aide" />
+ <meta property="og:title" content="Renovation copropriete : aides et guide 2026" />
+ <meta property="og:description" content="MaPrimeRenov' Copro, vote AG, syndic, financement : tout pour renover votre copropriete en IDF avec les aides 2026." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/renovation-copropriete-aides-2026.png" />
+ <meta property="og:url" content="https://batispot.pro/renovation-copropriete-aides-2026" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Qu'est-ce que MaPrimeRenov' Copropriete ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "MaPrimeRenov' Copropriete est une aide collective versee au syndic pour financer les travaux de renovation energetique des parties communes. Elle couvre jusqu'a 25 % du montant des travaux HT, dans la limite de 25 000 EUR par logement. Un bonus de 500 EUR par logement s'ajoute si la copropriete sort du statut de passoire thermique."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quel vote en AG pour decider des travaux de renovation ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Les travaux de renovation energetique des parties communes se votent a la majorite absolue (article 25 de la loi du 10 juillet 1965). Si cette majorite n'est pas atteinte mais que le vote recueille au moins un tiers des voix, un second vote a la majorite simple (article 24) est possible lors de la meme AG."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Les coproprietaires peuvent-ils demander MaPrimeRenov' en plus ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui, chaque coproprietaire peut demander MaPrimeRenov' individuelle en complement de l'aide collective, pour financer sa quote-part des travaux selon ses revenus. Les deux aides sont cumulables."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Combien coute une renovation energetique de copropriete en IDF ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le cout moyen d'une renovation energetique de copropriete en IDF se situe entre 15 000 et 30 000 EUR par lot pour une renovation globale (isolation facade + toiture + chauffage collectif). Pour une ITE seule, comptez 8 000 a 15 000 EUR par lot selon la taille de l'immeuble."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Aides renovation</a> > Copropriete 2026</div>
+ <h1>Renovation energetique copropriete : aides 2026</h1>
+<p>MaPrimeRenov' Copro, vote en AG, role du syndic, travaux collectifs et financement. Le guide pour engager la renovation de votre copropriete en IDF.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>MaPrimeRenov' Copropriete en bref</h2>
+ <p>MaPrimeRenov' Copropriete est une aide collective versee directement au syndic de copropriete. Elle finance les travaux de renovation energetique des parties communes et des equipements collectifs (chauffage, isolation facade, toiture).</p>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Aide par logement</div>
+ <div class="value">Jusqu'a 25 000 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Taux de prise en charge</div>
+ <div class="value">25 % du cout HT</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Bonus passoire thermique</div>
+ <div class="value">+ 500 EUR/logement</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Gain energetique minimum</div>
+ <div class="value">35 %</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Conditions d'eligibilite de la copropriete</h2>
+ <ul class="factor-list">
+ <li><strong>Immatriculation :</strong> la copropriete doit etre immatriculee au Registre National des Coproprietes (obligatoire).</li>
+ <li><strong>Age du batiment :</strong> la construction doit avoir plus de 15 ans.</li>
+ <li><strong>Usage :</strong> au moins 75 % des lots doivent etre des residences principales (ou 65 % pour les coproprietes de plus de 20 lots).</li>
+ <li><strong>Gain energetique :</strong> les travaux doivent permettre un gain d'au moins 35 % sur la consommation energetique.</li>
+ <li><strong>Accompagnement :</strong> un accompagnateur agree (AMO) est obligatoire pour le montage du dossier et le suivi des travaux.</li>
+ <li><strong>Artisan RGE :</strong> tous les travaux doivent etre realises par des entreprises certifiees RGE.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Budget type renovation copropriete IDF</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Travaux</th>
+ <th>Cout moyen / lot</th>
+ <th>Copro 20 lots</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>ITE (isolation exterieure facade)</td>
+ <td>8 000 a 15 000 EUR</td>
+ <td>160 000 a 300 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Isolation toiture-terrasse</td>
+ <td>3 000 a 6 000 EUR</td>
+ <td>60 000 a 120 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Remplacement chauffage collectif</td>
+ <td>4 000 a 8 000 EUR</td>
+ <td>80 000 a 160 000 EUR</td>
+ </tr>
+ <tr>
+ <td>VMC collective</td>
+ <td>1 500 a 3 000 EUR</td>
+ <td>30 000 a 60 000 EUR</td>
+ </tr>
+ <tr>
+ <td><strong>Renovation globale complete</strong></td>
+ <td><strong>15 000 a 30 000 EUR</strong></td>
+ <td><strong>300 000 a 600 000 EUR</strong></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Artisans RGE specialises copropriete en IDF. Devis detailles pour votre AG.</p>
+ <a href="/estimateur" class="cta-btn">Estimer les travaux de ma copropriete</a>
+ </div>
+
+ <div class="card">
+ <h2>Le vote en AG : comment convaincre les coproprietaires</h2>
+ <ul class="factor-list">
+ <li><strong>Majorite requise :</strong> article 25 (majorite absolue de tous les coproprietaires). Si non atteinte avec au moins 1/3 des voix, passerelle vers l'article 24 (majorite simple des presents).</li>
+ <li><strong>Preparer l'AG :</strong> presentez l'audit energetique, les devis, le plan de financement avec les aides et les economies de charges previsionnelles.</li>
+ <li><strong>Argument cle :</strong> une renovation globale reduit les charges de chauffage de 30 a 60 %, soit 500 a 1 500 EUR/an par lot en IDF.</li>
+ <li><strong>Echelonnement :</strong> le syndic peut proposer un echeancier d'appels de fonds sur 2 a 5 ans pour lisser la charge financiere.</li>
+ <li><strong>Pret collectif :</strong> la copropriete peut souscrire un Eco-PTZ collectif (jusqu'a 30 000 EUR par logement a taux zero).</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Calendrier type d'un projet de renovation</h2>
+ <ul class="factor-list">
+ <li><strong>Mois 1-3 :</strong> audit energetique (DTG ou audit reglementaire), choix de l'AMO (accompagnateur).</li>
+ <li><strong>Mois 3-6 :</strong> etude de faisabilite, montage du plan de financement, preparation de l'AG.</li>
+ <li><strong>Mois 6 :</strong> vote en AG des travaux et du plan de financement.</li>
+ <li><strong>Mois 7-9 :</strong> consultations entreprises, depot des dossiers d'aides (MaPrimeRenov' Copro, CEE, Eco-PTZ collectif).</li>
+ <li><strong>Mois 10-18 :</strong> realisation des travaux (duree variable selon ampleur).</li>
+ <li><strong>Mois 18-20 :</strong> reception des travaux, versement des aides au syndic.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Artisans specialises copropriete en IDF</h2>
+ <p>BatiSpot reference des entreprises habituees aux chantiers de copropriete : ITE, toiture, chauffage collectif. Devis gratuits.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/maprimrenov-2026-guide-complet" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">MaPrimeRenov' 2026 : guide complet</div>
+ <div style="font-size:.76rem;color:var(--sub);">Montants individuels et parcours accompagne</div>
+ </a>
+ <a href="/aides-renovation-energetique-idf-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Toutes les aides renovation IDF 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Etat + Region + aides locales cumulables</div>
+ </a>
+ <a href="/isolation-thermique-exterieure-copropriete" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">ITE copropriete : guide complet</div>
+ <div style="font-size:.76rem;color:var(--sub);">Isolation exterieure, prix et reglementation</div>
+ </a>
+ <a href="/eco-ptz-2026-comment-en-beneficier" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Eco-PTZ 2026 collectif et individuel</div>
+ <div style="font-size:.76rem;color:var(--sub);">Jusqu'a 50 000 EUR a taux zero</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

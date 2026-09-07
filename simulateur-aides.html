@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<!-- Google Analytics -->
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Simulateur MaPrimeRénov 2026 — Calculez vos aides gratuitement | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/simulateur-aides">
+ <meta name="description" content="Simulez vos aides MaPrimeRénov' 2026 en 2 minutes. Calcul personnalisé selon vos revenus, votre logement et vos travaux. Gratuit, sans inscription." />
+ <meta name="keywords" content="MaPrimeRénov 2026, simulateur aides renovation, calcul prime renovation, CEE, isolation prime, pompe a chaleur aide" />
+ <meta property="og:title" content="Simulateur MaPrimeRénov 2026 — Calculez vos aides gratuitement" />
+ <meta property="og:description" content="Simulez vos aides MaPrimeRénov' 2026 en 2 minutes. Gratuit, sans inscription." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/simulateur-aides.png" />
+ <meta property="og:url" content="https://batispot.pro/simulateur-aides" />
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --warn: #F59E0B; --warn-soft: #FFFBEB;
+ }
+
+ nav {
+ background: var(--white); border-bottom: 1px solid var(--border);
+ padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between;
+ position: sticky; top: 0; z-index: 100;
+ }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-back { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-back:hover { color: var(--g2); }
+
+ .hero-est {
+ background: linear-gradient(135deg, var(--g1), var(--g2));
+ padding: 3rem 5% 2.5rem; text-align: center; color: white;
+ }
+ .hero-est h1 { font-size: 2rem; font-weight: 900; margin-bottom: .5rem; }
+ .hero-est p { opacity: .85; font-size: 1rem; max-width: 520px; margin: 0 auto; }
+ .hero-badges { display: flex; justify-content: center; gap: .7rem; flex-wrap: wrap; margin-top: 1rem; }
+ .hero-badge { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); border-radius: 20px; padding: .25rem .8rem; font-size: .78rem; font-weight: 600; }
+
+ /* Progress bar */
+ .progress-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: .8rem 5%; }
+ .progress-steps { display: flex; gap: 0; max-width: 700px; margin: 0 auto; }
+ .ps { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+ .ps:not(:last-child)::after { content: ''; position: absolute; top: 12px; left: 50%; width: 100%; height: 2px; background: var(--border); z-index: 0; }
+ .ps.done:not(:last-child)::after, .ps.active:not(:last-child)::after { background: var(--g3); }
+ .ps-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 800; color: var(--sub); z-index: 1; position: relative; transition: all .3s; }
+ .ps.active .ps-dot { background: var(--g2); color: white; box-shadow: 0 0 0 4px rgba(34,139,91,.2); }
+ .ps.done .ps-dot { background: var(--g3); color: white; }
+ .ps-label { font-size: .7rem; color: var(--sub); margin-top: .3rem; font-weight: 600; text-align: center; }
+ .ps.active .ps-label { color: var(--g1); }
+
+ .container { max-width: 700px; margin: -2rem auto 3rem; padding: 0 1rem; }
+
+ .card {
+ background: var(--white); border-radius: 16px; padding: 2rem;
+ box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.5rem;
+ animation: fadeUp .35s ease;
+ }
+ .card-hidden { display: none; }
+ .card h2 { font-size: 1.15rem; font-weight: 800; color: var(--g1); margin-bottom: 1.2rem; }
+ .card h2 .step { display: inline-block; width: 28px; height: 28px; background: var(--g2); color: white; border-radius: 50%; text-align: center; line-height: 28px; font-size: .8rem; margin-right: .5rem; }
+
+ .form-group { margin-bottom: 1.1rem; }
+ .form-group label { display: block; font-size: .85rem; font-weight: 700; color: var(--text); margin-bottom: .4rem; }
+ .form-group .hint { font-size: .75rem; color: var(--sub); margin-top: .3rem; }
+ .form-input {
+ width: 100%; padding: .7rem 1rem; border: 2px solid var(--border); border-radius: 10px;
+ font-size: .9rem; color: var(--text); background: var(--white); transition: border-color .2s;
+ }
+ .form-input:focus { border-color: var(--g2); outline: none; box-shadow: 0 0 0 3px rgba(34,139,91,.08); }
+
+ /* Option pill buttons */
+ .opts-row { display: grid; gap: .6rem; }
+ .opts-row.cols-2 { grid-template-columns: 1fr 1fr; }
+ .opts-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+ .opt-btn {
+ border: 2px solid var(--border); border-radius: 12px; padding: .8rem .9rem;
+ text-align: center; cursor: pointer; transition: all .2s; font-size: .88rem; font-weight: 600;
+ background: var(--white); color: var(--text); user-select: none;
+ }
+ .opt-btn:hover { border-color: var(--g3); background: var(--g-soft); }
+ .opt-btn.active { border-color: var(--g2); background: var(--g-soft); box-shadow: 0 0 0 3px rgba(34,139,91,.15); color: var(--g1); }
+ .opt-btn .emoji { display: block; font-size: 1.4rem; margin-bottom: .3rem; }
+
+ /* Checkboxes for travaux */
+ .travaux-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: .55rem; }
+ .travaux-item {
+ display: flex; align-items: flex-start; gap: .55rem; padding: .7rem .8rem;
+ border: 2px solid var(--border); border-radius: 10px; cursor: pointer;
+ transition: all .2s; background: var(--white);
+ }
+ .travaux-item:hover { border-color: var(--g3); background: var(--g-soft); }
+ .travaux-item.selected { border-color: var(--g2); background: var(--g-soft); }
+ .travaux-item input[type=checkbox] { margin-top: 2px; accent-color: var(--g2); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+ .travaux-item label { font-size: .83rem; font-weight: 600; color: var(--text); cursor: pointer; line-height: 1.3; }
+ .travaux-item.selected label { color: var(--g1); }
+
+ /* Subgroup heading */
+ .travaux-section-title { font-size: .78rem; font-weight: 800; color: var(--sub); text-transform: uppercase; letter-spacing: .06em; margin: 1rem 0 .5rem; }
+
+ /* Navigation buttons */
+ .btn-row { display: flex; gap: .8rem; margin-top: 1.5rem; }
+ .btn-next {
+ flex: 1; padding: .85rem; background: var(--cta); color: white; border: none;
+ border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;
+ transition: background .2s, transform .1s;
+ }
+ .btn-next:hover { background: var(--cta-h); transform: translateY(-1px); }
+ .btn-next:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+ .btn-prev {
+ padding: .85rem 1.2rem; background: var(--white); color: var(--sub); border: 2px solid var(--border);
+ border-radius: 12px; font-size: .9rem; font-weight: 700; cursor: pointer;
+ transition: all .2s;
+ }
+ .btn-prev:hover { border-color: var(--g2); color: var(--g2); }
+
+ /* Results section */
+ .results-header {
+ background: linear-gradient(135deg, var(--g1), var(--g2));
+ border-radius: 16px; padding: 1.8rem 2rem; color: white; margin-bottom: 1.2rem;
+ }
+ .results-header h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: .4rem; }
+ .results-header .category-badge {
+ display: inline-block; background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.3);
+ border-radius: 20px; padding: .25rem .9rem; font-size: .82rem; font-weight: 700;
+ }
+ .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin-top: 1.2rem; }
+ .summary-item { background: rgba(255,255,255,.12); border-radius: 10px; padding: .9rem; text-align: center; }
+ .summary-item .s-label { font-size: .72rem; opacity: .8; margin-bottom: .2rem; }
+ .summary-item .s-val { font-size: 1.4rem; font-weight: 900; }
+ .summary-item.highlight { background: rgba(255,255,255,.25); }
+
+ /* Per-work result cards */
+ .work-card {
+ background: var(--white); border-radius: 14px; border: 1px solid var(--border);
+ padding: 1.2rem 1.4rem; margin-bottom: .8rem;
+ box-shadow: 0 2px 12px rgba(0,0,0,.04);
+ }
+ .work-card .work-title { font-size: .95rem; font-weight: 800; color: var(--g1); margin-bottom: .8rem; display: flex; align-items: center; gap: .5rem; }
+ .work-card .work-title .work-icon { font-size: 1.1rem; }
+ .work-rows { display: grid; gap: .35rem; }
+ .work-row { display: flex; justify-content: space-between; align-items: center; font-size: .82rem; padding: .25rem 0; border-bottom: 1px solid var(--border); }
+ .work-row:last-child { border-bottom: none; }
+ .work-row .wr-label { color: var(--sub); }
+ .work-row .wr-val { font-weight: 700; color: var(--text); }
+ .work-row.prime-row .wr-val { color: var(--g2); font-size: .9rem; }
+ .work-row.reste-row { background: var(--g-soft); border-radius: 8px; padding: .4rem .6rem; border: none; margin-top: .3rem; }
+ .work-row.reste-row .wr-label { font-weight: 700; color: var(--g1); }
+ .work-row.reste-row .wr-val { color: var(--g1); font-size: .95rem; }
+
+ /* Eco-PTZ banner */
+ .eco-ptz-banner {
+ background: var(--warn-soft); border: 2px solid var(--warn); border-radius: 12px;
+ padding: 1rem 1.2rem; display: flex; gap: .8rem; align-items: flex-start; margin-bottom: 1.2rem;
+ }
+ .eco-ptz-banner .icon { font-size: 1.4rem; flex-shrink: 0; }
+ .eco-ptz-banner .eco-text .eco-title { font-weight: 800; color: #92400E; font-size: .9rem; }
+ .eco-ptz-banner .eco-text .eco-desc { font-size: .8rem; color: #78350F; margin-top: .2rem; }
+
+ /* Superieur warning */
+ .superieur-warning {
+ background: #FEF2F2; border: 2px solid #FECACA; border-radius: 12px;
+ padding: 1.2rem; text-align: center; color: #991B1B;
+ }
+ .superieur-warning h3 { font-size: 1rem; font-weight: 800; margin-bottom: .4rem; }
+ .superieur-warning p { font-size: .85rem; }
+
+ /* Lead capture */
+ .cta-box {
+ background: var(--white); border: 2px solid var(--g2); border-radius: 16px;
+ padding: 2rem; margin-top: 1.5rem;
+ }
+ .cta-box h3 { font-size: 1.2rem; font-weight: 800; color: var(--g1); margin-bottom: .4rem; }
+ .cta-box p { font-size: .9rem; color: var(--sub); margin-bottom: 1.2rem; }
+ .cta-box .form-input { margin-bottom: .6rem; }
+ .cta-btn {
+ width: 100%; padding: .85rem; background: var(--cta); color: white; border: none;
+ border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;
+ transition: background .2s, transform .1s;
+ }
+ .cta-btn:hover { background: var(--cta-h); transform: translateY(-1px); }
+ .cta-note { font-size: .72rem; color: var(--sub); margin-top: .6rem; text-align: center; }
+
+ .success-msg { display: none; text-align: center; padding: 2rem; }
+ .success-msg.show { display: block; animation: fadeUp .4s ease; }
+ .success-msg .check { font-size: 3rem; }
+ .success-msg h3 { color: var(--g1); margin: .5rem 0; font-size: 1.2rem; }
+
+ /* SEO section */
+ .seo-content { max-width: 700px; margin: 2rem auto 3rem; padding: 0 1rem; }
+ .seo-content h2 { font-size: 1.2rem; color: var(--g1); margin: 1.5rem 0 .5rem; }
+ .seo-content p { font-size: .88rem; color: var(--sub); margin-bottom: .8rem; }
+ .seo-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .82rem; }
+ .seo-content th { background: var(--g-soft); color: var(--g1); padding: .6rem; text-align: left; }
+ .seo-content td { padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
+
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+ @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+ @media (max-width: 600px) {
+ .hero-est h1 { font-size: 1.5rem; }
+ .summary-row { grid-template-columns: 1fr; }
+ .opts-row.cols-3 { grid-template-columns: 1fr 1fr; }
+ .card { padding: 1.3rem; }
+ .travaux-grid { grid-template-columns: 1fr; }
+ }
+ @media (max-width: 400px) {
+ .opts-row.cols-2 { grid-template-columns: 1fr; }
+ }
+ </style>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Simulateur MaPrimeRénov' 2026 — BatiSpot", "url": "https://batispot.pro/simulateur-aides.html", "applicationCategory": "FinanceApplication", "operatingSystem": "Web", "description": "Simulez vos aides MaPrimeRénov' 2026 en 2 minutes : calcul personnalisé selon vos revenus, votre logement et vos travaux. Gratuit et sans inscription.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "provider": {"@type": "Organization", "name": "BatiSpot", "url": "https://batispot.pro"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://batispot.pro/"}, {"@type": "ListItem", "position": 2, "name": "Simulateur d'aides MaPrimeRénov 2026", "item": "https://batispot.pro/simulateur-aides.html"}]}]}</script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <a href="/" class="nav-back">← Retour au site</a>
+</nav>
+
+<div class="hero-est">
+ <h1>Simulateur MaPrimeRénov' 2026</h1>
+<p>Calculez vos aides en 2 minutes, personnalisées selon vos revenus et vos travaux</p>
+ <div class="hero-badges">
+ <span class="hero-badge">Barème officiel 2026</span>
+ <span class="hero-badge">Gratuit &amp; sans inscription</span>
+ <span class="hero-badge">CEE inclus</span>
+ </div>
+</div>
+
+<!-- Progress bar -->
+<div class="progress-wrap">
+ <div class="progress-steps">
+ <div class="ps active" id="ps1"><div class="ps-dot">1</div><div class="ps-label">Situation</div></div>
+ <div class="ps" id="ps2"><div class="ps-dot">2</div><div class="ps-label">Logement</div></div>
+ <div class="ps" id="ps3"><div class="ps-dot">3</div><div class="ps-label">Travaux</div></div>
+ <div class="ps" id="ps4"><div class="ps-dot">4</div><div class="ps-label">Résultats</div></div>
+ </div>
+</div>
+
+<div class="container">
+
+ <!-- ===== STEP 1 ===== -->
+ <div class="card" id="step1">
+ <h2><span class="step">1</span>Votre situation</h2>
+
+ <div class="form-group">
+ <label for="codePostal">Code postal</label>
+ <input type="text" id="codePostal" class="form-input" placeholder="ex: 75012" maxlength="5" inputmode="numeric" />
+ </div>
+
+ <div class="form-group">
+ <label>Nombre de personnes dans le foyer</label>
+ <div class="opts-row cols-3" id="personnesOpts">
+ <div class="opt-btn" data-val="1">1 personne</div>
+ <div class="opt-btn" data-val="2">2 personnes</div>
+ <div class="opt-btn" data-val="3">3 personnes</div>
+ <div class="opt-btn" data-val="4">4 personnes</div>
+ <div class="opt-btn" data-val="5">5 personnes</div>
+ <div class="opt-btn" data-val="6">6+ personnes</div>
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label for="revenu">Revenu fiscal de référence du foyer (€/an)</label>
+ <input type="number" id="revenu" class="form-input" placeholder="ex: 35000" min="0" max="500000" inputmode="numeric" />
+ <div class="hint">Ligne 25 de votre avis d'imposition (N-2, soit avis 2024 sur revenus 2023)</div>
+ </div>
+
+ <div class="btn-row">
+ <button class="btn-next" onclick="goStep(2)">Continuer →</button>
+ </div>
+ </div>
+
+ <!-- ===== STEP 2 ===== -->
+ <div class="card card-hidden" id="step2">
+ <h2><span class="step">2</span>Votre logement</h2>
+
+ <div class="form-group">
+ <label>Type de logement</label>
+ <div class="opts-row cols-2" id="typeLogOpts">
+ <div class="opt-btn" data-val="maison">Maison individuelle</div>
+ <div class="opt-btn" data-val="appartement">Appartement</div>
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label>Année de construction</label>
+ <div class="opts-row cols-3" id="anneeOpts">
+ <div class="opt-btn" data-val="avant1975">Avant 1975</div>
+ <div class="opt-btn" data-val="1975-2000">1975 – 2000</div>
+ <div class="opt-btn" data-val="apres2000">Après 2000</div>
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label>Statut</label>
+ <div class="opts-row cols-3" id="statutOpts">
+ <div class="opt-btn" data-val="occupant">Propriétaire occupant</div>
+ <div class="opt-btn" data-val="bailleur">Bailleur</div>
+ <div class="opt-btn" data-val="copropriete">Copropriété</div>
+ </div>
+ </div>
+
+ <div class="btn-row">
+ <button class="btn-prev" onclick="goStep(1)">← Retour</button>
+ <button class="btn-next" onclick="goStep(3)">Continuer →</button>
+ </div>
+ </div>
+
+ <!-- ===== STEP 3 ===== -->
+ <div class="card card-hidden" id="step3">
+ <h2><span class="step">3</span>Vos travaux envisagés</h2>
+ <p style="font-size:.85rem;color:var(--sub);margin-bottom:1rem;">Sélectionnez un ou plusieurs postes de travaux</p>
+
+ <div class="travaux-section-title">Isolation</div>
+ <div class="travaux-grid" id="travauxGrid">
+ <div class="travaux-item" data-id="murs_ext">
+ <input type="checkbox" id="t_murs_ext" value="murs_ext" />
+ <label for="t_murs_ext">Isolation des murs<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">par l'extérieur (ITE)</span></label>
+ </div>
+ <div class="travaux-item" data-id="murs_int">
+ <input type="checkbox" id="t_murs_int" value="murs_int" />
+ <label for="t_murs_int">Isolation des murs<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">par l'intérieur (ITI)</span></label>
+ </div>
+ <div class="travaux-item" data-id="combles">
+ <input type="checkbox" id="t_combles" value="combles" />
+ <label for="t_combles">Isolation des combles<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">perdus ou aménageables</span></label>
+ </div>
+ <div class="travaux-item" data-id="plancher">
+ <input type="checkbox" id="t_plancher" value="plancher" />
+ <label for="t_plancher">Isolation du plancher bas<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">sous-sol ou vide sanitaire</span></label>
+ </div>
+ </div>
+
+ <div class="travaux-section-title">Chauffage &amp; eau chaude</div>
+ <div class="travaux-grid">
+ <div class="travaux-item" data-id="pac_aireau">
+ <input type="checkbox" id="t_pac_aireau" value="pac_aireau" />
+ <label for="t_pac_aireau">Pompe à chaleur air/eau</label>
+ </div>
+ <div class="travaux-item" data-id="pac_geo">
+ <input type="checkbox" id="t_pac_geo" value="pac_geo" />
+ <label for="t_pac_geo">Pompe à chaleur géothermique</label>
+ </div>
+ <div class="travaux-item" data-id="biomasse">
+ <input type="checkbox" id="t_biomasse" value="biomasse" />
+ <label for="t_biomasse">Chaudière biomasse bois</label>
+ </div>
+ <div class="travaux-item" data-id="poele">
+ <input type="checkbox" id="t_poele" value="poele" />
+ <label for="t_poele">Poêle à bois / granulés</label>
+ </div>
+ <div class="travaux-item" data-id="chauffe_eau">
+ <input type="checkbox" id="t_chauffe_eau" value="chauffe_eau" />
+ <label for="t_chauffe_eau">Chauffe-eau thermodynamique</label>
+ </div>
+ </div>
+
+ <div class="travaux-section-title">Ventilation &amp; menuiseries</div>
+ <div class="travaux-grid">
+ <div class="travaux-item" data-id="vmc">
+ <input type="checkbox" id="t_vmc" value="vmc" />
+ <label for="t_vmc">VMC double flux</label>
+ </div>
+ <div class="travaux-item" data-id="fenetres">
+ <input type="checkbox" id="t_fenetres" value="fenetres" />
+ <label for="t_fenetres">Fenêtres double / triple vitrage<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">Prime par fenêtre</span></label>
+ </div>
+ </div>
+
+ <div class="travaux-section-title">Études &amp; rénovation globale</div>
+ <div class="travaux-grid">
+ <div class="travaux-item" data-id="audit">
+ <input type="checkbox" id="t_audit" value="audit" />
+ <label for="t_audit">Audit énergétique<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">Obligatoire pour rénovation globale</span></label>
+ </div>
+ <div class="travaux-item" data-id="renovation_globale">
+ <input type="checkbox" id="t_renovation_globale" value="renovation_globale" />
+ <label for="t_renovation_globale">Rénovation globale<br><span style="font-weight:400;font-size:.78rem;color:var(--sub);">Au moins 2 gestes + audit</span></label>
+ </div>
+ </div>
+
+ <div class="btn-row">
+ <button class="btn-prev" onclick="goStep(2)">← Retour</button>
+ <button class="btn-next" onclick="calculateAndShow()">Calculer mes aides →</button>
+ </div>
+ </div>
+
+ <!-- ===== STEP 4 — RESULTS ===== -->
+ <div class="card-hidden" id="step4">
+
+ <!-- Summary header -->
+ <div class="results-header" id="resultsHeader">
+ <h2>Votre simulation MaPrimeRénov' 2026</h2>
+ <div id="categoryBadge" class="category-badge"></div>
+ <div class="summary-row" id="summaryRow"></div>
+ </div>
+
+ <!-- Per-work details -->
+ <div id="workDetails"></div>
+
+ <!-- Eco-PTZ banner -->
+ <div class="eco-ptz-banner" id="ecoPtzBanner" style="display:none">
+ <div class="icon">EUR</div>
+ <div class="eco-text">
+ <div class="eco-title">Éco-PTZ mobilisable</div>
+ <div class="eco-desc">Vous pouvez financer le reste à charge avec un prêt à taux zéro jusqu'à <strong>50 000 €</strong> (rénovation globale) ou 30 000 € (travaux ciblés), sans conditions de ressources, remboursable sur 20 ans.</div>
+ </div>
+ </div>
+
+ <!-- CTA / Lead form -->
+ <div class="cta-box">
+ <div id="certifBadges" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-bottom:1rem;"></div>
+ <h3>Recevez votre devis d'un artisan certifié local</h3>
+ <p id="certifIntro">Mise en relation avec un artisan <strong>RGE</strong> proche de chez vous, récapitulatif des aides, devis gratuit, accompagnement dossier MaPrimeRénov'.</p>
+ <form id="leadForm" onsubmit="submitLead(event)">
+ <input type="text" id="leadNom" class="form-input" placeholder="Votre prénom et nom *" required />
+ <input type="email" id="leadEmail" class="form-input" placeholder="Votre email *" required />
+ <input type="tel" id="leadTel" class="form-input" placeholder="Votre téléphone *" required />
+ <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.78rem;color:var(--sub);text-align:left;margin:.4rem 0 .6rem;line-height:1.45">
+ <input type="checkbox" id="leadConsent" required style="margin-top:2px;flex-shrink:0">
+ <span>J'accepte d'être recontacté(e) par un artisan certifié partenaire BatiSpot pour obtenir mon devis gratuit.</span>
+ </label>
+ <button type="submit" class="cta-btn">Être mis en relation avec un artisan →</button>
+ </form>
+ <p class="cta-note">Gratuit &nbsp;•&nbsp; Sans engagement &nbsp;•&nbsp; 2 devis max &nbsp;•&nbsp; RGPD</p>
+ </div>
+
+ <div class="success-msg" id="successMsg">
+ <div class="check">&#10003;</div>
+ <h3>Votre demande est prise en compte</h3>
+ <p style="color:var(--sub)">Un artisan <span id="successCertif">certifié</span> de votre département reçoit votre projet. <strong>Vous êtes recontacté(e) sous 48h</strong> par téléphone ou email avec un devis personnalisé.</p>
+ <p style="color:var(--sub);margin-top:.6rem;font-size:.85rem">Votre récapitulatif MaPrimeRénov' vous est aussi envoyé par email.</p>
+ <a href="/" style="color:var(--g2);font-weight:700;margin-top:1rem;display:inline-block">← Retour à BatiSpot</a>
+ </div>
+
+ <div class="btn-row" style="margin-top:1rem">
+ <button class="btn-prev" onclick="goStep(3)">← Modifier les travaux</button>
+ </div>
+ </div>
+
+</div>
+
+<!-- SEO CONTENT -->
+<div class="seo-content">
+ <h2>Barème MaPrimeRénov' 2026, qui peut bénéficier de quoi ?</h2>
+ <p>MaPrimeRénov' est modulée selon les revenus du foyer, en 4 catégories : ménages très modestes (prime la plus haute), ménages modestes, ménages aux revenus intermédiaires, et ménages aux revenus supérieurs (aides très réduites ou nulles).</p>
+
+ <table>
+ <tr><th>Foyer</th><th>Très modestes</th><th>Modestes</th><th>Intermédiaires</th><th>Supérieurs</th></tr>
+ <tr><td>1 pers.</td><td>&lt; 23 541 €</td><td>&lt; 28 657 €</td><td>&lt; 40 018 €</td><td>&gt; 40 018 €</td></tr>
+ <tr><td>2 pers.</td><td>&lt; 34 551 €</td><td>&lt; 42 058 €</td><td>&lt; 58 827 €</td><td>&gt; 58 827 €</td></tr>
+ <tr><td>3 pers.</td><td>&lt; 41 493 €</td><td>&lt; 50 513 €</td><td>&lt; 70 382 €</td><td>&gt; 70 382 €</td></tr>
+ <tr><td>4 pers.</td><td>&lt; 48 447 €</td><td>&lt; 58 981 €</td><td>&lt; 82 839 €</td><td>&gt; 82 839 €</td></tr>
+ <tr><td>5 pers.</td><td>&lt; 55 427 €</td><td>&lt; 67 473 €</td><td>&lt; 94 844 €</td><td>&gt; 94 844 €</td></tr>
+ </table>
+
+ <h2>Comment cumuler MaPrimeRénov' avec les autres aides ?</h2>
+ <p>MaPrimeRénov' se cumule avec les Certificats d'Économies d'Énergie (CEE) versés par les fournisseurs d'énergie, l'Éco-PTZ (prêt à taux zéro jusqu'à 50 000 €), la TVA réduite à 5,5 % pour les travaux de rénovation énergétique, et les aides des collectivités locales.</p>
+
+ <h2>Quelles conditions pour bénéficier de MaPrimeRénov' ?</h2>
+ <p>Le logement doit avoir plus de 15 ans, être une résidence principale occupée depuis au moins 8 mois par an, et les travaux doivent être réalisés par un artisan <strong>RGE (Reconnu Garant de l'Environnement)</strong>. La demande se fait sur le portail <a href="https://www.maprimerenov.gouv.fr" target="_blank" rel="noopener" style="color:var(--g2)">maprimerenov.gouv.fr</a> avant le début des travaux.</p>
+
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin:1.2rem 0;">
+ <a href="guide-aides-renovation" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Guide complet des aides 2026</div>
+ <div style="font-size:.78rem;color:var(--sub);">MaPrimeRénov', Éco-PTZ, CEE, tout comprendre</div>
+ </a>
+ <a href="estimateur" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Estimateur prix travaux</div>
+ <div style="font-size:.78rem;color:var(--sub);">Combien coûtent vos travaux ? Estimation en 2 min</div>
+ </a>
+ <a href="prix-plombier-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix d'un plombier à Paris</div>
+ <div style="font-size:.78rem;color:var(--sub);">Tarifs détaillés : dépannage, chauffe-eau, SDB</div>
+ </a>
+ </div>
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+// Income thresholds by household size: [très modestes, modestes, intermédiaires]
+const THRESHOLDS = {
+ 1: [23541, 28657, 40018],
+ 2: [34551, 42058, 58827],
+ 3: [41493, 50513, 70382],
+ 4: [48447, 58981, 82839],
+ 5: [55427, 67473, 94844],
+};
+
+// Category labels + colors
+const CAT_LABELS = ['Très modestes', 'Modestes', 'Intermédiaires', 'Supérieurs'];
+const CAT_COLORS = ['#15803D', '#16A34A', '#CA8A04', '#DC2626'];
+const CAT_SHORT = ['tres_modestes', 'modestes', 'intermediaires', 'superieurs'];
+
+// MaPrimeRénov amounts: [très modestes, modestes, intermédiaires, supérieurs]
+// For per-unit types (murs_ext, murs_int, combles, plancher: €/m²; fenetres: €/unit)
+// For lump-sum types: €
+const MPR = {
+ murs_ext: { amounts: [75, 60, 40, 15], unit: '€/m²', perUnit: true, defaultQty: 80, qtyLabel: 'Surface de murs (m²)' },
+ murs_int: { amounts: [25, 20, 15, 7], unit: '€/m²', perUnit: true, defaultQty: 80, qtyLabel: 'Surface de murs (m²)' },
+ combles: { amounts: [25, 20, 15, 7], unit: '€/m²', perUnit: true, defaultQty: 60, qtyLabel: 'Surface de combles (m²)' },
+ plancher: { amounts: [15, 12, 8, 0], unit: '€/m²', perUnit: true, defaultQty: 60, qtyLabel: 'Surface de plancher (m²)' },
+ pac_aireau: { amounts: [5000, 4000, 3000, 0], unit: '€', perUnit: false },
+ pac_geo: { amounts: [11000, 9000, 6000, 0], unit: '€', perUnit: false },
+ biomasse: { amounts: [8000, 6500, 4000, 0], unit: '€', perUnit: false },
+ poele: { amounts: [2500, 2000, 1500, 0], unit: '€', perUnit: false },
+ chauffe_eau: { amounts: [1200, 800, 400, 0], unit: '€', perUnit: false },
+ vmc: { amounts: [2500, 2000, 1500, 0], unit: '€', perUnit: false },
+ fenetres: { amounts: [100, 80, 40, 0], unit: '€/fenêtre', perUnit: true, defaultQty: 5, qtyLabel: 'Nombre de fenêtres' },
+ audit: { amounts: [500, 400, 300, 0], unit: '€', perUnit: false },
+ renovation_globale: { amounts: [0, 0, 0, 0], unit: '€', perUnit: false, special: true },
+};
+
+// Cost ranges (low, high) for each work type (€)
+const COSTS = {
+ murs_ext: { low: 100, high: 200, unit: '€/m²', type: 'surface' },
+ murs_int: { low: 50, high: 120, unit: '€/m²', type: 'surface' },
+ combles: { low: 20, high: 60, unit: '€/m²', type: 'surface' },
+ plancher: { low: 20, high: 50, unit: '€/m²', type: 'surface' },
+ pac_aireau: { low: 8000, high: 15000, unit: '€', type: 'lump' },
+ pac_geo: { low: 15000, high: 28000, unit: '€', type: 'lump' },
+ biomasse: { low: 10000, high: 20000, unit: '€', type: 'lump' },
+ poele: { low: 2500, high: 6000, unit: '€', type: 'lump' },
+ chauffe_eau: { low: 2500, high: 4500, unit: '€', type: 'lump' },
+ vmc: { low: 3000, high: 7000, unit: '€', type: 'lump' },
+ fenetres: { low: 600, high: 1200, unit: '€/fenêtre', type: 'unit' },
+ audit: { low: 700, high: 1200, unit: '€', type: 'lump' },
+ renovation_globale: { low: 30000, high: 80000, unit: '€', type: 'lump' },
+};
+
+// CEE estimates (approximate, by category)
+const CEE = {
+ murs_ext: { perM2: 8 },
+ murs_int: { perM2: 4 },
+ combles: { perM2: 6 },
+ plancher: { perM2: 4 },
+ pac_aireau: { flat: 800 },
+ pac_geo: { flat: 1200 },
+ biomasse: { flat: 1000 },
+ poele: { flat: 400 },
+ chauffe_eau:{ flat: 200 },
+ vmc: { flat: 300 },
+ fenetres: { perUnit: 20 },
+ audit: { flat: 0 },
+ renovation_globale: { flat: 2000 },
+};
+
+// TVA rates
+const TVA = {
+ murs_ext: 5.5, murs_int: 5.5, combles: 5.5, plancher: 5.5,
+ pac_aireau: 5.5, pac_geo: 5.5, biomasse: 5.5, poele: 5.5,
+ chauffe_eau: 5.5, vmc: 5.5, fenetres: 5.5,
+ audit: 10, renovation_globale: 5.5,
+};
+
+const WORK_LABELS = {
+ murs_ext: 'Isolation murs extérieure (ITE)',
+ murs_int: 'Isolation murs intérieure (ITI)',
+ combles: 'Isolation des combles',
+ plancher: 'Isolation du plancher bas',
+ pac_aireau: 'Pompe à chaleur air/eau',
+ pac_geo: 'Pompe à chaleur géothermique',
+ biomasse: 'Chaudière biomasse',
+ poele: 'Poêle à bois / granulés',
+ chauffe_eau: 'Chauffe-eau thermodynamique',
+ vmc: 'VMC double flux',
+ fenetres: 'Fenêtres double/triple vitrage',
+ audit: 'Audit énergétique',
+ renovation_globale: 'Rénovation globale (parcours accompagné)',
+};
+
+const WORK_ICONS = {
+ murs_ext: '', murs_int: '', combles: '', plancher: '',
+ pac_aireau: '', pac_geo: '', biomasse: '', poele: '',
+ chauffe_eau: '', vmc: '', fenetres: '', audit: '',
+ renovation_globale: '',
+};
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const state = {
+ step: 1,
+ codePostal: '', personnes: null, revenu: null,
+ typeLog: null, annee: null, statut: null,
+ travaux: new Set(),
+ catIdx: null,
+};
+
+// ─── STEP NAV ────────────────────────────────────────────────────────────────
+function goStep(n) {
+ // Validate current step before advancing
+ if (n > state.step) {
+ if (!validateStep(state.step)) return;
+ }
+
+ document.getElementById('step' + state.step).classList.add('card-hidden');
+ document.getElementById('step' + n).classList.remove('card-hidden');
+
+ // Update progress dots
+ for (let i = 1; i <= 4; i++) {
+ const ps = document.getElementById('ps' + i);
+ ps.classList.remove('active', 'done');
+ if (i < n) ps.classList.add('done');
+ if (i === n) ps.classList.add('active');
+ }
+
+ state.step = n;
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function validateStep(s) {
+ if (s === 1) {
+ const cp = document.getElementById('codePostal').value.trim();
+ const rev = parseFloat(document.getElementById('revenu').value);
+ if (!cp || cp.length < 4) { alert('Veuillez entrer un code postal valide.'); return false; }
+ if (!state.personnes) { alert('Veuillez sélectionner le nombre de personnes dans le foyer.'); return false; }
+ if (!rev && rev !== 0) { alert('Veuillez entrer votre revenu fiscal de référence.'); return false; }
+ state.codePostal = cp;
+ state.revenu = rev;
+ return true;
+ }
+ if (s === 2) {
+ if (!state.typeLog) { alert('Veuillez sélectionner le type de logement.'); return false; }
+ if (!state.annee) { alert('Veuillez sélectionner l\'année de construction.'); return false; }
+ if (!state.statut) { alert('Veuillez sélectionner votre statut.'); return false; }
+ return true;
+ }
+ if (s === 3) {
+ if (state.travaux.size === 0) { alert('Veuillez sélectionner au moins un type de travaux.'); return false; }
+ return true;
+ }
+ return true;
+}
+
+// ─── OPTION BUTTONS ──────────────────────────────────────────────────────────
+function initOptGroup(containerId, stateKey) {
+ document.querySelectorAll('#' + containerId + ' .opt-btn').forEach(btn => {
+ btn.addEventListener('click', () => {
+ document.querySelectorAll('#' + containerId + ' .opt-btn').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ state[stateKey] = btn.dataset.val;
+ });
+ });
+}
+
+initOptGroup('personnesOpts', 'personnes');
+initOptGroup('typeLogOpts', 'typeLog');
+initOptGroup('anneeOpts', 'annee');
+initOptGroup('statutOpts', 'statut');
+
+// Travaux checkboxes
+document.querySelectorAll('.travaux-item').forEach(item => {
+ const id = item.dataset.id;
+ const cb = item.querySelector('input[type=checkbox]');
+ item.addEventListener('click', (e) => {
+ if (e.target === cb) return; // native checkbox handles its own toggle
+ cb.checked = !cb.checked;
+ toggleTravaux(id, cb.checked);
+ });
+ cb.addEventListener('change', () => toggleTravaux(id, cb.checked));
+});
+
+function toggleTravaux(id, checked) {
+ const item = document.querySelector('.travaux-item[data-id="' + id + '"]');
+ if (checked) {
+ state.travaux.add(id);
+ item.classList.add('selected');
+ } else {
+ state.travaux.delete(id);
+ item.classList.remove('selected');
+ }
+}
+
+// ─── CALCULATION ─────────────────────────────────────────────────────────────
+function getCategory(personnes, revenu) {
+ const n = Math.min(parseInt(personnes), 5);
+ const t = THRESHOLDS[n] || THRESHOLDS[5];
+ if (revenu < t[0]) return 0; // très modestes
+ if (revenu < t[1]) return 1; // modestes
+ if (revenu < t[2]) return 2; // intermédiaires
+ return 3; // supérieurs
+}
+
+function calcCEE(id, qty) {
+ const c = CEE[id];
+ if (!c) return 0;
+ if (c.perM2) return Math.round(c.perM2 * qty);
+ if (c.perUnit) return Math.round(c.perUnit * qty);
+ return c.flat || 0;
+}
+
+function calculateAndShow() {
+ if (!validateStep(3)) return;
+
+ const catIdx = getCategory(state.personnes, state.revenu);
+ state.catIdx = catIdx;
+
+ let totalCost = 0, totalMPR = 0, totalCEE = 0;
+ const workResults = [];
+
+ state.travaux.forEach(id => {
+ const mpr = MPR[id];
+ const cost = COSTS[id];
+ if (!mpr || !cost) return;
+
+ const qty = mpr.perUnit ? mpr.defaultQty : 1;
+ const mprAmt = mpr.special ? calcRenovationGlobale(catIdx) : Math.round(mpr.amounts[catIdx] * qty);
+ const ceeAmt = calcCEE(id, qty);
+
+ let costMid, costLow, costHigh;
+ if (cost.type === 'surface') {
+ costMid = Math.round((cost.low + cost.high) / 2 * qty);
+ costLow = Math.round(cost.low * qty);
+ costHigh = Math.round(cost.high * qty);
+ } else if (cost.type === 'unit') {
+ costMid = Math.round((cost.low + cost.high) / 2 * qty);
+ costLow = Math.round(cost.low * qty);
+ costHigh = Math.round(cost.high * qty);
+ } else {
+ costMid = Math.round((cost.low + cost.high) / 2);
+ costLow = cost.low;
+ costHigh = cost.high;
+ }
+
+ const totalAide = mprAmt + ceeAmt;
+ const reste = Math.max(0, costMid - totalAide);
+
+ totalCost += costMid;
+ totalMPR += mprAmt;
+ totalCEE += ceeAmt;
+
+ workResults.push({ id, mprAmt, ceeAmt, totalAide, costMid, costLow, costHigh, reste, qty, tva: TVA[id] || 5.5 });
+ });
+
+ renderResults(catIdx, workResults, totalCost, totalMPR, totalCEE);
+ goStep(4);
+}
+
+function calcRenovationGlobale(catIdx) {
+ // Rénovation globale (parcours accompagné) — forfait orientatif
+ const amounts = [15000, 11000, 7500, 0];
+ return amounts[catIdx];
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; }
+
+function renderResults(catIdx, workResults, totalCost, totalMPR, totalCEE) {
+ const totalAide = totalMPR + totalCEE;
+ const totalReste = Math.max(0, totalCost - totalAide);
+
+ // Badge
+ const badge = document.getElementById('categoryBadge');
+ badge.textContent = 'Catégorie : ' + CAT_LABELS[catIdx];
+ badge.style.background = 'rgba(255,255,255,.2)';
+
+ // Summary
+ document.getElementById('summaryRow').innerHTML = `
+ <div class="summary-item">
+ <div class="s-label">Coût total estimé</div>
+ <div class="s-val">${fmt(totalCost)}</div>
+ </div>
+ <div class="summary-item highlight">
+ <div class="s-label">Total aides (MPR + CEE)</div>
+ <div class="s-val">${fmt(totalAide)}</div>
+ </div>
+ <div class="summary-item">
+ <div class="s-label">Reste à charge</div>
+ <div class="s-val">${fmt(totalReste)}</div>
+ </div>
+ `;
+
+ // Per-work cards
+ let html = '';
+
+ if (catIdx === 3) {
+ html += `<div class="superieur-warning">
+ <h3>Aides limitées pour votre tranche de revenus</h3>
+ <p>En catégorie "revenus supérieurs", MaPrimeRénov' est très réduite ou nulle pour la plupart des travaux. Vous pouvez néanmoins bénéficier des CEE, de la TVA à 5,5 % et de l'Éco-PTZ.</p>
+ </div>`;
+ }
+
+ workResults.forEach(r => {
+ const mpr = MPR[r.id];
+ const qtyLabel = mpr.perUnit ? `(${r.qty} ${mpr.qtyLabel ? mpr.qtyLabel.toLowerCase().replace(/.*\(/, '').replace(')', '').trim() : 'unités'})` : '';
+ html += `
+ <div class="work-card">
+ <div class="work-title">${WORK_LABELS[r.id]}</div>
+ <div class="work-rows">
+ <div class="work-row">
+ <span class="wr-label">Coût estimé ${qtyLabel}</span>
+ <span class="wr-val">${fmt(r.costLow)} – ${fmt(r.costHigh)}</span>
+ </div>
+ <div class="work-row prime-row">
+ <span class="wr-label">MaPrimeRénov' (${CAT_SHORT[catIdx].replace('_', ' ')})</span>
+ <span class="wr-val">${r.mprAmt > 0 ? fmt(r.mprAmt) : '—'}</span>
+ </div>
+ <div class="work-row prime-row">
+ <span class="wr-label">Prime CEE estimée</span>
+ <span class="wr-val">${r.ceeAmt > 0 ? fmt(r.ceeAmt) : '—'}</span>
+ </div>
+ <div class="work-row">
+ <span class="wr-label">TVA applicable</span>
+ <span class="wr-val">${r.tva} %</span>
+ </div>
+ <div class="work-row reste-row">
+ <span class="wr-label">Reste à charge estimé</span>
+ <span class="wr-val">${fmt(r.reste)}</span>
+ </div>
+ </div>
+ </div>`;
+ });
+
+ document.getElementById('workDetails').innerHTML = html;
+
+ // Eco-PTZ
+ document.getElementById('ecoPtzBanner').style.display = 'flex';
+
+ // Mise en relation artisan — deduire certifications pertinentes
+ const travaux = Array.from(state.travaux);
+ const certifs = new Set(['RGE']);
+ if (travaux.some(t => ['pac_aireau','pac_geo','biomasse','poele'].includes(t))) certifs.add('QualiPAC');
+ if (travaux.includes('pac_geo')) certifs.add('Qualiforage');
+ if (travaux.some(t => ['murs_ext','murs_int','combles','plancher'].includes(t))) certifs.add('Qualibat RGE');
+ if (travaux.some(t => ['chauffe_eau','vmc','audit'].includes(t))) certifs.add('Qualit\'EnR');
+ if (travaux.includes('fenetres')) certifs.add('Qualibat 3521');
+ const certifsArr = Array.from(certifs);
+
+ const badgesEl = document.getElementById('certifBadges');
+ if (badgesEl) {
+ badgesEl.innerHTML = certifsArr.map(c =>
+ `<span style="background:#fff;border:1.5px solid var(--g3);color:var(--g1);padding:.3rem .7rem;border-radius:999px;font-size:.74rem;font-weight:800;">${c}</span>`
+ ).join('');
+ }
+ const introEl = document.getElementById('certifIntro');
+ if (introEl) {
+ const plural = certifsArr.length > 1;
+ introEl.innerHTML = `Mise en relation avec un artisan <strong>${certifsArr.join(' / ')}</strong> proche de chez vous — devis gratuit sous 48h, accompagnement complet du dossier MaPrimeRénov'.`;
+ }
+ const successCertifEl = document.getElementById('successCertif');
+ if (successCertifEl) successCertifEl.textContent = certifsArr.join(' / ');
+
+ // Store for lead form
+ sessionStorage.setItem('simulation', JSON.stringify({
+ catLabel: CAT_LABELS[catIdx],
+ totalCost, totalMPR, totalCEE, totalAide, totalReste,
+ travaux: travaux,
+ certifs: certifsArr,
+ codePostal: state.codePostal,
+ personnes: state.personnes,
+ }));
+}
+
+// ─── LEAD FORM ────────────────────────────────────────────────────────────────
+async function submitLead(e) {
+ e.preventDefault();
+ const sim = JSON.parse(sessionStorage.getItem('simulation') || '{}');
+ const data = {
+ nom: document.getElementById('leadNom').value,
+ email: document.getElementById('leadEmail').value,
+ telephone: document.getElementById('leadTel').value,
+ code_postal: sim.codePostal || state.codePostal,
+ categorie_foyer: sim.catLabel || '',
+ personnes: sim.personnes || '',
+ travaux: (sim.travaux || []).map(id => WORK_LABELS[id] || id).join(', '),
+ certifications_requises: (sim.certifs || ['RGE']).join(', '),
+ cout_total: sim.totalCost ? fmt(sim.totalCost) : '',
+ aides_total: sim.totalAide ? fmt(sim.totalAide) : '',
+ reste_a_charge: sim.totalReste !== undefined ? fmt(sim.totalReste) : '',
+ consent_mise_en_relation: document.getElementById('leadConsent').checked ? 'oui' : 'non',
+ source: 'simulateur-aides-wizard', ...(window.bsAttr?bsAttr():{}),
+ _subject: `[LEAD] Mise en relation artisan ${(sim.certifs||['RGE']).join('/')} — ${document.getElementById('leadNom').value} (${sim.codePostal || ''})`,
+ };
+
+ try {
+ await fetch('https://formspree.io/f/xdayeyra', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(data),
+ });
+ } catch (_) {}
+
+ // + CAPTURE dans demandes_devis SI consentement à la mise en relation (RGPD)
+ if (data.consent_mise_en_relation === 'oui') {
+ try {
+ const SB = 'https://cisniwhaiydazdpzvino.supabase.co';
+ const KEY = 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1'; // gitleaks:allow
+ await fetch(`${SB}/rest/v1/demandes_devis`, {
+ method: 'POST',
+ headers: { 'apikey': KEY, 'authorization': `Bearer ${KEY}`, 'content-type': 'application/json', 'Prefer': 'return=minimal' },
+ body: JSON.stringify({ ...(window.bsAttr?bsAttr():{}),
+ client_id: null,
+ adresse: 'Non précisée',
+ client_name: (data.nom || '').trim() || null,
+ client_email: (data.email || '').trim().toLowerCase() || null,
+ client_phone: (data.telephone || '').trim() || null,
+ code_postal: (data.code_postal || '').trim() || null,
+ type_travaux: data.travaux || null,
+ description: `Simulateur aides — foyer ${data.categorie_foyer || ''}, travaux ${data.travaux || ''}, coût ${data.cout_total || ''}, aides ${data.aides_total || ''}, reste à charge ${data.reste_a_charge || ''}`,
+ budget_estime: data.cout_total || null,
+ }),
+ });
+ if (window.fbq) fbq('track', 'Lead');
+ } catch (_) {}
+ }
+
+ document.querySelector('.cta-box').style.display = 'none';
+ document.getElementById('successMsg').classList.add('show');
+ document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

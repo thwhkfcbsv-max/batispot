@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#FFFFFF">
+ <title>Chantier — BatiSpot</title>
+ <link rel="manifest" href="./manifest.json">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <link rel="stylesheet" href="./css/photos.css?v=2026_09_06">
+ <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+ <style>
+ /* ============================================================
+ chantier.html — hub chantier, réplique maquette 04/09/2026
+ Source : ANALYSE_APP_2026-09-03_maquette.html écrans 02 (Déroulement),
+ 07 (Photos), 12 (Messages). Markup et classes `mq-*` (portées dans
+ app/css/app.css, fin de fichier). Cet écran n'a PAS de bandeau .app-h :
+ la maquette n'en a pas — le repère de retour est `.mq-top`.
+ ============================================================ */
+
+ html, body { background: var(--g-cream, #F7FBF8); }
+ .app-shell {
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh;
+ }
+ .scr-body { flex: 1 1 auto; min-height: 0; }
+
+ .tab-content.hidden { display: none; }
+
+ /* Fil plein écran, onglet Messages seulement (correctif révision tâche 19,
+    04/09 — v2, mesures en prod ayant montré que la 1re version restait
+    cassée). Classe posée/retirée par chantier.js (activerOnglet()). Les
+    autres onglets gardent le défilement de page normal (la page grandit
+    avec le contenu, .bn — barre du bas, injectée par app-nav.js en enfant
+    de .app-shell, reste collée en bas via position:sticky + margin-top:auto,
+    app.css). Ici, au contraire, on borne .app-shell à la hauteur réelle de
+    l'écran (100dvh, repli 100vh — jamais juste min-height, qui laisserait
+    tout grandir et scroller la fenêtre) : seul .mq-thread (flex:1,
+    overflow-y:auto, app.css) défile alors ; l'en-tête, les onglets et le
+    composeur restent en place.
+    Deux bugs trouvés aux mesures (getBoundingClientRect en prod) :
+    1) .mq-assist a `margin-top:auto` (app.css) pour se plaquer en bas des
+       AUTRES onglets, en page normale. Dans ce mode borné, cette marge
+       auto entre en concurrence avec le flex:1 du tab-content Messages et
+       lui vole toute la hauteur (mesuré : tab-content à 316px au lieu de
+       ~400+), laissant un vide sous le fil puis la carte flottant plus
+       bas. Donc : carte masquée dans ce mode (pas de place pour elle une
+       fois le fil plein écran — comme WhatsApp, qui n'a pas de bandeau
+       de suggestions au-dessus du clavier).
+    2) .mq-compose garde son position:sticky + bottom:calc(--bn-h + safe
+       area) (app.css), pensé pour une page qui défile ENTIÈREMENT (le
+       composeur « rattrape » la barre du bas qui, elle, n'est pas dans le
+       flux). Ici .bn est déjà exclue de la hauteur disponible par la
+       chaîne flex (.bn est sœur de .scr-body dans .app-shell, prend ses
+       60px, .scr-body prend le reste) : le tab-content borné se termine
+       déjà exactement là où commence .bn. Le décalage sticky de 60px
+       s'applique donc EN PLUS, et pousse le composeur 60px trop haut —
+       mesuré : composeur à bottom:613 alors que la barre du bas commence
+       à 673. On repasse le composeur en flux normal (dernier enfant,
+       flex:none) pour ce mode précis ; il garde sticky ailleurs (autres
+       écrans de fil non bornés). */
+ .app-shell.mq-fil-plein { height: 100vh; height: 100dvh; overflow: hidden; }
+ .app-shell.mq-fil-plein .scr-body { display: flex; flex-direction: column; overflow: hidden; }
+ .app-shell.mq-fil-plein .mq-screen { flex: 1; min-height: 0; overflow: hidden; padding-bottom: 0; }
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] {
+ flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
+ }
+ .app-shell.mq-fil-plein .mq-assist { display: none; }
+ /* En-tête compact sur l'onglet Messages (tâche 24, 05/09) : sur un
+    téléphone de 844px, le titre sur deux lignes + l'adresse + la barre
+    d'avancement mangeaient plus de la moitié de l'écran et il ne restait
+    qu'un hublot pour le fil. Ici on garde le retour, le nom du chantier
+    sur UNE ligne et les onglets — l'adresse et l'avancement sont à un
+    onglet de distance, la conversation non. */
+ .app-shell.mq-fil-plein .mq-top h2 {
+ font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+ }
+ .app-shell.mq-fil-plein .mq-top small,
+ .app-shell.mq-fil-plein .mq-progress,
+ .app-shell.mq-fil-plein #mq-progress-line { display: none; }
+ .app-shell.mq-fil-plein .mq-top > div { min-width: 0; }
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] .mq-compose {
+ position: static; bottom: auto;
+ }
+ /* Le fil occupe toute la hauteur restante et déborde d'un bord à l'autre :
+    le quadrillage du fond va jusqu'aux bords de l'écran, comme une vraie
+    messagerie, alors que le reste de l'onglet garde sa gouttière de 16px. */
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] { margin: 0 -16px; }
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] .mq-compose,
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] .mq-compose-indice,
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] .mq-emoji-panel { margin: 8px 12px 0; }
+ .app-shell.mq-fil-plein .tab-content[data-tab-content="messages"] .mq-compose { margin-bottom: env(safe-area-inset-bottom); }
+
+ /* Petits resets nécessaires : la maquette dessine ces éléments comme du
+    HTML statique (span, div) ; ici ce sont de vrais boutons interactifs.
+    On ne change ni la couleur, ni la taille, ni la forme posées par les
+    classes mq-* — seulement ce que le navigateur ajoute par défaut. */
+ .mq-screen button { font-family: inherit; -webkit-appearance: none; appearance: none; cursor: pointer; }
+ .mq-tabs .mq-tab { border: 1px solid #DCE6E0; }
+ .mq-tabs .mq-tab.mq-on { border-color: #228B5B; }
+
+ /* Case à cocher d'une étape : le carré visible reste 20×20 (fidèle à la
+    maquette), mais la zone cliquable est agrandie à 44×44 par un padding
+    invisible — au doigt, sur un chantier, 20 px ne se vise pas. */
+ .mq-task .mq-cb-hit {
+ background: none; border: none; padding: 0; margin: -12px 0 -12px -12px;
+ width: 44px; height: 44px; flex: none;
+ display: flex; align-items: center; justify-content: center;
+ }
+ .mq-task .mq-titre-etape { min-width: 0; overflow-wrap: anywhere; }
+ .mq-task .mq-titre-etape.der-editable { cursor: pointer; }
+ .mq-task .mq-titre-etape.der-editable:hover { text-decoration: underline; }
+
+ /* La capsule de saisie (.mq-compose.mq-saisie) est entièrement décrite
+    dans css/app.css depuis la tâche 24 : mêmes proportions, mêmes couleurs
+    et mêmes boutons sur les quatre messageries. Plus rien à redire ici. */
+
+ /* Grille photo : tuile réelle (photo de fond). La suppression passe par
+    la sélection (css/photos.css, js/photos-galerie.js) depuis le 06/09/2026. */
+ .mq-ph { cursor: pointer; }
+ .mq-ph.mq-add { flex-direction: column; }
+
+ /* Formulaire d'ajout / de modification d'une étape (inchangé, réutilisé
+    tel quel — c'est « le formulaire existant » dont parle la consigne). */
+ .der-form {
+ background: #F7FBF8; border: 1px solid #D3E3DA; border-radius: 10px;
+ padding: 11px; margin: 8px 0 0;
+ display: flex; flex-direction: column; gap: 8px;
+ }
+ .der-form label { font: 800 11px Inter, system-ui, sans-serif; color: var(--muted); }
+ .der-form input, .der-form textarea {
+ width: 100%; padding: 8px 9px; border: 1.5px solid #C7D9CE; border-radius: 8px;
+ font-size: 16px; font-family: inherit; color: var(--text); background: #FFFFFF;
+ }
+ .der-form .der-form-ligne { display: flex; gap: 8px; flex-wrap: wrap; }
+ .der-form .der-form-ligne > div { flex: 1 1 120px; }
+ .der-form-boutons { display: flex; gap: 7px; }
+
+ /* Accordion form Infos, désormais discret dans l'onglet Docs. */
+ details.infos-form {
+ background: #fff;
+ border: 1px solid var(--border-soft, #E8F3EC);
+ border-radius: 12px;
+ overflow: hidden;
+ margin-top: 14px;
+ }
+ details.infos-form > summary {
+ padding: 14px 16px;
+ cursor: pointer;
+ font-size: 14px; font-weight: 800;
+ color: var(--text);
+ list-style: none;
+ display: flex; align-items: center; justify-content: space-between;
+ letter-spacing: -0.01em;
+ }
+ details.infos-form > summary::-webkit-details-marker { display: none; }
+ details.infos-form > summary::after {
+ content: '';
+ width: 9px; height: 9px;
+ border-right: 2px solid var(--sub, #3D5A4E);
+ border-bottom: 2px solid var(--sub, #3D5A4E);
+ transform: rotate(45deg);
+ transition: transform .2s;
+ margin-left: 8px;
+ }
+ details.infos-form[open] > summary::after { transform: rotate(-135deg); }
+ details.infos-form > .form-body {
+ padding: 0 16px 16px;
+ border-top: 1px solid var(--border-soft, #E8F3EC);
+ }
+
+ /* Stripe lock banner (si artisan pas activé) */
+ .stripe-lock {
+ background: #EBF7F1;
+ border: 1px solid #228B5B;
+ border-radius: 12px;
+ padding: 14px 16px;
+ color: #7c2d12;
+ font-size: 13px; font-weight: 700;
+ }
+ .stripe-lock a { color: #7c2d12; text-decoration: underline; font-weight: 800; }
+
+ /* Avant / après — comparateur photo (04/09/2026). Slider natif <input
+    range>, bande tactile pleine largeur/hauteur (44 px mini) : au doigt,
+    viser une poignée de quelques pixels ne marche pas sur un chantier.
+    Masque clip-path sur la photo « après » superposée à la photo « avant ». */
+ .mq-avap { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; background: #DCE6E0; touch-action: pan-y; }
+ .mq-avap-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+ .mq-avap-after { clip-path: inset(0 0 0 50%); }
+ @media (prefers-reduced-motion: no-preference) {
+ .mq-avap-after, .mq-avap-div, .mq-avap-handle { transition: left .12s ease, clip-path .12s ease; }
+ }
+ .mq-avap-cap { position: absolute; bottom: 8px; font-size: 11px; font-weight: 700; color: #fff; background: rgba(28,43,34,.75); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+ .mq-avap-cap-before { left: 8px; }
+ .mq-avap-cap-after { right: 8px; }
+ .mq-avap-div { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.18); pointer-events: none; transform: translateX(-1px); }
+ .mq-avap-handle { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.28); pointer-events: none; }
+ .mq-avap-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; touch-action: pan-y; }
+ .mq-avap-range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; }
+ .mq-avap-range::-moz-range-thumb { width: 44px; height: 44px; border: none; background: transparent; }
+ .mq-avap-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 14px; }
+ .mq-avap-cell { position: relative; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; }
+ .mq-avap-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+ .mq-avap-ghost { aspect-ratio: 4/3; width: 100%; flex-direction: column; text-align: center; }
+ </style>
+ <script src="/js/sentry-init.js" defer></script>
+ <script src="/js/turnstile-helper.js" defer></script>
+</head>
+<body>
+ <div class="app-shell">
+ <div class="scr-body">
+ <div class="mq-screen">
+
+ <!-- Stripe lock (si artisan pas Stripe-actif) -->
+ <div id="stripe-lock-area"></div>
+
+ <!-- En-tête : « ‹ Chantiers » puis objet · client, adresse · dates
+      (mq-top — remplie par chantier.js, renderHero()). Pas de bandeau
+      logo ici : la maquette n'en a pas sur cet écran. -->
+ <div class="mq-top">
+ <div>
+ <a class="mq-back" href="./dashboard.html" style="text-decoration:none" aria-label="Retour aux chantiers">‹ Chantiers</a>
+ <h2 id="mq-titre">Chantier</h2>
+ <small id="mq-sous"></small>
+ </div>
+ </div>
+
+ <!-- Avancement réel : barre + « X % · N étapes sur T · dans les temps /
+      retard N j ». Rempli par chantier.js — majEnTeteAvancement(), appelée
+      dès que les étapes reviennent (renderDeroulement). -->
+ <div class="mq-progress"><i id="mq-progress-bar"></i></div>
+ <div class="mq-center" id="mq-progress-line">Avancement…</div>
+
+ <!-- Onglets : Déroulement / Photos / Docs / Messages, ordre de la
+      maquette. « Infos » n'a plus de bouton : sa fiche vit maintenant,
+      discrète, dans l'onglet Docs (voir plus bas). -->
+ <div class="mq-tabs" role="tablist">
+ <button type="button" class="mq-tab mq-on" data-tab="deroulement" role="tab" aria-selected="true">Déroulement</button>
+ <button type="button" class="mq-tab" data-tab="photos" role="tab" aria-selected="false">Photos</button>
+ <button type="button" class="mq-tab" data-tab="documents" role="tab" aria-selected="false">Docs</button>
+ <button type="button" class="mq-tab" data-tab="messages" role="tab" aria-selected="false">Messages</button>
+ </div>
+
+ <!-- Tab Déroulement : étapes groupées par jour (mq-day / mq-tasks /
+      mq-task). Cocher une étape = terminée (majStatutTache), taper sur
+      son libellé l'ouvre en modification — un seul mot : « étape ». -->
+ <div class="tab-content" data-tab-content="deroulement">
+ <div id="deroulement-liste"></div>
+ <div id="deroulement-actions"></div>
+ <div id="statut-calcule-area"></div>
+ </div>
+
+ <!-- Tab Photos (06/09/2026, « Photos de chantier en trois temps ») :
+      trois cases Début · Pendant · Fin avec leur compte (la case proposée
+      est déduite de l'avancement, mais DITE), un bouton principal qui
+      répète le temps choisi et prend en rafale, un second « Depuis la
+      galerie » pour importer plusieurs photos d'un coup. Rien ne part chez
+      le client sans un geste : appui long ou « Sélectionner » dans la
+      galerie → Envoyer au client / Avant / Après / Supprimer. Rendu par
+      js/chantier.js (renderPhotos) avec js/photos-galerie.js. -->
+ <div class="tab-content hidden" data-tab-content="photos">
+
+ <div class="ph-temps" id="photo-temps" role="radiogroup" aria-label="Temps du chantier"></div>
+
+ <input type="file" id="photo-input" accept="image/*" capture="environment" multiple style="display:none">
+ <input type="file" id="photo-input-galerie" accept="image/*" multiple style="display:none">
+ <button type="button" class="mq-btn mq-primary" id="upload-btn" style="width:100%"><span class="bs-ico" data-ico="camera"></span><span id="upload-btn-libelle">Photos « Pendant »</span></button>
+ <button type="button" class="mq-btn mq-ghost ph-btn-galerie" id="upload-galerie-btn" style="width:100%"><span class="bs-ico" data-ico="image"></span>Depuis la galerie · plusieurs à la fois</button>
+
+ <!-- Avant / après = les deux photos que l'artisan a marquées « Avant » et
+      « Après » (photos.role_client). Sans ce choix : « Chantier en cours »,
+      comme sur la page client — on ne réclame plus de prise de vue ici.
+      Rempli par renderAvantApres() (js/chantier.js). -->
+ <div class="mq-sec" id="avant-apres-sec">Avant / après · ce que voit le client</div>
+ <div class="mq-card" id="avant-apres-card" style="padding:0;overflow:hidden;">
+ <div class="loading-center"><div class="loading"></div></div>
+ </div>
+ <button type="button" class="mq-btn mq-ghost" id="avant-apres-partager" style="width:100%;display:none;">
+ <span class="bs-ico" data-ico="share"></span>Partager l'avant / après
+ </button>
+
+ <div id="photos-grid" style="margin-top:4px;display:flex;flex-direction:column;gap:8px;">
+ <div class="loading-center"><div class="loading"></div></div>
+ </div>
+ </div>
+
+ <!-- Tab Docs : coffre-fort (chantier-dossier.js s'insère avant
+      #docs-tab-area) puis, discrète, la fiche du chantier. -->
+ <div class="tab-content hidden" data-tab-content="documents">
+ <button type="button" class="mq-btn mq-ghost" id="copy-suivi-btn" style="width:100%"><span class="bs-ico" data-ico="share"></span>Copier le lien client</button>
+ <div id="docs-tab-area" style="margin-top:12px;">
+ <div class="loading-center"><div class="loading"></div></div>
+ </div>
+ <details class="infos-form" id="infos-form-details">
+ <summary>Fiche du chantier</summary>
+ <form id="info-form" class="form-body">
+ <div class="form-group">
+ <label>Nom client</label>
+ <input type="text" id="i-client-name" class="form-control">
+ </div>
+ <div class="form-group">
+ <label>Email client</label>
+ <input type="email" id="i-client-email" class="form-control">
+ </div>
+ <div class="form-group">
+ <label>Téléphone client</label>
+ <input type="tel" id="i-client-phone" class="form-control">
+ </div>
+ <div class="form-group">
+ <label>Adresse</label>
+ <input type="text" id="i-adresse" class="form-control">
+ </div>
+ <div class="form-group">
+ <label>Description</label>
+ <textarea id="i-description" class="form-control" rows="4"></textarea>
+ </div>
+ <div class="row">
+ <div class="form-group" style="flex:1;">
+ <label>Statut</label>
+ <select id="i-status" class="form-control">
+ <option value="en_attente">En attente</option>
+ <option value="en_cours">En cours</option>
+ <option value="retard">En retard</option>
+ <option value="termine">Terminé</option>
+ </select>
+ </div>
+ <div class="form-group" style="flex:1;">
+ <label>Budget estimé (€)</label>
+ <input type="number" id="i-budget" class="form-control" step="0.01">
+ </div>
+ </div>
+ <div class="row">
+ <div class="form-group" style="flex:1;">
+ <label>Date début</label>
+ <input type="date" id="i-date-debut" class="form-control">
+ </div>
+ <div class="form-group" style="flex:1;">
+ <label>Date fin prévue</label>
+ <input type="date" id="i-date-fin" class="form-control">
+ </div>
+ </div>
+ <button type="submit" class="btn-cta">Enregistrer</button>
+ <button type="button" id="delete-chantier-btn" class="btn-light" style="margin-top:10px; color: var(--danger); border-color: var(--danger);">Supprimer ce chantier</button>
+ </form>
+ </details>
+ </div>
+
+ <!-- Tab Messages : fil client ⇄ artisan, façon WhatsApp (tâche 19). -->
+ <div class="tab-content hidden" data-tab-content="messages">
+ <div class="mq-thread" id="msg-list">
+ <div class="loading-center"><div class="loading"></div></div>
+ </div>
+ <!-- Capsule de saisie : emoji à gauche, texte au milieu, un seul
+      emplacement rond à droite — « envoyer » dès qu'il y a du texte,
+      « micro » quand le champ est vide (maintenir pour dicter). Deux
+      boutons superposés plutôt qu'un seul qui change de rôle : un appui
+      long et un clic ne peuvent pas cohabiter sur le même élément. -->
+ <div class="mq-compose mq-saisie">
+ <button type="button" class="mq-compose-emoji" id="msg-emoji-btn" aria-label="Insérer un emoji" aria-expanded="false"></button>
+ <button type="button" class="mq-compose-emoji mq-compose-cam" id="msg-cam-btn" aria-label="Envoyer une photo au client"></button>
+ <textarea id="msg-input" placeholder="Écrire ou dicter…" rows="1" autocomplete="off" data-lpignore="true" enterkeyhint="send"></textarea>
+ <button type="button" class="mq-compose-mic" id="msg-mic-btn" aria-label="Maintenir pour dicter" hidden></button>
+ <button type="button" class="mq-compose-send" id="msg-send-btn" aria-label="Envoyer"></button>
+ </div>
+ <div class="mq-compose-indice" id="msg-indice" hidden></div>
+ <div class="mq-emoji-panel" id="msg-emoji-panel" hidden>
+ <div class="mq-emoji-tabs" id="msg-emoji-tabs" role="tablist"></div>
+ <div class="mq-emoji-grid" id="msg-emoji-grid"></div>
+ </div>
+ </div>
+
+ <!-- Assistant : chips propres à l'onglet ouvert, remplies par
+      chantier.js (majAssistant()). Absente sur l'onglet Docs. -->
+ <div class="mq-assist" id="mq-assist" hidden>
+ <div class="mq-h"><span class="mq-dot"></span>L'assistant propose</div>
+ <div class="mq-chips" id="mq-chips"></div>
+ </div>
+
+ </div>
+ </div>
+ </div>
+
+ <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+ <!-- Version bumpee le 04/09/2026 : sans ca, le service worker (sw.js precache
+      chantier.html et ses scripts) continuait a servir l'ancien chantier.js et
+      le nouvel ecran hub (maquette) ne serait jamais arrive sur les telephones. -->
+ <script type="module" src="./js/chantier.js?v=v48_2026_09_07_date_debut_ts"></script>
+ <script type="module" src="./js/app-menu.js?v=menu_2026_09_06f"></script>
+ <script src="/js/update-detector.js" defer></script>
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+<script src="./js/app-assistant.js?v=2026_09_06l"></script>
+</body>
+</html>

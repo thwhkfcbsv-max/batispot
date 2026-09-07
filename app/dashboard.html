@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Chantiers · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+  <!-- « Bien démarrer » : carte des 4 premiers gestes + feuille-guide (js/app-demarrage.js) -->
+  <link rel="stylesheet" href="./css/demarrage.css?v=2026_09_06">
+  <style>
+    :root {
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --text-main: #1C2B22;
+      --text-muted: #3D5A4E;
+      --text-sub: #5A7268;
+      --g-deep: #1B7049;
+      --g-light: #DCFCE7;
+      --y-amber: #228B5B;
+      --y-light: #EBF7F1;
+      --border-line: #D3E3DA;
+      --border-subtle: #EEF3F0;
+    }
+    body {
+      background: #FFFFFF;
+      color: #1C2B22;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .phone-screen {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      position: relative;
+    }
+    .app-h {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid #E7EEEA;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .scr-body {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #FFFFFF;
+    }
+
+    /* 2 Actions Directes Terrain avec Vert & Jaune */
+    .dash-action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .dash-btn-action {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      padding: 12px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      color: #1C2B22;
+      text-decoration: none;
+      font-family: inherit;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      transition: all 0.15s;
+    }
+    .dash-btn-action.green-btn {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(11,168,92,0.2);
+    }
+    .dash-btn-action.yellow-btn {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #1C2B22;
+      box-shadow: 0 2px 8px rgba(245,158,11,0.2);
+    }
+    .dash-btn-action:active { transform: scale(0.97); }
+
+    /* Onglets Chantiers */
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .chip-row::-webkit-scrollbar { display: none; }
+    .chip {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      color: #3D5A4E;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .chip.active {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+
+    .chantier-card {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .chantier-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chantier-badge {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .chantier-badge.nouveau { background: #F7FBF8; border-color: #D3E3DA; color: #1A6B45; }
+    .chantier-badge.nouveau .badge-dot { background: #228B5B; }
+    .chantier-badge.en_cours { background: #DCFCE7; color: #065F46; }
+    .chantier-badge.en_cours .badge-dot { background: #16A34A; }
+    .chantier-badge.termine { background: #EEF3F0; color: #3D5A4E; }
+    .chantier-badge.termine .badge-dot { background: #5A7268; }
+
+    .chantier-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #1C2B22;
+      margin: 0;
+    }
+    .chantier-sub {
+      font-size: 13.5px;
+      color: #3D5A4E;
+      font-weight: 600;
+      margin-top: -4px;
+    }
+    .chantier-pricing {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-top: 1px solid #EEF3F0;
+      border-bottom: 1px solid #EEF3F0;
+    }
+    .chantier-price {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--t1);
+    }
+    .chantier-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .btn-card {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      border: 1.5px solid #D3E3DA;
+      background: #FFFFFF;
+      color: #1C2B22;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-card.primary {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+
+    /* Modal Photo Studio */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-content {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 500px;
+      max-height: 92vh;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      animation: slideUp 0.22s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* Styles du faux viseur laser (.hud-*) supprimes le 31/08 avec les dernieres
+       mentions "telemetre" : il n'y a pas de telemetre dans BatiSpot. La mesure
+       reelle passe par metre.html (realite augmentee) et l'estimation par photo
+       passe par le mode serveur scan-room-photo. */
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1C2B22;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast.yellow { border-left-color: #228B5B; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header épuré : Logo Officiel BatiSpot Pro + Accès Profil vérifié -->
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+    <!-- Body Principal -->
+    <div class="mq-screen" id="scr-body">
+      <!-- Titre d'écran : l'en-tête (date puis sous-titre chiffré + « Chantiers »
+           + avatar) est généré par js/app-nav.js sur .app-h ; pas de h1 local,
+           pour ne pas le doubler. Le sous-titre réel est posé plus bas
+           (initDashboard) sur l'élément .ui-top small que ce script crée. -->
+
+      <!-- Onglets Chantiers : En cours / À venir / Terminés -->
+      <div class="mq-tabs" role="tablist" id="chantiers-tabs">
+        <button type="button" class="mq-tab mq-on" role="tab" data-tab="en_cours">En cours</button>
+        <button type="button" class="mq-tab" role="tab" data-tab="a_venir">À venir</button>
+        <button type="button" class="mq-tab" role="tab" data-tab="termines">Terminés</button>
+      </div>
+
+      <!-- Liste des cartes de chantiers -->
+      <div id="cards-area" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+      <!-- (05/09, Moctar) Le bouton « Photo Studio » sous la liste est retiré :
+           inutile ici, la photo se fait depuis le chantier ou l'assistant. -->
+
+      <!-- Aujourd'hui : qui travaille où, tous chantiers confondus -->
+      <div class="mq-sec">Aujourd’hui</div>
+      <div id="today-area" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+      <!-- « L'assistant propose » : chips posés sur des vrais chantiers
+           chargés (renderAssistChips), jamais un texte générique. Masqué
+           tant qu'il n'y a rien de réel à proposer (aucun chantier). -->
+      <div class="mq-assist" id="mqAssist" hidden>
+        <div class="mq-h"><span class="mq-dot"></span>L'assistant propose</div>
+        <div class="mq-chips" id="mqAssistChips"></div>
+      </div>
+    </div>
+
+            <!-- Modale Unifiée Photo Studio (Visite Technique, Début, Pendant, Fin de Chantier) -->
+    <div class="modal-overlay" id="photoStudioModal" onclick="if(event.target===this) closePhotoStudioModal()">
+      <div class="modal-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #E7EEEA;padding-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#DCFCE7;color:#065F46;display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <h2 style="margin:0;font-size:17px;font-weight:900;color:#1C2B22;">Photo Studio</h2>
+          </div>
+          <button type="button" onclick="closePhotoStudioModal()" style="background:none;border:none;cursor:pointer;color:#5A7268;padding:4px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <!-- CASE 1 : Visite technique & métré (Avant Devis) -->
+          <div style="background:#FFFFFF;border:2px solid #228B5B;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 10px rgba(15,81,50,0.06);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:#DCFCE7;color:#065F46;display:flex;align-items:center;justify-content:center;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+                <strong style="font-size:14.5px;color:#1C2B22;">Visite technique &amp; métré</strong>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:var(--t1);background:#DCFCE7;padding:3px 8px;border-radius:6px;">Chiffrage</span>
+            </div>
+            
+            <p style="font-size:12.5px;color:#3D5A4E;margin:0;line-height:1.4;">Photographiez la pièce lors du 1er RDV technique. La prise de vue et le métré se font depuis l'écran Photos.</p>
+
+            <!-- Retire : selecteur de 3 clients fictifs (jamais lu par aucun code),
+                 faux viseur de mesure statique ("28.4 m² detectes")
+                 et bouton "Creer le devis complet 4 lignes (2 752,97 € TTC)" — ce
+                 montant etait invente et aucune photo n'etait transmise au devis.
+                 On renvoie vers les deux ecrans qui font reellement le travail. -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <a href="./photos.html?phase=avant" class="btn-card" style="padding:12px;font-size:12.5px;text-align:center;text-decoration:none;">
+                Ouvrir l'appareil photo
+              </a>
+              <a href="./devis.html" class="btn-hero" style="padding:12px;font-size:12.5px;text-align:center;text-decoration:none;">
+                Créer un devis →
+              </a>
+            </div>
+          </div>
+
+          <!-- CASE 2 : Photos de Chantier (Début / Pendant / Fin) -->
+          <div style="background:#FFFFFF;border:1.5px solid #D3E3DA;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:#F7FBF8;border-color:#D3E3DA;color:#1A6B45;display:flex;align-items:center;justify-content:center;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+                <strong style="font-size:14.5px;color:#1C2B22;">Photos de Chantier (Début · Pendant · Fin)</strong>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:#1A6B45;background:#F7FBF8;border-color:#D3E3DA;padding:3px 8px;border-radius:6px;">Suivi 360°</span>
+            </div>
+
+            <!-- Retire : selecteur de 3 clients fictifs. Le chantier se choisit
+                 dans photos.html, sur la vraie liste de l'artisan. -->
+            <p style="font-size:12px;color:#5A7268;margin:0;">Le chantier se choisit sur l'écran Photos, dans votre liste réelle.</p>
+
+            <!-- Les 3 boutons pour les 3 étapes clés du chantier -->
+            <div style="display:grid;grid-template-columns: 1fr 1fr 1fr; gap:6px;">
+              <button type="button" onclick="location.href='./photos.html?phase=avant'" style="border:1.5px solid #D3E3DA;border-radius:10px;padding:10px 4px;text-align:center;background:#F7FBF8;font-weight:800;font-size:11px;color:#1C2B22;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Début
+              </button>
+              <button type="button" onclick="location.href='./photos.html?phase=pendant'" style="border:1.5px solid #D3E3DA;border-radius:10px;padding:10px 4px;text-align:center;background:#FFFFFF;border-color:#D3E3DA;font-weight:800;font-size:11px;color:#228B5B;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="7" y1="6" x2="7" y2="18"/><line x1="12" y1="6" x2="12" y2="18"/><line x1="17" y1="6" x2="17" y2="18"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                Pendant
+              </button>
+              <button type="button" onclick="location.href='./photos.html?phase=apres'" style="border:1.5px dashed var(--t1);border-radius:10px;padding:10px 4px;text-align:center;background:#F0FDF4;font-weight:800;font-size:11px;color:var(--t1);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Fin
+              </button>
+            </div>
+          </div>
+
+          <!-- CASE 3 : Scan Reçus Point.P & Factures Fournisseurs -->
+          <div style="background:#FFFFFF;border:1.5px solid #D3E3DA;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:32px;height:32px;border-radius:8px;background:#F3E8FF;color:#6B21A8;display:flex;align-items:center;justify-content:center;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="6" y1="16" x2="12" y2="16"/></svg>
+                </div>
+                <strong style="font-size:14.5px;color:#1C2B22;">Scan Reçus Fournisseurs (Point.P)</strong>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:#6B21A8;background:#F3E8FF;padding:3px 8px;border-radius:6px;">OCR Frais</span>
+            </div>
+
+            <!-- Retire : selecteur de 3 chantiers fictifs (valeur jamais lue).
+                 Le bouton disait "arrive bientot" alors que photos.html scanne
+                 reellement les tickets (mode ocr-receipt + table depenses) :
+                 on y renvoie au lieu de nier une fonction qui existe. -->
+            <p style="font-size:12px;color:#5A7268;margin:0;">Le ticket est lu, puis vous confirmez le montant et le chantier avant enregistrement.</p>
+
+            <a href="./photos.html#scan-ticket" class="btn-card" style="padding:12px;display:block;text-align:center;text-decoration:none;">
+              Scanner un ticket de caisse / reçu fournisseur
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Conteneur de Toasts Non-Bloquants -->
+    <!-- Retire le 22/08 : bouton "Dossier de fin de chantier" + modale
+         "Proces-Verbal de Reception & Dossier Reglementaire".
+         La modale annoncait un chantier fictif (Sophie Marchand) et une
+         "Attestation d'Assurance Decennale SMABTP police n° 84920394-B" qui
+         n'existe pas ; les deux boutons d'envoi (email / SMS) affichaient
+         "Dossier Reglementaire complet envoye" sans rien envoyer ni generer.
+         Aucun document n'est produit par l'application : on n'en promet aucun. -->
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <!-- « Bien démarrer » (06/09/2026) : les étapes 2 et 3 réutilisent
+       BsImportDevis (mêmes fichier et version que welcome.html / profile.html) ;
+       app-demarrage.js vient APRÈS l'assistant (bsJetonSession, bsAssistantDicterDevis)
+       et la grille (BtpPriceGridManager), dont il dépend. -->
+  <script src="./js/app-import-devis.js?v=2026_09_06e" defer></script>
+  <script src="./js/app-demarrage.js?v=2026_09_06e" defer></script>
+  <script>
+    // js/app-assistant.js (chargé juste au-dessus, en defer) insère par
+    // défaut sa propre carte « L'assistant propose » générique (.ui-assist)
+    // sur chaque page. Cet écran en construit une à la main plus bas
+    // (.mq-assist, fidèle à la maquette 06) avec des chips calculés sur les
+    // VRAIS chantiers chargés — on ne veut donc pas des deux. Ce script n'est
+    // pas différé : il s'exécute avant le script defer d'app-assistant.js
+    // malgré sa position après lui dans le document. Un libellé vide fait
+    // filtrer la suggestion par bsSuggestionsPourPage() (elle exige un
+    // s.label truthy), la liste retombe à vide et sa carte ne s'insère pas.
+    window.bsSuggestions = [{ label: "" }];
+
+    function showToast(msg, isYellow = false) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${isYellow ? 'yellow' : ''}`;
+      // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+      // messages qui viennent parfois du LLM — resume d'un ticket passe a
+      // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+      // ecrit sur un ticket photographie peut porter une instruction, et le
+      // modele la restituer telle quelle : le balisage s'executait alors dans
+      // l'origine authentifiee de l'artisan.
+      const bsT = document.createElement("span");
+      bsT.textContent = msg;
+      const bsX = document.createElement("span");
+      bsX.style.cursor = "pointer";
+      bsX.textContent = '';
+      bsX.addEventListener("click", () => toast.remove());
+      toast.replaceChildren(bsT, bsX);
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 250); }, 2500);
+    }
+
+    function openPhotoStudioModal(tab = "metre") {
+      document.getElementById("photoStudioModal").classList.add("open");
+    }
+
+    function closePhotoStudioModal() {
+      document.getElementById("photoStudioModal").classList.remove("open");
+    }
+
+    // ⚠️ startVoiceAction() a ete retire le 04/09/2026 : le bouton Dictee
+    // Vocale pointe desormais directement vers ./devis.html?dicter=1 (lien,
+    // plus de declenchement du micro depuis cet ecran). La regle qu'il
+    // portait — ne jamais simuler un clic pour ouvrir le micro — reste vraie
+    // partout ou un micro est declenche en JS.
+  </script>
+  <script type="module">
+    import {
+      supabase, requireAuth, listChantiers, listTachesJour, listMembres,
+      nomAssigne, TYPE_TRAVAUX_LABEL,
+    } from "./js/supabase.js";
+    import { hrefItineraire } from "./js/tel.js";
+
+    // ⚠️ Cet ecran rend le nom, l'adresse et la description d'un chantier —
+    // trois champs qui viennent du formulaire PUBLIC de demande de devis
+    // (demande-devis.html), ou n'importe qui ecrit ce qu'il veut (note ajoutee
+    // le 01/09/2026). La version precedente les rendait via innerHTML derriere
+    // une fonction d'echappement ; celle-ci les construit entierement par
+    // createElement/textContent — aucune chaine venant de la base n'est plus
+    // jamais interpretee comme balisage, l'echappement manuel est inutile.
+
+    // Chantiers reels de l'artisan, groupes par onglet. Les cartes pointent
+    // vers chantier.html, le seul ecran de pilotage reel de l'app.
+    let activeTab = "en_cours";
+    let CHANTIERS = { en_cours: [], a_venir: [], termines: [] };
+    let TOUS_CHANTIERS = [];
+    // ⚠️ « AUCUN CHANTIER » ET « JE N'AI PAS PU DEMANDER » NE SONT PAS LA MEME
+    // CHOSE (corrige le 05/09/2026). Le catch de chargerChantiers() avalait
+    // l'erreur reseau ; CHANTIERS restait a ses listes vides et l'ecran rendait
+    // l'etat vide : « Aucun chantier pour l'instant. Dictez votre premier
+    // devis. » Un artisan qui a 4 chantiers en cours, dans un sous-sol, lisait
+    // qu'il n'en avait aucun — avec une invitation a en creer un, donc a faire
+    // un doublon. La faute est grave parce qu'elle est SILENCIEUSE : rien ne
+    // disait que c'etait le reseau.
+    //
+    // C'est le garde-fou qu'ecrivent deja photos.html (loadChantiers, `echec`)
+    // et finances.html (bandeau « ne vous y fiez pas ») : un ecran qui ne sait
+    // pas doit le DIRE, jamais afficher zero.
+    let CHANTIERS_ECHEC = false;
+    // chantier_id -> ses taches (etapes). Une seule requete groupee pour tous
+    // les chantiers affiches, jamais une requete par carte (04/09/2026).
+    let TACHES_PAR_CHANTIER = new Map();
+    // membre.id -> membre, pour resoudre assigne_id en prenom via nomAssigne().
+    let membresParId = new Map();
+    // Rappels de dossier (04/09/2026) : attestation manquante, PV à faire
+    // signer, facture de solde/situation à émettre… calculés en vrai par
+    // `rappels_dossier` (app-actions.js), jamais inventés. Chargés une fois
+    // avec les chantiers, réutilisés par renderAssistChips().
+    let RAPPELS_DOSSIER = [];
+    const AUJOURDHUI = new Date().toISOString().slice(0, 10);
+
+    async function chargerTachesGroupees(ids) {
+      if (!ids.length) return new Map();
+      try {
+        const { data, error } = await supabase
+          .from("taches")
+          .select("id, chantier_id, statut, jour, jour_fin, assigne_id, assigne_a")
+          .in("chantier_id", ids);
+        if (error) throw error;
+        const map = new Map();
+        for (const t of (data || [])) {
+          if (!map.has(t.chantier_id)) map.set(t.chantier_id, []);
+          map.get(t.chantier_id).push(t);
+        }
+        return map;
+      } catch (e) {
+        console.warn("[dashboard] taches indisponibles", e);
+        return new Map();
+      }
+    }
+
+    async function chargerChantiers() {
+      // La forme de ce qui arrive, plutôt qu'un écran blanc (07/09).
+      const zoneCartes = document.getElementById("cards-area");
+      if (zoneCartes && !zoneCartes.childElementCount && typeof window.bsSquelette === "function") {
+        zoneCartes.replaceChildren(window.bsSquelette(3));
+      }
+      try {
+        const tous = await listChantiers();
+        TOUS_CHANTIERS = tous;
+        CHANTIERS = {
+          en_cours: tous.filter((c) => c.status === "en_cours" || c.status === "retard"),
+          a_venir: tous.filter((c) => c.status === "en_attente"),
+          termines: tous.filter((c) => c.status === "termine"),
+        };
+        CHANTIERS_ECHEC = false;
+        TACHES_PAR_CHANTIER = await chargerTachesGroupees(tous.map((c) => c.id));
+      } catch (e) {
+        console.warn("[dashboard] chargement des chantiers impossible", e);
+        CHANTIERS_ECHEC = true;
+      }
+      // Best effort, jamais bloquant : un rappel qui ne charge pas ne doit
+      // pas empêcher la liste des chantiers de s'afficher.
+      try {
+        const mod = await import("./js/app-actions.js");
+        RAPPELS_DOSSIER = (await mod.executerAction("rappels_dossier", {})).data || [];
+      } catch (e) {
+        RAPPELS_DOSSIER = [];
+      }
+    }
+
+    // ── Déduction de l'"objet" du chantier ─────────────────
+    // Même logique que chantier.js (inferTypeTravaux) : le type déclaré prime,
+    // sinon on le devine dans la description. Dupliquée ici volontairement —
+    // chantier.js n'exporte rien, et c'est un module de page, pas une lib.
+    const MOTS_TYPE = [
+      [/cuisine/, "cuisine"],
+      [/salle\s*de\s*bain|sdb|douche|baignoire/, "salle_bain"],
+      [/électric|electric|tableau|prise/, "electricite"],
+      [/toiture|toit|charpente|tuile/, "toiture"],
+      [/plomb|fuite|robinet|évier|evier|chauffe-eau/, "plomberie"],
+      [/peinture|peindre|enduit|revêtement|revetement/, "peinture"],
+      [/façade|facade|ravalement|crépi|crepi/, "facade"],
+    ];
+    function objetChantier(c) {
+      if (c.type_travaux && TYPE_TRAVAUX_LABEL[c.type_travaux]) return TYPE_TRAVAUX_LABEL[c.type_travaux];
+      const txt = String(c.description || "").toLowerCase();
+      for (const [re, cle] of MOTS_TYPE) if (re.test(txt)) return TYPE_TRAVAUX_LABEL[cle];
+      return TYPE_TRAVAUX_LABEL.autre;
+    }
+
+    // La table chantiers n'a pas de colonne ville : on la lit dans l'adresse,
+    // juste après le code postal — même convention que extractCodePostal côté
+    // chantier.js, dans l'autre sens.
+    function villeDe(adresse) {
+      if (!adresse) return null;
+      const m = String(adresse).match(/\d{5}\s+([^,]+)/);
+      return m ? m[1].trim() : String(adresse).trim();
+    }
+
+    function prenomsAssignes(taches) {
+      const noms = new Set();
+      for (const t of taches) {
+        const nom = nomAssigne(t, membresParId);
+        if (nom) noms.add(nom.split(" ")[0]);
+      }
+      return [...noms];
+    }
+
+    // Pill déduite de l'état RÉEL des étapes — jamais un statut saisi à part.
+    function pillChantier(taches) {
+      if (!taches.length) return { cls: "info", texte: "À planifier" };
+      if (taches.every((t) => t.statut === "termine")) return { cls: "wait", texte: "Solde à facturer" };
+      let retard = 0;
+      for (const t of taches) {
+        if (t.statut === "termine") continue;
+        const limite = t.jour_fin || t.jour;
+        if (!limite || limite >= AUJOURDHUI) continue;
+        const j = Math.floor((new Date(AUJOURDHUI) - new Date(limite)) / 86400000);
+        if (j > retard) retard = j;
+      }
+      return retard > 0 ? { cls: "wait", texte: `Retard ${retard} j` } : { cls: "ok", texte: "Dans les temps" };
+    }
+
+    async function initDashboard() {
+      await requireAuth();
+
+      const rMembres = await listMembres().catch((e) => {
+        console.warn("[dashboard] équipe indisponible", e);
+        return [];
+      });
+      membresParId = new Map((rMembres || []).map((m) => [m.id, m]));
+
+      await chargerChantiers();
+
+      // Sous-titre réel dans l'en-tête généré par js/app-nav.js : l'élément
+      // .ui-top small affiche la date jusqu'ici, on le remplace maintenant
+      // que les chantiers sont chargés (maquette 06 : « 3 en cours · 2 à
+      // venir » sous le titre « Chantiers »).
+      const topSmall = document.querySelector(".ui-top small");
+      if (topSmall) {
+        // « 0 en cours · 0 a venir » quand la requete a echoue est le meme
+        // mensonge que la liste vide, en plus court. Un tiret ne ment pas.
+        topSmall.textContent = CHANTIERS_ECHEC
+          ? "Chantiers non chargés"
+          : `${CHANTIERS.en_cours.length} en cours · ${CHANTIERS.a_venir.length} à venir`;
+      }
+
+      document.querySelectorAll("#chantiers-tabs .mq-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll("#chantiers-tabs .mq-tab").forEach((t) => t.classList.remove("mq-on"));
+          tab.classList.add("mq-on");
+          activeTab = tab.dataset.tab;
+          renderCards(activeTab);
+          if (typeof window.bsRejouer === "function") window.bsRejouer(document.getElementById("cards-area"), "bs-glisse");
+        });
+      });
+
+      // `?filtre=` (task 6, ouvrir_ecran : en_cours | a_venir | termines) :
+      // ouvre directement le bon onglet, comme un clic sur son bouton.
+      const filtreUrl = new URLSearchParams(location.search).get("filtre");
+      if (filtreUrl && CHANTIERS[filtreUrl]) {
+        activeTab = filtreUrl;
+        document.querySelectorAll("#chantiers-tabs .mq-tab").forEach((t) => {
+          t.classList.toggle("mq-on", t.dataset.tab === filtreUrl);
+        });
+      }
+
+      renderCards(activeTab);
+      renderAujourdhui();
+      renderAssistChips();
+    }
+
+    // Texte centré et discret — état vide ou message d'attente.
+    function noteCentree(texte) {
+      const p = document.createElement("p");
+      p.className = "mq-center";
+      p.textContent = texte;
+      return p;
+    }
+
+    function renderCards(tab) {
+      const area = document.getElementById("cards-area");
+      const tabsEl = document.getElementById("chantiers-tabs");
+      area.replaceChildren();
+      if (typeof window.bsCascade === "function") window.bsCascade(area);
+
+      // La requete n'a pas abouti : on ne sait rien. On le dit, et on propose
+      // de reessayer — surtout PAS l'invite a creer un premier chantier.
+      if (CHANTIERS_ECHEC) {
+        if (tabsEl) tabsEl.style.display = "none";
+        const horsLigne = navigator.onLine === false;
+        area.appendChild(noteCentree(
+          horsLigne
+            ? "Hors ligne : vos chantiers n'ont pas pu être chargés. Ils ne sont pas perdus — n'en recréez pas."
+            : "Vos chantiers n'ont pas pu être chargés (réseau ou serveur). Ils ne sont pas perdus — n'en recréez pas.",
+        ));
+        const retry = document.createElement("button");
+        retry.type = "button";
+        retry.className = "mq-btn mq-primary";
+        retry.style.width = "100%";
+        retry.textContent = "Réessayer";
+        retry.addEventListener("click", async () => {
+          retry.disabled = true;
+          retry.textContent = "Chargement…";
+          await chargerChantiers();
+          const topSmall = document.querySelector(".ui-top small");
+          if (topSmall && !CHANTIERS_ECHEC) {
+            topSmall.textContent = `${CHANTIERS.en_cours.length} en cours · ${CHANTIERS.a_venir.length} à venir`;
+          }
+          renderCards(activeTab);
+          renderAujourdhui();
+        });
+        area.appendChild(retry);
+        return;
+      }
+
+      // Compte neuf : aucun chantier du tout, quel que soit l'onglet. On
+      // remplace la liste par l'invite à dicter le premier devis, et on
+      // masque des onglets qui n'auraient rien à filtrer.
+      if (!TOUS_CHANTIERS.length) {
+        if (tabsEl) tabsEl.style.display = "none";
+        area.appendChild(noteCentree(
+          "Aucun chantier pour l'instant. Dictez votre premier devis : le chantier et ses étapes se créent tout seuls.",
+        ));
+        const btn = document.createElement("a");
+        btn.className = "mq-btn mq-primary";
+        btn.style.width = "100%";
+        btn.href = "./devis.html?dicter=1";
+        btn.textContent = "Dicter mon premier devis";
+        area.appendChild(btn);
+        return;
+      }
+      if (tabsEl) tabsEl.style.display = "";
+
+      const items = CHANTIERS[tab] || [];
+      if (!items.length) {
+        area.appendChild(noteCentree("Aucun chantier dans cette section."));
+        return;
+      }
+
+      items.forEach((item) => {
+        const taches = TACHES_PAR_CHANTIER.get(item.id) || [];
+        const total = taches.length;
+        const faites = taches.filter((t) => t.statut === "termine").length;
+        const pill = pillChantier(taches);
+
+        const card = document.createElement("a");
+        card.className = "mq-card";
+        card.href = `./chantier.html?id=${item.id}`;
+
+        const t = document.createElement("div");
+        t.className = "mq-t";
+        t.append(`${objetChantier(item)} · ${item.client_name || "Client"}`);
+
+        const segs = [];
+        const ville = villeDe(item.adresse);
+        if (ville) segs.push(ville);
+        if (total) segs.push(`étape ${faites}/${total}`);
+        const prenoms = prenomsAssignes(taches);
+        if (prenoms.length) segs.push(prenoms.join(", "));
+        if (segs.length) {
+          const small = document.createElement("small");
+          small.textContent = segs.join(" · ");
+          t.appendChild(small);
+        }
+
+        const progress = document.createElement("div");
+        progress.className = "mq-progress";
+        progress.style.marginTop = "6px";
+        const bar = document.createElement("i");
+        bar.style.width = (total ? Math.round((faites / total) * 100) : 0) + "%";
+        // Ambre seulement pour un vrai retard (une étape passée non cochée),
+        // pas pour « Solde à facturer » — même cls "wait", mais vert dans la
+        // maquette. Inline, comme la maquette (pas de classe .amber dédiée).
+        if (pill.texte.startsWith("Retard")) bar.style.background = "#B45309";
+        progress.appendChild(bar);
+        t.appendChild(progress);
+
+        card.appendChild(t);
+
+        const badge = document.createElement("span");
+        badge.className = `mq-pill mq-${pill.cls}`;
+        badge.textContent = pill.texte;
+        card.appendChild(badge);
+
+        area.appendChild(card);
+
+        // Actions rapides sous la carte (retour Moctar 04/09 : Appeler,
+        // Chiffrer et Planning doivent rester accessibles depuis la liste).
+        // Hors de la carte, qui est un lien : un <a> dans un <a> n'est pas
+        // valide.
+        const actions = document.createElement("div");
+        actions.className = "ui-card-actions";
+        actions.style.cssText = "display:flex;gap:6px;margin:6px 0 4px;";
+        const tel = telAppelable(item.client_phone);
+        if (tel) {
+          const a = document.createElement("a");
+          a.href = `tel:${tel}`;
+          a.className = "mq-btn mq-ghost";
+          a.style.cssText = "flex:1;padding:0 8px;font-size:12.5px;";
+          a.innerHTML = (window.bsIcon ? window.bsIcon("phone", 16) : "") + "Appeler";
+          actions.appendChild(a);
+        }
+        // Un chantier « à venir » a déjà sa date : « Chiffrer » n'a pas de
+        // sens (Moctar, 05/09) — on ouvre son déroulement.
+        const aVenir = item.status === "en_attente" && !!item.date_debut;
+        const chiffrer = document.createElement("a");
+        chiffrer.href = aVenir ? `./chantier.html?id=${item.id}&onglet=deroulement` : `./devis.html?dicter=1&chantier=${item.id}`;
+        chiffrer.className = "mq-btn mq-ghost";
+        chiffrer.style.cssText = "flex:1;padding:0 8px;font-size:12.5px;";
+        chiffrer.innerHTML = (window.bsIcon ? window.bsIcon(aVenir ? "wall" : "doc", 16) : "") + (aVenir ? "Étapes" : (total ? "Nouveau devis" : "Chiffrer"));
+        actions.appendChild(chiffrer);
+        const msg = document.createElement("a");
+        msg.href = `./chantier.html?id=${item.id}#messages`;
+        msg.className = "mq-btn mq-ghost";
+        msg.innerHTML = (window.bsIcon ? window.bsIcon("message", 16) : "") + "Messages";
+        actions.appendChild(msg);
+        area.appendChild(actions);
+      });
+    }
+
+    // ── "Aujourd'hui" : qui travaille où, tous chantiers confondus ────────
+    // Numéro composable (E.164 FR) ou null : « 06 12 34 56 78 » → +33612345678.
+    function telAppelable(raw) {
+      if (!raw) return null;
+      let d = String(raw).replace(/[^\d+]/g, "");
+      if (d.startsWith("00")) d = "+" + d.slice(2);
+      if (/^0\d{9}$/.test(d)) d = "+33" + d.slice(1);
+      return /^\+\d{8,15}$/.test(d) ? d : null;
+    }
+
+    async function renderAujourdhui() {
+      const area = document.getElementById("today-area");
+      if (!area) return;
+      area.replaceChildren(carteChargement());
+
+      let taches;
+      try {
+        taches = await listTachesJour(AUJOURDHUI);
+      } catch (e) {
+        console.warn("[dashboard] tâches du jour indisponibles", e);
+        area.replaceChildren(noteCentree("Indisponible pour le moment. Réessayez."));
+        return;
+      }
+
+      if (!taches.length) {
+        area.replaceChildren(noteCentree("Aucune étape planifiée aujourd’hui."));
+        return;
+      }
+
+      area.replaceChildren();
+      if (typeof window.bsCascade === "function") window.bsCascade(area);
+      const parChantier = new Map(TOUS_CHANTIERS.map((c) => [c.id, c]));
+      taches.forEach((tache) => {
+        const c = parChantier.get(tache.chantier_id);
+
+        // Div, pas <a> : le badge « Itinéraire » est lui-même un lien
+        // (l'appli de cartes), et un <a> dans un <a> n'est pas valide.
+        const card = document.createElement("div");
+        card.className = "mq-card";
+
+        const t = document.createElement("div");
+        t.className = "mq-t";
+        const qui = nomAssigne(tache, membresParId) || "Vous";
+        const quoi = c ? (c.client_name || objetChantier(c)) : (tache.titre || "Chantier");
+        t.append(`${qui} · ${quoi}`);
+
+        const segs = [];
+        if (tache.titre) segs.push(tache.titre);
+        const ville = c ? villeDe(c.adresse) : null;
+        if (ville) segs.push(ville);
+        if (segs.length) {
+          const small = document.createElement("small");
+          small.textContent = segs.join(" · ");
+          t.appendChild(small);
+        }
+        card.appendChild(t);
+
+        // Itinéraire (07/09, Moctar : « ne fonctionne pas, m'amène au
+        // planning ») : la pastille renvoyait vers planning.html, donc vers
+        // l'écran d'où l'on vient. Un artisan qui appuie sur « Itinéraire »
+        // veut y aller — on ouvre l'appli de cartes du téléphone sur
+        // l'adresse du chantier, exactement comme la fiche chantier.
+        // Sans adresse, pas de pastille : un lien qui ne mène nulle part est
+        // pire que pas de lien. L'ORDRE de passage de la journée, lui, reste
+        // sur le Planning, où le moteur le calcule.
+        const itin = c ? hrefItineraire(c.adresse) : null;
+        if (itin) {
+          const pillItin = document.createElement("a");
+          pillItin.className = "mq-pill mq-info";
+          pillItin.href = itin;
+          pillItin.rel = "noopener";
+          pillItin.textContent = "Itinéraire";
+          card.appendChild(pillItin);
+        }
+
+        area.appendChild(card);
+      });
+    }
+
+    function carteChargement() {
+      return typeof window.bsSquelette === "function"
+        ? window.bsSquelette(2, { court: true })
+        : noteCentree("Chargement…");
+    }
+
+    // ── « L'assistant propose » : chips posés sur les vrais chantiers ─────
+    // chargés — jamais un libellé générique. Masquée s'il n'y a rien de
+    // réel à proposer.
+    function renderAssistChips() {
+      const wrap = document.getElementById("mqAssist");
+      const area = document.getElementById("mqAssistChips");
+      if (!wrap || !area) return;
+      area.replaceChildren();
+
+      if (!TOUS_CHANTIERS.length) {
+        wrap.hidden = true;
+        return;
+      }
+
+      const libelles = [];
+
+      // Le chantier « en cours » affiché en premier — celui sur lequel
+      // l'artisan travaille en ce moment, sinon le premier « à venir ».
+      const prochain = CHANTIERS.en_cours[0] || CHANTIERS.a_venir[0];
+      if (prochain) {
+        libelles.push(`Où en est ${prochain.client_name || objetChantier(prochain)} ?`);
+      }
+
+      // Un chantier en retard, s'il en existe un — déduit de la même
+      // pillChantier() que les cartes, jamais un texte inventé.
+      const enRetard = CHANTIERS.en_cours.find((c) => {
+        const t = TACHES_PAR_CHANTIER.get(c.id) || [];
+        return pillChantier(t).texte.startsWith("Retard");
+      });
+      if (enRetard) {
+        libelles.push(`Décaler ${enRetard.client_name || objetChantier(enRetard)}`);
+      }
+
+      // Le rappel de dossier le plus pressant (attestation, PV, facture) —
+      // avant « Photo du jour », qui n'est jamais urgent.
+      if (RAPPELS_DOSSIER.length) {
+        libelles.push(RAPPELS_DOSSIER[0].texte);
+      }
+
+      libelles.push("Photo du jour");
+
+      libelles.slice(0, 3).forEach((label) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "mq-chip";
+        chip.textContent = label;
+        chip.addEventListener("click", () => {
+          if (typeof window.bsAssistantEnvoyerQuestion === "function") {
+            window.bsAssistantEnvoyerQuestion(label);
+          }
+        });
+        area.appendChild(chip);
+      });
+
+      wrap.hidden = false;
+    }
+
+    initDashboard();
+  </script>
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

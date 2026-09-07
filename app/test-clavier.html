@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFFFFF">
+<title>Essai clavier — BatiSpot</title>
+<style>
+  body { font: 16px/1.5 Inter, system-ui, sans-serif; margin: 0; padding: 20px 16px 120px; color: #1C2B22; background: #FAFBF9; }
+  h1 { font-size: 18px; margin: 0 0 6px; }
+  p { margin: 0 0 18px; color: #5A7268; font-size: 14px; }
+  .bloc { background: #fff; border: 1.5px solid #DCE6E0; border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+  .bloc b { display: block; margin-bottom: 8px; font-size: 15px; }
+  .champ { display: block; width: 100%; box-sizing: border-box; min-height: 48px; padding: 12px 14px; font: inherit; font-size: 16px; border: 1.5px solid #228B5B; border-radius: 12px; background: #fff; color: inherit; outline: none; }
+  .champ:focus { box-shadow: 0 0 0 3px #E6F4EC; }
+  [contenteditable]:empty::before { content: attr(data-placeholder); color: #8A9A92; }
+</style>
+</head>
+<body>
+  <h1>Essai clavier (barre clé / carte / position)</h1>
+  <p>Touche chaque champ, regarde si la barre avec la clé apparaît au-dessus du clavier, et dis-moi les lettres où elle N'apparaît PAS.</p>
+
+  <div class="bloc"><b>A — champ actuel de l'assistant</b>
+    <input class="champ" type="text" name="bs-ast-q" autocomplete="off" data-lpignore="true" enterkeyhint="send" autocapitalize="sentences" placeholder="Tape ici…"></div>
+
+  <div class="bloc"><b>B — champ de type recherche</b>
+    <input class="champ" type="search" name="q-b" autocomplete="off" enterkeyhint="send" autocapitalize="sentences" placeholder="Tape ici…"></div>
+
+  <div class="bloc"><b>C — zone de texte (textarea)</b>
+    <textarea class="champ" name="q-c" rows="1" autocomplete="off" enterkeyhint="send" autocapitalize="sentences" placeholder="Tape ici…"></textarea></div>
+
+  <div class="bloc"><b>D — zone éditable (pas un champ de formulaire)</b>
+    <div class="champ" contenteditable="true" role="textbox" aria-label="Tape ici" enterkeyhint="send" autocapitalize="sentences" data-placeholder="Tape ici…"></div></div>
+
+  <div class="bloc"><b>E — champ dans un formulaire sans remplissage automatique</b>
+    <form autocomplete="off" onsubmit="return false"><input class="champ" type="text" name="q-e" autocomplete="off" enterkeyhint="send" placeholder="Tape ici…"></form></div>
+</body>
+</html>

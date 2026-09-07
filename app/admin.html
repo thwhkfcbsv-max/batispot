@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="robots" content="noindex, nofollow">
+ <meta name="theme-color" content="#FFFFFF">
+ <title>Admin — BatiSpot</title>
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+ <style>
+ body { background: var(--bg, #F7FBF8); }
+
+ .phone-screen {
+ display: flex;
+ flex-direction: column;
+ min-height: 100dvh;
+ max-width: 520px;
+ margin: 0 auto;
+ background: var(--bg, #F7FBF8);
+ }
+
+ .admin-badge {
+ background: rgba(255,255,255,0.22);
+ color: #fff;
+ font-size: 10px;
+ font-weight: 900;
+ padding: 2px 8px;
+ border-radius: 6px;
+ letter-spacing: .5px;
+ text-transform: uppercase;
+ margin-left: auto;
+ }
+
+ .section-header {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ margin-bottom: 2px;
+ }
+
+ .artisan-card {
+ background: #fff;
+ border-radius: 12px;
+ padding: 14px;
+ border: 1px solid var(--border, rgba(34,139,91,0.12));
+ box-shadow: 0 2px 6px rgba(26,107,69,0.05);
+ }
+ .artisan-card + .artisan-card { margin-top: 10px; }
+
+ .artisan-name {
+ font-weight: 900;
+ font-size: 15px;
+ color: var(--text);
+ margin-bottom: 2px;
+ }
+ .artisan-meta {
+ font-size: 12px;
+ color: var(--sub);
+ margin-bottom: 10px;
+ line-height: 1.5;
+ }
+
+ .doc-badges {
+ display: flex;
+ gap: 6px;
+ flex-wrap: wrap;
+ margin-bottom: 12px;
+ }
+ .doc-badge {
+ font-size: 10px;
+ font-weight: 800;
+ padding: 3px 8px;
+ border-radius: 6px;
+ }
+ .doc-ok { background: #DCFCE7; color: #166534; }
+ .doc-ko { background: #FEE2E2; color: #991B1B; }
+
+ .action-row {
+ display: flex;
+ gap: 8px;
+ }
+ .action-row button {
+ flex: 1;
+ padding: 9px 6px;
+ border-radius: 9px;
+ font-size: 12px;
+ font-weight: 800;
+ font-family: inherit;
+ cursor: pointer;
+ border: none;
+ transition: opacity .15s, transform .1s;
+ }
+ .action-row button:active { transform: scale(.97); }
+ .btn-validate { background: var(--g1, #1A6B45); color: #fff; }
+ .btn-docs-ok { background: #228B5B; color: #7c2d12; }
+ .btn-refuse { background: #DC2626; color: #fff; }
+
+ .artisan-row {
+ background: #fff;
+ border-radius: 10px;
+ padding: 10px 12px;
+ border: 1px solid var(--border, rgba(34,139,91,0.12));
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ }
+ .artisan-row + .artisan-row { margin-top: 6px; }
+ .artisan-row-info { flex: 1; min-width: 0; }
+ .artisan-row-name {
+ font-weight: 800;
+ font-size: 13px;
+ color: var(--text);
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ }
+ .artisan-row-sub {
+ font-size: 11px;
+ color: var(--sub);
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ }
+
+ .demande-row {
+ background: #fff;
+ border-radius: 10px;
+ padding: 10px 12px;
+ border: 1px solid var(--border, rgba(34,139,91,0.12));
+ display: flex;
+ align-items: flex-start;
+ gap: 10px;
+ }
+ .demande-row + .demande-row { margin-top: 6px; }
+ .demande-row-info { flex: 1; min-width: 0; }
+ .demande-type {
+ font-weight: 800;
+ font-size: 13px;
+ color: var(--text);
+ }
+ .demande-meta {
+ font-size: 11px;
+ color: var(--sub);
+ margin-top: 2px;
+ }
+
+ .loading-text {
+ text-align: center;
+ color: var(--sub);
+ font-size: 13px;
+ padding: 20px;
+ }
+ .empty-state {
+ text-align: center;
+ padding: 20px 16px;
+ color: var(--sub);
+ font-size: 13px;
+ background: #fff;
+ border-radius: 12px;
+ border: 1px dashed rgba(34,139,91,0.2);
+ }
+ .empty-state strong {
+ display: block;
+ color: var(--text);
+ font-size: 14px;
+ margin-bottom: 4px;
+ font-weight: 800;
+ }
+
+ .toast {
+ position: fixed;
+ bottom: 20px;
+ left: 50%;
+ transform: translateX(-50%);
+ padding: 10px 20px;
+ border-radius: 10px;
+ font-size: 13px;
+ font-weight: 700;
+ z-index: 9999;
+ transition: opacity .25s;
+ max-width: calc(100vw - 32px);
+ pointer-events: none;
+ }
+ .toast.info { background: #1A6B45; color: #fff; }
+ .toast.success { background: #166534; color: #fff; }
+ .toast.error { background: #DC2626; color: #fff; }
+
+ .hidden { display: none !important; }
+ </style>
+</head>
+<body>
+ <div class="phone-screen">
+
+ <!-- ── Header ── -->
+ <div class="app-h">
+ <svg class="app-h-logo" viewBox="0 0 48 48" aria-hidden="true">
+ <defs>
+ <linearGradient id="lg-admin" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#228B5B"/>
+ <stop offset="100%" stop-color="#4CAF82"/>
+ </linearGradient>
+ </defs>
+ <rect width="48" height="48" rx="11" fill="url(#lg-admin)"/>
+ <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+ <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.9"/>
+ </svg>
+ Admin BatiSpot
+ <span class="admin-badge">backoffice</span>
+ </div>
+
+ <!-- ── Body ── -->
+ <div class="scr-body" id="admin-body">
+
+ <div id="auth-check" class="loading-text">Vérification des droits…</div>
+
+ <div id="admin-content" class="hidden">
+
+ <!-- Section 1 : Stats -->
+ <div>
+ <p class="scr-h">Vue d'ensemble</p>
+ <div class="stat-grid" style="margin-top:10px">
+ <div class="stat-card">
+ <div class="stat-num" id="stat-actifs">—</div>
+ <div class="stat-lbl">Artisans actifs</div>
+ </div>
+ <div class="stat-card">
+ <div class="stat-num" id="stat-attente">—</div>
+ <div class="stat-lbl">En attente</div>
+ </div>
+ <div class="stat-card">
+ <div class="stat-num" id="stat-nouvelles">—</div>
+ <div class="stat-lbl">Nouvelles demandes</div>
+ </div>
+ <div class="stat-card">
+ <div class="stat-num" id="stat-total">—</div>
+ <div class="stat-lbl">Total demandes</div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Section 2 : Dossiers à valider -->
+ <div>
+ <div class="section-header">
+ <p class="scr-h">Dossiers à valider</p>
+ <span class="b-badge b-yellow" id="badge-attente" style="display:none">0</span>
+ </div>
+ <p class="scr-sub" style="margin-bottom:10px">En attente ou documents uploadés</p>
+ <div id="artisans-a-valider"><div class="loading-text">Chargement…</div></div>
+ </div>
+
+ <!-- Section 3 : Tous les artisans -->
+ <div>
+ <p class="scr-h" style="margin-bottom:10px">Tous les artisans</p>
+ <div class="chip-row" id="filter-chips">
+ <span class="chip active" data-filter="tous">Tout</span>
+ <span class="chip" data-filter="actif">Actifs</span>
+ <span class="chip" data-filter="en_attente">En attente</span>
+ <span class="chip" data-filter="refuse">Refusés</span>
+ </div>
+ <div id="artisans-liste" style="margin-top:10px"><div class="loading-text">Chargement…</div></div>
+ </div>
+
+ <!-- Section 4 : Demandes récentes -->
+ <div>
+ <p class="scr-h" style="margin-bottom:10px">Demandes récentes</p>
+ <div id="demandes-recentes"><div class="loading-text">Chargement…</div></div>
+ </div>
+
+ </div>
+ </div>
+
+ </div>
+
+ <script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+ <script type="module">
+ import { supabase, requireAuth } from './js/supabase.js';
+
+ // ── Constants ──────────────────────────────────────────
+ // ⚠️ La liste des emails administrateurs vivait ICI, en clair, dans une page
+ // servie par batispot.pro : n'importe qui pouvait lire les deux adresses a
+ // cibler pour du hameconnage ou du bourrage d'identifiants. La RLS tenait —
+ // elle porte la meme condition cote base — mais designer ses comptes
+ // sensibles est un cadeau inutile a un attaquant.
+ // On demande desormais au serveur, qui repond oui ou non sans dire qui.
+
+ const TYPE_LABEL = {
+ cuisine: 'Cuisine', salle_bain: 'Salle de bain', electricite: 'Électricité',
+ toiture: 'Toiture', plomberie: 'Plomberie', peinture: 'Peinture',
+ facade: 'Façade', isolation: 'Isolation', autre: 'Divers',
+ };
+ const STATUS_CSS = {
+ actif: 'b-green', en_attente: 'b-yellow', documents_valides: 'b-yellow', refuse: 'b-red',
+ };
+ const STATUS_TXT = {
+ actif: 'Actif', en_attente: 'En attente', documents_valides: 'Docs OK', refuse: 'Refusé',
+ };
+ const DEMANDE_STATUS_CSS = {
+ nouvelle: 'b-green', en_traitement: 'b-blue', matchee: 'b-green',
+ chantier_cree: 'b-blue', abandonnee: 'b-grey',
+ };
+ const DEMANDE_STATUS_TXT = {
+ nouvelle: 'Nouvelle', en_traitement: 'En traitement', matchee: 'Artisan trouvé',
+ chantier_cree: 'Chantier', abandonnee: 'Abandonnée',
+ };
+
+ // ── Helpers ────────────────────────────────────────────
+ // Sanitize text for safe DOM insertion
+ function esc(s) {
+ const d = document.createElement('div');
+ d.textContent = String(s ?? '');
+ return d.textContent;
+ }
+
+ function fmtDate(d) {
+ if (!d) return '—';
+ return new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: '2-digit' });
+ }
+
+ function showToast(msg, type = 'info') {
+ const el = document.createElement('div');
+ el.className = `toast ${type}`;
+ el.textContent = msg; // textContent — no XSS risk
+ document.body.appendChild(el);
+ setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 250); }, 3000);
+ }
+
+ // Build a badge span with only safe text content
+ function makeBadge(cssClass, text) {
+ const span = document.createElement('span');
+ span.className = `b-badge ${cssClass}`;
+ span.textContent = text;
+ return span;
+ }
+
+ // ── State ──────────────────────────────────────────────
+ let allArtisans = [];
+ let currentFilter = 'tous';
+ let lastDemandes = [];
+
+ // ── Auth ───────────────────────────────────────────────
+ const session = await requireAuth('./login.html');
+ if (!session) throw new Error('Not authenticated');
+
+ const userEmail = (session.user.email || '').toLowerCase();
+ // La reponse fait autorite cote serveur. En cas d'erreur reseau on REFUSE :
+ // un ecran d'administration ne s'ouvre pas parce qu'une requete a echoue.
+ let estAdmin = false;
+ try {
+   const { data, error } = await supabase.rpc('est_admin');
+   estAdmin = !error && data === true;
+ } catch (_) { estAdmin = false; }
+ if (!estAdmin) {
+ // Un artisan qui tombe ici ne doit pas rester coince sur un cul-de-sac :
+ // on lui dit ce qu'il en est, et on lui rend la porte de son espace.
+ const { ecranRefus } = await import('./js/supabase.js');
+ ecranRefus("Cette page est réservée à l'administration de BatiSpot. "
+ + "Votre espace professionnel reste accessible depuis l'accueil.");
+ throw new Error('Not admin');
+ }
+
+ document.getElementById('auth-check').classList.add('hidden');
+ document.getElementById('admin-content').classList.remove('hidden');
+
+ // ── Load ───────────────────────────────────────────────
+ async function loadAll() {
+ const [aRes, dRes] = await Promise.all([
+ supabase.from('artisan_leads')
+ .select('id, prenom, nom, entreprise, email, code_postal, status, created_at, doc_decennale_path, doc_kbis_path, doc_identite_path')
+ .order('created_at', { ascending: false }),
+ supabase.from('demandes_devis')
+ .select('id, type_travaux, code_postal, status, client_name, created_at, pro_id')
+ .order('created_at', { ascending: false })
+ .limit(10),
+ ]);
+
+ if (aRes.error) { showToast('Erreur artisans : ' + aRes.error.message, 'error'); return; }
+ if (dRes.error) { showToast('Erreur demandes : ' + dRes.error.message, 'error'); return; }
+
+ allArtisans = aRes.data || [];
+ lastDemandes = dRes.data || [];
+
+ renderStats();
+ renderAValider();
+ renderListe();
+ renderDemandes();
+ }
+
+ // ── Stats ──────────────────────────────────────────────
+ function renderStats() {
+ document.getElementById('stat-actifs').textContent = allArtisans.filter(a => a.status === 'actif').length;
+ document.getElementById('stat-attente').textContent = allArtisans.filter(a => ['en_attente', 'documents_valides'].includes(a.status)).length;
+ document.getElementById('stat-nouvelles').textContent = lastDemandes.filter(d => d.status === 'nouvelle').length;
+ document.getElementById('stat-total').textContent = lastDemandes.length;
+ }
+
+ // ── Section 2 : À valider ─────────────────────────────
+ function renderAValider() {
+ const pending = allArtisans.filter(a => ['en_attente', 'documents_valides'].includes(a.status));
+ const badge = document.getElementById('badge-attente');
+ const container = document.getElementById('artisans-a-valider');
+
+ badge.textContent = pending.length;
+ badge.style.display = pending.length > 0 ? '' : 'none';
+
+ container.textContent = '';
+
+ if (pending.length === 0) {
+ const div = document.createElement('div');
+ div.className = 'empty-state';
+ const strong = document.createElement('strong');
+ strong.textContent = 'Aucun dossier en attente';
+ div.appendChild(strong);
+ div.appendChild(document.createTextNode('Tous les dossiers ont été traités.'));
+ container.appendChild(div);
+ return;
+ }
+
+ pending.forEach(a => {
+ const card = buildArtisanCard(a);
+ container.appendChild(card);
+ });
+ }
+
+ function buildArtisanCard(a) {
+ const card = document.createElement('div');
+ card.className = 'artisan-card';
+ card.id = `card-${a.id}`;
+
+ // Header row (name + status badge)
+ const headerRow = document.createElement('div');
+ headerRow.style.cssText = 'display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px';
+ const nameEl = document.createElement('div');
+ nameEl.className = 'artisan-name';
+ nameEl.textContent = `${esc(a.prenom)} ${esc(a.nom)}`.trim() || '—';
+ headerRow.appendChild(nameEl);
+ headerRow.appendChild(makeBadge(STATUS_CSS[a.status] || 'b-grey', STATUS_TXT[a.status] || a.status));
+ card.appendChild(headerRow);
+
+ // Meta
+ const meta = document.createElement('div');
+ meta.className = 'artisan-meta';
+ const lines = [];
+ if (a.entreprise) lines.push(esc(a.entreprise));
+ lines.push(esc(a.email) || '—');
+ const line2 = `CP : ${esc(a.code_postal) || '—'} · Inscrit le ${fmtDate(a.created_at)}`;
+ meta.textContent = lines.join(' · ');
+ meta.appendChild(document.createElement('br'));
+ meta.appendChild(document.createTextNode(line2));
+ card.appendChild(meta);
+
+ // Doc badges
+ const docRow = document.createElement('div');
+ docRow.className = 'doc-badges';
+ [
+ { has: a.doc_decennale_path, label: 'Décennale' },
+ { has: a.doc_kbis_path, label: 'KBIS' },
+ { has: a.doc_identite_path, label: 'Identité' },
+ ].forEach(({ has, label }) => {
+ const b = document.createElement('span');
+ b.className = `doc-badge ${has ? 'doc-ok' : 'doc-ko'}`;
+ b.textContent = `${has ? '' : ''} ${label}`;
+ docRow.appendChild(b);
+ });
+ card.appendChild(docRow);
+
+ // Action buttons
+ const actionRow = document.createElement('div');
+ actionRow.className = 'action-row';
+ const actions = [
+ { cls: 'btn-validate', label: 'Valider ', status: 'actif', msg: 'Artisan validé !' },
+ { cls: 'btn-docs-ok', label: 'Docs OK', status: 'documents_valides', msg: 'Documents validés' },
+ { cls: 'btn-refuse', label: 'Refuser ', status: 'refuse', msg: 'Dossier refusé' },
+ ];
+ actions.forEach(({ cls, label, status, msg }) => {
+ const btn = document.createElement('button');
+ btn.className = cls;
+ btn.textContent = label;
+ btn.addEventListener('click', () => updateStatus(a.id, status, msg));
+ actionRow.appendChild(btn);
+ });
+ card.appendChild(actionRow);
+
+ return card;
+ }
+
+ // ── Section 3 : Liste artisans ─────────────────────────
+ function renderListe() {
+ const filtered = currentFilter === 'tous'
+ ? allArtisans
+ : allArtisans.filter(a => a.status === currentFilter);
+ const container = document.getElementById('artisans-liste');
+ container.textContent = '';
+
+ if (filtered.length === 0) {
+ const div = document.createElement('div');
+ div.className = 'empty-state';
+ const strong = document.createElement('strong');
+ strong.textContent = 'Aucun résultat';
+ div.appendChild(strong);
+ div.appendChild(document.createTextNode('Aucun artisan pour ce filtre.'));
+ container.appendChild(div);
+ return;
+ }
+
+ filtered.forEach(a => {
+ const row = document.createElement('div');
+ row.className = 'artisan-row';
+
+ const info = document.createElement('div');
+ info.className = 'artisan-row-info';
+ const nameEl = document.createElement('div');
+ nameEl.className = 'artisan-row-name';
+ nameEl.textContent = `${esc(a.prenom)} ${esc(a.nom)}`.trim() || '—';
+ const subEl = document.createElement('div');
+ subEl.className = 'artisan-row-sub';
+ subEl.textContent = [a.entreprise ? esc(a.entreprise) : null, esc(a.email)].filter(Boolean).join(' · ');
+ info.appendChild(nameEl);
+ info.appendChild(subEl);
+
+ row.appendChild(info);
+ row.appendChild(makeBadge(STATUS_CSS[a.status] || 'b-grey', STATUS_TXT[a.status] || a.status));
+ container.appendChild(row);
+ });
+ }
+
+ // ── Section 4 : Demandes ──────────────────────────────
+ function renderDemandes() {
+ const container = document.getElementById('demandes-recentes');
+ container.textContent = '';
+
+ if (lastDemandes.length === 0) {
+ const div = document.createElement('div');
+ div.className = 'empty-state';
+ const strong = document.createElement('strong');
+ strong.textContent = 'Aucune demande';
+ div.appendChild(strong);
+ div.appendChild(document.createTextNode("Aucune demande reçue pour l'instant."));
+ container.appendChild(div);
+ return;
+ }
+
+ lastDemandes.forEach(d => {
+ const row = document.createElement('div');
+ row.className = 'demande-row';
+
+ const info = document.createElement('div');
+ info.className = 'demande-row-info';
+ const typeEl = document.createElement('div');
+ typeEl.className = 'demande-type';
+ typeEl.textContent = `${TYPE_LABEL[d.type_travaux] || d.type_travaux || 'Travaux'} — ${esc(d.code_postal) || '—'}`;
+ const metaEl = document.createElement('div');
+ metaEl.className = 'demande-meta';
+ metaEl.textContent = `${esc(d.client_name) || 'Client anonyme'} · ${fmtDate(d.created_at)}`;
+ info.appendChild(typeEl);
+ info.appendChild(metaEl);
+
+ row.appendChild(info);
+ row.appendChild(makeBadge(DEMANDE_STATUS_CSS[d.status] || 'b-grey', DEMANDE_STATUS_TXT[d.status] || d.status));
+ container.appendChild(row);
+ });
+ }
+
+ // ── Update status ──────────────────────────────────────
+ async function updateStatus(artisanId, newStatus, successMsg) {
+ const { error } = await supabase
+ .from('artisan_leads')
+ .update({ status: newStatus })
+ .eq('id', artisanId);
+
+ if (error) { showToast('Erreur : ' + error.message, 'error'); return; }
+
+ showToast(successMsg, 'success');
+ allArtisans = allArtisans.map(a => a.id === artisanId ? { ...a, status: newStatus } : a);
+ renderStats();
+ renderAValider();
+ renderListe();
+
+ // Notifier l'artisan par email pour actif + refusé
+ if (newStatus === 'actif' || newStatus === 'refuse') {
+ try {
+ const { data: { session } } = await supabase.auth.getSession();
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/functions/v1/notify-artisan-status', {
+ method: 'POST',
+ headers: {
+ 'Content-Type': 'application/json',
+ 'Authorization': `Bearer ${session?.access_token}`,
+ },
+ body: JSON.stringify({ artisan_id: artisanId, new_status: newStatus }),
+ });
+ } catch (e) { console.warn('[admin] notify-artisan-status failed:', e); }
+ }
+ }
+
+ // ── Chip filter ────────────────────────────────────────
+ document.getElementById('filter-chips').addEventListener('click', (e) => {
+ const chip = e.target.closest('.chip');
+ if (!chip || !chip.dataset.filter) return;
+ document.querySelectorAll('#filter-chips .chip').forEach(c => c.classList.remove('active'));
+ chip.classList.add('active');
+ currentFilter = chip.dataset.filter;
+ renderListe();
+ });
+
+ // ── Go ─────────────────────────────────────────────────
+ await loadAll();
+ </script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

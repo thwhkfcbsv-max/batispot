@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Budget renovation Paris 2026 : combien prevoir au m2 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/budget-renovation-m2-paris-selon-type-bien">
+ <meta name="description" content="Combien prevoir pour renover au m2 a Paris en 2026 ? Les fourchettes reelles selon le type de bien : haussmannien, annees 70, recent. Donnees chantiers IDF." />
+ <meta name="keywords" content="budget renovation m2 paris, cout renovation m2 appartement paris, prix renovation haussmannien, renovation appartement paris 2026" />
+ <meta property="og:title" content="Budget renovation Paris 2026 : combien prevoir par m2 selon le type de bien" />
+ <meta property="og:description" content="Haussmannien, annees 70, recent : les vrais couts au m2 selon l'epoque de construction. Donnees compilees sur chantiers IDF 2024-2026." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/budget-renovation-m2-paris-selon-type-bien" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 580px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 1.2rem 0 .5rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); color: var(--sub); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table td strong { color: var(--text); }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0; }
+ .type-card { border-radius: 14px; padding: 1.3rem; text-align: center; border: 2px solid var(--border); }
+ .type-card h4 { font-size: .95rem; font-weight: 800; color: var(--g1); margin-bottom: .3rem; }
+ .type-card .price { font-size: 1.4rem; font-weight: 900; color: var(--text); margin: .4rem 0; }
+ .type-card .unit { font-size: .78rem; color: var(--sub); }
+ .type-card.hausse { background: #FFF7ED; border-color: #F97316; }
+ .type-card.hausse h4 { color: #C2410C; }
+ .type-card.hausse .price { color: #C2410C; }
+ .type-card.annees70 { background: #F5F3FF; border-color: #8B5CF6; }
+ .type-card.annees70 h4 { color: #6D28D9; }
+ .type-card.annees70 .price { color: #6D28D9; }
+ .type-card.recent { background: var(--g-soft); border-color: var(--g3); }
+ .highlight-box { background: var(--g-soft); border-left: 4px solid var(--g2); border-radius: 0 12px 12px 0; padding: 1.2rem 1.5rem; margin: 1rem 0; }
+ .highlight-box p { color: var(--text); font-size: .9rem; margin: 0; }
+ .highlight-box strong { color: var(--g1); }
+ .warning-box { background: #FFF7ED; border-left: 4px solid #F97316; border-radius: 0 12px 12px 0; padding: 1.2rem 1.5rem; margin: 1rem 0; }
+ .warning-box p { color: #92400E; font-size: .9rem; margin: 0; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s; }
+ .cta-btn:hover { transform: translateY(-2px); }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .type-grid { grid-template-columns: 1fr; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ { "@type": "Question", "name": "Quel budget prevoir pour renover un appartement haussmannien a Paris ?", "acceptedAnswer": { "@type": "Answer", "text": "Un appartement haussmannien (avant 1914) necessite entre 1 200 et 2 500 EUR/m2 pour une renovation complete, selon le niveau de finition. Les surcoûts specifiques : parquets anciens a restaurer (+80-150 EUR/m2), moulures a preserver, plomberie en plomb a remplacer obligatoirement, electricite rarement aux normes. Sur 60 m2, prevoyez 75 000 a 150 000 EUR tout compris." } },
+ { "@type": "Question", "name": "Pourquoi les appartements des annees 70 sont-ils plus chers a renover ?", "acceptedAnswer": { "@type": "Answer", "text": "Les batiments construits entre 1945 et 1980 concentrent plusieurs problemes techniques : amiante (obligatoire de diagnosquer avant travaux, desamiantage 50-150 EUR/m2), isolation thermique nulle, electricite vieillissante, et souvent des materiaux de faible qualite difficiles a retravailler. Le surcoût amiante seul peut representer 5 000 a 20 000 EUR sur un appartement." } },
+ { "@type": "Question", "name": "Combien prevoir de reserve sur un budget renovation Paris ?", "acceptedAnswer": { "@type": "Answer", "text": "10 % de reserve minimum pour un bien recent, 15-20 % pour un haussmannien ou annees 70. Les imprévus les plus frequents en IDF : decouverte d'amiante, electricite non conforme, humidite cachee, problemes de toiture en copropriete. Sur un budget de 80 000 EUR, prevoyez 8 000 a 16 000 EUR de reserve." } },
+ { "@type": "Question", "name": "Le prix au m2 change-t-il selon le niveau de finition ?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, significativement. Finition economique : 600-900 EUR/m2. Finition standard : 900-1 400 EUR/m2. Finition haut de gamme : 1 400-2 500 EUR/m2. Ces ecarts refletent la qualite des materiaux (carrelage, parquet, sanitaires), la complexite des agencements et le choix des artisans." } }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Guides travaux</a> > Budget renovation m2</div>
+ <h1>Budget renovation Paris 2026 : combien prevoir au m2 selon le type de bien</h1>
+<p>Haussmannien, annees 70, recent : les fourchettes reelles compilees sur des chantiers IDF 2024-2026.</p>
+<p style="margin:18px 0;padding:12px 16px;background:#F1F7F4;border-left:3px solid #0D9488;border-radius:0 10px 10px 0;font-size:.95rem"><a href="/audit-technique-avant-travaux-2026" style="color:#0F5132;font-weight:700;text-decoration:none">&rarr; Audit technique avant travaux : quand le faire, par qui et combien ça coûte</a></p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Donnees chantiers IDF 2024-2026</span>
+ <h2>Pourquoi le type de bien change tout</h2>
+ <p>Deux appartements de 60 m2 a Paris, meme arrondissement, meme surface : l'un est haussmannien de 1890, l'autre une tour des annees 70. Le budget de renovation peut varier du simple au double, non pas a cause du niveau de finition choisi, mais a cause de ce que l'artisan decouvre derriere les murs.</p>
+ <p>Le type de construction determine les contraintes techniques cachees : amiante, plomb, electricite non conforme, isolation inexistante, structure a preserver. Ces elements representent souvent 20 a 40 % du budget total avant meme de poser le premier carrelage.</p>
+
+ <div class="type-grid">
+ <div class="type-card hausse">
+ <h4>Haussmannien</h4>
+ <div class="price">1 200 - 2 500</div>
+ <div class="unit">EUR / m2 renovation complete</div>
+ </div>
+ <div class="type-card annees70">
+ <h4>Annees 50-80</h4>
+ <div class="price">900 - 1 800</div>
+ <div class="unit">EUR / m2 renovation complete</div>
+ </div>
+ <div class="type-card recent">
+ <h4>Apres 1990</h4>
+ <div class="price">600 - 1 200</div>
+ <div class="unit">EUR / m2 renovation complete</div>
+ </div>
+ </div>
+ <p style="font-size:.82rem;margin-top:.5rem;">Renovation complete = sol, murs, plafonds, cuisine, salle de bain, electricite, plomberie. Hors mobilier.</p>
+ </div>
+
+ <div class="card">
+<style>.bs-midcta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.1rem;background:#EBF7F1;border:1px solid rgba(34,139,91,.18);border-left:5px solid #1A6B45;border-radius:14px;padding:1.4rem 1.6rem;margin:2rem 0}.bs-midcta .bs-midcta-txt{flex:1 1 260px;min-width:0}.bs-midcta .bs-midcta-t{font-weight:900;color:#1A6B45;font-size:1.08rem;margin:0 0 .3rem}.bs-midcta .bs-midcta-p{color:#5A7268;font-size:.92rem;line-height:1.5;margin:0}.bs-midcta .cta-btn{white-space:nowrap;flex-shrink:0}@media(max-width:560px){.bs-midcta{flex-direction:column;align-items:flex-start}}</style>
+<aside class="bs-midcta" aria-label="Devis gratuit BatiSpot">
+ <div class="bs-midcta-txt">
+ <p class="bs-midcta-t">Envie d'un budget précis pour votre rénovation ?</p>
+ <p class="bs-midcta-p">Décrivez votre bien et vos travaux : un artisan vérifié en Île-de-France vous recontacte sous 24 à 48 h pour un devis. Gratuit, sans engagement.</p>
+ </div>
+ <a href="/estimateur" class="cta-btn">Obtenir mon devis gratuit →</a>
+</aside>
+
+ <h2>Haussmannien (avant 1914) : le charme qui a un prix</h2>
+ <p>Les appartements haussmanniens sont les plus demandes a Paris, et les plus complexes a renover. La beaute est dans les details : parquets anciens, moulures, hauteur sous plafond. Mais derriere, les contraintes s'accumulent.</p>
+
+ <h3>Surcoûts specifiques haussmannien</h3>
+ <table class="price-table">
+ <thead><tr><th>Poste</th><th>Surcoût vs bien recent</th></tr></thead>
+ <tbody>
+ <tr><td>Restauration parquet ancien (point de Hongrie, Versailles)</td><td>+80 a 150 EUR/m2</td></tr>
+ <tr><td>Preservation et restauration moulures</td><td>+3 000 a 8 000 EUR</td></tr>
+ <tr><td>Remplacement plomberie plomb (obligatoire)</td><td>+4 000 a 12 000 EUR</td></tr>
+ <tr><td>Mise aux normes electricite (installation pre-1970)</td><td>+6 000 a 15 000 EUR</td></tr>
+ <tr><td>Isolation phonique (planchers anciens)</td><td>+60 a 120 EUR/m2</td></tr>
+ </tbody>
+ </table>
+
+ <div class="highlight-box">
+ <p><strong>Exemple reel — 55 m2 haussmannien Paris 11e, renovation complete (2025) :</strong><br>
+ Structure + plomberie + electricite : 28 000 EUR &bull; Sol + murs : 18 000 EUR &bull; Cuisine + SDB : 24 000 EUR &bull; Reserve imprévus : 8 000 EUR<br>
+ <strong>Total : 78 000 EUR soit 1 418 EUR/m2</strong></p>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Annees 50-80 : l'amiante, le facteur inconnu</h2>
+ <p>Les batiments construits entre 1945 et 1980 sont les plus risques techniquement. Le principal facteur : l'amiante, utilisee massivement jusqu'en 1997 dans les isolants, enduits, dalles de sol et colles a carrelage.</p>
+
+ <div class="warning-box">
+ <p><strong>Obligation legale :</strong> avant tout chantier sur un batiment construit avant 1997, un diagnostic amiante est obligatoire (100 a 300 EUR). En cas de presence, le desamiantage doit etre realise par une entreprise certifiee avant les travaux. Cout : 50 a 150 EUR/m2 de surface traitee.</p>
+ </div>
+
+ <h3>Ce qui est souvent a refaire entierement</h3>
+ <table class="price-table">
+ <thead><tr><th>Poste</th><th>Situation typique</th><th>Budget</th></tr></thead>
+ <tbody>
+ <tr><td>Isolation thermique</td><td>Quasi inexistante</td><td>80-200 EUR/m2</td></tr>
+ <tr><td>Electricite</td><td>Tableau non differentiels, gaines aluminium</td><td>8 000-18 000 EUR</td></tr>
+ <tr><td>Fenetres simple vitrage</td><td>Systematique</td><td>600-1 200 EUR/fenetre</td></tr>
+ <tr><td>Desamiantage eventuel</td><td>Diagnostic obligatoire avant</td><td>5 000-20 000 EUR</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>Apres 1990 : renovation plus previsible</h2>
+ <p>Les biens construits apres 1990 beneficient de normes plus recentes : plus d'amiante, electricite aux normes de l'epoque, plomberie cuivre ou PER, double vitrage souvent present. La renovation est moins aleatoire.</p>
+
+ <h3>Ce qui reste a prevoir meme sur un bien recent</h3>
+ <table class="price-table">
+ <thead><tr><th>Poste</th><th>Fourchette IDF</th></tr></thead>
+ <tbody>
+ <tr><td>Cuisine complete (fourniture + pose)</td><td>8 000 - 18 000 EUR</td></tr>
+ <tr><td>Salle de bain complete</td><td>6 500 - 14 000 EUR</td></tr>
+ <tr><td>Peinture complete appartement</td><td>50 - 90 EUR/m2</td></tr>
+ <tr><td>Remplacement parquet ou sol</td><td>60 - 140 EUR/m2</td></tr>
+ <tr><td>Mise a niveau electricite (tableau)</td><td>1 500 - 4 000 EUR</td></tr>
+ </tbody>
+ </table>
+ <div class="highlight-box">
+ <p><strong>Sur un 60 m2 post-1990 en renovation standard</strong> (cuisine + SDB + sols + peintures) : comptez <strong>45 000 a 65 000 EUR</strong> soit 750 a 1 080 EUR/m2.</p>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Les 3 niveaux de finition : l'autre variable</h2>
+ <p>A type de bien egal, le niveau de finition reste le plus grand levier sur le budget final.</p>
+ <table class="price-table">
+ <thead><tr><th>Niveau</th><th>Description</th><th>Budget au m2</th></tr></thead>
+ <tbody>
+ <tr><td><strong>Economique</strong></td><td>Materiaux entree de gamme, artisans locaux, pas de personalisation</td><td>600 - 900 EUR/m2</td></tr>
+ <tr><td><strong>Standard</strong></td><td>Materiaux milieu de gamme, travail soigne, quelques elements personnalises</td><td>900 - 1 400 EUR/m2</td></tr>
+ <tr><td><strong>Haut de gamme</strong></td><td>Materiaux nobles, artisans specialises, conception sur mesure</td><td>1 400 - 2 500+ EUR/m2</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>La reserve : ce que vous devez absolument prevoir</h2>
+ <p>En renovation a Paris, les imprevus ne sont pas une exception, ils sont la regle. Voici ce qui surgit le plus souvent :</p>
+ <ul style="list-style:none;padding:0;">
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--sub);display:flex;gap:.6rem;"><span style="color:#F97316;font-weight:700;">!</span> Decouverte d'amiante dans un enduit ou une dalle</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--sub);display:flex;gap:.6rem;"><span style="color:#F97316;font-weight:700;">!</span> Electricite plus vetuste que prevue derriere les cloisons</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--sub);display:flex;gap:.6rem;"><span style="color:#F97316;font-weight:700;">!</span> Humidite ou traces de champignons sous les anciens revetements</li>
+ <li style="padding:.5rem 0;font-size:.9rem;color:var(--sub);display:flex;gap:.6rem;"><span style="color:#F97316;font-weight:700;">!</span> Structure porteuse non prevue au plan initial</li>
+ </ul>
+ <table class="price-table" style="margin-top:1rem;">
+ <thead><tr><th>Type de bien</th><th>Reserve recommandee</th></tr></thead>
+ <tbody>
+ <tr><td>Apres 1990</td><td>10 % du budget travaux</td></tr>
+ <tr><td>Annees 50-80</td><td>15-20 % du budget travaux</td></tr>
+ <tr><td>Haussmannien / avant 1940</td><td>20 % minimum</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="cta-section">
+ <h2>Estimez votre budget renovation en 2 minutes</h2>
+ <p>Notre estimateur tient compte de l'epoque de construction et du niveau de finition. Resultat personnalise, gratuit.</p>
+ <a href="/estimateur" class="cta-btn">Calculer mon budget renovation</a>
+ </div>
+
+ <div class="card">
+ <style>.bs-faq-item{border-bottom:1px solid rgba(34,139,91,.14);padding:1rem 0}.bs-faq-item:last-child{border-bottom:none}.bs-faq-item h3{font-size:.98rem;font-weight:800;color:#1A6B45;margin:0 0 .4rem}.bs-faq-item p{font-size:.9rem;color:#5A7268;margin:0;line-height:1.55}</style>
+ <h2>Questions fréquentes</h2>
+ <div class="bs-faq-item"><h3>Quel budget prévoir pour rénover un appartement haussmannien à Paris ?</h3><p>Un appartement haussmannien (avant 1914) demande entre 1 200 et 2 500 €/m² pour une rénovation complète, selon le niveau de finition. Les surcoûts spécifiques : parquets anciens à restaurer (+80 à 150 €/m²), moulures à préserver, plomberie en plomb à remplacer, électricité rarement aux normes. Sur 60 m², prévoyez 75 000 à 150 000 € tout compris.</p></div>
+ <div class="bs-faq-item"><h3>Pourquoi les appartements des années 70 sont-ils plus chers à rénover ?</h3><p>Les bâtiments construits entre 1945 et 1980 cumulent plusieurs problèmes techniques : amiante (à diagnostiquer obligatoirement avant travaux, désamiantage 50 à 150 €/m²), isolation thermique quasi nulle, électricité vieillissante et matériaux de faible qualité difficiles à retravailler. Le surcoût amiante seul peut représenter 5 000 à 20 000 € sur un appartement.</p></div>
+ <div class="bs-faq-item"><h3>Combien prévoir de réserve sur un budget rénovation à Paris ?</h3><p>Comptez 10 % de réserve minimum pour un bien récent, et 15 à 20 % pour un haussmannien ou un bien des années 70. Les imprévus les plus fréquents en Île-de-France : découverte d'amiante, électricité non conforme, humidité cachée, problèmes de toiture en copropriété. Sur un budget de 80 000 €, prévoyez 8 000 à 16 000 € de réserve.</p></div>
+ <div class="bs-faq-item"><h3>Le prix au m² change-t-il selon le niveau de finition ?</h3><p>Oui, nettement. Finition économique : 600 à 900 €/m². Finition standard : 900 à 1 400 €/m². Finition haut de gamme : 1 400 à 2 500 €/m². Ces écarts reflètent la qualité des matériaux (carrelage, parquet, sanitaires), la complexité des agencements et le choix des artisans.</p></div>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/renovation-appartement-haussmannien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Renovation appartement haussmannien</div><div style="font-size:.76rem;color:var(--sub);">Prix, contraintes, postes cles</div></a>
+ <a href="/prix-renovation-appartement" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement au m2</div><div style="font-size:.76rem;color:var(--sub);">Budgets 2026 par ampleur de travaux</div></a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Cout total par surface et gamme</div>
+ </a>
+ <a href="/comprendre-pourquoi-devis-travaux-varient-autant" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Pourquoi les devis varient de 40 %</div>
+ <div style="font-size:.76rem;color:var(--sub);">Les vraies raisons des ecarts</div>
+ </a>
+ <a href="/cuisine-ou-salle-de-bain-laquelle-renover-en-premier" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Cuisine ou salle de bain en premier</div>
+ <div style="font-size:.76rem;color:var(--sub);">ROI et impact quotidien compares</div>
+ </a>
+ <a href="/financer-travaux-renovation-options-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Financer ses travaux en 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Toutes les options disponibles</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Photos · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/photos.css?v=2026_09_06">
+  <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+  <style>
+    :root {
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --text-main: #1C2B22;
+      --text-muted: #3D5A4E;
+      --text-sub: #5A7268;
+      --g-deep: var(--t1);
+      --g-light: #DCFCE7;
+      --y-amber: #228B5B;
+      --border-line: #D3E3DA;
+    }
+    body {
+      background: #FFFFFF;
+      color: #1C2B22;
+      font-family: "Inter", system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .phone-screen {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      position: relative;
+    }
+    .app-h {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid #E7EEEA;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .scr-body {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #FFFFFF;
+    }
+    .btn-hero {
+      background: #228B5B;
+      border: 1.5px solid #228B5B;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 13.5px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 3px 10px rgba(11,168,92,0.18);
+      transition: all 0.15s;
+    }
+    .btn-card {
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1.5px solid #D3E3DA;
+      background: #FFFFFF;
+      color: #1C2B22;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-card.primary {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+    .form-input {
+      padding: 10px 12px;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #1C2B22;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1C2B22;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Avant / après — comparateur photo (04/09/2026). Slider natif <input
+       range>, bande tactile pleine largeur/hauteur (44 px mini) : au doigt,
+       viser une poignée de quelques pixels ne marche pas sur un chantier.
+       Masque clip-path sur la photo « après » superposée à la photo « avant ». */
+    .mq-avap { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; background: #DCE6E0; touch-action: pan-y; }
+    .mq-avap-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mq-avap-after { clip-path: inset(0 0 0 50%); }
+    @media (prefers-reduced-motion: no-preference) {
+      .mq-avap-after, .mq-avap-div, .mq-avap-handle { transition: left .12s ease, clip-path .12s ease; }
+    }
+    .mq-avap-cap { position: absolute; bottom: 8px; font-size: 11px; font-weight: 700; color: #fff; background: rgba(28,43,34,.75); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+    .mq-avap-cap-before { left: 8px; }
+    .mq-avap-cap-after { right: 8px; }
+    .mq-avap-div { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.18); pointer-events: none; transform: translateX(-1px); }
+    .mq-avap-handle { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.28); pointer-events: none; }
+    .mq-avap-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; touch-action: pan-y; }
+    .mq-avap-range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 44px; }
+    .mq-avap-range::-moz-range-thumb { width: 44px; height: 44px; border: none; background: transparent; }
+    .mq-avap-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 14px; }
+    .mq-avap-cell { position: relative; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; }
+    .mq-avap-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mq-avap-ghost { aspect-ratio: 4/3; width: 100%; flex-direction: column; text-align: center; }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+            <div class="scr-body">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <label style="font-size:11.5px;font-weight:800;color:#5A7268;">Chantier :</label>
+        <select id="photoChantierSelect" class="form-input" style="font-weight:700;font-size:16px;">
+          <option value="">Chargement…</option>
+        </select>
+        <span id="photoChantierHint" style="font-size:11px;color:#5A7268;"></span>
+      </div>
+
+      <!-- Photos de chantier en trois temps (06/09/2026) : un input de prise
+           en rafale (capture + multiple), un input d'import depuis la galerie
+           (multiple, sans capture). Le temps (Début · Pendant · Fin) est celui
+           des trois cases ci-dessous — phasePhotoCourante, script classique
+           plus bas. En base : avant / pendant / apres ; « autre » n'existe plus. -->
+      <input type="file" id="stepPhotoInput" accept="image/*" capture="environment" multiple style="display:none;" onchange="bsUploadChantierPhoto(event)">
+      <input type="file" id="stepGalerieInput" accept="image/*" multiple style="display:none;" onchange="bsUploadChantierPhoto(event)">
+
+      <!-- Trois cases avec leur compte ; la case proposée (déduite de
+           l'avancement du chantier, bsAppliquerPhaseDeduite) est surlignée et
+           DITE (« · en cours »). Un tap la change ; le bouton principal
+           répète le temps choisi. Rendu par rendreCasesTemps (js/photos-galerie.js). -->
+      <div class="ph-temps" id="photoPhaseTemps" role="radiogroup" aria-label="Temps du chantier"></div>
+
+      <!-- Analyse de pièce (scan-room-photo) et scan de ticket (ocr-receipt) :
+           deux flux distincts du simple archivage ci-dessus, appelés via
+           js/app-photo-ia.js (module partagé avec l'assistant flottant, pour
+           n'avoir qu'un seul appelant réel des deux modes serveur). -->
+      <input type="file" id="roomPhotoAIInput" accept="image/*" capture="environment" style="display:none;" onchange="handleRoomPhotoAIEstimate(event)">
+      <input type="file" id="receiptScanTabInput" accept="image/*" capture="environment" style="display:none;" onchange="handleReceiptScanned(event)">
+
+      <!-- Deux boutons principaux (maquette validée 04/09/2026). « Devis
+           depuis une photo » N'EST PAS un métré manuel à feuille étalon :
+           c'est l'outil qui LIT les surfaces sur la photo de la pièce, seul
+           chemin qui reste dans l'application (metre.html, à réalité
+           augmentée, est sorti de l'app). -->
+      <div id="photoCaptureZone">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button type="button" class="mq-btn mq-primary" id="btnPrendrePhoto" onclick="declencherPrisePhoto()"><span id="btnPrendrePhotoLibelle">Photos « Pendant »</span></button>
+          <button type="button" class="mq-btn mq-primary" id="btnDevisPhoto" style="background:#1B7049;border-color:#1B7049;" onclick="declencherEstimationPhoto()">Devis depuis une photo</button>
+        </div>
+        <button type="button" class="mq-btn mq-ghost ph-btn-galerie" id="btnImportGalerie" style="width:100%;" onclick="declencherImportGalerie()"><span class="bs-ico" data-ico="image"></span>Depuis la galerie · plusieurs à la fois</button>
+      </div>
+
+      <!-- Écran de résultat de l'analyse de pièce : les quantités LUES sur la
+           photo, jamais un prix (le prix vient de la grille de l'artisan,
+           plus tard dans le devis). -->
+      <div class="mq-heard" id="roomEstimateResult" style="display:none;">
+        <div class="mq-l">Photo analysée</div>
+        <div id="roomEstimateHeard" style="font-weight:800;margin-bottom:8px;"></div>
+        <div class="mq-lines" id="roomEstimateLines"></div>
+        <!-- L'ouvrage vient de l'artisan, jamais d'une devinette : c'est lui qui
+             sait s'il peint, carrele ou pose du parquet. Champ à 16px (iOS zoome
+             la page en dessous). -->
+        <label for="roomEstimateOuvrage" style="display:block;font-size:12px;font-weight:700;margin:10px 0 4px;">Qu'est-ce que je chiffre ?</label>
+        <input type="text" id="roomEstimateOuvrage" autocomplete="off" placeholder="peinture des murs et du plafond"
+               style="width:100%;font-size:16px;padding:10px;border:1px solid #CFE8DA;border-radius:8px;box-sizing:border-box;">
+        <p id="roomEstimateAvert" style="font-size:11.5px;color:#5A7268;margin:8px 0 0;"></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+          <button type="button" class="mq-btn mq-primary" onclick="transferRoomMeterToQuote()">Créer le devis</button>
+          <button type="button" class="mq-btn mq-ghost" onclick="reprendrePhotoEstimation()">Reprendre la photo</button>
+        </div>
+      </div>
+
+      <!-- Avant / après (06/09/2026) : les deux photos que l'artisan a
+           MARQUÉES « Avant » et « Après » dans la galerie (photos.role_client).
+           Sans ce choix, la case dit « Chantier en cours » — on ne réclame
+           plus de prise de vue. Rempli par renderAvantApres() dans le script
+           module plus bas, pour le chantier sélectionné. -->
+      <div class="mq-sec" id="photoAvantApresSec" style="display:none;">Avant / après · ce que voit le client</div>
+      <div class="mq-card" id="photoAvantApresCard" style="display:none;padding:0;overflow:hidden;"></div>
+      <button type="button" class="mq-btn mq-ghost" id="photoAvantApresPartager" style="width:100%;display:none;">
+        <span class="bs-ico" data-ico="share"></span>Partager l'avant / après
+      </button>
+
+      <div id="photoCount" style="font-size:11px;color:#5A7268;font-weight:700;"></div>
+
+      <!-- Galerie reelle, groupee par temps et par jour (« Pendant · mer.
+           2 sept. »), une .mq-sec + .mq-ph-grid par groupe. Appui long ou
+           « Sélectionner » → Envoyer au client / Avant / Après / Supprimer.
+           Construite par js/photos-galerie.js (creerGalerie), partagé avec
+           chantier.html. -->
+      <div id="photoGallery"></div>
+      <!-- Actions rapides sur la galerie du chantier (maquette 07). -->
+      <div class="mq-assist" id="mqPhotoAssist" style="display:none;">
+        <div class="mq-h"><span class="mq-dot"></span>Cette galerie</div>
+        <div class="mq-chips">
+          <button type="button" class="mq-chip" style="border:0;cursor:pointer;font-family:inherit;" onclick="bsChoisirPhotosClient()">Envoyer au client</button>
+          <button type="button" class="mq-chip" style="border:0;cursor:pointer;font-family:inherit;" onclick="declencherEstimationPhoto()">Devis depuis cette photo</button>
+        </div>
+      </div>
+
+      <!-- Le lien de suivi se copie ici ; ce qui s'y voit se choisit photo par
+           photo dans la galerie (« Envoyer au client »). -->
+      <button type="button" class="mq-btn mq-ghost" id="btnEnvoyerPhotosClient" style="width:100%;display:none;margin-top:2px;" onclick="bsEnvoyerPhotosClient()">
+        <span class="bs-ico" data-ico="share"></span>Copier le lien client
+      </button>
+
+      <button type="button" class="mq-btn mq-ghost" id="btnTicketDepense" style="width:100%;" onclick="declencherScanTicket()">Ajouter un ticket de dépense</button>
+    </div>
+    <!-- Conteneur Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script>
+    function showToast(msg) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = 'toast';
+      // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+      // messages qui viennent parfois du LLM — resume d'un ticket passe a
+      // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+      // ecrit sur un ticket photographie peut porter une instruction, et le
+      // modele la restituer telle quelle : le balisage s'executait alors dans
+      // l'origine authentifiee de l'artisan.
+      const bsT = document.createElement("span");
+      bsT.textContent = msg;
+      const bsX = document.createElement("span");
+      bsX.style.cursor = "pointer";
+      bsX.textContent = 'X';
+      bsX.addEventListener("click", () => toast.remove());
+      toast.replaceChildren(bsT, bsX);
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 250); }, 2500);
+    }
+  </script>
+
+  <script>
+    // Trois temps — Début · Pendant · Fin (06/09/2026). Le temps courant est
+    // celui de la case surlignée ; le bouton principal le répète. Déduit au
+    // chargement du chantier (bsAppliquerPhaseDeduite, script module plus
+    // bas) tant que l'artisan n'a pas tapé lui-même sur une case : son choix
+    // prime ensuite, jusqu'au changement de chantier.
+    var PHASE_MOTS_PHOTO = { avant: 'Début', pendant: 'Pendant', apres: 'Fin' };
+    var phasePhotoCourante = 'pendant';
+    var phasePhotoManuelle = false;
+
+    function normaliserPhasePhoto(p) { return p === 'avant' || p === 'apres' ? p : 'pendant'; }
+
+    function choisirPhasePhoto(phase, manuel) {
+      phasePhotoCourante = normaliserPhasePhoto(phase);
+      if (manuel) phasePhotoManuelle = true;
+      var lib = document.getElementById('btnPrendrePhotoLibelle');
+      if (lib) lib.textContent = 'Photos « ' + PHASE_MOTS_PHOTO[phasePhotoCourante] + ' »';
+      if (typeof window.bsRendreCasesTemps === 'function') window.bsRendreCasesTemps();
+    }
+
+    function declencherPrisePhoto() {
+      var input = document.getElementById('stepPhotoInput');
+      if (input) input.click();
+    }
+    function declencherImportGalerie() {
+      var input = document.getElementById('stepGalerieInput');
+      if (input) input.click();
+    }
+
+    // Appelée par le script module dès que le temps est déduit pour le
+    // chantier sélectionné (aucune étape faite → Début ; toutes terminées
+    // → Fin ; sinon → Pendant). Ne remplace jamais un choix manuel.
+    window.bsAppliquerPhaseDeduite = function (phase) { if (!phasePhotoManuelle) choisirPhasePhoto(phase); };
+
+    document.addEventListener('DOMContentLoaded', function () { choisirPhasePhoto(phasePhotoCourante); });
+
+    // Icônes SVG communes (aucun emoji dans l'interface, règle du 04/09) :
+    // bsIcon() vient de js/app-nav.js, chargé plus bas dans la page (script
+    // non différé). Il est donc déjà défini quand ce DOMContentLoaded se
+    // déclenche — l'événement n'arrive qu'une fois le parsing terminé.
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof window.bsIcon !== 'function') return;
+      var poser = function (id, nom) {
+        var b = document.getElementById(id);
+        if (b) b.insertAdjacentHTML('afterbegin', window.bsIcon(nom));
+      };
+      poser('btnPrendrePhoto', 'camera');
+      poser('btnDevisPhoto', 'scan');
+      poser('btnPrendrePhotoVide', 'camera');
+      poser('btnTicketDepense', 'receipt');
+    });
+  </script>
+
+  <!-- ═══ Analyse de pièce par photo + scan de ticket (rétabli 04/09/2026) ═══
+       Ces deux flux avaient été retirés lors de la reconstruction de l'écran
+       sur la maquette 07. Le fondateur : « le bouton depuis une photo est
+       l'un des atouts majeurs ; c'est l'outil photo qui prend les SURFACES,
+       pas une feuille étalon ». On rappelle ici les deux modes serveur déjà
+       branchés (scan-room-photo, ocr-receipt) via js/app-photo-ia.js — le
+       même module que l'assistant flottant utilise, pour n'avoir qu'un seul
+       appelant réel de chaque mode. -->
+  <script>
+    // Dernier métré estimé par la photo : gardé en mémoire le temps que
+    // l'artisan relise le résultat et clique « Créer le devis ». Rien n'est
+    // écrit avant ce clic — ce n'est qu'après qu'on pousse vers devis.html.
+    var dernierMetreEstime = null;
+
+    function declencherEstimationPhoto() {
+      var input = document.getElementById('roomPhotoAIInput');
+      if (input) input.click();
+    }
+
+    function declencherScanTicket() {
+      var input = document.getElementById('receiptScanTabInput');
+      if (input) input.click();
+    }
+
+    function reprendrePhotoEstimation() {
+      var zone = document.getElementById('photoCaptureZone');
+      var res = document.getElementById('roomEstimateResult');
+      if (res) res.style.display = 'none';
+      if (zone) zone.style.display = '';
+      declencherEstimationPhoto();
+    }
+
+    // Ce bloc RECALCULAIT les murs côté client : L = l = √surface quand les
+    // cotes manquaient, hauteur 2,50 m par défaut, ouvertures forfaitisées à
+    // 3,30 m² (1 porte + 1 fenêtre supposées), plinthes = périmètre − 0,90.
+    // Deuxième jeu de règles de métré dans l'application, en désaccord avec le
+    // socle — même photo, deux devis différents — alors que le serveur renvoie
+    // le VRAI compte d'ouvertures, ignoré ici. C'est cette duplication qui avait
+    // donné le faux « 3 × S ».
+    //
+    // On n'affiche donc plus que ce que le serveur a mesuré, et le chiffrage
+    // repart par le seul chemin qui possède les règles : la phrase composée par
+    // app-actions.js (phraseDevisDepuisPhoto) envoyée à l'assistant, qui
+    // proposera un creer_devis avec sa carte de validation.
+    function afficherResultatEstimation(d) {
+      dernierMetreEstime = d;
+
+      var nb = function (v, n) {
+        return Number(v).toFixed(n == null ? 1 : n).replace('.', ',');
+      };
+
+      var heard = document.getElementById('roomEstimateHeard');
+      if (heard) {
+        heard.textContent = "J'ai compris : " + (d.typePiece || 'pièce') + ' · environ ' + nb(d.surfaceEstimeeM2) + ' m²'
+          + (d.confiance ? ' (confiance ' + d.confiance + ')' : '');
+      }
+
+      var lignes = document.getElementById('roomEstimateLines');
+      if (lignes) {
+        lignes.replaceChildren();
+        var ligne = function (label, val) {
+          var row = document.createElement('div');
+          row.className = 'mq-line';
+          var a = document.createElement('span'); a.textContent = label;
+          var b = document.createElement('span'); b.textContent = val;
+          row.append(a, b);
+          lignes.appendChild(row);
+        };
+        ligne('Surface au sol', nb(d.surfaceEstimeeM2) + ' m²');
+        if (Number(d.hauteurSousPlafondM) > 0) ligne('Hauteur sous plafond', nb(d.hauteurSousPlafondM) + ' m');
+        var L = Number(d.longueurEstimeeM), l = Number(d.largeurEstimeeM);
+        if (L > 0 && l > 0) {
+          ligne('Longueur × largeur', nb(L) + ' m × ' + nb(l) + ' m');
+          ligne('Périmètre', nb(2 * (L + l)) + ' m');
+        } else {
+          ligne('Longueur et largeur', 'non déductibles de la photo');
+        }
+        var ouv = d.ouvertures || {};
+        if (Number(ouv.portes) > 0 || Number(ouv.fenetres) > 0) {
+          ligne('Ouvertures', (Number(ouv.portes) || 0) + ' porte(s) · ' + (Number(ouv.fenetres) || 0) + ' fenêtre(s)');
+        }
+      }
+
+      var avert = document.getElementById('roomEstimateAvert');
+      if (avert) avert.textContent = d.avertissement || 'Estimation à confirmer sur place avant tout devis.';
+
+      var zone = document.getElementById('photoCaptureZone');
+      var res = document.getElementById('roomEstimateResult');
+      if (zone) zone.style.display = 'none';
+      if (res) res.style.display = 'block';
+    }
+
+    // « Créer le devis » : même chemin que l'outil devis_depuis_photo de
+    // l'assistant. Les cotes partent TELLES QUELLES au socle, qui possède les
+    // règles de métré ; l'artisan valide ensuite la carte du devis. Aucun
+    // recalcul ici, aucun prix.
+    async function transferRoomMeterToQuote() {
+      if (!dernierMetreEstime) { showToast("Aucune estimation à transférer.", true); return; }
+      var champ = document.getElementById('roomEstimateOuvrage');
+      var ouvrage = champ ? String(champ.value || '').trim() : '';
+      if (!ouvrage) {
+        showToast("Dites ce qu'il y a à chiffrer (peinture des murs, carrelage au sol…).", true);
+        if (champ) champ.focus();
+        return;
+      }
+      if (typeof window.bsAssistantEnvoyerQuestion !== 'function') {
+        showToast("L'assistant n'est pas disponible sur cet écran.", true);
+        return;
+      }
+      var mod = await import('./js/app-actions.js');
+      window.bsAssistantEnvoyerQuestion(mod.phraseDevisDepuisPhoto(ouvrage, dernierMetreEstime, ''));
+    }
+
+    async function handleRoomPhotoAIEstimate(event) {
+      var file = event.target.files && event.target.files[0];
+      event.target.value = '';
+      if (!file) return;
+      showToast('Analyse de la photo en cours…');
+      var ia = await import('./js/app-photo-ia.js');
+      try {
+        var res = await ia.estimerPieceIA(file);
+        afficherResultatEstimation(res.data);
+      } catch (e) {
+        var echec = ia.messageEchecPhoto(e, 'metre');
+        showToast(echec.message, true);
+      }
+    }
+
+    async function handleReceiptScanned(event) {
+      var file = event.target.files && event.target.files[0];
+      event.target.value = '';
+      if (!file) return;
+      showToast('Lecture du ticket en cours…');
+      var ia = await import('./js/app-photo-ia.js');
+      try {
+        var lu = await ia.lireTicketIA(file);
+        var d = lu.data;
+
+        // On PROPOSE, l'artisan valide : rien n'est enregistré sans son clic.
+        var choix = await confirmerDepense(d);
+        if (!choix) { showToast('Dépense non enregistrée.'); return; }
+
+        // Le justificatif : un échec de dépôt ne doit pas faire perdre la
+        // dépense elle-même — on l'enregistre sans.
+        var justificatif = null;
+        try {
+          var supa = await import('./js/supabase.js');
+          justificatif = await supa.uploadJustificatif(lu.fichierReduit);
+        } catch (eUp) {
+          console.warn('[depense] justificatif non conservé', eUp);
+        }
+
+        var mod = await import('./js/app-actions.js');
+        var resultat = await mod.executerAction('enregistrer_depense', {
+          fournisseur: d.supplier,
+          date_achat: d.date,
+          categorie: (d.category || 'Materiaux').split(' ')[0].replace('é', 'e'),
+          montant_ht: d.totalHT,
+          tva: d.vatRate,
+          montant_ttc: d.totalTTC,
+          designation: Array.isArray(d.items) ? d.items.map(function (i) { return i.name; }).join(', ') : null,
+          items: Array.isArray(d.items) ? d.items : null,
+          source: 'ocr',
+          confiance_ocr: d.confidence,
+          chantier_id: choix.chantier_id,
+          justificatif_path: justificatif,
+        });
+        showToast(resultat.message);
+      } catch (e) {
+        var echec = ia.messageEchecPhoto(e, 'ticket');
+        showToast(echec.message, true);
+      }
+    }
+
+    // Confirmation d'une dépense lue sur un ticket. Renvoie { chantier_id } si
+    // l'artisan valide, null s'il annule. Reprend la liste de chantiers déjà
+    // chargée en haut de l'écran, avec le chantier courant présélectionné.
+    function confirmerDepense(d) {
+      return new Promise((resolve) => {
+        const overlay  = document.getElementById('depOverlay');
+        const recap    = document.getElementById('depRecap');
+        const select   = document.getElementById('depChantier');
+        const btnOk    = document.getElementById('depValider');
+        const btnNon   = document.getElementById('depAnnuler');
+        // Garde-fou : si la fenetre manque, on ne bloque pas l'artisan.
+        if (!overlay || !recap || !select || !btnOk || !btnNon) {
+          resolve({ chantier_id: null });
+          return;
+        }
+
+        const euros = (n) => (Number(n) || 0).toLocaleString('fr-FR', {
+          style: 'currency', currency: 'EUR', maximumFractionDigits: 2,
+        });
+        const ligne = (libelle, valeur, fort) => {
+          const l = document.createElement('div');
+          l.style.cssText = 'display:flex;justify-content:space-between;gap:12px;font-size:13px;';
+          const g = document.createElement('span');
+          g.style.color = '#5A7268';
+          g.textContent = libelle;
+          const v = document.createElement(fort ? 'strong' : 'span');
+          v.style.cssText = 'color:#1C2B22;text-align:right;';
+          v.textContent = valeur;
+          l.append(g, v);
+          return l;
+        };
+
+        recap.textContent = '';
+        recap.appendChild(ligne('Fournisseur', d.supplier || 'non lu'));
+        if (d.date) recap.appendChild(ligne('Date', d.date));
+        recap.appendChild(ligne('Montant HT', euros(d.totalHT)));
+        recap.appendChild(ligne('TVA', `${d.vatRate != null ? d.vatRate : 20} %`));
+        recap.appendChild(ligne('Total TTC', euros(d.totalTTC), true));
+        recap.appendChild(ligne('Poste', d.category || 'Matériaux'));
+        // La fiabilite n'est affichee que si elle est basse : au-dessus, elle
+        // n'apporte rien et encombre. En dessous, elle invite a relire.
+        if (d.confidence != null && Number(d.confidence) < 80) {
+          const avert = document.createElement('div');
+          avert.style.cssText = 'font-size:12px;color:#B45309;font-weight:700;margin-top:2px;';
+          avert.textContent = `Lecture incertaine (${Math.round(Number(d.confidence))} %) — vérifiez les montants.`;
+          recap.appendChild(avert);
+        }
+
+        // On recopie les chantiers deja charges par le selecteur de la page.
+        const source = document.getElementById('photoChantierSelect');
+        select.textContent = '';
+        const aucun = document.createElement('option');
+        aucun.value = '';
+        aucun.textContent = 'Aucun chantier';
+        select.appendChild(aucun);
+        if (source) {
+          Array.from(source.options).forEach((o) => {
+            // `__new__` est l'entree « + Nouveau chantier… » du selecteur de la
+            // page : elle ouvre un formulaire de creation, ce qu'on ne sait pas
+            // faire depuis cette fenetre. La proposer serait un cul-de-sac.
+            if (!o.value || o.value === '__new__') return;
+            const opt = document.createElement('option');
+            opt.value = o.value;
+            opt.textContent = o.textContent;
+            select.appendChild(opt);
+          });
+          if (source.value) select.value = source.value;
+        }
+
+        const fermer = (valeur) => {
+          overlay.style.display = 'none';
+          btnOk.removeEventListener('click', onOui);
+          btnNon.removeEventListener('click', onNon);
+          overlay.removeEventListener('click', onFond);
+          document.removeEventListener('keydown', onEchap);
+          resolve(valeur);
+        };
+        const onOui   = () => fermer({ chantier_id: select.value || null });
+        const onNon   = () => fermer(null);
+        const onFond  = (e) => { if (e.target === overlay) fermer(null); };
+        const onEchap = (e) => { if (e.key === 'Escape') fermer(null); };
+
+        btnOk.addEventListener('click', onOui);
+        btnNon.addEventListener('click', onNon);
+        overlay.addEventListener('click', onFond);
+        document.addEventListener('keydown', onEchap);
+        overlay.style.display = 'flex';
+        btnOk.focus();
+      });
+    }
+  </script>
+
+  <!-- ═══ Photo Studio RÉEL (21/08/2026) ═══
+       Avant : les <input type=file> affichaient un simple toast, aucune photo n'était
+       enregistrée (0 appel Supabase). Ici on branche la vraie couche : garde d'accès,
+       vrais chantiers, upload storage + ligne en base, galerie relue depuis le serveur. -->
+  <script type="module">
+    import { requireAuth, listChantiers, createChantier, uploadPhoto, listPhotos, signPhotoUrls, listTachesChantier,
+             deletePhoto, setPhotosVisiblesClient, setPhotoRoleClient }
+      from './js/supabase.js';
+    import { deduirePhase, rendreCasesTemps, rendreBlocAvapArtisan, creerGalerie, envoyerFichiersPhotos }
+      from './js/photos-galerie.js';
+
+    const sel      = document.getElementById('photoChantierSelect');
+    const hint     = document.getElementById('photoChantierHint');
+    const gal      = document.getElementById('photoGallery');
+    const count    = document.getElementById('photoCount');
+    const btnEnvoyer = document.getElementById('btnEnvoyerPhotosClient');
+    const mqAssist = document.getElementById('mqPhotoAssist');
+    const say   = (m, warn) => { try { showToast(m, !!warn); } catch (e) { console.log(m); } };
+
+    // Chantiers chargés, par id — garde public_token pour « Envoyer les
+    // photos au client » (le <select> ne porte que id + libellé).
+    let chantiersParId = {};
+
+    // Contexte d'écran (task 5). `phasePhotoCourante` est un `var` d'un
+    // <script> classique plus haut (choisirPhasePhoto) : accessible ici via
+    // window puisque `var` top-niveau d'un script classique se pose sur
+    // l'objet global, que ce module-ci peut lire.
+    window.bsContexteEcran = () => {
+      const id = sel.value;
+      const ch = (id && id !== '__new__') ? chantiersParId[id] : null;
+      return {
+        page: 'photos',
+        chantier_id: ch ? id : null,
+        chantier_client: ch ? (ch.client_name || null) : null,
+        phase: window.phasePhotoCourante || null,
+      };
+    };
+
+    // Un fetch qui n'atteint jamais le serveur (TypeError « Failed to fetch »
+    // sur Chrome, « Load failed » sur Safari) n'est ni une photo ratee ni une
+    // panne serveur : c'est l'absence de reseau sur le chantier. Sans cette
+    // distinction, l'artisan hors couverture lisait « Ticket illisible » ou
+    // « Echec » sans savoir qu'il suffit de reessayer une fois connecte.
+    function estErreurReseau(e) {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) return true;
+      return e instanceof TypeError;
+    }
+
+    const session = await requireAuth('./login.html');
+    if (!session) throw new Error('no session');
+
+
+    async function loadChantiers(preselect) {
+      let list = [];
+      let echec = false;
+      // Distinguer « pas encore de chantier » d'une panne reseau/serveur : sans
+      // ca, un artisan hors couverture sur son chantier lisait « Aucun chantier :
+      // creez-en un » et pouvait creer un doublon, alors que ses chantiers
+      // existent deja et que c'est juste la requete qui a echoue.
+      try { list = await listChantiers(); } catch (e) { console.warn(e); echec = true; }
+      sel.innerHTML = '';
+      chantiersParId = {};
+      list.forEach(c => {
+        chantiersParId[c.id] = c;
+        const o = document.createElement('option');
+        o.value = c.id;
+        o.textContent = c.client_name + (c.adresse ? ' — ' + c.adresse : '');
+        sel.appendChild(o);
+      });
+      const nouveau = document.createElement('option');
+      nouveau.value = '__new__';
+      nouveau.textContent = '+ Nouveau chantier…';
+      sel.appendChild(nouveau);
+
+      if (echec) {
+        hint.textContent = "Chantiers indisponibles (réseau ou serveur) — réessayez, ils ne sont pas perdus.";
+        say('Chargement des chantiers impossible pour le moment.', true);
+        if (!list.length) sel.value = '__new__';
+      } else if (!list.length) {
+        hint.textContent = "Aucun chantier : créez-en un pour enregistrer vos photos.";
+        sel.value = '__new__';
+      } else {
+        hint.textContent = '';
+        sel.value = preselect && list.some(c => c.id === preselect) ? preselect : list[0].id;
+      }
+      await refreshGallery();
+    }
+
+    // Le temps proposé suit le chantier (deduirePhase, js/photos-galerie.js).
+    // Renvoie null si les étapes n'ont pas pu être lues (réseau ou serveur) :
+    // on ne force alors aucun temps, l'artisan garde la case courante.
+    async function deduirePhaseChantier(chantierId) {
+      try {
+        return deduirePhase(await listTachesChantier(chantierId));
+      } catch (e) {
+        console.warn('[phase déduite] indisponible', e);
+        return null;
+      }
+    }
+
+    // ── Avant / après ─────────────────────────────────
+    // Les deux photos MARQUÉES « Avant » / « Après » par l'artisan
+    // (photos.role_client) — rendreBlocAvapArtisan (js/photos-galerie.js).
+    // Id passé explicitement : sel.value peut avoir changé pendant une
+    // requête async.
+    function renderAvantApres(id, photos) {
+      const sec = document.getElementById('photoAvantApresSec');
+      const card = document.getElementById('photoAvantApresCard');
+      const partagerBtn = document.getElementById('photoAvantApresPartager');
+      if (!sec || !card) return;
+
+      if (!id || id === '__new__') {
+        sec.style.display = 'none';
+        card.style.display = 'none';
+        if (partagerBtn) partagerBtn.style.display = 'none';
+        return;
+      }
+
+      const { avant, apres } = rendreBlocAvapArtisan(card, photos);
+      sec.style.display = '';
+      card.style.display = '';
+      if (partagerBtn) {
+        const token = chantiersParId[id]?.public_token;
+        partagerBtn.style.display = token && avant && apres ? 'flex' : 'none';
+      }
+    }
+
+    // Web Share API si dispo, sinon repli sur la copie du lien — même lien
+    // de suivi que bsEnvoyerPhotosClient() plus bas.
+    window.bsPartagerAvantApres = async function () {
+      const ch = chantiersParId[sel.value];
+      if (!ch || !ch.public_token) { say('Lien client indisponible pour ce chantier.', true); return; }
+      const cfg = window.__BATISPOT_CONFIG__ || {};
+      const url = (cfg.SUIVI_URL || 'https://batispot.pro/app/suivi.html') + '?t=' + ch.public_token;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'Avant / après du chantier', text: 'Suivez l’avancement du chantier en photos.', url });
+          return;
+        } catch (e) {
+          if (e && e.name === 'AbortError') return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        say('Lien copié — envoyez-le à votre client pour qu’il voie les photos.');
+      } catch (e) {
+        window.prompt('Copiez ce lien et envoyez-le à votre client :', url);
+      }
+    };
+    document.getElementById('photoAvantApresPartager').addEventListener('click', window.bsPartagerAvantApres);
+
+    // ── Galerie : groupes, appui long, sélection, barre d'actions ──
+    // Une seule implémentation, partagée avec chantier.html (js/photos-galerie.js).
+    let photosCourantes = [];
+    let phaseProposeeCourante = null;
+    const notifier = (m, t) => say(m, t === 'error');
+
+    const galerie = creerGalerie({
+      conteneur: gal,
+      notifier,
+      onAjouter: () => { if (typeof declencherPrisePhoto === 'function') declencherPrisePhoto(); },
+      actions: {
+        envoyerClient: (ids, visible) => setPhotosVisiblesClient(ids, visible),
+        marquerRole: (id, role) => setPhotoRoleClient(sel.value, id, role),
+        supprimer: async (ids) => {
+          for (const id of ids) {
+            const p = photosCourantes.find((x) => x.id === id);
+            if (p) await deletePhoto({ id: p.id, storage_path: p.storage_path });
+          }
+        },
+      },
+      apresAction: () => refreshGallery({ silencieux: true }),
+    });
+
+    // Puce « Envoyer au client » : on ouvre la sélection, l'artisan coche.
+    window.bsChoisirPhotosClient = function () {
+      if (!photosCourantes.length) { say('Aucune photo à envoyer pour ce chantier.', true); return; }
+      galerie.entrerSelection();
+      say('Touchez les photos à envoyer, puis « Envoyer au client ».');
+    };
+
+    function rendreCases() {
+      rendreCasesTemps(document.getElementById('photoPhaseTemps'), {
+        photos: photosCourantes,
+        phaseChoisie: window.phasePhotoCourante || 'pendant',
+        phaseProposee: phaseProposeeCourante,
+        onChoisir: (phase) => { if (typeof choisirPhasePhoto === 'function') choisirPhasePhoto(phase, true); },
+      });
+    }
+    window.bsRendreCasesTemps = rendreCases;
+
+    // `silencieux` : rafraîchissement après une action ou pendant une
+    // rafale — la galerie reste affichée et se met à jour, sans repasser
+    // par la déduction du temps (le choix de l'artisan tient).
+    async function refreshGallery({ silencieux = false } = {}) {
+      const id = sel.value;
+      if (btnEnvoyer) btnEnvoyer.style.display = 'none';
+      if (mqAssist) mqAssist.style.display = 'none';
+      if (!id || id === '__new__') {
+        photosCourantes = [];
+        gal.replaceChildren();
+        galerie.quitterSelection();
+        renderAvantApres(id, []);
+        rendreCases();
+        count.textContent = '—'; count.hidden = true;
+        return;
+      }
+
+      if (btnEnvoyer) btnEnvoyer.style.display = chantiersParId[id]?.public_token ? 'flex' : 'none';
+
+      // Ne bloque pas l'affichage des photos : la déduction est un
+      // complément, pas une condition.
+      if (!silencieux) {
+        deduirePhaseChantier(id).then((phase) => {
+          if (!phase || sel.value !== id) return;
+          phaseProposeeCourante = phase;
+          if (typeof window.bsAppliquerPhaseDeduite === 'function') window.bsAppliquerPhaseDeduite(phase);
+          rendreCases();
+        });
+      }
+
+      let photos = [];
+      try {
+        photos = await signPhotoUrls(await listPhotos(id));
+      } catch (e) {
+        console.warn(e);
+        count.textContent = '—'; count.hidden = true;
+        say('Galerie indisponible pour le moment (réseau ou serveur).', true);
+        renderAvantApres(id, []);
+        return;
+      }
+      if (sel.value !== id) return; // le chantier a changé pendant la requête
+
+      photosCourantes = photos || [];
+      count.textContent = photosCourantes.length + (photosCourantes.length > 1 ? ' photos' : ' photo');
+      count.hidden = photosCourantes.length === 0;
+      renderAvantApres(id, photosCourantes);
+      rendreCases();
+      if (mqAssist) mqAssist.style.display = photosCourantes.length ? 'flex' : 'none';
+      galerie.rendre(photosCourantes);
+    }
+
+    async function askNewChantier() {
+      const nom = (prompt('Nom du client pour ce nouveau chantier :') || '').trim();
+      if (!nom) { await loadChantiers(); return null; }
+      const adresse = (prompt('Adresse du chantier (facultatif) :') || '').trim();
+      try {
+        const c = await createChantier({ client_name: nom, adresse: adresse || null });
+        say('Chantier « ' + nom + ' » créé');
+        await loadChantiers(c.id);
+        return c.id;
+      } catch (e) { say('Création impossible : ' + (e.message || e), true); return null; }
+    }
+
+    sel.addEventListener('change', async () => {
+      window.phasePhotoManuelle = false;
+      if (sel.value === '__new__') await askNewChantier();
+      else await refreshGallery();
+    });
+
+    // Prise en rafale (stepPhotoInput) ou import depuis la galerie
+    // (stepGalerieInput) : même traitement, dans le temps courant. Chaque
+    // photo apparaît dans sa section dès son envoi, sans légende demandée.
+    window.bsUploadChantierPhoto = async function (event, phase) {
+      const input = event.target;
+      const files = Array.from(input.files || []);
+      input.value = '';
+      if (!files.length) return;
+
+      let chantierId = sel.value;
+      if (!chantierId || chantierId === '__new__') chantierId = await askNewChantier();
+      if (!chantierId) { say('Choisissez ou créez un chantier avant d’envoyer une photo.', true); return; }
+
+      await envoyerFichiersPhotos({
+        files,
+        chantierId,
+        phase: phase || window.phasePhotoCourante || 'pendant',
+        uploadPhoto,
+        notifier,
+        apresChaque: () => refreshGallery({ silencieux: true }),
+      });
+    };
+
+    // « Copier le lien client » — même mécanisme que le bouton de
+    // chantier.js : le lien de suivi public (suivi.html?t=<public_token>).
+    // Ce qui s'y voit se choisit photo par photo dans la galerie (« Envoyer
+    // au client ») ; le lien seul ne montre rien. Masqué quand le chantier
+    // sélectionné n'a pas de public_token.
+    window.bsEnvoyerPhotosClient = async function () {
+      const ch = chantiersParId[sel.value];
+      if (!ch || !ch.public_token) { say('Lien client indisponible pour ce chantier.', true); return; }
+      const cfg = window.__BATISPOT_CONFIG__ || {};
+      const url = (cfg.SUIVI_URL || 'https://batispot.pro/app/suivi.html') + '?t=' + ch.public_token;
+      try {
+        await navigator.clipboard.writeText(url);
+        say('Lien copié — votre client y verra les photos que vous lui avez envoyées.');
+      } catch (e) {
+        window.prompt('Copiez ce lien et envoyez-le à votre client :', url);
+      }
+    };
+
+    // `?chantier=`, `?phase=`, `?declencher=1` (task 6, prendre_photo /
+    // ouvrir_ecran) : présélectionne le chantier, la phase, et déclenche
+    // directement la prise de vue — même geste qu'un artisan qui choisirait
+    // le chantier, la case Début / Pendant / Fin puis appuierait sur le
+    // bouton « Photos « … » ».
+    const bsParamsPhotos = new URLSearchParams(location.search);
+    await loadChantiers(bsParamsPhotos.get('chantier') || undefined);
+    const bsPhaseUrl = bsParamsPhotos.get('phase');
+    if (bsPhaseUrl && typeof choisirPhasePhoto === 'function') choisirPhasePhoto(bsPhaseUrl, true);
+    if (bsParamsPhotos.get('declencher') === '1' && typeof declencherPrisePhoto === 'function') {
+      declencherPrisePhoto();
+      // Un .click() sur <input type=file capture> hors geste utilisateur
+      // peut être ignoré (iOS Safari) : on prévient l'artisan au cas où.
+      if (typeof showToast === 'function') {
+        showToast("Si l'appareil photo ne s'est pas ouvert, touchez le bouton « Photos ».");
+      }
+    }
+  </script>
+
+  <!-- ═══ Confirmation d'une depense lue sur un ticket ══════════════════════
+       Le choix du chantier reprend la liste deja chargee en haut de l'ecran,
+       avec le chantier courant preselectionne — c'est presque toujours le
+       bon, l'artisan photographie son ticket sur place. ═══════════════════ -->
+  <div id="depOverlay" role="dialog" aria-modal="true" aria-labelledby="depTitre"
+       style="position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(4px);
+              z-index:2000;display:none;align-items:flex-end;justify-content:center;">
+    <div style="background:#FFF;border-radius:18px 18px 0 0;width:100%;max-width:480px;
+                padding:20px 18px calc(20px + env(safe-area-inset-bottom));
+                display:flex;flex-direction:column;gap:14px;max-height:90vh;overflow-y:auto;">
+      <div>
+        <strong id="depTitre" style="font-size:16px;color:#1C2B22;">Enregistrer cette dépense</strong>
+        <p style="font-size:12.5px;color:#5A7268;margin:4px 0 0;">Vérifiez ce qui a été lu sur le ticket.</p>
+      </div>
+
+      <div id="depRecap" style="background:#F7FBF8;border:1px solid #E7EEEA;border-radius:12px;
+                                padding:12px 14px;display:flex;flex-direction:column;gap:7px;"></div>
+
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <label for="depChantier" style="font-size:11.5px;font-weight:800;color:#5A7268;">
+          Chantier concerné
+        </label>
+        <select id="depChantier" class="form-input" style="font-weight:700;font-size:16px;"></select>
+        <span style="font-size:11px;color:#5A7268;">
+          Sans chantier, la dépense compte dans vos totaux mais pas dans la marge.
+        </span>
+      </div>
+
+      <div style="display:flex;gap:9px;">
+        <button type="button" id="depAnnuler" class="btn-card" style="flex:1;padding:12px;font-size:13.5px;">Annuler</button>
+        <button type="button" id="depValider" class="btn-card primary" style="flex:2;padding:12px;font-size:13.5px;">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

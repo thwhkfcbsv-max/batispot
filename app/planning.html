@@ -1,0 +1,3429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Planning · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+  <style>
+    :root {
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --text-main: #1C2B22;
+      --text-muted: #3D5A4E;
+      --text-sub: #5A7268;
+      --g-deep: #1B7049;
+      --g-light: #DCFCE7;
+      --y-amber: #228B5B;
+      --y-light: #EBF7F1;
+      --border-line: #D3E3DA;
+      --border-subtle: #EEF3F0;
+    }
+    body {
+      background: #FFFFFF;
+      color: #1C2B22;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .phone-screen {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      position: relative;
+    }
+    .app-h {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid #E7EEEA;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .scr-body {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #FFFFFF;
+    }
+    /* Vues du calendrier : Jour / Semaine / Mois / Année */
+    /* Colonnes AUTOMATIQUES, pas `repeat(5, 1fr)` : le nombre d'onglets varie
+       (4 pour un artisan seul, 5 avec « Charge »). Avec cinq colonnes en dur,
+       masquer « Charge » laissait une colonne fantome a droite et tassait les
+       quatre boutons restants sur la gauche. La barre se remesure maintenant
+       sur ce qu'elle contient reellement. */
+    .view-switcher {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: 4px;
+      background: #EEF3F0;
+      padding: 4px;
+      border-radius: 12px;
+    }
+    /* Le compagnon n'a qu'une vue : le sélecteur disparaît au lieu d'afficher
+       un seul onglet solitaire qui n'a rien à commuter. */
+    .view-switcher.solo { display: none; }
+    /* Le libelle ne se coupe jamais : « Semaine » sur deux lignes ferait sauter
+       la hauteur de la barre. A cinq onglets sur 360 px la place reste
+       suffisante — verifie a l'ecran dans les deux configurations. */
+    .view-btn {
+      border: none;
+      background: transparent;
+      padding: 9px 4px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #3D5A4E;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .view-btn.active {
+      background: #FFFFFF;
+      color: var(--t1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    /* Nav bar date : convertie en .mq-period le 04/09/2026 (maquette
+       validée, écran 08) — voir css/app.css pour .mq-period. Les anciennes
+       classes .date-nav-bar/.date-nav-btn/.date-nav-title ne sont plus
+       utilisées dans ce fichier. */
+
+    /* Grille Semaine */
+    .days-strip {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .day-pill {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      padding: 8px 2px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .day-pill.active {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+    .day-pill.active .day-name, .day-pill.active .day-num { color: #FFFFFF; }
+    .day-name { font-size: 10px; font-weight: 700; color: #5A7268; text-transform: uppercase; }
+    .day-num { font-size: 14px; font-weight: 900; color: #1C2B22; }
+    .day-dot { width: 5px; height: 5px; border-radius: 50%; background: #228B5B; }
+    .day-pill.active .day-dot { background: #FFFFFF; }
+
+    /* Grille Mois — vue d'ensemble. Les pastilles comptent les tâches réelles
+       du jour ; elles ne sont plus écrites dans le HTML. */
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+    .month-header-day {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #5A7268;
+      padding-bottom: 4px;
+    }
+    .month-cell {
+      aspect-ratio: 1;
+      border: 1.5px solid #E7EEEA;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      background: #FFFFFF;
+      position: relative;
+      color: #1C2B22;
+      font-family: inherit;
+      padding: 0;
+    }
+    .month-cell.hors-mois { color: #D3E3DA; cursor: default; }
+    .month-cell.active {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+    /* Un jour en conflit se voit AVANT d'ouvrir le jour : c'est tout l'intérêt
+       de la vue mois. Bordure orange, comme la surcharge ailleurs dans l'app. */
+    .month-cell.conflit { border-color: #F97316; background: #FFF7ED; }
+    .month-cell.conflit.active { background: #EA580C; border-color: #EA580C; }
+    .month-dots {
+      display: flex;
+      gap: 2px;
+      height: 5px;
+      align-items: center;
+      justify-content: center;
+    }
+    .month-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #16A34A;
+    }
+    .month-cell.conflit .month-dot { background: #EA580C; }
+    /* Point ambre : au moins une étape en retard ce jour-là (jour passé, pas
+       terminée) — distinct du contour orange de conflit (surcharge / deux
+       chantiers le même jour), qui peut exister sans aucun retard. */
+    .month-dot.mq-retard { background: var(--amber, #B45309); }
+    .month-cell.active .month-dot { background: #FFFFFF; }
+    .month-legende {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      font-size: 11px;
+      color: #5A7268;
+      font-weight: 700;
+    }
+    .month-legende span { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* ── Vue Année ─────────────────────────────────────────────
+       Trois blocs : le bandeau d'état des chantiers, la densité 12 mois,
+       la ligne de CA. Les quatre cartes trimestrielles restent, repliées
+       dans un <details> — elles sont le repère TVA. */
+
+    /* Bandeau d'état : Terminés / En cours / À venir */
+    .year-etat {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .year-etat-case {
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      background: #FFFFFF;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .year-etat-nb {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--t1);
+      line-height: 1.1;
+    }
+    /* Une donnée qu'on n'a pas pu lire reste grise : elle ne doit jamais
+       pouvoir se confondre avec un vrai compte (0 est un vrai compte). */
+    .year-etat-nb.vide { color: #A8BDB2; }
+    .year-etat-lib {
+      font-size: 10px;
+      font-weight: 800;
+      color: #5A7268;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      margin-top: 4px;
+    }
+
+    /* Densité 12 mois : une colonne par mois, hauteur = heures planifiées.
+       12 colonnes en 1fr : ça tient sur un téléphone sans scroll horizontal. */
+    .year-densite {
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      background: #FFFFFF;
+      padding: 12px 10px 9px;
+    }
+    .year-cols {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+      align-items: end;
+      height: 96px;
+    }
+    .year-col {
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+    .year-barre {
+      width: 100%;
+      border-radius: 4px 4px 2px 2px;
+      background: #228B5B;          /* chargé — le vert de la charte */
+    }
+    .year-barre.creux { background: rgba(34, 139, 91, 0.28); }
+    .year-barre.surcapacite { background: #B45309; }   /* au-delà de la capacité */
+    /* Aucune tâche ce mois-là : une barre grise à ras. On ne dessine JAMAIS
+       une hauteur qu'aucune donnée ne porte. */
+    .year-barre.vide { background: #E1E9E5; }
+    /* Mois à venir : hachuré. C'est du prévu, pas du travaillé. */
+    .year-barre.avenir {
+      background-image: repeating-linear-gradient(
+        45deg, rgba(255,255,255,.7) 0 3px, rgba(255,255,255,0) 3px 6px);
+    }
+    .year-mois {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #5A7268;
+      text-align: center;
+    }
+    .year-mois span.courant { color: #228B5B; }
+    .year-legende {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      font-size: 11px;
+      color: #5A7268;
+      font-weight: 700;
+    }
+    .year-legende span { display: inline-flex; align-items: center; gap: 5px; }
+    .year-puce {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      display: inline-block;
+      flex: none;
+    }
+
+    /* CA facturé : une seule ligne. Absente — pas « — » — pour un compagnon. */
+    .year-ca {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      background: #FFFFFF;
+      padding: 11px 13px;
+      font-size: 12px;
+      color: #3D5A4E;
+    }
+    .year-ca b { font-size: 16px; font-weight: 900; color: #1C2B22; }
+    .year-ca b.vide { font-size: 16px; color: #A8BDB2; }
+
+    /* Les 4 chiffres trimestriels, repliés */
+    .year-details {
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      background: #FFFFFF;
+    }
+    .year-details > summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--t1);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .year-details > summary::-webkit-details-marker { display: none; }
+    .year-details > summary::after { content: '▾'; color: #5A7268; }
+    .year-details[open] > summary::after { content: '▴'; }
+    .year-details .year-grid { padding: 0 10px 11px; }
+
+    /* Grille Année */
+    .year-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    /* Sur un telephone, deux colonnes ne laissent que ~148 px par carte :
+       « Heures planifiées » passait a la ligne sous son propre chiffre, et
+       chaque case se lisait sur deux lignes pour trois mots. Une seule colonne
+       en dessous de 420 px — l'etiquette et sa valeur tiennent alors sur la
+       meme ligne, ce qui est tout l'interet de les mettre cote a cote. */
+    @media (max-width: 420px) {
+      .year-grid { grid-template-columns: 1fr; }
+    }
+    /* Carte trimestre. C'est un <button> : cliquer T3 restreint la liste de
+       chantiers du bas a ce trimestre. Le style natif du bouton est annulé —
+       la carte doit rester une carte, pas ressembler à un bouton de formulaire. */
+    .quarter-card {
+      border: 1.5px solid #D3E3DA;
+      border-radius: 12px;
+      padding: 12px;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      margin: 0;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .quarter-card:focus-visible { outline: 2px solid var(--t1); outline-offset: 2px; }
+    /* Deux états INDÉPENDANTS, qui peuvent coexister sur la même carte :
+       • `courant` = le trimestre où l'on est aujourd'hui — une teinte ;
+       • `actif`   = celui qu'on a choisi de lire en bas — un anneau, plus la
+         mention « · affiché » écrite dans le titre.
+       Le second ne repose donc pas sur la seule couleur, et ne peut pas se
+       confondre avec le premier. */
+    .quarter-card.courant { border-color: #228B5B; background: #F0FDF4; }
+    .quarter-card.actif { border-color: var(--t1); box-shadow: 0 0 0 2px rgba(15,81,50,0.22); }
+    .quarter-title {
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--t1);
+    }
+    /* Sur deux colonnes seulement : « T3 (juil – sept) · en cours » passe a la
+       ligne quand « T4 (oct – déc) » tient sur une, et les chiffres des deux
+       cartes voisines se decalent d'une ligne. On reserve donc deux lignes de
+       titre. En une seule colonne aucun titre ne passe a la ligne : la reserve
+       n'y creuserait qu'un trou. */
+    @media (min-width: 421px) {
+      .quarter-title { min-height: 2.5em; }
+    }
+    /* Les valeurs partagent UNE colonne, commune à toute la carte : en flex
+       ligne par ligne, chacune se calait sur la longueur de son étiquette et
+       les chiffres dansaient d'une ligne à l'autre. `tabular-nums` fige en
+       plus la largeur des chiffres, sans quoi « 11 h » et « 8 h » ne
+       s'alignent pas non plus. */
+    /* La colonne des valeurs a une largeur PLANCHER, la meme dans les quatre
+       cartes : sans elle, « 14 h » reservait plus de place que « 6 h », la
+       colonne des etiquettes retrecissait d'autant et « Heures planifiées »
+       passait a la ligne dans une carte mais pas dans sa voisine. Elle peut
+       toujours s'elargir si un montant l'exige. */
+    .quarter-lignes {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(3.4em, auto);
+      align-items: baseline;
+      row-gap: 5px;
+      column-gap: 8px;
+    }
+    .quarter-lignes > span { font-size: 12px; color: #3D5A4E; }
+    .quarter-lignes > b {
+      justify-self: end;
+      text-align: right;
+      font-size: 13px;
+      font-weight: 900;
+      color: #1C2B22;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum' 1;
+      white-space: nowrap;
+    }
+    /* Une donnée absente s'affiche « — » et reste grise : elle ne doit jamais
+       pouvoir se confondre avec un vrai chiffre. */
+    .quarter-lignes > b.vide { color: #A8BDB2; font-weight: 800; }
+
+    /* Agenda (semaine) : un bloc par jour, empilés */
+    .ag-jour {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ag-jour.aujourdhui { border-color: #228B5B; background: #F7FBF8; }
+    .ag-jour.vide { background: #F7FBF8; border-style: dashed; }
+    .ag-jour-tete {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .ag-date { font-size: 13px; font-weight: 900; color: #1C2B22; }
+    .ag-date::first-letter { text-transform: uppercase; }
+    .ag-heures {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--t1);
+      background: #DCFCE7;
+      border-radius: 20px;
+      padding: 3px 9px;
+      white-space: nowrap;
+    }
+    .ag-heures.surcharge { color: #9A3412; background: #FFF1E6; }
+    .ag-heures.libre { color: #5A7268; background: #EEF3F0; }
+    .ag-chantier {
+      border-left: 2.5px solid #228B5B;
+      padding: 2px 0 2px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ag-chantier-nom {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #1C2B22;
+      text-decoration: none;
+    }
+    .ag-tache {
+      font-size: 12px;
+      color: #3D5A4E;
+      line-height: 1.45;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .ag-qui {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--t1);
+      white-space: nowrap;
+    }
+    .ag-qui.libre { color: #5A7268; font-weight: 700; }
+
+    /* Plan de charge : une ligne par personne, une colonne par jour */
+    .eq-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .eq-grille { display: grid; gap: 3px; min-width: max-content; }
+    .eq-nom {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #1C2B22;
+      padding-right: 8px;
+      position: sticky;
+      left: 0;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      z-index: 1;
+    }
+    .eq-entete {
+      font-size: 10px;
+      font-weight: 800;
+      color: #5A7268;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .eq-case {
+      width: 34px;
+      height: 30px;
+      border-radius: 7px;
+      background: #F0F4F2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #3D5A4E;
+    }
+    /* La barre est proportionnelle à la capacité : on lit la charge d'un coup
+       d'oeil sans avoir à comparer des nombres. */
+    .eq-barre {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      background: #86C9A5;
+    }
+    .eq-case.pleine .eq-barre { background: #228B5B; }
+    .eq-case.surcharge .eq-barre { background: #EA580C; }
+    .eq-case span { position: relative; z-index: 1; padding-bottom: 1px; }
+    .eq-conflit {
+      background: #FFF7ED;
+      border: 1.5px solid #F97316;
+      border-radius: 10px;
+      padding: 9px 11px;
+      font-size: 12px;
+      color: #9A3412;
+      line-height: 1.45;
+    }
+    .eq-conflit b { font-weight: 900; }
+
+    /* Itinéraire du jour, dans la vue Jour */
+    .ma-trajet {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--t1);
+      background: #F0FDF4;
+      border: 1px solid #CFE8D8;
+      border-radius: 9px;
+      padding: 7px 10px;
+    }
+
+    /* Vue Jour (maquette 02, portée le 04/09/2026) : case à cocher d'une
+       étape. Le carré visible reste 20×20 (classe .mq-cb de app.css), mais
+       la zone cliquable est agrandie à 44×44 par un padding invisible — au
+       doigt, sur un chantier, 20 px ne se vise pas. Même règle que
+       chantier.html. */
+    .mq-task .mq-cb-hit {
+      background: none; border: none; padding: 0; margin: -12px 0 -12px -12px;
+      width: 44px; height: 44px; flex: none;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit; -webkit-appearance: none; appearance: none;
+    }
+    .mq-task .mq-cb-hit:disabled { cursor: default; }
+    .mq-task .mq-cb-hit:not(:disabled) { cursor: pointer; }
+
+    /* Cartes d'interventions */
+    
+    /* Carte Rendez-vous cliquable */
+    .slot-card {
+      background: #FFFFFF;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .slot-card:hover {
+      border-color: #228B5B;
+      box-shadow: 0 4px 12px rgba(15, 81, 50, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .slot-time-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slot-time {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--t1);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .slot-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #DCFCE7;
+      color: #065F46;
+    }
+    .slot-client {
+      font-size: 15px;
+      font-weight: 900;
+      color: #1C2B22;
+    }
+    .slot-addr {
+      font-size: 12.5px;
+      color: #3D5A4E;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .slot-team {
+      font-size: 12px;
+      font-weight: 700;
+      color: #5A7268;
+      padding-top: 6px;
+      border-top: 1px solid #EEF3F0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slot-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .btn-act {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1.5px solid #D3E3DA;
+      background: #FFFFFF;
+      color: #1C2B22;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-act.primary {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #FFFFFF;
+    }
+    .btn-act.yellow {
+      background: #228B5B;
+      border-color: #228B5B;
+      color: #1C2B22;
+    }
+
+    /* Modale Ajout Intervention */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-content {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 500px;
+      max-height: 92vh;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      animation: slideUp 0.22s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .form-input {
+      padding: 11px 14px;
+      border: 1.5px solid #D3E3DA;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      color: #1C2B22;
+      background: #FFFFFF;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-input:focus { border-color: #228B5B; }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1C2B22;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast.yellow { border-left-color: #228B5B; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header épuré : Logo Officiel BatiSpot Pro + Accès rapide Nouveau Devis & Profil -->
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <!-- "Nouveau Devis" et "Planifier" retires de l'en-tete : le bouton
+           Planifier de la carte juste en dessous fait deja le travail, et la
+           creation de devis a son propre onglet dans la barre du bas.
+           Le bouton profil, lui, est indispensable : depuis que la barre du
+           bas mene a la messagerie, c'est le SEUL acces au tiroir (equipe,
+           entreprise, assurances) sur cette page. -->
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+    <!-- Body Principal -->
+    <div class="scr-body">
+      <!-- Sélecteur des 4 vues (maquette validée 04/09/2026, écran 08) :
+           Jour / Semaine / Mois / Charge — Année est retirée de la barre,
+           voir la note sur #viewAnneeContainer plus bas. Classes .mq-tabs /
+           .mq-tab / .mq-on portées depuis la maquette (css/app.css). -->
+      <div class="mq-tabs" id="viewSwitcher" style="min-height:44px;">
+        <button type="button" class="mq-tab" id="btnViewJour" onclick="switchView('jour')" style="min-height:44px;">Jour</button>
+        <button type="button" class="mq-tab mq-on" id="btnViewSemaine" onclick="switchView('semaine')" style="min-height:44px;">Semaine</button>
+        <button type="button" class="mq-tab" id="btnViewMois" onclick="switchView('mois')" style="min-height:44px;">Mois</button>
+        <!-- Quatrieme onglet : la charge d'equipe, pour l'encadrement seul.
+             Il y avait ici un onglet « Chantiers » pour le compagnon et
+             l'artisan seul, retire le 03/09/2026 : le nom du chantier est deja
+             cliquable dans l'agenda (5 endroits de cet ecran), et le tableau de
+             bord liste deja tous les chantiers. Un ecran de plus pour la meme
+             information, c'est une chose de plus a maintenir juste. -->
+        <button type="button" class="mq-tab" id="btnViewCharge" onclick="switchView('charge')" style="min-height:44px;">Charge</button>
+      </div>
+
+      <!-- Barre de navigation temporelle — ligne compacte .mq-period
+           (maquette validée 04/09/2026, écran 08) : chevrons SVG aux
+           extrémités (bsIcon('back') / bsIcon('chevron'), injectés au
+           DOMContentLoaded une fois app-nav.js chargé plus bas dans la
+           page), libellé de période au centre. Remplace l'ancienne
+           .date-nav-bar (boutons texte « ← Préc. / Suiv. → ») ; logique
+           inchangée : prevPeriod()/nextPeriod() restent les mêmes fonctions. -->
+      <div class="mq-period" id="periodNavBar">
+        <button type="button" id="periodPrevBtn" onclick="prevPeriod()" aria-label="Période précédente"
+          style="min-width:44px;min-height:44px;flex:none;display:flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:#1C2B22;cursor:pointer;"></button>
+        <span id="periodLabel">Cette semaine</span>
+        <button type="button" id="periodNextBtn" onclick="nextPeriod()" aria-label="Période suivante"
+          style="min-width:44px;min-height:44px;flex:none;display:flex;align-items:center;justify-content:center;background:none;border:none;padding:0;color:#1C2B22;cursor:pointer;"></button>
+      </div>
+
+      <!-- Filtre de perimetre. Ce n'est PAS un ecran separe : les memes vues,
+           les memes rendus, seul le jeu de taches change. Affiche uniquement
+           quand il y a quelqu'un d'autre que soi — un artisan seul n'a rien a
+           filtrer, et un bouton « Moi / L'équipe » a une personne ferait
+           croire a une fonction cassee. -->
+      <div id="filtrePerimetre" class="view-switcher" style="display:none;">
+        <button type="button" class="view-btn active" id="btnPerimetreEquipe" onclick="setPerimetre('equipe')">Toute l'équipe</button>
+        <button type="button" class="view-btn" id="btnPerimetreMoi" onclick="setPerimetre('moi')">Moi</button>
+      </div>
+
+      <!-- Planifier — la grande carte au-dessus de la grille (titre,
+           sous-titre, rappel des chantiers sans date) est retirée le
+           04/09/2026 (maquette validée, écran 08) : elle poussait la
+           semaine hors de l'écran au premier regard. Un seul bouton
+           .mq-btn.mq-primary la remplace, SOUS la grille, après l'alerte de
+           charge — voir juste après la fermeture de #viewChargeContainer.
+           Même fonction qu'avant : openAddEventModal(). -->
+
+      <!-- VUE 1 : SEMAINE — bande de 7 jours pour naviguer, puis l'agenda.
+           La bande seule ne disait rien du contenu de la semaine : on cliquait
+           un jour pour decouvrir s'il etait vide. L'agenda repond avant le clic. -->
+      <!-- VUE SEMAINE — grille .mq-week à l'identique de l'écran 08 de la
+           maquette validée le 04/09/2026 : colonne des heures (8 h/11 h/
+           14 h/17 h), cinq jours ouvrés (Lun→Ven, .mq-h, .mq-today), cellules
+           .mq-cell, étapes réelles en .mq-ev (vert) ou .mq-ev.mq-amb (ambre,
+           étape en retard — même règle que la vue Jour : pas terminée et jour
+           déjà passé). Construite par bsRendreAgenda() depuis
+           listTachesPeriode(), voir plus bas. -->
+      <div id="viewSemaineContainer" style="display:flex;flex-direction:column;gap:12px;">
+        <div id="mqWeekGrid" class="mq-week"></div>
+        <!-- Alerte de charge : une phrase, pas un graphique (maquette
+             validée). Masquée quand la semaine affichée n'a aucun conflit —
+             on n'invente jamais une surcharge. -->
+        <div id="mqChargeBox" class="mq-box" style="display:none;font-size:12.5px;font-weight:700;"></div>
+      </div>
+
+      <!-- VUE 2 : JOUR — liste d'étapes par chantier, composants mq-tasks/
+           mq-task/mq-cb/mq-who (maquette validée 04/09/2026, écran 02).
+           Construite par bsChargerJournee(), voir plus bas. -->
+      <div id="viewJourContainer" style="display:none;flex-direction:column;gap:10px;">
+        <div style="background:#F7FBF8;border:1.5px solid #D3E3DA;border-radius:12px;padding:12px;font-size:13px;font-weight:800;color:var(--t1);">
+          Journée active : <span id="currentDayActive">Aujourd'hui</span>
+        </div>
+        <!-- Qui travaille et ou, ce jour-la. Rempli depuis la table taches. -->
+        <div id="jourEquipe"></div>
+      </div>
+
+      <!-- VUE 3 : MOIS — vraie grille calendrier.
+           Elle etait ecrite en dur : 31 cases figees, un "aujourd'hui" bloque au
+           18, et douze pastilles has-event posees sur des chiffres choisis a la
+           main. Elle montrait donc un mois d'activite a un artisan qui venait
+           d'installer l'app. Les cases sont desormais construites depuis la date
+           affichee et les pastilles comptent les taches reellement en base. -->
+      <div id="viewMoisContainer" style="display:none;flex-direction:column;gap:10px;">
+        <div class="month-grid" id="grilleMois"></div>
+        <div class="month-legende">
+          <span><i class="month-dot" style="display:inline-block;"></i> à jour</span>
+          <span><i class="month-dot mq-retard" style="display:inline-block;"></i> en retard</span>
+          <span><i style="display:inline-block;width:9px;height:9px;border-radius:3px;border:1.5px solid #F97316;background:#FFF7ED;"></i> conflit</span>
+        </div>
+        <div class="mq-sec">Résumé du mois</div>
+        <div id="moisResume" class="mq-card" style="font-size:12.5px;font-weight:600;color:var(--sub);"></div>
+      </div>
+
+      <!-- La vue Année (bandeau d'état / densité 12 mois / CA / trimestres)
+           est retirée de la barre le 04/09/2026 (maquette validée, écran 08 :
+           « Quatre vues au lieu de cinq : Année devient le zoom arrière de
+           Mois »). Son conteneur HTML est supprimé ; les fonctions de calcul
+           (bsRendreAnnee, ETAT_CHANTIER, bsCapaciteMois...) restent définies
+           plus bas mais ne sont plus appelées par aucune entrée de la barre. -->
+
+      <!-- VUE 4 : CHARGE ÉQUIPE — une ligne .mq-member par personne, avec la
+           barre .mq-load de ses heures de la semaine (maquette validée
+           04/09/2026, écran 09). La question du patron n'est pas
+           « qu'est-ce qui est prevu » mais « qui est en train de sauter ».
+           Les conflits sont listes dessous, en toutes lettres, dans des
+           .mq-box. Construite par bsRendreCharge(), voir plus bas. -->
+      <div id="viewChargeContainer" style="display:none;flex-direction:column;gap:10px;">
+        <div id="chargeEquipe"></div>
+      </div>
+
+      <!-- Planifier une étape — un seul bouton, sous la grille de la vue
+           courante (Semaine, Jour, Mois ou Charge), après l'alerte de
+           charge en vue Semaine. Ouvre exactement le même flux qu'avant
+           (openAddEventModal), l'icône est injectée par bsIcon('calendar')
+           au DOMContentLoaded (app-nav.js, chargé plus bas dans la page). -->
+      <!-- (05/09, Moctar) « Planifier une étape » n'est pas l'unité du BTP : on
+           cale un CHANTIER. En attendant l'écran dédié (maquette à venir),
+           l'assistant mène le calage (chantier, date de début, étapes). -->
+      <button type="button" id="btnPlanifierEtape" class="mq-btn mq-primary" style="width:100%;" onclick="if (typeof window.bsAssistantDemander === 'function') { window.bsAssistantDemander('Quel chantier voulez-vous caler, et à partir de quand ? Dites-le-moi, par exemple : Mme Ravier lundi prochain. Une visite se cale de la même façon : visite chez M. Perrin jeudi à 14 h avec Karim.'); } else { openAddEventModal(); }">Caler un chantier</button>
+
+            <!-- Liste des Interventions du jour (Cliquer sur un RV pour ouvrir l'Assistant & Actions) -->
+      <div style="display:flex;flex-direction:column;gap:10px;" id="interventionsList">
+        <div class="mq-sec">Étapes & chantiers de la journée (cliquez pour ouvrir) :</div>
+
+        <!-- Les 2 fiches de rendez-vous statiques (Sophie Marchand / Karim B.,
+             Thomas Leroy / David R.) sont retirees : rendreChantiers() ecrase
+             cette liste avec les chantiers reels, mais en cas d'echec reseau le
+             catch laissait la demo a l'ecran. -->
+        <div style="font-size:12.5px;color:#5A7268;" id="interventionsPlaceholder">Chargement de vos chantiers…</div>
+      </div>
+
+    <!-- MODALE PLANIFIER UNE INTERVENTION AVEC 2 MODES : DEPUIS DEVIS OU ASSISTANT VOCAL -->
+    <div class="modal-overlay" id="addEventModal" onclick="if(event.target===this) closeAddEventModal()">
+      <div class="modal-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #E7EEEA;padding-bottom:12px;">
+          <div>
+            <span style="font-size:11px;font-weight:800;color:var(--t1);background:#DCFCE7;padding:3px 8px;border-radius:6px;">PLANIFICATION BTP</span>
+            <h2 style="margin:4px 0 0 0;font-size:16.5px;font-weight:900;color:#1C2B22;">Caler un chantier</h2>
+          </div>
+          <button type="button" onclick="closeAddEventModal()" style="background:none;border:none;cursor:pointer;color:#5A7268;padding:4px;font-size:20px;font-weight:800;"></button>
+        </div>
+
+        <!-- Sélecteur des 2 Modes : Depuis un Devis | Décrire à l'Assistant -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#EEF3F0;padding:4px;border-radius:10px;">
+          <button type="button" id="tabPlanDevis" onclick="switchPlanMode('devis')" style="padding:9px 6px;font-size:12px;font-weight:800;border-radius:8px;border:1.5px solid #228B5B;background:#F0FDF4;color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Depuis un Devis
+          </button>
+          <button type="button" id="tabPlanAssistant" onclick="switchPlanMode('assistant')" style="padding:9px 6px;font-size:12px;font-weight:800;border-radius:8px;border:1.5px solid #D3E3DA;background:#FFFFFF;color:#1C2B22;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2C12 7.5 7.5 12 2 12C7.5 12 12 16.5 12 22C12 16.5 16.5 12 22 12C16.5 12 12 7.5 12 2Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Décrire à l'Assistant
+          </button>
+        </div>
+
+        
+        <!-- MODE 1 : DEPUIS LA LISTE COMPLÈTE DES DEVIS -->
+        <div id="panelPlanDevis" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:12px;font-weight:800;color:#1C2B22;">Sélectionnez le devis à insérer dans votre planning :</div>
+
+          <!-- Les 4 cartes de devis etaient ecrites en dur (Sophie Marchand,
+               Marc Delmas, Celine Vasseur, Julien Bertin). Alimente depuis la base. -->
+          <div style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:2px;" id="planQuotesCardsList">
+            <div style="font-size:12px;color:#5A7268;">Chargement de vos devis…</div>
+          </div>
+
+          <input type="hidden" id="planSelectDevis" value="">
+
+          <!-- Paramètres du Rendez-vous de Chantier -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label style="font-size:11.5px;font-weight:800;color:#1C2B22;">Date de l'étape *</label>
+              <input type="date" id="planDevisDate" class="form-input" style="padding:8px 10px;font-size:16px;">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label style="font-size:11.5px;font-weight:800;color:#1C2B22;">Horaires / Durée *</label>
+              <input type="text" id="planDevisHeure" class="form-input" value="08:00 - 17:00 (Journée)" style="padding:8px 10px;font-size:16px;">
+            </div>
+          </div>
+
+          <!-- Selecteur de compagnons. Il avait ete retire pour deux raisons :
+               les noms proposes (Karim B., David R., "Artisan Patron (Moctar)")
+               etaient inventes, et l'affectation n'etait enregistree nulle part.
+               Les deux sont levees : les options viennent de listMembres() —
+               aucun nom n'est ecrit dans cette page — et l'assignation part en
+               base dans taches.assigne_id via assignerTache().
+               S'il n'y a personne dans l'equipe, on le dit et on renvoie vers
+               equipe.html au lieu d'inventer des options. -->
+          <div style="display:flex;flex-direction:column;gap:4px;margin-top:2px;" id="blocAssignation">
+            <label for="planAssigneMembre" style="font-size:11.5px;font-weight:800;color:#1C2B22;">Qui intervient ?</label>
+            <select id="planAssigneMembre" class="form-input" style="padding:8px 10px;font-size:16px;">
+              <option value="">Chargement de l'équipe…</option>
+            </select>
+            <span style="font-size:11px;color:#5A7268;" id="assignationAide">L'assignation s'applique aux étapes déjà planifiées de ce chantier.</span>
+          </div>
+
+          <button type="button" class="btn-act primary" id="btnProposerPlan" onclick="proposerPlanDepuisDevis()" style="padding:12px;font-size:13px;font-weight:800;margin-top:4px;background:#228B5B;">
+            Calculer le planning →
+          </button>
+
+          <!-- Écran de validation : les durées sont ESTIMÉES d'après les montants du
+               devis, donc l'artisan les relit avant que quoi que ce soit parte en base.
+               La date de fin finit chez son client. -->
+          <div id="planPropositionBox" style="display:none;flex-direction:column;gap:8px;margin-top:6px;border-top:1px solid #D3E3DA;padding-top:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+              <div style="font-size:11.5px;font-weight:800;color:var(--t1);text-transform:uppercase;letter-spacing:.4px;">Planning proposé</div>
+              <div id="planPropDates" style="font-size:11.5px;color:#5A7268;"></div>
+            </div>
+            <div style="font-size:11.5px;color:#3D5A4E;background:#F7FBF8;border:1px solid #D3E3DA;border-radius:8px;padding:9px 11px;line-height:1.5;">
+              Durées calculées d'après <b>les quantités du devis</b> et les cadences de pose —
+              100 m² de sous-couche, 100 ml de plinthes. Ce sont des cadences de départ :
+              <b>corrigez-les</b>, ce sont les vôtres qui comptent.
+              <button type="button" id="btnEstimerDurees"
+                      style="margin-top:7px;padding:7px 11px;border:1px solid #C7D9CE;border-radius:7px;background:#FFF;color:var(--t1);font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;">
+                Recalculer d'après les montants
+              </button>
+              <span style="display:block;margin-top:5px;color:#8A5A00;">
+                Uniquement si vous chiffrez à l'heure — sinon gardez les cadences.
+              </span>
+            </div>
+            <div id="planPropListe" style="display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;"></div>
+            <button type="button" class="btn-act primary" onclick="enregistrerPlanValide()" style="padding:12px;font-size:13px;font-weight:800;background:var(--t1);">
+              Enregistrer ce planning →
+            </button>
+          </div>
+        </div>
+
+        <!-- MODE 2 : DÉCRIRE UN RV À L'ASSISTANT (SAISIE VOCALE OU TEXTE) -->
+        <div id="panelPlanAssistant" style="display:none;flex-direction:column;gap:10px;">
+          <div style="background:#FAFDFB;border:1.5px solid #228B5B;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:28px;height:28px;border-radius:8px;background:#228B5B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 2C12 7.5 7.5 12 2 12C7.5 12 12 16.5 12 22C12 16.5 16.5 12 22 12C16.5 12 12 7.5 12 2Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <strong style="font-size:13px;color:var(--t1);">Ajouter une étape en une phrase</strong>
+            </div>
+            <p style="margin:0;font-size:11.5px;color:#3D5A4E;line-height:1.4;">
+              Décrivez votre étape en une phrase : « Visite technique demain à 14h chez M. Martin ». La date et l'horaire sont relus avant enregistrement.
+            </p>
+          </div>
+
+          <!-- Suggestions rapides en 1 clic -->
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            <button type="button" class="btn-act" onclick="setAssistantPrompt('Visite technique demain à 14h chez ')" style="font-size:11px;padding:5px 8px;">
+              Visite technique demain 14h
+            </button>
+            <button type="button" class="btn-act" onclick="setAssistantPrompt('Chantier 3 jours à partir de lundi chez ')" style="font-size:11px;padding:5px 8px;">
+              Chantier lundi (3 jours)
+            </button>
+            <button type="button" class="btn-act" onclick="setAssistantPrompt('Réception de chantier vendredi à 16h chez ')" style="font-size:11px;padding:5px 8px;">
+              Réception vendredi 16h
+            </button>
+          </div>
+
+          <!-- Zone de saisie / Dictée -->
+          <div style="display:flex;gap:6px;align-items:center;">
+            <!-- Bouton micro retire : startVoicePlanning() n'ouvrait aucun micro,
+                 il ecrivait lui-meme "Visite technique prealable chez Mme Dubois
+                 demain a 14h" apres 1,2 s et pretendait l'avoir entendu. -->
+            <input type="text" id="assistantPlanInput" class="form-input" placeholder="Ex: Visite devis chez Thomas demain à 14h..." style="padding:10px 12px;font-size:16px;">
+            <button type="button" onclick="processAssistantPlanning()" class="btn-act primary" style="padding:10px 14px;font-size:12px;font-weight:800;white-space:nowrap;background:#228B5B;">
+              Préparer →
+            </button>
+          </div>
+
+          <!-- Résultat de l'analyse Assistant -->
+          <div id="assistantPlanResult" style="display:none;background:#F7FBF8;border:1.5px solid #D3E3DA;border-radius:10px;padding:10px;flex-direction:column;gap:6px;font-size:12px;">
+            <div style="display:flex;justify-content:space-between;color:var(--t1);font-weight:800;">
+              <span id="astResType">—</span>
+              <span id="astResDate">—</span>
+            </div>
+            <div style="color:#1C2B22;font-weight:700;" id="astResClient">—</div>
+            <div style="color:#5A7268;" id="astResDetails">—</div>
+            <button type="button" class="btn-act primary" onclick="confirmAssistantPlan()" style="padding:10px;font-size:12.5px;font-weight:800;margin-top:4px;background:#228B5B;">
+              Confirmer et Ajouter au Planning
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    </div><!-- /scr-body : cette fermeture manquait. Sans elle la barre de
+         navigation du bas et les toasts restaient enfermes dans la zone
+         scrollable, et le corps de page n'etait jamais referme. -->
+
+    <!-- Conteneur de Toasts Non-Bloquants -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-dates.js?v=v30_2026_09_02" defer></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script>
+    function showToast(msg, isYellow = false) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${isYellow ? 'yellow' : ''}`;
+      // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+      // messages qui viennent parfois du LLM — resume d'un ticket passe a
+      // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+      // ecrit sur un ticket photographie peut porter une instruction, et le
+      // modele la restituer telle quelle : le balisage s'executait alors dans
+      // l'origine authentifiee de l'artisan.
+      const bsT = document.createElement("span");
+      bsT.textContent = msg;
+      const bsX = document.createElement("span");
+      bsX.style.cursor = "pointer";
+      bsX.textContent = '';
+      bsX.addEventListener("click", () => toast.remove());
+      toast.replaceChildren(bsT, bsX);
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 250); }, 2500);
+    }
+
+    // Vue courante et decalage de periode.
+    //
+    // Avant : `bsDecalageSemaines` etait le SEUL etat de navigation. Les fleches
+    // decalaient donc des semaines meme en vue Mois ou Annee, et les libelles
+    // « Cette semaine » / « Annee 2026 » etaient ecrits en dur — le second etait
+    // faux des le 1er janvier suivant. Chaque vue a maintenant son propre
+    // decalage, exprime dans son unite (jour, semaine, mois, annee).
+    let currentView = "semaine";
+
+    // Contexte d'écran (task 5). `bsPerimetre` vit dans l'autre <script
+    // type="module"> plus bas (bsPerimetreActuel, exposé sur window là-bas
+    // comme window.bsSetPerimetre l'est déjà pour l'écriture) : ce script-ci
+    // (classique) ne peut pas le lire directement.
+    window.bsContexteEcran = () => {
+      const p = bsPeriode(currentView);
+      return {
+        page: 'planning',
+        vue: currentView,
+        date: p?.label || null,
+        perimetre: (typeof window.bsPerimetreActuel === 'function') ? window.bsPerimetreActuel() : null,
+      };
+    };
+    const bsDecalage = { jour: 0, semaine: 0, mois: 0, annee: 0, charge: 0 };
+
+    const MOIS_FR = ['janvier','février','mars','avril','mai','juin',
+                     'juillet','août','septembre','octobre','novembre','décembre'];
+
+    function bsISO(d) {
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+    window.bsISO = bsISO;
+
+    function bsLundi(d) {
+      const x = new Date(d);
+      x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
+      x.setHours(0, 0, 0, 0);
+      return x;
+    }
+
+    // Bornes et libelle de la periode affichee, pour la vue et le decalage
+    // courants. Tout part de la date du jour : rien n'est fige.
+    function bsPeriode(view) {
+      const n = bsDecalage[view] || 0;
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+
+      if (view === 'jour') {
+        const d = new Date(today); d.setDate(d.getDate() + n);
+        return {
+          debut: d, fin: d,
+          label: d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }),
+        };
+      }
+      if (view === 'mois') {
+        const debut = new Date(today.getFullYear(), today.getMonth() + n, 1);
+        const fin = new Date(debut.getFullYear(), debut.getMonth() + 1, 0);
+        return {
+          debut, fin,
+          label: MOIS_FR[debut.getMonth()].replace(/^./, (c) => c.toUpperCase()) + ' ' + debut.getFullYear(),
+        };
+      }
+      if (view === 'annee') {
+        const an = today.getFullYear() + n;
+        return { debut: new Date(an, 0, 1), fin: new Date(an, 11, 31), label: 'Année ' + an };
+      }
+      // semaine et charge partagent la meme fenetre : la semaine affichee.
+      const debut = bsLundi(today);
+      debut.setDate(debut.getDate() + n * 7);
+      const fin = new Date(debut); fin.setDate(fin.getDate() + 6);
+      const meme = debut.getMonth() === fin.getMonth();
+      return {
+        debut, fin,
+        label: meme
+          ? `${debut.getDate()} – ${fin.getDate()} ${MOIS_FR[fin.getMonth()]}`
+          : `${debut.getDate()} ${MOIS_FR[debut.getMonth()]} – ${fin.getDate()} ${MOIS_FR[fin.getMonth()]}`,
+      };
+    }
+    window.bsPeriode = bsPeriode;
+
+    // Année retirée de la barre le 04/09/2026 (maquette validée, écran 08 :
+    // « Quatre vues au lieu de cinq »). Le conteneur et le rendu ont suivi ;
+    // les fonctions internes qui ne servaient qu'à cette vue restent en
+    // place (bsRendreAnnee, ETAT_CHANTIER, bsCapaciteMois...) mais ne sont
+    // plus jamais appelées — aucune entrée de la barre n'y mène.
+    const VUES = {
+      jour:    { conteneur: 'viewJourContainer',    bouton: 'btnViewJour' },
+      semaine: { conteneur: 'viewSemaineContainer', bouton: 'btnViewSemaine' },
+      mois:    { conteneur: 'viewMoisContainer',    bouton: 'btnViewMois' },
+      charge:  { conteneur: 'viewChargeContainer',  bouton: 'btnViewCharge' },
+    };
+
+    function switchView(view) {
+      if (!VUES[view]) return;
+      currentView = view;
+      document.querySelectorAll("#viewSwitcher .mq-tab").forEach(btn => btn.classList.remove("mq-on"));
+      Object.values(VUES).forEach((v) => {
+        const el = document.getElementById(v.conteneur);
+        if (el) el.style.display = "none";
+      });
+
+      const cfg = VUES[view];
+      const conteneur = document.getElementById(cfg.conteneur);
+      if (conteneur) conteneur.style.display = "flex";
+      // Le contenu entre par la droite : on a changé de vue, pas d'écran.
+      if (typeof window.bsRejouer === "function") window.bsRejouer(conteneur, "bs-glisse");
+      if (cfg.bouton) {
+        const b = document.getElementById(cfg.bouton);
+        if (b) b.classList.add("mq-on");
+      }
+
+      // La liste du bas est pour TOUT LE MONDE. Elle etait reservee a
+      // l'encadrement parce qu'un compagnon avait son propre onglet
+      // « Chantiers » ; cet onglet a ete retire le 03/09 et personne n'a
+      // rouvert la liste : un compagnon ne voyait plus un seul chantier. Ce
+      // qui la restreint desormais, c'est le PERIMETRE (voir
+      // bsRendreListeChantiers), pas le role.
+      const liste = document.getElementById("interventionsList");
+      if (liste) liste.style.display = 'flex';
+
+      // Le filtre par trimestre n'appartient qu'a la vue Annee. Le laisser
+      // courir en Jour ou en Semaine ferait mentir la liste en silence.
+      // (Il vit dans le module ci-dessous, d'ou le passage par window.)
+      if (typeof window.bsOublierTrimestre === 'function') window.bsOublierTrimestre();
+
+      bsAppliquerPeriode();
+    }
+
+    // Cliquer un jour ouvre la vue Jour et charge qui travaille et ou.
+    // Avant, cette fonction ecrivait « 2 chantiers (8h) » en dur, quel que
+    // soit le jour clique et meme sans aucun chantier planifie.
+    function selectDay(el, dayName, iso) {
+      document.querySelectorAll(".day-pill").forEach(p => p.classList.remove("active"));
+      if (el && el.classList) el.classList.add("active");
+      // La vue Jour se cale sur la date cliquee : le decalage devient l'ecart en
+      // jours entre aujourd'hui et elle, pour que les fleches repartent de la.
+      if (iso) {
+        const cible = new Date(iso + 'T00:00:00');
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        bsDecalage.jour = Math.round((cible - today) / 86400000);
+      }
+      document.getElementById("currentDayActive").textContent = dayName;
+      switchView('jour');
+    }
+    window.selectDay = selectDay;
+
+    // Les fleches ne naviguaient pas : elles affichaient un toast. Elles decalent
+    // desormais reellement la periode affichee, dans l'unite de la vue courante,
+    // et rechargent les donnees correspondantes.
+    function bsAppliquerPeriode() {
+      const p = bsPeriode(currentView);
+      const el = document.getElementById("periodLabel");
+      if (el) el.textContent = p.label;
+      if (typeof window.bsRendreVue === "function") window.bsRendreVue(currentView, p);
+    }
+    window.bsAppliquerPeriode = bsAppliquerPeriode;
+
+    function prevPeriod() { bsDecalage[currentView]--; bsAppliquerPeriode(); }
+    function nextPeriod() { bsDecalage[currentView]++; bsAppliquerPeriode(); }
+
+    // Bascule « toute l'equipe » / « moi ». Rejoue simplement la vue courante :
+    // c'est le meme rendu, avec un jeu de taches different.
+    function setPerimetre(p) {
+      if (typeof window.bsSetPerimetre === 'function') window.bsSetPerimetre(p);
+      document.getElementById('btnPerimetreEquipe').classList.toggle('active', p === 'equipe');
+      document.getElementById('btnPerimetreMoi').classList.toggle('active', p === 'moi');
+      bsAppliquerPeriode();
+    }
+
+    
+    // PLANNING_QUOTES (4 devis fictifs : Sophie Marchand, Marc Delmas, Celine
+    // Vasseur, Julien Bertin) supprime. Les devis a planifier viennent de la base ;
+    // le module en bas de page remplit PLANNING_QUOTES et les cartes.
+    const PLANNING_QUOTES = {};
+    window.PLANNING_QUOTES = PLANNING_QUOTES;
+
+    let currentParsedAssistantEvent = null;
+
+    
+    
+
+    function switchPlanMode(mode) {
+      const tabDevis = document.getElementById("tabPlanDevis");
+      const tabAst = document.getElementById("tabPlanAssistant");
+      const panelDevis = document.getElementById("panelPlanDevis");
+      const panelAst = document.getElementById("panelPlanAssistant");
+
+      if (mode === 'assistant') {
+        tabAst.style.borderColor = "var(--t1)";
+        tabAst.style.background = "#F0FDF4";
+        tabAst.style.color = "var(--t1)";
+        tabDevis.style.borderColor = "#D3E3DA";
+        tabDevis.style.background = "#FFFFFF";
+        tabDevis.style.color = "#1C2B22";
+        panelDevis.style.display = "none";
+        panelAst.style.display = "flex";
+      } else {
+        tabDevis.style.borderColor = "var(--t1)";
+        tabDevis.style.background = "#F0FDF4";
+        tabDevis.style.color = "var(--t1)";
+        tabAst.style.borderColor = "#D3E3DA";
+        tabAst.style.background = "#FFFFFF";
+        tabAst.style.color = "#1C2B22";
+        panelDevis.style.display = "flex";
+        panelAst.style.display = "none";
+      }
+    }
+
+
+    
+    function selectQuoteForPlanning(quoteId, cardEl) {
+      document.querySelectorAll("#planQuotesCardsList .slot-card").forEach(c => {
+        c.style.borderColor = "#D3E3DA";
+        c.style.background = "#FFFFFF";
+      });
+
+      if (cardEl) {
+        cardEl.style.borderColor = "var(--t1)";
+        cardEl.style.background = "#F0FDF4";
+      }
+
+      document.getElementById("planSelectDevis").value = quoteId;
+      showToast(`Devis ${quoteId} sélectionné pour la planification`);
+    }
+
+    // Avant le 01/09 : on n'ecrivait que chantiers.date_debut. Or la vue journee ne lit
+    // QUE la table `taches`, que personne ne remplissait -> la date partait en base et le
+    // calendrier affichait "Rien de planifie". D'ou les deux temps ci-dessous : on PROPOSE
+    // des taches deduites des lignes du devis, l'artisan corrige les durees, puis on ecrit.
+    let planPropositionCourante = null;
+
+    async function proposerPlanDepuisDevis() {
+      const quoteId = document.getElementById("planSelectDevis").value;
+      const date = document.getElementById("planDevisDate").value;
+      if (!quoteId) { showToast("Sélectionnez d'abord un devis.", true); return; }
+      if (!date) { showToast("Choisissez une date d'étape.", true); return; }
+      const btn = document.getElementById('btnProposerPlan');
+      if (btn) { btn.disabled = true; btn.textContent = 'Calcul en cours…'; }
+      try {
+        const mod = await import('./js/app-actions.js');
+        const res = await mod.executerAction('proposer_planning_devis', {
+          devis_ref: quoteId, date_debut: date,
+        });
+        planPropositionCourante = res.data;
+        rendrePropositionPlan(res.data);
+        showToast(res.message);
+      } catch (e) {
+        showToast((e && e.message) || "Le calcul du planning a échoué.", true);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Recalculer le planning →'; }
+      }
+    }
+
+    function rendrePropositionPlan(prop) {
+      const box = document.getElementById('planPropositionBox');
+      const liste = document.getElementById('planPropListe');
+      const dates = document.getElementById('planPropDates');
+      if (!box || !liste) return;
+      liste.replaceChildren();
+      const sansDuree = prop.taches.filter((t) => t.duree_h == null).length;
+      dates.textContent = sansDuree
+        ? `${sansDuree} étape${sansDuree > 1 ? 's' : ''} sans durée`
+        : `du ${jourLisible(prop.date_debut)} au ${jourLisible(prop.date_fin_prevue)}`;
+
+      prop.taches.forEach((t, i) => {
+        const ligne = document.createElement('div');
+        ligne.style.cssText = 'display:flex;align-items:center;gap:8px;background:#FAFDFB;border:1px solid #D3E3DA;border-radius:8px;padding:8px 10px;';
+
+        const jour = document.createElement('span');
+        jour.style.cssText = 'font-size:11px;color:#5A7268;min-width:78px;font-variant-numeric:tabular-nums;line-height:1.3;';
+        const jj = (d) => (d || '').slice(8, 10) + '/' + (d || '').slice(5, 7);
+        // Une etape de 29 h court sur plusieurs jours : on montre la periode,
+        // sinon l'artisan valide un planning qui parait tenir en une journee.
+        jour.textContent = !t.jour ? 'à préciser'
+          : (t.jour_fin && t.jour_fin !== t.jour) ? `${jj(t.jour)}→${jj(t.jour_fin)}` : jj(t.jour);
+
+        const titre = document.createElement('span');
+        titre.style.cssText = 'font-size:12.5px;color:#1C2B22;flex:1;line-height:1.35;';
+        titre.textContent = t.titre;
+
+        const duree = document.createElement('input');
+        duree.type = 'number'; duree.min = '0.5'; duree.step = '0.5';
+        duree.value = t.duree_h == null ? '' : t.duree_h;
+        duree.placeholder = '—';
+        if (t.duree_h == null) duree.style.borderColor = '#E0B84C';
+        duree.setAttribute('aria-label', `Durée en heures — ${t.titre}`);
+        duree.style.cssText = 'width:64px;padding:5px 6px;font-size:12.5px;border:1px solid #C7D9CE;border-radius:6px;text-align:right;';
+        duree.addEventListener('change', async () => {
+          const v = Math.max(0.5, parseFloat(duree.value) || 0.5);
+          duree.value = v;
+          planPropositionCourante.taches[i].duree_h = v;
+          // Changer une duree decale tout ce qui suit : on reordonnance et on
+          // reaffiche, sinon l'artisan valide des dates qui ne correspondent plus.
+          try {
+            const moteur = await import('./js/app-planning-engine.js');
+            const rejouees = moteur.ordonnancer(planPropositionCourante.taches, planPropositionCourante.date_debut);
+            planPropositionCourante.taches = rejouees;
+            planPropositionCourante.date_fin_prevue = rejouees.reduce(
+              (m, t) => (t.jour_fin && t.jour_fin > m ? t.jour_fin : m), rejouees[0].jour);
+            rendrePropositionPlan(planPropositionCourante);
+          } catch (_) { /* l'affichage reste sur les dates precedentes */ }
+        });
+
+        const h = document.createElement('span');
+        h.style.cssText = 'font-size:11.5px;color:#5A7268;min-width:60px;';
+        // D'ou vient la duree affichee : la cadence, le prix, ou personne.
+        h.textContent = t.duree_h == null ? 'h  ?'
+          : t.duree_source === 'prix' ? 'h  (prix)'
+          : t.duree_source === 'cadence' ? 'h  (cadence)' : 'h';
+
+        ligne.append(jour, titre, duree, h);
+        liste.appendChild(ligne);
+      });
+
+      const bEst = document.getElementById('btnEstimerDurees');
+      if (bEst && !bEst.dataset.branche) {
+        bEst.dataset.branche = '1';
+        bEst.addEventListener('click', estimerDureesDepuisMontants);
+      }
+      box.style.display = 'flex';
+    }
+
+    // L'estimation par le prix n'existe QUE si l'artisan la demande ici.
+    async function estimerDureesDepuisMontants() {
+      const quoteId = document.getElementById("planSelectDevis").value;
+      const date = document.getElementById("planDevisDate").value;
+      try {
+        const mod = await import('./js/app-actions.js');
+        const res = await mod.executerAction('proposer_planning_devis', {
+          devis_ref: quoteId, date_debut: date, estimer_durees: true,
+        });
+        planPropositionCourante = res.data;
+        rendrePropositionPlan(res.data);
+        showToast("Durées proposées d'après les montants — vérifiez-les, elles supposent un chiffrage à l'heure.");
+      } catch (e) {
+        showToast((e && e.message) || "L'estimation a échoué.", true);
+      }
+    }
+
+    async function enregistrerPlanValide() {
+      if (!planPropositionCourante) { showToast("Calculez d'abord le planning.", true); return; }
+      const quoteId = document.getElementById("planSelectDevis").value;
+      const date = document.getElementById("planDevisDate").value;
+      try {
+        const mod = await import('./js/app-actions.js');
+        const res = await mod.executerAction('planifier_depuis_devis', {
+          devis_ref: quoteId, date_debut: date, taches: planPropositionCourante.taches,
+        });
+        planPropositionCourante = null;
+        document.getElementById('planPropositionBox').style.display = 'none';
+        closeAddEventModal();
+        showToast(res.message);
+        if (typeof rechargerPlanning === 'function') { try { await rechargerPlanning(); } catch (_) {} }
+      } catch (e) {
+        showToast((e && e.message) || "L'enregistrement a échoué : rien n'a été écrit.", true);
+      }
+    }
+
+    function setAssistantPrompt(text) {
+      document.getElementById("assistantPlanInput").value = text;
+      processAssistantPlanning();
+    }
+
+    // startVoicePlanning() SIMULAIT une dictee : aucun micro n'etait ouvert,
+    // l'app ecrivait elle-meme une phrase toute faite apres 1,2 s. Supprime.
+
+
+    // Interprète « demain », « lundi », « le 25 »… à partir de la date du jour.
+    // Remplace une date qui était figée en dur (elle affichait une date passée).
+    function bsDateDepuisTexte(txt) {
+      const t = (txt || '').toLowerCase();
+      const jours = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+      const d = new Date();
+      if (t.includes('après-demain') || t.includes('apres-demain')) {
+        d.setDate(d.getDate() + 2);
+      } else if (t.includes('demain')) {
+        d.setDate(d.getDate() + 1);
+      } else {
+        const idx = jours.findIndex((j) => t.includes(j));
+        if (idx >= 0) {
+          // Prochaine occurrence de ce jour (aujourd'hui exclu).
+          let delta = (idx - d.getDay() + 7) % 7;
+          if (delta === 0) delta = 7;
+          d.setDate(d.getDate() + delta);
+        } else {
+          const m = t.match(/\ble\s+(\d{1,2})\b/);
+          if (m) {
+            const jour = parseInt(m[1], 10);
+            if (jour >= 1 && jour <= 31) {
+              if (jour < d.getDate()) d.setMonth(d.getMonth() + 1);
+              d.setDate(jour);
+            }
+          }
+        }
+      }
+      const libelle = jours[d.getDay()];
+      bsDerniereDateIso = d.toISOString().slice(0, 10);
+      return libelle.charAt(0).toUpperCase() + libelle.slice(1) + ' ' + d.toLocaleDateString('fr-FR');
+    }
+    // Date ISO deduite du dernier appel a bsDateDepuisTexte : c'est elle qui part
+    // en base, pas le libelle affiche.
+    let bsDerniereDateIso = null;
+
+    function processAssistantPlanning() {
+      const input = document.getElementById("assistantPlanInput").value.trim();
+      if (!input) return;
+
+      const resBox = document.getElementById("assistantPlanResult");
+      let type = "Chantier / Travaux";
+      let time = "08:30 - 12:00";
+      let client = "Client Particulier";
+      let details = input;
+
+      if (input.toLowerCase().includes("visite") || input.toLowerCase().includes("metr") || input.toLowerCase().includes("devis")) {
+        type = "Visite technique & Métré";
+        time = "14:00 - 15:30";
+      } else if (input.toLowerCase().includes("reception") || input.toLowerCase().includes("pv")) {
+        type = "Réception de chantier & PV";
+        time = "16:00 - 17:00";
+      }
+
+      // Avant : "Dubois" -> "Mme Dubois - Paris 17e", "Bertin" -> "Julien Bertin
+      // - Neuilly"... trois clients inventes codes en dur. On lit le nom apres
+      // "chez", sinon on laisse l'artisan le corriger.
+      const mChez = input.match(/chez\s+(.{2,60}?)(?:\s+(?:demain|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|le\s|a\s|à\s)|$)/i);
+      if (mChez) client = mChez[1].trim().replace(/[.,;]$/, '');
+
+      const libelleDate = bsDateDepuisTexte(input);
+      currentParsedAssistantEvent = {
+        type: type,
+        time: time,
+        client: client,
+        details: details,
+        dateIso: bsDerniereDateIso,
+      };
+
+      document.getElementById("astResType").textContent = type;
+      document.getElementById("astResDate").textContent = `${libelleDate} · ${time}`;
+      document.getElementById("astResClient").textContent = `Client : ${client}`;
+      document.getElementById("astResDetails").textContent = details;
+
+      resBox.style.display = "flex";
+      showToast("Relisez l'étape, puis confirmez pour l'enregistrer.");
+    }
+
+    // Avant : carte DOM uniquement, perdue au rechargement, avec un toast
+    // "ajoutee au planning". Passe par ajouter_au_planning (table chantiers).
+    async function confirmAssistantPlan() {
+      if (!currentParsedAssistantEvent) return;
+      const ev = currentParsedAssistantEvent;
+      if (!ev.client || ev.client === "Client Particulier") {
+        showToast("Précisez le nom du client (« … chez M. Martin ») avant d'enregistrer.", true);
+        return;
+      }
+      try {
+        const mod = await import('./js/app-actions.js');
+        const res = await mod.executerAction('ajouter_au_planning', {
+          client_nom: ev.client,
+          date_debut: ev.dateIso || null,
+          description: ev.details,
+        });
+
+        // Assignation : elle ne s'invente pas non plus. planifier_depuis_devis
+        // pose une date sur le chantier, il ne cree AUCUNE tache — on assigne
+        // donc les etapes qui existent deja. S'il n'y en a pas, on le dit au
+        // lieu de laisser croire que quelqu'un a ete affecte.
+        const membreId = (document.getElementById("planAssigneMembre") || {}).value;
+        let motAssignation = "";
+        if (membreId && res.data && res.data.id) {
+          try {
+            const n = await window.bsAssignerChantier(res.data.id, membreId);
+            motAssignation = n > 0
+              ? ` ${n} étape${n > 1 ? 's' : ''} assignée${n > 1 ? 's' : ''}.`
+              : " Aucune étape à assigner pour l'instant : l'assignation se fera étape par étape depuis la vue Jour.";
+          } catch (_) {
+            motAssignation = " Le chantier est calé, mais l'assignation n'a pas pu être enregistrée.";
+          }
+        }
+
+        closeAddEventModal();
+        showToast(res.message + motAssignation);
+        if (typeof rechargerPlanning === 'function') { try { await rechargerPlanning(); } catch (_) {} }
+      } catch (e) {
+        showToast((e && e.message) || "L'ajout au planning a échoué : rien n'a été enregistré.", true);
+      }
+    }
+
+
+    function openAddEventModal() {
+      document.getElementById("addEventModal").classList.add("open");
+    }
+
+    function closeAddEventModal() {
+      document.getElementById("addEventModal").classList.remove("open");
+    }
+
+    // "enregistree au planning" n'enregistrait rien. Passe par ajouter_au_planning.
+  </script>
+  <script type="module">
+    // Garde d'acces : ces ecrans etaient consultables sans compte (donnees de
+    // l'entreprise exposees publiquement). Redirige vers le login si pas de session.
+    import {
+      requireAuth, listChantiers, listTachesJour, listTachesPeriode,
+      listTachesChantier, listMembres, listFacturesPeriode,
+      assignerTache, nomAssigne, majStatutTache, mesDroits, getMyProfile, supabase,
+    } from './js/supabase.js';
+    // Lecture des devis : une seule implementation pour toute l'application.
+    import { listerDevis } from './js/devis-store.js';
+    // Itineraire et charge : le moteur existe deja, on ne le reecrit pas.
+    import { analyserCharge, detecterConflits, geocoder, ordonnerJournee } from './js/app-planning-engine.js';
+
+    const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    const STATUTS = { en_attente: 'À planifier', en_cours: 'En cours', retard: 'En retard', termine: 'Terminé' };
+
+    function jourLisible(iso) {
+      if (!iso) return 'Date à définir';
+      const d = new Date(iso);
+      if (isNaN(d)) return 'Date à définir';
+      const nom = JOURS[d.getDay()];
+      return nom.charAt(0).toUpperCase() + nom.slice(1) + ' ' + d.toLocaleDateString('fr-FR');
+    }
+
+    // ── LISTE DU BAS : les chantiers de la PERIODE AFFICHEE ─────
+    //
+    // Elle montrait « tous les chantiers », calcules UNE fois au chargement, et
+    // seulement pour l'encadrement. Deux defauts corriges ici :
+    //   1. le compagnon comptait sur la vue « Chantiers », retiree le 03/09 :
+    //      il ne voyait plus aucun chantier. La liste est donc rendue pour tout
+    //      le monde, et c'est le PERIMETRE qui la restreint — un compagnon n'y
+    //      lit que les chantiers ou il a une tache, exactement ce que faisait
+    //      l'ancienne vue ;
+    //   2. elle ne bougeait pas quand on changeait de vue. Elle est maintenant
+    //      rejouee par bsRendreVue(), donc a chaque vue ET a chaque fleche.
+    //
+    // Rattachement chantier -> periode, deux regles et pas une de plus :
+    //   a. une tache DU PERIMETRE AFFICHE y est planifiee dans la periode ;
+    //   b. en perimetre complet SEULEMENT, la periode connue du chantier
+    //      (date_debut -> date_fin_prevue) recouvre la periode affichee.
+    // C'est mot pour mot la regle deja retenue par la vue Annee : les dates
+    // d'un chantier ne disent pas si MOI j'y interviens.
+    //
+    // CONSEQUENCE ASSUMEE : un chantier sans aucune tache ET sans date
+    // n'appartient a aucune periode, il n'apparait donc plus ici — il reste
+    // trouvable depuis le tableau de bord. Un chantier date mais sans tache,
+    // lui, reste visible pour l'encadrement par la regle (b).
+    function chantiersDeLaPeriode(periode, taches) {
+      const ids = new Set();
+      for (const t of (taches || [])) if (t.chantier_id) ids.add(t.chantier_id);
+
+      if (perimetreComplet()) {
+        const debut = bsISO(periode.debut), fin = bsISO(periode.fin);
+        for (const c of bsChantiersParId.values()) {
+          if (!c.date_debut) continue;
+          const d = String(c.date_debut).slice(0, 10);
+          // Sans `date_fin_prevue`, le chantier ne vaut que pour son jour de
+          // debut : on ne le prolonge pas sur une duree qu'on ignore.
+          const f = c.date_fin_prevue ? String(c.date_fin_prevue).slice(0, 10) : d;
+          if (d <= fin && f >= debut) ids.add(c.id);
+        }
+      }
+
+      return [...ids]
+        .map((id) => bsChantiersParId.get(id))
+        .filter(Boolean)
+        .sort((a, b) => String(a.date_debut || '9999').localeCompare(String(b.date_debut || '9999'))
+          || String(a.client_name || '').localeCompare(String(b.client_name || ''), 'fr'));
+    }
+
+    // Dessine la liste. `titre` dit TOUJOURS de quelle periode il s'agit :
+    // sans lui, une liste qui change au fil des vues passe pour un bug.
+    // Composants .mq-sec + .mq-card (maquette validée 04/09/2026, écran 08),
+    // même habillage que les listes de devis.html et photos.html.
+    function rendreChantiers(chantiers, titre, texteVide) {
+      const liste = document.getElementById('interventionsList');
+      if (!liste) return;
+      liste.replaceChildren();
+      if (typeof window.bsCascade === 'function') window.bsCascade(liste);
+
+      const entete = document.createElement('div');
+      entete.className = 'mq-sec';
+      entete.textContent = titre || 'Mes chantiers (cliquez pour ouvrir) :';
+      liste.appendChild(entete);
+
+      if (!chantiers.length) {
+        const vide = document.createElement('div');
+        vide.style.cssText = 'background:#FFFFFF;border:1.5px solid #D3E3DA;border-radius:14px;padding:20px;text-align:center;color:#3D5A4E;font-size:13px;';
+        vide.textContent = texteVide
+          || "Aucun chantier planifié pour l'instant. Demandez à l'assistant de caler un devis, ou créez un chantier.";
+        liste.appendChild(vide);
+        return;
+      }
+
+      chantiers.forEach((c) => {
+        const carte = document.createElement('a');
+        carte.className = 'mq-card';
+        carte.href = `./chantier.html?id=${c.id}`;   // l'écran chantier existait mais n'était lié nulle part
+        carte.style.textDecoration = 'none';
+
+        const t = document.createElement('div');
+        t.className = 'mq-t';
+        const client = document.createElement('div');
+        client.textContent = c.client_name || 'Client';
+        t.appendChild(client);
+        const small = document.createElement('small');
+        small.textContent = [jourLisible(c.date_debut), c.adresse || c.description || ''].filter(Boolean).join(' · ');
+        if (small.textContent) t.appendChild(small);
+
+        const badge = document.createElement('span');
+        badge.className = 'mq-pill mq-ok';
+        badge.textContent = STATUTS[c.status] || c.status;
+
+        carte.appendChild(t);
+        carte.appendChild(badge);
+        liste.appendChild(carte);
+      });
+    }
+
+    // ── Filtre par trimestre (vue Annee) ────────────────────────
+    // Cliquer T3 dans le detail par trimestre restreint la liste du bas au
+    // 1er juillet – 30 septembre de l'annee affichee. L'annee figure dans le
+    // libelle : le detail est repliable, on doit pouvoir lire la liste sans
+    // l'avoir sous les yeux et savoir de quel T3 on parle.
+    let bsTrimestreFiltre = null;                     // null = l'annee entiere
+
+    // Ce que la vue courante a effectivement charge et affiche. La liste du bas
+    // s'en sert au lieu de refaire la requete : une periode = UNE lecture.
+    let bsTachesVue = null;          // null = pas lu, ou lecture en echec
+    let bsDerniereVue = null;
+    let bsDernierePeriode = null;
+
+    const TRIM_MOIS = [[0, 2], [3, 5], [6, 8], [9, 11]];
+    const TRIM_MOIS_LIB = ['jan – mars', 'avr – juin', 'juil – sept', 'oct – déc'];
+
+    // « T3 (juil – sept) » sur la carte, « T3 2026 (juil – sept) » en titre de
+    // la liste : le detail par trimestre se replie, la liste doit donc pouvoir
+    // se lire sans lui et dire de quelle annee elle parle. Ces mots ne
+    // s'ecrivent qu'ICI — deux listes de libelles finissent par diverger.
+    function libelleTrimestre(q, an) {
+      return `T${q + 1}${an ? ' ' + an : ''} (${TRIM_MOIS_LIB[q]})`;
+    }
+
+    // Le filtre ne vaut que pour la vue Annee : switchView() l'oublie en
+    // partant, sinon la liste de la vue Semaine se retrouverait silencieusement
+    // amputee des trois quarts de l'annee.
+    window.bsOublierTrimestre = function () { bsTrimestreFiltre = null; };
+
+    // Met les quatre cartes d'accord avec le filtre. Elle ne recalcule RIEN :
+    // le libelle, l'annee et l'etat « en cours » sont deja portes par la carte.
+    function bsMarquerTrimestres(grille) {
+      if (!grille) return;
+      grille.querySelectorAll('.quarter-card').forEach((carte) => {
+        const q = Number(carte.dataset.trimestre);
+        const choisi = (bsTrimestreFiltre === q);
+        const lib = carte.dataset.libelle || '';
+        const libAn = carte.dataset.libelleAn || lib;
+
+        carte.classList.toggle('actif', choisi);
+        carte.setAttribute('aria-pressed', choisi ? 'true' : 'false');
+
+        // « en cours » parle du calendrier, « affiché » de ce qu'on a demande a
+        // voir en bas : deux etats independants, deux mots differents, et le
+        // second ne repose pas que sur une couleur.
+        const t = carte.querySelector('.quarter-title');
+        if (t) {
+          t.textContent = lib
+            + (carte.dataset.courant === '1' ? ' · en cours' : '')
+            + (choisi ? ' · affiché' : '');
+        }
+
+        // Dit ce que fait la carte — et comment revenir en arriere.
+        const dit = choisi
+          ? `${libAn} : chantiers affichés en bas de page. Cliquez de nouveau pour revoir toute l’année.`
+          : `Afficher en bas de page les chantiers de ${libAn}.`;
+        carte.setAttribute('aria-label', dit);
+        carte.title = dit;
+      });
+    }
+
+    // Que regarde-t-on exactement ? Renvoie les bornes ET le libelle affiche.
+    // Une seule fonction, pour que le titre de la liste et son contenu ne
+    // puissent jamais parler de deux periodes differentes.
+    function periodeDeLaListe(view, periode) {
+      if (view !== 'annee' || bsTrimestreFiltre === null) {
+        return { debut: periode.debut, fin: periode.fin, titre: periode.label, trimestre: false };
+      }
+      const an = periode.debut.getFullYear();
+      const [m1, m2] = TRIM_MOIS[bsTrimestreFiltre];
+      return {
+        debut: new Date(an, m1, 1),
+        fin: new Date(an, m2 + 1, 0),                  // jour 0 du mois suivant = dernier jour
+        titre: libelleTrimestre(bsTrimestreFiltre, an),
+        trimestre: true,
+      };
+    }
+
+    // `taches` = celles que la vue vient de charger, deja filtrees par le
+    // perimetre. On ne relit pas la base : ni pour la periode, ni chantier par
+    // chantier. `null` signifie « la lecture a echoue » — ce n'est pas la meme
+    // chose que « rien ce jour-la », et ca ne s'affiche pas pareil.
+    function bsRendreListeChantiers(view, periode, taches) {
+      const p = periodeDeLaListe(view, periode);
+      // « Mes chantiers » serait faux quand on regarde toute l'equipe.
+      const quoi = (perimetreComplet() && !estSolo()) ? 'Chantiers' : 'Mes chantiers';
+      const titre = `${quoi} · ${p.titre} (cliquez pour ouvrir) :`;
+
+      // Deux echecs distincts, deux messages : les taches illisibles, ou la
+      // table des chantiers elle-meme. Dans les deux cas on le DIT — une liste
+      // vide se lirait « vous n'avez aucun chantier », ce qui pousse a en
+      // recreer un qui existe deja.
+      if (taches === null || !bsChantiersLus) {
+        rendreChantiers([], titre,
+          "Vos chantiers n'ont pas pu être chargés pour cette période. Ils ne sont pas perdus — réessayez.");
+        return;
+      }
+
+      // Restriction au trimestre : les taches de l'annee sont deja en memoire,
+      // il n'y a qu'a garder celles qui tombent dedans.
+      let lot = taches;
+      if (p.trimestre) {
+        const d = bsISO(p.debut), f = bsISO(p.fin);
+        lot = taches.filter((t) => t.jour && t.jour >= d && t.jour <= f);
+      }
+
+      const texteVide = p.trimestre
+        ? `Aucun chantier sur ${p.titre}.`
+        : (view === 'jour'
+          ? `Aucun chantier ce jour-là (${p.titre}).`
+          : `Aucun chantier sur cette période (${p.titre}).`);
+
+      rendreChantiers(chantiersDeLaPeriode(p, lot), titre, texteVide);
+    }
+
+    // La bande des 7 jours etait ecrite en dur (17-23 aout) : elle affichait
+    // une semaine passee quoi qu'il arrive. Elle suit desormais la date du jour.
+    function bsRendreBandeJours(base) {
+      const bande = document.getElementById('bandeJours');
+      if (!bande) return;
+      const noms = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+      const longs = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+      const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+      const depart = new Date(base || new Date());
+      depart.setDate(depart.getDate() - ((depart.getDay() + 6) % 7));   // lundi de la semaine
+      const aujourdhui = new Date().toDateString();
+      bande.replaceChildren();
+      for (let k = 0; k < 7; k++) {
+        const d = new Date(depart);
+        d.setDate(d.getDate() + k);
+        const pill = document.createElement('div');
+        pill.className = 'day-pill' + (d.toDateString() === aujourdhui ? ' active' : '');
+        const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        pill.onclick = function () { selectDay(this, `${longs[d.getDay()]} ${d.getDate()} ${mois[d.getMonth()]}`, iso); };
+        const n = document.createElement('div'); n.className = 'day-name'; n.textContent = noms[d.getDay()];
+        const c = document.createElement('div'); c.className = 'day-num'; c.textContent = d.getDate();
+        pill.appendChild(n); pill.appendChild(c);
+        bande.appendChild(pill);
+      }
+    }
+    window.bsRendreBandeJours = bsRendreBandeJours;
+
+    // ── Vue journee : qui travaille, et ou ──────────────────────
+    // Les taches portent le jour, la duree et l'assignation ; le chantier
+    // porte le client et l'adresse. On croise les deux, puis on regroupe
+    // par personne — c'est la question que l'artisan se pose le matin.
+    const CAPACITE_H = 7;   // meme capacite que le moteur de charge
+
+    function heuresLisibles(h) {
+      const n = Math.round((Number(h) || 0) * 10) / 10;
+      return `${n % 1 === 0 ? n : n.toFixed(1)} h`;
+    }
+
+    // ── Etat partage ────────────────────────────────────────────
+    // Membres et chantiers sont lus une fois et reutilises par toutes les vues :
+    // changer de vue ne doit pas relancer les memes requetes.
+    let bsMembres = [];                 // equipe_visible (jamais membres_equipe)
+    let bsMembresParId = new Map();
+    let bsChantiersParId = new Map();
+    // La table `chantiers` a-t-elle ete lue avec succes au moins une fois ?
+    // Une Map vide ne dit pas si l'artisan n'a aucun chantier ou si la requete
+    // a echoue — et les deux ne s'affichent pas pareil (0 contre « — »).
+    let bsChantiersLus = false;
+    let bsDroits = null;                // { role, patron, encadrement, ... }
+    let bsMonMembre = null;             // MOI : ligne d'equipe reelle, ou membre virtuel
+    let bsEquipe = [];                  // tout le monde, moi compris — pour les selecteurs et la charge
+
+    // Identifiant du membre « virtuel ». Un artisan seul, et meme un patron avec
+    // une equipe, n'est PAS une ligne de `membres_equipe` (verifie en base le
+    // 03/09 : 0 ligne alors que des chantiers existent). Il doit pourtant
+    // pouvoir se planifier lui-meme. On le represente donc cote application,
+    // sans jamais rien creer en base.
+    const MOI_VIRTUEL = '__moi__';
+
+    function nomComplet(m) {
+      return [m.prenom, m.nom].filter(Boolean).join(' ').trim() || 'Membre';
+    }
+
+    // Initiales pour l'avatar .mq-av de la vue Charge — même règle que
+    // equipe.html, pour que la même personne porte les mêmes initiales
+    // partout dans l'application.
+    function initiales(nom) {
+      const mots = String(nom || '').trim().split(/\s+/).filter(Boolean);
+      if (!mots.length) return '?';
+      if (mots.length === 1) return mots[0].slice(0, 2).toUpperCase();
+      return (mots[0][0] + mots[1][0]).toUpperCase();
+    }
+
+    // Le solo est le cas de BASE, pas un cas degrade : la majorite des artisans
+    // n'ont personne dans `membres_equipe`. L'ecran doit etre complet pour eux.
+    function estSolo() { return bsEquipe.length <= 1; }
+
+    async function bsChargerEquipe() {
+      try {
+        bsMembres = await listMembres();
+      } catch (e) {
+        // Un artisan seul n'a pas d'equipe : ce n'est pas une erreur.
+        console.warn('[planning] équipe indisponible', e);
+        bsMembres = [];
+      }
+      bsMembresParId = new Map(bsMembres.map((m) => [m.id, m]));
+
+      const uid = (await supabase.auth.getUser()).data.user?.id || null;
+      bsMonMembre = uid ? (bsMembres.find((m) => m.user_id === uid) || null) : null;
+
+      if (bsMonMembre) {
+        // Je suis une vraie ligne d'equipe : rien a inventer.
+        bsEquipe = bsMembres;
+      } else {
+        // Je n'y suis pas — cas du patron, avec ou sans equipe. On resout
+        // « Moi » depuis le profil de l'entreprise, et on ne l'ecrit PAS en
+        // base : l'inclure dans la charge depend seulement du fait qu'il ait
+        // ou non des taches assignees.
+        let nom = 'Moi';
+        try {
+          const profil = await getMyProfile();
+          if (profil && profil.display_name) nom = profil.display_name.trim() || 'Moi';
+        } catch (e) { /* le libelle « Moi » suffit */ }
+        bsMonMembre = { id: MOI_VIRTUEL, prenom: nom, nom: '', user_id: uid, __virtuel: true };
+        bsEquipe = [bsMonMembre, ...bsMembres];
+      }
+      bsMembresParId = new Map(bsEquipe.filter((m) => !m.__virtuel).map((m) => [m.id, m]));
+      return bsEquipe;
+    }
+
+    async function bsChargerChantiers() {
+      const chantiers = await listChantiers();
+      bsChantiersParId = new Map(chantiers.map((c) => [c.id, c]));
+      bsChantiersLus = true;
+      return chantiers;
+    }
+
+    // ── PERIMETRE ───────────────────────────────────────────────
+    //
+    // Patron et compagnon partagent EXACTEMENT les memes vues et les memes
+    // fonctions de rendu. La seule chose qui change, c'est le perimetre des
+    // donnees : le patron voit toute l'entreprise, le compagnon ne voit que ce
+    // qui lui est assigne. D'ou une unique fonction de filtrage, appliquee au
+    // seul endroit ou les taches entrent dans l'ecran.
+    //
+    // ⚠️ CE FILTRE EST DU CONFORT D'AFFICHAGE, PAS DE LA SECURITE.
+    // Ce qui protege reellement les donnees, ce sont les policies RLS en base,
+    // verifiees le 03/09/2026 : `chantiers_select_equipe` et
+    // `taches_select_fenetre` filtrent sur `pro_id = mon_entreprise()` cote
+    // serveur, et `membres_equipe` n'est lisible qu'a travers `equipe_visible`.
+    // Le cloisonnement ENTRE ENTREPRISES est donc assure par Postgres.
+    // En revanche, a l'interieur d'une meme entreprise, ce `.filter()` est la
+    // SEULE chose qui empeche un compagnon de voir les taches de ses collegues.
+    // Ne vous en servez jamais comme d'une barriere : il range l'ecran, il ne
+    // le verrouille pas. Une vraie restriction se pose en SQL.
+    function estMienne(t) {
+      if (!bsMonMembre) return false;
+      const monNom = nomComplet(bsMonMembre).toLowerCase();
+      if (bsMonMembre.__virtuel) {
+        // Membre virtuel : je n'ai pas d'id en base, je me reconnais au nom.
+        // Une tache SANS aucune assignation est la mienne aussi — chez un
+        // artisan seul, « non assignee » veut dire « moi ».
+        if (t.assigne_id) return false;
+        const txt = String(t.assigne_a || '').trim();
+        if (txt) return txt.toLowerCase() === monNom;
+        // Une tache SANS aucune assignation ne m'appartient que si je travaille
+        // seul : « non assignee » veut alors dire « moi ». Des qu'il y a une
+        // equipe elle n'est a personne, et me l'attribuer masquerait le fait
+        // qu'il reste du travail a distribuer.
+        return estSolo();
+      }
+      if (t.assigne_id) return t.assigne_id === bsMonMembre.id;
+      // Repli sur le nom : les taches d'avant la migration du 03/09 n'ont que
+      // `assigne_a`. Sans ce test elles n'apparaitraient a personne.
+      return String(t.assigne_a || '').trim().toLowerCase() === monNom;
+    }
+
+    // Filtre choisi par l'utilisateur : 'equipe' ou 'moi'. Un patron travaille
+    // sur les chantiers autant qu'il les pilote — il doit pouvoir passer de
+    // « toute l'equipe » a « moi » sans changer d'ecran.
+    let bsPerimetre = 'equipe';
+
+    // A-t-il le DROIT de voir toute l'equipe ? Question de role, distincte du
+    // filtre qu'il a choisi.
+    function peutVoirEquipe() {
+      return !(bsDroits && bsDroits.encadrement === false);
+    }
+
+    // L'ecran montre-t-il effectivement toute l'entreprise ?
+    function perimetreComplet() {
+      return peutVoirEquipe() && bsPerimetre === 'equipe';
+    }
+
+    function appliquerPerimetre(taches) {
+      return perimetreComplet() ? taches : taches.filter(estMienne);
+    }
+
+    // ── Qui porte cette tache ? ─────────────────────────────────
+    // Une SEULE definition du lien tache -> personne, utilisee par la vue
+    // Charge, la detection de conflits et les outils de l'assistant. La
+    // dupliquer, c'est se garantir deux verdicts differents sur le meme
+    // planning.
+    function membreDeTache(t) {
+      if (t.assigne_id && bsMembresParId.has(t.assigne_id)) return t.assigne_id;
+      const txt = String(t.assigne_a || '').trim().toLowerCase();
+      if (txt) {
+        const m = bsEquipe.find((x) => nomComplet(x).toLowerCase() === txt);
+        if (m) return m.id;
+      }
+      // Non assignee : elle revient a l'artisan lui-meme s'il n'a pas d'equipe.
+      if (!txt && !t.assigne_id && bsMonMembre && bsMonMembre.__virtuel && estSolo()) {
+        return MOI_VIRTUEL;
+      }
+      return null;
+    }
+
+    // Faut-il TAIRE la mention « qui fait quoi » sur cette tache ?
+    //
+    // Le calcul de `estMienne` / `membreDeTache` savait deja que « non
+    // assignee » veut dire « moi » chez un artisan seul ; l'affichage, lui,
+    // ecrivait encore « Non assigne » et faisait croire a une affectation
+    // oubliee. Quand on est seul, la mention n'apprend rien : ni « Non
+    // assigne », ni son propre nom. On ne l'ecrit donc pas du tout.
+    // Exception volontaire : une tache qui porte le nom de quelqu'un d'AUTRE
+    // (un ancien de l'equipe, disparu de `membres_equipe`) garde sa mention —
+    // la masquer effacerait la seule trace de cette affectation.
+    // Des qu'il y a une equipe, rien ne change : « Non assigne » redevient une
+    // information utile, il reste du travail a distribuer.
+    function assignationMuette(t) {
+      if (!estSolo()) return false;
+      const n = nomAssigne(t, bsMembresParId);
+      if (!n) return true;
+      return !!bsMonMembre && n.toLowerCase() === nomComplet(bsMonMembre).toLowerCase();
+    }
+
+    // Charge par personne et par jour. `par` est une Map cle -> { h, chantiers }.
+    function bsCalculerCharge(taches) {
+      const cle = (mid, iso) => `${mid}|${iso}`;
+      const par = new Map();
+      for (const t of taches) {
+        // Un sechage n'occupe personne : il ne charge pas une journee.
+        if (!t.jour || t.mobilise_artisan === false) continue;
+        const mid = membreDeTache(t);
+        if (!mid) continue;
+        const k = cle(mid, t.jour);
+        if (!par.has(k)) par.set(k, { h: 0, chantiers: new Set() });
+        const e = par.get(k);
+        e.h += Number(t.duree_h) || 0;
+        if (t.chantier_id) e.chantiers.add(t.chantier_id);
+      }
+      return { par, cle };
+    }
+
+    // Conflits : delegue au moteur. La vue Charge et les outils de l'assistant
+    // appellent la MEME fonction `detecterConflits`, avec le meme resolveur
+    // d'identite — un conflit dit a l'oral et un conflit affiche a l'ecran sont
+    // ainsi forcement le meme.
+    function bsConflits(taches) {
+      const nomsParId = new Map(bsEquipe.map((m) => [m.id, nomComplet(m)]));
+      return detecterConflits(taches, Object.fromEntries(bsChantiersParId), {
+        heuresJour: CAPACITE_H,
+        nomDe: (t) => nomsParId.get(membreDeTache(t)) || null,
+      });
+    }
+
+    // Les taches de la periode, groupees par jour ISO. UNE seule requete par
+    // periode affichee : les vues semaine, mois, annee, charge et chantiers
+    // partent toutes de la.
+    async function bsTachesParJour(periode) {
+      const taches = appliquerPerimetre(
+        await listTachesPeriode(bsISO(periode.debut), bsISO(periode.fin)));
+      // Ce que la liste du bas relira : c'est le meme jeu de taches que la vue,
+      // donc les deux ne peuvent pas se contredire.
+      bsTachesVue = taches;
+      const parJour = new Map();
+      for (const t of taches) {
+        if (!t.jour) continue;
+        if (!parJour.has(t.jour)) parJour.set(t.jour, []);
+        parJour.get(t.jour).push(t);
+      }
+      return { taches, parJour };
+    }
+
+    function nomChantier(id) {
+      const c = bsChantiersParId.get(id);
+      return c ? (c.client_name || 'Chantier') : 'Chantier';
+    }
+
+    // Heures reellement travaillees : un sechage (mobilise_artisan = false)
+    // occupe le chantier, pas la personne. Meme regle que le moteur.
+    function heuresTravail(taches) {
+      return taches.reduce(
+        (s, t) => s + (t.mobilise_artisan === false ? 0 : (Number(t.duree_h) || 0)), 0);
+    }
+
+    // ── DISPATCHER ──────────────────────────────────────────────
+    // Le point unique par lequel passe TOUTE demande d'affichage. Appele par
+    // bsAppliquerPeriode(), lui-meme appele par switchView() et par les fleches
+    // Prec./Suiv. C'est ce qui garantit qu'aucune des fonctions ci-dessous
+    // n'est du code mort : changer de vue ou de periode declenche sa requete.
+    async function bsRendreVue(view, periode) {
+      // Remis a null AVANT le rendu : si la vue echoue a lire ses taches, la
+      // liste du bas doit le dire, pas garder celles de la periode precedente.
+      bsTachesVue = null;
+      bsDerniereVue = view;
+      bsDernierePeriode = periode;
+      try {
+        if (view === 'jour')      await bsChargerJournee(bsISO(periode.debut), periode.label);
+        else if (view === 'semaine') await bsRendreAgenda(periode);
+        else if (view === 'mois')    await bsRendreMois(periode);
+        else if (view === 'charge')  await bsRendreCharge(periode);
+      } catch (e) {
+        console.warn('[planning] rendu de la vue ' + view + ' impossible', e);
+      }
+      // La liste du bas suit la vue. Elle est rendue ICI, dans le dispatcher,
+      // et nulle part ailleurs : c'est ce qui garantit qu'elle ne peut pas
+      // rester en retard d'une periode.
+      bsRendreListeChantiers(view, periode, bsTachesVue);
+    }
+    window.bsRendreVue = bsRendreVue;
+
+    // Rejoue la seule liste du bas, sans retoucher a la vue ni relire la base.
+    // Sert au filtre par trimestre : les taches de l'annee sont deja la.
+    // On rappelle la vue et la periode telles que le dispatcher les a vues,
+    // plutot que d'aller les relire ailleurs : deux sources, deux verites.
+    function bsRafraichirListeChantiers() {
+      if (!bsDerniereVue) return;
+      bsRendreListeChantiers(bsDerniereVue, bsDernierePeriode, bsTachesVue);
+    }
+
+    function messageVide(zone, texte) {
+      zone.replaceChildren();
+      const d = document.createElement('div');
+      d.className = 'der-vide';
+      d.textContent = texte;
+      zone.appendChild(d);
+    }
+
+    // ── VUE SEMAINE : grille .mq-week (maquette validée 04/09/2026, écran
+    //    08) ──────────────────────────────────────────────────────────────
+    //
+    // Colonne des heures + cinq jours ouvrés (Lun→Ven), quatre tranches
+    // horaires (8 h / 11 h / 14 h / 17 h). Le modèle `taches` ne porte pas
+    // d'heure de début : chaque étape réelle du jour occupe une tranche dans
+    // l'ordre (`ordre`), 1 par 1 ; au-delà de la 4e, les suivantes rejoignent
+    // la dernière tranche (17 h) plutôt que de disparaître. Aucune heure
+    // n'est donc inventée — seul l'EMPLACEMENT dans la grille est déduit.
+    const MQ_TRANCHES = ['8 h', '11 h', '14 h', '17 h'];
+    const MQ_JOURS_LIB = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
+
+    // « Client abrégé étape » — même abréviation que la maquette : dernier
+    // mot du nom du chantier (ce qui, dans « M. Benali », « Mme Ortiz » ou
+    // « Copro Jaurès », enlève juste la civilité) + l'étape, tronquée pour
+    // tenir dans une cellule de ~50 px.
+    function mqLibelleEvenement(t) {
+      const client = nomChantier(t.chantier_id) || 'Chantier';
+      const mots = client.trim().split(/\s+/);
+      const abrege = mots[mots.length - 1] || client;
+      const titre = (t.titre || 'Étape').trim();
+      const court = titre.length > 10 ? titre.slice(0, 8).trim() + '.' : titre;
+      return `${abrege} ${court}`;
+    }
+
+    async function bsRendreAgenda(periode) {
+      const zone = document.getElementById('mqWeekGrid');
+      const boxCharge = document.getElementById('mqChargeBox');
+      if (!zone) return;
+      zone.replaceChildren();
+      if (boxCharge) boxCharge.style.display = 'none';
+
+      let taches, parJour;
+      try {
+        ({ taches, parJour } = await bsTachesParJour(periode));
+      } catch (e) {
+        messageVide(zone, "Impossible de charger cette semaine. Réessayez.");
+        return;
+      }
+
+      const aujourdhui = bsISO(new Date());
+      const jours = [];
+      for (let k = 0; k < 5; k++) {              // Lundi → Vendredi
+        const d = new Date(periode.debut);
+        d.setDate(d.getDate() + k);
+        jours.push(d);
+      }
+
+      // Coin vide en haut à gauche de la grille (au-dessus de la colonne des
+      // heures), comme dans la maquette.
+      zone.appendChild(document.createElement('div'));
+
+      jours.forEach((d, i) => {
+        const iso = bsISO(d);
+        const h = document.createElement('div');
+        h.className = 'mq-h' + (iso === aujourdhui ? ' mq-today' : '');
+        h.setAttribute('role', 'button');
+        h.setAttribute('tabindex', '0');
+        h.style.cursor = 'pointer';
+        h.appendChild(document.createTextNode(MQ_JOURS_LIB[i]));
+        const b = document.createElement('b');
+        b.textContent = d.getDate();
+        h.appendChild(b);
+        const libelle = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        const ouvrir = () => window.selectDay(null, libelle, iso);
+        h.addEventListener('click', ouvrir);
+        h.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); ouvrir(); }
+        });
+        zone.appendChild(h);
+      });
+
+      MQ_TRANCHES.forEach((lib, tranche) => {
+        const hr = document.createElement('div');
+        hr.className = 'mq-hr';
+        hr.textContent = lib;
+        zone.appendChild(hr);
+
+        jours.forEach((d) => {
+          const iso = bsISO(d);
+          const cell = document.createElement('div');
+          cell.className = 'mq-cell';
+          const dujour = (parJour.get(iso) || [])
+            .slice()
+            .sort((a, b) => (a.ordre || 0) - (b.ordre || 0));
+          // 4 tranches : une étape par tranche ; la 4e tranche récupère aussi
+          // le surplus (5e étape et suivantes) plutôt que de les perdre.
+          const lot = tranche < MQ_TRANCHES.length - 1
+            ? dujour.slice(tranche, tranche + 1)
+            : dujour.slice(tranche);
+          lot.forEach((t) => {
+            const fait = t.statut === 'termine';
+            // Ambre = étape en retard, même règle que la vue Jour : le jour
+            // affiché est déjà passé et l'étape n'est pas terminée.
+            const enRetard = !fait && iso < aujourdhui;
+            const ev = document.createElement('div');
+            ev.className = 'mq-ev' + (enRetard ? ' mq-amb' : '');
+            ev.textContent = mqLibelleEvenement(t);
+            ev.title = `${t.titre || 'Étape'} — ${nomChantier(t.chantier_id)}`;
+            // Moctar, 05/09 : « je devrais pouvoir cliquer sur le planning et
+            // accéder directement à ce planning » → le déroulement du chantier.
+            if (t.chantier_id) {
+              ev.style.cursor = 'pointer';
+              ev.setAttribute('role', 'link');
+              ev.addEventListener('click', (e) => { e.stopPropagation(); location.href = `./chantier.html?id=${t.chantier_id}&onglet=deroulement`; });
+            }
+            cell.appendChild(ev);
+          });
+          zone.appendChild(cell);
+        });
+      });
+
+      // (06/09, Moctar) « Karim Diallo a cumulé 8 h : enlève ça ». La charge
+      // est dite UNE fois, quand l'assistant génère le planning
+      // (planifier_taches → detecterConflits) — pas redite ici après coup.
+      if (boxCharge) boxCharge.style.display = 'none';
+    }
+
+    // ── VUE MOIS : vraie grille calendrier ──────────────────────
+    //
+    // Ici la vue d'ensemble prime sur le detail : on ne lit pas 30 jours de
+    // taches sur un telephone. Une pastille par tache (plafonnee a 4, sinon la
+    // case deborde), bordure orange si le jour est en conflit — c'est
+    // exactement ce que la grille en dur pretendait montrer.
+    async function bsRendreMois(periode) {
+      const grille = document.getElementById('grilleMois');
+      const resume = document.getElementById('moisResume');
+      if (!grille) return;
+
+      let taches = [], parJour = new Map();
+      try {
+        ({ taches, parJour } = await bsTachesParJour(periode));
+      } catch (e) {
+        grille.replaceChildren();
+        if (resume) resume.textContent = "Impossible de charger ce mois. Réessayez.";
+        return;
+      }
+
+      // Conflits du mois, calcules par le moteur (une seule definition de la
+      // surcharge dans toute l'app).
+      const alertes = analyserCharge(taches, Object.fromEntries(bsChantiersParId),
+        { heuresJour: CAPACITE_H });
+      const joursEnConflit = new Set(
+        alertes.filter((a) => a.surcharge || a.chantiers.length > 1).map((a) => a.jour));
+
+      grille.replaceChildren();
+      ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach((j) => {
+        const h = document.createElement('div');
+        h.className = 'month-header-day';
+        h.textContent = j;
+        grille.appendChild(h);
+      });
+
+      const premier = new Date(periode.debut);
+      const dernier = new Date(periode.fin);
+      // Cases grisees du mois precedent pour aligner le 1er sur le bon jour.
+      const avant = (premier.getDay() + 6) % 7;
+      for (let k = avant; k > 0; k--) {
+        const d = new Date(premier); d.setDate(d.getDate() - k);
+        const c = document.createElement('div');
+        c.className = 'month-cell hors-mois';
+        c.textContent = d.getDate();
+        grille.appendChild(c);
+      }
+
+      const aujourdhui = bsISO(new Date());
+      for (let jour = 1; jour <= dernier.getDate(); jour++) {
+        const d = new Date(premier.getFullYear(), premier.getMonth(), jour);
+        const iso = bsISO(d);
+        const lot = parJour.get(iso) || [];
+        const conflit = joursEnConflit.has(iso);
+        // Retard : jour déjà passé et au moins une étape pas encore terminée
+        // — même règle que les vues Semaine et Jour. Distinct du conflit
+        // (surcharge ou double affectation), qui peut exister sans retard.
+        const enRetard = iso < aujourdhui && lot.some((t) => t.statut !== 'termine');
+
+        const c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'month-cell'
+          + (iso === aujourdhui ? ' active' : '')
+          + (conflit ? ' conflit' : '');
+        const libelle = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        c.setAttribute('aria-label',
+          `${libelle} — ${lot.length ? `${lot.length} étape${lot.length > 1 ? 's' : ''}, ${heuresLisibles(heuresTravail(lot))}` : 'rien de planifié'}${conflit ? ', conflit' : ''}${enRetard ? ', en retard' : ''}`);
+
+        const num = document.createElement('span');
+        num.textContent = jour;
+        c.appendChild(num);
+
+        const dots = document.createElement('span');
+        dots.className = 'month-dots';
+        for (let i = 0; i < Math.min(lot.length, 4); i++) {
+          const p = document.createElement('i');
+          p.className = 'month-dot' + (enRetard ? ' mq-retard' : '');
+          dots.appendChild(p);
+        }
+        c.appendChild(dots);
+
+        c.addEventListener('click', () => window.selectDay(null, libelle, iso));
+        grille.appendChild(c);
+      }
+
+      if (resume) {
+        const joursOccupes = [...parJour.keys()].length;
+        resume.textContent = taches.length
+          ? `${taches.length} étape${taches.length > 1 ? 's' : ''} sur ${joursOccupes} jour${joursOccupes > 1 ? 's' : ''}`
+            + ` · ${heuresLisibles(heuresTravail(taches))} planifiées`
+            + (joursEnConflit.size ? ` · ${joursEnConflit.size} jour${joursEnConflit.size > 1 ? 's' : ''} en conflit` : '')
+          : "Rien de planifié ce mois-ci.";
+      }
+    }
+
+    // ── VUE ANNEE : densite 12 mois + etat des chantiers ────────
+    //
+    // Voir le commentaire anti-regression sur #viewAnneeContainer. Regle de
+    // fer : une case qu'on ne sait pas calculer affiche « — ». Jamais une
+    // estimation, jamais un exemple.
+
+    // L'etat d'un chantier n'est PAS deduit de ses dates : il est stocke, dans
+    // `chantiers.status` (contrainte CHECK en base — voir supabase-schema.sql :
+    // en_attente | en_cours | retard | termine). Le regroupement en trois cases
+    // est celui du tableau de bord (dashboard.html) : « retard » est un
+    // chantier EN COURS qui a pris du retard, pas une quatrieme categorie.
+    // Un statut inconnu n'entre dans aucune case — on ne le range pas au
+    // hasard.
+    const ETAT_CHANTIER = {
+      termine: 'termines',
+      en_cours: 'en_cours',
+      retard: 'en_cours',
+      en_attente: 'a_venir',
+    };
+
+    // Capacite d'un mois, en heures. On ne definit AUCUN seuil ici : on
+    // reutilise CAPACITE_H, celui de la vue Charge (7 h/jour/personne), qu'on
+    // etale sur les jours ouvres du mois et sur les personnes du perimetre
+    // affiche. Si la vue Charge change de seuil, celle-ci suit — les deux ne
+    // peuvent pas se contredire.
+    function bsCapaciteMois(an, mois, personnes) {
+      const dernier = new Date(an, mois + 1, 0).getDate();
+      let ouvres = 0;
+      for (let j = 1; j <= dernier; j++) {
+        const jsem = new Date(an, mois, j).getDay();
+        if (jsem !== 0 && jsem !== 6) ouvres++;
+      }
+      return CAPACITE_H * ouvres * Math.max(1, personnes);
+    }
+
+    // Seuil d'AFFICHAGE, pas une donnee : en dessous de la moitie de sa
+    // capacite, un mois se lit comme un creux. Il ne s'affiche nulle part et
+    // ne modifie aucun chiffre — il ne change que la teinte de la barre.
+    const PART_CREUX = 0.5;
+
+    async function bsRendreAnnee(periode) {
+      const zoneEtat = document.getElementById('anneeEtat');
+      const zoneDens = document.getElementById('anneeDensite');
+      const zoneCA   = document.getElementById('anneeCA');
+      const details  = document.getElementById('anneeTrimestres');
+      const legende  = document.getElementById('anneeLegende');
+      const grille = document.getElementById('grilleAnnee');
+      const note = document.getElementById('anneeNote');
+      if (!grille || !zoneDens) return;
+
+      const an = periode.debut.getFullYear();
+      // Le chiffre d'affaires est une donnee d'encadrement. Un compagnon ne le
+      // voit pas, meme agrege sur un trimestre : on ne demande donc meme pas la
+      // table. La ligne disparait de sa vue au lieu d'afficher « — », qui
+      // laisserait croire qu'un montant existe mais n'a pas pu etre lu.
+      const montrerMontants = perimetreComplet();
+      let taches = [], factures = [], facturesLisibles = montrerMontants;
+      try {
+        taches = appliquerPerimetre(
+          await listTachesPeriode(bsISO(periode.debut), bsISO(periode.fin)));
+      } catch (e) {
+        // Rien de lisible : on vide tout plutot que de laisser a l'ecran les
+        // chiffres de l'annee precedemment affichee.
+        if (zoneEtat) zoneEtat.replaceChildren();
+        zoneDens.replaceChildren();
+        if (zoneCA) { zoneCA.replaceChildren(); zoneCA.style.display = 'none'; }
+        grille.replaceChildren();
+        if (details) details.style.display = 'none';
+        // La legende decrit un graphique qui n'est plus la : elle disparait
+        // avec lui, sinon elle laisse croire qu'il reste quelque chose a lire.
+        if (legende) legende.style.display = 'none';
+        if (note) note.textContent = "Impossible de charger cette année. Réessayez.";
+        return;
+      }
+      bsTachesVue = taches;                 // pour la liste de chantiers du bas
+      if (details) details.style.display = '';
+      if (legende) legende.style.display = 'flex';
+      if (montrerMontants) {
+        try {
+          // Le montant facture est reel ou absent : il sort de la table
+          // factures, jamais d'une extrapolation des taches ou des devis.
+          factures = await listFacturesPeriode(bsISO(periode.debut), bsISO(periode.fin));
+        } catch (e) {
+          // Table illisible : on affichera « — » plutot qu'un zero, qui se
+          // lirait comme « vous n'avez rien facture ».
+          facturesLisibles = false;
+          console.warn('[planning] factures non lisibles pour ce compte', e);
+        }
+      }
+
+      // Les chantiers viennent de la MEME table que partout ailleurs, deja
+      // chargee au demarrage. Si elle n'a jamais pu etre lue, on retente une
+      // fois ; en cas d'echec les trois compteurs affichent « — », jamais 0 :
+      // « 0 chantier terminé » et « je n'ai pas pu lire vos chantiers » ne
+      // disent pas du tout la meme chose.
+      let chantiersLisibles = bsChantiersLus;
+      if (!chantiersLisibles) {
+        try { await bsChargerChantiers(); chantiersLisibles = true; }
+        catch (e) { console.warn('[planning] chantiers non lisibles pour ce compte', e); }
+      }
+
+      // Un mois se lit sur son numero, pas sur un fuseau : `jour` est une date
+      // ISO nue (AAAA-MM-JJ). On la parse a midi local pour qu'aucun decalage
+      // ne fasse basculer le 1er janvier sur decembre.
+      const moisDe = (iso) => {
+        const d = new Date(String(iso) + 'T00:00:00');
+        return isNaN(d) ? -1 : d.getMonth();
+      };
+      // Libelles partages avec le titre de la liste du bas : voir
+      // libelleTrimestre(). Les redefinir ici les ferait diverger.
+      const LIBELLES = [0, 1, 2, 3].map((q) => libelleTrimestre(q));
+      const trimestreDe = (iso) => { const m = moisDe(iso); return m < 0 ? -1 : Math.floor(m / 3); };
+      const trimestreCourant = (new Date().getFullYear() === an)
+        ? Math.floor(new Date().getMonth() / 3) : -1;
+
+      // ── Densite : heures et nombre de taches, mois par mois ──
+      // Meme regle d'heures que les vues Semaine, Mois et Charge, et que le
+      // moteur : un sechage (`mobilise_artisan = false`) immobilise le chantier,
+      // pas la main-d'oeuvre. Il ne compte donc pas d'heures.
+      const heuresMois = new Array(12).fill(0);
+      const tachesMois = new Array(12).fill(0);
+      const chantiersAnnee = new Set();
+
+      const stats = [0, 1, 2, 3].map(() => ({ jours: new Set(), heures: 0, chantiers: new Set(), facture: 0 }));
+      for (const t of taches) {
+        if (!t.jour) continue;
+        const m = moisDe(t.jour);
+        if (m < 0) continue;
+        tachesMois[m]++;
+        heuresMois[m] += (t.mobilise_artisan === false ? 0 : (Number(t.duree_h) || 0));
+        if (t.chantier_id) chantiersAnnee.add(t.chantier_id);
+
+        const q = Math.floor(m / 3);
+        stats[q].jours.add(t.jour);
+        stats[q].heures += (t.mobilise_artisan === false ? 0 : (Number(t.duree_h) || 0));
+        if (t.chantier_id) stats[q].chantiers.add(t.chantier_id);
+      }
+      for (const f of factures) {
+        if (!f.date_emission) continue;
+        const q = trimestreDe(f.date_emission);
+        if (q < 0 || q > 3) continue;
+        stats[q].facture += Number(f.total_ttc) || 0;
+      }
+
+      // ── Quels chantiers comptent pour l'annee affichee ? ──
+      // Deux rattachements, et rien d'autre :
+      //   1. une tache DU PERIMETRE AFFICHE y est planifiee cette annee-la ;
+      //   2. en perimetre complet seulement, la periode connue du chantier
+      //      (date_debut -> date_fin_prevue) recouvre l'annee. Les dates d'un
+      //      chantier ne disent pas si MOI j'y interviens : hors perimetre
+      //      complet on s'en tient a ses propres taches.
+      // Sans `date_fin_prevue`, seule l'annee de `date_debut` est certaine : on
+      // ne prolonge pas un chantier sur des annees qu'on ne connait pas. Un
+      // chantier sans aucune date et sans tache n'appartient a aucune annee —
+      // on ne l'invente pas dans celle qu'on regarde.
+      if (chantiersLisibles && montrerMontants) {
+        for (const c of bsChantiersParId.values()) {
+          if (!c.date_debut) continue;
+          const anDebut = Number(String(c.date_debut).slice(0, 4));
+          const anFin = c.date_fin_prevue
+            ? Number(String(c.date_fin_prevue).slice(0, 4)) : anDebut;
+          if (!Number.isFinite(anDebut) || !Number.isFinite(anFin)) continue;
+          if (an >= anDebut && an <= anFin) chantiersAnnee.add(c.id);
+        }
+      }
+
+      const etat = { termines: 0, en_cours: 0, a_venir: 0 };
+      let etatInconnu = 0;
+      if (chantiersLisibles) {
+        for (const id of chantiersAnnee) {
+          const c = bsChantiersParId.get(id);
+          const cle = c ? ETAT_CHANTIER[c.status] : null;
+          if (cle) etat[cle]++; else etatInconnu++;
+        }
+      }
+
+      // ── Bandeau d'etat ──
+      if (zoneEtat) {
+        zoneEtat.replaceChildren();
+        [['Terminés', etat.termines], ['En cours', etat.en_cours], ['À venir', etat.a_venir]]
+          .forEach(([libelle, nb]) => {
+            const carte = document.createElement('div');
+            carte.className = 'year-etat-case';
+            const n = document.createElement('div');
+            // Table illisible : « — ». Sinon le compte reel, zero compris —
+            // « aucun chantier terminé » est une reponse vraie.
+            n.className = 'year-etat-nb' + (chantiersLisibles ? '' : ' vide');
+            n.textContent = chantiersLisibles ? String(nb) : '—';
+            const l = document.createElement('div');
+            l.className = 'year-etat-lib';
+            l.textContent = libelle;
+            carte.appendChild(n); carte.appendChild(l);
+            zoneEtat.appendChild(carte);
+          });
+      }
+
+      // ── Densite 12 mois ──
+      const auj = new Date(); auj.setHours(0, 0, 0, 0);
+      const moisCourant = (auj.getFullYear() === an) ? auj.getMonth() : -1;
+      // Combien de personnes absorbent la charge ? En perimetre complet toute
+      // l'equipe (le patron « virtuel » compris) ; sinon moi seul.
+      const personnes = montrerMontants ? Math.max(1, bsEquipe.length) : 1;
+      const maxHeures = Math.max(...heuresMois);
+      const nomMois = (m) => new Date(an, m, 1).toLocaleDateString('fr-FR', { month: 'long' });
+
+      zoneDens.replaceChildren();
+      const colonnes = document.createElement('div');
+      colonnes.className = 'year-cols';
+      colonnes.setAttribute('role', 'img');
+
+      const enonce = [];
+      for (let m = 0; m < 12; m++) {
+        const h = heuresMois[m];
+        const capacite = bsCapaciteMois(an, m, personnes);
+        const col = document.createElement('div');
+        col.className = 'year-col';
+        const barre = document.createElement('div');
+        barre.className = 'year-barre';
+
+        if (h <= 0) {
+          // Aucune heure planifiee : barre grise a ras. Pas de hauteur
+          // minimale « pour faire joli » — il n'y a rien a montrer.
+          barre.classList.add('vide');
+          barre.style.height = '3px';
+        } else {
+          if (h > capacite) barre.classList.add('surcapacite');
+          else if (h < capacite * PART_CREUX) barre.classList.add('creux');
+          // Hauteur RELATIVE au mois le plus charge de l'annee.
+          barre.style.height = Math.max(6, Math.round((h / maxHeures) * 100)) + '%';
+        }
+        // « A venir » : mois posterieur au mois courant. Une annee future l'est
+        // en entier, une annee passee ne l'est jamais.
+        if (an > auj.getFullYear() || (an === auj.getFullYear() && m > auj.getMonth())) {
+          barre.classList.add('avenir');
+        }
+
+        const valeur = tachesMois[m] ? heuresLisibles(h) : 'aucune étape';
+        barre.title = `${nomMois(m)} ${an} : ${valeur}`
+          + (h > 0 ? ` · capacité du mois ${heuresLisibles(capacite)}` : '');
+        enonce.push(`${nomMois(m)} ${valeur}`);
+
+        col.appendChild(barre);
+        colonnes.appendChild(col);
+      }
+      // L'etiquette enonce les DOUZE valeurs reelles : un lecteur d'ecran doit
+      // entendre le meme graphique que celui qui est dessine.
+      colonnes.setAttribute('aria-label',
+        `Heures planifiées par mois en ${an} : ${enonce.join(', ')}.`);
+      zoneDens.appendChild(colonnes);
+
+      const ligneMois = document.createElement('div');
+      ligneMois.className = 'year-mois';
+      for (let m = 0; m < 12; m++) {
+        const s = document.createElement('span');
+        s.textContent = nomMois(m).charAt(0).toUpperCase();
+        if (m === moisCourant) s.className = 'courant';
+        ligneMois.appendChild(s);
+      }
+      zoneDens.appendChild(ligneMois);
+
+      // ── CA facture sur l'annee ──
+      // Une seule ligne, somme des `factures.total_ttc` — reprise des memes
+      // totaux trimestriels pour qu'un ecart soit impossible.
+      if (zoneCA) {
+        zoneCA.replaceChildren();
+        if (!montrerMontants) {
+          // Un compagnon ne voit pas la ligne DU TOUT. Pas « — » : ce tiret
+          // laisserait croire qu'un montant existe et n'a pas pu etre lu.
+          zoneCA.style.display = 'none';
+        } else {
+          zoneCA.style.display = 'flex';
+          const total = stats.reduce((s, q) => s + q.facture, 0);
+          const l = document.createElement('span');
+          l.textContent = `Facturé TTC en ${an}`;
+          const v = document.createElement('b');
+          if (!facturesLisibles || total === 0) { v.className = 'vide'; v.textContent = '—'; }
+          else v.textContent = total.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + ' €';
+          zoneCA.appendChild(l); zoneCA.appendChild(v);
+        }
+      }
+
+      grille.replaceChildren();
+      stats.forEach((s, q) => {
+        // <button> et non <div> : la carte filtre la liste du bas, elle doit
+        // donc s'atteindre au clavier et annoncer son etat. Le style rend la
+        // balise invisible — c'est toujours une carte a l'ecran.
+        const carte = document.createElement('button');
+        carte.type = 'button';
+        carte.className = 'quarter-card' + (q === trimestreCourant ? ' courant' : '');
+        // Tout ce dont l'etat « affiché » a besoin est porte par la carte :
+        // bsMarquerTrimestres() n'a alors rien a recalculer ni a redemander.
+        carte.dataset.trimestre = String(q);
+        carte.dataset.libelle = LIBELLES[q];
+        // Meme libelle, annee comprise, que le titre de la liste du bas : c'est
+        // ce que la carte annonce a voix haute.
+        carte.dataset.libelleAn = libelleTrimestre(q, an);
+        carte.dataset.courant = (q === trimestreCourant) ? '1' : '0';
+
+        const titre = document.createElement('div');
+        titre.className = 'quarter-title';
+        carte.appendChild(titre);
+
+        // Un seul trimestre a la fois. Recliquer celui qui est actif rend la
+        // liste a l'annee entiere : un filtre dont on ne sort pas est un piege.
+        carte.addEventListener('click', () => {
+          bsTrimestreFiltre = (bsTrimestreFiltre === q) ? null : q;
+          // Seules la liste du bas et l'etat des quatre cartes changent : pas
+          // de relecture de l'annee, les taches sont deja en memoire.
+          bsMarquerTrimestres(grille);
+          bsRafraichirListeChantiers();
+        });
+
+        const lignes = document.createElement('div');
+        lignes.className = 'quarter-lignes';
+        carte.appendChild(lignes);
+
+        const ligne = (etiquette, valeur, absent) => {
+          const e = document.createElement('span');
+          e.textContent = etiquette;
+          const v = document.createElement('b');
+          if (absent) { v.className = 'vide'; v.textContent = '—'; }
+          else { v.textContent = valeur; }
+          lignes.appendChild(e); lignes.appendChild(v);
+        };
+
+        ligne('Jours travaillés', String(s.jours.size), s.jours.size === 0);
+        ligne('Heures planifiées', heuresLisibles(s.heures), s.heures === 0);
+        ligne('Chantiers', String(s.chantiers.size), s.chantiers.size === 0);
+        // Facture : « — » si la table est illisible pour ce compte OU s'il n'y a
+        // aucune facture. Un 0 € affirmerait quelque chose de faux dans le
+        // premier cas et se confondrait avec un vrai montant dans le second.
+        if (montrerMontants) {
+          ligne('Facturé TTC',
+            s.facture.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + ' €',
+            !facturesLisibles || s.facture === 0);
+        }
+
+        grille.appendChild(carte);
+      });
+      // Titres, aria et anneau : ecrits par une seule fonction, celle qui les
+      // reecrira aussi au clic. Deux endroits, ce serait deux libelles qui
+      // divergent au premier changement.
+      bsMarquerTrimestres(grille);
+
+      if (note) {
+        const base = montrerMontants
+          ? "Chaque barre est la somme des heures planifiées ce mois-là, séchages exclus ; sa hauteur se lit par rapport au mois le plus chargé de l'année. « Au-delà de la capacité » reprend le seuil de la vue Charge."
+          : "Chaque barre est la somme de VOS heures planifiées ce mois-là, séchages exclus ; sa hauteur se lit par rapport à votre mois le plus chargé. « Au-delà de la capacité » reprend le seuil de la vue Charge.";
+        const chantiersTxt = chantiersLisibles
+          ? " Terminés, en cours et à venir comptent vos chantiers de l'année d'après leur statut."
+          : " Vos chantiers n'ont pas pu être lus : les trois compteurs restent à « — » plutôt que d'afficher 0.";
+        const inconnuTxt = etatInconnu
+          ? ` ${etatInconnu} chantier${etatInconnu > 1 ? 's' : ''} sans statut exploitable n'${etatInconnu > 1 ? 'entrent' : 'entre'} dans aucune des trois cases.`
+          : '';
+        const montantsTxt = !montrerMontants
+          ? ''
+          : (facturesLisibles
+            ? " Le montant facturé est la somme des factures émises sur l'année."
+            : " Les montants facturés ne sont pas accessibles depuis ce compte : ils restent à « — » plutôt que d'afficher un chiffre inexact.");
+        note.textContent = base + chantiersTxt + inconnuTxt + montantsTxt
+          + " Une case « — » signifie qu'il n'y a rien à afficher — pas zéro estimé.";
+      }
+    }
+
+    // ── VUE CHARGE : une ligne par personne, une colonne par jour ──
+    //
+    // La question du patron n'est pas « qu'est-ce qui est prevu » mais « qui est
+    // en surcharge, et qui est attendu a deux endroits le meme jour ». Les
+    // barres donnent le coup d'oeil, les conflits sont ecrits en toutes lettres
+    // dessous — un code couleur seul ne dit pas QUOI faire.
+    async function bsRendreCharge(periode) {
+      const zone = document.getElementById('chargeEquipe');
+      if (!zone) return;
+      zone.replaceChildren();
+
+      // Un plan de charge compare des personnes : a une seule, il n'a rien a
+      // comparer. On le dit, plutot que d'afficher un tableau a une ligne qui
+      // aurait l'air casse. La vue Semaine repond deja a sa question.
+      if (estSolo()) {
+        const vide = document.createElement('div');
+        vide.className = 'der-vide';
+        vide.innerHTML = "Le plan de charge compare les heures de chacun : il n'a rien à comparer tant que vous travaillez seul.<br>"
+          + "Vos propres heures sont dans les vues Semaine et Mois.<br>"
+          + '<a href="./equipe.html" style="color:var(--t1);font-weight:800;">Inviter quelqu\'un →</a>';
+        zone.appendChild(vide);
+        return;
+      }
+
+      let taches;
+      try {
+        ({ taches } = await bsTachesParJour(periode));
+      } catch (e) {
+        messageVide(zone, "Impossible de charger le plan de charge. Réessayez.");
+        return;
+      }
+
+      // Total de la personne sur TOUTE la période affichée (la semaine) — une
+      // ligne, une barre, comme l'équipe (écran 09). Le détail jour par jour
+      // reste dans la vue Semaine ; ici la question est « qui est chargé ? ».
+      const { par, cle } = bsCalculerCharge(taches);
+      const jours = [];
+      for (let k = 0; k < 7; k++) {
+        const d = new Date(periode.debut); d.setDate(d.getDate() + k);
+        jours.push(bsISO(d));
+      }
+      const SEUIL_CHARGE = 40; // meme seuil que equipe.html
+
+      const liste = document.createElement('div');
+      liste.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
+
+      // bsEquipe : le patron y figure meme s'il n'est pas une ligne de
+      // `membres_equipe`. S'il s'assigne des taches, il doit apparaitre dans la
+      // charge et dans les conflits comme n'importe qui — etre attendu a deux
+      // endroits le meme jour est un vrai probleme, patron ou pas.
+      for (const m of bsEquipe) {
+        const heures = jours.reduce((s, iso) => {
+          const e = par.get(cle(m.id, iso));
+          return s + (e ? e.h : 0);
+        }, 0);
+
+        const ligne = document.createElement('div');
+        ligne.className = 'mq-member';
+
+        const nomAffiche = m.__virtuel ? `Moi (${nomComplet(m)})` : nomComplet(m);
+        const av = document.createElement('div');
+        av.className = 'mq-av';
+        av.textContent = initiales(nomAffiche);
+        ligne.appendChild(av);
+
+        const t = document.createElement('div');
+        t.className = 'mq-t';
+        t.textContent = nomAffiche;
+        const petit = document.createElement('small');
+        const h = Math.round(heures * 10) / 10;
+        const hTxt = Number.isInteger(h) ? String(h) : h.toFixed(1);
+        petit.textContent = heures > SEUIL_CHARGE
+          ? `${hTxt} h cette semaine · au-dessus de ${SEUIL_CHARGE} h`
+          : `${hTxt} h cette semaine`;
+        t.appendChild(petit);
+        ligne.appendChild(t);
+
+        const charge = document.createElement('div');
+        charge.className = 'mq-load';
+        const barre = document.createElement('i');
+        barre.style.width = `${Math.min((heures / SEUIL_CHARGE) * 100, 100)}%`;
+        if (heures > SEUIL_CHARGE) barre.classList.add('mq-amb');
+        charge.appendChild(barre);
+        ligne.appendChild(charge);
+
+        liste.appendChild(ligne);
+      }
+
+      zone.appendChild(liste);
+
+      // (06/09, Moctar) plus de bilan de conflits sous la charge : dit une
+      // fois à la génération du planning par l'assistant, pas redit ici.
+    }
+
+
+    // Itineraire : geocode les adresses puis demande au moteur le meilleur
+    // ordre de passage. Reseau lent ou adresse introuvable = on n'affiche rien
+    // plutot qu'un ordre faux.
+    async function bsAfficherItineraire(taches, zone) {
+      const adresses = [...new Set(taches
+        .map((t) => (bsChantiersParId.get(t.chantier_id) || {}).adresse)
+        .filter(Boolean))];
+      if (adresses.length < 2) return;
+      try {
+        const etapes = [];
+        for (const a of adresses) {
+          const coord = await geocoder(a);
+          if (coord) etapes.push({ adresse: a, coord });
+        }
+        if (etapes.length < 2) return;
+        const { ordre, km } = ordonnerJournee(etapes, null);
+        if (!ordre || !ordre.length) return;
+        const d = document.createElement('div');
+        d.className = 'ma-trajet';
+        d.textContent = `Trajet conseillé (${km} km) : `
+          + ordre.map((e, i) => `${i + 1}. ${e.adresse}`).join('  →  ');
+        zone.appendChild(d);
+      } catch (e) {
+        // Silencieux : un itineraire est un confort, son absence n'est pas une panne.
+      }
+    }
+
+    // Bascule du perimetre, appelee par setPerimetre() dans la barre de filtre.
+    window.bsSetPerimetre = function (p) { bsPerimetre = (p === 'moi') ? 'moi' : 'equipe'; };
+    // Lecture, pour window.bsContexteEcran (script classique plus haut, autre
+    // portee) : bsPerimetre est une variable de ce module, invisible dehors
+    // sans passer par window.
+    window.bsPerimetreActuel = function () { return bsPerimetre; };
+
+    // Assigne toutes les etapes d'un chantier a un membre. Renvoie le nombre
+    // d'etapes reellement modifiees — appele par savePlanFromDevis().
+    window.bsAssignerChantier = async function (chantierId, membreId) {
+      const membre = membreParChoix(membreId);
+      if (!membre) return 0;
+      const taches = await listTachesChantier(chantierId);
+      let n = 0;
+      for (const t of taches) {
+        await assignerTache(t.id, membre);
+        n++;
+      }
+      return n;
+    };
+
+    // ── VUE JOUR : liste d'étapes par chantier (maquette validée 04/09/2026,
+    //    écran 02) ──────────────────────────────────────────────────────────
+    //
+    // Composants .mq-day/.mq-tasks/.mq-task/.mq-cb/.mq-who, même habillage que
+    // l'onglet Déroulement de chantier.html : une carte .mq-card par chantier
+    // (client, adresse), puis ses étapes du jour. « Qui » se lit sur chaque
+    // étape (.mq-who) plutôt que par bloc de personne : deux étapes du même
+    // chantier le même jour peuvent revenir à deux personnes différentes.
+    async function bsChargerJournee(iso, libelle) {
+      const zone = document.getElementById('jourEquipe');
+      if (!zone) return;
+      messageVide(zone, 'Chargement…');
+
+      let taches = [], chantiers = [];
+      try {
+        [taches, chantiers] = await Promise.all([listTachesJour(iso), listChantiers()]);
+        bsChantiersParId = new Map(chantiers.map((c) => [c.id, c]));
+        taches = appliquerPerimetre(taches);
+        // La liste du bas repart de CE jeu de taches, pas d'une seconde
+        // requete : listTachesJour ramene aussi les taches longues commencees
+        // les jours precedents, que listTachesPeriode(jour, jour) manquerait.
+        bsTachesVue = taches;
+      } catch (e) {
+        messageVide(zone, 'Impossible de charger cette journée. Réessayez.');
+        return;
+      }
+
+      if (!taches.length) {
+        messageVide(zone, perimetreComplet()
+          ? `Rien de planifié le ${libelle}. Demandez à l’assistant de planifier un chantier : il place les étapes, les séchages et les dates.`
+          : `Rien ne vous est assigné le ${libelle}.`);
+        return;
+      }
+
+      const parId = Object.fromEntries(chantiers.map((c) => [c.id, c]));
+
+      // Regroupement par chantier seul : « qui » se lit étape par étape
+      // (.mq-who), voir plus bas.
+      const parChantier = new Map();
+      for (const t of taches) {
+        if (!parChantier.has(t.chantier_id)) parChantier.set(t.chantier_id, []);
+        parChantier.get(t.chantier_id).push(t);
+      }
+
+      zone.replaceChildren();
+
+      // Heures de TRAVAIL, sechages exclus. Cette somme comptait auparavant les
+      // `duree_h` de toutes les taches, y compris celles qui ne mobilisent
+      // personne : un sechage de 12 h faisait afficher « 12 h » et signalait
+      // une charge imaginaire. C'est la meme regle que le moteur
+      // (mobilise_artisan) et que les vues semaine, mois et charge.
+      const total = heuresTravail(taches);
+      const nbPersonnes = new Set(taches.map(membreDeTache).filter(Boolean)).size;
+      const resume = document.createElement('div');
+      resume.style.cssText = 'font-size:12px;font-weight:700;color:var(--sub);';
+      resume.textContent = `${nbPersonnes || 1} ${nbPersonnes > 1 ? 'personnes' : 'personne'}`
+        + ` · ${parChantier.size} ${parChantier.size > 1 ? 'chantiers' : 'chantier'}`
+        + ` · ${heuresLisibles(total)} au total`;
+      zone.appendChild(resume);
+
+      // Itineraire de MA journee — un seul bouton, calcule par le moteur
+      // (permutations puis plus proche voisin) sur toutes mes adresses du
+      // jour, tous chantiers confondus. Affiché seulement si j'ai des étapes
+      // aujourd'hui et que le moteur d'itinéraire est chargé.
+      const mesTaches = taches.filter(estMienne);
+      if (mesTaches.length && typeof geocoder === 'function' && typeof ordonnerJournee === 'function') {
+        const btnTrajet = document.createElement('button');
+        btnTrajet.type = 'button';
+        btnTrajet.className = 'mq-btn mq-ghost';
+        btnTrajet.style.width = '100%';
+        btnTrajet.textContent = 'Itinéraire';
+        const zoneTrajet = document.createElement('div');
+        btnTrajet.addEventListener('click', async () => {
+          btnTrajet.disabled = true;
+          const texteInitial = btnTrajet.textContent;
+          btnTrajet.textContent = 'Calcul de l’itinéraire…';
+          zoneTrajet.replaceChildren();
+          await bsAfficherItineraire(mesTaches, zoneTrajet);
+          if (!zoneTrajet.childElementCount) {
+            showToast("Pas assez d'adresses différentes pour calculer un itinéraire.");
+          }
+          btnTrajet.textContent = texteInitial;
+          btnTrajet.disabled = false;
+        });
+        zone.appendChild(btnTrajet);
+        zone.appendChild(zoneTrajet);
+      }
+
+      const aujourdhui = bsISO(new Date());
+
+      for (const [chantierId, lot] of parChantier) {
+        const c = parId[chantierId];
+
+        const card = document.createElement('a');
+        card.className = 'mq-card';
+        card.href = `./chantier.html?id=${chantierId}`;
+        const t = document.createElement('div');
+        t.className = 'mq-t';
+        t.append(c ? (c.client_name || 'Chantier') : 'Chantier');
+        const small = document.createElement('small');
+        // Pas d'adresse inventee : on dit qu'elle manque, et pourquoi ca compte.
+        small.textContent = (c && c.adresse) ? c.adresse : 'Adresse non renseignée — pas d’itinéraire possible';
+        t.appendChild(small);
+        card.appendChild(t);
+        zone.appendChild(card);
+
+        const tasksDiv = document.createElement('div');
+        tasksDiv.className = 'mq-tasks';
+
+        // Ordre de passage : c'est le sens de la colonne `ordre`. Sans ce tri
+        // les etapes s'affichaient dans l'ordre de la reponse SQL.
+        lot.sort((a, b) => (a.ordre || 0) - (b.ordre || 0));
+        lot.forEach((tache) => {
+          const fait = tache.statut === 'termine';
+          // En retard : le jour affiché est déjà passé et l'étape n'est pas
+          // terminée. Ambre, jamais rouge/vert — maquette validée 03/09/2026.
+          const enRetard = !fait && iso < aujourdhui;
+
+          const row = document.createElement('div');
+          row.className = 'mq-task' + (fait ? ' mq-done' : '');
+          if (enRetard) row.style.color = 'var(--amber)';
+
+          // Case a cocher : zone visible 20x20 (classe .mq-cb), zone
+          // cliquable 44x44 (classe .mq-cb-hit) — au doigt, sur un chantier,
+          // 20 px ne se vise pas. Meme regle que chantier.html.
+          const cbBtn = document.createElement('button');
+          cbBtn.type = 'button';
+          cbBtn.className = 'mq-cb-hit';
+          cbBtn.setAttribute('role', 'checkbox');
+          cbBtn.setAttribute('aria-checked', String(fait));
+          cbBtn.setAttribute('aria-label', `Étape ${tache.titre || 'sans titre'}`);
+          const cbSpan = document.createElement('span');
+          cbSpan.className = 'mq-cb' + (fait ? ' mq-done' : '');
+          cbBtn.appendChild(cbSpan);
+
+          // Avancement : sur MES taches uniquement. C'est la seule ecriture
+          // qu'un compagnon fait sur cet ecran.
+          const suivant = tache.statut === 'a_faire' ? 'en_cours'
+            : (tache.statut === 'en_cours' ? 'termine' : null);
+          if (estMienne(tache) && suivant) {
+            cbBtn.addEventListener('click', async () => {
+              cbBtn.disabled = true;
+              try {
+                await majStatutTache(tache.id, suivant);
+                showToast(suivant === 'en_cours' ? 'Étape démarrée.' : 'Étape terminée.');
+                window.bsAppliquerPeriode();
+              } catch (e) {
+                cbBtn.disabled = false;
+                showToast("Impossible d'enregistrer : rien n'a été modifié.", true);
+              }
+            });
+          } else {
+            cbBtn.disabled = true;
+          }
+          row.appendChild(cbBtn);
+
+          const label = document.createElement('span');
+          label.style.cssText = 'flex:1;min-width:0;overflow-wrap:anywhere;';
+          label.textContent = `${tache.titre || 'Étape'} (${heuresLisibles(tache.duree_h)})`;
+          // Le libellé ouvre le déroulement du chantier (la case, elle, coche).
+          if (tache.chantier_id) {
+            label.style.cursor = 'pointer';
+            label.style.textDecoration = 'underline';
+            label.style.textDecorationColor = '#CFE8DA';
+            label.addEventListener('click', () => { location.href = `./chantier.html?id=${tache.chantier_id}&onglet=deroulement`; });
+          }
+          row.appendChild(label);
+
+          // Seul l'encadrement reassigne, et seulement s'il y a quelqu'un
+          // d'autre que soi : chez un artisan seul le menu n'aurait qu'une
+          // option et ferait croire a une fonction cassee. Sinon, .mq-who
+          // affiche simplement qui porte l'etape — rien du tout si le fait de
+          // le dire n'apprendrait rien (voir assignationMuette).
+          if (peutVoirEquipe() && !estSolo()) {
+            const sel = document.createElement('select');
+            sel.className = 'form-input';
+            sel.style.cssText = 'margin-left:auto;width:auto;max-width:120px;padding:4px 6px;font-size:11px;border-radius:8px;';
+            sel.setAttribute('aria-label', `Assigner « ${tache.titre || 'Étape'} »`);
+            remplirOptionsMembres(sel, tache);
+            sel.addEventListener('change', async () => {
+              sel.disabled = true;
+              const membre = membreParChoix(sel.value);
+              try {
+                await assignerTache(tache.id, membre);
+                showToast(membre
+                  ? `« ${tache.titre || 'Étape'} » assignée à ${nomComplet(membre)}.`
+                  : `« ${tache.titre || 'Étape'} » n'est plus assignée.`);
+                window.bsAppliquerPeriode();
+              } catch (e) {
+                sel.disabled = false;
+                showToast("L'assignation n'a pas pu être enregistrée.", true);
+              }
+            });
+            row.appendChild(sel);
+          } else {
+            const quiTexte = assignationMuette(tache) ? '' : (nomAssigne(tache, bsMembresParId) || 'Non assigné');
+            if (quiTexte) {
+              const who = document.createElement('span');
+              who.className = 'mq-who';
+              who.textContent = quiTexte;
+              row.appendChild(who);
+            }
+          }
+
+          tasksDiv.appendChild(row);
+        });
+
+        zone.appendChild(tasksDiv);
+      }
+    }
+    window.bsChargerJournee = bsChargerJournee;
+
+    // Remplit un <select> avec les membres reels. AUCUN nom n'est ecrit dans
+    // cette page : s'il n'y a personne, il n'y a pas d'option.
+    // `bsEquipe` et non `bsMembres` : l'utilisateur courant doit TOUJOURS
+    // pouvoir se choisir lui-meme, meme s'il n'est pas une ligne de
+    // `membres_equipe` — c'est le cas de tous les patrons (verifie en base).
+    // Un patron n'a pas a s'inscrire dans sa propre equipe pour se planifier.
+    /**
+     * A-t-il la compétence demandée par cette tâche ?
+     *
+     * Prêt pour `supabase-competences-2026-09-03.sql`, qui ajoute
+     * `membres_equipe.competences` (tableau) et `taches.metier_requis`. Tant que
+     * cette migration n'est PAS appliquée, les deux champs sont absents et la
+     * fonction renvoie `null` partout : le sélecteur se comporte alors
+     * exactement comme aujourd'hui. Aucune planification n'est jamais bloquée
+     * parce que les compétences sont vides — c'est l'état de départ de tout le
+     * monde.
+     *
+     * @returns {boolean|null} true / false, ou null quand on ne peut pas savoir.
+     *          « Je ne sais pas » ne doit jamais s'afficher comme « non ».
+     */
+    function aLaCompetence(membre, tache) {
+      const requis = tache && tache.metier_requis;
+      if (!requis) return null;                        // aucune contrainte
+      const c = membre && membre.competences;
+      if (!Array.isArray(c) || !c.length) return null;  // rien de renseigné
+      return c.includes(requis);
+    }
+
+    function remplirOptionsMembres(sel, tache) {
+      sel.replaceChildren();
+      // Ce « Non assigné »-la reste : c'est le choix « personne » d'un menu
+      // d'affectation, pas un constat affiché à l'artisan. Il n'atteint jamais
+      // un solo — les deux appelants (la ligne d'étape et la modale
+      // « Planifier ») masquent déjà le sélecteur quand `estSolo()`.
+      const vide = document.createElement('option');
+      vide.value = '';
+      vide.textContent = 'Non assigné';
+      sel.appendChild(vide);
+
+      // L'outil PROPOSE, l'artisan DÉCIDE : on remonte ceux qui ont la
+      // compétence, on ne retire JAMAIS les autres. Un patron peut avoir une
+      // bonne raison de sortir quelqu'un de sa spécialité — ce n'est pas à
+      // l'application de le lui interdire.
+      const ordonne = [...bsEquipe].sort((a, b) => {
+        const ca = aLaCompetence(a, tache), cb = aLaCompetence(b, tache);
+        if (ca === cb) return 0;
+        return ca === true ? -1 : (cb === true ? 1 : 0);
+      });
+
+      for (const m of ordonne) {
+        const o = document.createElement('option');
+        o.value = m.id;
+        const compt = aLaCompetence(m, tache);
+        o.textContent = (m.__virtuel ? `Moi (${nomComplet(m)})` : nomComplet(m))
+          + (m.metier ? ` — ${m.metier}` : '')
+          // Mention affichée UNIQUEMENT quand on sait que la compétence manque.
+          // Un membre dont les compétences ne sont pas renseignées n'est pas
+          // signalé : on l'ignore, on ne l'accuse pas.
+          + (compt === false ? ' (hors spécialité)' : '');
+        sel.appendChild(o);
+      }
+      // Selection courante : l'id de membre s'il y en a un, sinon « moi » quand
+      // la tache me revient (non assignee chez un solo, ou a mon nom).
+      let valeur = '';
+      if (tache) {
+        if (tache.assigne_id && bsMembresParId.has(tache.assigne_id)) valeur = tache.assigne_id;
+        else if (String(tache.assigne_a || '').trim() && estMienne(tache)) valeur = MOI_VIRTUEL;
+      }
+      sel.value = valeur;
+    }
+
+    function membreParChoix(valeur) {
+      if (!valeur) return null;
+      return bsEquipe.find((m) => m.id === valeur) || null;
+    }
+
+    // Le selecteur de la modale « Planifier ». Etat vide honnete : on renvoie
+    // vers equipe.html au lieu de proposer des options inventees.
+    // Chez un artisan SEUL, choisir qui intervient n'a pas d'objet : c'est lui.
+    // On masque donc le bloc entier plutot que d'afficher un menu a une option.
+    // Une tache sans assignation lui revient implicitement (voir estMienne).
+    function preparerSelecteurModale() {
+      const bloc = document.getElementById('blocAssignation');
+      const sel = document.getElementById('planAssigneMembre');
+      const aide = document.getElementById('assignationAide');
+      if (!sel || !bloc) return;
+      if (estSolo()) { bloc.style.display = 'none'; return; }
+      bloc.style.display = 'flex';
+      remplirOptionsMembres(sel, null);
+      if (aide) aide.textContent = "L'assignation s'applique aux étapes déjà planifiées de ce chantier.";
+    }
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+
+      // ── Routage par role ──────────────────────────────────────
+      // Le role vient de mesDroits() (RPC `mes_droits`, qui s'appuie sur
+      // mon_role() cote base) : c'est la source unique deja utilisee par les
+      // autres ecrans, on n'en invente pas une seconde.
+      // Si le role n'est pas determinable, mesDroits() retombe sur « patron
+      // solo » — le comportement actuel. On ne devine JAMAIS « compagnon » :
+      // le router par erreur en perimetre reduit lui masquerait son
+      // propre planning.
+      try { bsDroits = await mesDroits(); } catch (e) { bsDroits = null; }
+      await bsChargerEquipe();
+      preparerSelecteurModale();
+
+      // Patron et compagnon ont LES MEMES vues (Jour, Semaine, Mois) et le
+      // meme code de rendu. Ce qui change : le perimetre des donnees (voir
+      // appliquerPerimetre) et le 4e onglet (Charge).
+      const encadrement = peutVoirEquipe();
+      window.bsEstEncadrement = encadrement;
+      bsPerimetre = encadrement ? 'equipe' : 'moi';
+
+      // 4e onglet : la charge d'equipe n'existe que s'il y a une equipe. Chez
+      // un artisan seul — le cas le plus courant — l'onglet disparait au lieu
+      // de mener a un tableau a une ligne. Il n'y a plus d'onglet de
+      // remplacement : quand la charge disparait, l'ecran a trois vues.
+      const btnCharge = document.getElementById('btnViewCharge');
+      const montrerCharge = encadrement && !estSolo();
+      if (btnCharge) btnCharge.style.display = montrerCharge ? '' : 'none';
+
+      // Filtre « toute l'equipe / moi » : seulement s'il y a quelqu'un d'autre.
+      const filtre = document.getElementById('filtrePerimetre');
+      if (filtre) filtre.style.display = (encadrement && !estSolo()) ? 'grid' : 'none';
+
+      if (!encadrement) {
+        // Planifier un chantier est un geste d'encadrement : le bouton disparait.
+        const btn = document.getElementById('btnPlanifierEtape');
+        if (btn) btn.style.display = 'none';
+      }
+
+      bsRendreBandeJours();
+      try {
+        // Charge `bsChantiersParId`, dont la liste du bas a besoin pour
+        // retrouver un chantier depuis l'id d'une tache. La liste elle-meme
+        // n'est PAS dessinee ici : c'est bsRendreVue() qui s'en charge, pour
+        // qu'elle colle toujours a la periode affichee.
+        const chantiers = await bsChargerChantiers();
+
+        // Chantiers reellement en attente de date. La carte affichait avant
+        // deux suggestions inventees avec une date deja passee.
+        const aCaler = chantiers.filter((c) => !c.date_debut && c.status !== 'termine');
+        const zone = document.getElementById('aPlanifier');
+        // Quand plus aucun chantier n'attend de date, la zone doit DISPARAITRE.
+        // Avant, elle n'etait nettoyee que dans le cas non-vide : l'ancienne liste
+        // restait affichee alors que tout etait cale.
+        if (zone && !aCaler.length) { zone.replaceChildren(); zone.style.display = 'none'; }
+        if (zone && aCaler.length) {
+          zone.replaceChildren();
+          const titre = document.createElement('div');
+          titre.style.cssText = 'font-size:11px;font-weight:800;color:var(--t1);text-transform:uppercase;letter-spacing:.4px;';
+          titre.textContent = `${aCaler.length} chantier${aCaler.length > 1 ? 's' : ''} sans date`;
+          zone.appendChild(titre);
+          aCaler.slice(0, 4).forEach((c) => {
+            const l = document.createElement('a');
+            l.href = `./chantier.html?id=${c.id}`;
+            l.style.cssText = 'font-size:12.5px;color:#1C2B22;text-decoration:none;display:flex;justify-content:space-between;gap:8px;';
+            const nom = document.createElement('span');
+            nom.textContent = c.client_name || 'Client';
+            const lieu = document.createElement('span');
+            lieu.style.cssText = 'color:#5A7268;';
+            lieu.textContent = c.adresse || '';
+            l.appendChild(nom); l.appendChild(lieu);
+            zone.appendChild(l);
+          });
+          zone.style.display = 'flex';
+        }
+      } catch (e) {
+        console.warn('[planning] chargement des chantiers impossible', e);
+        // Le catch laissait auparavant les cartes de demonstration a l'ecran.
+        // ⚠️ Puis il a affiche l'etat VIDE — « aucun chantier, ou creez un
+        // chantier ». L'application poussait donc activement l'artisan a
+        // recreer un chantier qui existe deja, parce qu'une requete avait
+        // echoue. On dit ce qui s'est passe au lieu de montrer un faux vide.
+        try {
+          rendreChantiers([], 'Mes chantiers :',
+            "Vos chantiers n'ont pas pu être chargés. Ils ne sont pas perdus — rechargez la page. N'en recréez pas.");
+        } catch (_) {}
+        try {
+          const z = document.getElementById('chantiersListe') || document.querySelector('.scr-body');
+          if (z) {
+            const b = document.createElement('div');
+            b.setAttribute('role', 'alert');
+            b.style.cssText = 'background:#FDECEA;border:1px solid #E7B3A8;color:#9B2C1C;'
+              + 'border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5;margin:10px 0;font-weight:600;';
+            b.textContent = "Vos chantiers n'ont pas pu être chargés. Ils ne sont pas perdus — "
+              + "rechargez la page. N'en recréez pas.";
+            z.prepend(b);
+          }
+        } catch (_) {}
+      }
+      await chargerDevisAPlanifier();
+
+      // `?vue=` / `?date=` (task 6, ouvrir_ecran) : ouvre directement la bonne
+      // vue, calée sur la date visée si fournie. Le décalage se calcule dans
+      // l'unité de CHAQUE vue (comme les flèches), pas seulement celle
+      // demandée : passer de « semaine » à « mois » par exemple doit rester
+      // cohérent avec la date reçue.
+      const bsParamsUrl = new URLSearchParams(location.search);
+      const bsVueUrl = bsParamsUrl.get('vue');
+      const bsDateUrl = bsParamsUrl.get('date');
+      if (bsDateUrl && /^\d{4}-\d{2}-\d{2}$/.test(bsDateUrl)) {
+        const bsCible = new Date(bsDateUrl + 'T00:00:00');
+        if (!isNaN(bsCible.getTime())) {
+          const bsToday = new Date(); bsToday.setHours(0, 0, 0, 0);
+          bsDecalage.jour = Math.round((bsCible - bsToday) / 86400000);
+          bsDecalage.semaine = Math.round((bsLundi(bsCible) - bsLundi(bsToday)) / (7 * 86400000));
+          bsDecalage.mois = (bsCible.getFullYear() - bsToday.getFullYear()) * 12
+            + (bsCible.getMonth() - bsToday.getMonth());
+          bsDecalage.annee = bsCible.getFullYear() - bsToday.getFullYear();
+          bsDecalage.charge = bsDecalage.semaine;
+        }
+      }
+
+      // Premier rendu. Sans cet appel la vue Semaine s'affichait vide au
+      // chargement et n'etait peuplee qu'au premier clic sur une fleche — le
+      // genre de fonction ecrite mais jamais atteinte qu'on corrige ici.
+      switchView((bsVueUrl && VUES[bsVueUrl]) ? bsVueUrl : 'semaine');
+    })();
+
+    // Cartes "devis a planifier" : elles etaient ecrites en dur (Sophie Marchand,
+    // Marc Delmas, Celine Vasseur, Julien Bertin). Elles viennent de la base.
+    async function chargerDevisAPlanifier() {
+      const box = document.getElementById('planQuotesCardsList');
+      if (!box) return;
+      try {
+        const devis = await listerDevis({ statuts: ['brouillon', 'envoye', 'accepte'] });
+        box.replaceChildren();
+        if (!devis.length) {
+          const vide = document.createElement('div');
+          vide.style.cssText = 'font-size:12.5px;color:#5A7268;line-height:1.45;';
+          vide.textContent = "Aucun devis à planifier. Créez un devis, puis revenez le caler ici.";
+          box.appendChild(vide);
+          return;
+        }
+        devis.forEach((d, i) => {
+          const nom = (d.chantiers && d.chantiers.client_name) || 'Client';
+          window.PLANNING_QUOTES[d.numero] = {
+            client: nom,
+            address: (d.chantiers && d.chantiers.adresse) || '',
+            travaux: d.objet || 'Travaux',
+          };
+          const carte = document.createElement('div');
+          carte.className = 'slot-card';
+          carte.style.cssText = 'padding:8px 10px;cursor:pointer;'
+            + (i === 0 ? 'border-color:#228B5B;background:#F0FDF4;' : '');
+          carte.addEventListener('click', () => window.selectQuoteForPlanning(d.numero, carte));
+          const haut = document.createElement('div');
+          haut.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;';
+          const ref = document.createElement('strong');
+          ref.style.cssText = 'font-size:12.5px;color:#1C2B22;';
+          ref.textContent = `${d.numero} · ${nom}`;
+          const mt = document.createElement('span');
+          mt.style.cssText = 'font-size:11px;font-weight:800;color:var(--t1);white-space:nowrap;';
+          mt.textContent = Number(d.total_ttc || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' € TTC';
+          haut.appendChild(ref); haut.appendChild(mt);
+          const bas = document.createElement('div');
+          bas.style.cssText = 'font-size:11.5px;color:#3D5A4E;';
+          bas.textContent = [d.objet, (d.chantiers && d.chantiers.adresse)].filter(Boolean).join(' · ');
+          carte.appendChild(haut); carte.appendChild(bas);
+          box.appendChild(carte);
+          if (i === 0) {
+            const hid = document.getElementById('planSelectDevis');
+            if (hid) hid.value = d.numero;
+          }
+        });
+      } catch (e) {
+        console.warn('[planning] devis a planifier indisponibles', e);
+        box.replaceChildren();
+        const err = document.createElement('div');
+        err.style.cssText = 'font-size:12.5px;color:#5A7268;';
+        err.textContent = "Liste des devis indisponible pour l'instant.";
+        box.appendChild(err);
+      }
+    }
+
+    // Recharge le planning apres une ecriture reelle. Rejoue aussi la vue
+    // courante : sans ca, planifier un chantier ne changeait rien a l'ecran
+    // tant qu'on n'avait pas navigue.
+    window.rechargerPlanning = async function () {
+      // Relit les chantiers (un nouveau a pu naitre) ; c'est bsAppliquerPeriode
+      // ci-dessous qui redessine la liste du bas, a la bonne periode.
+      try { await bsChargerChantiers(); } catch (e) { console.warn(e); }
+      await chargerDevisAPlanifier();
+      bsAppliquerPeriode();
+    };
+
+    // Icônes des chevrons de la .mq-period et du bouton "Planifier une
+    // étape" (aucun emoji dans l'interface, règle du 04/09) : bsIcon() vient
+    // de js/app-nav.js, script classique non différé placé plus bas dans la
+    // page — déjà défini à ce stade (comme dans devis.html/photos.html).
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        if (typeof window.bsIcon !== 'function') return;
+        const prevBtn = document.getElementById('periodPrevBtn');
+        const nextBtn = document.getElementById('periodNextBtn');
+        if (prevBtn) prevBtn.insertAdjacentHTML('afterbegin', window.bsIcon('back'));
+        if (nextBtn) nextBtn.insertAdjacentHTML('afterbegin', window.bsIcon('chevron'));
+        const btnPlanifier = document.getElementById('btnPlanifierEtape');
+        if (btnPlanifier) btnPlanifier.insertAdjacentHTML('afterbegin', window.bsIcon('calendar'));
+      } catch (e) { console.warn(e); }
+    });
+  </script>
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#0F5132">
+ <title>Connexion client — BatiSpot</title>
+ <meta name="description" content="Connexion à votre espace client BatiSpot. Suivez vos demandes de travaux et l'avancement de vos chantiers en temps réel.">
+ <link rel="manifest" href="./manifest.json">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <noscript></noscript>
+ <script src="/js/clarity-init.js" defer></script>
+ <script src="/js/sentry-init.js" defer></script>
+ <script src="/js/turnstile-helper.js" defer></script>
+ <!-- Open Graph + Twitter Card -->
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="BatiSpot">
+ <meta property="og:locale" content="fr_FR">
+ <meta property="og:title" content="Connexion client — BatiSpot">
+ <meta property="og:description" content="Connexion à votre espace client. Suivez vos demandes et chantiers en temps réel.">
+ <meta property="og:url" content="https://batispot.pro/app/client-login">
+ <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+ <meta property="og:image:height" content="630">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Connexion client — BatiSpot">
+ <meta name="twitter:description" content="Connexion à votre espace client. Suivez vos demandes et chantiers en temps réel.">
+ <meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+</head>
+<body>
+ <div class="app-shell">
+ <div style="text-align:center;padding:32px 20px 0">
+ <a href="./welcome.html" aria-label="BatiSpot — Accueil" style="display:inline-block;text-decoration:none">
+ <svg width="180" height="44" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+ <defs><linearGradient id="lg-cli" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+ <rect width="40" height="40" rx="10" y="4" fill="url(#lg-cli)"/>
+ <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+ <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+ <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text>
+ </svg>
+ </a>
+ </div>
+
+ <main class="mq-screen" style="max-width:420px;margin:0 auto;padding-top:0">
+ <div style="text-align:center">
+ <span class="mq-pill mq-info">Espace client</span>
+ </div>
+
+ <h2 class="page-title" style="text-align:center;margin-bottom:0">Connexion</h2>
+ <p class="page-sub" style="text-align:center;margin-bottom:4px">Connectez-vous à votre espace.</p>
+
+ <div class="mq-card" style="flex-direction:column;align-items:stretch;gap:14px">
+ <button type="button" id="google-btn" class="mq-btn mq-ghost" style="width:100%;gap:10px">
+ <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden="true">
+ <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+ <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+ <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+ <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+ </svg>
+ Continuer avec Google
+ </button>
+
+ <div style="display:flex;align-items:center;gap:12px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em">
+ <div style="flex:1;height:1px;background:var(--border)"></div>
+ <span>OU PAR EMAIL</span>
+ <div style="flex:1;height:1px;background:var(--border)"></div>
+ </div>
+
+ <form id="login-form">
+ <div class="form-group">
+ <label for="f-email">Email</label>
+ <input type="email" id="f-email" class="form-control" required autocomplete="email" placeholder="vous@email.fr">
+ </div>
+ <div class="bs-turnstile" data-action="login_client" style="margin:8px 0"></div>
+ <button type="submit" class="mq-btn mq-primary" style="width:100%" id="submit-btn">Recevoir mon lien</button>
+ </form>
+
+ <div id="sent-area" class="hidden" style="text-align:center">
+ <p style="color:var(--g1);font-weight:700">Lien envoyé !</p>
+ <p class="form-hint">Ouvrez votre email et cliquez sur le lien pour accéder à votre espace.</p>
+ </div>
+ </div>
+
+ <p class="text-center" style="font-size:13px;color:var(--muted)">
+ Pas encore de compte ? <a href="./demande-devis.html" style="color:var(--g1);font-weight:700">Faire ma première demande</a>
+ </p>
+ <p class="text-center" style="font-size:12px;color:var(--muted);margin-top:-8px">
+ Vous êtes artisan ? <a href="./login.html" style="color:var(--muted);text-decoration:underline">Connexion pro</a>
+ </p>
+ </main>
+ </div>
+
+ <script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <!-- Vigie connexions (05/09/2026) : capte l'e-mail d'une tentative REFUSEE.
+       `defer` et pas `async` : le module de la page peut l'appeler des le premier
+       clic, il doit donc etre defini avant l'execution du script de page. -->
+  <script src="./js/app-vigie.js?v=2026_09_05" defer></script>
+ <script type="module">
+ import { supabase, toast , memoriserEspace} from './js/supabase.js';
+
+    // Porte d'entree : sert a trancher si la base ne connait pas encore
+    // le compte. Sans ca, tout nouvel artisan atterrissait cote client.
+    memoriserEspace('client');
+
+ const form = document.getElementById('login-form');
+ const submitBtn = document.getElementById('submit-btn');
+ const sentArea = document.getElementById('sent-area');
+
+ document.getElementById('google-btn').addEventListener('click', async () => {
+ const { error } = await supabase.auth.signInWithOAuth({
+ provider: 'google',
+ options: { redirectTo: `${window.location.origin}/app/auth-callback.html?next=./client.html` },
+ });
+ if (error) toast(error.message || 'Connexion Google indisponible', 'error');
+ });
+
+ form.addEventListener('submit', async (e) => {
+ e.preventDefault();
+ submitBtn.disabled = true;
+ submitBtn.replaceChildren();
+ const sp = document.createElement('span'); sp.className = 'loading'; submitBtn.appendChild(sp);
+ try {
+ const email = document.getElementById('f-email').value.trim().toLowerCase();
+ const redirectTo = `${window.location.origin}/app/auth-callback.html?next=./client.html`;
+ // Widget affiche depuis des semaines sans lecture du token. captchaToken est
+ // verifie NATIVEMENT par Supabase Auth avant l'envoi de l'email.
+ // Le captcha est actif cote Supabase Auth : un token vide = refus.
+ // Il est vide si le challenge n'est pas fini, ou s'il a expire (~300 s)
+ // parce que la page est restee ouverte. On l'ATTEND au lieu de le lire au vol.
+ let captchaToken;
+ if (window.bsTurnstile && window.bsTurnstile.waitForToken) {
+   captchaToken = await window.bsTurnstile.waitForToken(form, 8000);
+ } else if (window.bsTurnstile && window.bsTurnstile.getToken) {
+   captchaToken = window.bsTurnstile.getToken(form);
+ }
+ if (!captchaToken) {
+   if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+   throw new Error('La vérification antispam n’a pas abouti. Patientez deux secondes et réessayez.');
+ }
+ const { error } = await supabase.auth.signInWithOtp({
+ email,
+ options: { emailRedirectTo: redirectTo, shouldCreateUser: true, captchaToken },
+ });
+ if (error) throw error;
+ if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+ form.classList.add('hidden');
+ sentArea.classList.remove('hidden');
+ } catch (err) {
+ // Vigie (05/09/2026) : inscriptions fermees cote Supabase. Un e-mail
+ // inconnu recoit « Signups not allowed » — c'est la seule trace qui
+ // porte l'adresse, le serveur ne garde que l'IP. On la note, puis on
+ // dit a l'utilisateur ce qui se passe reellement.
+ const ferme = /signups? not allowed/i.test(err.message || '');
+ if (ferme && window.bsJournaliserTentative) {
+ window.bsJournaliserTentative({ email: document.getElementById('f-email').value.trim().toLowerCase(), source: 'login-client', motif: 'signup_ferme', detail: 'lien magique client' });
+ }
+ toast(ferme
+ ? 'BatiSpot est en phase pilote, sur invitation. Écrivez à contact@batispot.pro pour demander un accès.'
+ : err.message, 'error');
+ submitBtn.disabled = false;
+ submitBtn.textContent = 'Recevoir mon lien';
+ }
+ });
+ </script>
+ <script src="/js/update-detector.js" defer></script>
+</body>
+</html>

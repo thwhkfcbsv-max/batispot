@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>BatiSpot Pro — Inscription</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+<link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+<style>
+ /* Page wrapper minimal — strict simulator L200-246 */
+ body { background: #fff; }
+ .pro-shell {
+ max-width: 520px;
+ margin: 0 auto;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ background: #fff;
+ }
+ /* Step indicator (3 barres : active = vert var(--g3), inactive = grey #e5e7eb) */
+ .step-bars { display: flex; gap: 4px; margin-bottom: 4px; }
+ .step-bars > div { height: 5px; flex: 1; background: #e5e7eb; border-radius: 4px; transition: background .25s; }
+ .step-bars > div.active { background: var(--g3, #4CAF82); }
+
+ /* Pricing-mock : rappel tarifaire */
+ .pricing-tag {
+ font-size: 10px;
+ font-weight: 900;
+ letter-spacing: 0.08em;
+ color: var(--g1, #1A6B45);
+ text-transform: uppercase;
+ }
+ .pricing-foot {
+ font-size: 12px;
+ color: var(--sub, #3D5A4E);
+ font-weight: 600;
+ }
+
+ /* Step container — un seul step visible a la fois */
+ .step { display: none; flex-direction: column; gap: 12px; }
+ .step.active { display: flex; }
+
+ /* f-row inline (prenom + nom cote a cote) */
+ .f-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+ .f-grid-2 .f-row { margin-bottom: 0; }
+ .pro-shell .f-input { min-height: 44px; box-sizing: border-box; }
+ /* Cibles tactiles ≥44px pour les puces de sélection (metiers/zones/qualifs). */
+ #metiers-chips .chip, #zones-chips .chip, #qualif-chips .chip { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; }
+
+ /* Doc upload list (step 3) */
+ .doc-list { display: flex; flex-direction: column; gap: 8px; }
+ .doc-item {
+ display: flex; align-items: center; gap: 10px;
+ padding: 10px 12px;
+ background: var(--g-cream, #F7FBF8);
+ border: 1px solid var(--border, rgba(34,139,91,0.14));
+ border-radius: 10px;
+ font-size: 13px;
+ cursor: pointer;
+ }
+ .doc-item__icon {
+ width: 32px; height: 32px; border-radius: 8px;
+ background: #EBF7F1;
+ display: flex; align-items: center; justify-content: center;
+ color: var(--g1, #1A6B45);
+ flex-shrink: 0;
+ }
+ .doc-item__name { font-weight: 800; color: var(--text); flex: 1; }
+ .doc-item__meta { font-size: 11px; color: var(--sub, #3D5A4E); }
+ .doc-item__file { display: none; }
+ .doc-item.uploaded { border-color: var(--g3, #4CAF82); background: #ecfdf5; }
+ .doc-item.uploaded .doc-item__meta { color: var(--g1, #1A6B45); font-weight: 800; }
+
+ /* Recap (step final) */
+ .recap-block {
+ background: var(--g-cream, #F7FBF8);
+ border: 1px solid var(--border, rgba(34,139,91,0.14));
+ border-radius: 10px;
+ padding: 14px;
+ font-size: 13px;
+ line-height: 1.6;
+ }
+ .recap-block strong { color: var(--text); }
+ .recap-block .recap-sub { color: var(--sub, #3D5A4E); font-size: 12px; }
+ .recap-block > div + div { margin-top: 2px; }
+
+ /* Bouton actions row (back + next) */
+ .btn-row { display: flex; gap: 8px; margin-top: auto; }
+ .btn-row > * { flex: 1; }
+
+ /* Confirmation finale */
+ .done-block { text-align: center; padding: 32px 16px; }
+ .done-block svg { margin-bottom: 12px; }
+ .done-block h2 { font-size: 20px; font-weight: 900; margin-bottom: 8px; color: var(--text); }
+ .done-block p { font-size: 13.5px; color: var(--sub, #3D5A4E); line-height: 1.6; margin-bottom: 18px; }
+</style>
+ <script src="/js/clarity-init.js" defer></script>
+ <script src="/js/sentry-init.js" defer></script>
+ <script src="/js/turnstile-helper.js" defer></script>
+ <!-- Open Graph + Twitter Card -->
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="BatiSpot">
+ <meta property="og:locale" content="fr_FR">
+ <meta property="og:title" content="Devenir artisan BatiSpot — 3 mois offerts, dès 19€/mois">
+ <meta property="og:description" content="Inscription artisan : 3 mois offerts, sans carte bancaire, sans engagement.">
+ <meta property="og:url" content="https://batispot.pro/app/inscription-pro">
+ <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+ <meta property="og:image:width" content="1200">
+ <meta property="og:image:height" content="630">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Devenir artisan BatiSpot — 3 mois offerts, dès 19€/mois">
+ <meta name="twitter:description" content="Inscription artisan : 3 mois offerts, sans carte bancaire, sans engagement.">
+ <meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+</head>
+<body>
+<div class="pro-shell">
+
+ <!-- Header plat .app-h — STRICT simulator L206-209 -->
+ <div class="app-h">
+ <svg class="app-h-logo" viewBox="0 0 48 48" aria-hidden="true">
+ <defs>
+ <linearGradient id="lg-i" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#228B5B"/>
+ <stop offset="100%" stop-color="#4CAF82"/>
+ </linearGradient>
+ </defs>
+ <rect width="48" height="48" rx="11" fill="url(#lg-i)"/>
+ <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+ <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.9"/>
+ </svg>
+ Inscription artisan
+ </div>
+
+ <!-- Body scrollable .scr-body -->
+ <div class="scr-body">
+
+ <!-- Step indicator (4 bars) -->
+ <div class="step-bars" id="step-bars">
+ <div class="active"></div>
+ <div></div>
+ <div></div>
+ <div></div>
+ </div>
+ <div class="scr-sub" id="step-sub">Étape 1/4 — Vos coordonnées</div>
+
+ <!-- Value reminder -->
+ <p id="value-reminder" style="font-size:13px;color:var(--sub,#3D5A4E);text-align:center;line-height:1.5;margin:0 0 12px">
+ Dictez votre chantier, le devis est prêt en 30 secondes.<br>
+ <strong style="color:var(--g1,#1A6B45)">Vos devis, votre planning et vos chantiers au même endroit.</strong>
+ </p>
+
+ <!-- Rappel tarifaire -->
+ <div class="pricing-mock" id="pricing-mock">
+ <div class="pricing-tag">3 MOIS OFFERTS</div>
+ <div class="pricing-num">39€<small>/mois</small></div>
+ <div class="pricing-foot">Formule Pro · sans engagement · sans carte bancaire · <a href="/tarifs" style="color:inherit;text-decoration:underline">autres formules dès 19€</a></div>
+ </div>
+
+ <!-- ── STEP 1 : Coordonnees ────────────────────────────── -->
+ <div class="step active" id="step-1">
+ <div class="scr-h">Vos coordonnées</div>
+
+ <div class="f-grid-2">
+ <div class="f-row">
+ <label class="f-label" for="prenom">Prénom *</label>
+ <input class="f-input" type="text" id="prenom" required autocomplete="given-name">
+ </div>
+ <div class="f-row">
+ <label class="f-label" for="nom">Nom *</label>
+ <input class="f-input" type="text" id="nom" required autocomplete="family-name">
+ </div>
+ </div>
+
+ <div class="f-row">
+ <label class="f-label" for="email">Email pro *</label>
+ <input class="f-input" type="email" id="email" required placeholder="contact@votre-entreprise.fr" autocomplete="email">
+ </div>
+
+ <div class="f-row">
+ <label class="f-label" for="telephone">Téléphone *</label>
+ <input class="f-input" type="tel" id="telephone" required placeholder="06 12 34 56 78" autocomplete="tel" inputmode="tel" pattern="(?:\+33|0)[1-9](?:[\s.\-]?\d{2}){4}" title="Numéro français à 10 chiffres">
+ </div>
+
+ <button type="button" class="mq-btn mq-primary" id="next-1" style="width:100%">Suivant — Mon entreprise →</button>
+ </div>
+
+ <!-- ── STEP 2 : Entreprise + métiers + zones ───────────── -->
+ <div class="step" id="step-2">
+ <div class="scr-h">Votre entreprise</div>
+
+ <div class="f-row">
+ <label class="f-label" for="entreprise">Raison sociale *</label>
+ <input class="f-input" type="text" id="entreprise" required placeholder="SARL Plomberie 92">
+ </div>
+
+ <div class="f-row">
+ <label class="f-label" for="siret">SIRET (14 chiffres) *</label>
+ <input class="f-input" type="text" id="siret" required pattern="[0-9 ]{14,17}" placeholder="123 456 789 00012">
+ </div>
+
+ <!-- Identite visuelle (couleur + logo), facultative. La session n'existe
+      pas encore a ce stade de l'inscription : on ne peut ni ecrire dans
+      pro_profiles ni uploader vers un bucket prive dont la policy RLS
+      exige auth.uid(). On memorise donc en localStorage (bs_inscription_identite)
+      et welcome.html, ou la session existe, applique puis efface la cle. -->
+ <div class="f-row" style="margin-top:6px">
+ <div class="scr-h" style="margin-bottom:2px">Votre identité visuelle <span style="font-weight:500;color:var(--sub);font-size:12px">(facultatif)</span></div>
+ <div class="scr-sub" style="margin-top:0;margin-bottom:8px">Vos couleurs et votre logo, repris sur vos devis et factures</div>
+
+ <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+ <input type="color" id="identite-couleur" value="#228B5B" style="width:44px;height:44px;padding:0;border:1.5px solid var(--border,rgba(34,139,91,0.14));border-radius:10px;background:#fff;cursor:pointer">
+ <div id="identite-pastilles" style="display:flex;gap:6px;flex-wrap:wrap">
+ <span class="identite-pastille" data-couleur="#228B5B" style="width:28px;height:28px;border-radius:50%;background:#228B5B;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Vert BatiSpot"></span>
+ <span class="identite-pastille" data-couleur="#1D4ED8" style="width:28px;height:28px;border-radius:50%;background:#1D4ED8;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Bleu"></span>
+ <span class="identite-pastille" data-couleur="#334155" style="width:28px;height:28px;border-radius:50%;background:#334155;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Ardoise"></span>
+ <span class="identite-pastille" data-couleur="#B45309" style="width:28px;height:28px;border-radius:50%;background:#B45309;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Ambre"></span>
+ <span class="identite-pastille" data-couleur="#7F1D1D" style="width:28px;height:28px;border-radius:50%;background:#7F1D1D;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Bordeaux"></span>
+ <span class="identite-pastille" data-couleur="#111827" style="width:28px;height:28px;border-radius:50%;background:#111827;cursor:pointer;border:2px solid transparent" tabindex="0" role="button" aria-label="Noir"></span>
+ </div>
+ </div>
+
+ <label class="f-label" for="identite-logo">Logo de l'entreprise</label>
+ <div style="display:flex;align-items:center;gap:10px">
+ <div id="identite-logo-apercu" style="width:44px;height:44px;border-radius:10px;flex:none;background:#F7FBF8;border:1.5px solid var(--border,rgba(34,139,91,0.14));display:flex;align-items:center;justify-content:center;overflow:hidden"></div>
+ <input class="f-input" type="file" id="identite-logo" accept="image/*" style="flex:1">
+ </div>
+ </div>
+
+ <div class="scr-h" style="margin-top:6px">Vos métiers principaux</div>
+ <div class="scr-sub" style="margin-top:0">Sélectionnez jusqu'à 3 métiers</div>
+ <div class="chip-row" id="metiers-chips" data-max="3" style="flex-wrap:wrap;gap:6px;overflow:visible">
+ <span class="chip" data-value="plomberie" tabindex="0" role="button">Plomberie</span>
+ <span class="chip" data-value="chauffage" tabindex="0" role="button">Chauffage</span>
+ <span class="chip" data-value="electricite" tabindex="0" role="button">Électricité</span>
+ <span class="chip" data-value="maconnerie" tabindex="0" role="button">Maçonnerie</span>
+ <span class="chip" data-value="carrelage" tabindex="0" role="button">Carrelage</span>
+ <span class="chip" data-value="peinture" tabindex="0" role="button">Peinture</span>
+ <span class="chip" data-value="menuiserie" tabindex="0" role="button">Menuiserie</span>
+ <span class="chip" data-value="couverture" tabindex="0" role="button">Couverture</span>
+ </div>
+
+      <div class="scr-h" style="margin-top:6px">Zones d'intervention (France entière)</div>
+      <div class="scr-sub" style="margin-top:0">Sélectionnez vos zones principales ou saisissez vos départements</div>
+      <div class="chip-row" id="zones-chips" data-max="10" style="flex-wrap:wrap;gap:6px;overflow:visible">
+        <span class="chip" data-value="75" tabindex="0" role="button">Paris (75)</span>
+        <span class="chip" data-value="69" tabindex="0" role="button">Lyon (69)</span>
+        <span class="chip" data-value="13" tabindex="0" role="button">Marseille (13)</span>
+        <span class="chip" data-value="31" tabindex="0" role="button">Toulouse (31)</span>
+        <span class="chip" data-value="33" tabindex="0" role="button">Bordeaux (33)</span>
+        <span class="chip" data-value="44" tabindex="0" role="button">Nantes (44)</span>
+        <span class="chip" data-value="59" tabindex="0" role="button">Lille (59)</span>
+        <span class="chip" data-value="06" tabindex="0" role="button">Nice (06)</span>
+        <span class="chip" data-value="92" tabindex="0" role="button">IDF (92/93/94/77/78/91/95)</span>
+        <span class="chip" data-value="France" tabindex="0" role="button">Toute la France</span>
+      </div>
+
+ <div class="scr-h" style="margin-top:6px">Qualifications & labels <span style="font-weight:500;color:var(--sub);font-size:12px">(optionnel)</span></div>
+ <div class="scr-sub" style="margin-top:0">Sélectionnez vos certifications</div>
+ <div class="chip-row" id="qualif-chips" data-max="10" style="flex-wrap:wrap;gap:6px;overflow:visible">
+ <span class="chip" data-value="RGE" tabindex="0" role="button">RGE</span>
+ <span class="chip" data-value="Qualibat" tabindex="0" role="button">Qualibat</span>
+ <span class="chip" data-value="Qualifelec" tabindex="0" role="button">Qualifelec</span>
+ <span class="chip" data-value="QualiPAC" tabindex="0" role="button">QualiPAC</span>
+ <span class="chip" data-value="QualiSol" tabindex="0" role="button">QualiSol</span>
+ <span class="chip" data-value="QualiPV" tabindex="0" role="button">QualiPV (solaire)</span>
+ <span class="chip" data-value="Qualigaz" tabindex="0" role="button">Qualigaz</span>
+ <span class="chip" data-value="Eco Artisan" tabindex="0" role="button">Eco Artisan</span>
+ <span class="chip" data-value="Certibat" tabindex="0" role="button">Certibat</span>
+ </div>
+
+ <div class="btn-row">
+ <button type="button" class="mq-btn mq-ghost" id="back-2">← Retour</button>
+ <button type="button" class="mq-btn mq-primary" id="next-2">Suivant — Documents →</button>
+ </div>
+ </div>
+
+ <!-- ── STEP 3 : Documents + recap + paiement ───────────── -->
+ <div class="step" id="step-3">
+ <div class="scr-h">Vos documents</div>
+ <div class="scr-sub" style="margin-top:0">Uploadez vos pièces (PDF, JPG, PNG, HEIC, WebP — max 10 Mo)</div>
+
+ <div class="doc-list">
+ <label class="doc-item" data-doc="kbis">
+ <span class="doc-item__icon">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+ </span>
+ <span class="doc-item__name">Extrait Kbis</span>
+ <span class="doc-item__meta">moins de 3 mois</span>
+ <input class="doc-item__file" type="file" data-doc="kbis" accept=".pdf,.jpg,.jpeg,.png,.heic,.webp,application/pdf,image/*">
+ </label>
+ <label class="doc-item" data-doc="rcpro">
+ <span class="doc-item__icon">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+ </span>
+ <span class="doc-item__name">Attestation RC Pro</span>
+ <span class="doc-item__meta">en cours de validité</span>
+ <input class="doc-item__file" type="file" data-doc="rcpro" accept=".pdf,.jpg,.jpeg,.png,.heic,.webp,application/pdf,image/*">
+ </label>
+ <label class="doc-item" data-doc="decennale">
+ <span class="doc-item__icon">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+ </span>
+ <span class="doc-item__name">Attestation décennale</span>
+ <span class="doc-item__meta">année en cours</span>
+ <input class="doc-item__file" type="file" data-doc="decennale" accept=".pdf,.jpg,.jpeg,.png,.heic,.webp,application/pdf,image/*">
+ </label>
+ </div>
+
+ <div class="scr-sub" style="margin-top:0">L'upload est optionnel maintenant — vous pourrez aussi le faire après paiement par email sécurisé.</div>
+
+ <div class="recap-block" id="recap" aria-live="polite"></div>
+
+ <button type="button" class="mq-btn mq-primary" id="next-3" style="width:100%">Envoyer mes documents →</button>
+
+ <div class="scr-sub" style="text-align:center;margin-top:0">
+ Étape suivante : votre espace, puis le paiement. 3 mois offerts, sans engagement.
+ </div>
+
+ <button type="button" class="mq-btn mq-ghost" id="back-3" style="width:100%">← Modifier</button>
+ </div>
+
+ <!-- ── STEP 4 : Créer son espace ────────────────────────── -->
+ <div class="step" id="step-4">
+ <div style="text-align:center;margin:.4rem 0 .2rem">
+ <span style="display:inline-block;background:#EBF7F1;color:var(--t1);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:900;letter-spacing:.04em;text-transform:uppercase">Espace artisan</span>
+ </div>
+ <h2 class="page-title" style="text-align:center;margin-bottom:4px">Créez votre espace</h2>
+ <p class="page-sub" style="text-align:center;margin-bottom:4px">Pour suivre vos demandes et l'état de votre dossier</p>
+ <p class="page-sub" style="text-align:center;margin-bottom:16px;font-size:12.5px">À l'étape suivante, vous pourrez photographier vos anciens devis pour partir de vos prix.</p>
+
+ <div class="card" style="display:flex;flex-direction:column;gap:12px">
+ <button type="button" id="google-btn-pro" class="btn btn-block" style="background:#fff;color:#1F2937;border:1.5px solid #E5E7EB;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;font-weight:600">
+ <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden="true">
+ <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
+ <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+ <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+ <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+ </svg>
+ Continuer avec Google
+ </button>
+
+ <div style="display:flex;align-items:center;gap:12px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em">
+ <div style="flex:1;height:1px;background:#E5E7EB"></div>
+ <span>OU PAR EMAIL</span>
+ <div style="flex:1;height:1px;background:#E5E7EB"></div>
+ </div>
+
+ <div class="f-row" style="margin-bottom:0">
+ <label class="f-label" for="step4-email">Email</label>
+ <input class="f-input" type="email" id="step4-email" readonly style="background:#F9FAFB;color:var(--muted);">
+ </div>
+
+ <div class="f-row" style="margin-bottom:0">
+ <label class="f-label" for="step4-pwd">Mot de passe</label>
+ <input class="f-input" type="password" id="step4-pwd" placeholder="Minimum 8 caractères" minlength="8">
+ </div>
+
+ <div id="step4-error" style="color:#DC2626;font-size:12px;font-weight:600;display:none"></div>
+
+ <div class="bs-turnstile" data-action="inscription_pro" style="margin:8px 0"></div>
+
+ <button type="button" id="next-4" class="mq-btn mq-primary" style="width:100%">Créer mon espace →</button>
+ </div>
+
+ <div class="scr-sub" style="text-align:center;margin-top:8px;font-size:11px">
+ Satisfait ou remboursé 15 jours · Stripe sécurisé
+ </div>
+
+ <button type="button" class="mq-btn mq-ghost" id="back-4" style="margin-top:8px;width:100%">← Modifier les documents</button>
+
+ <div style="text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid #E5E7EB">
+ <span style="font-size:12px;color:var(--muted);">Déjà inscrit ?</span>
+ <a href="./login.html" style="font-size:12px;color:var(--t1);font-weight:700;text-decoration:none;margin-left:4px;">Accéder à mon compte →</a>
+ </div>
+ </div>
+
+ <!-- ── STEP DONE : Confirmation ────────────────────────── -->
+ <div class="step" id="step-done">
+ <div class="done-block">
+ <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--t1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+ <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+ <polyline points="22 4 12 14.01 9 11.01"/>
+ </svg>
+ <h2>Redirection vers le paiement…</h2>
+ <p>Vous allez être redirigé vers Stripe pour finaliser votre abonnement. Si rien ne se passe d'ici quelques secondes, utilisez le bouton ci-dessous.</p>
+ <a href="#" id="lienStripeSecours" class="mq-btn mq-primary" style="margin-bottom:8px;width:100%">Continuer vers le paiement →</a>
+ <a href="./dashboard.html" class="mq-btn mq-ghost" style="margin-bottom:8px;width:100%">Accéder à mon dossier</a>
+ <a href="./login.html" class="mq-btn mq-ghost" style="width:100%">Se connecter</a>
+ </div>
+ </div>
+
+ </div>
+</div>
+
+<script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <!-- Vigie connexions (05/09/2026) : capte l'e-mail d'une tentative REFUSEE.
+       `defer` et pas `async` : le module de la page peut l'appeler des le premier
+       clic, il doit donc etre defini avant l'execution du script de page. -->
+  <script src="./js/app-vigie.js?v=2026_09_05" defer></script>
+<script type="module">
+ import { supabase } from './js/supabase.js';
+
+ // ── State ──
+ const state = {
+ prenom: '', nom: '', email: '', telephone: '',
+ entreprise: '', siret: '',
+ metiers: [],
+ zones: [],
+ qualifications: [],
+ docs: { kbis: null, rcpro: null, decennale: null },
+ };
+
+ const STEP_LABELS = {
+ 1: 'Étape 1/4 — Vos coordonnées',
+ 2: 'Étape 2/4 — Métiers & zones',
+ 3: 'Étape 3/4 — Documents',
+ 4: 'Étape 4/4 — Votre espace',
+ done: 'Inscription enregistrée',
+ };
+
+ // ── Step navigation ──
+ function showStep(n) {
+ ['1','2','3','4','done'].forEach(s => {
+ document.getElementById('step-' + s).classList.remove('active');
+ });
+ document.getElementById('step-' + n).classList.add('active');
+
+ // step indicator bars
+ const bars = document.querySelectorAll('#step-bars > div');
+ bars.forEach((b, i) => {
+ const pos = i + 1;
+ const reached = (n === 'done') ? 4 : Number(n);
+ b.classList.toggle('active', pos <= reached);
+ });
+
+ // sub text
+ const sub = document.getElementById('step-sub');
+ sub.textContent = STEP_LABELS[n] || '';
+
+ // pricing-mock + value-reminder visibles sur step 1 uniquement
+ const pm = document.getElementById('pricing-mock');
+ pm.style.display = (n === '1' || n === '3') ? '' : 'none';
+ const vr = document.getElementById('value-reminder');
+ if (vr) vr.style.display = (n === '1') ? '' : 'none';
+
+ // step-bars + sub visibles partout sauf done
+ document.getElementById('step-bars').style.display = (n === 'done') ? 'none' : '';
+ sub.style.display = (n === 'done') ? 'none' : '';
+
+ window.scrollTo({ top: 0, behavior: 'smooth' });
+ }
+ window.goStep = showStep;
+
+ // ── Chips multi-select (avec max) ──
+ function initChips(containerId, stateKey) {
+ const container = document.getElementById(containerId);
+ if (!container) return;
+ const max = parseInt(container.dataset.max || '99', 10);
+ const chips = container.querySelectorAll('.chip');
+
+ function syncState() {
+ state[stateKey] = Array.from(chips)
+ .filter(c => c.classList.contains('active'))
+ .map(c => c.dataset.value);
+ }
+
+ chips.forEach(chip => {
+ const toggle = () => {
+ if (chip.classList.contains('active')) {
+ chip.classList.remove('active');
+ } else {
+ const count = container.querySelectorAll('.chip.active').length;
+ if (count >= max) return;
+ chip.classList.add('active');
+ }
+ syncState();
+ };
+ chip.addEventListener('click', toggle);
+ chip.addEventListener('keydown', (e) => {
+ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+ });
+ });
+ }
+ initChips('metiers-chips', 'metiers');
+ initChips('zones-chips', 'zones');
+ initChips('qualif-chips', 'qualifications');
+
+ // ── File upload (doc inputs) ──
+ document.querySelectorAll('.doc-item__file').forEach(inp => {
+ inp.addEventListener('change', (e) => {
+ const file = e.target.files[0];
+ if (!file) return;
+ const docKey = e.target.dataset.doc;
+ state.docs[docKey] = file;
+ const item = e.target.closest('.doc-item');
+ item.classList.add('uploaded');
+ const meta = item.querySelector('.doc-item__meta');
+ meta.textContent = file.name.length > 24 ? file.name.slice(0, 22) + '…' : file.name;
+ });
+ });
+
+ // ── Identite visuelle (couleur + logo) — facultative, memorisee en
+ // localStorage car la session n'existe pas encore a cette etape.
+ // welcome.html applique puis efface la cle (voir plus bas la fonction
+ // enregistrerIdentiteLocale, appelee au passage step 2 → 3).
+ const identite = { couleur: '#228B5B', logoDataUrl: null };
+ const inputCouleur = document.getElementById('identite-couleur');
+ const pastilles = document.querySelectorAll('.identite-pastille');
+ function marquerPastilleActive(couleur) {
+ pastilles.forEach(p => {
+ p.style.borderColor = (p.dataset.couleur.toLowerCase() === couleur.toLowerCase()) ? '#111827' : 'transparent';
+ });
+ }
+ marquerPastilleActive(identite.couleur);
+ inputCouleur.addEventListener('input', () => {
+ identite.couleur = inputCouleur.value;
+ marquerPastilleActive(identite.couleur);
+ });
+ pastilles.forEach(p => {
+ const choisir = () => {
+ identite.couleur = p.dataset.couleur;
+ inputCouleur.value = identite.couleur;
+ marquerPastilleActive(identite.couleur);
+ };
+ p.addEventListener('click', choisir);
+ p.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(); } });
+ });
+
+ // Redimensionne une image trop lourde (> 300 Ko en dataURL) a 512px de large
+ // via un canvas — evite de saturer localStorage (limite ~5 Mo par origine)
+ // avant meme d'avoir cree le compte.
+ function redimensionnerImage(dataUrl, maxLargeur = 512) {
+ return new Promise((resolve) => {
+ const img = new Image();
+ img.onload = () => {
+ const ratio = Math.min(1, maxLargeur / img.width);
+ const canvas = document.createElement('canvas');
+ canvas.width = Math.round(img.width * ratio);
+ canvas.height = Math.round(img.height * ratio);
+ const ctx = canvas.getContext('2d');
+ ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+ resolve(canvas.toDataURL('image/jpeg', 0.82));
+ };
+ img.onerror = () => resolve(null);
+ img.src = dataUrl;
+ });
+ }
+
+ document.getElementById('identite-logo').addEventListener('change', async (e) => {
+ const file = e.target.files[0];
+ if (!file) return;
+ const reader = new FileReader();
+ reader.onload = async () => {
+ let dataUrl = reader.result;
+ // ≤ 300 Ko en dataURL, sinon redimension a 512px.
+ if (dataUrl.length > 300 * 1024) {
+ const reduit = await redimensionnerImage(dataUrl);
+ if (reduit) dataUrl = reduit;
+ }
+ identite.logoDataUrl = dataUrl;
+ const apercu = document.getElementById('identite-logo-apercu');
+ apercu.replaceChildren();
+ const img = document.createElement('img');
+ img.src = dataUrl;
+ img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+ apercu.appendChild(img);
+ };
+ reader.readAsDataURL(file);
+ });
+
+ // Memorisee au passage step 2 → 3 (juste apres l'enregistrement du dossier
+ // artisan_leads plus bas) : c'est le premier moment ou l'artisan a valide
+ // l'etape qui contient ce bloc.
+ function enregistrerIdentiteLocale() {
+ if (!identite.couleur && !identite.logoDataUrl) return;
+ try {
+ localStorage.setItem('bs_inscription_identite', JSON.stringify(identite));
+ } catch (_) { /* quota localStorage depasse : l'identite est un bonus, jamais bloquant */ }
+ }
+
+ // ── Step 1 → 2 ──
+ document.getElementById('next-1').addEventListener('click', () => {
+ state.prenom = document.getElementById('prenom').value.trim();
+ state.nom = document.getElementById('nom').value.trim();
+ state.email = document.getElementById('email').value.trim().toLowerCase();
+ state.telephone = document.getElementById('telephone').value.trim();
+ if (!state.prenom || !state.nom || !state.email || !state.telephone) {
+ alert('Merci de remplir tous les champs.');
+ return;
+ }
+ if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
+ alert('Email invalide.');
+ return;
+ }
+ showStep('2');
+ });
+
+ // ── Step 2 → 3 ──
+ document.getElementById('back-2').addEventListener('click', () => showStep('1'));
+ document.getElementById('next-2').addEventListener('click', async () => {
+ state.entreprise = document.getElementById('entreprise').value.trim();
+ state.siret = document.getElementById('siret').value.replace(/\s+/g, '');
+ if (!state.entreprise) { alert('Renseignez la raison sociale.'); return; }
+ if (!/^\d{14}$/.test(state.siret)) { alert('SIRET = 14 chiffres.'); return; }
+ if (state.metiers.length === 0) { alert('Sélectionnez au moins 1 métier.'); return; }
+ if (state.zones.length === 0) { alert('Sélectionnez au moins 1 département.'); return; }
+
+ // Enregistrement du dossier artisan.
+ // INSERT simple, et non upsert : PostgREST traduit un upsert en
+ // « ON CONFLICT DO UPDATE », ce qui exige un droit d'UPDATE que le role
+ // anonyme n'a pas — la RLS refusait donc l'ecriture meme sans conflit,
+ // et le dossier (SIRET, raison sociale, metiers, zones) etait perdu.
+ let dossierOk = false, dejaInscrit = false;
+ try {
+ const { error } = await supabase.from('artisan_leads').insert({
+ email: state.email,
+ prenom: state.prenom,
+ nom: state.nom,
+ telephone: state.telephone,
+ entreprise: state.entreprise,
+ siret: state.siret,
+ metiers: state.metiers.join(','),
+ zones: state.zones.join(','),
+ qualifications: state.qualifications.join(',') || null,
+ status: 'en_attente',
+ });
+ if (!error) dossierOk = true;
+ else if (error.code === '23505') dejaInscrit = true; // email deja enregistre
+ else console.error('artisan_leads insert:', error);
+ } catch (err) {
+ console.error('artisan_leads insert:', err);
+ }
+
+ // On n'avance jamais en laissant croire que le dossier est enregistre.
+ if (!dossierOk && !dejaInscrit) {
+ alert("Votre dossier n'a pas pu être enregistré. Vérifiez votre connexion et réessayez.");
+ return;
+ }
+ if (dejaInscrit) {
+ alert("Cette adresse est déjà enregistrée — nous reprenons votre dossier existant.");
+ }
+
+ enregistrerIdentiteLocale();
+
+ // Recap render — DOM API safe (pas de innerHTML)
+ const recap = document.getElementById('recap');
+ while (recap.firstChild) recap.removeChild(recap.firstChild);
+
+ const line1 = document.createElement('div');
+ const strong1 = document.createElement('strong');
+ strong1.textContent = `${state.prenom} ${state.nom}`;
+ line1.appendChild(strong1);
+
+ const line2 = document.createElement('div');
+ line2.className = 'recap-sub';
+ line2.textContent = `${state.email} · ${state.telephone}`;
+
+ const line3 = document.createElement('div');
+ line3.style.marginTop = '6px';
+ const strong3 = document.createElement('strong');
+ strong3.textContent = state.entreprise;
+ line3.appendChild(strong3);
+ line3.appendChild(document.createTextNode(` · SIRET ${state.siret}`));
+
+ const line4 = document.createElement('div');
+ line4.className = 'recap-sub';
+ line4.textContent = `Métiers : ${state.metiers.join(', ')}`;
+
+ const line5 = document.createElement('div');
+ line5.className = 'recap-sub';
+ line5.textContent = `Zones : ${state.zones.join(', ')}`;
+
+ recap.append(line1, line2, line3, line4, line5);
+
+ showStep('3');
+ });
+
+ // ── Step 3 → Step 4 ──
+ document.getElementById('back-3').addEventListener('click', () => showStep('2'));
+ document.getElementById('next-3').addEventListener('click', async () => {
+ // Upload des docs vers artisan-docs, chemins sauvés en localStorage pour auth-callback
+ const tempId = crypto.randomUUID();
+ const docPaths = {};
+ for (const [key, file] of Object.entries(state.docs)) {
+ if (!file) continue;
+ const ext = (file.name.split('.').pop() || 'pdf').toLowerCase();
+ const path = `demandes/${tempId}/${key}.${ext}`;
+ const { error } = await supabase.storage
+ .from('artisan-docs')
+ .upload(path, file, { upsert: true });
+ if (!error) docPaths[key] = path;
+ else console.warn('upload', key, error.message);
+ }
+ if (Object.keys(docPaths).length > 0) {
+ localStorage.setItem('batispot_doc_paths', JSON.stringify(docPaths));
+ }
+
+ // Pré-remplir email step 4 (readonly)
+ document.getElementById('step4-email').value = state.email;
+ showStep('4');
+ });
+
+ // ── Step 4 : Auth + Stripe ──
+ document.getElementById('back-4').addEventListener('click', () => showStep('3'));
+
+ // Google OAuth
+ document.getElementById('google-btn-pro').addEventListener('click', async () => {
+ const { error } = await supabase.auth.signInWithOAuth({
+ provider: 'google',
+ options: {
+ redirectTo: `${window.location.origin}/app/auth-callback.html?flow=inscription&email=${encodeURIComponent(state.email)}`,
+ },
+ });
+ if (error) {
+ const errEl = document.getElementById('step4-error');
+ errEl.textContent = error.message || 'Connexion Google indisponible';
+ errEl.style.display = '';
+ }
+ });
+
+ // Email / password
+ document.getElementById('next-4').addEventListener('click', async () => {
+ const pwd = document.getElementById('step4-pwd').value;
+ const errEl = document.getElementById('step4-error');
+ errEl.style.display = 'none';
+
+ if (pwd.length < 8) {
+ errEl.textContent = 'Mot de passe minimum 8 caractères.';
+ errEl.style.display = '';
+ return;
+ }
+
+ const btn = document.getElementById('next-4');
+ btn.disabled = true;
+ btn.textContent = 'Création en cours…';
+
+ // Turnstile est desormais VERIFIE PAR SUPABASE AUTH cote serveur (active le
+ // 23/08) : sans token, signUp echoue. Le widget est nouveau sur cet ecran.
+ // Le captcha est actif cote Supabase Auth : un token vide = refus.
+ // Il est vide si le challenge n'est pas fini, ou s'il a expire (~300 s)
+ // parce que la page est restee ouverte. On l'ATTEND au lieu de le lire au vol.
+ let captchaToken;
+ if (window.bsTurnstile && window.bsTurnstile.waitForToken) {
+   captchaToken = await window.bsTurnstile.waitForToken(null, 8000);
+ } else if (window.bsTurnstile && window.bsTurnstile.getToken) {
+   captchaToken = window.bsTurnstile.getToken(null);
+ }
+ if (!captchaToken) {
+   if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+   // Un `throw` ici part en rejet de promesse non capture : rien ne le
+   // rattrapait, donc le bouton restait bloque sur « Creation en cours… »
+   // sans le moindre message. On suit le meme chemin que les autres erreurs
+   // de cet ecran : message lisible + bouton reactive.
+   errEl.textContent = 'La vérification antispam n’a pas abouti. Patientez deux secondes et réessayez.';
+   errEl.style.display = '';
+   btn.disabled = false;
+   btn.textContent = 'Créer mon espace →';
+   return;
+ }
+ // emailRedirectTo est OBLIGATOIRE ici : sans lui, Supabase utilise l'URL de
+ // redirection par defaut (sans ?flow=inscription), et le lien de confirmation
+ // envoye par email renvoie auth-callback.html sur le flux normal — qui redirige
+ // vers le dashboard sans jamais passer par Stripe. L'artisan qui doit confirmer
+ // son email (inscription par mot de passe, session non immediate) se serait
+ // retrouve avec un compte cree mais sans jamais voir la page de paiement.
+ // Meme URL que le bouton Google juste au-dessus.
+ const emailRedirectTo = `${window.location.origin}/app/auth-callback.html?flow=inscription&email=${encodeURIComponent(state.email)}`;
+ const { data, error } = await supabase.auth.signUp({ email: state.email, password: pwd, options: { captchaToken, emailRedirectTo } });
+
+ if (error) {
+ // Phase pilote (05/09/2026) : inscriptions fermées côté Supabase (disable_signup).
+ // Vigie : on note QUI a essayé — le serveur, lui, ne garde que l'IP.
+ if (/signups? not allowed/i.test(error.message || '') && window.bsJournaliserTentative) {
+ window.bsJournaliserTentative({ email: state.email, source: 'inscription-pro', motif: 'signup_ferme', detail: 'creation de compte' });
+ }
+ errEl.textContent = /signups? not allowed/i.test(error.message || '')
+ ? 'BatiSpot est en phase pilote, sur invitation. Écrivez à contact@batispot.pro pour demander un accès.'
+ : (error.message || 'Erreur lors de la création du compte.');
+ errEl.style.display = '';
+ btn.disabled = false;
+ btn.textContent = 'Créer mon espace →';
+ return;
+ }
+
+ // Lier user_id à l'artisan_lead, AVEC les chemins des documents.
+ // L'etape 3 uploade Kbis / RC Pro / decennale dans artisan-docs et note
+ // leurs chemins dans localStorage, mais seul le parcours Google les
+ // rattachait ensuite (auth-callback.html:196). En inscription par email
+ // les fichiers restaient orphelins : invisibles depuis admin.html, donc
+ // l'artisan ne pouvait jamais etre valide.
+ if (data?.user?.id) {
+ const patch = { user_id: data.user.id };
+ const DOC_MAP = { decennale: 'doc_decennale_path', kbis: 'doc_kbis_path', rcpro: 'doc_identite_path' };
+ try {
+ const storedPaths = JSON.parse(localStorage.getItem('batispot_doc_paths') || '{}');
+ for (const [key, path] of Object.entries(storedPaths)) {
+ if (DOC_MAP[key] && path) patch[DOC_MAP[key]] = path;
+ }
+ localStorage.removeItem('batispot_doc_paths');
+ } catch (_) {}
+
+ // Best-effort : le trigger serveur link_artisan_user() fait deja le lien
+ // user_id independamment de cet appel. Une panne reseau ici ne doit pas
+ // interrompre la creation du compte, qui a deja reussi.
+ try {
+ await supabase.from('artisan_leads')
+ .update(patch)
+ .eq('email', state.email)
+ .is('user_id', null);
+ } catch (err) {
+ console.warn('artisan_leads update (doc paths):', err);
+ }
+ }
+
+ // Si pas de session immédiate = confirmation email requise
+ if (!data?.session) {
+ btn.disabled = false;
+ btn.textContent = 'Créer mon espace →';
+ errEl.style.display = '';
+ errEl.style.color = 'var(--t1)';
+ errEl.textContent = ' Compte créé ! Vérifiez votre email et cliquez sur le lien de confirmation pour accéder à votre espace.';
+ return;
+ }
+
+ try { window.gtag && gtag('event','stripe_click',{ event_category:'conversion', event_label:'artisan_pwa_39', value:39 }); } catch(_){}
+
+ // Le webhook rattache le paiement au lead par client_reference_id. Sans lui
+ // il retombe sur l'email, ce qui echoue si l'artisan paie avec une autre
+ // adresse. Meme lookup que le parcours Google (auth-callback.html:214).
+ let refParam = '';
+ try {
+ const { data: leadRow } = await supabase.from('artisan_leads')
+ .select('id').eq('email', state.email).limit(1).maybeSingle();
+ if (leadRow && leadRow.id) refParam = `&client_reference_id=${encodeURIComponent(leadRow.id)}`;
+ } catch (_) {}
+
+ const stripeUrl = `https://buy.stripe.com/6oU7sK1LXfy64aUf070RG0b?prefilled_email=${encodeURIComponent(state.email)}${refParam}`;
+
+ // Navigation dans le MEME onglet. window.open etait bloque par Safari (et
+ // souvent par Chrome) : l'await du signUp consomme l'activation utilisateur,
+ // donc le popup n'etait plus considere comme declenche par le clic.
+ // L'artisan voyait « completez le paiement dans l'onglet qui vient de
+ // s'ouvrir » alors qu'aucun onglet ne s'etait ouvert.
+ const secours = document.getElementById('lienStripeSecours');
+ if (secours) secours.href = stripeUrl;
+ showStep('done');
+ window.location.href = stripeUrl;
+ });
+
+ // Service worker
+ if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('./sw.js').catch(() => {});
+ }
+</script>
+ <script src="/js/update-detector.js" defer></script>
+</body>
+</html>

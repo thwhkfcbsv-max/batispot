@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Travaux entrepris sans devis signé : pouvez-vous être facturé en 2026 ? | BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/travaux-sans-devis-signe-recours-2026">
+<meta name="description" content="L'artisan a fait des travaux sans avoir signé de devis. Vos droits, sa créance, comment refuser ou négocier la facture." />
+<meta name="keywords" content="travaux sans devis, sans devis signe, facture sans devis, payer travaux sans devis" />
+<meta property="og:title" content="Travaux sans devis signé — Vos droits 2026" />
+<meta property="og:description" content="Sans devis signé, l'artisan a une créance limitée. Comment vous protéger." />
+<meta property="og:type" content="article" /><meta property="og:image" content="https://batispot.pro/og/travaux-sans-devis-signe-recours-2026.png" />
+<meta property="og:url" content="https://batispot.pro/travaux-sans-devis-signe-recours-2026" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'Segoe UI',system-ui,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.6}
+:root{--g1:#1A6B45;--g2:#228B5B;--g3:#4CAF82;--g-soft:#EBF7F1;--cta:#2A9D6E;--text:#1C2B22;--sub:#5A7268;--border:rgba(34,139,91,0.12);--orange:#F97316;--red:#dc2626}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:inline-flex;align-items:center;text-decoration:none}.nav-links{display:flex;gap:1.5rem}.nav-links a{color:var(--sub);text-decoration:none;font-size:.85rem;font-weight:500}
+.hero{background:linear-gradient(135deg,var(--g1),var(--g2));padding:3rem 5% 2.5rem;text-align:center;color:#fff}.hero h1{font-size:2rem;font-weight:900;margin-bottom:.75rem}.hero p{opacity:.9;font-size:1.05rem;max-width:680px;margin:0 auto}
+.breadcrumb{font-size:.8rem;opacity:.75;margin-bottom:.75rem}.breadcrumb a{color:rgba(255,255,255,.85);text-decoration:none}
+.container{max-width:820px;margin:0 auto;padding:2.5rem 1.2rem 3rem}
+.card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:1.8rem}
+.card h2{font-size:1.4rem;font-weight:900;color:var(--g1);margin-bottom:1rem}.card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem}.card p{margin-bottom:.9rem;font-size:.95rem}.card ul,.card ol{margin:.6rem 0 .9rem 1.5rem}.card li{padding:.25rem 0;font-size:.92rem}
+.alert-red{background:#FEF2F2;border-left:4px solid var(--red);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#991B1B}
+.alert-green{background:#F0FDF4;border-left:4px solid #16a34a;padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#166534}
+.alert-orange{background:#FEF3C7;border-left:4px solid var(--orange);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#92400E}
+.cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2.2rem;text-align:center;color:#fff;margin-bottom:1.8rem}.cta-section h2{font-size:1.4rem;font-weight:900;margin-bottom:.5rem;color:#fff}.cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;text-decoration:none}
+table{width:100%;border-collapse:collapse;margin:1rem 0}th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}th{background:var(--g-soft);color:var(--g1);font-weight:700}
+.courrier{background:#F9FAFB;border:1px dashed var(--border);border-radius:8px;padding:1rem;font-family:Georgia,serif;font-size:.85rem;line-height:1.7;margin:1rem 0;white-space:pre-wrap}
+footer{background:var(--g1);color:rgba(255,255,255,.8);text-align:center;padding:1.5rem;font-size:.8rem;margin-top:2rem}footer a{color:rgba(255,255,255,.95);text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:1.5rem}.card{padding:1.3rem}}
+</style><script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Travaux entrepris sans devis signé : pouvez-vous être facturé en 2026 ? | BatiSpot",
+ "description": "L",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-04-25",
+ "dateModified": "2026-06-12",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/travaux-sans-devis-signe-recours-2026"
+ }
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Un artisan peut-il me facturer des travaux sans devis signé ?", "acceptedAnswer": {"@type": "Answer", "text": "Le devis écrit est obligatoire pour tout chantier chez un particulier de plus de 150 € (article R.214-1 du Code de la consommation) et pour toute intervention d'urgence à domicile. Sans devis signé, le client n'est tenu qu'au prix qu'il a expressément accepté ou au prix usuel constaté du marché (Cass. 1re civ., 12 mars 2002)."}}, {"@type": "Question", "name": "Puis-je refuser de payer des travaux que je n'ai pas demandés ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Pour tout poste non expressément commandé (par exemple un joint changé à 80 € sans votre accord), vous pouvez refuser de payer. Demandez la suppression du poste litigieux de la facture ; en cas de refus, envoyez un email de contestation citant l'article L.221-13, puis passez par la médiation."}}, {"@type": "Question", "name": "J'ai accepté verbalement sans devis : que dois-je payer ?", "acceptedAnswer": {"@type": "Answer", "text": "Vous êtes redevable, mais au prix usuel du marché, pas au prix fixé unilatéralement par l'artisan. Comparez la facture avec 3 devis d'autres artisans pour la même prestation ; si l'écart dépasse 30 %, contestez en proposant le prix moyen constaté en Île-de-France et saisissez un médiateur en cas de refus."}}, {"@type": "Question", "name": "Que peut facturer un artisan pour des travaux d'urgence sans devis ?", "acceptedAnswer": {"@type": "Answer", "text": "La loi reconnaît une créance recevable mais limitée : uniquement les travaux strictement nécessaires pour arrêter l'urgence, au prix moyen de ce type d'intervention, avec facture détaillée établie a posteriori. Une facture de 800 € pour avoir simplement coupé l'eau est abusive et contestable."}}, {"@type": "Question", "name": "Comment contester une facture sans devis signé ?", "acceptedAnswer": {"@type": "Answer", "text": "Envoyez un mail factuel exposant vos raisons et proposant un montant raisonnable, avec un délai de 15 jours pour répondre. Sans réponse, adressez une LRAR appuyée sur l'article R.214-1 du Code de la consommation et la jurisprudence, puis saisissez le médiateur de la consommation et, si nécessaire, le tribunal."}}]}</script>
+</head><body>
+<nav><a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a><div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimer</a><a href="/">Artisan ?</a></div></nav>
+
+<section class="hero">
+<div class="breadcrumb"><a href="/">Accueil</a> › Guides › Travaux sans devis</div>
+<h1>Travaux sans devis signé : que faire ?</h1>
+<p>L'artisan a réalisé des travaux que vous n'avez jamais validés par devis signé, et vous présente une facture. Voici vos droits et comment réagir.</p>
+</section>
+
+<div class="container">
+<div class="card">
+<h2>La règle : pas de devis = pas de paiement (en théorie)</h2>
+<p>L'article R.214-1 du Code de la consommation impose la <strong>fourniture d'un devis écrit</strong> obligatoire pour tout chantier B2C de plus de 150 € (ou tout chantier d'urgence à domicile, quel que soit le montant).</p>
+<p>Sans devis signé, l'artisan est en infraction et son droit à facturer est <strong>très limité</strong>.</p>
+<div class="alert-green"><strong>Position juridique</strong> : la jurisprudence (Cass. 1re civ. 12 mars 2002) reconnaît que sans devis signé, le client n'est tenu qu'au prix qu'il a expressément accepté ou au prix usuel constaté du marché.</div>
+</div>
+
+<div class="card">
+<h2>Cas n°1 : Vous n'avez rien demandé</h2>
+<p>L'artisan est venu pour autre chose et a "ajouté" des travaux non sollicités. Exemple : vous l'avez appelé pour réparer un robinet, il a aussi changé un joint à 80 € sans vous demander.</p>
+<h3>Position</h3>
+<p>Vous pouvez <strong>refuser de payer</strong> tout ce qui n'a pas été expressément demandé. L'artisan ne peut pas vous facturer un service que vous n'avez pas commandé.</p>
+<h3>Procédure</h3>
+<ol>
+<li>Demandez la suppression du poste litigieux de la facture</li>
+<li>Si refus : email de contestation avec citation de l'article L.221-13</li>
+<li>Médiation puis tribunal si besoin</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Cas n°2 : Vous avez accepté verbalement mais sans devis</h2>
+<p>Vous lui avez dit "OK faites" pour des travaux mais sans avoir signé un devis détaillé. La situation est plus délicate.</p>
+<h3>Position</h3>
+<p>Vous êtes redevable, mais <strong>au prix usuel du marché</strong>, pas au prix unilatéralement fixé par l'artisan.</p>
+<h3>Procédure</h3>
+<ol>
+<li>Comparez la facture avec d'autres devis de la même prestation (3 devis chez d'autres artisans)</li>
+<li>Si écart &gt; 30 %, contestez : "Le prix moyen IDF pour cette prestation est de X €, votre facture est de Y €. Je propose le prix moyen."</li>
+<li>Médiateur si refus</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Cas n°3 : Travaux d'urgence</h2>
+<p>Fuite à 3h du matin, plombier appelé en urgence sans le temps de faire un devis. La loi reconnaît la <strong>nécessité urgente</strong> et l'artisan a une créance recevable, mais limitée :</p>
+<ul>
+<li>Travaux strictement nécessaires à arrêter l'urgence</li>
+<li>Au prix moyen pour ce type d'intervention</li>
+<li>Avec facture détaillée a posteriori</li>
+</ul>
+<p>Si l'artisan vous facture 800 € pour avoir simplement coupé l'eau, contestez : c'est abusif.</p>
+</div>
+
+<div class="card">
+<h2>Procédure complète si vous voulez contester</h2>
+<ol>
+<li><strong>Mail factuel</strong> : "Je conteste la facture du [date], voici pourquoi : [raisons]. Je propose : [montant raisonnable]."</li>
+<li><strong>Délai donné</strong> : 15 jours pour répondre</li>
+<li><strong>LRAR</strong> si l'artisan persiste : argument juridique (R.214-1 Code conso, jurisprudence)</li>
+<li><strong>Médiateur de la consommation</strong></li>
+<li><strong>Tribunal</strong> si nécessaire</li>
+<li>Voir notre <a href="/litige-artisan-recours-2026">guide des 7 recours</a></li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Pour ne plus jamais être dans cette situation</h2>
+<ul>
+<li>Refusez catégoriquement tout début de travaux sans devis signé (au-delà de 150 €)</li>
+<li>Pour les dépannages d'urgence, demandez un ordre de mission par SMS/email même rapide</li>
+<li>Privilégiez les artisans qui envoient un devis numérique signable en 2 minutes</li>
+<li>Si l'artisan dit "on signera après, c'est urgent", c'est un signal d'alarme</li>
+</ul>
+</div>
+<div class="cta-section">
+<h2>Toujours signer un devis avant</h2>
+<p>Avec BatiSpot, vous recevez un devis détaillé et signé électroniquement avant tout début de chantier.</p>
+<a href="/" class="cta-btn">Demander un devis →</a>
+</div>
+</div>
+
+<div class="container">
+<h2>Questions fréquentes, travaux sans devis signé</h2>
+<h3>Un artisan peut-il me facturer des travaux sans devis signé ?</h3>
+<p>Le devis écrit est obligatoire pour tout chantier chez un particulier de plus de 150 € (article R.214-1 du Code de la consommation) et pour toute intervention d'urgence à domicile. Sans devis signé, le client n'est tenu qu'au prix qu'il a expressément accepté ou au prix usuel constaté du marché (Cass. 1re civ., 12 mars 2002).</p>
+<h3>Puis-je refuser de payer des travaux que je n'ai pas demandés ?</h3>
+<p>Oui. Pour tout poste non expressément commandé (par exemple un joint changé à 80 € sans votre accord), vous pouvez refuser de payer. Demandez la suppression du poste litigieux de la facture ; en cas de refus, envoyez un email de contestation citant l'article L.221-13, puis passez par la médiation.</p>
+<h3>J'ai accepté verbalement sans devis : que dois-je payer ?</h3>
+<p>Vous êtes redevable, mais au prix usuel du marché, pas au prix fixé unilatéralement par l'artisan. Comparez la facture avec 3 devis d'autres artisans pour la même prestation ; si l'écart dépasse 30 %, contestez en proposant le prix moyen constaté en Île-de-France et saisissez un médiateur en cas de refus.</p>
+<h3>Que peut facturer un artisan pour des travaux d'urgence sans devis ?</h3>
+<p>La loi reconnaît une créance recevable mais limitée : uniquement les travaux strictement nécessaires pour arrêter l'urgence, au prix moyen de ce type d'intervention, avec facture détaillée établie a posteriori. Une facture de 800 € pour avoir simplement coupé l'eau est abusive et contestable.</p>
+<h3>Comment contester une facture sans devis signé ?</h3>
+<p>Envoyez un mail factuel exposant vos raisons et proposant un montant raisonnable, avec un délai de 15 jours pour répondre. Sans réponse, adressez une LRAR appuyée sur l'article R.214-1 du Code de la consommation et la jurisprudence, puis saisissez le médiateur de la consommation et, si nécessaire, le tribunal.</p>
+</div>
+
+
+<footer>© 2026 BatiSpot · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a></footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>

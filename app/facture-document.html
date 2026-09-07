@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Votre facture · BatiSpot</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<!--
+  Facture consultable et imprimable par le CLIENT.
+
+  Pourquoi cette page existe (01/09/2026) : la page de suivi montrait un total et une
+  liste de prestations. Le client acceptait un recapitulatif, pas un document. Or un
+  devis de travaux a des mentions obligatoires — arrete du 24 janvier 2017 et Code de
+  la consommation — dont l'absence expose a 3 000 EUR d'amende pour une personne
+  physique, 15 000 EUR pour une personne morale, et peut entrainer la nullite du contrat.
+
+  Aucune bibliotheque PDF n'est chargee : le navigateur imprime en PDF nativement, sur
+  mobile comme sur ordinateur. Une dependance de 300 Ko pour produire ce que le systeme
+  fait deja n'aurait servi personne.
+
+  Acces : ?t=<public_token du chantier>. Aucune session requise, comme suivi.html.
+-->
+<style>
+  :root {
+    --encre:#1C2B22; --gris:#5A7268; --trait:#D3E3DA; --trait-clair:#EEF3F0;
+    --vert:#0F5132; --vert-clair:#F7FBF8; --alerte:#9B2C1C; --alerte-fond:#FDECEA;
+    /* Couleur de l'artisan (pro_profiles.couleur) — repli vert BatiSpot si
+       l'artisan n'a rien choisi. Posee sur :root en JS avant le rendu, elle
+       remplace var(--vert) sur les accents du document (bandeau d'en-tete,
+       filets, total) : le client lit LA facture de SON artisan, pas de BatiSpot. */
+    --artisan:#228B5B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#EEF1EF; color:var(--encre);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+    padding:16px;
+  }
+  .feuille{
+    max-width:820px; margin:0 auto; background:#FFF; padding:38px 42px 46px;
+    box-shadow:0 2px 18px rgba(0,0,0,.07); border-radius:4px;
+  }
+
+  .barre{
+    max-width:820px; margin:0 auto 14px; display:flex; gap:10px; flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  .barre button, .barre a{
+    padding:10px 16px; border-radius:9px; border:1.5px solid var(--trait);
+    background:#FFF; color:var(--encre); font-size:13px; font-weight:800;
+    font-family:inherit; cursor:pointer; text-decoration:none;
+  }
+  .barre .prim{ background:#228B5B; border-color:#228B5B; color:#FFF; }
+
+  header.tete{ display:flex; justify-content:space-between; gap:28px; flex-wrap:wrap;
+    border-bottom:2.5px solid var(--artisan); padding-bottom:18px; margin-bottom:22px; }
+  .ent-entete{ display:flex; gap:12px; align-items:flex-start; }
+  .ent-logo{ width:44px; height:44px; border-radius:10px; flex:none;
+    background-size:cover; background-position:center; }
+  .ent-nom{ font-size:19px; font-weight:900; color:var(--artisan); margin-bottom:5px; }
+  .ent-ligne{ font-size:12px; color:var(--gris); line-height:1.55; }
+  .doc-type{ text-align:right; }
+  .doc-type .t{ font-size:26px; font-weight:900; letter-spacing:-.5px; }
+  .doc-type .n{ font-size:13.5px; color:var(--gris); font-weight:700; margin-top:2px; }
+
+  .paves{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:22px; }
+  @media(max-width:620px){ .paves{ grid-template-columns:1fr; } }
+  .pave{ border:1px solid var(--trait); border-radius:8px; padding:12px 14px; }
+  .pave h2{ font-size:10.5px; text-transform:uppercase; letter-spacing:.09em;
+    color:var(--vert); margin-bottom:7px; font-weight:800; }
+  .pave .l{ font-size:12.5px; line-height:1.55; }
+
+  h3.sec{ font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--artisan);
+    font-weight:800; margin:24px 0 9px; padding-bottom:5px; border-bottom:1px solid var(--trait); }
+
+  table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  th{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--gris); font-weight:800; padding:7px 8px; border-bottom:1.5px solid var(--trait); }
+  td{ padding:8px; border-bottom:1px solid var(--trait-clair); vertical-align:top; line-height:1.45; }
+  td.n, th.n{ text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  tr.lot td{ background:var(--vert-clair); font-weight:800; font-size:11.5px;
+    color:var(--artisan); text-transform:uppercase; letter-spacing:.05em; padding:7px 8px; }
+
+  .totaux{ margin-top:16px; margin-left:auto; width:min(340px,100%); font-size:13px; }
+  .totaux div{ display:flex; justify-content:space-between; padding:6px 0;
+    border-bottom:1px solid var(--trait-clair); }
+  .totaux .ttc{ border-bottom:none; border-top:2px solid var(--artisan); margin-top:4px;
+    padding-top:9px; font-size:16px; font-weight:900; color:var(--artisan); }
+  .totaux .num{ font-variant-numeric:tabular-nums; }
+
+  .mentions{ margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:11.5px;
+    color:var(--gris); line-height:1.55; }
+  @media(max-width:620px){ .mentions{ grid-template-columns:1fr; } }
+  .mentions b{ color:var(--encre); }
+
+  /* Meme correction que sur le devis : le libelle en tete de ligne, le texte
+     au fil. Les <br><br> empilaient des lignes courtes au lieu de composer
+     un document. Signale par Moctar le 01/09/2026. */
+  .mentions .m-bloc{ margin-bottom:11px; }
+  .mentions .m-bloc:last-child{ margin-bottom:0; }
+  .mentions .m-k{ display:block; font-size:9.5px; font-weight:800; letter-spacing:.055em;
+    text-transform:uppercase; color:var(--vert); margin-bottom:2px; }
+  .mentions .m-v{ display:block; }
+
+  .signature{ margin-top:26px; border:1.5px solid var(--vert); border-radius:9px;
+    padding:16px 18px; background:var(--vert-clair); }
+  .signature .t{ font-size:13px; font-weight:900; color:var(--vert); margin-bottom:7px; }
+  .signature .m{ font-size:12px; line-height:1.55; }
+  .cadre-sign{ margin-top:12px; border:1px dashed #9FBFAE; border-radius:7px; height:92px;
+    display:flex; align-items:flex-start; padding:9px 11px; font-size:11px; color:var(--gris); }
+
+  .avert{ background:var(--alerte-fond); border:1px solid #E7B3A8; color:var(--alerte);
+    border-radius:8px; padding:11px 13px; font-size:12px; line-height:1.5; margin-bottom:18px; }
+
+  .pied{ margin-top:24px; padding-top:12px; border-top:1px solid var(--trait);
+    font-size:10.5px; color:var(--gris); line-height:1.55; text-align:center; }
+
+  #etat{ max-width:820px; margin:0 auto; padding:26px; background:#FFF; border-radius:8px;
+    text-align:center; color:var(--gris); font-size:14px; }
+
+
+  /* ── Mobile (02/09/2026) ──────────────────────────────────────────
+     Mesure avant correction : dans une fenetre de 360 px, la page
+     s'etendait sur 447 px. Deux causes cumulees — le padding de la
+     feuille mangeait 84 px, et le tableau des prestations imposait sa
+     largeur minimale. Un client qui ouvre son devis sur son telephone
+     devait donc pousser la page de cote pour lire les montants.
+
+     Trois corrections : padding reduit, echelle typographique resserree,
+     et le tableau place dans un conteneur qui defile TOUT SEUL — la page,
+     elle, ne bouge plus jamais lateralement. Rien de tout cela ne touche
+     l'impression : le bloc @media print garde ses valeurs d'origine. */
+  @media (max-width: 640px) {
+    body { padding: 8px; }
+    .feuille { padding: 22px 16px 28px; border-radius: 8px; }
+    header.tete { gap: 14px; padding-bottom: 14px; margin-bottom: 16px; }
+    .ent-nom { font-size: 17px; }
+    .doc-type { text-align: left; }
+    .doc-type .t { font-size: 22px; }
+    .paves { gap: 10px; margin-bottom: 16px; }
+    /* Le tableau defile dans sa propre boite. `-webkit-overflow-scrolling`
+       garde l'inertie sur iOS, sinon le geste parait bloque. */
+    .table-defile { overflow-x: auto; -webkit-overflow-scrolling: touch;
+                    margin: 0 -4px; padding: 0 4px; }
+    table { font-size: 11.5px; min-width: 300px; }
+    th, td { padding: 6px 5px; }
+    .totaux { width: 100%; font-size: 12.5px; }
+    .mentions { gap: 12px; margin-top: 20px; }
+    .signature { padding: 13px 14px; }
+    .barre { justify-content: stretch; }
+    .barre button, .barre a { flex: 1; text-align: center; padding: 12px 10px; }
+  }
+
+  @media print{
+    body{ background:#FFF; padding:0; }
+    .barre{ display:none; }
+    .feuille{ box-shadow:none; max-width:none; padding:0; }
+    tr, .signature, .pave{ break-inside:avoid; }
+    /* Sans ca, Chrome et Firefox omettent par defaut les couleurs de fond a
+       l'impression (economie d'encre) — le bandeau du tableau et le total
+       ressortiraient en noir sur blanc, aux couleurs de personne. */
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="barre">
+  <a id="retour" href="#">← Suivi du chantier</a>
+  <button type="button" onclick="window.print()" class="prim">Télécharger en PDF</button>
+</div>
+
+<script src="./js/config.js"></script>
+
+<div id="etat">Chargement de votre facture…</div>
+<div class="feuille" id="feuille" hidden></div>
+
+<script type="module">
+  import { pub_getChantier, pub_getFactures, pub_getDocuments, fmtEuro } from './js/supabase.js';
+
+  const params = new URLSearchParams(location.search);
+  const token = params.get('t');
+  // `f` est le paramètre canonique (lien envoyé au client depuis finances.html,
+  // 04/09/2026) ; `id` reste lu pour les liens déjà posés ailleurs (suivi.html).
+  const factureId = params.get('f') || params.get('id');
+  const etat = document.getElementById('etat');
+  const feuille = document.getElementById('feuille');
+  document.getElementById('retour').href = './suivi.html?t=' + encodeURIComponent(token || '');
+
+  // L'apostrophe est echappee elle aussi : sans elle, un futur attribut ecrit
+  // en alt='...' serait vulnerable. Le cout est nul, l'oubli couteux.
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const dateFr = (d) => d ? new Date(d + (String(d).length === 10 ? 'T12:00:00' : ''))
+    .toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }) : '—';
+
+  const TYPE = { acompte: "Facture d'acompte", situation: 'Facture de situation', solde: 'Facture de solde' };
+
+  async function chargerEntreprise() {
+    const cfg = window.__BATISPOT_CONFIG__ || {};
+    const r = await fetch(`${cfg.SUPABASE_URL}/rest/v1/rpc/get_entreprise_by_token`, {
+      method: 'POST',
+      headers: { 'apikey': cfg.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_token: token }),
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+    return Array.isArray(d) ? d[0] : d;
+  }
+
+  // Logo signe (bucket prive `chantiers`, meme Edge Function que suivi.html —
+  // ce visiteur n'a pas de session pour signer l'URL lui-meme) ou, a defaut,
+  // initiales sur un carre degrade. Meme convention que suivi.html (04/09/2026).
+  function afficherLogoOuInitiales(nomEntreprise, logoUrl) {
+    const box = document.getElementById('entLogoBox');
+    if (!box) return;
+    box.replaceChildren();
+    if (logoUrl) {
+      box.style.background = '';
+      box.style.backgroundImage = `url("${logoUrl}")`;
+      box.style.backgroundSize = 'cover';
+      box.style.backgroundPosition = 'center';
+    } else {
+      box.style.background = 'linear-gradient(135deg,var(--artisan),#4CAF82)';
+      box.style.backgroundImage = 'none';
+      box.style.display = 'flex';
+      box.style.alignItems = 'center';
+      box.style.justifyContent = 'center';
+      box.style.color = '#fff';
+      box.style.fontWeight = '800';
+      box.style.fontSize = '14px';
+      const initiales = (nomEntreprise || '').split(/\s+/).filter(Boolean).slice(0, 2)
+        .map((m) => m[0].toUpperCase()).join('');
+      box.textContent = initiales || 'B';
+    }
+  }
+
+  (async () => {
+    if (!token) { etat.textContent = 'Lien invalide.'; return; }
+    let chantier, factures, ent, docReponse;
+    try {
+      [chantier, factures, ent, docReponse] = await Promise.all([
+        pub_getChantier(token), pub_getFactures(token), chargerEntreprise(),
+        pub_getDocuments(token).catch(() => ({ documents: [], logo_url: null })),
+      ]);
+    } catch (_) {
+      etat.textContent = "Cette facture n'est pas accessible. Le lien a peut-être expiré.";
+      return;
+    }
+
+    // Couleur de l'artisan (repli vert BatiSpot). Validee ici : une valeur
+    // hors format n'est jamais posee telle quelle sur une custom property.
+    const couleurValide = ent?.couleur && /^#[0-9a-fA-F]{6}$/.test(ent.couleur) ? ent.couleur : '#228B5B';
+    document.documentElement.style.setProperty('--artisan', couleurValide);
+    const f = factureId ? (factures || []).find((x) => x.id === factureId) : (factures || [])[0];
+    if (!f) { etat.textContent = "Aucune facture disponible pour ce chantier."; return; }
+
+    // On ne fabrique jamais une mention absente : une facture incomplete expose
+    // l'artisan, autant qu'il le voie plutot que de lui donner l'illusion inverse.
+    const manque = [];
+    if (!ent) manque.push("les informations de l'entreprise");
+    else {
+      if (!ent.siret) manque.push('le numéro SIRET');
+      if (!ent.address) manque.push("l'adresse de l'entreprise");
+      if (Number(f.total_ht) > 150 && !ent.tva_intracom) manque.push('le numéro de TVA intracommunautaire');
+    }
+
+    const lignes = Array.isArray(f.lines) ? f.lines : [];
+    let corps = '';
+    for (const l of lignes) {
+      const q = Number(l.quantity || 0), pu = Number(l.unitPrice || 0);
+      corps += `<tr>
+        <td>${esc(l.description || 'Prestation')}</td>
+        <td class="n">${q ? q.toLocaleString('fr-FR') + ' ' + esc(l.unit || '') : '—'}</td>
+        <td class="n">${pu ? fmtEuro(pu) : '—'}</td>
+        <td class="n">${fmtEuro(Number(l.total_ht || q * pu))}</td>
+      </tr>`;
+    }
+    const tva = f.total_tva && f.total_ht ? Math.round((f.total_tva / f.total_ht) * 100) : null;
+    const payee = f.statut === 'payee';
+
+    feuille.innerHTML = `
+      ${manque.length ? `<div class="avert"><b>Cette facture est incomplète.</b> Il manque ${esc(manque.join(', '))}.
+        Ces mentions sont obligatoires sur une facture.</div>` : ''}
+
+      <header class="tete">
+        <div class="ent-entete">
+          <div class="ent-logo" id="entLogoBox" aria-hidden="true"></div>
+          <div>
+            <div class="ent-nom">${esc(ent?.display_name || 'Entreprise')}</div>
+            <div class="ent-ligne">
+              ${ent?.forme_juridique ? esc(ent.forme_juridique) + '<br>' : ''}
+              ${ent?.address ? esc(ent.address) + '<br>' : ''}
+              ${ent?.phone ? 'Tél. ' + esc(ent.phone) + '<br>' : ''}
+              ${ent?.siret ? 'SIRET ' + esc(ent.siret) + '<br>' : ''}
+              ${ent?.rcs ? esc(ent.rcs) + '<br>' : ''}
+              ${ent?.tva_intracom ? 'TVA ' + esc(ent.tva_intracom) : ''}
+            </div>
+          </div>
+        </div>
+        <div class="doc-type">
+          <div class="t">FACTURE</div>
+          <div class="n">${esc(f.numero || '')}</div>
+          <div class="ent-ligne" style="margin-top:8px;text-align:right;">
+            ${esc(TYPE[f.type] || '')}<br>
+            Émise le ${dateFr(f.date_emission)}<br>
+            ${f.date_echeance ? 'À régler avant le ' + dateFr(f.date_echeance) : ''}
+          </div>
+        </div>
+      </header>
+
+      <div class="paves">
+        <div class="pave">
+          <h2>Facturé à</h2>
+          <div class="l"><b>${esc(chantier?.client_name || '—')}</b>
+            ${chantier?.adresse ? '<br>' + esc(chantier.adresse) : ''}</div>
+        </div>
+        <div class="pave">
+          <h2>Chantier</h2>
+          <div class="l">${esc(chantier?.description || chantier?.adresse || '—')}</div>
+        </div>
+      </div>
+
+      <h3 class="sec">Détail</h3>
+      <div class="table-defile"><table>
+        <thead><tr><th>Désignation</th><th class="n">Quantité</th><th class="n">Prix unitaire HT</th><th class="n">Total HT</th></tr></thead>
+        <tbody>${corps}</tbody>
+      </table></div>
+
+      <div class="totaux">
+        <div><span>Total HT</span><span class="num">${fmtEuro(f.total_ht || 0)}</span></div>
+        <div><span>TVA${tva !== null ? ` (${tva} %)` : ''}</span><span class="num">${fmtEuro(f.total_tva || 0)}</span></div>
+        <div class="ttc"><span>${payee ? 'Total TTC — réglé' : 'Net à payer TTC'}</span><span class="num">${fmtEuro(f.total_ttc || 0)}</span></div>
+      </div>
+
+      <!-- ⚠️ L'indemnité forfaitaire de 40 € (art. L441-10 code de commerce) ne se
+           doit QU'ENTRE PROFESSIONNELS : l'article dit « tout PROFESSIONNEL en
+           situation de retard de paiement ». Sur une facture à un particulier elle
+           n'est pas due, et la réclamer peut s'analyser en clause abusive.
+           Or BatiSpot facture surtout des particuliers — d'où le défaut à false.
+           Vérifié le 01/09/2026 sur legifrance.gouv.fr, pas cité de mémoire. -->
+      <h3 class="sec">Règlement</h3>
+      <div class="mentions">
+        <div>
+          ${payee ? `<div class="m-bloc"><span class="m-k">Facture réglée</span><span class="m-v">Reçu le ${dateFr(f.payee_le)}.</span></div>` : ''}
+          <div class="m-bloc"><span class="m-k">Échéance</span><span class="m-v">${
+            f.date_echeance ? 'Le ' + dateFr(f.date_echeance) + '.' : 'À réception.'}</span></div>
+          ${ent?.conditions_paiement ? `<div class="m-bloc"><span class="m-k">Conditions de règlement</span><span class="m-v">${esc(ent.conditions_paiement)}</span></div>` : ''}
+        </div>
+        <div>
+          ${/* ⚠️ MENTION OBLIGATOIRE en sous-traitance (art. 242 nonies A de
+                 l'annexe II au CGI). Sans elle, la facture est irreguliere et le
+                 donneur d'ordre ne peut pas justifier l'autoliquidation. */''}
+          ${chantier?.sous_traitance ? `<div class="m-bloc"><span class="m-k">Autoliquidation</span><span class="m-v">
+            <b>TVA due par le preneur assujetti</b> — autoliquidation en application de
+            l’article 283, 2 nonies du code général des impôts. Montants facturés hors taxes.
+          </span></div>` : ''}
+          <div class="m-bloc"><span class="m-k">Retard de paiement</span><span class="m-v">${
+            chantier?.client_est_pro
+            ? `Pénalités au taux d’intérêt légal majoré, exigibles sans rappel dès le jour suivant l’échéance, et indemnité forfaitaire de recouvrement de <b>40 €</b> (art. L441-10 et D441-5 du code de commerce). Aucun escompte pour paiement anticipé.`
+            : `Intérêts au taux légal à compter de la mise en demeure de payer (art. 1231-6 du code civil). Aucun escompte pour paiement anticipé.`
+          }</span></div>
+          ${ent?.assurance_nom ? `<div class="m-bloc"><span class="m-k">Assurance décennale</span><span class="m-v">${
+            esc(ent.assurance_nom)}${ent.assurance_police ? ' — police n° ' + esc(ent.assurance_police) : ''}</span></div>` : ''}
+        </div>
+      </div>
+
+      <div class="pied">
+        ${ent?.tva_intracom && Number(f.total_ht) <= 150 ? '' : ''}
+        En cas de travaux relevant de la garantie décennale, celle-ci court à compter de la
+        réception des travaux. Facture à conserver.
+      </div>
+    `;
+    afficherLogoOuInitiales(ent?.display_name, docReponse?.logo_url);
+    etat.hidden = true;
+    feuille.hidden = false;
+    document.title = `Facture ${f.numero || ''} · ${chantier?.client_name || ''}`;
+
+    // `&print=1` : ouvre directement l'impression (= « Enregistrer en PDF »
+    // sur téléphone) sans que le client ait à trouver le bouton. Un court
+    // délai laisse le temps au navigateur de peindre la page avant la boîte
+    // d'impression, sinon le rendu apparaît vide sur certains mobiles.
+    if (params.get('print') === '1') {
+      requestAnimationFrame(() => setTimeout(() => window.print(), 60));
+    }
+  })();
+</script>
+</body>
+</html>

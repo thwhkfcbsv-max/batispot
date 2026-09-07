@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Message · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <style>
+    body { background:#FFFFFF; color:#1C2B22; font-family:"Inter",system-ui,-apple-system,sans-serif; margin:0; -webkit-font-smoothing:antialiased; }
+    /* Écran de fil plein écran (correctif révision tâche 19, 04/09) : hauteur
+       BORNÉE à l'écran réel (100dvh, repli 100vh — pas juste min-height, qui
+       laisserait la page grandir avec les messages et scroller la fenêtre).
+       Ainsi .mq-thread (flex:1, overflow-y:auto, app.css) devient le SEUL
+       conteneur qui défile ; l'en-tête et le composeur restent en place. */
+    .phone-screen { max-width:480px; margin:0 auto; height:100vh; height:100dvh; overflow:hidden; display:flex; flex-direction:column; background:#FFFFFF; position:relative; }
+    .scr-body { flex:1; min-height:0; overflow:hidden; padding:16px; padding-bottom:16px; display:flex; flex-direction:column; gap:14px; }
+    /* Pas de bandeau .app-h ici (pas de logo/menu) : le repère de retour est
+       .mq-top, même parti pris que chantier.html. */
+    .mq-screen { flex:1; min-height:0; padding-bottom:0; }
+    .mq-thread { flex:1; min-height:0; }
+    /* La capsule de saisie (.mq-compose.mq-saisie) est entièrement décrite
+       dans css/app.css depuis la tâche 24 : mêmes proportions et mêmes
+       boutons que les trois autres messageries. */
+    /* Composeur en flux normal, pas sticky (correctif révision tâche 19,
+       04/09 — v2). .mq-compose garde par défaut (app.css) position:sticky
+       + bottom:calc(--bn-h + safe area), pensé pour une page qui défile
+       ENTIÈREMENT. Ici .phone-screen est déjà bornée (100dvh, overflow
+       hidden, voir plus haut) et .bn (barre du bas) est sœur de .scr-body
+       dans le même flex column : sa hauteur est déjà exclue de celle de
+       .scr-body, donc de .mq-screen, donc du composeur. Le décalage
+       sticky de 60px s'appliquerait donc EN PLUS et pousserait le
+       composeur trop haut, avec un vide dessous (même bug que
+       chantier.html#messages, corrigé au même moment). */
+    .mq-compose { position: static; bottom: auto; margin-bottom: env(safe-area-inset-bottom); }
+    /* Le fil déborde d'un bord à l'autre : le quadrillage du fond va jusqu'aux
+       bords de l'écran, l'en-tête et le composeur gardent leur gouttière. */
+    .mq-thread { margin: 0 -16px; }
+  </style>
+</head>
+<body class="bs-fil">
+  <div class="phone-screen">
+    <div class="scr-body">
+      <div class="mq-screen">
+        <!-- En-tête : « ‹ Messages » puis prénom nom du collègue, rôle en
+             petit. Rempli par le script ci-dessous (initDm) une fois le
+             contact identifié via listContacts(). -->
+        <!-- En-tête compact sur une ligne : retour, avatar aux initiales,
+             nom du collègue + son rôle. Rempli par rendreEnteteFil()
+             (js/mq-thread.js) une fois le contact identifié. -->
+        <!-- .mq-top est conservée en plus de .mq-fil-tete : c'est le point
+             d'ancrage que cherche app-barre-assistant.js sur les écrans sans
+             bandeau .app-h (vérifié par eval/test_barre_assistant.py). Seul
+             l'habillage change, pas le repère. -->
+        <div class="mq-top mq-fil-tete" id="dm-tete"></div>
+
+        <div class="mq-thread" id="dm-list">
+          <div class="loading-center"><div class="loading"></div></div>
+        </div>
+
+        <div class="mq-compose mq-saisie" id="dm-compose" hidden>
+          <button type="button" class="mq-compose-emoji" id="dm-emoji-btn" aria-label="Insérer un emoji" aria-expanded="false"></button>
+          <button type="button" class="mq-compose-emoji mq-compose-cam" id="dm-cam-btn" aria-label="Envoyer une photo"></button>
+          <textarea id="dm-input" placeholder="Écrire ou dicter…" rows="1" autocomplete="off" data-lpignore="true" enterkeyhint="send"></textarea>
+          <button type="button" class="mq-compose-mic" id="dm-mic-btn" aria-label="Maintenir pour dicter" hidden></button>
+          <button type="button" class="mq-compose-send" id="dm-send-btn" aria-label="Envoyer"></button>
+        </div>
+        <div class="mq-compose-indice" id="dm-indice" hidden></div>
+        <div class="mq-emoji-panel" id="dm-emoji-panel" hidden>
+          <div class="mq-emoji-tabs" id="dm-emoji-tabs" role="tablist"></div>
+          <div class="mq-emoji-grid" id="dm-emoji-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barre du bas : générée par js/app-nav.js, comme messages.html. -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script type="module">
+    import { requireAuth } from "./js/supabase.js";
+    import {
+      listContacts, listThread, envoyerDirect, marquerLu, suivreThread,
+      modifierMessageDirect, supprimerMessageDirect,
+    } from "./js/messages-directs.js";
+    import { uploadPhotoDirect, listPhotosEquipe } from "./js/supabase.js";
+    import { choisirPhoto, iconeFil as iconeCam } from "./js/mq-thread.js";
+    import {
+      rendreFil, rendreBulle, rendreEtatVide, rendreEnteteFil,
+      brancherComposeur, poserSeparateurJour, estEnBasDuFil, actualiserBadgeMessages,
+    } from "./js/mq-thread.js";
+
+    // Aucun rendu de bulle ici : rendreFil()/rendreBulle() (js/mq-thread.js)
+    // dessinent les quatre messageries de l'app à l'identique. Cet écran ne
+    // fournit que « qui suis-je » et « comment s'appelle l'autre ».
+
+    let monId = null;
+    let avecId = null;
+    let collegueNom = null;
+    let jourFil = null;
+
+    // Contexte d'écran (task 5) : `avecId` vient du paramètre `?avec=` de
+    // l'URL, lu par initDm() plus bas ; `collegueNom` est posé par initDm()
+    // une fois le contact résolu (le nom affiché en tête, jamais l'uuid).
+    window.bsContexteEcran = () => ({ page: 'dm', membre_id: avecId, collegue: collegueNom });
+
+    const el = (id) => document.getElementById(id);
+
+    /** Une bulle de plus en bas du fil (envoi, ou message reçu en direct). */
+    function ajouterEnBas(msg, { lu = null } = {}) {
+      const list = el("dm-list");
+      const vide = list.querySelector(".mq-vide");
+      if (vide) vide.remove();
+      const colle = estEnBasDuFil(list);
+      // Le message précédent perd son ergot s'il vient du même côté : une
+      // série n'a qu'une pointe, sur la dernière bulle.
+      const bulles = list.querySelectorAll(".mq-msg");
+      const precedent = bulles.length ? bulles[bulles.length - 1] : null;
+      const mienne = msg.de_user_id === monId;
+      if (precedent && precedent.classList.contains(mienne ? "mq-out" : "mq-in")) {
+        precedent.classList.remove("mq-tail");
+      }
+      jourFil = poserSeparateurJour(list, msg.created_at, jourFil);
+      list.appendChild(rendreBulle(msg, { mienne, lu, auteur: collegueNom }));
+      if (colle) list.scrollTop = list.scrollHeight;
+    }
+
+    async function chargerFil() {
+      const list = el("dm-list");
+      list.innerHTML = '<div class="loading-center"><div class="loading"></div></div>';
+      let msgs;
+      try {
+        msgs = await listThread(monId, avecId);
+      } catch (e) {
+        console.warn("[dm] fil indisponible", e);
+        list.replaceChildren(rendreEtatVide("Messages indisponibles pour le moment. Réessayez."));
+        return;
+      }
+      rendreFil(list, msgs, {
+        mienne: (m) => m.de_user_id === monId,
+        auteur: () => collegueNom,
+        // Ici l'accusé de lecture est REL : marquerLu() est appelé par le
+        // destinataire quand il ouvre la conversation, donc `lu_le` sur mon
+        // propre message veut vraiment dire « il l'a vu ».
+        lu: (m) => (m.de_user_id === monId ? !!m.lu_le : null),
+        // Appui long sur MA bulle : modifier / supprimer tant qu'il n'a pas lu.
+        actions: (m) => (m.de_user_id === monId && !m.lu_le ? {
+          modifier: (msg, txt) => modifierMessageDirect(msg.id, txt),
+          supprimer: (msg) => supprimerMessageDirect(msg.id),
+        } : null),
+        vide: "Aucun message pour l'instant. Écrivez le premier.",
+      });
+      jourFil = msgs.length ? new Date(msgs[msgs.length - 1].created_at).toDateString() : null;
+      // Marquer lu APRÈS avoir affiché le fil : le destinataire vient de le
+      // voir à l'instant, pas avant.
+      try { await marquerLu(monId, avecId); } catch (e) { /* pas bloquant */ }
+      actualiserBadgeMessages();
+    }
+
+    async function initDm() {
+      const session = await requireAuth();
+      if (!session) return; // requireAuth() redirige déjà vers login.html
+      monId = session.user.id;
+
+      const params = new URLSearchParams(location.search);
+      avecId = params.get("avec");
+
+      const list = el("dm-list");
+      const tete = el("dm-tete");
+      if (!avecId) {
+        rendreEnteteFil(tete, { retourHref: "./messages.html", retourLabel: "Retour aux messages", nom: "Conversation" });
+        list.replaceChildren(rendreEtatVide("Aucun destinataire indiqué."));
+        return;
+      }
+
+      let contact = null;
+      try {
+        const { contacts } = await listContacts();
+        contact = contacts.find((c) => c.userId === avecId) || null;
+      } catch (e) {
+        console.warn("[dm] contacts indisponibles", e);
+      }
+
+      // Ni collègue actif ni patron identifiable : soit le lien est invalide,
+      // soit la personne a quitté l'équipe. On ne montre ni fil ni saisie —
+      // écrire à quelqu'un qui n'est plus dans l'équipe échouerait de toute
+      // façon côté base (policy messages_directs_insert).
+      if (!contact || contact.enAttente) {
+        rendreEnteteFil(tete, { retourHref: "./messages.html", retourLabel: "Retour aux messages", nom: "Conversation indisponible" });
+        list.replaceChildren(rendreEtatVide("Cette personne ne fait plus partie de votre équipe."));
+        return;
+      }
+
+      collegueNom = contact.nom;
+      rendreEnteteFil(tete, {
+        retourHref: "./messages.html",
+        retourLabel: "Retour aux messages",
+        nom: contact.nom,
+        sousTitre: contact.roleLabel,
+      });
+
+      const input = el("dm-input");
+      el("dm-compose").hidden = false;
+      brancherComposeur({
+        textarea: input,
+        sendBtn: el("dm-send-btn"),
+        micBtn: el("dm-mic-btn"),
+        emojiBtn: el("dm-emoji-btn"),
+        panel: el("dm-emoji-panel"),
+        tabs: el("dm-emoji-tabs"),
+        grid: el("dm-emoji-grid"),
+        indice: el("dm-indice"),
+        micro: true,
+        contexteDictee: 'note',
+        onMessage: (texte, type) => { if (typeof window.toast === "function") window.toast(texte, type); },
+        onEnvoyer: async () => {
+          const contenu = input.value.trim();
+          if (!contenu) return;
+          try {
+            const msg = await envoyerDirect(avecId, contenu);
+            input.value = "";
+            ajouterEnBas(msg, { lu: false });
+          } catch (e) {
+            if (typeof window.toast === "function") window.toast(e.message || "Envoi impossible.", "error");
+          }
+        },
+      });
+
+      // Photo (Moctar 06/09) : téléphone / Drive → dossier direct-<destinataire>
+      // lisible par lui seul ; ou une photo déjà dans l'appli (chantiers de l'équipe).
+      const camBtn = el("dm-cam-btn");
+      camBtn.innerHTML = iconeCam('camera', 18);
+      camBtn.onclick = async () => {
+        const choix = await choisirPhoto({ titre: 'Envoyer une photo', listerPhotosApp: () => listPhotosEquipe(60) });
+        if (!choix) return;
+        try {
+          let chemin;
+          if (choix.type === 'fichier') {
+            if (typeof window.toast === "function") window.toast('Envoi de la photo…', 'info');
+            chemin = await uploadPhotoDirect(avecId, choix.file);
+          } else chemin = choix.photo.storage_path;
+          const msg = await envoyerDirect(avecId, `[photo:${chemin}]`);
+          ajouterEnBas(msg, { lu: false });
+        } catch (e) {
+          if (typeof window.toast === "function") window.toast(e.message || "Photo non envoyée.", "error");
+        }
+      };
+
+      await chargerFil();
+
+      // Temps réel : un message reçu pendant que la conversation est ouverte
+      // s'affiche directement, et se marque lu puisque l'écran est déjà là.
+      suivreThread(monId, avecId, async (msg) => {
+        ajouterEnBas(msg);
+        try { await marquerLu(monId, avecId); } catch (e) { /* pas bloquant */ }
+        actualiserBadgeMessages();
+      });
+    }
+
+    initDm();
+  </script>
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

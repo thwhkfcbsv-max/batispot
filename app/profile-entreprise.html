@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#FFFFFF">
+ <title>Mon entreprise — BatiSpot Pro</title>
+ <link rel="manifest" href="./manifest.json">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+ <script src="/js/sentry-init.js" defer></script>
+ <style>
+ /* ── Fusion Mon entreprise / Mon profil / Réglages (04/09/2026) ──
+    Page hôte des 5 sous-onglets : Entreprise · Profil · Grille de prix ·
+    Abonnement · Réglages. Styles réunis depuis les trois anciennes pages,
+    aucune classe renommée : les ids ne se recoupaient déjà pas entre elles. */
+ body {
+   margin: 0;
+   background: #FFFFFF;
+   color: var(--text);
+   font-family: "Inter", system-ui, -apple-system, sans-serif;
+   min-height: 100vh; min-height: 100dvh;
+   display: flex; flex-direction: column;
+   padding-bottom: 64px;
+   -webkit-font-smoothing: antialiased;
+ }
+ .phone-screen {
+   max-width: 480px;
+   margin: 0 auto;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   background: #FFFFFF;
+   position: relative;
+   box-shadow: 0 0 40px rgba(0,0,0,0.06);
+ }
+
+ /* -- Entreprise -- */
+ .info-row {
+ display: flex;
+ flex-direction: column;
+ gap: 3px;
+ padding: 10px 0;
+ border-bottom: 1px solid var(--border-soft, rgba(34,139,91,0.08));
+ }
+ .info-row:last-child { border-bottom: none; }
+ .info-label {
+ font-size: 11px;
+ color: var(--sub, #5A7268);
+ font-weight: 600;
+ text-transform: uppercase;
+ letter-spacing: .04em;
+ }
+ .info-value {
+ font-size: 14px;
+ color: var(--text);
+ font-weight: 500;
+ }
+ .info-value.empty { color: var(--sub, #7C8F86); font-style: italic; font-weight: 400; }
+ .chips-display {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 6px;
+ margin-top: 4px;
+ }
+ .chip-ro {
+ background: #f0fdf4;
+ border: 1px solid rgba(34,139,91,0.2);
+ color: var(--t1);
+ font-size: 12px;
+ font-weight: 600;
+ padding: 4px 10px;
+ border-radius: 999px;
+ }
+ .logo-area {
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ }
+ .logo-preview {
+ width: 80px;
+ height: 80px;
+ border-radius: 10px;
+ background: var(--border-soft, #EEF3F0);
+ display: grid;
+ place-items: center;
+ overflow: hidden;
+ flex-shrink: 0;
+ border: 1px solid var(--border-soft, rgba(34,139,91,0.12));
+ }
+ .logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+ .logo-preview .no-logo { font-size: 11px; color: var(--sub, #7C8F86); text-align: center; line-height: 1.3; padding: 4px; }
+ .logo-actions { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+ .hint { font-size: 11px; color: var(--sub, #7C8F86); line-height: 1.4; margin: 0; }
+
+ /* -- Profil (STRICT 1:1 simulator-screens.html L362-396, Artisan #6) -- */
+ .profile-hero {
+ display: flex;
+ gap: .6rem;
+ align-items: center;
+ }
+ .profile-avatar {
+ width: 54px; height: 54px;
+ border-radius: 50%;
+ background: linear-gradient(135deg, #228B5B, #4CAF82);
+ color: #fff;
+ display: flex; align-items: center; justify-content: center;
+ font-weight: 900; font-size: 1.05rem;
+ flex-shrink: 0;
+ overflow: hidden;
+ }
+ .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+ .profile-identity { min-width: 0; }
+ .profile-identity .name {
+ font-weight: 900;
+ font-size: .85rem;
+ color: var(--text);
+ }
+ .profile-identity .company {
+ font-size: 13px;
+ color: var(--sub, #3D5A4E);
+ margin: 2px 0 0;
+ }
+ .status-pill { margin-top: 6px; }
+ .mq-pill.mq-refuse { background: #FEE2E2; color: #7F1D1D; }
+
+ .edit-accordion {
+ margin-top: 14px;
+ background: #fff;
+ border: 1px solid var(--border, rgba(34,139,91,0.12));
+ border-radius: 12px;
+ padding: 0;
+ overflow: hidden;
+ }
+ .edit-accordion > summary {
+ list-style: none;
+ cursor: pointer;
+ padding: 12px 14px;
+ font-weight: 800;
+ font-size: 14px;
+ color: var(--g1, #1A6B45);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ min-height: 44px;
+ box-sizing: border-box;
+ }
+ .edit-accordion > summary::-webkit-details-marker { display: none; }
+ .edit-accordion > summary::after {
+ content: '▾';
+ font-size: 14px;
+ font-weight: 900;
+ color: var(--g3, #4CAF82);
+ }
+ .edit-accordion[open] > summary::after { content: '▴'; }
+ .edit-accordion .acc-body { padding: 0 14px 14px; }
+ .edit-accordion .acc-section { margin-top: 14px; }
+ .edit-accordion .acc-section h4 {
+ font-size: 12px;
+ font-weight: 900;
+ color: var(--g1, #1A6B45);
+ text-transform: uppercase;
+ letter-spacing: .5px;
+ margin: 0 0 8px;
+ }
+
+ .loading-wrap {
+ flex: 1;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: 40px 16px;
+ }
+ .loading-wrap .loading {
+ width: 28px; height: 28px;
+ border: 3px solid var(--border, rgba(34,139,91,0.18));
+ border-top-color: var(--g1, #1A6B45);
+ border-radius: 50%;
+ animation: spin 0.7s linear infinite;
+ }
+ @keyframes spin { to { transform: rotate(360deg); } }
+ .chip.empty { opacity: .55; font-style: italic; cursor: default; }
+
+ /* -- Réglages : toasts locaux (envoi/téléchargement dossier comptable) -- */
+ .toast-container {
+   position: fixed;
+   bottom: 84px;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 1100;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   width: 90%;
+   max-width: 420px;
+   pointer-events: none;
+ }
+ .toast-container .toast {
+   background: #1C2B22;
+   color: #FFFFFF;
+   padding: 12px 16px;
+   border-radius: 12px;
+   font-size: 13px;
+   font-weight: 700;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 10px;
+   box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+   border-left: 4px solid #16A34A;
+   animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+   pointer-events: auto;
+ }
+ .toast-container .toast.yellow { border-left-color: #228B5B; }
+ @keyframes toastIn {
+   from { opacity: 0; transform: translateY(20px); }
+   to { opacity: 1; transform: translateY(0); }
+ }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header avec Logo Officiel BatiSpot Pro (2 nuances de vert) -->
+    <div class="app-h" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-univ" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-univ)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu &amp; Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+    <div class="mq-screen">
+      <!-- Sous-onglets (04/09/2026) : Entreprise / Profil / Grille de prix /
+           Abonnement / Réglages. L'onglet actif se lit depuis ?onglet= ou le
+           hash (#grille, #mes-prix, #abonnement) — voir switchOnglet() en bas
+           de page, ce qui permet aux anciens liens profile.html#grille et
+           settings.html#abonnement de continuer à pointer au bon endroit. -->
+      <div class="mq-subtabs" id="entTabs">
+        <button type="button" class="mq-subtab mq-on" data-tab="entreprise">Entreprise</button>
+        <button type="button" class="mq-subtab" data-tab="profil">Profil</button>
+        <button type="button" class="mq-subtab" data-tab="grille">Grille de prix</button>
+        <button type="button" class="mq-subtab" data-tab="abonnement">Abonnement</button>
+        <button type="button" class="mq-subtab" data-tab="reglages">Réglages</button>
+      </div>
+
+      <!-- ══════════════════ ENTREPRISE (ex profile-entreprise.html) ══════════════════ -->
+      <div id="entreprise">
+      <p class="ui-note" id="page-sub" style="margin:0;">Vos informations transmises lors de l'inscription.</p>
+
+      <!-- Logo -->
+      <div class="mq-sec">Logo</div>
+      <div class="mq-box logo-area">
+      <div class="logo-preview" id="logo-preview">
+      <span class="no-logo">Aucun logo</span>
+      </div>
+      <div class="logo-actions">
+      <input type="file" id="logo-input" accept="image/png,image/jpeg,image/webp" style="display:none">
+      <button type="button" class="mq-btn mq-ghost" id="logo-btn">Choisir un logo</button>
+      <button type="button" class="mq-btn mq-ghost" id="logo-remove-btn" style="display:none;color:var(--danger);">Retirer le logo</button>
+      <p class="hint">PNG, JPG ou WEBP — max 2 Mo. Fond transparent recommandé.</p>
+      </div>
+      </div>
+
+      <!-- Couleur de marque (04/09/2026) -->
+      <div class="mq-sec">Couleur de marque</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <input type="color" id="couleur-input" value="#228B5B" style="width:44px;height:44px;padding:0;border:1px solid var(--border-soft, rgba(34,139,91,0.12));border-radius:10px;cursor:pointer;">
+      <button type="button" class="couleur-swatch" data-c="#228B5B" title="Vert" style="width:44px;height:44px;border-radius:10px;background:#228B5B;border:2px solid transparent;cursor:pointer;"></button>
+      <button type="button" class="couleur-swatch" data-c="#1D4ED8" title="Bleu" style="width:44px;height:44px;border-radius:10px;background:#1D4ED8;border:2px solid transparent;cursor:pointer;"></button>
+      <button type="button" class="couleur-swatch" data-c="#334155" title="Ardoise" style="width:44px;height:44px;border-radius:10px;background:#334155;border:2px solid transparent;cursor:pointer;"></button>
+      <button type="button" class="couleur-swatch" data-c="#B45309" title="Brique" style="width:44px;height:44px;border-radius:10px;background:#B45309;border:2px solid transparent;cursor:pointer;"></button>
+      <button type="button" class="couleur-swatch" data-c="#7F1D1D" title="Bordeaux" style="width:44px;height:44px;border-radius:10px;background:#7F1D1D;border:2px solid transparent;cursor:pointer;"></button>
+      <button type="button" class="couleur-swatch" data-c="#111827" title="Noir" style="width:44px;height:44px;border-radius:10px;background:#111827;border:2px solid transparent;cursor:pointer;"></button>
+      </div>
+      <p class="hint">Vos clients verront votre page de suivi et vos documents à cette couleur.</p>
+      </div>
+
+      <!-- Signature (04/09/2026) : tracée une fois, réutilisée sur tous les devis. -->
+      <div class="mq-sec">Ma signature</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:10px;">
+      <p class="hint" style="margin:0;">Elle apparaît sur vos devis, à côté de la signature du client.</p>
+      <canvas id="sigCanvas" width="600" height="240" aria-label="Zone de signature"
+              style="width:100%;height:220px;border:1.5px dashed #C7D9CE;border-radius:9px;background:#FFFFFF;touch-action:none;display:block;"></canvas>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" class="mq-btn mq-ghost" id="sigEffacer" style="flex:1;min-height:44px;">Effacer</button>
+      <button type="button" class="mq-btn mq-primary" id="sigEnregistrer" style="flex:1;min-height:44px;">Enregistrer</button>
+      </div>
+      <div id="sigApercu" hidden style="display:flex;flex-direction:column;gap:6px;">
+      <span style="font-size:11.5px;font-weight:800;color:var(--muted);">Signature enregistrée</span>
+      <img id="sigApercuImg" alt="Votre signature enregistrée" style="max-width:210px;width:60%;height:auto;border:1px solid var(--border-soft);border-radius:8px;background:#FFF;padding:6px;">
+      </div>
+      </div>
+
+      <!-- Identité -->
+      <div class="mq-sec">Identité</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;">
+      <div class="info-row">
+      <span class="info-label">Prénom &amp; Nom</span>
+      <span class="info-value" id="v-nom">—</span>
+      </div>
+      <div class="info-row">
+      <span class="info-label">Email</span>
+      <span class="info-value" id="v-email">—</span>
+      </div>
+      <div class="info-row">
+      <span class="info-label">Téléphone</span>
+      <span class="info-value" id="v-telephone">—</span>
+      </div>
+      </div>
+
+      <!-- Entreprise -->
+      <div class="mq-sec">Entreprise</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;">
+      <div class="info-row">
+      <span class="info-label">Raison sociale</span>
+      <span class="info-value" id="v-entreprise">—</span>
+      </div>
+      <div class="info-row">
+      <span class="info-label">SIRET</span>
+      <span class="info-value" id="v-siret">—</span>
+      </div>
+      </div>
+
+      <!-- Métiers & zones -->
+      <div class="mq-sec">Métiers &amp; zones</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;">
+      <div class="info-row">
+      <span class="info-label">Métiers</span>
+      <div class="chips-display" id="v-metiers"></div>
+      </div>
+      <div class="info-row">
+      <span class="info-label">Zones d'intervention</span>
+      <div class="chips-display" id="v-zones"></div>
+      </div>
+      </div>
+
+      <!-- Vos pièces (04/09/2026) — Kbis, RC Pro, décennale : dépôt direct
+           depuis l'écran Entreprise, sans passer par le Coffre-fort. Même
+           fonction d'upload que coffre.html (uploadCoffreDoc), catégories
+           restreintes aux trois pièces qui identifient l'entreprise. -->
+      <div class="mq-sec">Vos pièces</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:8px;">
+      <div id="ent-pieces-liste" style="display:flex;flex-direction:column;gap:6px;">
+      <div style="font-size:12.5px;color:var(--muted);">Chargement…</div>
+      </div>
+      <input type="file" id="ent-pieces-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+      <button type="button" class="mq-btn mq-ghost" id="ent-pieces-btn" style="min-height:44px;">Déposer Kbis, RC Pro, décennale</button>
+      <p class="hint">Ces pièces rejoignent votre coffre-fort. Pour les autres documents (plans, PV, garanties…), ouvrez le <a href="./coffre.html" style="color:var(--t1);font-weight:700;">coffre-fort</a>.</p>
+      </div>
+
+      <p class="ui-note" style="text-align:center;">
+      Pour modifier ces informations, contactez l'équipe BatiSpot.
+      </p>
+      </div>
+
+      <!-- ══════════════════ PROFIL (ex profile.html) ══════════════════ -->
+      <div id="profil" hidden>
+      <div id="profile-body">
+      <div class="loading-wrap"><div class="loading"></div></div>
+      </div>
+      </div>
+
+      <!-- ══════════════════ GRILLE DE PRIX (ex profile.html #mes-prix) ══════════════════ -->
+      <div id="grille" hidden>
+        <!-- Dépôt en tête (04/09/2026) : le même module app-import-devis.js,
+             ouvert depuis un bouton principal plutôt que découvert plus bas. -->
+        <div class="mq-box" style="display:flex;flex-direction:column;gap:8px;">
+          <button type="button" class="mq-btn mq-primary" id="btn-deposer-grille" style="min-height:44px;">Déposer des devis ou factures (PDF ou photo)</button>
+          <p class="hint">Les prix lus sont versés dans votre grille.</p>
+          <p class="hint" id="grille-compteur" style="font-weight:700;color:var(--t1);display:none;"></p>
+        </div>
+        <div class="mq-sec">Mes prix</div>
+        <div id="mes-prix-import"></div>
+
+        <!-- Prix d'ACHAT matériaux (04/09/2026) : ce que l'artisan paie à son
+             négoce. Sert à la marge de chaque devis ; tant qu'un matériau n'a
+             pas son prix ici, l'appli affiche une estimation en ambre. -->
+        <div class="mq-sec" style="margin-top:18px;">Mes prix d'achat matériaux</div>
+        <p class="hint" style="margin:0 0 8px;">Vos prix de négoce servent à calculer la marge de chaque devis. Sans eux, l'appli affiche une estimation, jamais la vôtre.</p>
+        <div id="mes-prix-achat-import"></div>
+        <div id="mes-prix-achat-liste" style="display:flex;flex-direction:column;gap:6px;margin-top:10px;"></div>
+      </div>
+
+      <!-- ══════════════════ ABONNEMENT (ex settings.html) ══════════════════ -->
+      <div id="abonnement" hidden>
+        <div class="mq-sec">Compte &amp; abonnement</div>
+        <div class="mq-box" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <div>
+              <strong style="font-size:14px;">Abonnement BatiSpot Pro</strong>
+              <div style="font-size:12px;color:var(--muted);" id="setAbonnementDetail">—</div>
+            </div>
+            <span style="font-size:11px;font-weight:800;color:var(--muted);background:var(--border-soft);padding:4px 8px;border-radius:6px;white-space:nowrap;" id="setAbonnementBadge">—</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">
+            Aucun paiement n'est enregistré sur ce compte. BatiSpot ne gère pas encore
+            les abonnements depuis l'application.
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button type="button" class="mq-btn mq-ghost" data-tab-jump="profil" style="flex:1;">Mon profil</button>
+            <button type="button" class="mq-btn mq-ghost" data-tab-jump="entreprise" style="flex:1;">Profil entreprise</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════ RÉGLAGES (reste de settings.html) ══════════════════ -->
+      <div id="reglages" hidden>
+      <div class="mq-sec">Finances &amp; rentabilité</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t1)" stroke-width="2.4"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Rentabilité réelle
+          </span>
+          <span class="mq-pill mq-ok" data-date="mois-annee" data-capitale>—</span>
+        </div>
+        <div class="mq-kpis">
+          <div class="mq-kpi">
+            <div class="mq-l">CA devis acceptés</div>
+            <div class="mq-v" id="setTotSigne" style="color:var(--t1);">—</div>
+          </div>
+          <div class="mq-kpi mq-amber">
+            <div class="mq-l">Devis en attente</div>
+            <div class="mq-v" id="setTotAttente">—</div>
+          </div>
+          <div class="mq-kpi">
+            <div class="mq-l">Dépenses matériaux</div>
+            <div class="mq-v" id="setTotDepenses">—</div>
+          </div>
+          <div class="mq-kpi">
+            <div class="mq-l">Marge nette BTP</div>
+            <div class="mq-v" id="setTotMarge">—</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label for="emailComptable" style="font-size:12px;font-weight:700;color:var(--muted);">
+            Email de mon comptable
+          </label>
+          <div style="display:flex;gap:6px;">
+            <input type="email" id="emailComptable" class="f-input" inputmode="email"
+                   autocomplete="email" placeholder="cabinet@exemple.fr"
+                   style="flex:1;min-height:44px;">
+            <button type="button" class="mq-btn mq-ghost" id="btnMemoriserComptable" style="white-space:nowrap;">
+              Mémoriser
+            </button>
+          </div>
+          <div id="statutComptable" style="display:none;font-size:12px;line-height:1.45;padding:8px 10px;border-radius:var(--radius-sm);"></div>
+        </div>
+
+        <div style="display:flex;gap:6px;margin-top:8px;">
+          <button type="button" class="mq-btn mq-primary" id="btnEnvoyerComptable" style="flex:1;">
+            Envoyer à mon comptable
+          </button>
+          <button type="button" class="mq-btn mq-ghost" id="btnDossierComptable" style="flex:1;">
+            Télécharger
+          </button>
+        </div>
+        <div style="font-size:12px;line-height:1.5;color:var(--muted);">
+          Vos factures, vos dépenses ventilées par taux de TVA, et les justificatifs
+          photographiés, renommés et rapprochés de chaque ligne. Vous êtes en copie
+          de l'envoi&nbsp;: vous voyez partir vos pièces.
+        </div>
+      </div>
+
+      <div class="mq-sec">Équipe &amp; collaborateurs</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t1)" stroke-width="2.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Membres
+          </span>
+          <a href="./equipe.html" class="mq-btn mq-ghost" style="padding:0 14px;">
+            Ajouter un membre
+          </a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="setTeamList">
+          <div style="font-size:12.5px;color:var(--muted);">Chargement…</div>
+        </div>
+
+        <div style="padding-top:12px;border-top:1px solid var(--border-soft);">
+          <div style="font-size:12.5px;font-weight:800;margin-bottom:4px;">
+            Ce que voient vos chefs d'équipe
+          </div>
+          <div id="setPartageEquipe"></div>
+        </div>
+      </div>
+
+      <div class="mq-sec">Notifications</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:10px;">
+        <span style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t1)" stroke-width="2.4"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Alertes signature et messages
+        </span>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.45;">
+          Être prévenu sur ce téléphone quand un client <strong>signe un devis</strong>
+          ou vous <strong>envoie un message</strong>.
+        </div>
+        <div id="pushEtat" style="font-size:12px;font-weight:700;padding:8px 10px;border-radius:var(--radius-sm);background:var(--border-soft);color:var(--muted);">
+          Vérification…
+        </div>
+        <button type="button" class="mq-btn mq-primary" id="btnPush" style="display:none;">
+          Activer les notifications
+        </button>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--muted);line-height:1.45;cursor:pointer;padding-top:8px;margin-top:2px;border-top:1px solid var(--border-soft);">
+          <input type="checkbox" id="notifEmailCheckbox" checked style="width:18px;height:18px;margin-top:1px;accent-color:#228B5B;flex-shrink:0;">
+          <span>Recevoir aussi par e-mail&nbsp;: devis signé, PV signé, facture payée, nouveau message.</span>
+        </label>
+      </div>
+
+      <!-- (06/09, Moctar) manières de l'assistant : forme seulement, le fond ne change pas -->
+      <div class="mq-sec" style="margin-top:14px;">Assistant</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:12px;">
+        <div style="font-weight:800;font-size:14.5px;">Ses manières avec vous</div>
+        <label style="display:flex;gap:10px;align-items:center;font-size:13.5px;cursor:pointer;">
+          <input type="checkbox" id="styleTutoiement" style="width:18px;height:18px;accent-color:#228B5B;flex-shrink:0;">
+          <span>Il me tutoie</span>
+        </label>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="mq-btn mq-ghost" id="styleCourt" style="flex:1;">Réponses courtes</button>
+          <button type="button" class="mq-btn mq-ghost" id="styleDetaille" style="flex:1;">Réponses détaillées</button>
+        </div>
+        <textarea id="styleNotes" maxlength="240" rows="2" placeholder="Ce qu'il doit savoir de vous (ex. : « appelle-moi Karim », « je travaille surtout en rénovation », « pas de blabla »)" style="width:100%;box-sizing:border-box;font:16px/1.4 Inter,system-ui,sans-serif;border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;"></textarea>
+        <div style="font-size:12px;color:var(--muted);">Ça change sa façon de parler, jamais ce qu'il dit : les chiffres, les refus et les règles restent les mêmes.</div>
+      </div>
+
+      <div class="mq-sec">Assurances &amp; décennale</div>
+      <div class="mq-box" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--border-soft);">
+          <span>SIRET</span>
+          <strong id="setSiret" style="color:var(--muted);">—</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--border-soft);">
+          <span>Qualifications déclarées</span>
+          <strong id="setQualifs" style="color:var(--muted);text-align:right;">—</strong>
+        </div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">
+          Ces informations sont celles que vous avez saisies. BatiSpot ne vérifie pas
+          votre SIRET ni vos attestations d'assurance.
+          <button type="button" data-tab-jump="entreprise" style="background:none;border:none;padding:0;font:inherit;color:var(--t1);font-weight:700;cursor:pointer;text-decoration:underline;">Les modifier</button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <!-- Conteneur de Toasts Non-Bloquants (dossier comptable) -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-dates.js?v=v30_2026_09_02" defer></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="/js/update-detector.js" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <!-- BtpPriceGridManager (grille + remontee vers artisan_prix) puis l'import
+       qui s'en sert. -->
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-import-devis.js?v=2026_09_06e" defer></script>
+
+  <script>
+    // Toasts non-bloquants (dossier comptable) — repris tel quel de settings.html.
+    function showToast(msg, isYellow = false) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${isYellow ? 'yellow' : ''}`;
+      // textContent, PAS innerHTML : ce toast peut afficher un message venu du
+      // LLM (OCR d'un ticket, retour de l'assistant).
+      const bsT = document.createElement("span");
+      bsT.textContent = msg;
+      const bsX = document.createElement("span");
+      bsX.style.cursor = "pointer";
+      bsX.style.display = "inline-flex";
+      bsX.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      bsX.addEventListener("click", () => toast.remove());
+      toast.replaceChildren(bsT, bsX);
+      container.appendChild(toast);
+      setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 250); }, 2500);
+    }
+  </script>
+
+  <script type="module">
+  /* ════════════════════════════════════════════════════════════════════
+     Page hôte « Mon entreprise » — fusion de profile-entreprise.html,
+     profile.html et settings.html (04/09/2026). Un seul import depuis
+     js/supabase.js, une seule session, un seul chargement du dossier
+     artisan_leads (les deux anciennes pages le lisaient chacune de son
+     côté). Les sous-onglets Abonnement et Réglages restent réservés au
+     responsable, comme l'était settings.html en entier.
+     ════════════════════════════════════════════════════════════════════ */
+  import {
+    supabase, requireAuth, redirectClientToTheirSpace, toast, fmtDate, isVipUser,
+    listCoffreDocs, coffreDocsExpirants, uploadCoffreDoc,
+    mesDroits, roleSimule, simulerRole, exigerDroit, listMembres, ROLE_LABEL,
+    getParametresEquipe, majParametresEquipe,
+    getMyProfile, upsertMyProfile, uploadLogo, photoUrlAsync,
+  } from './js/supabase.js';
+  import { listerDevis } from './js/devis-store.js';
+
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function el(tag, attrs = {}, children = []) {
+    const node = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === 'class') node.className = v;
+      else if (k === 'style' && typeof v === 'object') Object.assign(node.style, v);
+      else if (k === 'dataset' && typeof v === 'object') Object.assign(node.dataset, v);
+      else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
+      else if (v === true) node.setAttribute(k, '');
+      else node.setAttribute(k, v);
+    }
+    for (const child of [].concat(children)) {
+      if (child == null || child === false) continue;
+      node.appendChild(typeof child === 'string' ? document.createTextNode(child) : child);
+    }
+    return node;
+  }
+
+  const session = await requireAuth('./login.html');
+  if (!session) throw new Error('No session');
+  const userEmail = (session.user.email || '').toLowerCase();
+
+  /* ── Sous-onglets : Entreprise / Profil / Grille / Abonnement / Réglages ── */
+  const ONGLETS = ['entreprise', 'profil', 'grille', 'abonnement', 'reglages'];
+  const CHARGE = new Set(); // un panneau ne s'initialise qu'une fois
+  let ongletCourant = 'entreprise';
+
+  // Contexte d'écran (task 5).
+  window.bsContexteEcran = () => ({ page: 'entreprise', onglet: ongletCourant });
+
+  function ongletDepuisURL() {
+    const h = (location.hash || '').replace('#', '');
+    if (h === 'grille' || h === 'mes-prix') return 'grille';
+    if (h === 'abonnement') return 'abonnement';
+    if (ONGLETS.includes(h)) return h;
+    const q = new URLSearchParams(location.search).get('onglet');
+    if (ONGLETS.includes(q)) return q;
+    return 'entreprise';
+  }
+
+  async function switchOnglet(nom, { pousserUrl = true } = {}) {
+    ongletCourant = ONGLETS.includes(nom) ? nom : 'entreprise';
+    document.querySelectorAll('#entTabs .mq-subtab').forEach((b) => {
+      b.classList.toggle('mq-on', b.dataset.tab === ongletCourant);
+    });
+    ONGLETS.forEach((o) => {
+      const panneau = document.getElementById(o);
+      if (panneau) panneau.hidden = (o !== ongletCourant);
+    });
+    if (pousserUrl) {
+      const url = new URL(location.href);
+      url.searchParams.set('onglet', ongletCourant);
+      history.replaceState(null, '', url.pathname + url.search);
+    }
+    // Abonnement et Réglages viennent de settings.html : reservés au
+    // responsable, comme la page entière l'était avant la fusion.
+    if ((ongletCourant === 'abonnement' || ongletCourant === 'reglages') && !CHARGE.has('reglages-garde')) {
+      CHARGE.add('reglages-garde');
+      const droits = await exigerDroit(
+        (d) => d.patron,
+        "Cette page est réservée au responsable de l'entreprise. "
+        + 'Vos chantiers, votre planning et vos photos restent accessibles depuis votre espace.'
+      );
+      if (droits) { CHARGE.add('reglages'); chargerReglagesEtAbonnement(); }
+    }
+    if (ongletCourant === 'profil' && !CHARGE.has('profil')) { CHARGE.add('profil'); chargerProfil(); }
+    if (ongletCourant === 'grille' && !CHARGE.has('grille')) { CHARGE.add('grille'); chargerGrille(); }
+    if (ongletCourant === 'entreprise' && !CHARGE.has('entreprise')) { CHARGE.add('entreprise'); chargerPieces(); }
+  }
+  window.switchOnglet = switchOnglet;
+
+  document.getElementById('entTabs')?.addEventListener('click', (e) => {
+    const b = e.target.closest('.mq-subtab');
+    if (b && b.dataset.tab) switchOnglet(b.dataset.tab);
+  });
+  document.querySelectorAll('[data-tab-jump]').forEach((b) => {
+    b.addEventListener('click', () => switchOnglet(b.dataset.tabJump));
+  });
+  window.addEventListener('hashchange', () => switchOnglet(ongletDepuisURL()));
+
+  /* ── Dossier artisan_leads : une seule lecture pour Entreprise + Profil ── */
+  let lead = null;
+  let isVip = false;
+  try {
+    isVip = await isVipUser(userEmail);
+    const { data, error: leadErr } = await supabase
+      .from('artisan_leads')
+      .select('*')
+      .eq('email', userEmail)
+      .maybeSingle();
+    if (leadErr) throw leadErr;
+    lead = data || null;
+    if (!lead && isVip) {
+      lead = { id: session.user.id, status: 'actif', email: userEmail, created_at: session.user.created_at || null };
+    }
+  } catch (_) { /* lead reste null : chaque panneau affiche son repli */ }
+
+  if (!lead && !isVip) {
+    await redirectClientToTheirSpace(session, './client.html');
+    document.getElementById('entreprise').replaceChildren(
+      el('div', { style: 'text-align:center; padding:32px 16px;' }, [
+        el('h3', { style: 'font-size:16px; font-weight:900; color:var(--g1,#1A6B45); margin:0 0 8px;' }, 'Profil introuvable'),
+        el('p', { class: 'scr-sub', style: 'margin:0 0 16px;' }, 'Aucun dossier artisan associé à ce compte.'),
+        el('a', { href: './inscription-pro.html', class: 'btn-cta', style: { minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' } }, 'Déposer ma candidature'),
+      ])
+    );
+    throw new Error('no lead');
+  }
+
+  /* ══════════════════ ENTREPRISE ══════════════════ */
+  const logoPreview = document.getElementById('logo-preview');
+  const logoBtn = document.getElementById('logo-btn');
+  const logoInput = document.getElementById('logo-input');
+  const logoRemove = document.getElementById('logo-remove-btn');
+
+  async function renderLogo(path) {
+    logoPreview.textContent = '';
+    if (path) {
+      const img = document.createElement('img');
+      img.src = (await photoUrlAsync(path)) || '';
+      img.alt = 'logo';
+      logoPreview.appendChild(img);
+      logoPreview.dataset.path = path;
+      logoRemove.style.display = '';
+      logoBtn.textContent = 'Changer le logo';
+    } else {
+      const span = document.createElement('span');
+      span.className = 'no-logo';
+      span.textContent = 'Aucun logo';
+      logoPreview.appendChild(span);
+      delete logoPreview.dataset.path;
+      logoRemove.style.display = 'none';
+      logoBtn.textContent = 'Choisir un logo';
+    }
+  }
+  logoBtn.addEventListener('click', () => logoInput.click());
+  logoInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const libelleLogo = logoBtn.textContent;
+    logoBtn.disabled = true;
+    logoBtn.textContent = 'Envoi…';
+    try {
+      const path = await uploadLogo(file);
+      renderLogo(path);
+      toast('Logo enregistré', 'success');
+    } catch (err) {
+      toast(err.message, 'error');
+    } finally {
+      logoBtn.disabled = false;
+      logoBtn.textContent = libelleLogo;
+      e.target.value = '';
+    }
+  });
+  logoRemove.addEventListener('click', async () => {
+    if (!confirm('Retirer le logo ?')) return;
+    try {
+      const path = logoPreview.dataset.path;
+      if (path) await supabase.storage.from('chantiers').remove([path]);
+      await upsertMyProfile({ logo_storage_path: null });
+      renderLogo(null);
+      toast('Logo retiré', 'success');
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+  });
+  let couleurActuelle = '#228B5B';
+  let signatureActuelle = null;
+  try {
+    const p = await getMyProfile() || {};
+    renderLogo(p.logo_storage_path || null);
+    couleurActuelle = p.couleur || '#228B5B';
+    signatureActuelle = p.signature_image || null;
+  } catch (_) { renderLogo(null); }
+
+  // ── Couleur de marque ────────────────────────────────────
+  const couleurInput = document.getElementById('couleur-input');
+  if (couleurInput) {
+    couleurInput.value = couleurActuelle;
+    function marquerSwatchActif() {
+      document.querySelectorAll('.couleur-swatch').forEach((b) => {
+        b.style.borderColor = (b.dataset.c.toLowerCase() === couleurInput.value.toLowerCase()) ? '#1C2B22' : 'transparent';
+      });
+    }
+    marquerSwatchActif();
+    async function enregistrerCouleur(hex) {
+      couleurInput.value = hex;
+      marquerSwatchActif();
+      try {
+        await upsertMyProfile({ couleur: hex });
+        toast('Couleur enregistrée', 'success');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    }
+    document.querySelectorAll('.couleur-swatch').forEach((b) => {
+      b.addEventListener('click', () => enregistrerCouleur(b.dataset.c));
+    });
+    couleurInput.addEventListener('change', () => enregistrerCouleur(couleurInput.value));
+  }
+
+  // ── Signature de l'artisan (04/09/2026) ───────────────────────────
+  // Meme logique de trace que le pad de signature client dans suivi.html
+  // (installerSignature) : resolution fixe superieure a l'affichage CSS pour
+  // que le trace ne ressorte pas flou sur le devis imprime, ligne 2,5 px,
+  // capture pointeur pour ne pas perdre le trait si le doigt sort du cadre.
+  // Difference : fond BLANC (pas transparent) car cette image est reutilisee
+  // telle quelle sur chaque devis, elle doit s'imprimer proprement.
+  (function brancherSignature() {
+    const canvas = document.getElementById('sigCanvas');
+    const btnEffacer = document.getElementById('sigEffacer');
+    const btnEnregistrer = document.getElementById('sigEnregistrer');
+    const apercu = document.getElementById('sigApercu');
+    const apercuImg = document.getElementById('sigApercuImg');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1C2B22';
+    function fondBlanc() { ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    fondBlanc();
+    let dessine = false, trace = false;
+    const point = (e) => {
+      const r = canvas.getBoundingClientRect();
+      return [(e.clientX - r.left) * (canvas.width / r.width), (e.clientY - r.top) * (canvas.height / r.height)];
+    };
+    canvas.addEventListener('pointerdown', (e) => {
+      dessine = true;
+      ctx.beginPath(); ctx.moveTo(...point(e));
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+      e.preventDefault();
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!dessine) return;
+      ctx.lineTo(...point(e)); ctx.stroke(); trace = true;
+      e.preventDefault();
+    });
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) {
+      canvas.addEventListener(ev, () => { dessine = false; });
+    }
+    btnEffacer?.addEventListener('click', () => { fondBlanc(); trace = false; });
+    if (signatureActuelle && apercuImg && apercu) {
+      apercuImg.src = signatureActuelle;
+      apercu.hidden = false;
+    }
+    btnEnregistrer?.addEventListener('click', async () => {
+      if (!trace) { toast('Tracez votre signature avant d’enregistrer.', 'error'); return; }
+      const libelle = btnEnregistrer.textContent;
+      btnEnregistrer.disabled = true;
+      btnEnregistrer.textContent = 'Enregistrement…';
+      try {
+        const dataUrl = canvas.toDataURL('image/png');
+        await upsertMyProfile({ signature_image: dataUrl });
+        signatureActuelle = dataUrl;
+        if (apercuImg && apercu) { apercuImg.src = dataUrl; apercu.hidden = false; }
+        toast('Signature enregistrée', 'success');
+      } catch (err) {
+        toast(err.message || "L'enregistrement a échoué.", 'error');
+      } finally {
+        btnEnregistrer.disabled = false;
+        btnEnregistrer.textContent = libelle;
+      }
+    });
+  })();
+
+  function txt(id, val, fallback) {
+    const node = document.getElementById(id);
+    if (!node) return;
+    if (val) { node.textContent = val; }
+    else { node.textContent = fallback || '—'; node.classList.add('empty'); }
+  }
+  function chips(id, csv) {
+    const node = document.getElementById(id);
+    if (!node) return;
+    const values = (csv || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (!values.length) {
+      const span = document.createElement('span');
+      span.className = 'info-value empty';
+      span.textContent = 'Non renseigné';
+      node.appendChild(span);
+      return;
+    }
+    values.forEach(v => {
+      const chip = document.createElement('span');
+      chip.className = 'chip-ro';
+      chip.textContent = v;
+      node.appendChild(chip);
+    });
+  }
+  if (lead) {
+    txt('v-nom', [lead.prenom, lead.nom].filter(Boolean).join(' '));
+    txt('v-email', lead.email);
+    txt('v-telephone', lead.telephone);
+    txt('v-entreprise', lead.entreprise);
+    txt('v-siret', lead.siret);
+    chips('v-metiers', lead.metiers);
+    chips('v-zones', lead.zones);
+  } else {
+    const sub = document.getElementById('page-sub');
+    if (sub) sub.textContent = 'Aucune inscription trouvée pour ce compte.';
+  }
+
+  // Vos pièces : Kbis / RC Pro / décennale, mêmes fonctions que coffre.html.
+  const PIECES_ENTREPRISE = { kbis: 'Kbis', rc_pro: 'RC Pro', decennale: 'Décennale' };
+  const PIECES_AVEC_EXPIRATION = new Set(['decennale', 'rc_pro']);
+  let piecesChargees = false;
+  async function chargerPieces() {
+    if (piecesChargees) return;
+    piecesChargees = true;
+    const zone = document.getElementById('ent-pieces-liste');
+    if (!zone) return;
+    try {
+      const docs = (await listCoffreDocs()).filter((d) => PIECES_ENTREPRISE[d.categorie]);
+      zone.replaceChildren();
+      if (!docs.length) {
+        zone.appendChild(el('div', { style: 'font-size:12.5px;color:var(--muted);' }, 'Aucune de ces pièces déposée pour l’instant.'));
+        return;
+      }
+      docs.forEach((d) => {
+        const ligne = el('div', { class: 'mq-card' });
+        const ico = el('span', { style: 'color:var(--t1);flex-shrink:0;' });
+        ico.innerHTML = (window.bsIcon && window.bsIcon('doc', 18)) || '';
+        const t = el('div', { class: 'mq-t' }, [
+          document.createTextNode(d.nom),
+          el('small', {}, PIECES_ENTREPRISE[d.categorie] || d.categorie),
+        ]);
+        ligne.append(ico, t);
+        if (d.expire_le) {
+          const jours = Math.ceil((new Date(d.expire_le) - new Date()) / 86400000);
+          const date = new Date(d.expire_le).toLocaleDateString('fr-FR');
+          if (jours < 60) {
+            ligne.appendChild(el('span', { class: 'mq-pill mq-wait' }, jours < 0 ? `Expirée le ${date}` : `Expire le ${date}`));
+          } else {
+            ligne.appendChild(el('span', { style: 'font-size:11.5px;color:var(--muted);' }, `Valide jusqu'au ${date}`));
+          }
+        }
+        zone.appendChild(ligne);
+      });
+    } catch (e) {
+      zone.replaceChildren(el('div', { style: 'font-size:12.5px;color:var(--muted);' }, 'Pièces indisponibles pour l’instant.'));
+    }
+  }
+  document.getElementById('ent-pieces-btn')?.addEventListener('click', () => {
+    document.getElementById('ent-pieces-input')?.click();
+  });
+  document.getElementById('ent-pieces-input')?.addEventListener('change', async (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    e.target.value = '';
+    const cats = Object.entries(PIECES_ENTREPRISE).map(([k, v], i) => `${i + 1}. ${v}`).join('\n');
+    const rep = prompt(`Quelle pièce déposez-vous ?\n${cats}\n\nTapez le numéro :`, '1');
+    const idx = parseInt(rep, 10) - 1;
+    const cles = Object.keys(PIECES_ENTREPRISE);
+    if (!(idx >= 0 && idx < cles.length)) return;
+    const categorie = cles[idx];
+    let expire = null;
+    if (PIECES_AVEC_EXPIRATION.has(categorie)) {
+      const d = prompt("Date de fin de validité (JJ/MM/AAAA) — laissez vide si vous ne l'avez pas :", '');
+      if (d && /^\d{2}\/\d{2}\/\d{4}$/.test(d.trim())) {
+        const [j, m, a] = d.trim().split('/');
+        expire = `${a}-${m}-${j}`;
+      }
+    }
+    toast('Envoi en cours…', 'info');
+    try {
+      await uploadCoffreDoc(f, { categorie, expire_le: expire, visibilite: 'prive' });
+      piecesChargees = false;
+      await chargerPieces();
+      toast('Document enregistré', 'success');
+    } catch (err) {
+      toast(err && err.message ? err.message : 'Envoi impossible. Vérifiez votre connexion.', 'error');
+    }
+  });
+
+  /* ══════════════════ PROFIL ══════════════════ */
+  let profilCharge = false;
+  async function chargerProfil() {
+    if (profilCharge) return;
+    profilCharge = true;
+    const body = document.getElementById('profile-body');
+    if (!lead) return; // le repli « Profil introuvable » a déjà remplacé #entreprise
+
+    const locked = ['documents_valides', 'actif'].includes(lead.status);
+    const STATUS = {
+      en_attente: { cls: 'mq-wait', label: 'En attente de validation' },
+      documents_valides: { cls: 'mq-info', label: 'Documents validés' },
+      actif: { cls: 'mq-ok', label: 'Compte actif' },
+      refuse: { cls: 'mq-refuse', label: 'Dossier refusé' },
+    };
+    const statusInfo = STATUS[lead.status] || { cls: 'mq-wait', label: lead.status || '—' };
+    const docUrl = (path) => {
+      if (!path) return null;
+      const { data } = supabase.storage.from('artisan-docs').getPublicUrl(path);
+      return data.publicUrl;
+    };
+
+    let chantiersCount = null;
+    let avgRating = null;
+    let reviewCount = 0;
+    try {
+      const { count } = await supabase.from('chantiers').select('id', { count: 'exact', head: true }).eq('pro_id', session.user.id);
+      chantiersCount = count ?? 0;
+    } catch (_) { chantiersCount = null; }
+    try {
+      const { data: ratingData } = await supabase.rpc('get_artisan_rating', { p_artisan_lead_id: lead.id });
+      if (ratingData?.[0]) {
+        reviewCount = Number(ratingData[0].review_count ?? 0);
+        avgRating = reviewCount > 0 ? String(ratingData[0].avg_rating ?? '') : null;
+      }
+    } catch (_) {}
+
+    const fullName = [lead.prenom, lead.nom].filter(Boolean).join(' ').trim() || lead.entreprise || userEmail;
+    const initial = (fullName.match(/[A-Za-zÀ-ÿ]/) || ['?'])[0].toUpperCase();
+    const companyLine = [lead.entreprise, lead.zones ? lead.zones.split(',')[0].trim() : null].filter(Boolean).join(' · ');
+
+    const avatarBlock = el('div', { class: 'profile-avatar', id: 'profile-avatar' });
+    if (lead.logo_storage_path) {
+      avatarBlock.textContent = initial;
+      supabase.storage.from('chantiers').createSignedUrl(lead.logo_storage_path, 3600).then(({ data, error }) => {
+        if (error || !data?.signedUrl) return;
+        avatarBlock.textContent = '';
+        avatarBlock.appendChild(el('img', { src: data.signedUrl, alt: 'Logo', loading: 'lazy' }));
+      });
+    } else {
+      avatarBlock.textContent = initial;
+    }
+
+    const heroBlock = el('div', { class: 'profile-hero' }, [
+      avatarBlock,
+      el('div', { class: 'profile-identity' }, [
+        el('div', { class: 'name' }, fullName),
+        companyLine ? el('div', { class: 'company' }, companyLine) : null,
+        el('span', { class: `status-pill mq-pill ${statusInfo.cls}` }, statusInfo.label),
+      ]),
+    ]);
+
+    const statCards = [
+      el('div', { class: 'stat-card' }, [
+        el('div', { class: 'stat-num' }, chantiersCount == null ? '—' : String(chantiersCount)),
+        el('div', { class: 'stat-lbl' }, 'Chantiers'),
+      ]),
+    ];
+    if (reviewCount > 0 && avgRating) {
+      statCards.push(el('div', { class: 'stat-card' }, [
+        el('div', { class: 'stat-num' }, avgRating),
+        el('div', { class: 'stat-lbl' }, `${reviewCount} avis`),
+      ]));
+    }
+    const statGrid = el('div', { class: 'stat-grid', style: { gridTemplateColumns: `repeat(${statCards.length}, 1fr)` } }, statCards);
+
+    const METIER_LABELS = {
+      plomberie: 'Plomberie', chauffage: 'Chauffage', electricite: 'Électricité',
+      peinture: 'Peinture', carrelage: 'Carrelage', maconnerie: 'Maçonnerie',
+      menuiserie: 'Menuiserie', couverture: 'Couverture', isolation: 'Isolation',
+      renovation: 'Rénovation', sanitaire: 'Sanitaire',
+    };
+    const ZONE_LABELS = {
+      '75': '75 · Paris', '77': '77 · Seine-et-Marne', '78': '78 · Yvelines',
+      '91': '91 · Essonne', '92': '92 · Hauts-de-Seine', '93': '93 · Seine-Saint-Denis',
+      '94': '94 · Val-de-Marne', '95': "95 · Val-d'Oise",
+    };
+    function parseList(s) { return String(s || '').split(',').map(x => x.trim()).filter(Boolean); }
+    function buildChipRow(values, labelMap, emptyText) {
+      const wrap = el('div', { class: 'chip-row', style: 'flex-wrap:wrap;gap:.3rem' });
+      if (!values.length) { wrap.appendChild(el('span', { class: 'chip empty' }, emptyText)); return wrap; }
+      for (const v of values) {
+        const label = labelMap?.[v.toLowerCase()] || labelMap?.[v] || v;
+        wrap.appendChild(el('span', { class: 'chip active' }, label));
+      }
+      return wrap;
+    }
+    const metiersList = parseList(lead.metiers);
+    const zonesList = parseList(lead.zones);
+    const metiersHeader = el('div', { class: 'scr-h' }, 'Mes métiers');
+    const metiersChips = buildChipRow(metiersList, METIER_LABELS, 'Aucun métier renseigné');
+    const zonesHeader = el('div', { class: 'scr-h' }, 'Mes zones IDF');
+    const zonesChips = buildChipRow(zonesList, ZONE_LABELS, 'Aucune zone renseignée');
+
+    // Coffre-fort : carte résumé (Kbis, décennale, plans, PV).
+    const docsCarte = el('a', {
+      href: './coffre.html',
+      style: 'display:block;margin-top:14px;padding:14px;background:#fff;'
+        + 'border:1px solid #E7EEEA;border-radius:12px;text-decoration:none;color:inherit',
+    }, [
+      el('div', { style: 'display:flex;align-items:center;gap:10px' }, [
+        el('div', { style: 'width:34px;height:34px;border-radius:9px;background:#EBF7F1;color:var(--t1);'
+          + 'display:flex;align-items:center;justify-content:center;flex-shrink:0;'
+          + 'font-weight:900;font-size:15px' }, 'D'),
+        el('div', { style: 'flex:1;min-width:0' }, [
+          el('div', { style: 'font-size:14px;font-weight:800;color:#1C2B22' }, 'Mes documents'),
+          el('div', { id: 'coffre-resume', style: 'font-size:11.5px;color:var(--muted)' }, 'Kbis, décennale, plans, PV de réception'),
+        ]),
+        el('div', { style: 'color:var(--muted);font-size:18px;font-weight:700' }, '›'),
+      ]),
+      el('div', { id: 'coffre-alerte',
+        style: 'display:none;margin-top:9px;background:#FEF3C7;border:1px solid #FCD34D;'
+          + 'border-radius:8px;padding:7px 10px;font-size:11.5px;color:#92400E;font-weight:700' }),
+    ]);
+    (async () => {
+      try {
+        const docs = await listCoffreDocs();
+        const resume = document.getElementById('coffre-resume');
+        if (resume) {
+          resume.textContent = docs.length
+            ? `${docs.length} document${docs.length > 1 ? 's' : ''} conservé${docs.length > 1 ? 's' : ''}`
+            : 'Ajoutez votre Kbis et votre attestation décennale';
+        }
+        const proches = await coffreDocsExpirants(60);
+        const zone = document.getElementById('coffre-alerte');
+        if (zone && proches.length) {
+          zone.style.display = 'block';
+          zone.textContent = proches.length === 1
+            ? `Une attestation expire le ${new Date(proches[0].expire_le).toLocaleDateString('fr-FR')}`
+            : `${proches.length} attestations expirent dans les 60 jours`;
+        }
+      } catch { /* la carte garde son libelle par defaut */ }
+    })();
+
+    body.replaceChildren(heroBlock, statGrid, metiersHeader, metiersChips, zonesHeader, zonesChips, docsCarte);
+
+    // Accordéon d'édition — un seul contrôle (le <summary>) : l'ancien bouton
+    // « Modifier mon profil » au-dessus faisait doublon avec « Modifier mes
+    // informations » et a été retiré (fusion du 04/09/2026).
+    const acc = document.createElement('details');
+    acc.className = 'edit-accordion';
+    acc.id = 'edit-accordion';
+    if (lead.status === 'en_attente') acc.open = true;
+    const accSummary = document.createElement('summary');
+    accSummary.textContent = 'Modifier mes informations';
+    acc.appendChild(accSummary);
+
+    const accBody = document.createElement('div');
+    accBody.className = 'acc-body';
+    accBody.innerHTML = `
+      ${locked ? `
+      <div style="background:#ECFDF5;border:1px solid #6EE7B7;border-radius:var(--radius-sm);padding:10px 12px;margin:12px 0;font-size:13px;color:var(--t1);">
+      <strong>Profil verrouillé</strong> — Identité et entreprise verrouillées. Pour modification :
+      <a href="mailto:contact@batispot.pro" style="color:#047857;">contact@batispot.pro</a>.
+      </div>
+      ` : ''}
+      <div class="acc-section" data-encadrement>
+      <h4>Statut du dossier</h4>
+      <div style="font-size:13px;color:var(--sub,#3D5A4E);">
+      Inscrit le ${escapeHtml(fmtDate(lead.created_at))} · ${escapeHtml(userEmail)}
+      </div>
+      </div>
+      <div class="acc-section">
+      <h4>Informations personnelles</h4>
+      <div class="f-row">
+      <label class="f-label">Prénom</label>
+      <input type="text" id="p-prenom" class="f-input" value="${escapeHtml(lead.prenom || '')}" ${locked ? 'disabled data-lockable' : ''}>
+      </div>
+      <div class="f-row">
+      <label class="f-label">Nom</label>
+      <input type="text" id="p-nom" class="f-input" value="${escapeHtml(lead.nom || '')}" ${locked ? 'disabled data-lockable' : ''}>
+      </div>
+      <div class="f-row">
+      <label class="f-label">Téléphone</label>
+      <input type="tel" id="p-telephone" class="f-input" value="${escapeHtml(lead.telephone || '')}" placeholder="06…">
+      </div>
+      </div>
+      <div class="acc-section" data-encadrement>
+      <h4>Entreprise</h4>
+      <div class="f-row">
+      <label class="f-label">Nom de l'entreprise</label>
+      <input type="text" id="p-entreprise" class="f-input" value="${escapeHtml(lead.entreprise || '')}" ${locked ? 'disabled data-lockable' : ''}>
+      </div>
+      <div class="f-row">
+      <label class="f-label">SIRET</label>
+      <input type="text" id="p-siret" class="f-input" value="${escapeHtml(lead.siret || '')}" ${locked ? 'disabled data-lockable' : ''}>
+      </div>
+      </div>
+      <div class="acc-section" id="documents">
+      <h4>Documents</h4>
+      ${[
+        { key: 'doc_decennale_path', label: 'Assurance décennale' },
+        { key: 'doc_kbis_path', label: 'KBIS' },
+        { key: 'doc_identite_path', label: "Pièce d'identité" },
+      ].map(({ key, label }) => {
+        const path = lead[key];
+        const docsValidated = ['documents_valides', 'actif'].includes(lead.status);
+        const badge = path
+          ? (docsValidated
+            ? `<span style="display:inline-flex;align-items:center;gap:4px;background:#ECFDF5;color:var(--t1);border:1px solid #6EE7B7;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;"> Validé</span>`
+            : `<span style="display:inline-flex;align-items:center;gap:4px;background:#F7FBF8;color:var(--t1);border:1px solid var(--t1);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;"> En attente</span>`)
+          : `<span style="display:inline-flex;align-items:center;background:#F3F4F6;color:#6B7280;border-radius:20px;padding:3px 10px;font-size:11px;">À déposer</span>`;
+        const viewBtn = path
+          ? `<a href="${escapeHtml(docUrl(path) || '')}" target="_blank" rel="noopener" class="btn-light" style="width:auto;padding:5px 10px;font-size:12px;">Voir</a>`
+          : '';
+        if (!path) {
+          return `<div style="margin-bottom:14px;font-size:13px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="color:var(--sub,#3D5A4E);font-weight:600;">${label}</span>
+          <div style="display:flex;align-items:center;gap:8px;">${badge}</div>
+          </div>
+          <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:#f0fdf4;border:1px dashed #6EE7B7;border-radius:8px;padding:6px 12px;font-size:12px;color:var(--t1);font-weight:600;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Déposer
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" data-doc-key="${escapeHtml(key)}" class="doc-replace-input">
+          </label>
+          <span class="doc-replace-msg" data-doc-key="${escapeHtml(key)}" style="font-size:11px;margin-left:8px;color:var(--t1);"></span>
+          </div>`;
+        }
+        return `<div style="margin-bottom:14px;font-size:13px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="color:var(--sub,#3D5A4E);font-weight:600;">${label}</span>
+        <div style="display:flex;align-items:center;gap:8px;">${badge}${viewBtn}</div>
+        </div>
+        <div class="doc-renew-zone" style="display:none;margin-top:6px;">
+        <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:#fff7ed;border:1px dashed #228B5B;border-radius:8px;padding:6px 12px;font-size:12px;color:var(--t1);font-weight:600;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Déposer le nouveau document
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" data-doc-key="${escapeHtml(key)}" class="doc-replace-input">
+        </label>
+        <span class="doc-replace-msg" data-doc-key="${escapeHtml(key)}" style="font-size:11px;margin-left:8px;color:var(--t1);"></span>
+        </div>
+        <button type="button" class="doc-expired-btn" data-doc-key="${escapeHtml(key)}" style="background:none;border:none;padding:0;font-size:11px;color:#6B7280;cursor:pointer;text-decoration:underline;margin-top:4px;">${docsValidated ? 'Ajouter / remplacer un document' : 'Document expiré ?'}</button>
+        </div>`;
+      }).join('')}
+      </div>
+      <div class="acc-section" data-encadrement>
+      <h4>Zones &amp; Métiers</h4>
+      <div class="f-row">
+      <label class="f-label">Zones d'intervention</label>
+      <textarea id="p-zones" class="f-input" rows="2" placeholder="Ex: 75, 92, 93">${escapeHtml(lead.zones || '')}</textarea>
+      <div style="font-size:11px;color:var(--sub,#3D5A4E);">Séparées par des virgules.</div>
+      </div>
+      <div class="f-row">
+      <label class="f-label">Métiers</label>
+      <textarea id="p-metiers" class="f-input" rows="2" placeholder="Ex: plomberie, chauffage, electricite">${escapeHtml(lead.metiers || '')}</textarea>
+      <div style="font-size:11px;color:var(--sub,#3D5A4E);">Séparés par des virgules.</div>
+      </div>
+      </div>
+      <button type="button" class="btn-cta" id="save-btn" style="margin-top:14px;min-height:44px;">Enregistrer les modifications</button>
+      <div class="acc-section">
+      <h4>Sécurité</h4>
+      <p style="font-size:13px;line-height:1.5;color:var(--sub,#3D5A4E);margin:0 0 12px;">
+      Définissez un mot de passe pour vous reconnecter sans magic link. Votre navigateur proposera de l'enregistrer dans le trousseau (iCloud Keychain, Google Password Manager).
+      </p>
+      <form id="pwd-set-form" autocomplete="on">
+      <input type="email" name="username" id="pwd-set-username" value="${escapeHtml(userEmail)}" autocomplete="username" hidden readonly>
+      <div class="f-row">
+      <label class="f-label" for="pwd-set-new">Nouveau mot de passe</label>
+      <input type="password" id="pwd-set-new" class="f-input" autocomplete="new-password" minlength="8" required placeholder="8 caractères min.">
+      </div>
+      <div class="f-row">
+      <label class="f-label" for="pwd-set-confirm">Confirmer</label>
+      <input type="password" id="pwd-set-confirm" class="f-input" autocomplete="new-password" minlength="8" required placeholder="Retapez le mot de passe">
+      </div>
+      <button type="submit" class="btn-cta" id="pwd-set-btn" style="min-height:44px;">Définir / Changer mon mot de passe</button>
+      <p id="pwd-set-msg" style="font-size:13px;text-align:center;min-height:1.4em;margin-top:10px;"></p>
+      </form>
+      </div>
+    `;
+    acc.appendChild(accBody);
+    body.appendChild(acc);
+
+    (async () => {
+      let d;
+      try { d = await mesDroits(); } catch (_) { return; }
+      if (!d) return;
+      if (d.encadrement !== true) {
+        accBody.querySelectorAll('[data-encadrement]').forEach((s) => s.remove());
+      }
+      const docs = accBody.querySelector('#documents');
+      if (docs && !accBody.querySelector('#lien-equipe')) {
+        const s = document.createElement('div');
+        s.className = 'acc-section';
+        s.id = 'lien-equipe';
+        s.innerHTML = '<h4>Mon equipe</h4>'
+          + '<a href="./equipe.html" class="btn-light" style="display:inline-block;width:auto;'
+          + 'padding:8px 14px;font-size:13px;text-decoration:none;">Voir mon equipe</a>';
+        docs.after(s);
+      }
+      if (d.patron !== true && d.role_reel !== 'patron') return;
+      const sel = document.createElement('div');
+      sel.className = 'acc-section';
+      sel.innerHTML = '<h4>Apercu de l\'application</h4>'
+        + '<div style="font-size:12.5px;color:var(--sub,#3D5A4E);margin-bottom:8px;line-height:1.5;">'
+        + 'Voir l\'application telle qu\'elle apparait a un membre de votre equipe. '
+        + '<strong>L\'affichage seul change : vos droits restent les votres.</strong></div>';
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;';
+      const actuel = roleSimule() || 'patron';
+      for (const [role, libelle] of [['patron', 'Responsable'], ['chef', "Chef d'equipe"], ['compagnon', 'Ouvrier']]) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = libelle;
+        const on = role === actuel;
+        b.style.cssText = 'padding:8px 14px;border-radius:8px;font:700 13px Inter,system-ui,sans-serif;'
+          + 'cursor:pointer;border:1px solid ' + (on ? '#228B5B' : '#D6E3DC') + ';'
+          + 'background:' + (on ? 'var(--t1)' : '#FFFFFF') + ';color:' + (on ? '#FFFFFF' : 'var(--sub)') + ';';
+        b.addEventListener('click', () => { simulerRole(role); location.reload(); });
+        row.appendChild(b);
+      }
+      sel.appendChild(row);
+      accBody.appendChild(sel);
+    })();
+
+    if (locked) {
+      document.querySelectorAll('[data-lockable]').forEach(node => {
+        node.style.background = '#f5f5f5';
+        node.style.color = '#888';
+        node.style.cursor = 'not-allowed';
+      });
+    }
+
+    document.getElementById('pwd-set-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newPwd = document.getElementById('pwd-set-new').value;
+      const confirmPwd = document.getElementById('pwd-set-confirm').value;
+      const btn = document.getElementById('pwd-set-btn');
+      const msg = document.getElementById('pwd-set-msg');
+      msg.replaceChildren();
+      if (newPwd.length < 8) { msg.style.color = '#DC2626'; msg.textContent = 'Le mot de passe doit faire au moins 8 caractères.'; return; }
+      if (newPwd !== confirmPwd) { msg.style.color = '#DC2626'; msg.textContent = 'Les deux mots de passe ne correspondent pas.'; return; }
+      btn.disabled = true;
+      btn.textContent = 'Enregistrement…';
+      try {
+        const { error } = await supabase.auth.updateUser({ password: newPwd });
+        if (error) throw error;
+        msg.style.color = 'var(--g1, #1A6B45)';
+        msg.textContent = 'Mot de passe enregistré. Le navigateur va proposer de le sauvegarder.';
+        document.getElementById('pwd-set-new').value = '';
+        document.getElementById('pwd-set-confirm').value = '';
+      } catch (err) {
+        msg.style.color = '#DC2626';
+        msg.textContent = err.message || 'Échec — réessayez.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Définir / Changer mon mot de passe';
+      }
+    });
+
+    document.querySelectorAll('.doc-expired-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const zone = btn.previousElementSibling;
+        if (zone && zone.classList.contains('doc-renew-zone')) {
+          zone.style.display = zone.style.display === 'none' ? 'block' : 'none';
+          btn.textContent = zone.style.display === 'none' ? 'Document expiré ?' : 'Annuler';
+        }
+      });
+    });
+
+    document.querySelectorAll('.doc-replace-input').forEach(input => {
+      input.addEventListener('change', async () => {
+        const file = input.files[0];
+        if (!file) return;
+        const key = input.dataset.docKey;
+        const msgEl = document.querySelector(`.doc-replace-msg[data-doc-key="${key}"]`);
+        const label = input.closest('label');
+        msgEl.style.color = 'var(--sub)';
+        msgEl.textContent = 'Upload en cours…';
+        label.style.opacity = '0.6';
+        label.style.pointerEvents = 'none';
+        try {
+          const uid = session.user.id;
+          const ext = (file.name.split('.').pop() || 'pdf').toLowerCase();
+          const path = `artisan/${uid}/${key}_${Date.now()}.${ext}`;
+          const { error: uploadErr } = await supabase.storage.from('artisan-docs').upload(path, file, { upsert: true });
+          if (uploadErr) throw uploadErr;
+          const patch = { [key]: path };
+          const { error: dbErr } = await supabase.from('artisan_leads').update(patch).eq('email', userEmail);
+          if (dbErr) throw dbErr;
+          const alreadyValidated = ['documents_valides', 'actif'].includes(lead.status);
+          msgEl.style.color = 'var(--t1)';
+          msgEl.textContent = alreadyValidated ? ' Document ajouté' : ' Déposé — validation sous 48h';
+          setTimeout(() => location.reload(), 1200);
+        } catch (err) {
+          msgEl.style.color = '#DC2626';
+          msgEl.textContent = err.message || 'Échec — réessayez';
+          label.style.opacity = '1';
+          label.style.pointerEvents = 'auto';
+        }
+      });
+    });
+
+    document.getElementById('save-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('save-btn');
+      btn.disabled = true;
+      const initialLabel = btn.textContent;
+      btn.textContent = 'Enregistrement…';
+      try {
+        const champ = (id) => { const node = document.getElementById(id); return node ? (node.value.trim() || null) : undefined; };
+        const patch = {};
+        const ajoute = (cle, id) => { const v = champ(id); if (v !== undefined) patch[cle] = v; };
+        ajoute('telephone', 'p-telephone');
+        ajoute('zones', 'p-zones');
+        ajoute('metiers', 'p-metiers');
+        if (!locked) {
+          ajoute('prenom', 'p-prenom');
+          ajoute('nom', 'p-nom');
+          ajoute('entreprise', 'p-entreprise');
+          ajoute('siret', 'p-siret');
+        }
+        if (!Object.keys(patch).length) { toast('Rien a enregistrer', 'info'); return; }
+        const { error } = await supabase.from('artisan_leads').update(patch).eq('email', userEmail);
+        if (error) throw error;
+        toast('Profil mis à jour', 'success');
+        setTimeout(() => location.reload(), 600);
+      } catch (err) {
+        toast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = initialLabel;
+      }
+    });
+  }
+
+  /* ══════════════════ GRILLE DE PRIX ══════════════════ */
+  let grilleChargee = false;
+  function chargerGrille() {
+    if (grilleChargee) return;
+    grilleChargee = true;
+    const cible = document.getElementById('mes-prix-import');
+    const compteur = document.getElementById('grille-compteur');
+    function majCompteur() {
+      const n = (window.BtpPriceGridManager && window.BtpPriceGridManager.getGrid() || []).length;
+      if (!compteur) return;
+      if (n > 0) { compteur.style.display = 'block'; compteur.textContent = `${n} prix dans votre grille`; }
+      else { compteur.style.display = 'none'; }
+    }
+    function monter() {
+      if (!cible || !window.BsImportDevis) return;
+      window.BsImportDevis.monter(cible, { onImport: majCompteur });
+      majCompteur();
+      // Le bouton d'en-tête ouvre le même sélecteur de fichier que le module —
+      // avec l'appareil photo proposé en plus de la galerie/du PDF (capture).
+      const champFichier = cible.querySelector('[data-bs="fichier"]');
+      if (champFichier) champFichier.setAttribute('capture', 'environment');
+      document.getElementById('btn-deposer-grille')?.addEventListener('click', () => {
+        champFichier?.click();
+      });
+    }
+    if (document.readyState === 'complete') monter();
+    else window.addEventListener('load', monter, { once: true });
+
+    // Prix d'achat matériaux : import (cible 'achat') + liste avec suppression.
+    async function rendrePrixAchat() {
+      const liste = document.getElementById('mes-prix-achat-liste');
+      if (!liste) return;
+      let mod;
+      try { mod = await import('./js/app-materiaux.js'); } catch (_) { return; }
+      let prix = [];
+      try { prix = await mod.chargerPrixAchat({ recharger: true }); } catch (e) { liste.textContent = 'Prix d\u2019achat indisponibles : ' + (e.message || 'réseau'); return; }
+      liste.innerHTML = '';
+      if (!prix.length) {
+        const vide = document.createElement('p'); vide.className = 'hint'; vide.style.margin = '0';
+        vide.textContent = 'Aucun prix d\u2019achat enregistré. Déposez une facture fournisseur, ou renseignez un prix depuis le volet matériaux d\u2019un devis.';
+        liste.appendChild(vide); return;
+      }
+      prix.forEach((p) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid var(--border-soft);border-radius:10px;padding:8px 10px;font-size:13px;';
+        const g = document.createElement('div'); g.style.cssText = 'min-width:0;';
+        const t = document.createElement('strong'); t.style.cssText = 'display:block;color:var(--t1);'; t.textContent = p.label;
+        const m = document.createElement('span'); m.style.cssText = 'font-size:11.5px;color:var(--muted);';
+        m.textContent = (p.source === 'facture' ? 'lu sur facture' : 'saisi') + (p.fournisseur ? ' · ' + p.fournisseur : '');
+        g.appendChild(t); g.appendChild(m);
+        const d = document.createElement('div'); d.style.cssText = 'display:flex;align-items:center;gap:8px;white-space:nowrap;';
+        const v = document.createElement('strong'); v.style.cssText = 'font-variant-numeric:tabular-nums;';
+        v.textContent = (Number(p.prix_achat) || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' € / ' + ({ m2: 'm²', m3: 'm³' }[p.unit] || p.unit);
+        const x = document.createElement('button'); x.type = 'button'; x.title = 'Supprimer';
+        x.style.cssText = 'background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:2px 4px;'; x.textContent = '×';
+        x.addEventListener('click', async () => { if (!confirm('Supprimer ce prix d\u2019achat ?')) return; try { await mod.supprimerPrixAchat(p.id); rendrePrixAchat(); } catch (e) { alert('Suppression impossible : ' + (e.message || e)); } });
+        d.appendChild(v); d.appendChild(x);
+        row.appendChild(g); row.appendChild(d);
+        liste.appendChild(row);
+      });
+    }
+    function monterAchat() {
+      const c = document.getElementById('mes-prix-achat-import');
+      if (!c || !window.BsImportDevis) return;
+      window.BsImportDevis.monter(c, { cible: 'achat', onImport: rendrePrixAchat });
+      rendrePrixAchat();
+    }
+    if (document.readyState === 'complete') monterAchat();
+    else window.addEventListener('load', monterAchat, { once: true });
+
+    // Arrivée depuis l'assistant : ?import=vente | achat (outil deposer_fichier,
+    // app-actions.js). On met le bon bloc de dépôt en évidence et on tente
+    // d'ouvrir le sélecteur de fichier — les navigateurs le refusent sans geste
+    // utilisateur récent, et une navigation n'en transmet pas : le message
+    // « Choisissez votre fichier » reste donc la vraie instruction.
+    function viserImport() {
+      const quoi = new URLSearchParams(location.search).get('import');
+      if (quoi !== 'vente' && quoi !== 'achat') return;
+      const bloc = document.getElementById(quoi === 'achat' ? 'mes-prix-achat-import' : 'mes-prix-import');
+      if (!bloc) return;
+      bloc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      bloc.style.outline = '2px solid var(--brand, #228B5B)';
+      bloc.style.outlineOffset = '4px';
+      bloc.style.borderRadius = '12px';
+      bloc.style.boxShadow = '0 0 0 6px rgba(34, 139, 91, 0.16)';
+      bloc.style.marginTop = '10px';
+      if (!bloc.querySelector('[data-bs-invite]')) {
+        const invite = document.createElement('p');
+        invite.setAttribute('data-bs-invite', '1');
+        invite.style.cssText = 'margin:0 0 10px;padding:8px 10px;border-radius:8px;'
+          + 'background:#EAF5EF;color:var(--t1);font-size:13px;font-weight:800;line-height:1.4;';
+        invite.textContent = quoi === 'achat'
+          ? 'Choisissez votre fichier : une facture de votre négoce, en PDF ou en photo.'
+          : 'Choisissez votre fichier : un de vos devis, en PDF ou en photo. Vous pourrez en importer d’autres ensuite.';
+        bloc.insertBefore(invite, bloc.firstChild);
+      }
+      try { bloc.querySelector('[data-bs="fichier"]')?.click(); } catch (_) {}
+    }
+    if (document.readyState === 'complete') setTimeout(viserImport, 0);
+    else window.addEventListener('load', () => setTimeout(viserImport, 0), { once: true });
+  }
+
+  /* ══════════════════ ABONNEMENT + RÉGLAGES (responsable uniquement) ══════════════════ */
+  function eur(n) { return (Number(n) || 0).toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' €'; }
+  function poser(id, txtVal, detail) {
+    const node = document.getElementById(id);
+    if (!node) return;
+    node.textContent = txtVal;
+    if (detail) { node.style.cursor = 'pointer'; node.title = detail; node.onclick = () => window.alert(detail); }
+  }
+  const INTERRUPTEURS = [
+    ['chef_voit_prix', 'Mes chefs d’équipe voient les prix des devis',
+     'Montants HT, TTC et prix ligne par ligne. Décoché, ils voient les travaux à faire sans les chiffres.'],
+    ['chef_voit_marges', 'Mes chefs d’équipe voient les marges',
+     'Coût prévisionnel, marge et dépenses. Décoché, ces informations restent entre vous et votre comptable.'],
+  ];
+  async function monterInterrupteurs() {
+    const hote = document.getElementById('setPartageEquipe');
+    if (!hote) return;
+    let etat;
+    try { etat = await getParametresEquipe(); } catch (e) { console.warn('[reglages] parametres equipe indisponibles', e); return; }
+    hote.replaceChildren();
+    INTERRUPTEURS.forEach(([cle, titre, aide]) => {
+      const ligne = document.createElement('label');
+      ligne.style.cssText = 'display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #EEF3F0;cursor:pointer;';
+      const boite = document.createElement('input');
+      boite.type = 'checkbox';
+      boite.checked = !!etat[cle];
+      boite.style.cssText = 'width:18px;height:18px;margin-top:2px;accent-color:#228B5B;flex-shrink:0;';
+      const texte = document.createElement('div');
+      const t = document.createElement('div');
+      t.style.cssText = 'font-size:13px;font-weight:700;color:#1C2B22;';
+      t.textContent = titre;
+      const a = document.createElement('div');
+      a.style.cssText = 'font-size:11.5px;color:#5A7268;line-height:1.5;margin-top:2px;';
+      a.textContent = aide;
+      texte.append(t, a);
+      ligne.append(boite, texte);
+      boite.addEventListener('change', async () => {
+        boite.disabled = true;
+        try { await majParametresEquipe({ [cle]: boite.checked }); }
+        catch (e) { boite.checked = !boite.checked; window.alert("Ce réglage n'a pas pu être enregistré. Réessayez."); }
+        boite.disabled = false;
+      });
+      hote.appendChild(ligne);
+    });
+  }
+
+  async function chargerReglagesEtAbonnement() {
+    await monterInterrupteurs();
+
+    try {
+      const devis = await listerDevis();
+      const somme = (arr) => arr.reduce((s, d) => s + Number(d.total_ttc || 0), 0);
+      const acceptes = devis.filter((d) => d.status === 'accepte');
+      const attente = devis.filter((d) => d.status === 'envoye');
+      poser('setTotSigne', acceptes.length ? eur(somme(acceptes)) : '—', `Devis acceptés : ${acceptes.length}`);
+      poser('setTotAttente', attente.length ? eur(somme(attente)) : '—', `Devis envoyés en attente de réponse : ${attente.length}`);
+      poser('setTotDepenses', '—', "Les dépenses ne sont pas encore suivies dans l'application.");
+      poser('setTotMarge', '—', "La marge se calcule à partir des dépenses. Tant qu'elles ne sont pas saisies, aucun pourcentage n'est affiché plutôt qu'un chiffre inventé.");
+    } catch (e) {
+      console.warn('[reglages] finances indisponibles', e);
+      ['setTotSigne', 'setTotAttente', 'setTotDepenses', 'setTotMarge'].forEach((id) => poser(id, '—'));
+    }
+
+    const box = document.getElementById('setTeamList');
+    if (box) {
+      try {
+        const membres = (await listMembres()) || [];
+        box.textContent = '';
+        if (!membres.length) {
+          const p = document.createElement('div');
+          p.style.cssText = 'font-size:12.5px;color:var(--muted);line-height:1.45;';
+          p.textContent = "Aucun collaborateur enregistré. Ajoutez votre équipe depuis l'écran Équipe.";
+          box.appendChild(p);
+        } else {
+          membres.forEach((m) => {
+            const nom = [m.prenom, m.nom].filter(Boolean).join(' ') || m.email || 'Membre';
+            const row = document.createElement('div');
+            row.className = 'mq-member';
+            const av = document.createElement('div');
+            av.className = 'mq-av';
+            av.textContent = nom.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+            const t = document.createElement('div');
+            t.className = 'mq-t';
+            t.textContent = nom;
+            const sub = document.createElement('small');
+            sub.textContent = [m.metier, ROLE_LABEL[m.role] || m.role].filter(Boolean).join(' · ');
+            t.appendChild(sub);
+            row.appendChild(av); row.appendChild(t);
+            box.appendChild(row);
+          });
+        }
+      } catch (e) {
+        console.warn('[reglages] equipe indisponible', e);
+        box.textContent = "Équipe indisponible pour l'instant.";
+      }
+    }
+
+    try {
+      const { data } = await supabase.from('artisan_leads').select('siret, qualifications, status').eq('email', session.user.email).limit(1);
+      const a = (data || [])[0];
+      poser('setSiret', (a && a.siret) || 'Non renseigné');
+      poser('setQualifs', (a && a.qualifications) || 'Non renseignées');
+      const ETAT = {
+        actif: ['Dossier validé', "Accès complet à l'espace pro. Aucun paiement prélevé."],
+        en_attente: ['Validation en cours', 'Votre dossier est en cours de vérification.'],
+        refuse: ['Dossier refusé', "Votre dossier n'a pas été retenu."],
+        suspendu: ['Compte suspendu', 'Votre accès est suspendu.'],
+      };
+      const [badge, detail] = ETAT[a && a.status] || ['Compte créé', "Aucun abonnement en cours."];
+      poser('setAbonnementBadge', badge);
+      poser('setAbonnementDetail', detail);
+    } catch (e) {
+      console.warn('[reglages] profil entreprise indisponible', e);
+    }
+  }
+
+  // ── Dossier comptable ──────────────────────────────────────────────
+  (function brancherDossierComptable() {
+    const btn = document.getElementById('btnDossierComptable');
+    if (!btn) return;
+    const libelle = btn.textContent.trim();
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.textContent = 'Préparation du dossier…';
+      try {
+        const { data: { session: s } } = await supabase.auth.getSession();
+        if (!s) throw new Error('Session expirée, reconnectez-vous.');
+        const cfg = window.__BATISPOT_CONFIG__ || {};
+        const rep = await (window.bsFetchAvecDelai || fetch)(`${cfg.SUPABASE_URL}/functions/v1/dossier-comptable`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${s.access_token}` },
+          body: JSON.stringify({}),
+        }, 90000);
+        if (!rep.ok) {
+          let msg = `Erreur ${rep.status}`;
+          try { msg = (await rep.json()).error || msg; } catch (_) {}
+          throw new Error(msg);
+        }
+        const blob = await rep.blob();
+        const nom = (rep.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/)?.[1] || 'dossier-comptable.zip';
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = nom;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        showToast('Dossier comptable téléchargé.');
+      } catch (e) {
+        console.warn('[reglages] dossier comptable', e);
+        showToast(e.message || 'Impossible de préparer le dossier.', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = libelle;
+      }
+    });
+  })();
+
+  // ── Email du comptable + envoi direct ──────────────────────────────
+  (function brancherEnvoiComptable() {
+    const champ = document.getElementById('emailComptable');
+    const btnMem = document.getElementById('btnMemoriserComptable');
+    const btnEnv = document.getElementById('btnEnvoyerComptable');
+    const statut = document.getElementById('statutComptable');
+    if (!champ || !btnEnv) return;
+
+    function dire(texte, type) {
+      statut.style.display = 'block';
+      statut.textContent = texte;
+      const couleurs = {
+        ok:      ['var(--t1)', '#DCFCE7'],
+        erreur:  ['#9A3412', '#FFF7ED'],
+        neutre:  ['var(--muted)', 'var(--border-soft)'],
+      }[type || 'neutre'];
+      statut.style.color = couleurs[0];
+      statut.style.background = couleurs[1];
+    }
+    const valide = (e) => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(String(e || '').trim());
+
+    (async () => {
+      try {
+        const { data: { session: s } } = await supabase.auth.getSession();
+        if (!s) return;
+        const { data } = await supabase.from('artisan_leads').select('email_comptable').eq('user_id', s.user.id).maybeSingle();
+        if (data && data.email_comptable) champ.value = data.email_comptable;
+      } catch (e) { console.warn('[reglages] email comptable', e); }
+    })();
+
+    async function memoriser(silencieux) {
+      const email = champ.value.trim().toLowerCase();
+      if (!valide(email)) { if (!silencieux) dire("Cette adresse n'est pas valide.", 'erreur'); return false; }
+      try {
+        const { data: { session: s } } = await supabase.auth.getSession();
+        if (!s) throw new Error('Session expirée, reconnectez-vous.');
+        const { error } = await supabase.from('artisan_leads').update({ email_comptable: email }).eq('user_id', s.user.id);
+        if (error) throw error;
+        if (!silencieux) dire('Adresse mémorisée.', 'ok');
+        return true;
+      } catch (e) {
+        if (!silencieux) dire(e.message || 'Enregistrement impossible.', 'erreur');
+        return false;
+      }
+    }
+    btnMem.addEventListener('click', () => memoriser(false));
+
+    btnEnv.addEventListener('click', async () => {
+      const email = champ.value.trim().toLowerCase();
+      if (!valide(email)) { dire("Renseignez l'email de votre comptable avant l'envoi.", 'erreur'); champ.focus(); return; }
+      if (!window.confirm(`Envoyer votre dossier comptable à :\n\n${email}\n\nVous serez en copie.`)) return;
+      const libelle = btnEnv.textContent.trim();
+      btnEnv.disabled = true;
+      btnEnv.textContent = 'Envoi en cours…';
+      dire('Préparation et envoi du dossier…', 'neutre');
+      try {
+        await memoriser(true);
+        const { data: { session: s } } = await supabase.auth.getSession();
+        if (!s) throw new Error('Session expirée, reconnectez-vous.');
+        const cfg = window.__BATISPOT_CONFIG__ || {};
+        const rep = await (window.bsFetchAvecDelai || fetch)(`${cfg.SUPABASE_URL}/functions/v1/dossier-comptable`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${s.access_token}` },
+          body: JSON.stringify({ envoyer: true, email }),
+        }, 90000);
+        const j = await rep.json().catch(() => ({}));
+        if (!rep.ok) {
+          const messages = {
+            dossier_trop_lourd: `Dossier trop lourd pour un email (${j.taille_mo || '?'} Mo). Téléchargez-le et transmettez-le vous-même.`,
+            email_comptable_invalide: "Cette adresse n'est pas valide.",
+            envoi_indisponible: "L'envoi est momentanément indisponible. Téléchargez le dossier en attendant.",
+            envoi_echoue: "L'envoi a échoué. Vérifiez l'adresse, ou téléchargez le dossier.",
+          };
+          throw new Error(messages[j.error] || `Erreur ${rep.status}`);
+        }
+        dire(`Dossier envoyé à ${j.envoye_a} — ${j.factures} facture(s), `
+          + `${j.depenses} dépense(s), ${j.justificatifs} justificatif(s)`
+          + (j.justificatifs_manquants ? `, ${j.justificatifs_manquants} introuvable(s)` : '')
+          + '. Vous êtes en copie.', 'ok');
+        showToast('Dossier envoyé à votre comptable.');
+      } catch (e) {
+        console.warn('[reglages] envoi comptable', e);
+        dire(e.message || "L'envoi a échoué.", 'erreur');
+        if (typeof window.bsSignalerPanne === 'function') {
+          window.bsSignalerPanne({ action: 'envoi dossier comptable', code: 'envoi', detail: String(e.message || e) });
+        }
+      } finally {
+        btnEnv.disabled = false;
+        btnEnv.textContent = libelle;
+      }
+    });
+  })();
+
+  // ── Notifications push ──────────────────────────────────────────────
+  (async function brancherPush() {
+    const { isPushSupported, getPushPermission, enablePush, disablePush, getCurrentSubscription } = await import('./js/push-helper.js');
+    const etat = document.getElementById('pushEtat');
+    const btn = document.getElementById('btnPush');
+    if (!etat || !btn) return;
+
+    function dire(txt, ton) {
+      const couleurs = { ok: ['#EAF7F0', 'var(--t1)'], ko: ['#FDECEA', '#9B2C1C'], neutre: ['var(--border-soft)', 'var(--muted)'] };
+      const [fond, texte] = couleurs[ton] || couleurs.neutre;
+      etat.style.background = fond; etat.style.color = texte; etat.textContent = txt;
+    }
+    async function rafraichir() {
+      if (!isPushSupported()) {
+        dire("Ce navigateur ne gere pas les notifications. Sur iPhone, ajoutez d'abord BatiSpot a votre ecran d'accueil.", 'neutre');
+        btn.style.display = 'none';
+        return;
+      }
+      if (getPushPermission() === 'denied') {
+        dire("Notifications bloquees par le navigateur. Autorisez-les dans ses reglages, puis revenez ici.", 'ko');
+        btn.style.display = 'none';
+        return;
+      }
+      const abo = await getCurrentSubscription().catch(() => null);
+      if (abo) {
+        dire('Notifications actives sur cet appareil.', 'ok');
+        btn.textContent = 'Desactiver'; btn.style.display = 'block'; btn.dataset.mode = 'off';
+      } else {
+        dire("Notifications inactives : vous ne serez pas prevenu.", 'neutre');
+        btn.textContent = 'Activer les notifications'; btn.style.display = 'block'; btn.dataset.mode = 'on';
+      }
+    }
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const avant = btn.textContent;
+      btn.textContent = 'Un instant...';
+      try {
+        if (btn.dataset.mode === 'off') await disablePush();
+        else await enablePush();
+        await rafraichir();
+      } catch (e) {
+        dire((e && e.message) || "L'activation a echoue.", 'ko');
+        btn.textContent = avant;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+    rafraichir();
+  })();
+
+  // ── Manières de l'assistant (06/09/2026) ─────────────────────────────
+  (async function brancherStyleAssistant() {
+    const cb = document.getElementById('styleTutoiement');
+    const bCourt = document.getElementById('styleCourt');
+    const bDet = document.getElementById('styleDetaille');
+    const notes = document.getElementById('styleNotes');
+    if (!cb || !bCourt || !bDet || !notes) return;
+    let longueur = 'court';
+    const peindre = () => {
+      bCourt.classList.toggle('mq-primary', longueur === 'court'); bCourt.classList.toggle('mq-ghost', longueur !== 'court');
+      bDet.classList.toggle('mq-primary', longueur === 'detaille'); bDet.classList.toggle('mq-ghost', longueur !== 'detaille');
+    };
+    try {
+      const p = await getMyProfile();
+      cb.checked = !!(p && p.style_tutoiement);
+      longueur = (p && p.style_longueur === 'detaille') ? 'detaille' : 'court';
+      notes.value = (p && p.style_notes) || '';
+    } catch (_) { /* valeurs par défaut */ }
+    peindre();
+    const sauver = async (champs) => {
+      try { await upsertMyProfile(champs); }
+      catch (_) { window.alert("Ce réglage n'a pas pu être enregistré. Réessayez."); }
+    };
+    cb.addEventListener('change', () => sauver({ style_tutoiement: cb.checked }));
+    bCourt.addEventListener('click', () => { longueur = 'court'; peindre(); sauver({ style_longueur: 'court' }); });
+    bDet.addEventListener('click', () => { longueur = 'detaille'; peindre(); sauver({ style_longueur: 'detaille' }); });
+    let minuteur = null;
+    notes.addEventListener('input', () => { clearTimeout(minuteur); minuteur = setTimeout(() => sauver({ style_notes: notes.value.trim().slice(0, 240) }), 700); });
+  })();
+
+  // ── Notification par e-mail, en plus du push (04/09/2026) ────────────
+  (async function brancherNotifEmail() {
+    const cb = document.getElementById('notifEmailCheckbox');
+    if (!cb) return;
+    try {
+      const p = await getMyProfile();
+      cb.checked = !(p && p.notif_email === false);
+    } catch (_) { /* la case reste cochee par defaut */ }
+    cb.addEventListener('change', async () => {
+      cb.disabled = true;
+      try {
+        await upsertMyProfile({ notif_email: cb.checked });
+      } catch (e) {
+        cb.checked = !cb.checked;
+        window.alert("Ce réglage n'a pas pu être enregistré. Réessayez.");
+      } finally {
+        cb.disabled = false;
+      }
+    });
+  })();
+
+  // ── Démarrage ──────────────────────────────────────────────────────
+  switchOnglet(ongletDepuisURL(), { pousserUrl: false });
+  </script>
+
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

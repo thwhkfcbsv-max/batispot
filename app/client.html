@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#FFFFFF">
+ <title>Mon espace — BatiSpot</title>
+ <link rel="manifest" href="./manifest.json">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-title" content="BatiSpot">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+ <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+ <style>
+ /* Layout : on aligne le shell sur le simulator (header plat + body flex column + bottom nav) */
+ html, body { background: var(--g-cream, #F7FBF8); }
+ .app-shell {
+ display: flex;
+ flex-direction: column;
+ min-height: 100vh;
+ }
+ /* scr-body doit prendre la place dispo pour que le CTA pousse en bas (margin-top:auto) */
+ .scr-body { flex: 1 1 auto; min-height: 0; }
+ /* Empty state */
+ .empty-state { text-align: center; padding: 28px 16px; }
+ .empty-state p { color: var(--sub); margin-bottom: 14px; font-size: 13px; }
+
+ /* Skeleton screens */
+ .skel-card {
+ background: #fff;
+ border-radius: 12px;
+ border: 1px solid rgba(34,139,91,0.08);
+ padding: 12px;
+ margin-bottom: 10px;
+ }
+ .skel-line {
+ background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 50%, #f3f4f6 100%);
+ background-size: 200% 100%;
+ animation: skel-pulse 1.4s ease-in-out infinite;
+ border-radius: 4px;
+ height: 12px;
+ margin: 8px 0;
+ }
+ .skel-line.short { width: 40%; }
+ .skel-line.mid { width: 70%; }
+ .skel-line.long { width: 90%; }
+ @keyframes skel-pulse {
+ 0% { background-position: 200% 0; }
+ 100% { background-position: -200% 0; }
+ }
+ .scr-greet {
+ font-size: .85rem;
+ font-weight: 900;
+ color: var(--g1, #1A6B45);
+ }
+ </style>
+ <script src="/js/clarity-init.js" defer></script>
+ <script src="/js/sentry-init.js" defer></script>
+ <script src="/js/turnstile-helper.js" defer></script>
+</head>
+<body>
+ <div class="app-shell">
+ <!-- Header simulator-style (vert plein) -->
+ <div class="app-h">
+ <svg class="app-h-logo" viewBox="0 0 48 48" aria-hidden="true">
+ <defs>
+ <linearGradient id="lg-cd" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#228B5B"/>
+ <stop offset="100%" stop-color="#4CAF82"/>
+ </linearGradient>
+ </defs>
+ <rect width="48" height="48" rx="11" fill="url(#lg-cd)"/>
+ <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+ <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.9"/>
+ </svg>
+ BatiSpot
+ </div>
+
+ <!-- Body simulator-style -->
+ <div class="scr-body mq-screen" style="padding-left:0;padding-right:0;padding-bottom:0">
+ <div class="scr-greet" id="greet">Bonjour</div>
+ <div class="scr-sub" id="sub-line">Chargement…</div>
+
+ <!-- Carte d'invitation profil. Affichee uniquement si prenom vide -->
+ <a href="./client-profile.html" id="profile-banner" class="mq-card" style="display:none;text-decoration:none;color:inherit">
+ <div style="width:36px;height:36px;border-radius:9px;background:var(--g-soft);color:var(--g1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+ </div>
+ <div class="mq-t">Personnalisez votre espace
+ <small>Renseignez votre prénom pour pré-remplir vos demandes</small>
+ </div>
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--g1);flex-shrink:0"><polyline points="9 18 15 12 9 6"/></svg>
+ </a>
+
+ <div class="chip-row" id="chip-row">
+ <span class="chip active" data-filter="all">Tout (<span id="count-all">0</span>)</span>
+ <span class="chip" data-filter="ongoing">En cours</span>
+ <span class="chip" data-filter="done">Terminés</span>
+ </div>
+
+ <div id="items-area" style="display:flex;flex-direction:column;gap:12px">
+ <div class="skel-card" aria-hidden="true">
+ <div class="skel-line short"></div>
+ <div class="skel-line mid"></div>
+ <div class="skel-line long"></div>
+ </div>
+ <div class="skel-card" aria-hidden="true">
+ <div class="skel-line short"></div>
+ <div class="skel-line mid"></div>
+ <div class="skel-line long"></div>
+ </div>
+ </div>
+
+ <a href="./demande-devis.html" class="mq-btn mq-primary" style="margin-top:auto;margin-bottom:16px">Nouvelle demande</a>
+ </div>
+
+ <!-- Bottom nav simulator-style (3 items strict : Demandes / Documents / Aide) -->
+ <div class="bn">
+ <a href="./client.html" class="bn-i active" aria-current="page">
+ <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+ Mes demandes
+ </a>
+ <a href="./documents.html" class="bn-i">
+ <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+ Documents
+ </a>
+ <a href="mailto:contact@batispot.pro" class="bn-i">
+ <svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+ Aide
+ </a>
+ </div>
+ </div>
+
+ <script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+ <script type="module">
+ import {
+ supabase, getSession, requireAuth, signOut, toast,
+ listMyDemandesWithArtisan, listMyClientChantiers, claimOrphanDemandes,
+ TYPE_TRAVAUX_LABEL, BUDGET_LABEL, DELAI_LABEL,
+ } from './js/supabase.js';
+ // Numero appelable depuis n'importe ou — une seule definition, testee.
+ import { telAppelable } from './js/tel.js';
+
+ const session = await requireAuth('./client-login.html');
+ if (!session) throw new Error('No session');
+
+ // Pas de guard artisan ici — un artisan peut aussi déposer des demandes
+ // en tant que client. Les deux espaces (client.html / dashboard.html) sont
+ // indépendants et accessibles via leurs URLs respectives.
+
+ const userEmail = session.user.email || '';
+ const metaPrenom = (session.user?.user_metadata?.prenom || '').trim();
+ // On prefere le prenom saisi par l'user dans son profil. Sinon on tombe
+ // sur un greeting neutre ("Bonjour") plutot que sur un prefixe email
+ // peu flatteur (ex: "Bonjour mdiaby01").
+ if (metaPrenom) {
+ document.getElementById('greet').textContent = `Bonjour ${metaPrenom}`;
+ } else {
+ document.getElementById('greet').textContent = 'Bonjour';
+ // Pas de prenom → propose discretement de completer le profil (carte design system, pas bandeau)
+ const banner = document.getElementById('profile-banner');
+ if (banner) banner.style.display = 'flex';
+ }
+
+ // Helper : timeout sur n'importe quel await
+ function withTimeout(promise, ms, label) {
+ return Promise.race([
+ promise,
+ new Promise((_, reject) => setTimeout(() => reject(new Error(`Timeout ${label} (${ms}ms)`)), ms))
+ ]);
+ }
+
+ // Rattacher les demandes anonymes (timeout 3s — non bloquant)
+ try { await withTimeout(claimOrphanDemandes(), 3000, 'claimOrphan'); } catch(e) { console.warn('[claim]', e); }
+
+ // ── Helpers ──
+ function fmtAgo(dt) {
+ const ms = Date.now() - new Date(dt).getTime();
+ const min = Math.floor(ms / 60000);
+ if (min < 1) return 'à l\'instant';
+ if (min < 60) return `il y a ${min} min`;
+ const h = Math.floor(min / 60);
+ if (h < 24) return `il y a ${h}h`;
+ const j = Math.floor(h / 24);
+ if (j < 30) return `il y a ${j}j`;
+ const mo = Math.floor(j / 30);
+ return `il y a ${mo} mois`;
+ }
+
+ // Status mapping → mq-pill variant + label + group
+ const STATUS_MAP = {
+ // demandes_devis
+ 'nouvelle': { cls: 'mq-wait', label: 'En traitement', group: 'ongoing' },
+ 'en_traitement': { cls: 'mq-wait', label: 'Mise en relation', group: 'ongoing' },
+ 'matchee': { cls: 'mq-ok', label: 'Artisan trouvé', group: 'ongoing' },
+ 'chantier_cree': { cls: 'mq-ok', label: 'Chantier validé',group: 'ongoing' },
+ 'abandonnee': { cls: 'mq-info', label: 'Abandonnée', group: 'done' },
+ // chantiers
+ 'en_cours': { cls: 'mq-ok', label: 'En cours', group: 'ongoing' },
+ 'en_attente': { cls: 'mq-wait', label: 'En attente', group: 'ongoing' },
+ 'retard': { cls: 'mq-wait', label: 'Retard', group: 'ongoing' },
+ 'termine': { cls: 'mq-ok', label: 'Terminé', group: 'done' },
+ };
+
+ // Build a unified item from demande or chantier
+ function buildItems(demandes, chantiers) {
+ const items = [];
+ for (const d of demandes) {
+ const map = STATUS_MAP[d.status] || { cls: 'b-grey', label: d.status || 'En traitement', group: 'ongoing' };
+ const subParts = [];
+ if (d.adresse) subParts.push(d.adresse + (d.code_postal ? ' · ' + d.code_postal : ''));
+ else if (d.code_postal) subParts.push(d.code_postal);
+ if (d.budget_estime) subParts.push(BUDGET_LABEL[d.budget_estime] || d.budget_estime);
+ if (d.delai) subParts.push(DELAI_LABEL[d.delai] || d.delai);
+ // Artisan info quand la demande est matchée
+ const artisanInfo = (d.artisan_prenom || d.artisan_nom || d.artisan_entreprise)
+ ? {
+ nom: [d.artisan_prenom, d.artisan_nom].filter(Boolean).join(' '),
+ entreprise: d.artisan_entreprise || '',
+ telephone: d.artisan_telephone || '',
+ }
+ : null;
+ items.push({
+ kind: 'demande',
+ id: d.id,
+ title: TYPE_TRAVAUX_LABEL[d.type_travaux] || d.type_travaux || 'Demande',
+ sub: subParts.join(' · ') || 'En recherche d\'artisan…',
+ status: map,
+ ts: d.updated_at || d.created_at,
+ link: null,
+ artisan: artisanInfo,
+ });
+ }
+ for (const c of chantiers) {
+ const map = STATUS_MAP[c.status] || { cls: 'b-grey', label: c.status || 'Chantier', group: 'ongoing' };
+ const subParts = [];
+ if (c.adresse) subParts.push(c.adresse);
+ if (c.public_token) subParts.push('suivi disponible');
+ items.push({
+ kind: 'chantier',
+ id: c.id,
+ title: c.client_name || 'Chantier',
+ sub: subParts.join(' · '),
+ status: map,
+ ts: c.updated_at,
+ link: c.public_token ? `./suivi.html?t=${c.public_token}` : null,
+ });
+ }
+ // Sort by ts desc
+ items.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
+ return items;
+ }
+
+ function renderItems(items, filter) {
+ const area = document.getElementById('items-area');
+ area.replaceChildren();
+ const filtered = items.filter(it => filter === 'all' ? true : it.status.group === filter);
+
+ if (filtered.length === 0) {
+ const empty = document.createElement('div');
+ empty.className = 'empty-state';
+ const p = document.createElement('p');
+ p.textContent = filter === 'all'
+ ? "Vous n'avez pas encore déposé de demande."
+ : "Aucun résultat dans cet onglet.";
+ empty.appendChild(p);
+ area.appendChild(empty);
+ return;
+ }
+
+ filtered.forEach(it => {
+ const card = document.createElement(it.link ? 'a' : 'div');
+ card.className = 'mq-card';
+ card.style.cssText = 'flex-direction:column;align-items:stretch;gap:4px;text-decoration:none;color:inherit';
+ if (it.link) { card.href = it.link; }
+
+ const meta = document.createElement('div');
+ meta.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px';
+
+ const badge = document.createElement('span');
+ badge.className = `mq-pill ${it.status.cls}`;
+ badge.textContent = it.status.label;
+ meta.appendChild(badge);
+
+ const ago = document.createElement('span');
+ ago.style.fontSize = '11px';
+ ago.style.color = 'var(--muted)';
+ ago.style.fontWeight = '700';
+ ago.textContent = fmtAgo(it.ts);
+ meta.appendChild(ago);
+
+ const title = document.createElement('div');
+ title.className = 'mq-t';
+ title.textContent = it.title;
+
+ const sub = document.createElement('div');
+ sub.style.cssText = 'font-size:12px;color:var(--muted);font-weight:600';
+ sub.textContent = it.sub;
+
+ card.appendChild(meta);
+ card.appendChild(title);
+ card.appendChild(sub);
+
+ // Carte artisan quand la demande est matchée
+ if (it.artisan && (it.artisan.nom || it.artisan.entreprise)) {
+ const artCard = document.createElement('div');
+ artCard.style.cssText = 'margin-top:6px;padding:10px 12px;background:var(--g-soft);border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;gap:10px';
+
+ const avatar = document.createElement('div');
+ avatar.style.cssText = 'width:36px;height:36px;border-radius:50%;background:var(--g1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0';
+ const initials = ((it.artisan.nom || it.artisan.entreprise || '?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase() || '?');
+ avatar.textContent = initials;
+
+ const info = document.createElement('div');
+ info.style.cssText = 'flex:1;min-width:0';
+ const artName = document.createElement('div');
+ artName.style.cssText = 'font-weight:800;font-size:13px;color:var(--text)';
+ artName.textContent = it.artisan.entreprise || it.artisan.nom;
+ info.appendChild(artName);
+ if (it.artisan.nom && it.artisan.entreprise) {
+ const artSub = document.createElement('div');
+ artSub.style.cssText = 'font-size:11px;color:var(--muted);margin-top:1px';
+ artSub.textContent = it.artisan.nom;
+ info.appendChild(artSub);
+ }
+
+ artCard.appendChild(avatar);
+ artCard.appendChild(info);
+
+ // `.replace(/\s/g,'')` laissait « 01 48 57 22 40 » en 0148572240 : le 0
+ // initial est un prefixe NATIONAL, l'appel echoue depuis l'etranger.
+ const numTel = telAppelable(it.artisan.telephone);
+ if (numTel) {
+ const tel = document.createElement('a');
+ tel.href = `tel:${numTel}`;
+ tel.className = 'mq-btn mq-primary';
+ tel.style.cssText = 'min-height:36px;padding:0 12px;font-size:12px;flex-shrink:0';
+ tel.textContent = 'Appeler';
+ artCard.appendChild(tel);
+ }
+
+ card.appendChild(artCard);
+ }
+
+ area.appendChild(card);
+ });
+ }
+
+ let allItems = [];
+ let activeFilter = 'all';
+
+ function applyFilter(f) {
+ activeFilter = f;
+ document.querySelectorAll('#chip-row .chip').forEach(c => {
+ c.classList.toggle('active', c.dataset.filter === f);
+ });
+ renderItems(allItems, f);
+ }
+
+ document.querySelectorAll('#chip-row .chip').forEach(c => {
+ c.addEventListener('click', () => applyFilter(c.dataset.filter));
+ });
+
+ async function load() {
+ try {
+ const [demandes, chantiers] = await withTimeout(
+ Promise.all([listMyDemandesWithArtisan(), listMyClientChantiers()]),
+ 6000,
+ 'load demandes+chantiers'
+ );
+ allItems = buildItems(demandes || [], chantiers || []);
+
+ // Counts
+ document.getElementById('count-all').textContent = String(allItems.length);
+ const ongoing = allItems.filter(it => it.status.group === 'ongoing' && it.kind === 'demande').length;
+ const chantiersCount = (chantiers || []).length;
+ const sub = document.getElementById('sub-line');
+ sub.textContent =
+ `${ongoing} demande${ongoing > 1 ? 's' : ''} en cours · ${chantiersCount} chantier${chantiersCount > 1 ? 's' : ''}`;
+
+ renderItems(allItems, activeFilter);
+ } catch (err) {
+ console.error(err);
+ const area = document.getElementById('items-area');
+ area.replaceChildren();
+ const empty = document.createElement('div');
+ empty.className = 'empty-state';
+ const p = document.createElement('p');
+ p.textContent = err.message || 'Erreur de chargement. Réessayez dans un instant.';
+ empty.appendChild(p);
+ area.appendChild(empty);
+ document.getElementById('sub-line').textContent = '—';
+ }
+ }
+
+ load();
+ </script>
+ <script type="module" src="./js/app-menu.js?v=menu_2026_09_06f"></script>
+ <script src="/js/update-detector.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Équipe · BatiSpot Pro</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <style>
+    body { background:#FFFFFF; color:#1C2B22; font-family:"Inter",system-ui,-apple-system,sans-serif; margin:0; -webkit-font-smoothing:antialiased; }
+    /* min-height (pas height) : cette page défile normalement à la fenêtre
+       (liste de l'équipe, fiche, fil replié) — seul .fil (ci-dessous) a son
+       propre défilement borné. 100dvh en repli de 100vh (correctif révision
+       tâche 19, 04/09) juste pour une mesure d'écran fidèle sur mobile. */
+    .phone-screen { max-width:480px; margin:0 auto; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; background:#FFFFFF; position:relative; }
+    .app-h { background:#FFFFFF; border-bottom:1.5px solid #E7EEEA; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .scr-body { flex:1; padding:16px; padding-bottom:96px; display:flex; flex-direction:column; gap:14px; }
+    .carte { background:#FFFFFF; border:1.5px solid #D3E3DA; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:12px; }
+    .titre { font-size:14px; font-weight:900; color:#1C2B22; }
+    .sous { font-size:11.5px; color:#5A7268; }
+    .champ { width:100%; padding:11px 13px; border:1.5px solid #D3E3DA; border-radius:10px; font-size:16px; font-family:inherit; color:#1C2B22; background:#FFFFFF; outline:none; box-sizing:border-box; min-height:44px; }
+    .champ:focus { border-color:#228B5B; }
+    .bouton { padding:12px; border-radius:10px; font-size:13px; font-weight:800; font-family:inherit; border:1.5px solid #228B5B; background:#228B5B; color:#FFFFFF; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; min-height:44px; }
+    /* Le fil d'équipe utilise exactement les mêmes bulles que les trois
+       autres messageries (.mq-thread / .mq-msg, css/app.css + js/mq-thread.js,
+       tâche 24). Ne reste ici que sa hauteur : il est REPLIÉ dans une carte au
+       milieu d'une page qui défile, il ne prend donc pas tout l'écran.
+       Les marges négatives lui font toucher les bords de la carte. */
+    #filMessages { max-height:340px; margin:0 -16px; border-radius:0; }
+    /* Groupe ouvert depuis Messages : le fil prend toute la hauteur
+       disponible (en-tête + barre assistant ≈ 150 px, barre du bas ≈ 60 px,
+       tête de groupe + composeur ≈ 150 px). */
+    body.mq-groupe-plein #filMessages { flex:0 0 auto !important; max-height:none !important; height:calc(100vh - 380px) !important; height:calc(100dvh - 380px) !important; min-height:260px; }
+    body.mq-groupe-plein #sousTitre, body.mq-groupe-plein #bsAssistSuggestions { display:none !important; }
+    body.mq-groupe-plein #filCarte { margin-top:0; }
+    /* Actions de gestion (Renvoyer / retirer) sur une ligne mq-member : la cible
+       visuelle reste petite mais la zone tactile doit atteindre 44px, sinon un
+       artisan au doigt large sur un chantier ne peut pas viser juste. */
+    .action-btn { min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-family:inherit; padding:0 6px; flex-shrink:0; }
+    .action-btn.renvoyer { color:var(--t1); font-size:11px; font-weight:800; }
+    .action-btn.retirer { color:#5A7268; font-size:18px; }
+    /* Taux horaire inline (édition réservée au patron) : un chip 44px min
+       (même règle tactile que renvoyer/retirer) qui se change en champ de
+       saisie au clic. Ambre quand la valeur manque encore. */
+    .action-btn.taux-chip { color:#1B7049; font-size:11.5px; font-weight:800; border:1.5px solid #DCE6E0; border-radius:10px; min-width:56px; }
+    .action-btn.taux-chip.manque { color:#B45309; border-color:#EAD3B5; background:#FBF1E6; }
+    .action-btn.taux-chip .taux-input { width:52px; height:30px; border:1.5px solid #228B5B; border-radius:8px; font-size:16px; font-weight:700; text-align:center; padding:0 2px; font-family:inherit; color:#1C2B22; }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="150" height="36" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BatiSpot Pro">
+          <defs><linearGradient id="lg-eq" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-eq)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu &amp; Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+    <div class="mq-screen" id="scr-body">
+      <!-- Titre d'écran : masqué par js/app-nav.js (en-tête généré : date +
+           « Équipe » + avatar). Le sous-titre réel « N personnes · cette
+           semaine » reste affiché, comme sur les autres écrans convertis. -->
+      <div>
+        <h1 style="font-size:20px;font-weight:900;margin:0;color:#1C2B22;">Équipe</h1>
+        <p class="sous" style="margin:4px 0 0;" id="sousTitre"></p>
+      </div>
+
+      <!-- Membres, maquette 09 · classes mq-member/mq-av/mq-t/mq-load. La
+           gestion (inviter / renvoyer / retirer) est reservee au responsable ;
+           le fil d'equipe plus bas reste ouvert a tout le monde, sinon un
+           compagnon n'aurait plus aucun moyen d'ecrire a son equipe. -->
+      <div id="listeMembres" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+      <div id="blocVide" class="ui-empty" hidden>
+        <h3>Vous travaillez seul pour l'instant</h3>
+        <p>Invitez un compagnon pour partager vos chantiers.</p>
+        <button type="button" class="ui-primary" id="btnAjouterVide">Ajouter un compagnon</button>
+      </div>
+
+      <div class="mq-box" id="noteNonPatron" hidden style="font-size:12.5px;font-weight:600;color:#3D5A4E;">
+        La gestion de l'équipe est réservée au responsable de l'entreprise.
+      </div>
+
+      <button type="button" class="mq-btn mq-ghost" id="btnInviter" hidden>
+        Ajouter un compagnon
+      </button>
+
+      <form id="formInvite" style="display:none;flex-direction:column;gap:9px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <input class="champ" id="fPrenom" placeholder="Prénom *" required>
+          <input class="champ" id="fNom" placeholder="Nom">
+        </div>
+        <input class="champ" id="fEmail" type="email" placeholder="Email * (sert à l'invitation)" required>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <input class="champ" id="fMetier" placeholder="Métier">
+          <input class="champ" id="fTaux" type="number" step="0.5" placeholder="Taux horaire €">
+        </div>
+        <select class="champ" id="fRole">
+          <option value="compagnon">Compagnon</option>
+          <option value="chef">Chef d'équipe</option>
+          <option value="apprenti">Apprenti</option>
+          <option value="interimaire">Intérimaire</option>
+        </select>
+        <button type="submit" class="ui-primary">Envoyer l'invitation</button>
+      </form>
+
+      <div>
+        <div class="mq-sec" style="margin:0 0 8px;">Ce que voit un compagnon</div>
+        <div class="mq-box" style="font-size:12.5px;font-weight:600;color:#3D5A4E;">Ses étapes du jour, l'adresse, les photos, la messagerie. Ni les prix, ni les finances.</div>
+      </div>
+
+      <!-- Fil d'équipe = UN GROUPE PAR CHANTIER (Moctar, 05/09 : « comme un
+           groupe WhatsApp avec les employés »). Replié sous la carte
+           « Fil d'équipe › » : d'abord la liste des groupes (une rangée par
+           chantier, dernier message, non-lus), puis le groupe ouvert avec
+           son en-tête (retour, membres), ses bulles et la saisie. Une photo
+           envoyée ici est rangée dans le dossier photos du chantier. -->
+      <button type="button" class="mq-card" id="btnFilToggle" style="width:100%;cursor:pointer;text-align:left;font:inherit;">
+        <span class="mq-t">Fil d'équipe<small>Un groupe par chantier — jamais visible par le client.</small></span>
+        <span id="filChevron" style="color:#6B7F76;font-weight:800;">›</span>
+      </button>
+      <div class="mq-groupes" id="filListe" hidden></div>
+      <div class="carte" id="filCarte" hidden>
+        <div class="mq-fil-tete-groupe" id="filTete"></div>
+        <div class="mq-thread" id="filMessages"></div>
+        <div class="mq-compose mq-saisie">
+          <button type="button" class="mq-compose-emoji" id="eqEmojiBtn" aria-label="Insérer un emoji" aria-expanded="false"></button>
+          <button type="button" class="mq-compose-emoji mq-compose-cam" id="eqCamBtn" aria-label="Envoyer une photo (rangée dans le dossier du chantier)"></button>
+          <input type="file" id="eqCamInput" accept="image/*" hidden>
+          <textarea id="saisie" rows="1" placeholder="Écrire ou dicter…" autocomplete="off" data-lpignore="true" enterkeyhint="send"></textarea>
+          <button type="button" class="mq-compose-mic" id="eqMicBtn" aria-label="Maintenir pour dicter" hidden></button>
+          <button type="button" class="mq-compose-send" id="eqSendBtn" aria-label="Envoyer"></button>
+        </div>
+        <div class="mq-compose-indice" id="eqIndice" hidden></div>
+        <div class="mq-emoji-panel" id="eqEmojiPanel" hidden>
+          <div class="mq-emoji-tabs" id="eqEmojiTabs" role="tablist"></div>
+          <div class="mq-emoji-grid" id="eqEmojiGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+
+  <script type="module">
+    import {
+      requireAuth, listMembres, inviterMembre, retirerMembre, renvoyerInvitation,
+      monProfilEquipe, mesDroits, ROLE_LABEL, lienInvitation, getMyProfile, toast,
+      listChantiers, listMessagesEquipe, envoyerMessageEquipe, suivreMessagesEquipe, getSession,
+      listTachesPeriode, listMembresTauxHoraire, majTauxHoraireMembre, fmtEuro,
+      supabase, uploadPhoto,
+    } from './js/supabase.js';
+    import { modifierMessage, supprimerMessage } from './js/supabase.js';
+    import { listPhotos as listPhotosChantier } from './js/supabase.js';
+    import { choisirPhoto } from './js/mq-thread.js';
+    import {
+      rendreFil, rendreBulle, rendreEtatVide, brancherComposeur,
+      poserSeparateurJour, estEnBasDuFil,
+      marquerLuMessagesEquipe, actualiserBadgeMessages,
+      apercuContenu, heureRelative, initialesDe, iconeFil,
+    } from './js/mq-thread.js';
+
+    let MOI = null, MON_ID = null, CHANTIER = null, ABONNEMENT = null, DROITS = null;
+    let CHANTIERS_MAP = new Map(); // chantier_id -> client_name, pour les vrais noms de chantiers de la semaine
+
+    // Contexte d'écran (task 5) : pas de sélection ni d'onglet sur cet écran,
+    // juste la page.
+    // Groupe ouvert = « ce chantier » pour l'assistant (l'astuce « Ajouter au
+    // planning ? » et toute demande tapée depuis le groupe s'y rapportent).
+    window.bsContexteEcran = () => ({
+      page: 'equipe',
+      chantier_id: CHANTIER || null,
+      chantier_client: (CHANTIER && CHANTIERS_MAP.get(CHANTIER)) || null,
+    });
+
+    const el = (id) => document.getElementById(id);
+
+    // Initiales à partir d'un nom complet (utilisé pour un membre ET pour « vous »,
+    // dont le nom vient de pro_profiles.display_name — un seul champ texte, pas
+    // prenom/nom séparés).
+    const initiales = (nomComplet) => {
+      const mots = String(nomComplet || '').trim().split(/\s+/).filter(Boolean);
+      if (!mots.length) return '?';
+      if (mots.length === 1) return mots[0].slice(0, 2).toUpperCase();
+      return (mots[0][0] + mots[1][0]).toUpperCase();
+    };
+
+    function basculerFormulaire() {
+      const f = el('formInvite');
+      f.style.display = f.style.display === 'none' ? 'flex' : 'none';
+    }
+    window.basculerFormulaire = basculerFormulaire;
+
+    // ── Charge de la semaine (lundi → dimanche) ──────────────────────────────
+    // Une seule requête `listTachesPeriode` pour toute l'équipe : c'est elle qui
+    // alimente la barre `mq-load` de chaque ligne, ET les vrais chantiers de la
+    // semaine (maquette 09 : « Compagnon · 35 h · Benali, Jaurès »). Suit
+    // exactement la convention déjà utilisée ailleurs dans l'appli (ex.
+    // app-actions.js) pour calculer le lundi de la semaine en cours.
+    async function chargerHeuresSemaine() {
+      const auj = new Date();
+      const lundi = new Date(auj);
+      lundi.setDate(lundi.getDate() - ((lundi.getDay() + 6) % 7));
+      const dimanche = new Date(lundi);
+      dimanche.setDate(dimanche.getDate() + 6);
+      const ISO = (d) => d.toISOString().slice(0, 10);
+
+      let taches = [];
+      try { taches = await listTachesPeriode(ISO(lundi), ISO(dimanche)); } catch (e) { taches = []; }
+
+      const heuresParMembreId = new Map();
+      const chantiersParMembreId = new Map(); // id -> Set(chantier_id)
+      let heuresMoi = 0;
+      const chantiersMoi = new Set();
+      const monNomMatch = (MOI_NOM_MATCH || '').trim().toLowerCase();
+      const seul = MEMBRES_BRUTS.length === 0;
+
+      for (const t of taches) {
+        if (t.mobilise_artisan === false) continue; // attente/séchage : personne n'y travaille
+        const h = Number(t.duree_h != null ? t.duree_h : t.duree_prevue_h) || 0;
+        if (!h) continue;
+        if (t.assigne_id) {
+          heuresParMembreId.set(t.assigne_id, (heuresParMembreId.get(t.assigne_id) || 0) + h);
+          if (t.chantier_id) {
+            if (!chantiersParMembreId.has(t.assigne_id)) chantiersParMembreId.set(t.assigne_id, new Set());
+            chantiersParMembreId.get(t.assigne_id).add(t.chantier_id);
+          }
+          continue;
+        }
+        const txt = String(t.assigne_a || '').trim().toLowerCase();
+        if (txt && txt === monNomMatch) {
+          heuresMoi += h;
+          if (t.chantier_id) chantiersMoi.add(t.chantier_id);
+          continue;
+        }
+        if (!txt && seul) { // non assignée : à moi seulement si je travaille seul
+          heuresMoi += h;
+          if (t.chantier_id) chantiersMoi.add(t.chantier_id);
+        }
+      }
+      return { heuresParMembreId, heuresMoi, chantiersParMembreId, chantiersMoi };
+    }
+
+    // Jusqu'à 3 noms de chantiers réels (client_name), séparés par « , »,
+    // comme la maquette (« Benali, Jaurès »). Jamais de texte inventé : un
+    // chantier sans nom connu dans CHANTIERS_MAP est simplement ignoré.
+    function nomsChantiers(setIds) {
+      if (!setIds || !setIds.size) return '';
+      return Array.from(setIds)
+        .map((id) => CHANTIERS_MAP.get(id))
+        .filter(Boolean)
+        .slice(0, 3)
+        .join(', ');
+    }
+
+    let MEMBRES_BRUTS = [];
+    let MOI_NOM_MATCH = ''; // nom exact tel qu'écrit dans assigne_a pour « moi » (voir app-actions.js)
+
+    // Chip taux horaire d'une ligne membre : affiche la valeur (ou « Taux ? »
+    // en ambre si absente) et se transforme en champ de saisie au clic.
+    // `membre.taux_horaire` est mis à jour en place, pour que le reste de
+    // l'écran (et un futur re-rendu) voie tout de suite la vraie valeur.
+    function chipTaux(membre) {
+      const chip = document.createElement('div');
+      chip.className = 'action-btn taux-chip';
+      chip.setAttribute('role', 'button');
+      chip.tabIndex = 0;
+
+      function afficher() {
+        chip.replaceChildren();
+        const v = membre.taux_horaire;
+        const manque = v === null || v === undefined || v === '';
+        chip.classList.toggle('manque', manque);
+        chip.title = manque
+          ? 'Taux horaire non renseigné — appuyez pour le saisir.'
+          : `Taux horaire de ${membre.prenom || 'ce membre'} — appuyez pour le modifier.`;
+        const span = document.createElement('span');
+        span.textContent = manque ? 'Taux ?' : `${fmtEuro(v)}/h`;
+        chip.appendChild(span);
+      }
+
+      function editer() {
+        if (chip.querySelector('input')) return;
+        chip.replaceChildren();
+        const input = document.createElement('input');
+        input.type = 'number'; input.step = '0.5'; input.min = '0';
+        input.className = 'taux-input';
+        input.value = (membre.taux_horaire != null) ? membre.taux_horaire : '';
+        input.setAttribute('aria-label', `Taux horaire de ${membre.prenom || 'ce membre'}, en euros par heure`);
+        chip.appendChild(input);
+        input.focus();
+        input.select();
+
+        let sauvegarde = false;
+        const sauver = async () => {
+          if (sauvegarde) return;
+          sauvegarde = true;
+          const brut = input.value.trim();
+          const valeur = brut === '' ? null : parseFloat(brut.replace(',', '.'));
+          if (valeur !== null && (Number.isNaN(valeur) || valeur < 0)) {
+            toast('Taux horaire invalide.', 'error');
+            afficher();
+            return;
+          }
+          try {
+            await majTauxHoraireMembre(membre.id, valeur);
+            membre.taux_horaire = valeur;
+            toast(`Taux horaire de ${membre.prenom || 'ce membre'} enregistré.`, 'success');
+          } catch (e) {
+            toast((e && e.message) || "L'enregistrement du taux horaire a échoué.", 'error');
+          }
+          afficher();
+        };
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); sauver(); }
+          else if (e.key === 'Escape') { e.preventDefault(); afficher(); }
+        });
+        input.addEventListener('blur', sauver);
+      }
+
+      chip.addEventListener('click', editer);
+      chip.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); editer(); }
+      });
+      afficher();
+      return chip;
+    }
+
+    function ligneMembre({ id, nomAffiche, roleLabel, statutPill, heures, estMoi, chantiersTxt, montrerActions, membre }) {
+      const ligne = document.createElement('div');
+      ligne.className = 'mq-member';
+
+      const av = document.createElement('div');
+      av.className = 'mq-av'; av.textContent = initiales(nomAffiche);
+
+      const t = document.createElement('div');
+      t.className = 'mq-t';
+      t.textContent = nomAffiche;
+      const petit = document.createElement('small');
+      if (statutPill) {
+        // Invitation en attente : pas d'heures ni de chantiers à afficher.
+        petit.textContent = `${roleLabel} · invitation envoyée`;
+      } else {
+        const h = Math.round((heures || 0) * 10) / 10;
+        const hTxt = Number.isInteger(h) ? String(h) : h.toFixed(1);
+        petit.textContent = estMoi
+          ? `${roleLabel} · ${hTxt} h planifiées`
+          : `${roleLabel} · ${hTxt} h${chantiersTxt ? ' · ' + chantiersTxt : ''}`;
+      }
+      t.appendChild(petit);
+
+      ligne.append(av, t);
+
+      if (statutPill) {
+        const pill = document.createElement('span');
+        pill.className = 'mq-pill mq-wait';
+        pill.textContent = 'En attente';
+        ligne.appendChild(pill);
+      } else {
+        // Charge en barre, ambre à partir de 40 h — absente pour une
+        // invitation en attente (rien à mesurer), comme dans la maquette.
+        const charge = document.createElement('div');
+        charge.className = 'mq-load';
+        const barre = document.createElement('i');
+        const pct = Math.min((heures || 0) / 40 * 100, 100);
+        barre.style.width = `${pct}%`;
+        if ((heures || 0) > 40) barre.classList.add('mq-amb');
+        charge.appendChild(barre);
+        ligne.appendChild(charge);
+      }
+
+      // « Absent ? » (Moctar, 05/09) : pas de « Répartir », l'assistant
+      // réassigne les étapes de la personne et prévient l'équipe.
+      if (membre && !estMoi && membre.statut === 'actif') {
+        const abs = document.createElement('button');
+        abs.type = 'button';
+        abs.className = 'mq-btn mq-ghost';
+        abs.style.cssText = 'padding:0 10px;min-height:32px;font-size:12px;flex:none;';
+        abs.textContent = 'Absent ?';
+        abs.title = `${nomAffiche} est absent : l'assistant réassigne et prévient`;
+        abs.addEventListener('click', () => {
+          if (typeof window.bsAssistantEnvoyerQuestion === 'function') {
+            window.bsAssistantEnvoyerQuestion(`${nomAffiche} est absent aujourd'hui. Réassigne ses étapes du jour et de demain à quelqu'un de disponible, dis-moi qui prend quoi, et préviens l'équipe dans le groupe du chantier.`);
+          }
+        });
+        ligne.appendChild(abs);
+      }
+      if (montrerActions && membre) {
+        // Taux horaire : édition inline, réservée au patron (seul autorisé à
+        // écrire membres_equipe — policy equipe_maj_patron). Sert la « Marge
+        // par chantier » d'analyses.html, qui a besoin de cette valeur pour
+        // calculer la main-d'œuvre.
+        ligne.appendChild(chipTaux(membre));
+
+        const enAttente = membre.statut !== 'actif' || !membre.joined_at;
+        if (enAttente) {
+          const r = document.createElement('button');
+          r.type = 'button'; r.className = 'action-btn renvoyer';
+          r.textContent = 'Renvoyer'; r.title = "Renvoyer l'invitation";
+          r.onclick = async () => {
+            r.disabled = true;
+            try {
+              const { emailEnvoye, lien } = await renvoyerInvitation(membre.id);
+              toast(emailEnvoye
+                ? `Invitation renvoyée à ${membre.email}.`
+                : `Invitation régénérée, mais l'email n'est pas parti. Lien : ${lien}`,
+                emailEnvoye ? 'success' : 'info');
+            } catch (e) {
+              toast((e && e.message) || 'Le renvoi a échoué.', 'error');
+            }
+            r.disabled = false;
+            rendreMembres();
+          };
+          ligne.appendChild(r);
+        }
+
+        const x = document.createElement('button');
+        x.type = 'button'; x.className = 'action-btn retirer';
+        x.textContent = '×';
+        x.title = membre.statut === 'actif' ? "Retirer de l'équipe" : "Annuler l'invitation";
+        x.setAttribute('aria-label', x.title);
+        x.onclick = async () => {
+          const question = membre.statut === 'actif'
+            ? `Retirer ${membre.prenom} de l'équipe ? Il perdra l'accès aux chantiers, mais ses messages restent.`
+            : `Annuler l'invitation de ${membre.prenom} ? Le lien envoyé cessera de fonctionner.`;
+          if (!window.confirm(question)) return;
+          try { await retirerMembre(membre.id); } catch (e) { toast((e && e.message) || 'Action impossible.', 'error'); }
+          rendreMembres();
+        };
+        ligne.appendChild(x);
+      }
+
+      return ligne;
+    }
+
+    async function rendreMembres() {
+      MEMBRES_BRUTS = (await listMembres()).filter((m) => m.statut !== 'inactif');
+
+      // `equipe_visible` masque le taux horaire des collègues (c'est son rôle :
+      // un compagnon ne doit pas voir le salaire des autres). Seul le patron
+      // peut le modifier — on ne va donc chercher la vraie valeur (table brute,
+      // policy `equipe_lecture`) que pour lui, et on la fusionne dans les lignes
+      // déjà chargées plutôt que de dupliquer l'appel `listMembres`.
+      if (DROITS && DROITS.patron) {
+        try {
+          const bruts = await listMembresTauxHoraire();
+          const parId = new Map(bruts.map((b) => [b.id, b.taux_horaire]));
+          MEMBRES_BRUTS.forEach((m) => { m.taux_horaire = parId.has(m.id) ? parId.get(m.id) : null; });
+        } catch (e) { /* l'écran reste utilisable sans le taux */ }
+      }
+
+      const zone = el('listeMembres');
+      zone.replaceChildren();
+
+      const patronSansLigne = MOI === null; // je suis le patron : pas de ligne membres_equipe pour moi
+      const total = MEMBRES_BRUTS.length + (patronSansLigne ? 1 : 0);
+      el('sousTitre').textContent = total
+        ? `${total} personne${total > 1 ? 's' : ''} · cette semaine`
+        : '';
+
+      const vide = patronSansLigne && MEMBRES_BRUTS.length === 0;
+      el('blocVide').hidden = !vide;
+      if (vide && el('btnInviter')) el('btnInviter').hidden = true;
+      el('listeMembres').hidden = vide;
+      el('btnInviter').hidden = !DROITS?.patron || vide;
+
+      if (vide) return;
+
+      // Nom de « moi » pour matcher `assigne_a` (fonction virtuelle « moi » côté
+      // assistant : voir supabase.js / app-actions.js — le texte écrit est le
+      // display_name du profil, ou « Moi » si le profil est vide).
+      if (patronSansLigne) {
+        let profil = null;
+        try { profil = await getMyProfile(); } catch (e) { /* Moi suffit */ }
+        MOI_NOM_MATCH = (profil && profil.display_name && profil.display_name.trim()) || 'Moi';
+      }
+
+      const { heuresParMembreId, heuresMoi, chantiersParMembreId, chantiersMoi } = await chargerHeuresSemaine();
+
+      if (patronSansLigne) {
+        const nomAffiche = MOI_NOM_MATCH === 'Moi' ? 'Vous' : `${MOI_NOM_MATCH} (vous)`;
+        zone.appendChild(ligneMembre({
+          nomAffiche, roleLabel: ROLE_LABEL.patron, heures: heuresMoi, estMoi: true,
+          chantiersTxt: nomsChantiers(chantiersMoi), montrerActions: false,
+        }));
+      }
+
+      MEMBRES_BRUTS.forEach((m) => {
+        const nomBase = [m.prenom, m.nom].filter(Boolean).join(' ').trim() || m.email;
+        const esMoi = !patronSansLigne && m.user_id === MON_ID;
+        const nomAffiche = esMoi ? `${nomBase} (vous)` : nomBase;
+        const enAttente = m.statut !== 'actif' || !m.joined_at;
+        const heures = heuresParMembreId.get(m.id) || 0;
+        zone.appendChild(ligneMembre({
+          nomAffiche,
+          roleLabel: ROLE_LABEL[m.role] || m.role,
+          statutPill: enAttente,
+          heures,
+          estMoi,
+          chantiersTxt: nomsChantiers(chantiersParMembreId.get(m.id)),
+          montrerActions: !!(DROITS && DROITS.patron) && !esMoi,
+          membre: m,
+        }));
+      });
+    }
+
+    // Séparateur de jour — ré-initialisé à chaque changement de chantier
+    // sélectionné (chargerFil).
+    let JOUR_FIL = null;
+    // Identifiants déjà à l'écran : le temps réel renvoie AUSSI mes propres
+    // messages (annonces automatiques d'étapes écrites depuis cette page ou
+    // par l'assistant) — on n'affiche que ce qui n'y est pas encore.
+    const AFFICHES = new Set();
+
+    // Le rendu des bulles vient de js/mq-thread.js : ce fil-ci ressemble
+    // trait pour trait au fil client et aux messages directs. Ne reste ici
+    // que « qui suis-je » et comment nommer l'autre.
+    const nomAuteur = (m) => (m.author === 'membre' ? 'Équipe' : 'Patron');
+
+    function ajouterMessage(m) {
+      if (m && m.id) { if (AFFICHES.has(m.id)) return; AFFICHES.add(m.id); }
+      const fil = el('filMessages');
+      const vide = fil.querySelector('.mq-vide');
+      if (vide) vide.remove();
+      const colle = estEnBasDuFil(fil);
+      const mienne = m.auteur_id === MON_ID;
+      const bulles = fil.querySelectorAll('.mq-msg');
+      const precedent = bulles.length ? bulles[bulles.length - 1] : null;
+      if (precedent && precedent.classList.contains(mienne ? 'mq-out' : 'mq-in')) {
+        precedent.classList.remove('mq-tail');
+      }
+      JOUR_FIL = poserSeparateurJour(fil, m.created_at, JOUR_FIL);
+      const bulle = rendreBulle(m, {
+        mienne,
+        auteur: nomAuteur(m),
+        // Le fil d'équipe est collectif : « lu » par qui ? marquerLuMessagesEquipe()
+        // marque pour le premier qui ouvre, pas pour tout le monde — une double
+        // coche y voudrait dire quelque chose de faux. Pas d'accusé ici.
+        lu: null,
+      });
+      fil.appendChild(bulle);
+      poserAstucePlanning(bulle, m);
+      if (colle) fil.scrollTop = fil.scrollHeight;
+      // La liste des groupes garde le dernier message à jour.
+      if (GROUPES.has(m.chantier_id)) { const g = GROUPES.get(m.chantier_id); g.dernier = m; g.nonLus = 0; rendreListeGroupes(); }
+    }
+
+    // ── « L'assistant demande s'il doit ajouter cette étape au planning » ──
+    // (Moctar, 05/09). Pas d'appel au modèle à chaque message : une lecture
+    // locale repère ce qui ressemble à une tâche demandée (verbe de chantier,
+    // jour, « il faut »…) et pose sous la bulle « Ajouter au planning ? ».
+    // Le toucher envoie la demande à l'assistant, qui propose l'étape et
+    // attend la validation — exactement le « il demande » attendu.
+    const RE_TACHE = /\b(il faut|faut|à faire|a faire|prévoir|prevoir|poser|installer|refaire|reprendre|changer|remplacer|peindre|carreler|enduire|poncer|démonter|demonter|monter|livrer|commander|finir|terminer|passer|venir|déposer|deposer|raccorder|brancher|couler|nettoyer|évacuer|evacuer|demain|lundi|mardi|mercredi|jeudi|vendredi|samedi|semaine prochaine|ce matin|cet après-midi|cet aprem)\b/i;
+    function ressembleAUneTache(txt) {
+      const t = String(txt || '').trim();
+      if (t.length < 8 || t.length > 300) return false;
+      if (/^(📋|✅|▶️|📷|\[photo:)/.test(t)) return false;   // annonces automatiques, photos
+      return RE_TACHE.test(t);
+    }
+    function poserAstucePlanning(bulle, m) {
+      if (!ressembleAUneTache(m.content)) return;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'mq-astuce';
+      b.innerHTML = (window.bsIcon ? window.bsIcon('spark', 14) : '✦') + ' Ajouter au planning ?';
+      b.addEventListener('click', () => {
+        const client = CHANTIERS_MAP.get(m.chantier_id) || '';
+        const texte = apercuContenu(m.content).slice(0, 160);
+        if (typeof window.bsAssistantEnvoyerQuestion === 'function') {
+          window.bsAssistantEnvoyerQuestion(`Ajoute l'étape « ${texte} » au planning du chantier${client ? ' de ' + client : ''}.`);
+        }
+      });
+      bulle.insertAdjacentElement('afterend', b);
+    }
+
+    async function chargerFil(chantierId) {
+      CHANTIER = chantierId;
+      JOUR_FIL = null;
+      const fil = el('filMessages');
+      fil.replaceChildren();
+      if (!chantierId) return;
+      rendreTeteGroupe(chantierId);
+      const msgs = await listMessagesEquipe(chantierId);
+      AFFICHES.clear();
+      msgs.forEach((m) => { if (m.id) AFFICHES.add(m.id); });
+      rendreFil(fil, msgs, {
+        mienne: (m) => m.auteur_id === MON_ID,
+        auteur: nomAuteur,
+        lu: () => null,
+        // Appui long sur MA bulle : modifier / supprimer tant que personne ne l'a lue.
+        actions: (m) => (m.auteur_id === MON_ID ? {
+          modifier: (msg, txt) => modifierMessage(msg.id, txt),
+          supprimer: (msg) => supprimerMessage(msg.id),
+        } : null),
+        vide: "Aucun message dans ce groupe. Écrivez le premier — l'équipe du chantier le verra.",
+      });
+      // Astuces « Ajouter au planning ? » sur l'historique : rendreFil pose
+      // une .mq-msg par message, dans l'ordre.
+      const bulles = fil.querySelectorAll('.mq-msg');
+      if (bulles.length === msgs.length) msgs.forEach((m, i) => poserAstucePlanning(bulles[i], m));
+      JOUR_FIL = msgs.length ? new Date(msgs[msgs.length - 1].created_at).toDateString() : null;
+      if (ABONNEMENT) ABONNEMENT.unsubscribe();
+      ABONNEMENT = suivreMessagesEquipe(chantierId, (m) => {
+        ajouterMessage(m);   // ignoré s'il est déjà à l'écran (AFFICHES)
+        marquerLuMessagesEquipe(chantierId, MON_ID).then(() => actualiserBadgeMessages());
+      });
+      // Le fil vient d'être affiché : marquer lu et rafraîchir le badge de
+      // la barre du bas. Jamais bloquant (voir mq-thread.js).
+      marquerLuMessagesEquipe(chantierId, MON_ID).then(() => actualiserBadgeMessages());
+    }
+
+    async function envoyer() {
+      const champ = el('saisie');
+      const txt = champ.value.trim();
+      if (!txt || !CHANTIER) return;
+      champ.value = '';
+      try {
+        const m = await envoyerMessageEquipe(CHANTIER, txt);
+        ajouterMessage(m);
+      } catch (e) {
+        champ.value = txt;
+        toast('Message non envoyé. Réessayez.', 'error');
+      }
+    }
+    // (window.envoyer retiré : le bouton n'est plus câblé en onclick,
+    //  c'est brancherComposeur() qui appelle envoyer().)
+
+    // Capsule de saisie commune : emoji, auto-hauteur, Entrée pour envoyer,
+    // et le bouton rond qui passe de « micro » à « envoyer ».
+    brancherComposeur({
+      textarea: el('saisie'),
+      sendBtn: el('eqSendBtn'),
+      micBtn: el('eqMicBtn'),
+      emojiBtn: el('eqEmojiBtn'),
+      panel: el('eqEmojiPanel'),
+      tabs: el('eqEmojiTabs'),
+      grid: el('eqEmojiGrid'),
+      indice: el('eqIndice'),
+      micro: true,
+      contexteDictee: 'note',
+      onMessage: (texte, type) => toast(texte, type),
+      onEnvoyer: envoyer,
+    });
+
+    el('btnInviter').addEventListener('click', basculerFormulaire);
+    el('btnAjouterVide').addEventListener('click', basculerFormulaire);
+
+    el('formInvite').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const bouton = e.target.querySelector('button[type="submit"]');
+      bouton.disabled = true;
+      const libelle = bouton.textContent;
+      bouton.textContent = 'Envoi…';
+      try {
+        const email = el('fEmail').value.trim().toLowerCase();
+        const { emailEnvoye, lien } = await inviterMembre({
+          prenom: el('fPrenom').value.trim(),
+          nom: el('fNom').value.trim(),
+          email,
+          metier: el('fMetier').value.trim(),
+          taux_horaire: parseFloat(el('fTaux').value) || null,
+          role: el('fRole').value,
+        });
+        el('formInvite').reset();
+        basculerFormulaire();
+        await rendreMembres();
+        // Si Brevo tombe, l'invitation existe quand même : on donne le lien au
+        // patron plutôt que de lui faire croire que rien ne s'est passé.
+        toast(emailEnvoye
+          ? `Invitation envoyée à ${email}. Valable quatorze jours.`
+          : `Invitation créée, mais l'email n'a pas pu partir. Lien : ${lien}`,
+          emailEnvoye ? 'success' : 'info');
+      } catch (err) {
+        const m = (err && err.message) || '';
+        toast(/duplicate|deja|déjà/i.test(m)
+          ? 'Cette adresse est déjà dans votre équipe.'
+          : (m || "Invitation impossible. Vérifiez l'adresse email."), 'error');
+      }
+      bouton.disabled = false;
+      bouton.textContent = libelle;
+    });
+
+    // Point d'entrée réutilisé par l'assistant vocal : mêmes règles, même RPC
+    // d'invitation, mais sans passer par le formulaire visible à l'écran.
+    window.bsAjouterCoequipier = async function bsAjouterCoequipier({ prenom, nom, email, telephone, metier } = {}) {
+      const resultat = await inviterMembre({
+        prenom, nom, email, telephone, metier, role: 'compagnon', taux_horaire: null,
+      });
+      await rendreMembres();
+      return resultat;
+    };
+
+    // Carte « L'assistant propose » (app-assistant.js) : contenu propre à
+    // l'écran Équipe, posé avant son propre rendu (DOMContentLoaded) puis
+    // redemandé une fois posé, au cas où app-assistant.js s'exécute avant ce
+    // module (ordre des <script defer>/module, mêmes conditions d'exécution).
+    window.bsSuggestions = [
+      { label: 'Ajouter un compagnon au prochain chantier', question: 'Ajouter un compagnon au prochain chantier' },
+      { label: 'Charge de la semaine', question: 'Charge de la semaine' },
+    ];
+    if (typeof window.bsAssistantRafraichirSuggestions === 'function') window.bsAssistantRafraichirSuggestions();
+
+    // Fil d'équipe replié par défaut (mq-card « Fil d'équipe › ») : la
+    // maquette 09 ne montre pas la messagerie, on la garde sous un tiroir.
+    el('btnFilToggle').addEventListener('click', () => {
+      const ouvert = !el('filListe').hidden || !el('filCarte').hidden;
+      if (ouvert) { el('filListe').hidden = true; el('filCarte').hidden = true; }
+      else { el('filListe').hidden = false; el('filCarte').hidden = true; }
+      el('filChevron').textContent = ouvert ? '›' : '⌄';
+    });
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+      MON_ID = session.user.id;
+      DROITS = await mesDroits();
+      MOI = await monProfilEquipe();          // null = je suis le patron
+      // Pas de garde de page ici : le fil d'équipe doit rester accessible à
+      // tous. Seule la GESTION (inviter / renvoyer / retirer) est fermée, et
+      // elle l'est d'abord côté base — la policy equipe_ecriture_patron
+      // refuserait de toute façon. Ici on évite juste d'afficher un bouton qui
+      // ne pourrait qu'échouer.
+      if (!DROITS.patron) {
+        el('noteNonPatron').hidden = false;
+      }
+
+      // Chantiers chargés AVANT les membres : rendreMembres() en a besoin
+      // pour transformer les chantier_id des tâches de la semaine en vrais
+      // noms de chantiers (CHANTIERS_MAP), affichés sur chaque ligne membre.
+      let chantiers = [];
+      try { chantiers = await listChantiers(); } catch (e) { chantiers = []; }
+      CHANTIERS_MAP = new Map(chantiers.map((c) => [c.id, c.client_name]));
+
+      await rendreMembres();
+
+      CHANTIERS = chantiers;
+      if (!chantiers.length) {
+        el('saisie').disabled = true;
+        el('filListe').replaceChildren(rendreEtatVide('Aucun chantier — créez-en un pour ouvrir son groupe.'));
+        return;
+      }
+      await chargerGroupes();
+      rendreListeGroupes();
+      proposerGroupes();
+
+      // Arrivée directe sur un groupe (messages.html, carte « propose »,
+      // assistant) : ?chantier=<id>, ou #fil pour la liste.
+      const params = new URLSearchParams(location.search);
+      const cible = params.get('chantier');
+      if (cible && GROUPES.has(cible)) {
+        // Venu de Messages : on veut le groupe, pas l'écran Équipe (Moctar,
+        // 05/09). Mode plein : la liste des membres et le reste se masquent,
+        // le retour ramène d'où l'on vient.
+        document.body.classList.add('mq-groupe-plein');
+        // (06/09, Moctar : « je clique sur le groupe et j'arrive dans Équipe »)
+        // L'écran s'appelait encore « Équipe » : le titre devient celui du
+        // groupe, comme une conversation WhatsApp, et le reste de la page
+        // (compteur, suggestions) est masqué par le CSS de .mq-groupe-plein.
+        try {
+          const h2 = document.querySelector('.app-h .ui-top h2, .ui-top h2');
+          const g = GROUPES.get(cible);
+          if (h2 && g) h2.textContent = 'Groupe · ' + nomGroupe(g.chantier);
+        } catch (_) {}
+        ouvrirGroupe(cible);
+      }
+      else if (location.hash === '#fil' || cible) { el('filListe').hidden = false; el('filChevron').textContent = '⌄'; }
+    })();
+
+    // ── Groupes de chantier ─────────────────────────────────────────────
+    let CHANTIERS = [];
+    const GROUPES = new Map(); // chantier_id -> { chantier, dernier, nonLus, membres:Set }
+
+    async function chargerGroupes() {
+      GROUPES.clear();
+      CHANTIERS.forEach((c) => GROUPES.set(c.id, { chantier: c, dernier: null, nonLus: 0, membres: new Set() }));
+      // UNE requête messages internes (300 derniers, tous chantiers) et UNE
+      // requête d'assignations — jamais une par chantier.
+      try {
+        const { data } = await supabase.from('messages')
+          .select('chantier_id, content, created_at, auteur_id, lu_le')
+          .eq('visible_client', false)
+          .order('created_at', { ascending: false }).limit(300);
+        (data || []).forEach((m) => {
+          const g = GROUPES.get(m.chantier_id); if (!g) return;
+          if (!g.dernier) g.dernier = m;
+          if (!m.lu_le && m.auteur_id !== MON_ID) g.nonLus += 1;
+        });
+      } catch (e) { console.warn('[équipe] derniers messages indisponibles', e); }
+      try {
+        const { data } = await supabase.from('taches')
+          .select('chantier_id, assigne_a').not('assigne_a', 'is', null).limit(1000);
+        (data || []).forEach((t) => {
+          const g = GROUPES.get(t.chantier_id);
+          if (g && t.assigne_a) g.membres.add(String(t.assigne_a).trim());
+        });
+      } catch (e) { /* les membres du groupe restent « vous » */ }
+    }
+
+    function nomGroupe(c) { return c.client_name || 'Chantier'; }
+    function membresGroupe(g) {
+      const noms = Array.from(g.membres).filter((n) => n && n.toLowerCase() !== (MOI_NOM_MATCH || '').toLowerCase());
+      return ['Vous'].concat(noms.slice(0, 4)).join(', ') + (noms.length > 4 ? '…' : '');
+    }
+
+    function rendreListeGroupes() {
+      const zone = el('filListe');
+      zone.replaceChildren();
+      const ordre = { en_cours: 0, retard: 0, en_attente: 1, termine: 2 };
+      const liste = Array.from(GROUPES.values()).sort((a, b) => {
+        const da = a.dernier ? a.dernier.created_at : '';
+        const db = b.dernier ? b.dernier.created_at : '';
+        if (da !== db) return db.localeCompare(da);
+        return (ordre[a.chantier.status] ?? 1) - (ordre[b.chantier.status] ?? 1);
+      });
+      liste.forEach((g) => {
+        const c = g.chantier;
+        const r = document.createElement('button');
+        r.type = 'button';
+        r.className = 'mq-row' + (g.nonLus > 0 ? ' mq-nonlu' : '');
+        r.style.cssText = 'width:100%;text-align:left;font:inherit;cursor:pointer;';
+        const av = document.createElement('div'); av.className = 'mq-av'; av.textContent = initialesDe(nomGroupe(c)); r.appendChild(av);
+        const n = document.createElement('div'); n.className = 'mq-nom'; n.textContent = nomGroupe(c) + (c.adresse ? ' · ' + c.adresse : ''); r.appendChild(n);
+        const a = document.createElement('div'); a.className = 'mq-apercu';
+        a.textContent = g.dernier
+          ? (g.dernier.auteur_id === MON_ID ? 'Vous : ' : '') + apercuContenu(g.dernier.content)
+          : 'Groupe : ' + membresGroupe(g) + ' — aucun message.';
+        r.appendChild(a);
+        const q = document.createElement('div'); q.className = 'mq-quand'; q.textContent = g.dernier ? heureRelative(g.dernier.created_at) : ''; r.appendChild(q);
+        if (g.nonLus > 0) { const b = document.createElement('div'); b.className = 'mq-nb'; b.textContent = g.nonLus > 99 ? '99+' : String(g.nonLus); r.appendChild(b); }
+        // (06/09, Moctar : « quand je clique sur un groupe dans Équipe je
+        // n'arrive pas au message ») : même chemin que depuis Messages, la
+        // conversation en plein écran ; le retour ramène ici.
+        r.addEventListener('click', () => { location.href = './equipe.html?chantier=' + encodeURIComponent(c.id) + '#fil'; });
+        zone.appendChild(r);
+      });
+    }
+
+    function rendreTeteGroupe(chantierId) {
+      const g = GROUPES.get(chantierId);
+      const tete = el('filTete');
+      tete.replaceChildren();
+      const retour = document.createElement('button');
+      retour.type = 'button'; retour.className = 'mq-fil-retour'; retour.setAttribute('aria-label', 'Retour aux groupes');
+      retour.innerHTML = iconeFil('back', 20);
+      retour.addEventListener('click', () => {
+        if (document.body.classList.contains('mq-groupe-plein') && history.length > 1) { history.back(); return; }
+        revenirListe();
+      });
+      tete.appendChild(retour);
+      const av = document.createElement('div'); av.className = 'mq-av'; av.textContent = initialesDe(g ? nomGroupe(g.chantier) : '?'); tete.appendChild(av);
+      const bloc = document.createElement('div'); bloc.className = 'mq-fil-ident';
+      const h = document.createElement('h2'); h.textContent = g ? nomGroupe(g.chantier) : 'Groupe'; bloc.appendChild(h);
+      const sm = document.createElement('small'); sm.textContent = g ? membresGroupe(g) : ''; bloc.appendChild(sm);
+      tete.appendChild(bloc);
+    }
+
+    async function ouvrirGroupe(chantierId) {
+      el('filListe').hidden = true;
+      el('filCarte').hidden = false;
+      el('filChevron').textContent = '⌄';
+      await chargerFil(chantierId);
+      const g = GROUPES.get(chantierId); if (g) g.nonLus = 0;
+      el('filCarte').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+    function revenirListe() {
+      if (ABONNEMENT) { ABONNEMENT.unsubscribe(); ABONNEMENT = null; }
+      CHANTIER = null;
+      el('filCarte').hidden = true;
+      el('filListe').hidden = false;
+      rendreListeGroupes();
+    }
+    window.bsOuvrirGroupeEquipe = ouvrirGroupe;
+
+    // Carte « L'assistant propose » : ouvrir (ou « créer », c'est le même
+    // geste : le premier message fait le groupe) le groupe du chantier le
+    // plus vivant, puis les deux propositions d'équipe.
+    function proposerGroupes() {
+      const actifs = Array.from(GROUPES.values()).filter((g) => g.chantier.status !== 'termine');
+      const sansMessage = actifs.find((g) => !g.dernier);
+      const avecMessage = actifs.find((g) => g.dernier);
+      const props = [];
+      if (sansMessage) props.push({ label: `Créer le groupe du chantier ${nomGroupe(sansMessage.chantier)}`, action: () => ouvrirGroupe(sansMessage.chantier.id) });
+      else if (avecMessage) props.push({ label: `Ouvrir le groupe ${nomGroupe(avecMessage.chantier)}`, action: () => ouvrirGroupe(avecMessage.chantier.id) });
+      props.push({ label: 'Ajouter un compagnon au prochain chantier', question: 'Ajouter un compagnon au prochain chantier' });
+      props.push({ label: 'Charge de la semaine', question: 'Charge de la semaine' });
+      window.bsSuggestions = props;
+      if (typeof window.bsAssistantRafraichirSuggestions === 'function') window.bsAssistantRafraichirSuggestions();
+    }
+
+    // ── Photo dans le groupe → dossier photos du chantier ───────────────
+    el('eqCamBtn').innerHTML = iconeFil('camera', 18);
+    // (06/09, Moctar) depuis le téléphone / le Drive, ou parmi les photos du chantier.
+    el('eqCamBtn').addEventListener('click', async () => {
+      if (!CHANTIER) { toast('Ouvrez d\'abord un groupe.', 'info'); return; }
+      const choix = await choisirPhoto({ titre: 'Envoyer une photo au groupe', listerPhotosApp: () => listPhotosChantier(CHANTIER), libelleApp: 'Photos du chantier' });
+      if (!choix) return;
+      if (choix.type === 'fichier') {
+        const dt = new DataTransfer(); dt.items.add(choix.file);
+        el('eqCamInput').files = dt.files;
+        el('eqCamInput').dispatchEvent(new Event('change'));
+        return;
+      }
+      try {
+        const m = await envoyerMessageEquipe(CHANTIER, `[photo:${choix.photo.storage_path}]`);
+        ajouterMessage(m);
+      } catch (err) { toast((err && err.message) || 'Photo non envoyée. Réessayez.', 'error'); }
+    });
+    el('eqCamInput').addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0];
+      e.target.value = '';
+      if (!file || !CHANTIER) return;
+      const g = GROUPES.get(CHANTIER);
+      const st = g ? g.chantier.status : 'en_cours';
+      const phase = st === 'en_attente' ? 'avant' : st === 'termine' ? 'apres' : 'pendant';
+      toast('Envoi de la photo…', 'info');
+      try {
+        const photo = await uploadPhoto(CHANTIER, file, "Fil d'équipe", phase);
+        const m = await envoyerMessageEquipe(CHANTIER, `[photo:${photo.storage_path}]`);
+        ajouterMessage(m);
+        toast('Photo rangée dans le dossier du chantier.', 'success');
+      } catch (err) {
+        toast((err && err.message) || 'Photo non envoyée. Réessayez.', 'error');
+      }
+    });
+  </script>
+
+  <!-- Barre de navigation : sans elle, la messagerie etait un cul-de-sac.
+       On y arrivait depuis les autres pages, on ne pouvait plus en sortir. -->
+  <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

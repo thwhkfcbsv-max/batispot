@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix Peinture Appartement 2026 : de 28€ à 50€/m² (Simulateur & Devis) | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-peinture-appartement">
+ <meta name="description" content="Barème 2026 vérifié · Estimation réelle peinture appartement en Île-de-France : studio dès 1 200 €, T3 dès 3 200 €. Barème au m² vérifié et 3 devis gratuits sous 48h.">
+ <meta property="og:title" content="Prix peinture appartement au m² en 2026 : tarifs par surface" />
+ <meta property="og:description" content="Barème 2026 vérifié · Estimation réelle peinture appartement en Île-de-France : studio dès 1 200 €, T3 dès 3 200 €. Barème au m² vérifié et 3 devis gratuits sous 48h.">
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-peinture-appartement" />
+ <style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.65}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EBF7F1;--cta:#2A9D6E;--sub:#5A7268;--orange:#F97316;--border:rgba(34,139,91,0.14)}
+ .wrap{max-width:840px;margin:0 auto;padding:0 1.2rem}
+ .nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0}
+ .nav .wrap{display:flex;justify-content:space-between;align-items:center}
+ .logo{font-weight:900;color:var(--g1);font-size:1.2rem;text-decoration:none}
+ .logo span{color:var(--g2)}
+ .nav a.cta{background:var(--cta);color:#fff;padding:.5rem 1.1rem;border-radius:9px;font-weight:800;font-size:.85rem;text-decoration:none}
+ h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--g1);line-height:1.2;margin:1.6rem 0 .6rem}
+ .lead{color:var(--sub);font-size:1.02rem;margin-bottom:1.4rem}
+ h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin:2rem 0 .8rem}
+ h3{font-size:1.05rem;font-weight:700;color:var(--g2);margin:1.2rem 0 .4rem}
+ p{margin-bottom:1rem}ul,ol{margin:0 0 1rem 1.3rem}li{margin-bottom:.4rem}
+ strong{color:var(--g1)}a{color:var(--g2)}
+ table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.95rem}
+ th,td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #eef2f0}
+ th{background:var(--g1);color:#fff;font-weight:700;font-size:.9rem}
+ tr:nth-child(even) td{background:#FAFCFB}
+ .box{background:var(--g-soft);border-left:4px solid var(--g2);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2rem;text-align:center;color:#fff;margin:2rem 0}
+ .cta-section h2{color:#fff;margin:0 0 .5rem}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.8rem 1.9rem;border-radius:12px;font-weight:800;text-decoration:none}
+ .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+ .faq-item h3{margin:0 0 .3rem;color:#1F2937}
+ .faq-item p{margin:0;color:var(--sub);font-size:.95rem}
+ footer{background:var(--g1);color:#fff;text-align:center;padding:1.6rem 1rem;font-size:.85rem;margin-top:2rem}
+ footer a{color:#9be3c1;text-decoration:none}
+ </style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Combien coûte la peinture d'un appartement de 50 m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Comptez environ 1 500 à 2 500 € pour une remise en peinture complète (murs et plafonds) d'un appartement de 50 m², fournitures et main d'œuvre comprises. Le prix dépend de l'état des murs, de la préparation nécessaire et de la qualité de la peinture."}},
+ {"@type":"Question","name":"Quel est le prix de la peinture au m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"En moyenne 30 à 50 €/m² de surface au sol pour une remise en peinture complète d'un appartement (murs et plafonds). Un simple rafraîchissement descend vers 20 à 30 €/m² ; un chantier avec forte préparation (rebouchage, lissage, boiseries) monte vers 50 à 60 €/m²."}},
+ {"@type":"Question","name":"Le rebouchage des trous et le lissage des murs sont-ils compris dans le prix ?","acceptedAnswer":{"@type":"Answer","text":"Pas toujours. La préparation (rebouchage des trous, lissage, ponçage) est souvent facturée en plus et ajoute environ 8 à 15 €/m². C'est un point à faire préciser explicitement dans le devis, car il fait une vraie différence sur le prix final."}},
+ {"@type":"Question","name":"Combien coûte la peinture d'un appartement de 80 m² ou 100 m² ?","acceptedAnswer":{"@type":"Answer","text":"Pour une remise en peinture complète : environ 2 400 à 4 000 € pour un 80 m², et 3 000 à 5 000 € pour un 100 m². Ces fourchettes incluent murs et plafonds ; elles augmentent avec la préparation, les boiseries et la qualité de peinture choisie."}},
+ {"@type":"Question","name":"La peinture est-elle plus chère à Paris et en Île-de-France ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Les tarifs à Paris et en petite couronne sont en général 20 à 30 % plus élevés que la moyenne nationale, en raison du coût de la main-d'œuvre, des contraintes d'accès (étages sans ascenseur) et des règles de copropriété."}}
+ ]}</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Accueil",
+ "item": "https://batispot.pro/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Tarifs Travaux BTP 2026",
+ "item": "https://batispot.pro/prix-peinture-appartement"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Peinture Appartement",
+ "item": "https://batispot.pro/prix-peinture-appartement"
+ }
+ ]
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+<!-- START: Mini Simulateur Express -->
+<div class="bs-mini-calc" data-price-min="28" data-price-max="50" data-unit="m²" style="background:#FFFFFF;border:1.5px solid #DCEBE1;border-radius:20px;padding:28px 24px;margin:28px 0;box-shadow:0 12px 32px -10px rgba(15,81,50,0.12);">
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0F5132;background:#EBF7F1;padding:4px 12px;border-radius:999px;letter-spacing:0.04em;">Simulateur Express 2026</span>
+ <span style="font-size:12px;color:#5E7268;font-weight:600;">Estimation immédiate sans engagement</span>
+ </div>
+ <h3 style="font-size:18px;font-weight:900;color:#0A1D14;margin:0 0 16px;">Estimez le coût de vos travaux (peinture appartement) en direct</h3>
+ 
+ <div style="margin-bottom:18px;">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+ <label style="font-size:13px;font-weight:700;color:#1C2B22;">Quantité / Surface estimée :</label>
+ <span class="calc-val-display" style="font-size:16px;font-weight:900;color:#0F5132;background:#F1F7F4;padding:2px 10px;border-radius:8px;">40 m²</span>
+ </div>
+ <input type="range" class="calc-slider" min="10" max="150" value="40" step="5" style="width:100%;height:8px;accent-color:#0F5132;cursor:pointer;">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:#5E7268;margin-top:4px;">
+ <span>10 m²</span>
+ <span>75 m²</span>
+ <span>150 m²</span>
+ </div>
+ </div>
+
+ <div style="background:linear-gradient(135deg,#F1F7F4,#EBF7F1);border:1px solid #DCEBE1;border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:700;color:#5E7268;display:block;margin-bottom:4px;">FOURCHETTE ESTIMÉE (FOURNITURE & POSE)</span>
+ <div style="font-size:clamp(22px,4vw,28px);font-weight:900;color:#0F5132;">
+ <span class="calc-res-min">1120 €</span> à <span class="calc-res-max">2000 € TTC</span>
+ </div>
+ </div>
+
+ <div style="text-align:center;">
+ <a href="/devis/" style="display:inline-flex;align-items:center;gap:8px;background:#0F5132;color:#fff;font-size:14px;font-weight:800;padding:12px 24px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(15,81,50,0.25);">
+ <span>Recevoir 3 devis précis d'artisans vérifiés</span>
+ <span style="font-size:16px;">→</span>
+ </a>
+ </div>
+</div>
+<script src="/js/mini-calc.js" defer></script>
+<!-- END: Mini Simulateur Express -->
+ <a href="/" class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></a>
+ <a href="/estimateur" class="cta">Estimer mes travaux</a>
+</div></nav>
+
+<div class="wrap">
+ <h1>Prix de la peinture d'un appartement au m² en 2026</h1>
+<p class="lead">Combien coûte la remise en peinture d'un appartement en 2026 ? Voici les <strong>tarifs réels au m²</strong>, le détail <strong>par surface</strong> (30 à 100 m²), et ce qui fait vraiment varier le prix, avant de demander vos devis.</p>
+
+ <h2>Prix de la peinture au m² en 2026</h2>
+ <p>Pour une <strong>remise en peinture complète</strong> d'un appartement (murs et plafonds), fournitures et main d'œuvre comprises, comptez en moyenne <strong>30 à 50 €/m²</strong> de surface au sol.</p>
+ <table>
+ <tr><th>Type de prestation</th><th>Prix au m² (surface au sol)</th></tr>
+ <tr><td>Rafraîchissement (1 à 2 couches, murs en bon état)</td><td>20 – 30 €/m²</td></tr>
+ <tr><td>Remise en peinture standard (préparation légère)</td><td>30 – 45 €/m²</td></tr>
+ <tr><td>Peinture complète avec forte préparation (rebouchage, lissage, boiseries)</td><td>45 – 60 €/m²</td></tr>
+ </table>
+ <p>Ces fourchettes couvrent un appartement classique. Le prix réel dépend surtout de l'<strong>état des murs</strong> et de la <strong>préparation</strong> nécessaire, le poste qui fait le plus varier la facture.</p>
+
+ <h2>Prix de la peinture par surface d'appartement</h2>
+ <p>À partir d'un tarif moyen de 30 à 50 €/m² pour une remise en peinture complète, voici les budgets à prévoir selon la taille de votre appartement :</p>
+ <table>
+ <tr><th>Surface</th><th>Budget peinture complète (2026)</th></tr>
+ <tr><td>Studio / 30 m²</td><td>900 – 1 500 €</td></tr>
+ <tr><td>40 m²</td><td>1 200 – 2 000 €</td></tr>
+ <tr><td>50 m²</td><td>1 500 – 2 500 €</td></tr>
+ <tr><td>60 m²</td><td>1 800 – 3 000 €</td></tr>
+ <tr><td>70 m²</td><td>2 100 – 3 500 €</td></tr>
+ <tr><td>80 m²</td><td>2 400 – 4 000 €</td></tr>
+ <tr><td>100 m²</td><td>3 000 – 5 000 €</td></tr>
+ </table>
+ <p>La fourchette basse correspond à un rafraîchissement sur murs sains ; la fourchette haute à une peinture complète avec préparation, plafonds et boiseries.</p>
+
+<style>.bs-midcta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.1rem;background:#EBF7F1;border:1px solid rgba(34,139,91,.18);border-left:5px solid #1A6B45;border-radius:14px;padding:1.4rem 1.6rem;margin:2rem 0}.bs-midcta .bs-midcta-txt{flex:1 1 260px;min-width:0}.bs-midcta .bs-midcta-t{font-weight:900;color:#1A6B45;font-size:1.08rem;margin:0 0 .3rem}.bs-midcta .bs-midcta-p{color:#5A7268;font-size:.92rem;line-height:1.5;margin:0}.bs-midcta .cta-btn{white-space:nowrap;flex-shrink:0}@media(max-width:560px){.bs-midcta{flex-direction:column;align-items:flex-start}}</style>
+<aside class="bs-midcta" aria-label="Devis gratuit BatiSpot">
+ <div class="bs-midcta-txt">
+ <p class="bs-midcta-t">Un projet de peinture pour votre appartement ?</p>
+ <p class="bs-midcta-p">Décrivez votre surface et vos finitions : recevez jusqu'à 3 devis gratuits de peintres vérifiés en Île-de-France sous 48 h.</p>
+ </div>
+ <a href="/estimateur" class="cta-btn">Obtenir mon devis gratuit →</a>
+</aside>
+
+ <h2>Ce qui fait varier le prix de la peinture</h2>
+ <ul>
+ <li><strong>L'état des murs</strong> : des murs à reboucher, lisser ou décaper coûtent nettement plus qu'un simple rafraîchissement.</li>
+ <li><strong>La préparation</strong> : rebouchage des trous, lissage, ponçage, sous-couche, souvent le premier poste de coût.</li>
+ <li><strong>Le nombre de couches</strong> : un changement de couleur foncé → clair peut demander une couche de plus.</li>
+ <li><strong>Les plafonds et la hauteur sous plafond</strong> : plafonds et grandes hauteurs augmentent la surface à peindre et le temps.</li>
+ <li><strong>Les boiseries et menuiseries</strong> : portes, plinthes, fenêtres se facturent souvent à part.</li>
+ <li><strong>La qualité de la peinture</strong> : entrée de gamme, monocouche ou peinture haut de gamme lessivable font varier le prix des fournitures.</li>
+ <li><strong>La protection et le déplacement des meubles</strong> : un logement meublé occupé demande plus de protection.</li>
+ </ul>
+
+ <h2>Peinture avec ou sans préparation des murs</h2>
+ <p>La grande différence de prix vient de la <strong>préparation</strong>. Si vos murs demandent à être <strong>lissés</strong> et si les <strong>trous doivent être rebouchés</strong> avant la peinture, prévoyez environ <strong>8 à 15 €/m² supplémentaires</strong>. C'est un point à faire chiffrer clairement dans votre devis : « lissage + rebouchage + peinture » n'a pas le même prix qu'« une couche de rafraîchissement ».</p>
+
+ <div class="box"><strong>À vérifier dans votre devis :</strong> le nombre de couches, la marque et la gamme de peinture, la préparation incluse (rebouchage, lissage, sous-couche), les plafonds et les boiseries. Un devis « peinture » sans ce détail cache souvent des suppléments.</div>
+
+ <h2>Prix de la peinture à Paris et en Île-de-France</h2>
+ <p>À Paris et en petite couronne, les tarifs sont en général <strong>20 à 30 % plus élevés</strong> que la moyenne nationale : coût de la main-d'œuvre, contraintes d'accès (étages sans ascenseur), règles de copropriété. Un même chantier de 50 m² peut ainsi passer de ~1 800 € en grande couronne à ~2 400 € dans Paris intra-muros.</p>
+
+ <div class="cta-section">
+ <h2>Obtenez le prix exact pour votre appartement</h2>
+ <p style="opacity:.9;margin-bottom:1.2rem">Le seul moyen d'avoir un prix ferme, c'est un devis détaillé. Recevez jusqu'à 3 devis gratuits de peintres vérifiés sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de mes travaux →</a>
+ </div>
+
+ <h2>Questions fréquentes, prix peinture appartement</h2>
+ <div class="faq-item"><h3>Combien coûte la peinture d'un appartement de 50 m² ?</h3><p>Environ 1 500 à 2 500 € pour une remise en peinture complète (murs et plafonds), fournitures et main d'œuvre comprises. Le prix dépend de l'état des murs et de la préparation.</p></div>
+ <div class="faq-item"><h3>Quel est le prix de la peinture au m² en 2026 ?</h3><p>En moyenne 30 à 50 €/m² de surface au sol pour une remise complète. Un simple rafraîchissement descend vers 20-30 €/m² ; avec forte préparation, on monte vers 50-60 €/m².</p></div>
+ <div class="faq-item"><h3>Le rebouchage des trous et le lissage sont-ils compris ?</h3><p>Pas toujours. La préparation (rebouchage, lissage, ponçage) est souvent facturée en plus et ajoute environ 8 à 15 €/m². À faire préciser dans le devis.</p></div>
+ <div class="faq-item"><h3>Combien coûte la peinture d'un 80 m² ou 100 m² ?</h3><p>Environ 2 400 à 4 000 € pour un 80 m², et 3 000 à 5 000 € pour un 100 m² en remise en peinture complète (murs et plafonds).</p></div>
+ <div class="faq-item"><h3>La peinture est-elle plus chère à Paris ?</h3><p>Oui, en général 20 à 30 % au-dessus de la moyenne nationale, en raison de la main-d'œuvre, des contraintes d'accès et des règles de copropriété.</p></div>
+
+ <h2>À lire aussi</h2>
+ <ul>
+ <li><a href="/prix-peintre">Prix d'un peintre en Île-de-France (par ville)</a></li>
+ <li><a href="/prix-ravalement-facade">Prix d'un ravalement de façade au m²</a></li>
+ <li><a href="/blog/devis-renovation-appartement-paris">Devis rénovation appartement à Paris : prix et conseils</a></li>
+ <li><a href="/estimateur">Estimateur de travaux BatiSpot</a></li>
+ </ul>
+</div>
+
+<div class="wrap" style="margin-bottom:2rem">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis gratuits de peintres vérifiés</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Des peintres vérifiés (Kbis, assurance, décennale) en Île-de-France vous répondent sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez votre projet (surface, pièces, préparation…)" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Un peintre vérifié vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'peinture',description:(d.desc||'Demande via page prix peinture appartement')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_prix'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/prix-peintre">Prix peintre IDF</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

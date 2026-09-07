@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Litige avec un artisan : 7 recours efficaces en 2026 | BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/litige-artisan-recours-2026">
+<meta name="description" content="Travaux non terminés, malfaçon, dépassement de devis ? 7 recours juridiques pour régler un litige avec un artisan en 2026 : médiation, mise en demeure, tribunal." />
+<meta name="keywords" content="litige artisan recours, mise en demeure artisan, tribunal artisan travaux, malfacon recours juridique, conciliateur travaux" />
+<meta property="og:title" content="Litige artisan : 7 recours qui marchent (2026)" />
+<meta property="og:description" content="Mise en demeure, médiation, tribunal : tous les recours pour résoudre un litige avec un artisan. Étapes concrètes, modèles de courrier, délais." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://batispot.pro/og/litige-artisan-recours-2026.png" />
+<meta property="og:url" content="https://batispot.pro/litige-artisan-recours-2026" />
+<style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.6}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g3:#4CAF82;--g-soft:#EBF7F1;--cta:#2A9D6E;--cta-h:#1A6B45;--text:#1C2B22;--sub:#5A7268;--border:rgba(34,139,91,0.12);--white:#fff;--orange:#F97316;--red:#dc2626}
+ nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+ .logo{display:inline-flex;align-items:center;text-decoration:none}
+ .nav-links{display:flex;gap:1.5rem}
+ .nav-links a{color:var(--sub);text-decoration:none;font-size:.85rem;font-weight:500}
+ .nav-links a:hover{color:var(--g2)}
+ .hero{background:linear-gradient(135deg,var(--g1),var(--g2));padding:3rem 5% 2.5rem;text-align:center;color:#fff}
+ .hero h1{font-size:2rem;font-weight:900;margin-bottom:.75rem}
+ .hero p{opacity:.9;font-size:1.05rem;max-width:680px;margin:0 auto}
+ .breadcrumb{font-size:.8rem;opacity:.75;margin-bottom:.75rem}
+ .breadcrumb a{color:rgba(255,255,255,.85);text-decoration:none}
+ .container{max-width:820px;margin:0 auto;padding:2.5rem 1.2rem 3rem}
+ .toc{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 18px rgba(0,0,0,.05);margin-bottom:1.8rem}
+ .toc h3{font-size:.95rem;color:var(--g1);margin-bottom:.6rem}
+ .toc ol{list-style:none;padding:0}
+ .toc li{padding:.3rem 0;font-size:.88rem}
+ .toc a{color:var(--sub);text-decoration:none}
+ .toc a:hover{color:var(--g2)}
+ .card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:1.8rem}
+ .card h2{font-size:1.4rem;font-weight:900;color:var(--g1);margin-bottom:1rem;scroll-margin-top:80px}
+ .card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem}
+ .card p{margin-bottom:.9rem;font-size:.95rem}
+ .card ul,.card ol{margin:.6rem 0 .9rem 1.5rem}
+ .card li{padding:.25rem 0;font-size:.92rem}
+ .badge{display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.2rem .7rem;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+ .alert-red{background:#FEF2F2;border-left:4px solid var(--red);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#991B1B}
+ .alert-green{background:#F0FDF4;border-left:4px solid #16a34a;padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#166534}
+ .alert-orange{background:#FEF3C7;border-left:4px solid var(--orange);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#92400E}
+ .courrier{background:#F9FAFB;border:1px dashed var(--border);border-radius:8px;padding:1.2rem;font-family:Georgia,serif;font-size:.88rem;line-height:1.7;margin:1rem 0;white-space:pre-wrap}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2.2rem;text-align:center;color:#fff;margin-bottom:1.8rem}
+ .cta-section h2{font-size:1.4rem;font-weight:900;margin-bottom:.5rem;color:#fff}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;text-decoration:none}
+ table{width:100%;border-collapse:collapse;margin:1rem 0}
+ th,td{padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--border);font-size:.88rem}
+ th{background:var(--g-soft);color:var(--g1);font-weight:700}
+ footer{background:var(--g1);color:rgba(255,255,255,.8);text-align:center;padding:1.5rem;font-size:.8rem;margin-top:2rem}
+ footer a{color:rgba(255,255,255,.95);text-decoration:none}
+ @media(max-width:600px){.hero h1{font-size:1.5rem}.card{padding:1.3rem}}
+</style>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"Article",
+ "headline":"Litige avec un artisan : 7 recours efficaces en 2026",
+ "description":"Travaux non terminés, malfaçon, dépassement de devis ? Tous les recours juridiques pour résoudre un litige avec un artisan.",
+ "author":{"@type":"Organization","name":"BatiSpot"},
+ "publisher":{"@type":"Organization","name":"BatiSpot","logo":{"@type":"ImageObject","url":"https://batispot.pro/favicon.png"}},
+ "datePublished":"2026-04-29",
+ "dateModified":"2026-04-29"
+}
+</script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimer</a>
+ <a href="/">Artisan ?</a>
+ </div>
+</nav>
+
+<section class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › Guides › Litige artisan</div>
+ <h1>Litige avec un artisan : 7 recours efficaces en 2026</h1>
+<p>Travaux non terminés, malfaçon, dépassement de devis non signé, abandon de chantier : voici les recours dans l'ordre, du plus rapide au tribunal.</p>
+</section>
+
+<div class="container">
+
+ <div class="toc">
+ <h3>Sommaire</h3>
+ <ol>
+ <li>1. <a href="#dialogue">Le dialogue documenté (étape obligatoire)</a></li>
+ <li>2. <a href="#mise-demeure">La mise en demeure (LRAR)</a></li>
+ <li>3. <a href="#mediation">La médiation de la consommation</a></li>
+ <li>4. <a href="#conciliation">Le conciliateur de justice (gratuit)</a></li>
+ <li>5. <a href="#expertise">L'expertise amiable contradictoire</a></li>
+ <li>6. <a href="#tribunal">Le tribunal judiciaire</a></li>
+ <li>7. <a href="#recours-decennal">Le recours en garantie décennale</a></li>
+ <li> <a href="#preuves">Les preuves à constituer dès le début</a></li>
+ </ol>
+ </div>
+
+ <div class="card">
+ <span class="badge">Préambule</span>
+ <h2>Avant tout : ne pas paniquer, ne pas escalader</h2>
+ <p>Avant de penser au tribunal, retenez 2 choses :</p>
+ <ul>
+ <li>L'artisan a souvent intérêt à régler à l'amiable (sa réputation, sa décennale).</li>
+ <li>80 % des litiges se résolvent <strong>avant</strong> le tribunal.</li>
+ </ul>
+ <p>L'objectif des 6 premières étapes ci-dessous : ne JAMAIS aller au tribunal.</p>
+ <div class="alert-orange">
+ <strong> Délais importants à connaître :</strong>
+ <ul style="margin-top:.4rem">
+ <li><strong>1 an</strong> : garantie de parfait achèvement (toutes malfaçons)</li>
+ <li><strong>2 ans</strong> : garantie biennale (équipements dissociables)</li>
+ <li><strong>10 ans</strong> : garantie décennale (gros œuvre, étanchéité, structure)</li>
+ </ul>
+ </div>
+ </div>
+
+ <div class="card" id="dialogue">
+ <span class="badge">Recours 1</span>
+ <h2>Le dialogue documenté</h2>
+ <p>Première étape, sans laquelle aucune autre ne fonctionnera : <strong>parler à l'artisan, par écrit</strong>.</p>
+ <h3>Comment faire :</h3>
+ <ol>
+ <li><strong>Email récapitulatif</strong> : listez factuellement les problèmes (sans émotion), photos à l'appui</li>
+ <li><strong>Demande précise</strong> : "Que proposez-vous pour [terminer / refaire / rembourser X] ?"</li>
+ <li><strong>Délai donné</strong> : "Merci de me répondre sous 8 jours."</li>
+ </ol>
+ <p>Cette étape sert <strong>de preuve</strong> pour les étapes suivantes : sans cet email, le juge ou le médiateur considère que vous n'avez pas tenté l'amiable.</p>
+ <div class="alert-green">
+ <strong> Astuce</strong> : envoyez aussi par SMS ou WhatsApp. C'est moins formel mais ça force une réponse rapide. Et ça reste juridiquement utilisable.
+ </div>
+ </div>
+
+ <div class="card" id="mise-demeure">
+ <span class="badge">Recours 2</span>
+ <h2>La mise en demeure par LRAR</h2>
+ <p>Si l'artisan ne répond pas à votre email ou propose une solution insuffisante : passez à la <strong>lettre recommandée avec accusé de réception</strong> (LRAR).</p>
+ <h3>Modèle de courrier :</h3>
+ <div class="courrier">[Vos nom + adresse]
+[Date]
+
+Lettre recommandée avec AR
+[Nom + adresse de l'artisan]
+
+Objet : Mise en demeure — [terminer les travaux / réparer la malfaçon] - chantier [adresse], devis n° [XX] du [date]
+
+Madame, Monsieur,
+
+Conformément à notre devis n° [XX] daté du [date] et accepté par mes soins le [date], les travaux suivants devaient être réalisés à [adresse] : [description].
+
+À ce jour, je constate les manquements suivants :
+- [point 1, photo jointe]
+- [point 2, photo jointe]
+- [point 3]
+
+Mes échanges précédents avec vous (email du [date], SMS du [date]) sont restés sans suite satisfaisante.
+
+Par la présente, je vous mets en demeure d'effectuer [les travaux manquants / la reprise des malfaçons] sous un délai de QUINZE JOURS à compter de la réception de la présente.
+
+À défaut, je serai contraint(e) de saisir [le médiateur de la consommation / le conciliateur de justice / le tribunal judiciaire] pour faire valoir mes droits, et solliciter notamment :
+- la résolution du contrat aux torts exclusifs ;
+- le remboursement des sommes déjà versées ;
+- des dommages et intérêts au titre du préjudice subi.
+
+Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+[Signature]</div>
+ <h3>Coût et envoi :</h3>
+ <ul>
+ <li>Tarif LRAR : ~7 € chez La Poste</li>
+ <li>Conservez l'accusé de réception : c'est votre preuve juridique principale</li>
+ <li>Délai de réponse à laisser : 15 jours minimum (8 jours en cas d'urgence sécurité)</li>
+ </ul>
+ </div>
+
+ <div class="card" id="mediation">
+ <span class="badge">Recours 3</span>
+ <h2>La médiation de la consommation</h2>
+ <p>Depuis 2016, tout artisan B2C est <strong>obligé</strong> de proposer un médiateur de la consommation. Cette information doit figurer sur le devis ou les CGV.</p>
+ <h3>Comment l'utiliser :</h3>
+ <ol>
+ <li>Trouvez le médiateur indiqué sur le devis (ou cherchez sur <a href="https://www.economie.gouv.fr/mediation-conso" target="_blank" rel="noopener">economie.gouv.fr</a>)</li>
+ <li>Remplissez la saisine en ligne (gratuit, formulaire simple)</li>
+ <li>Joignez : devis + photos + emails + LRAR + accusé réception</li>
+ </ol>
+ <h3>Délais et résultat :</h3>
+ <ul>
+ <li>Réponse du médiateur : 90 jours max</li>
+ <li>Solution non contraignante mais souvent acceptée (l'artisan a tout intérêt)</li>
+ <li>Taux de résolution moyen : 60-70 %</li>
+ </ul>
+ <div class="alert-green">
+ <strong> Avantage</strong> : c'est <strong>gratuit</strong> pour vous, et la procédure suspend la prescription pour vos droits ultérieurs.
+ </div>
+ </div>
+
+ <div class="card" id="conciliation">
+ <span class="badge">Recours 4</span>
+ <h2>Le conciliateur de justice (gratuit, rapide)</h2>
+ <p>Alternative gratuite à la médiation. Le conciliateur est un bénévole assermenté qui réunit les deux parties pour trouver un accord.</p>
+ <h3>Comment ça marche :</h3>
+ <ol>
+ <li>Saisine au tribunal de proximité de votre commune (formulaire CERFA n° 15728)</li>
+ <li>Le conciliateur convoque les deux parties (1 ou 2 séances de 30 min)</li>
+ <li>S'il y a accord, il rédige un constat homologué par le juge → valeur de jugement</li>
+ </ol>
+ <h3>Avantages :</h3>
+ <ul>
+ <li><strong>100 % gratuit</strong></li>
+ <li>Rapide : 1 à 3 mois</li>
+ <li>L'accord trouvé est exécutoire (saisie possible si non-respect)</li>
+ </ul>
+ <p><strong>À utiliser quand</strong> : litige &lt; 5 000 €, ou quand la médiation n'a rien donné mais que vous voulez éviter le tribunal.</p>
+ </div>
+
+ <div class="card" id="expertise">
+ <span class="badge">Recours 5</span>
+ <h2>L'expertise amiable contradictoire</h2>
+ <p>Si la malfaçon est <strong>technique et contestée</strong>, faites appel à un expert du bâtiment indépendant. C'est essentiel pour les futurs recours juridiques.</p>
+ <h3>Coût :</h3>
+ <table>
+ <tr><th>Type d'expertise</th><th>Tarif moyen</th><th>Quand l'utiliser</th></tr>
+ <tr><td>Constat simple</td><td>300-500 €</td><td>Désordre visible, malfaçon évidente</td></tr>
+ <tr><td>Expertise technique</td><td>800-1 500 €</td><td>Pathologie complexe (étanchéité, fissures, etc.)</td></tr>
+ <tr><td>Expertise judiciaire</td><td>2 000-5 000 € avancés</td><td>Procédure tribunal, expert nommé par le juge</td></tr>
+ </table>
+ <div class="alert-orange">
+ <strong> Important</strong> : convoquez l'artisan par LRAR à l'expertise. S'il refuse, l'expertise reste valable mais la contradiction sera contestable au tribunal.
+ </div>
+ </div>
+
+ <div class="card" id="tribunal">
+ <span class="badge">Recours 6</span>
+ <h2>Le tribunal judiciaire</h2>
+ <p>Si toutes les étapes amiables échouent, vous saisissez le tribunal judiciaire. C'est long et stressant, mais souvent décisif.</p>
+ <h3>Quel tribunal selon le montant :</h3>
+ <table>
+ <tr><th>Montant en jeu</th><th>Tribunal compétent</th><th>Avocat obligatoire ?</th></tr>
+ <tr><td>&lt; 5 000 €</td><td>Tribunal de proximité</td><td>Non</td></tr>
+ <tr><td>5 000 € à 10 000 €</td><td>Tribunal judiciaire</td><td>Non (mais conseillé)</td></tr>
+ <tr><td>&gt; 10 000 €</td><td>Tribunal judiciaire</td><td><strong>Oui obligatoire</strong></td></tr>
+ </table>
+ <h3>Coûts à prévoir :</h3>
+ <ul>
+ <li>Avocat : 1 500 à 4 000 € HT (selon complexité)</li>
+ <li>Frais de procédure : ~150 €</li>
+ <li>Expertise judiciaire : 2 000-5 000 € (avancés, parfois remboursés si gain)</li>
+ <li>Durée : 12 à 24 mois en moyenne</li>
+ </ul>
+ <div class="alert-green">
+ <strong> Bon à savoir</strong> : votre assurance habitation couvre souvent une part des frais (protection juridique). Vérifiez votre contrat avant de payer un avocat.
+ </div>
+ </div>
+
+ <div class="card" id="recours-decennal">
+ <span class="badge">Recours 7</span>
+ <h2>Le recours en garantie décennale</h2>
+ <p>Cas particulier : si la malfaçon affecte la <strong>solidité de l'ouvrage</strong> ou le rend <strong>impropre à sa destination</strong>, vous avez 10 ans pour agir directement contre l'assureur de l'artisan.</p>
+ <h3>Exemples couverts :</h3>
+ <ul>
+ <li>Fissures structurelles dans un mur porteur</li>
+ <li>Infiltrations d'eau récurrentes (toiture, étanchéité)</li>
+ <li>Affaissement de sol</li>
+ <li>Installation électrique dangereuse</li>
+ <li>Défaut d'isolation rendant le logement inhabitable l'hiver</li>
+ </ul>
+ <h3>Procédure :</h3>
+ <ol>
+ <li>Demandez à l'artisan son <strong>attestation décennale</strong> (vous auriez dû la demander avant les travaux)</li>
+ <li>Déclarez le sinistre directement à son assureur (lettre LRAR)</li>
+ <li>L'assureur missionne un expert dans les 30 jours</li>
+ <li>Si reconnu, l'assureur vous indemnise <strong>directement</strong> (l'artisan n'a pas son mot à dire)</li>
+ </ol>
+ <div class="alert-orange">
+ <strong>️ Anticipez</strong> : si l'artisan n'a pas (ou plus) de décennale valide, vous devrez l'attaquer personnellement, souvent un mur si l'entreprise a coulé.
+ </div>
+ </div>
+
+ <div class="card" id="preuves">
+ <h2> Les preuves à constituer dès le début</h2>
+ <p>Quel que soit le recours choisi, votre dossier vaut autant que vos preuves. À conserver précieusement :</p>
+ <ul class="checklist" style="list-style:none;padding:0">
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> Devis signé (avec mentions légales obligatoires)</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> Factures + preuves de paiement</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> Attestation décennale et RC Pro de l'artisan (à demander avant les travaux)</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> Photos AVANT, PENDANT, APRÈS, datées (utilisez l'horodatage automatique)</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> Tous les échanges écrits (emails, SMS, WhatsApp), capture d'écran systématique</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> PV de réception (s'il existe) ou refus de réception motivé</li>
+ <li style="padding:.5rem 0;border-bottom:1px solid var(--border)"> LRAR + accusés de réception</li>
+ <li style="padding:.5rem 0"> Constat d'huissier ou expertise (pour les cas graves)</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Évitez le litige dès le départ</h2>
+ <p>Avec BatiSpot, vous travaillez avec des artisans <strong>vérifiés en amont</strong> (KBIS, RC Pro, décennale valides). Devis clairs, factures conformes, suivi photo, tout pour ne jamais en arriver là.</p>
+ <a href="/" class="cta-btn">Demander mon devis (gratuit) →</a>
+ </div>
+
+ <div class="card">
+ <h2>Questions fréquentes</h2>
+ <h3>Combien de temps pour qu'un litige se règle ?</h3>
+ <p>Médiation : 2-3 mois. Conciliation : 1-3 mois. Tribunal : 12-24 mois. La majorité se règle en amiable sous 60 jours.</p>
+ <h3>Combien ça coûte ?</h3>
+ <p>Mise en demeure : 7 € (LRAR). Médiation et conciliation : gratuit. Tribunal : à partir de 1 500 € avec avocat. Souvent couvert par votre assurance protection juridique.</p>
+ <h3>Puis-je arrêter de payer l'artisan ?</h3>
+ <p><strong>Non, jamais sans mise en demeure préalable.</strong> Le retenu de paiement unilatéral peut se retourner contre vous. Passez d'abord par la mise en demeure et notifiez la consignation des sommes dues.</p>
+ <h3>Et si l'artisan a coulé l'entreprise ?</h3>
+ <p>Vous restez couvert par sa décennale (l'assurance reste valide même après cessation d'activité, pendant 10 ans). Réclamez directement à l'assureur.</p>
+ </div>
+
+ <p style="text-align:center;font-size:.85rem;color:var(--sub);margin-top:1rem">
+ Article rédigé par BatiSpot · Mis à jour le 29 avril 2026 · Pour information, ne se substitue pas à un avis juridique personnalisé.
+ </p>
+
+</div>
+
+
+<footer>
+ © 2026 BatiSpot · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/cgu">CGU</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

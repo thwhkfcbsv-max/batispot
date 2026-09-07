@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Hors ligne — BatiSpot</title>
+  <meta name="description" content="Vous êtes actuellement hors ligne. Vérifiez votre connexion Internet et réessayez.">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <noscript></noscript>
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--g-cream, #F7FBF8);
+      color: #0d3320;
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .ic-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: #EBF7F1;
+      color: #1A6B45;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-size: 22px; font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #1A6B45;
+      margin: 0 0 10px;
+    }
+    p {
+      font-size: 14px;
+      color: #3D5A4E;
+      max-width: 320px;
+      line-height: 1.55;
+      margin: 0 0 26px;
+    }
+    .retry-btn {
+      background: #1A6B45;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s, transform .12s;
+    }
+    .retry-btn:hover { background: #228B5B; transform: translateY(-1px); }
+    .status {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #4B5563;
+      font-weight: 600;
+    }
+    .status.online { color: #166534; }
+  </style>
+  <script src="/js/clarity-init.js" defer></script>
+  <script src="/js/sentry-init.js" defer></script>
+  <script src="/js/turnstile-helper.js" defer></script>
+<!-- Remontee des erreurs JavaScript (05/09/2026). Cette page ne charge pas
+     ./js/config.js, qui l'importe pour les 28 autres : on la met donc en direct.
+     `test_erreurs_front.py` verifie qu'aucune page de app/*.html n'y echappe. -->
+<script type="module" src="/app/js/app-erreurs.js?v=2026_09_05"></script>
+</head>
+<body>
+  <main>
+    <div class="ic-circle" aria-hidden="true">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="1" y1="1" x2="23" y2="23"/>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"/>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+        <line x1="12" y1="20" x2="12.01" y2="20"/>
+      </svg>
+    </div>
+    <h1>Vous êtes hors ligne</h1>
+    <p>Pas de connexion Internet. Vérifiez votre Wi-Fi ou vos données mobiles, puis réessayez.</p>
+    <button type="button" class="retry-btn" id="retry-btn">Réessayer</button>
+    <div class="status" id="status">État : hors ligne</div>
+  </main>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    function updateStatus() {
+      if (navigator.onLine) {
+        statusEl.textContent = 'État : connexion rétablie. Cliquez sur Réessayer.';
+        statusEl.classList.add('online');
+      } else {
+        statusEl.textContent = 'État : hors ligne';
+        statusEl.classList.remove('online');
+      }
+    }
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    updateStatus();
+
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      // Tente de revenir vers la page demandee a l'origine, sinon home
+      const intended = sessionStorage.getItem('offline_intended_url');
+      window.location.href = intended || './index.html';
+    });
+  </script>
+</body>
+</html>

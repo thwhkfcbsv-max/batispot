@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Mes analyses · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+  <style>
+    :root {
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --text-main: #1C2B22;
+      --text-muted: #3D5A4E;
+      --text-sub: #5A7268;
+      --g-deep: #1B7049;
+      --g-light: #DCFCE7;
+      --y-amber: #228B5B;
+      --y-light: #EBF7F1;
+      --border-line: #D3E3DA;
+      --border-subtle: #EEF3F0;
+    }
+    body {
+      background: #FFFFFF;
+      color: #1C2B22;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .phone-screen {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      position: relative;
+    }
+    .app-h {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid #E7EEEA;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    /* Cartes Financières — conteneur générique .mq-chart (app.css) ; le
+       contenu des KPI (fin-box/fin-val/fin-lbl) est injecté par le module
+       partagé js/fin-graphiques.js (aussi utilisé par finances.html), donc
+       ces trois classes restent inchangées ici. */
+    .fin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .fin-box {
+      background: var(--border-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .fin-box.green { background: #F0FDF4; border-color: #BBF7D0; }
+    .fin-val { font-size: 16px; font-weight: 900; }
+    .fin-val.green { color: var(--t1); }
+    .fin-lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+    /* Note d'invitation du bloc « Marge par chantier » — même famille que
+       .ui-note.warn (css/app.css), reprise ici en local : ce fichier ne
+       touche pas app.css, qui est partagé avec d'autres écrans. */
+    .mq-note { background: #FFFFFF; border: 1px solid var(--border-line); border-radius: 12px;
+      padding: 10px 12px; font-size: 12.5px; font-weight: 600; color: var(--text-sub); margin-top: 10px; }
+    .mq-note.warn { color: #B45309; border-color: #EAD3B5; background: #FBF1E6; font-weight: 700; }
+    .mq-note.warn a { display: block; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #1C2B22;
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast.yellow { border-left-color: #228B5B; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  
+    /* Modale document client */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-content {
+      background: #FFFFFF;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      border: 1px solid #D3E3DA;
+    }
+
+
+    /* Tuiles cliquables : elles doivent AVOIR L'AIR cliquables sans crier. */
+    .fin-tuile { cursor:pointer; font-family:inherit; text-align:left; position:relative;
+                 transition:border-color .15s, background .15s; }
+    .fin-tuile::after { content:"›"; position:absolute; right:9px; top:50%;
+                        transform:translateY(-50%); color:#228B5B; font-size:17px; font-weight:800;
+                        transition:transform .18s; }
+    .fin-tuile[aria-expanded="true"]::after { transform:translateY(-50%) rotate(90deg); }
+    .fin-tuile:hover, .fin-tuile:focus-visible { border-color:#228B5B; outline:none; }
+    .fin-tuile[aria-expanded="true"] { border-color:#228B5B; background:#F0FDF4; }
+    .fin-volet { border:1px solid #E7EEEA; border-radius:11px; padding:12px; background:#F7FBF8; }
+    .fin-volet[hidden] { display:none; }
+    .fin-volet-t { font-size:12.5px; font-weight:800; color:#1C2B22; margin-bottom:9px;
+                   display:flex; justify-content:space-between; gap:10px; }
+    .fin-volet-t span { color:#5A7268; font-weight:600; }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header épuré : Logo Officiel BatiSpot Pro + Accès Profil -->
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+        <!-- Body Principal Épuré -->
+        <!-- Body Principal Épuré avec Vues Temporelles : Mois, Trimestre, Année, À Date -->
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid var(--border-soft);"></div>
+    <div class="mq-screen">
+
+      <a href="./finances.html" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;
+         font-weight:700;color:var(--t1);text-decoration:none;">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.6"><path d="M15 18l-6-6 6-6"/></svg>
+        Finances
+      </a>
+
+      <!-- Titre d'écran généré par js/app-nav.js sur .app-h ("Analyses") :
+           pas de h1 local, pour ne pas le doubler. -->
+      <div>
+        <p style="margin:0;font-size:12.5px;color:var(--muted);">
+          Vos chiffres mis en images. Tout vient de vos devis et de vos dépenses.
+        </p>
+        <p id="anLibelle" style="margin:5px 0 0;font-size:12px;font-weight:800;color:var(--t1);"></p>
+      </div>
+
+      <div class="mq-subtabs" id="anPeriodes">
+        <button type="button" class="mq-subtab mq-on" data-p="mois">Ce mois</button>
+        <button type="button" class="mq-subtab" data-p="trimestre">Trimestre</button>
+        <button type="button" class="mq-subtab" data-p="annee">Année</button>
+        <button type="button" class="mq-subtab" data-p="periode">Dates…</button>
+      </div>
+
+      <!-- Periode libre : meme mecanique que l'ecran Finances, pour qu'un
+           artisan qui connait l'un sache se servir de l'autre. -->
+      <div id="anDates" class="mq-box" style="display:none;border:1.5px solid var(--t1);
+           gap:8px;align-items:flex-end;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1;">
+          <div>
+            <label for="anDu" style="font-size:10.5px;font-weight:800;color:var(--t1);display:block;margin-bottom:2px;">Du :</label>
+            <input type="date" id="anDu" class="f-input" style="padding:6px 8px;font-size:16px;font-weight:700;">
+          </div>
+          <div>
+            <label for="anAu" style="font-size:10.5px;font-weight:800;color:var(--t1);display:block;margin-bottom:2px;">Au :</label>
+            <input type="date" id="anAu" class="f-input" style="padding:6px 8px;font-size:16px;font-weight:700;">
+          </div>
+        </div>
+        <button type="button" id="anAppliquer" class="mq-btn mq-primary"
+                style="padding:0 14px;white-space:nowrap;">Appliquer</button>
+      </div>
+
+      <div class="mq-chart" id="anCourbe">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <strong style="font-size:14px;" id="anCourbeTitre">Évolution</strong><span style="font-size:11px;color:var(--muted);">en euros</span>
+        </div>
+        <svg id="anCourbeSvg" style="width:100%;height:auto;display:block;overflow:visible" role="img" aria-label="Signé et dépenses sur six mois"></svg>
+        <div style="display:flex;gap:16px;font-size:12px;color:var(--muted);">
+          <span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--t1);margin-right:6px"></i>Signé</span>
+          <span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#C2410C;margin-right:6px"></i>Dépenses</span>
+        </div>
+      </div>
+
+      <div class="mq-chart" id="anDevis">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <strong style="font-size:14px;">Vos devis</strong><span style="font-size:11px;color:var(--muted);" id="anDevisTot">—</span>
+        </div>
+        <div id="anDevisEnt" style="display:flex;flex-direction:column;gap:7px;"></div>
+        <div class="fin-grid" id="anDevisKpis"></div>
+      </div>
+
+      <div class="mq-chart" id="anClients">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <strong style="font-size:14px;">Signé par client</strong><span style="font-size:11px;color:var(--muted);" id="anClientsBadge">—</span>
+        </div>
+        <div id="anClientsListe" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+
+      <div class="mq-chart" id="anPostes">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <strong style="font-size:14px;">Où part l'argent</strong><span style="font-size:11px;color:var(--muted);" id="anPostesBadge">—</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <svg id="anDonut" style="width:130px;height:130px;flex:none;display:block" role="img" aria-label="Répartition des dépenses par poste"></svg>
+          <div id="anPostesListe" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:7px;"></div>
+        </div>
+      </div>
+
+      <div class="mq-chart" id="anMarges" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;">
+          <strong style="font-size:14px;">Marge par chantier</strong>
+        </div>
+        <div id="anMargesListe" style="display:flex;flex-direction:column;gap:13px;"></div>
+      </div>
+
+      <!-- (06/09, Moctar : « Finances puis Analyses, ça switche sur Marge par
+           chantier ») : le bloc marge n'est plus en tête, il vient après les
+           graphiques de la période. Sur toute la vie de chaque chantier. « Marge réelle » quand
+           devis + dépenses + temps réel + taux horaire sont tous là, sinon
+           « Marge hors main-d'œuvre » avec une invitation à compléter. -->
+      <div id="mqMargeBloc">
+        <div class="mq-sec" id="mqMargeTitre" style="margin:4px 0 0;">Marge par chantier</div>
+        <p id="mqMargeVide" hidden style="font-size:12.5px;color:var(--muted);margin:6px 0 0;">
+          La marge apparaîtra dès qu'un devis sera accepté sur un chantier.
+        </p>
+        <div id="mqMargeListe" style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"></div>
+        <button type="button" class="mq-btn mq-ghost" id="mqMargeVoirTout" hidden style="margin-top:2px;"></button>
+        <div class="mq-chart" id="mqMargeChart" hidden style="margin-top:10px;">
+          <div class="mq-l">Marge par chantier, en %</div>
+          <div class="mq-bars" id="mqMargeBars"></div>
+        </div>
+        <div class="mq-note warn" id="mqMargeNote" hidden></div>
+      </div>
+
+
+      <p class="ui-note" style="margin:2px 0 0;">
+        « Signé » désigne le total de vos devis acceptés sur la période — pas ce qui est encaissé.
+        Pour une analyse plus précise, complétez vos informations de chantier.
+      </p>
+
+      <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-dates.js?v=v30_2026_09_02" defer></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script>
+function showToast(msg, isYellow = false) {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+  toast.className = `toast ${isYellow ? "yellow" : ""}`;
+  // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+  // messages qui viennent parfois du LLM — resume d'un ticket passe a
+  // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+  // ecrit sur un ticket photographie peut porter une instruction, et le
+  // modele la restituer telle quelle : le balisage s'executait alors dans
+  // l'origine authentifiee de l'artisan.
+  const bsT = document.createElement("span");
+  bsT.textContent = msg;
+  const bsX = document.createElement("span");
+  bsX.style.cursor = "pointer";
+  bsX.textContent = 'X';
+  bsX.addEventListener("click", () => toast.remove());
+  toast.replaceChildren(bsT, bsX);
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 250); }, 2500);
+}
+</script>
+
+
+  <script type="module">
+    // ═══════════════════════════════════════════════════════════════════════
+    // Mes analyses — la vue complete, derriere le bouton de l'ecran Finances.
+    //
+    // L'ecran Finances porte les CHIFFRES et deplie un graphique a la fois
+    // sous la tuile touchee. Ici on montre tout, en pleine page.
+    //
+    // Le dessin vient du module partage : aucune courbe n'est reecrite.
+    // ═══════════════════════════════════════════════════════════════════════
+    import {
+      requireAuth, supabase, exigerDroit, fmtEuro,
+      listChantiersDevisAcceptes, listDepensesParChantier, listTachesMainDoeuvre,
+      listMembresTauxHoraire, monProfilEquipe, getMyProfile,
+    } from './js/supabase.js';
+    // listerDevis vit dans devis-store.js (implementation unique), pas dans
+    // supabase.js — meme import que l'ecran Finances.
+    import { listerDevis } from './js/devis-store.js';
+    import * as G from './js/fin-graphiques.js?v=2026_09_03';
+
+    let TOUS = [], DEPENSES = [], periode = 'mois';
+
+    const dateAchat = (d) => new Date(d.date_achat || d.created_at);
+
+    function bornes(p) {
+      const n = new Date();
+      if (p === 'annee') return [new Date(n.getFullYear(), 0, 1), new Date(n.getFullYear() + 1, 0, 1)];
+      if (p === 'trimestre') {
+        const t = Math.floor(n.getMonth() / 3);
+        return [new Date(n.getFullYear(), t * 3, 1), new Date(n.getFullYear(), t * 3 + 3, 1)];
+      }
+      if (p === 'periode') {
+        const a = document.getElementById('anDu');
+        const b = document.getElementById('anAu');
+        const d1 = a && a.value ? new Date(a.value) : new Date(n.getFullYear(), 0, 1);
+        const d2 = b && b.value ? new Date(b.value) : new Date(n);
+        // Borne haute exclusive : sans ce +1 jour, une depense datee du dernier
+        // jour choisi tombait hors periode.
+        d2.setDate(d2.getDate() + 1);
+        return [d1, d2];
+      }
+      return [new Date(n.getFullYear(), n.getMonth(), 1), new Date(n.getFullYear(), n.getMonth() + 1, 1)];
+    }
+
+    // Libelle de la periode active, affiche sous le titre : sans lui, une
+    // periode libre ne se distingue pas d'un mois en cours.
+    function libelle() {
+      const [d1, d2] = bornes(periode);
+      const f = (d) => d.toLocaleDateString('fr-FR');
+      const fin = new Date(d2); fin.setDate(fin.getDate() - 1);
+      const n = document.getElementById('anLibelle');
+      if (!n) return;
+      if (periode === 'periode') n.textContent = `Du ${f(d1)} au ${f(fin)}`;
+      else if (periode === 'annee') n.textContent = `Année ${new Date().getFullYear()}`;
+      else if (periode === 'trimestre') n.textContent = `Trimestre en cours`;
+      else n.textContent = new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    }
+
+    // Une carte qui n'a rien d'honnete a montrer dit ce qui manque, plutot que
+    // de disparaitre ou d'afficher un zero.
+    function vide(carte, texte) {
+      const zones = carte.querySelectorAll('div[id], svg[id]');
+      zones.forEach((z) => { if (z.tagName.toLowerCase() === 'svg') z.style.display = 'none'; });
+      const p = document.createElement('div');
+      p.setAttribute('data-vide', '1');
+      p.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:6px;'
+        + 'padding:16px 12px;text-align:center;';
+      p.innerHTML = '<span style="font-size:26px;font-weight:800;color:#5A7268;line-height:1">—</span>'
+        + '<p style="font-size:12.5px;color:#5A7268;margin:0;max-width:32ch;line-height:1.45"></p>';
+      p.querySelector('p').textContent = texte;
+      carte.appendChild(p);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Marge par chantier — bloc de tête, indépendant de la période choisie
+    // plus bas (mois/trimestre/année) : la marge d'un chantier se lit sur sa
+    // vie entière, pas sur une fenêtre calendaire.
+    //
+    // « Marge réelle » seulement si CHAQUE chantier affiché a : un devis
+    // signé, ses dépenses, le temps RÉEL passé sur toutes ses étapes ET le
+    // taux horaire de qui les a faites — le membre via `assigne_id`, ou
+    // l'artisan lui-même (pas de ligne membres_equipe) via
+    // `pro_profiles.taux_horaire_ttc` quand `assigne_a` porte son nom. Dès
+    // qu'un seul chantier affiché manque l'un de ces éléments, le titre
+    // entier retombe sur « Marge hors main-d'œuvre » : mieux vaut un chiffre
+    // honnêtement incomplet partout qu'un mélange de réel et d'optimiste sans
+    // le dire.
+    // ═══════════════════════════════════════════════════════════════════════
+    const MARGE_MAX_CARTES = 6;
+    let MARGE_TOUT_OUVERT = false;
+    let DONNEES_MARGE = null;
+
+    const nomMembre = (m) => [m.prenom, m.nom].filter(Boolean).join(' ').trim() || m.email || 'ce membre';
+
+    async function calculerMarges() {
+      const [chantiersMap, depensesMap, taches, membres, moi, profil] = await Promise.all([
+        listChantiersDevisAcceptes(),
+        listDepensesParChantier(),
+        listTachesMainDoeuvre(),
+        listMembresTauxHoraire().catch(() => []),
+        monProfilEquipe().catch(() => undefined),
+        getMyProfile().catch(() => null),
+      ]);
+
+      const membresParId = new Map(membres.map((m) => [m.id, m]));
+      // moi === null : la session est celle du patron, sans ligne
+      // membres_equipe (même convention qu'équipe.html / MOI_NOM_MATCH).
+      const patronSansLigne = moi === null;
+      const moiNomMatch = patronSansLigne
+        ? ((profil && profil.display_name && profil.display_name.trim()) || 'Moi').toLowerCase()
+        : null;
+      const tauxPatron = (profil && profil.taux_horaire_ttc != null) ? Number(profil.taux_horaire_ttc) : null;
+
+      const tachesParChantier = new Map();
+      (taches || []).forEach((t) => {
+        if (!t.chantier_id) return;
+        if (!tachesParChantier.has(t.chantier_id)) tachesParChantier.set(t.chantier_id, []);
+        tachesParChantier.get(t.chantier_id).push(t);
+      });
+
+      const manqueTaux = new Set();
+      let manqueTauxPatron = false;
+      const manqueTemps = new Map(); // chantier_id -> libellé
+
+      const chantiers = Array.from(chantiersMap.values())
+        .filter((c) => c.status === 'en_cours' || c.status === 'termine');
+
+      const resultats = chantiers.map((c) => {
+        const depenses_ht = depensesMap.get(c.id) || 0;
+        const tachesChantier = tachesParChantier.get(c.id) || [];
+        let mainOeuvre = 0;
+        let complet = true;
+        let auMoinsUneTache = false;
+
+        tachesChantier.forEach((t) => {
+          if (t.mobilise_artisan === false) return; // attente/séchage : personne n'y travaille
+          auMoinsUneTache = true;
+          if (t.duree_reelle_h == null) { complet = false; return; }
+          const heures = Number(t.duree_reelle_h) || 0;
+          if (t.assigne_id) {
+            const m = membresParId.get(t.assigne_id);
+            if (!m || m.taux_horaire == null) {
+              complet = false;
+              if (m) manqueTaux.add(nomMembre(m));
+              return;
+            }
+            mainOeuvre += heures * Number(m.taux_horaire);
+            return;
+          }
+          const texte = (t.assigne_a || '').trim().toLowerCase();
+          if (patronSansLigne && texte && texte === moiNomMatch) {
+            if (tauxPatron != null) mainOeuvre += heures * tauxPatron;
+            else { complet = false; manqueTauxPatron = true; }
+            return;
+          }
+          // Assigné à un texte libre non reconnu, ou pas assigné du tout :
+          // impossible d'attribuer un coût, donc impossible d'être complet.
+          complet = false;
+        });
+
+        if (!auMoinsUneTache) complet = false;
+        if (!complet) manqueTemps.set(c.id, c.objet || c.description || c.client_name);
+
+        const margeHorsMO = c.devis_ht - depenses_ht;
+        const margeReelle = margeHorsMO - mainOeuvre;
+        const margeAffichee = complet ? margeReelle : margeHorsMO;
+        const pct = c.devis_ht > 0 ? (margeAffichee / c.devis_ht) * 100 : 0;
+
+        return { ...c, depenses_ht, mainOeuvre, complet, margeAffichee, pct };
+      });
+
+      resultats.sort((a, b) => b.devis_ht - a.devis_ht);
+
+      return {
+        resultats,
+        toutComplet: resultats.length > 0 && resultats.every((r) => r.complet),
+        manqueTaux: Array.from(manqueTaux).sort((a, b) => a.localeCompare(b, 'fr')),
+        manqueTauxPatron,
+        manqueTemps: Array.from(manqueTemps.entries()).map(([id, label]) => ({ id, label })),
+      };
+    }
+
+    function pilleMarge(pct) {
+      if (pct >= 25) return 'mq-ok';
+      if (pct >= 10) return 'mq-wait';
+      return 'mq-info';
+    }
+
+    function carteMarge(r) {
+      const card = document.createElement('div');
+      card.className = 'mq-card';
+
+      const t = document.createElement('div');
+      t.className = 'mq-t';
+      const titre = document.createElement('div');
+      titre.textContent = [r.objet, r.client_name].filter(Boolean).join(' · ') || 'Chantier';
+      const petit = document.createElement('small');
+      const seg1 = document.createElement('span');
+      seg1.textContent = `Devis ${fmtEuro(r.devis_ht)}`;
+      const seg2 = document.createElement('span');
+      seg2.textContent = ` · Dépenses ${fmtEuro(r.depenses_ht)}`;
+      const seg3 = document.createElement('span');
+      if (r.complet) {
+        seg3.textContent = ` · Main-d'œuvre ${fmtEuro(r.mainOeuvre)}`;
+      } else {
+        seg3.textContent = " · Main-d'œuvre : à compléter";
+        seg3.style.cssText = 'color:var(--warn,#B45309);font-weight:700;';
+      }
+      petit.append(seg1, seg2, seg3);
+      t.append(titre, petit);
+
+      const dr = document.createElement('div');
+      dr.style.cssText = 'text-align:right;flex:none;';
+      const montant = document.createElement('div');
+      montant.className = 'mq-amt';
+      montant.textContent = fmtEuro(r.margeAffichee);
+      const pill = document.createElement('span');
+      pill.className = 'mq-pill ' + pilleMarge(r.pct);
+      pill.style.cssText = 'margin-top:4px;display:inline-block;';
+      pill.textContent = `${Math.round(r.pct)} %`;
+      dr.append(montant, pill);
+
+      card.append(t, dr);
+      return card;
+    }
+
+    function rendreMargeChantier(donnees) {
+      const titreEl = document.getElementById('mqMargeTitre');
+      const listeEl = document.getElementById('mqMargeListe');
+      const videEl = document.getElementById('mqMargeVide');
+      const chartEl = document.getElementById('mqMargeChart');
+      const barsEl = document.getElementById('mqMargeBars');
+      const noteEl = document.getElementById('mqMargeNote');
+      const boutonEl = document.getElementById('mqMargeVoirTout');
+      if (!titreEl || !listeEl || !barsEl || !noteEl) return;
+
+      listeEl.replaceChildren();
+      barsEl.replaceChildren();
+      noteEl.replaceChildren();
+
+      const { resultats, toutComplet, manqueTaux, manqueTauxPatron, manqueTemps } = donnees;
+
+      if (!resultats.length) {
+        titreEl.textContent = 'Marge par chantier';
+        if (videEl) videEl.hidden = false;
+        if (chartEl) chartEl.hidden = true;
+        noteEl.hidden = true;
+        if (boutonEl) boutonEl.hidden = true;
+        return;
+      }
+      if (videEl) videEl.hidden = true;
+      if (chartEl) chartEl.hidden = false;
+
+      // (06/09, Moctar) le titre ne bascule plus sur « Marge hors
+      // main-d'œuvre » en arrivant depuis Finances : il reste « Marge par
+      // chantier », et une phrase courte dit comment l'affiner.
+      titreEl.textContent = 'Marge par chantier';
+
+      const aMontrer = MARGE_TOUT_OUVERT ? resultats : resultats.slice(0, MARGE_MAX_CARTES);
+      aMontrer.forEach((r) => listeEl.appendChild(carteMarge(r)));
+
+      if (boutonEl) {
+        if (resultats.length > MARGE_MAX_CARTES) {
+          boutonEl.hidden = false;
+          boutonEl.textContent = MARGE_TOUT_OUVERT ? 'Voir moins' : `Voir tout (${resultats.length})`;
+        } else {
+          boutonEl.hidden = true;
+        }
+      }
+
+      resultats.forEach((r) => {
+        const bar = document.createElement('i');
+        const h = r.pct > 0 ? Math.max(4, Math.min(100, Math.round(r.pct))) : 2;
+        bar.style.height = h + '%';
+        bar.classList.add(r.pct < 10 ? 'mq-amb' : 'mq-on');
+        bar.title = `${r.objet || r.client_name || 'Chantier'} · ${Math.round(r.pct)} %`;
+        barsEl.appendChild(bar);
+      });
+
+      if (toutComplet) {
+        noteEl.hidden = true;
+        return;
+      }
+
+      noteEl.hidden = false;
+      // Message court et général (06/09, Moctar) : pas la liste de ce qui
+      // manque chantier par chantier. Un seul lien : le chantier concerné.
+      const txt = document.createElement('span');
+      txt.textContent = 'Pour une analyse plus précise, complétez vos informations de chantier (temps passé, taux horaires). ';
+      noteEl.appendChild(txt);
+      const premier = manqueTemps[0];
+      const a = document.createElement('a');
+      a.href = premier ? `./chantier.html?id=${encodeURIComponent(premier.id)}` : (manqueTaux.length ? './equipe.html' : './profile.html');
+      a.textContent = 'Compléter ›';
+      a.style.cssText = 'color:inherit;text-decoration:underline;font-weight:800;';
+      noteEl.appendChild(a);
+    }
+
+    async function chargerEtRendreMarge() {
+      try {
+        DONNEES_MARGE = await calculerMarges();
+        rendreMargeChantier(DONNEES_MARGE);
+      } catch (e) {
+        console.warn('[analyses] marge par chantier', e);
+      }
+    }
+
+    const btnMargeVoirTout = document.getElementById('mqMargeVoirTout');
+    if (btnMargeVoirTout) {
+      btnMargeVoirTout.addEventListener('click', () => {
+        MARGE_TOUT_OUVERT = !MARGE_TOUT_OUVERT;
+        if (DONNEES_MARGE) rendreMargeChantier(DONNEES_MARGE);
+      });
+    }
+
+    // Les cartes accumulent leurs blocs « etat vide » a chaque rendu : on les
+    // remet a plat avant de redessiner, sinon les tirets s'empilent.
+    function rendreTout() {
+      document.querySelectorAll('.fin-card').forEach((c) => {
+        c.querySelectorAll('[data-vide]').forEach((n) => n.remove());
+        c.querySelectorAll('svg').forEach((n) => { n.style.display = ''; });
+      });
+      rendre();
+    }
+
+    function rendre() {
+      const [d1, d2] = bornes(periode);
+      const liste = TOUS.filter((d) => { const t = new Date(d.created_at); return t >= d1 && t < d2; });
+      const acceptes = liste.filter((d) => d.status === 'accepte');
+      const dep = DEPENSES.filter((d) => { const t = dateAchat(d); return t >= d1 && t < d2; });
+
+      document.querySelectorAll('.fin-card').forEach((c) => {
+        c.querySelectorAll('div[style*="align-items:center"]').forEach(() => {});
+      });
+
+      // La courbe suit la periode choisie : « ce mois » decoupe par semaine,
+      // une annee par mois. Une courbe figee a cote d'un filtre n'a pas de sens.
+      const { points, pas } = G.serie(TOUS, DEPENSES, dateAchat, d1, d2);
+      const titre = document.getElementById('anCourbeTitre');
+      if (titre) titre.textContent = pas === 'semaine' ? 'Semaine par semaine' : 'Mois par mois';
+      const jusquAujourdhui = d2 > new Date();
+      const okCourbe = G.courbe(document.getElementById('anCourbeSvg'), points, {
+        derniereIncomplete: jusquAujourdhui ? (pas === 'semaine' ? 'semaine en cours' : 'mois en cours') : '',
+      });
+      if (!okCourbe) vide(document.getElementById('anCourbe'),
+        points.length < 2
+          ? "Choisissez une période plus longue pour voir une évolution."
+          : "Vos courbes apparaîtront dès votre premier devis signé.");
+
+      const tot = document.getElementById('anDevisTot');
+      if (tot) tot.textContent = liste.length ? `${liste.length} devis` : '—';
+      const okDevis = G.devis(document.getElementById('anDevisEnt'),
+        document.getElementById('anDevisKpis'), liste);
+      if (!okDevis) vide(document.getElementById('anDevis'),
+        "Aucun devis sur cette période.");
+
+      const okClients = G.clients(document.getElementById('anClientsListe'),
+        document.getElementById('anClientsBadge'), acceptes);
+      if (!okClients) vide(document.getElementById('anClients'),
+        "Vos clients apparaîtront dès qu'un devis sera accepté.");
+
+      const badge = document.getElementById('anPostesBadge');
+      const okPostes = G.postes(document.getElementById('anDonut'),
+        document.getElementById('anPostesListe'), dep);
+      if (badge) badge.textContent = okPostes
+        ? `${dep.length} dépense(s)` : 'aucune dépense';
+      if (!okPostes) vide(document.getElementById('anPostes'),
+        "Photographiez un ticket de caisse : vous verrez ici où part votre argent, poste par poste.");
+
+      const okMarges = G.marges(document.getElementById('anMargesListe'), acceptes, dep);
+      if (!okMarges) vide(document.getElementById('anMarges'),
+        "La marge apparaîtra dès qu'une dépense sera rattachée à un chantier signé.");
+    }
+
+    document.getElementById('anPeriodes').addEventListener('click', (e) => {
+      const b = e.target.closest('.mq-subtab'); if (!b) return;
+      periode = b.dataset.p;
+      document.querySelectorAll('#anPeriodes .mq-subtab').forEach((c) => c.classList.remove('mq-on'));
+      b.classList.add('mq-on');
+      const panneau = document.getElementById('anDates');
+      if (panneau) panneau.style.display = (periode === 'periode') ? 'flex' : 'none';
+      // Sur « Dates… » on attend le clic sur Appliquer : recharger tout de
+      // suite afficherait une periode que l'artisan n'a pas encore choisie.
+      if (periode === 'periode') { libelle(); return; }
+      location.hash = periode; location.reload();
+    });
+
+    document.getElementById('anAppliquer').addEventListener('click', () => {
+      const du = document.getElementById('anDu').value;
+      const au = document.getElementById('anAu').value;
+      if (!du || !au) { alert('Choisissez une date de début et une date de fin.'); return; }
+      if (new Date(du) > new Date(au)) { alert('La date de début doit précéder la date de fin.'); return; }
+      periode = 'periode';
+      // On garde les dates dans l'URL : un rechargement ne les perd plus, et
+      // l'artisan peut renvoyer le lien tel quel.
+      location.hash = `periode:${du}:${au}`;
+      libelle();
+      rendreTout();
+    });
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+      // Meme garde de role que l'ecran Finances : ces chiffres ne sont pas
+      // pour tout le monde.
+      const droits = await exigerDroit(
+        (d) => d.voit_prix || d.voit_marges,
+        'Cette page est réservée au responsable de l\u2019entreprise.');
+      if (!droits) return;
+
+      const h = (location.hash || '').replace('#', '');
+      if (h.startsWith('periode:')) {
+        const [, du, au] = h.split(':');
+        periode = 'periode';
+        const a = document.getElementById('anDu'); if (a && du) a.value = du;
+        const b = document.getElementById('anAu'); if (b && au) b.value = au;
+        document.getElementById('anDates').style.display = 'flex';
+        document.querySelectorAll('#anPeriodes .mq-subtab').forEach((c) => {
+          c.classList.toggle('mq-on', c.dataset.p === 'periode');
+        });
+      } else if (['mois', 'trimestre', 'annee'].includes(h)) {
+        periode = h;
+        document.querySelectorAll('#anPeriodes .mq-subtab').forEach((c) => {
+          c.classList.toggle('mq-on', c.dataset.p === h);
+        });
+      }
+
+      try { TOUS = await listerDevis(); } catch (e) { console.warn('[analyses] devis', e); TOUS = []; }
+      try {
+        const { data, error } = await supabase.from('depenses')
+          .select('id, chantier_id, fournisseur, date_achat, categorie, montant_ht, montant_ttc, tva')
+          .order('date_achat', { ascending: false });
+        if (error) throw error;
+        DEPENSES = data || [];
+      } catch (e) { console.warn('[analyses] dépenses', e); DEPENSES = []; }
+      libelle();
+      rendreTout();
+      chargerEtRendreMarge();
+
+      // Meme rafraichissement que l'ecran Finances.
+      if (window.bsRafraichirAuRetour) {
+        window.bsRafraichirAuRetour(async () => {
+          try { TOUS = await listerDevis(); } catch (e) { return; }
+          try {
+            const { data } = await supabase.from('depenses')
+              .select('id, chantier_id, fournisseur, date_achat, categorie, montant_ht, montant_ttc, tva')
+              .order('date_achat', { ascending: false });
+            DEPENSES = data || [];
+          } catch (e) { /* on garde ce qu'on a */ }
+          rendreTout();
+          chargerEtRendreMarge();
+        });
+      }
+    })();
+  </script>
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_06g"></script>
+</body>
+</html>

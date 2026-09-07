@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <title>Finances & Suivi Financier · BatiSpot Pro</title>
+  <link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+  <link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+  <style>
+    :root {
+      --bg-page: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --text-main: var(--text);
+      --text-muted: var(--sub);
+      --text-sub: var(--muted);
+      --g-deep: #1B7049;
+      --g-light: #DCFCE7;
+      --y-amber: var(--t1);
+      --y-light: #EBF7F1;
+      --border-line: var(--border);
+      --border-subtle: #EEF3F0;
+    }
+    body {
+      background: #FFFFFF;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .phone-screen {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #FFFFFF;
+      position: relative;
+    }
+    .app-h {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid var(--border-soft);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .scr-body {
+      flex: 1;
+      padding: 16px;
+      padding-bottom: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #FFFFFF;
+    }
+
+    /* Cartes Financières */
+    .fin-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .fin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .fin-box {
+      background: #F7FBF8;
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .fin-box.green { background: #F0FDF4; border-color: #BBF7D0; }
+    .fin-box.yellow { background: #FFFFFF; border-color: var(--border); border-color: var(--border); }
+    .fin-val { font-size: 16px; font-weight: 900; }
+    .fin-val.green { color: var(--t1); }
+    .fin-val.yellow { color: var(--t1); }
+    .fin-lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+
+    /* Panneau « Période » : dates iOS qui ne débordent plus (05/09/2026) */
+    .fin-dates { flex-wrap: wrap; gap: 8px; background: var(--white); border: 1.5px solid var(--t1); border-radius: var(--radius-sm); padding: 10px; }
+    .fin-dates-grid { flex: 1 1 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; min-width: 0; }
+    .fin-dates-grid > div { min-width: 0; }
+    .fin-dates label { display: block; font-size: 11px; font-weight: 800; color: var(--t1); margin-bottom: 3px; }
+    .fin-dates input[type="date"] { display: block; width: 100%; min-width: 0; box-sizing: border-box; height: 44px; padding: 6px 8px; font-size: 16px; font-weight: 700; -webkit-appearance: none; appearance: none; background: var(--white); }
+    .fin-dates-btn { flex: 1 1 100%; padding: 10px 12px; font-size: 13px; font-weight: 800; }
+    /* Sélecteur de période */
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .chip-row::-webkit-scrollbar { display: none; }
+    .chip {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      color: var(--sub);
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .chip.active {
+      background: var(--t1);
+      border-color: var(--t1);
+      color: #FFFFFF;
+    }
+
+    .form-input {
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+      background: #FFFFFF;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .btn-act {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      border: 1.5px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-act.primary {
+      background: var(--t1);
+      border-color: var(--t1);
+      color: #FFFFFF;
+    }
+    .btn-act.yellow {
+      background: var(--t1);
+      border-color: var(--t1);
+      color: var(--text);
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 90%;
+      max-width: 420px;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--text);
+      color: #FFFFFF;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      border-left: 4px solid #16A34A;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+    .toast.yellow { border-left-color: var(--t1); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  
+    /* Modale document client */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-content {
+      background: #FFFFFF;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+    }
+
+
+    /* Tuiles cliquables : elles doivent AVOIR L'AIR cliquables sans crier. */
+    /* padding-right : le chevron est en position absolue, il ne pousse donc
+       rien. Sans cette reserve, un libelle long passait DESSOUS — « ACHATS
+       MATERIAUX HT » se terminait pile sur la fleche. */
+    .fin-tuile { cursor:pointer; font-family:inherit; text-align:left; position:relative;
+                 padding-right:26px; transition:border-color .15s, background .15s; }
+    .fin-tuile::after { content:"›"; position:absolute; right:9px; top:50%;
+                        transform:translateY(-50%); color:var(--t1); font-size:17px; font-weight:800;
+                        transition:transform .18s; }
+    .fin-tuile[aria-expanded="true"]::after { transform:translateY(-50%) rotate(90deg); }
+    .fin-tuile:hover, .fin-tuile:focus-visible { border-color:var(--t1); outline:none; }
+    /* Une tuile sans donnee ne doit pas porter de chevron : il inviterait a un
+       clic qui n'ouvre rien. */
+    .fin-tuile:disabled::after { content:none; }
+    .fin-tuile:disabled:hover { border-color:var(--border); }
+    .fin-tuile[aria-expanded="true"] { border-color:var(--t1); background:#F0FDF4; }
+    .fin-volet { border:1px solid var(--border-soft); border-radius:11px; padding:12px; background:#F7FBF8; }
+    .fin-volet[hidden] { display:none; }
+    .fin-volet-t { font-size:12.5px; font-weight:800; color:var(--text); margin-bottom:9px;
+                   display:flex; justify-content:space-between; gap:10px; }
+    .fin-volet-t span { color:var(--muted); font-weight:600; }
+
+    /* Regroupement des depenses */
+    .dep-tab { flex:1; font-family:inherit; font-size:11.5px; font-weight:750; padding:6px 4px;
+               border:0; border-radius:7px; background:transparent; color:var(--sub); cursor:pointer; }
+    .dep-tab.on { background:#FFFFFF; color:var(--t1); box-shadow:0 1px 3px rgba(0,0,0,.07); }
+    .dep-grp { border:1px solid var(--border-soft); border-radius:9px; overflow:hidden; background:#FFFFFF; }
+    .dep-grp-h { width:100%; border:0; background:transparent; font-family:inherit; color:inherit;
+                 cursor:pointer; display:flex; align-items:center; gap:9px; padding:9px 10px; text-align:left; }
+    .dep-grp-h:hover { background:#F0FDF4; }
+    .dep-grp-nom { flex:1; font-size:12.5px; font-weight:700; }
+    .dep-grp-n { font-size:10.5px; color:var(--muted); font-weight:600; }
+    .dep-grp-v { font-size:12.5px; font-weight:800; font-variant-numeric:tabular-nums; }
+    .dep-grp-ch { color:var(--t1); font-weight:800; font-size:15px; transition:transform .18s; }
+    .dep-grp.on .dep-grp-ch { transform:rotate(90deg); }
+    .dep-grp-body { display:none; padding:0 10px 8px; border-top:1px solid #EEF3F0; }
+    .dep-grp.on .dep-grp-body { display:flex; flex-direction:column; gap:6px; padding-top:8px; }
+    /* Sans chantier : en ambre, parce que ces depenses n'entrent dans AUCUNE
+       marge. C'est un angle mort, pas une categorie comme les autres. */
+    .dep-grp.orphelin { border-color:#F6E0B8; background:#FFFBF4; }
+    .dep-grp.orphelin .dep-grp-nom, .dep-grp.orphelin .dep-grp-v { color:var(--amber); }
+
+    #finExplication.on { opacity:1; }
+    #finExplication.on #finExplicationBoite { transform:translateY(0); }
+
+    /* Maquette validée 04/09 (mq-*, css/app.css) : les .mq-subtab/.mq-period/
+       .mq-btn de cet écran sont de vrais <button> (la maquette utilisait des
+       span / div non interactifs) — sans ces deux règles un bouton natif
+       garde la police système et le curseur par défaut du navigateur. */
+    .mq-subtab, .mq-period, .mq-btn { font-family: inherit; cursor: pointer; }
+  </style>
+</head>
+<body data-nav="1">
+  <div class="phone-screen">
+    <!-- Header épuré : Logo Officiel BatiSpot Pro + Accès Profil -->
+    <div class="app-h">
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg-pro-h" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/>
+              <stop offset="100%" stop-color="#4CAF82"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-pro-h)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu & Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+        <!-- Body Principal Épuré -->
+        <!-- Body Principal Épuré avec Vues Temporelles : Mois, Trimestre, Année, À Date -->
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+    <div class="scr-body mq-screen">
+      <!-- Titre d'écran : retiré le 04/09, désormais porté par l'en-tête
+           généré par js/app-nav.js (date + « Finances » + avatar). Le garder
+           ici en plus aurait doublé le titre. -->
+
+      <!-- Sous-onglets de l'écran Finances (04/09/2026) — Bilan / Factures /
+           Dépenses / Par chantier / Par poste. Un seul panneau visible à la
+           fois ; « Dépenses », « Par chantier » et « Par poste » pointent
+           tous les trois vers le même panneau (la liste des dépenses existait
+           déjà avec un regroupement Par poste/Par chantier — ces deux
+           onglets en sont des raccourcis, ils ne dupliquent pas la liste).
+           La rangée « Bilan · Analyses » que js/app-nav.js injectait dans
+           #sous-nav a été retirée le 04/09 : elle doublait Bilan et Analyses
+           à l'écran. Ces onglets sont la seule navigation de Finances. -->
+      <div class="mq-subtabs" id="finTabs">
+        <button type="button" class="mq-subtab mq-on" data-tab="bilan">Bilan</button>
+        <button type="button" class="mq-subtab" data-tab="factures">Factures</button>
+        <button type="button" class="mq-subtab" data-tab="depenses">Dépenses</button>
+        <button type="button" class="mq-subtab" data-tab="chantier">Par chantier</button>
+        <button type="button" class="mq-subtab" data-tab="poste">Par poste</button>
+        <a href="./analyses.html" class="mq-subtab">Analyses</a>
+      </div>
+
+      <!-- Sélecteur de période (maquette 05, 04/09/2026) : une seule rangée
+           visible — « Septembre 2026 · Changer › ». « Changer » déplie la
+           carte ci-dessous, qui porte les 4 vues Mois/Trimestre/Année/Période
+           déjà existantes : logique inchangée (switchFinPeriod), markup seul
+           change. -->
+      <button type="button" class="mq-period" id="finPeriodToggle"
+              aria-expanded="false" aria-controls="finPeriodMenu">
+        <span id="finPeriodLabel">—</span><span>Changer ›</span>
+      </button>
+      <div class="mq-card" id="finPeriodMenu" hidden style="flex-direction:column;align-items:stretch;gap:10px;">
+        <div class="mq-subtabs">
+          <button type="button" class="mq-subtab mq-on" id="btnPerMois" onclick="switchFinPeriod('mois')">Mois</button>
+          <button type="button" class="mq-subtab" id="btnPerTrimestre" onclick="switchFinPeriod('trimestre')">Trimestre</button>
+          <button type="button" class="mq-subtab" id="btnPerAnnee" onclick="switchFinPeriod('annee')">Année</button>
+          <button type="button" class="mq-subtab" id="btnPerPeriode" onclick="switchFinPeriod('periode')">Période</button>
+        </div>
+
+        <!-- Panneau de sélection de date personnalisée (affiché si mode Période sélectionné).
+             05/09/2026 (retour Moctar, iPhone) : les deux champs date iOS ne se
+             compriment pas et débordaient de l'encadré, le bouton coincé sur la
+             même ligne. Désormais : rangée « Du / Au » pleine largeur, bouton
+             pleine largeur dessous, champs 16 px / 44 px, min-width:0. -->
+        <div id="customPeriodDateRange" class="fin-dates" style="display:none;">
+          <div class="fin-dates-grid">
+            <div>
+              <label for="customDateStart">Du</label>
+              <input type="date" id="customDateStart" class="form-input">
+            </div>
+            <div>
+              <label for="customDateEnd">Au</label>
+              <input type="date" id="customDateEnd" class="form-input">
+            </div>
+          </div>
+          <button type="button" class="btn-act primary fin-dates-btn" onclick="applyCustomDateRange()">
+            Appliquer
+          </button>
+        </div>
+      </div>
+
+      <div id="panelBilan">
+      <!-- Les 4 chiffres qui comptent vraiment : ce qui a été FACTURÉ (pas
+           projeté sur un devis), ce qu'il reste à ENCAISSER, les dépenses,
+           la marge nette. « À encaisser » ignore le sélecteur de période :
+           une facture en attente ne cesse pas d'être due au changement de mois. -->
+      <div class="mq-kpis4">
+        <div class="mq-kpi">
+          <div class="mq-l">Facturé TTC</div>
+          <div class="mq-v" id="kpiFactureTtc">—</div>
+        </div>
+        <div class="mq-kpi mq-amber">
+          <div class="mq-l">À encaisser</div>
+          <div class="mq-v" id="kpiAEncaisser">—</div>
+          <div style="font-size:10.5px;font-weight:700;color:var(--amber);margin-top:2px;" id="kpiAEncaisserSub"></div>
+        </div>
+        <div class="mq-kpi">
+          <div class="mq-l">Dépenses</div>
+          <div class="mq-v" id="kpiDepensesReel">—</div>
+        </div>
+        <div class="mq-kpi">
+          <div class="mq-l">Marge nette</div>
+          <div class="mq-v" id="kpiMargeNette">—</div>
+        </div>
+      </div>
+
+      <!-- TVA : collectee sur les devis signes, deductible sur les achats.
+           Volontairement presente comme un REPERE et non comme une
+           declaration : l'application n'emet pas de facture au sens fiscal
+           du terme sur ce solde ; la TVA est exigible a la facturation, pas
+           a la signature du devis. -->
+      <div class="mq-tva">
+        <div class="mq-r"><span>TVA collectée</span><span id="finTvaCollectee">—</span></div>
+        <div class="mq-r"><span>TVA récupérable</span><span id="finTvaDeductible">—</span></div>
+        <div class="mq-r mq-total"><span id="finTvaSoldeLbl">Solde TVA</span><span id="finTvaSolde">—</span></div>
+        <div class="mq-hint">Repère pour anticiper, pas une déclaration.</div>
+      </div>
+
+      <!-- Encaissé par mois : les VRAIES factures payées (`payee_le`), sur
+           les 7 derniers mois. Mois courant en ambre : il est encore en
+           cours, pas encore un chiffre arrêté. -->
+      <div class="mq-chart">
+        <div class="mq-l">Encaissé par mois</div>
+        <div class="mq-bars" id="finBarsMois"></div>
+        <div class="mq-xl" id="finBarsLabels"></div>
+      </div>
+
+      <!-- Les tuiles ci-dessous restent une PROJECTION sur les devis signés
+           (30 % d'acompte théorique), utile avant qu'une facture existe. Les
+           chiffres au-dessus, eux, viennent des vraies factures — c'est
+           pourquoi la projection est repliée par défaut, derrière un geste,
+           plutôt que montrée au même niveau. -->
+      <button type="button" class="mq-btn mq-ghost" id="btnProjectionToggle"
+              aria-expanded="false" aria-controls="blocProjection">
+        Voir la projection sur les devis signés
+      </button>
+
+      <div id="blocProjection" hidden>
+        <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:12px;">
+          Projection sur les devis signés
+        </div>
+
+        <!-- Chaque tuile est un BOUTON qui deplie son graphique juste dessous
+             (choix de Moctar, 02/09). Le chiffre et son explication au meme
+             endroit, sans niveau de navigation en plus. Une tuile sans donnee
+             a montrer n'est pas cliquable : pas de carte vide a expliquer. -->
+        <div class="fin-grid" style="margin-top:8px;">
+          <button type="button" class="fin-box green fin-tuile" data-vue="vueSigne" aria-expanded="false" aria-controls="vueSigne">
+            <span class="fin-val green" id="finTotSigne">—</span>
+            <span class="fin-lbl">Devis signés TTC</span>
+          </button>
+          <div class="fin-box yellow">
+            <span class="fin-val yellow" id="finTotAcompte">—</span>
+            <span class="fin-lbl">Acomptes 30% prévus</span>
+          </div>
+          <button type="button" class="fin-box fin-tuile" data-vue="vueDepenses" aria-expanded="false" aria-controls="vueDepenses">
+            <span class="fin-val" style="color:var(--text);" id="finTotDepenses">—</span>
+            <span class="fin-lbl">Achats Matériaux HT</span>
+          </button>
+          <button type="button" class="fin-box green fin-tuile" data-vue="vueMarge" aria-expanded="false" aria-controls="vueMarge">
+            <span class="fin-val green" id="finTotMarge">—</span>
+            <span class="fin-lbl">Marge Brute Globale</span>
+          </button>
+        </div>
+
+        <!-- Les volets deplies par les tuiles ci-dessus. -->
+        <div id="vueSigne" class="fin-volet" hidden></div>
+        <div id="vueDepenses" class="fin-volet" hidden></div>
+        <div id="vueMarge" class="fin-volet" hidden></div>
+
+        <!-- Menu Déroulant des Devis Filtrés pour la Période & Fiche de Rentabilité -->
+        <div class="mq-card" style="flex-direction:column;align-items:stretch;gap:10px;margin-top:12px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label style="font-size:12px;font-weight:800;color:var(--text);">Factures & Chantiers de la période :</label>
+              <span style="font-size:11px;font-weight:800;color:var(--t1);" id="cntQuotesInPeriodBadge">—</span>
+            </div>
+
+            <!-- Menu Déroulant Dynamique -->
+            <select id="selectDevisFinance" class="form-input" style="padding:10px 12px;font-weight:800;color:var(--text);border:1.5px solid var(--t1);background:#FAFDFB;cursor:pointer;" onchange="handleSelectQuote(this.value)">
+              <!-- Options injectées dynamiquement selon la période -->
+            </select>
+          </div>
+
+          <!-- Détail de Rentabilité du Devis Sélectionné -->
+          <div style="background:#F7FBF8;border:1px solid var(--border-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-soft);padding-bottom:6px;">
+              <strong style="font-size:13px;color:var(--text);" id="selQuoteName">Aucun devis</strong>
+              <span style="font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;" id="selQuoteStatusBadge">—</span>
+            </div>
+
+            <div class="fin-grid">
+              <div class="fin-box green">
+                <span class="fin-val green" id="finTotTtc">—</span>
+                <span class="fin-lbl">Total Facture TTC</span>
+              </div>
+              <div class="fin-box green">
+                <span class="fin-val green" id="finAcompte">—</span>
+                <span class="fin-lbl">Acompte 30% prévu</span>
+              </div>
+              <div class="fin-box">
+                <span class="fin-val" style="color:var(--text);" id="finDepenses">—</span>
+                <span class="fin-lbl">Achats matériaux</span>
+              </div>
+              <div class="fin-box yellow">
+                <span class="fin-val yellow" id="finMarge">—</span>
+                <span class="fin-lbl">Marge Nette</span>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#FFFFFF;border:1px solid var(--border);border-radius:8px;">
+              <div>
+                <div style="font-size:10.5px;color:var(--muted);">Solde après acompte (calculé) :</div>
+                <strong style="font-size:13.5px;color:var(--t1);" id="finSolde">—</strong>
+              </div>
+              <a href="./devis.html" class="btn-act" style="font-size:12px;padding:8px 14px;font-weight:800;display:flex;align-items:center;gap:6px;text-decoration:none;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Mes devis →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><!-- /panelBilan -->
+
+      <!-- Onglet Factures (04/09/2026) — la facture envoyable. C'est ici que
+           l'artisan retrouve ses brouillons pour les envoyer, ses factures
+           envoyées pour les suivre, et peut marquer un règlement reçu. -->
+      <div id="panelFactures" hidden>
+        <div class="mq-kpis">
+          <div class="mq-kpi mq-amber">
+            <div class="mq-l">À encaisser</div>
+            <div class="mq-v" id="kpiFactAEncaisser">—</div>
+          </div>
+          <div class="mq-kpi">
+            <div class="mq-l">Encaissé</div>
+            <div class="mq-v" id="kpiFactEncaisse">—</div>
+          </div>
+        </div>
+        <div class="mq-sec">Factures <span id="cntFacturesBadge" style="text-transform:none;font-weight:700;color:var(--muted);"></span></div>
+        <!-- Nouvelle facture (04/09/2026) : n'apparait que depuis un chantier
+             precis (?chantier=…, lien envoye par le dossier de fin de
+             chantier.html) — creer une facture exige un devis accepte de CE
+             chantier, jamais un choix « au hasard » parmi tous les devis. -->
+        <div id="nouvelleFactureZone" hidden style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div id="facturesListe" style="display:flex;flex-direction:column;gap:12px;"></div>
+        <div class="ui-empty" id="facturesVide" hidden>
+          <h3>Aucune facture</h3>
+          <p>Créez une facture depuis un devis accepté (acompte, situation ou solde) pour la voir apparaître ici.</p>
+        </div>
+      </div><!-- /panelFactures -->
+
+      <div id="panelDepenses">
+      <!-- Dépenses réellement enregistrées (tickets lus par l'appareil photo ou
+           saisies à la main). Elles étaient écrites en base mais aucune page ne
+           les relisait : l'artisan scannait son ticket et ne le revoyait jamais. -->
+      <div class="mq-card" style="flex-direction:column;align-items:stretch;gap:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label style="font-size:12px;font-weight:800;color:var(--text);">Dépenses de la période :</label>
+          <span style="font-size:11px;font-weight:800;color:var(--t1);" id="cntDepensesBadge">—</span>
+        </div>
+        <!-- Regroupement : « Materiaux » pesait 11 lignes sur 17 et 87 % du
+             montant — une liste a plat noyait les cinq autres postes.
+             Les onglets « Par chantier » / « Par poste » de la barre du haut
+             pilotent directement ce regroupement (finTabs → groupeDepenses) :
+             ce sont deux entrées vers la même liste, pas deux listes. -->
+        <div style="display:flex;gap:5px;background:#EEF3F0;padding:3px;border-radius:9px;" id="depGroupe">
+          <button type="button" class="dep-tab on" data-g="poste">Par poste</button>
+          <button type="button" class="dep-tab" data-g="chantier">Par chantier</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;" id="listeDepenses"></div>
+      </div>
+      </div><!-- /panelDepenses -->
+    </div>
+
+
+    <!-- La modale "Facture Factur-X" a ete retiree le 01/09 : elle fabriquait
+         une facture complete (SIRET 912 345 678 00019, IBAN, decennale SMABTP
+         n° DEC-98742, "Acompte Regle par Virement") qui n'existait nulle part.
+         Depuis le 04/09, les VRAIES factures existent (table `factures`) et
+         s'envoient depuis l'onglet Factures ci-dessus. -->
+
+    <!-- Explication d'un chiffre — remplace window.alert(), qui ressemblait
+         a une erreur systeme. -->
+    <div id="finExplication" role="dialog" aria-modal="true" aria-labelledby="finExplicationTitre"
+         style="position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);
+                z-index:2100;display:none;align-items:flex-end;justify-content:center;
+                opacity:0;transition:opacity .18s;">
+      <div style="background:#FFF;border-radius:18px 18px 0 0;width:100%;max-width:480px;
+                  padding:20px 18px calc(18px + env(safe-area-inset-bottom));
+                  display:flex;flex-direction:column;gap:13px;max-height:82vh;overflow-y:auto;
+                  transform:translateY(14px);transition:transform .18s;" id="finExplicationBoite">
+        <div style="width:38px;height:4px;border-radius:99px;background:#D3E3DA;align-self:center;"></div>
+        <strong id="finExplicationTitre" style="font-size:15.5px;color:#1C2B22;">—</strong>
+        <p id="finExplicationTexte" style="font-size:13.5px;color:#3D5A4E;line-height:1.55;
+           white-space:pre-line;margin:0;"></p>
+        <button type="button" id="finExplicationOk" class="btn-act primary"
+                style="padding:12px;font-size:13.5px;" onclick="fermerExplication()">J'ai compris</button>
+      </div>
+    </div>
+
+    <!-- Conteneur de Toasts Non-Bloquants -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+    <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-dates.js?v=v30_2026_09_02" defer></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_06f" defer></script>
+  <script src="./js/app-knowledge-btp.js?v=2026_09_05" defer></script>
+  <script src="./js/app-wizard.js?v=wz_20260903_off" defer></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_06l" defer></script>
+  <script>
+function showToast(msg, isYellow = false) {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+  toast.className = `toast ${isYellow ? "yellow" : ""}`;
+  // ⚠️ textContent, PAS innerHTML (01/09/2026). Ce toast affiche des
+  // messages qui viennent parfois du LLM — resume d'un ticket passe a
+  // l'OCR, cotes lues sur une photo, retour de l'assistant. Un texte
+  // ecrit sur un ticket photographie peut porter une instruction, et le
+  // modele la restituer telle quelle : le balisage s'executait alors dans
+  // l'origine authentifiee de l'artisan.
+  const bsT = document.createElement("span");
+  bsT.textContent = msg;
+  const bsX = document.createElement("span");
+  bsX.style.cursor = "pointer";
+  bsX.textContent = 'X';
+  bsX.addEventListener("click", () => toast.remove());
+  toast.replaceChildren(bsT, bsX);
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 250); }, 2500);
+}
+</script>
+
+
+  <script type="module">
+    // Garde d'acces : ces ecrans etaient consultables sans compte (donnees de
+    // l'entreprise exposees publiquement). Redirige vers le login si pas de session.
+    import * as G from './js/fin-graphiques.js?v=2026_09_03d';
+    import { requireAuth, supabase, exigerDroit, fmtEuro, envoyerFacture, envoyerFactureParEmail } from './js/supabase.js';
+    // Lecture des devis : une seule implementation pour toute l'application.
+    import { listerDevis } from './js/devis-store.js';
+    // Le lien du document client est compose UNE fois (app-factures.js) :
+    // l'assistant (partager_facture) et ce bouton donnent le meme lien.
+    import { lienFacture } from './js/app-factures.js?v=2026_09_05';
+
+    const eur = (n) => (Number(n) || 0).toLocaleString('fr-FR', {
+      minimumFractionDigits: 0, maximumFractionDigits: 0,
+    }) + ' €';
+
+    // Explication d'un chiffre. Elle passait par window.alert() : une boite
+    // systeme grise, avec le nom du domaine en tete — ca ressemblait a une
+    // erreur du navigateur plutot qu'a une aide. On affiche une feuille dans
+    // la charte de l'app.
+    function expliquer(titre, texte) {
+      const f = document.getElementById('finExplication');
+      if (!f) { window.alert(texte); return; }          // repli, jamais de silence
+      f.querySelector('#finExplicationTitre').textContent = titre;
+      f.querySelector('#finExplicationTexte').textContent = texte;
+      f.style.display = 'flex';
+      requestAnimationFrame(() => f.classList.add('on'));
+      f.querySelector('#finExplicationOk').focus();
+    }
+    function fermerExplication() {
+      const f = document.getElementById('finExplication');
+      if (!f) return;
+      f.classList.remove('on');
+      setTimeout(() => { f.style.display = 'none'; }, 180);
+    }
+
+    // `titre` : depuis le passage de la TVA en `.mq-tva .mq-r` (04/09), le
+    // libellé n'est plus toujours une `.fin-lbl` sœur — on peut le passer
+    // explicitement (sinon repli sur la recherche `.fin-lbl` historique).
+    function poser(id, valeur, detail, titre) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = valeur;
+      if (detail) {
+        el.style.cursor = 'pointer';
+        el.title = detail;
+        // Le libelle de la tuile sert de titre : « TVA a reverser », « Marge
+        // brute globale »… l'artisan sait de quel chiffre on parle.
+        const lbl = titre || (el.parentElement && el.parentElement.querySelector('.fin-lbl')?.textContent);
+        el.onclick = (e) => {
+          e.stopPropagation();
+          expliquer(lbl || 'Détail du calcul', detail);
+        };
+      }
+    }
+
+    // Les chiffres sortent des devis reels de l'artisan — jamais d'un jeu de demo.
+    // Le jeu FINANCIAL_DATA (16 450 € / marge 67,4 % / 5 clients fictifs) a ete
+    // supprime : il suffisait d'un clic sur une chip de periode pour le faire
+    // reapparaitre par-dessus les vrais chiffres. Le filtrage de periode est
+    // desormais un vrai filtre sur `created_at`.
+    const STATUS_FR = {
+      brouillon: 'Brouillon', envoye: 'Envoyé', accepte: 'Accepté',
+      refuse: 'Refusé', expire: 'Expiré',
+    };
+    const STATUS_COLOR = {
+      brouillon: ['#EEF3F0', 'var(--muted)'], envoye: ['#EBF7F1', 'var(--g1)'],
+      accepte: ['#DCFCE7', 'var(--t1)'], refuse: ['#FEE2E2', '#B91C1C'],
+      expire: ['#F3F4F6', '#6B7280'],
+    };
+
+    let TOUS = [];
+    // Les dépenses existaient en base (tickets lus par `ocr-receipt`, saisies
+    // manuelles) mais aucune page ne les relisait. C'est la lecture qui manquait.
+    let DEPENSES = [];
+    // Les VRAIES factures (04/09/2026) — distinctes de TOUS (les devis, qui ne
+    // sont qu'une intention de facturer). C'est la seule source des 4 tuiles
+    // « Facturé TTC / À encaisser / Dépenses / Marge nette » et de l'onglet
+    // Factures.
+    let FACTURES = [];
+    // Recharge FACTURES depuis la base — même requête que le chargement
+    // initial, ré-utilisée après la création d'une facture (bouton
+    // « Nouvelle facture ») pour que la liste et les tuiles suivent sans
+    // recharger toute la page.
+    async function chargerFactures() {
+      const { data, error } = await supabase
+        .from('factures')
+        .select('id, numero, type, total_ht, total_tva, total_ttc, statut, date_emission, date_echeance, envoyee_le, payee_le, email_envoye_le, sent_to_email, chantier_id, chantiers(client_name, public_token)')
+        .order('date_emission', { ascending: false });
+      if (error) throw error;
+      FACTURES = data || [];
+      rendreFacturesTab();
+      rendreKpisFactures();
+    }
+    let periodeCourante = 'mois';
+    let ongletCourant = 'bilan';
+
+    // Contexte d'écran (task 5) : relit les deux variables ci-dessus à chaque
+    // appel, mises à jour par switchOnglet/switchFinPeriod plus bas.
+    window.bsContexteEcran = () => ({
+      page: 'finances',
+      onglet: ongletCourant,
+      periode: periodeCourante,
+    });
+
+    // `date_achat` est une date nue (YYYY-MM-DD) : la parser en heure locale,
+    // sinon un achat du 1er du mois bascule sur le mois précédent selon le fuseau.
+    function dateAchat(d) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d.date_achat || ''));
+      return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(d.date_achat);
+    }
+
+    function bornes(periodKey) {
+      const n = new Date();
+      if (periodKey === 'annee') return [new Date(n.getFullYear(), 0, 1), new Date(n.getFullYear() + 1, 0, 1)];
+      if (periodKey === 'trimestre') {
+        const t = Math.floor(n.getMonth() / 3);
+        return [new Date(n.getFullYear(), t * 3, 1), new Date(n.getFullYear(), t * 3 + 3, 1)];
+      }
+      if (periodKey === 'periode') {
+        const a = document.getElementById('customDateStart');
+        const b = document.getElementById('customDateEnd');
+        const d1 = a && a.value ? new Date(a.value) : new Date(n.getFullYear(), 0, 1);
+        const d2 = b && b.value ? new Date(b.value) : n;
+        d2.setDate(d2.getDate() + 1);
+        return [d1, d2];
+      }
+      return [new Date(n.getFullYear(), n.getMonth(), 1), new Date(n.getFullYear(), n.getMonth() + 1, 1)];
+    }
+
+    function libellePeriode(periodKey) {
+      const n = new Date();
+      if (periodKey === 'annee') return { title: `Bilan financier · Exercice ${n.getFullYear()}`, badge: `Année ${n.getFullYear()}` };
+      if (periodKey === 'trimestre') return { title: `Bilan financier · T${Math.floor(n.getMonth() / 3) + 1} ${n.getFullYear()}`, badge: `Trimestre T${Math.floor(n.getMonth() / 3) + 1}` };
+      if (periodKey === 'periode') {
+        const [d1, d2] = bornes('periode');
+        const f = (d) => d.toLocaleDateString('fr-FR');
+        const fin = new Date(d2); fin.setDate(fin.getDate() - 1);
+        return { title: `Bilan financier · du ${f(d1)} au ${f(fin)}`, badge: 'Période personnalisée' };
+      }
+      return { title: 'Bilan financier · ' + n.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }), badge: 'Mois en cours' };
+    }
+
+    // Version courte du libellé de période, pour la ligne `.mq-period`
+    // (« Septembre 2026 · Changer › », maquette 05) — un seul mot/chiffre,
+    // pas la phrase complète de `libellePeriode`.
+    function libellePeriodeCourte(periodKey) {
+      const n = new Date();
+      if (periodKey === 'annee') return String(n.getFullYear());
+      if (periodKey === 'trimestre') return `T${Math.floor(n.getMonth() / 3) + 1} ${n.getFullYear()}`;
+      if (periodKey === 'periode') {
+        const [d1, d2] = bornes('periode');
+        const f = (d) => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+        const fin = new Date(d2); fin.setDate(fin.getDate() - 1);
+        return `${f(d1)} – ${f(fin)} ${n.getFullYear()}`;
+      }
+      const s = n.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    function devisDeLaPeriode() {
+      const [d1, d2] = bornes(periodeCourante);
+      return TOUS.filter((d) => {
+        const t = new Date(d.created_at);
+        return t >= d1 && t < d2;
+      });
+    }
+
+    function depensesDeLaPeriode() {
+      const [d1, d2] = bornes(periodeCourante);
+      return DEPENSES.filter((d) => {
+        const t = dateAchat(d);
+        return t >= d1 && t < d2;
+      });
+    }
+
+    const sommeHt = (arr) => arr.reduce((s, d) => s + Number(d.montant_ht || 0), 0);
+
+    // ── Factures réelles (04/09/2026) ─────────────────────────────────────
+    // `date_emission` est une date nue, comme `date_achat` pour les dépenses.
+    // Repli sur `envoyee_le` : un brouillon n'a pas toujours de date d'émission
+    // posée, mais on ne le compte de toute façon jamais dans un total facturé.
+    function dateFacture(f) {
+      const brut = f.date_emission || (f.envoyee_le ? String(f.envoyee_le).slice(0, 10) : null);
+      if (!brut) return null;
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(brut));
+      return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(brut);
+    }
+    function facturesFaceesDeLaPeriode() {
+      const [d1, d2] = bornes(periodeCourante);
+      return FACTURES.filter((f) => (f.statut === 'envoyee' || f.statut === 'payee'))
+        .filter((f) => { const d = dateFacture(f); return d && d >= d1 && d < d2; });
+    }
+    // « À encaisser » ignore le sélecteur de période : une facture envoyée en
+    // juillet, toujours pas payée en septembre, reste due — la faire
+    // disparaître au changement de mois cacherait un impayé.
+    function facturesAEncaisser() {
+      return FACTURES.filter((f) => f.statut === 'envoyee');
+    }
+
+    // Remplit les 4 tuiles Bilan à partir des VRAIES factures, pas d'une
+    // projection sur devis. Appelée à chaque changement de période.
+    let KPIS_DEJA_RENDUS = false;
+    function rendreKpisFactures() {
+      const periode = facturesFaceesDeLaPeriode();
+      const facTtc = periode.reduce((s, f) => s + (Number(f.total_ttc) || 0), 0);
+      const facHt  = periode.reduce((s, f) => s + (Number(f.total_ht) || 0), 0);
+      const attente = facturesAEncaisser();
+      const aEncaisser = attente.reduce((s, f) => s + (Number(f.total_ttc) || 0), 0);
+      const dep = depensesDeLaPeriode();
+      const totDepHt = sommeHt(dep);
+      const margeNette = facHt - totDepHt;
+
+      // Les 4 chiffres montent jusqu'à leur valeur, UNE SEULE FOIS — à
+      // l'ouverture de l'écran (07/09). Les recompter à chaque changement de
+      // période ferait clignoter des montants qu'on est en train de comparer.
+      // Les centimes ne défilent pas : ils se posent à la fin, exacts.
+      const anime = !KPIS_DEJA_RENDUS && typeof window.bsCompteur === 'function';
+      KPIS_DEJA_RENDUS = true;
+      const euroRond = (v) => fmtEuro(Math.round(v));
+      const poser = (el, valeur) => {
+        if (!el) return;
+        if (anime) window.bsCompteur(el, valeur, euroRond, fmtEuro);
+        else el.textContent = fmtEuro(valeur);
+      };
+
+      const kFtc = document.getElementById('kpiFactureTtc');
+      poser(kFtc, facTtc);
+      const kAtt = document.getElementById('kpiAEncaisser');
+      poser(kAtt, aEncaisser);
+      const kAttSub = document.getElementById('kpiAEncaisserSub');
+      if (kAttSub) kAttSub.textContent = attente.length
+        ? `${attente.length} facture${attente.length > 1 ? 's' : ''} en attente`
+        : 'Rien en attente';
+      const kDep = document.getElementById('kpiDepensesReel');
+      poser(kDep, totDepHt);
+      const kMar = document.getElementById('kpiMargeNette');
+      if (kMar) {
+        if (periode.length || dep.length) poser(kMar, margeNette);
+        else kMar.textContent = '0 €';
+      }
+    }
+
+    // Les 2 tuiles de l'onglet Factures (maquette 03) : « À encaisser » — même
+    // valeur que la tuile Bilan, hors sélecteur de période, un impayé ne
+    // disparaît pas au changement de mois — et « Encaissé », le cumul de
+    // toutes les factures payées (pas filtré par période non plus : c'est un
+    // compteur de caisse, pas un bilan de la période).
+    function rendreKpisFacturesTab() {
+      const kA = document.getElementById('kpiFactAEncaisser');
+      if (kA) kA.textContent = fmtEuro(facturesAEncaisser().reduce((s, f) => s + (Number(f.total_ttc) || 0), 0));
+      const kE = document.getElementById('kpiFactEncaisse');
+      if (kE) kE.textContent = fmtEuro(FACTURES.filter((f) => f.statut === 'payee')
+        .reduce((s, f) => s + (Number(f.total_ttc) || 0), 0));
+    }
+
+    // Bornes d'un mois calendaire, `offset` mois avant le mois en cours
+    // (0 = mois courant).
+    function bornesMois(offset) {
+      const n = new Date();
+      const d1 = new Date(n.getFullYear(), n.getMonth() - offset, 1);
+      const d2 = new Date(n.getFullYear(), n.getMonth() - offset + 1, 1);
+      return [d1, d2];
+    }
+
+    // « Encaissé par mois » (maquette 05) : les VRAIES factures payées,
+    // groupées par mois de `payee_le`, sur les 7 derniers mois. Le mois en
+    // cours est encore ouvert — il est montré en ambre, pas en vert, pour ne
+    // pas le faire passer pour un chiffre arrêté.
+    function rendreGraphiqueEncaisse() {
+      const zone = document.getElementById('finBarsMois');
+      const labels = document.getElementById('finBarsLabels');
+      if (!zone || !labels) return;
+      zone.replaceChildren();
+      labels.replaceChildren();
+      const payees = FACTURES.filter((f) => f.statut === 'payee' && f.payee_le);
+      const mois = [];
+      for (let i = 6; i >= 0; i--) {
+        const [d1, d2] = bornesMois(i);
+        const total = payees.reduce((s, f) => {
+          const d = new Date(f.payee_le);
+          return (d >= d1 && d < d2) ? s + (Number(f.total_ttc) || 0) : s;
+        }, 0);
+        mois.push({ d1, total });
+      }
+      const max = Math.max(1, ...mois.map((m) => m.total));
+      mois.forEach((m, idx) => {
+        const bar = document.createElement('i');
+        const pct = m.total > 0 ? Math.max(6, Math.round((m.total / max) * 100)) : 2;
+        bar.style.height = pct + '%';
+        if (idx === mois.length - 1) bar.classList.add('mq-amb');
+        bar.title = `${m.d1.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })} · ${fmtEuro(m.total)}`;
+        zone.appendChild(bar);
+        const lbl = document.createElement('span');
+        lbl.textContent = m.d1.toLocaleDateString('fr-FR', { month: 'short' });
+        labels.appendChild(lbl);
+      });
+    }
+
+    // Un chantier qui a une facture d'acompte envoyée/payée mais aucune
+    // facture de solde : c'est celui que l'assistant propose de solder
+    // (suggestion « Facture de solde {chantier} », onglet Factures).
+    // Dérivé des VRAIES factures déjà chargées — rien d'inventé.
+    function chantierASolder() {
+      const parChantier = new Map();
+      FACTURES.forEach((f) => {
+        if (!f.chantier_id) return;
+        if (!parChantier.has(f.chantier_id)) {
+          parChantier.set(f.chantier_id, { acompte: false, solde: false, nom: f.chantiers?.client_name });
+        }
+        const e = parChantier.get(f.chantier_id);
+        if (f.type === 'acompte' && (f.statut === 'envoyee' || f.statut === 'payee')) e.acompte = true;
+        if (f.type === 'solde') e.solde = true;
+      });
+      for (const e of parChantier.values()) {
+        if (e.acompte && !e.solde) return e.nom || 'ce chantier';
+      }
+      return null;
+    }
+
+    // Suggestions de l'assistant (carte injectée par js/app-assistant.js,
+    // classes `.ui-assist`/`.ui-chip` — visuellement identiques à `.mq-assist`
+    // de la maquette). Par onglet : Bilan propose l'export comptable et
+    // l'ajout d'un ticket ; Factures relance la facture la plus urgente à
+    // encaisser et propose la facture de solde du prochain chantier
+    // concerné, quand ces situations existent réellement.
+    function rafraichirAssistant() {
+      let suggestions;
+      if (ongletCourant === 'factures') {
+        suggestions = [];
+        const attente = facturesAEncaisser()
+          .slice().sort((a, b) => (a.date_echeance || '').localeCompare(b.date_echeance || ''));
+        if (attente.length) {
+          const f = attente[0];
+          const client = f.chantiers?.client_name || 'ce client';
+          const ech = f.date_echeance ? new Date(f.date_echeance + 'T12:00:00').toLocaleDateString('fr-FR') : '—';
+          suggestions.push({ label: `Relancer ${client} le ${ech}` });
+        }
+        const solder = chantierASolder();
+        if (solder) suggestions.push({ label: `Facture de solde ${solder}` });
+        if (!suggestions.length) suggestions.push({ label: 'Export pour le comptable' });
+      } else {
+        suggestions = [{ label: 'Export pour le comptable' }, { label: 'Ajouter un ticket' }];
+      }
+      window.bsSuggestions = suggestions;
+      if (typeof window.bsAssistantRafraichirSuggestions === 'function') window.bsAssistantRafraichirSuggestions();
+    }
+
+    const TYPE_FACTURE_LBL = { acompte: 'Acompte', situation: 'Situation', solde: 'Solde' };
+    const STATUT_FACTURE_PILL = {
+      brouillon: ['mq-info', 'Brouillon'],
+      envoyee: ['mq-wait', 'À encaisser'],
+      payee: ['mq-ok', 'Payée'],
+      annulee: ['mq-muted', 'Annulée'],
+    };
+
+    // Une carte de facture, avec ses actions selon son statut. Construite en
+    // DOM (pas d'innerHTML) : les libellés de chantier viennent de l'artisan,
+    // pas d'une source de confiance à échapper deux fois.
+    function carteFacture(f) {
+      const client = f.chantiers?.client_name || 'ce client';
+      const item = document.createElement('div');
+      item.style.cssText = 'display:flex;flex-direction:column;gap:8px;';
+
+      const card = document.createElement('div');
+      card.className = 'mq-card';
+      const t = document.createElement('div');
+      t.className = 'mq-t';
+      const titre = document.createElement('div');
+      titre.textContent = `${TYPE_FACTURE_LBL[f.type] || 'Facture'} · ${client}`;
+      const sous = document.createElement('small');
+      if (f.statut === 'payee') {
+        sous.textContent = `Payée le ${f.payee_le ? new Date(f.payee_le).toLocaleDateString('fr-FR') : '—'}`;
+      } else if (f.statut === 'envoyee') {
+        const ech = f.date_echeance ? new Date(f.date_echeance + 'T12:00:00').toLocaleDateString('fr-FR') : '—';
+        const em = f.envoyee_le ? new Date(f.envoyee_le).toLocaleDateString('fr-FR') : '—';
+        sous.textContent = `Envoyée le ${em} · échéance ${ech}`;
+      } else {
+        sous.textContent = 'Prête · pas encore envoyée';
+      }
+      t.append(titre, sous);
+
+      // E-mail (04/09/2026) : distinct du message de suivi ci-dessus — une
+      // facture « envoyée » l'est toujours par message ; l'e-mail est un
+      // canal en plus, qui peut avoir échoué ou ne jamais avoir été tenté.
+      if (f.email_envoye_le) {
+        const mail = document.createElement('small');
+        mail.style.cssText = 'color:var(--muted);display:block;margin-top:1px;';
+        mail.textContent = `E-mail envoyé le ${new Date(f.email_envoye_le).toLocaleDateString('fr-FR')}`
+          + (f.sent_to_email ? ` à ${f.sent_to_email}` : '');
+        t.appendChild(mail);
+      }
+
+      const dr = document.createElement('div');
+      dr.style.cssText = 'text-align:right;flex:none;';
+      const montant = document.createElement('div');
+      montant.className = 'mq-amt';
+      montant.textContent = fmtEuro(f.total_ttc);
+      const [pillClass, pillLabel] = STATUT_FACTURE_PILL[f.statut] || ['mq-muted', f.statut];
+      const pill = document.createElement('span');
+      pill.className = 'mq-pill ' + pillClass;
+      // `.mq-pill.mq-muted` n'existe pas dans css/app.css (statut « annulée »,
+      // absent de la maquette) : repli sur les tokens neutres de l'app.
+      if (pillClass === 'mq-muted') { pill.style.background = 'var(--border-soft)'; pill.style.color = 'var(--muted)'; }
+      pill.style.marginTop = '4px';
+      pill.style.display = 'inline-block';
+      pill.textContent = pillLabel;
+      dr.append(montant, pill);
+
+      // Chevron : la carte se déplie (Moctar, 05/09 : « on clique dessus
+      // pour voir le reste du menu : marquer payée, renvoyer par e-mail,
+      // partager le PDF »). Avec dix factures, trois boutons chacune
+      // faisaient un écran interminable.
+      dr.insertAdjacentHTML('beforeend', '<svg class="mq-facture-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>');
+      card.append(t, dr);
+      card.classList.add('mq-facture-card');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-expanded', 'false');
+      card.tabIndex = 0;
+      item.appendChild(card);
+
+      // Un brouillon garde son geste principal visible : l'envoyer.
+      if (f.statut === 'brouillon') {
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'mq-btn mq-primary';
+        btn.textContent = `Envoyer la facture à ${client}`;
+        btn.addEventListener('click', () => onEnvoyerFacture(f, btn));
+        item.appendChild(btn);
+      }
+
+      // Le reste du menu, replié sous la carte.
+      const menu = document.createElement('div');
+      menu.className = 'mq-facture-actions';
+      menu.hidden = true;
+      if (f.statut === 'envoyee') {
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'mq-btn mq-ghost';
+        btn.innerHTML = (window.bsIcon ? window.bsIcon('check', 16) : '') + ' Marquer payée';
+        btn.addEventListener('click', () => onMarquerPayee(f, btn));
+        menu.appendChild(btn);
+
+        // Renvoyer par e-mail (04/09/2026) : une facture deja envoyee (message
+        // de suivi) n'avait aucun moyen de repartir par e-mail si le premier
+        // envoi avait echoue ou si le client le redemande.
+        const btnMail = document.createElement('button');
+        btnMail.type = 'button'; btnMail.className = 'mq-btn mq-ghost';
+        btnMail.innerHTML = (window.bsIcon ? window.bsIcon('send', 16) : '') + ' Renvoyer par e-mail';
+        btnMail.addEventListener('click', () => onRenvoyerFactureEmail(f, btnMail));
+        menu.appendChild(btnMail);
+      }
+      const btnPdf = document.createElement('button');
+      btnPdf.type = 'button'; btnPdf.className = 'mq-btn mq-ghost';
+      btnPdf.innerHTML = (window.bsIcon ? window.bsIcon('doc', 16) : '') + (f.statut === 'brouillon' ? ' Partager le PDF · WhatsApp, mail' : ' Partager le PDF');
+      btnPdf.addEventListener('click', () => onPartagerPdf(f));
+      menu.appendChild(btnPdf);
+      item.appendChild(menu);
+
+      const basculer = () => {
+        const ouvert = !menu.hidden;
+        // Une seule facture dépliée à la fois.
+        document.querySelectorAll('#facturesListe .mq-facture-actions').forEach((m) => { m.hidden = true; });
+        document.querySelectorAll('#facturesListe .mq-facture-card').forEach((c) => { c.setAttribute('aria-expanded', 'false'); c.classList.remove('mq-facture-ouverte'); });
+        if (!ouvert) { menu.hidden = false; card.setAttribute('aria-expanded', 'true'); card.classList.add('mq-facture-ouverte'); }
+      };
+      card.addEventListener('click', basculer);
+      card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); basculer(); } });
+
+      return item;
+    }
+
+    function rendreFacturesTab() {
+      const zone = document.getElementById('facturesListe');
+      const vide = document.getElementById('facturesVide');
+      const badge = document.getElementById('cntFacturesBadge');
+      if (!zone) return;
+      zone.replaceChildren();
+      if (typeof window.bsCascade === 'function') window.bsCascade(zone);
+      rendreKpisFacturesTab();
+
+      const filtreChantier = new URLSearchParams(location.search).get('chantier');
+      let liste = filtreChantier ? FACTURES.filter((f) => f.chantier_id === filtreChantier) : FACTURES.slice();
+      liste.sort((a, b) => (dateFacture(b) || 0) - (dateFacture(a) || 0));
+
+      rendreBoutonNouvelleFacture(filtreChantier, liste);
+
+      if (badge) badge.textContent = liste.length ? `(${liste.length})` : '';
+      if (!liste.length) {
+        if (vide) vide.hidden = false;
+        return;
+      }
+      if (vide) vide.hidden = true;
+      liste.forEach((f) => zone.appendChild(carteFacture(f)));
+    }
+
+    // ── Nouvelle facture, depuis un chantier précis (04/09/2026) ───────────
+    // Trois types, la situation pré-chiffrée sur l'avancement réel des
+    // étapes — proposée, jamais imposée : l'artisan corrige le pourcentage
+    // avant de valider. Reprend exactement le calcul de `creerFacture`
+    // (app-actions.js) : `deja_facture` RPC, pas une somme locale qui
+    // pourrait diverger de ce que la base facturera pour de vrai.
+    let NOUVELLE_FACTURE_CHANTIER = null;
+    async function rendreBoutonNouvelleFacture(chantierId, facturesChantier) {
+      const zone = document.getElementById('nouvelleFactureZone');
+      if (!zone) return;
+      if (!chantierId) { zone.hidden = true; zone.replaceChildren(); return; }
+
+      zone.hidden = false;
+      if (NOUVELLE_FACTURE_CHANTIER === chantierId) return;   // déjà construit pour ce chantier
+      NOUVELLE_FACTURE_CHANTIER = chantierId;
+      zone.replaceChildren();
+
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'mq-btn mq-primary'; btn.style.width = '100%';
+      btn.innerHTML = (window.bsIcon ? window.bsIcon('plus', 16) : '') + ' Nouvelle facture';
+      const panel = document.createElement('div');
+      panel.hidden = true;
+      panel.style.cssText = 'display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--border-soft);border-radius:12px;padding:10px;';
+
+      let pctSuggere = null, dejaFactureTtc = 0, devisTtc = 0, devisId = null;
+      try {
+        const [{ data: taches }, { data: devisAcc }] = await Promise.all([
+          supabase.from('taches').select('statut').eq('chantier_id', chantierId),
+          supabase.from('devis').select('id, total_ttc').eq('chantier_id', chantierId).eq('status', 'accepte').limit(1),
+        ]);
+        devisId = devisAcc && devisAcc[0] && devisAcc[0].id;
+        devisTtc = (devisAcc && devisAcc[0] && Number(devisAcc[0].total_ttc)) || 0;
+        if (taches && taches.length) {
+          const faites = taches.filter((t) => t.statut === 'termine').length;
+          pctSuggere = Math.round((faites / taches.length) * 100);
+        }
+        const { data: deja } = await supabase.rpc('deja_facture', { p_chantier: chantierId });
+        dejaFactureTtc = Number(deja) || 0;
+      } catch (_) { /* le pré-chiffrage est un bonus, jamais un bloquant */ }
+
+      const choix = document.createElement('div');
+      choix.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;';
+      panel.appendChild(choix);
+      const zoneMsg = document.createElement('div');
+      zoneMsg.style.cssText = 'font-size:11.5px;color:var(--muted);line-height:1.4;';
+      panel.appendChild(zoneMsg);
+
+      const creer = async (type, pourcentage) => {
+        zoneMsg.textContent = 'Création…';
+        try {
+          const mod = await import('./js/app-actions.js');
+          const res = await mod.executerAction('creer_facture', { chantier_id: chantierId, type, pourcentage });
+          showToast(res.message.split('\n')[0]);
+          panel.hidden = true;
+          await chargerFactures();
+        } catch (e) {
+          zoneMsg.textContent = (e && e.message) || 'Création impossible.';
+        }
+      };
+
+      [
+        ['Acompte', 'acompte', 30],
+        ['Situation' + (pctSuggere != null ? ` (${pctSuggere} % réalisé)` : ''), 'situation', pctSuggere],
+        ['Solde', 'solde', null],
+      ].forEach(([label, type, pct]) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'mq-btn mq-ghost';
+        b.textContent = label;
+        b.addEventListener('click', () => {
+          if (type === 'situation' && !(pct > 0)) {
+            zoneMsg.textContent = 'Planifiez au moins une étape pour chiffrer une situation.';
+            return;
+          }
+          if (!devisId) {
+            zoneMsg.textContent = 'Aucun devis accepté sur ce chantier : rien à facturer.';
+            return;
+          }
+          creer(type, pct);
+        });
+        choix.appendChild(b);
+      });
+
+      if (devisTtc > 0) {
+        const reste = document.createElement('div');
+        reste.style.cssText = 'font-size:11px;color:var(--muted);';
+        reste.textContent = `Devis ${fmtEuro(devisTtc)} TTC · déjà facturé ${fmtEuro(dejaFactureTtc)}`;
+        panel.appendChild(reste);
+      }
+
+      btn.addEventListener('click', () => { panel.hidden = !panel.hidden; });
+      zone.append(btn, panel);
+    }
+
+    // Toast local à cet écran (voir showToast plus bas) : `isYellow` sert au
+    // repli visuel des erreurs/avertissements, faute d'un vrai type 'error'
+    // dans ce composant.
+    async function onEnvoyerFacture(f, btn) {
+      if (btn) btn.disabled = true;
+      try {
+        const res = await envoyerFacture(f.id);
+        Object.assign(f, res);
+        const dest = res.client_name || f.chantiers?.client_name || 'votre client';
+        // La facture reste envoyée (message de suivi) meme si l'e-mail a
+        // echoue : le toast le dit plutot que de laisser croire aux deux.
+        showToast(res.email_envoye
+          ? `Facture envoyée à ${dest} (message + e-mail)`
+          : `Facture envoyée à ${dest} (message seulement — e-mail non envoyé)`, !res.email_envoye);
+        rendreFacturesTab();
+        rendreKpisFactures();
+      } catch (e) {
+        showToast(e && e.message ? e.message : "Impossible d'envoyer cette facture.", true);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // Renvoyer par e-mail (04/09/2026) : une facture deja envoyee (message de
+    // suivi) n'avait aucun moyen de repartir par e-mail seul.
+    async function onRenvoyerFactureEmail(f, btn) {
+      if (btn) btn.disabled = true;
+      try {
+        const res = await envoyerFactureParEmail(f.id);
+        f.email_envoye_le = new Date().toISOString();
+        f.sent_to_email = res.envoye_a || f.sent_to_email;
+        showToast(`Facture renvoyée par e-mail${res.envoye_a ? ' à ' + res.envoye_a : ''}`);
+        rendreFacturesTab();
+      } catch (e) {
+        showToast(e && e.message ? e.message : "Impossible de renvoyer cette facture par e-mail.", true);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    async function onMarquerPayee(f, btn) {
+      if (btn) btn.disabled = true;
+      try {
+        const payeeLe = new Date().toISOString();
+        const { error } = await supabase.from('factures')
+          .update({ statut: 'payee', payee_le: payeeLe })
+          .eq('id', f.id);
+        if (error) throw error;
+        f.statut = 'payee'; f.payee_le = payeeLe;
+        showToast(`Facture ${f.numero} marquée payée`);
+        rendreFacturesTab();
+        rendreKpisFactures();
+      } catch (e) {
+        showToast(e && e.message ? e.message : 'Impossible de marquer cette facture payée.', true);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    async function onPartagerPdf(f) {
+      const url = lienFacture(f);
+      if (!url) { showToast('Lien client indisponible pour ce chantier.', true); return; }
+      const titre = `Facture ${f.numero || ''}`;
+      const texte = `Facture ${TYPE_FACTURE_LBL[f.type] || ''} n° ${f.numero} — ${fmtEuro(f.total_ttc)}`;
+      if (navigator.share) {
+        try { await navigator.share({ title: titre, text: texte, url }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; /* sinon, on tente le repli copie */ }
+      }
+      // Pas de navigator.share (desktop, navigateur non compatible) : on copie
+      // le lien. L'artisan peut aussi ouvrir le lien puis « Télécharger en PDF ».
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Lien copié — envoie-le au client');
+      } catch (e) {
+        showToast(url, true);
+      }
+    }
+
+    // TVA d'une depense, EN EUROS.
+    //
+    // ⚠️ La colonne `depenses.tva` contient un TAUX (20, 10, 5.5), pas un
+    // montant : c'est `d.vatRate` que le scan de ticket y ecrit
+    // (app/photos.html) et c'est bien un pourcentage que l'export comptable
+    // imprime (`${Number(d.tva)} %`, dossier-comptable/index.ts).
+    // Cet ecran additionnait pourtant cette colonne comme des euros : trois
+    // tickets a 20, 20 et 10 % affichaient « 50 EUR » de TVA recuperable, et
+    // le solde « TVA a reverser » etait faux du meme montant. Un chiffre
+    // fiscal faux, montre a l'artisan comme un repere de tresorerie.
+    //
+    // On prend l'ecart TTC - HT quand il est coherent (c'est la TVA reellement
+    // payee, celle du ticket), sinon on la reconstitue depuis le taux.
+    function tvaEuros(d) {
+      const ht = Number(d.montant_ht || 0);
+      const ttc = Number(d.montant_ttc || 0);
+      const ecart = ttc - ht;
+      if (ttc > 0 && ecart >= 0 && ecart < ht) return ecart;
+      return ht * (Number(d.tva || 0) / 100);
+    }
+
+    // La liste rend visible ce que l'artisan a effectivement enregistré : sans
+    // elle, un ticket scanné disparaissait de l'écran alors qu'il était en base.
+    // Regroupement courant de la liste des depenses.
+    let groupeDepenses = 'poste';
+
+    // Une ligne de depense, telle qu'elle apparait dans un groupe deplie.
+    function ligneDepense(d, parChantier) {
+      const ligne = document.createElement('div');
+      ligne.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;gap:8px;'
+        + 'padding:8px 10px;background:#F7FBF8;border:1px solid #E7EEEA;border-radius:8px;';
+      const gauche = document.createElement('div');
+      gauche.style.cssText = 'display:flex;flex-direction:column;gap:2px;min-width:0;';
+      const titre = document.createElement('strong');
+      titre.style.cssText = 'font-size:12.5px;color:var(--text);';
+      titre.textContent = d.fournisseur || 'Fournisseur non renseigné';
+      const sous = document.createElement('span');
+      sous.style.cssText = 'font-size:10.5px;color:var(--muted);';
+      const chantier = d.chantier_id ? (parChantier.get(d.chantier_id) || 'chantier') : null;
+      sous.textContent = [
+        dateAchat(d).toLocaleDateString('fr-FR'),
+        groupeDepenses === 'poste' ? (chantier ? `chantier ${chantier}` : 'non rattachée') : (d.categorie || null),
+        d.source === 'ocr' ? 'ticket photographié' : null,
+      ].filter(Boolean).join(' · ');
+      gauche.append(titre, sous);
+      if (d.designation) {
+        const des = document.createElement('span');
+        des.style.cssText = 'font-size:10.5px;color:var(--sub);';
+        des.textContent = d.designation;
+        gauche.appendChild(des);
+      }
+      const droite = document.createElement('div');
+      droite.style.cssText = 'text-align:right;white-space:nowrap;';
+      const ht = document.createElement('strong');
+      ht.style.cssText = 'font-size:13px;color:var(--text);display:block;';
+      ht.textContent = eur(d.montant_ht) + ' HT';
+      const ttc = document.createElement('span');
+      ttc.style.cssText = 'font-size:10.5px;color:var(--muted);';
+      ttc.textContent = eur(d.montant_ttc) + ' TTC';
+      droite.append(ht, ttc);
+      ligne.append(gauche, droite);
+      return ligne;
+    }
+
+    function rendreDepenses() {
+      const dep = depensesDeLaPeriode();
+      const cnt = document.getElementById('cntDepensesBadge');
+      if (cnt) cnt.textContent = dep.length ? `${dep.length} dépense${dep.length > 1 ? 's' : ''} · ${eur(sommeHt(dep))} HT` : 'aucune';
+      const box = document.getElementById('listeDepenses');
+      const onglets = document.getElementById('depGroupe');
+      if (!box) return;
+      box.textContent = '';
+
+      if (!dep.length) {
+        if (onglets) onglets.style.display = 'none';
+        const vide = document.createElement('div');
+        vide.style.cssText = 'font-size:11.5px;color:var(--muted);line-height:1.5;';
+        vide.textContent = "Aucune dépense enregistrée sur cette période. "
+          + "Photographiez un ticket de caisse depuis l'assistant : le montant, "
+          + "la TVA et le fournisseur sont lus et rangés ici.";
+        box.appendChild(vide);
+        return;
+      }
+      // Sous 4 depenses, grouper n'apporte rien : la liste plate suffit.
+      const groupable = dep.length >= 4;
+      if (onglets) onglets.style.display = groupable ? 'flex' : 'none';
+
+      const parChantier = new Map(TOUS.map((d) => [d.chantier_id, (d.chantiers && d.chantiers.client_name) || null]));
+
+      if (!groupable) {
+        dep.forEach((d) => box.appendChild(ligneDepense(d, parChantier)));
+        return;
+      }
+
+      // Constitution des groupes selon le mode choisi.
+      const groupes = new Map();
+      dep.forEach((d) => {
+        let cle, nom, orphelin = false;
+        if (groupeDepenses === 'chantier') {
+          cle = d.chantier_id || '__sans__';
+          orphelin = !d.chantier_id;
+          nom = orphelin ? 'Sans chantier' : (parChantier.get(d.chantier_id) || 'Chantier');
+        } else {
+          cle = (d.categorie || 'Autre').trim() || 'Autre';
+          nom = cle;
+        }
+        if (!groupes.has(cle)) groupes.set(cle, { nom, orphelin, lignes: [], total: 0 });
+        const g = groupes.get(cle);
+        g.lignes.push(d); g.total += Number(d.montant_ht) || 0;
+      });
+
+      // Les orphelines toujours en dernier : ce sont elles qu'on veut ranger,
+      // pas celles qu'on veut lire en premier.
+      const ordonnes = [...groupes.values()].sort((a, b) =>
+        (a.orphelin - b.orphelin) || (b.total - a.total));
+
+      // Couleurs du camembert, dans le meme ordre : les deux blocs se lisent
+      // ensemble au lieu de se repeter.
+      const ordreCouleur = [...groupes.values()].filter((g) => !g.orphelin)
+        .sort((a, b) => b.total - a.total).map((g) => g.nom);
+
+      ordonnes.forEach((g) => {
+        const bloc = document.createElement('div');
+        bloc.className = 'dep-grp' + (g.orphelin ? ' orphelin' : '');
+        const tete = document.createElement('button');
+        tete.type = 'button'; tete.className = 'dep-grp-h';
+        tete.setAttribute('aria-expanded', 'false');
+        if (groupeDepenses === 'poste' && !g.orphelin) {
+          const i = ordreCouleur.indexOf(g.nom);
+          const pastille = document.createElement('i');
+          pastille.style.cssText = 'width:9px;height:9px;border-radius:3px;flex:none;background:'
+            + G.COULEURS[(i < 0 ? 0 : i) % G.COULEURS.length];
+          tete.appendChild(pastille);
+        }
+        const nom = document.createElement('span');
+        nom.className = 'dep-grp-nom'; nom.textContent = g.nom;
+        const n = document.createElement('span');
+        n.className = 'dep-grp-n'; n.textContent = g.lignes.length;
+        const v = document.createElement('span');
+        v.className = 'dep-grp-v'; v.textContent = eur(g.total);
+        const ch = document.createElement('span');
+        ch.className = 'dep-grp-ch'; ch.textContent = '›';
+        tete.append(nom, n, v, ch);
+
+        const corps = document.createElement('div');
+        corps.className = 'dep-grp-body';
+        g.lignes.sort((a, b) => dateAchat(b) - dateAchat(a))
+          .forEach((d) => corps.appendChild(ligneDepense(d, parChantier)));
+        if (g.orphelin) {
+          const avert = document.createElement('p');
+          avert.style.cssText = 'font-size:10.5px;color:var(--amber);font-weight:600;margin-top:2px;';
+          avert.textContent = "Ces dépenses ne comptent dans aucune marge. Rattachez-les à un chantier.";
+          corps.appendChild(avert);
+        }
+        bloc.append(tete, corps);
+        box.appendChild(bloc);
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('.dep-grp-h');
+      if (t) {
+        const bloc = t.closest('.dep-grp');
+        const ouvert = bloc.classList.contains('on');
+        bloc.parentElement.querySelectorAll('.dep-grp').forEach((x) => {
+          x.classList.remove('on');
+          const h = x.querySelector('.dep-grp-h'); if (h) h.setAttribute('aria-expanded', 'false');
+        });
+        if (!ouvert) { bloc.classList.add('on'); t.setAttribute('aria-expanded', 'true'); }
+        return;
+      }
+      const g = e.target.closest('.dep-tab');
+      if (g) {
+        groupeDepenses = g.dataset.g;
+        document.querySelectorAll('.dep-tab').forEach((x) => x.classList.remove('on'));
+        g.classList.add('on');
+        rendreDepenses();
+      }
+    });
+
+    function rendreDetail(numero) {
+      const liste = devisDeLaPeriode();
+      const q = liste.find((d) => d.numero === numero) || liste[0];
+      const badge = document.getElementById('selQuoteStatusBadge');
+      if (!q) {
+        poser('selQuoteName', 'Aucun devis sur cette période');
+        if (badge) { badge.textContent = '—'; badge.style.background = '#EEF3F0'; badge.style.color = 'var(--muted)'; }
+        ['finTotTtc', 'finAcompte', 'finDepenses', 'finMarge', 'finSolde'].forEach((id) => poser(id, '—'));
+        return;
+      }
+      const client = (q.chantiers && q.chantiers.client_name) || 'Client';
+      poser('selQuoteName', `${q.numero} · ${client}`);
+      if (badge) {
+        const [bg, col] = STATUS_COLOR[q.status] || ['#EEF3F0', 'var(--muted)'];
+        badge.textContent = STATUS_FR[q.status] || q.status;
+        badge.style.background = bg; badge.style.color = col;
+      }
+      const ttc = Number(q.total_ttc || 0);
+      poser('finTotTtc', eur(ttc));
+      // « Acompte 30 % RÉGLÉ » s'affichait sur un simple brouillon : un calcul
+      // présenté comme un encaissement. Aucun paiement n'est suivi ici, et un
+      // acompte ne devient exigible qu'une fois le devis accepté.
+      const accepte = q.status === 'accepte';
+      poser('finAcompte', accepte ? eur(ttc * 0.3) : '—',
+        accepte
+          ? "Acompte de 30 % à percevoir sur ce devis accepté. Les encaissements ne sont pas suivis dans l'application : ce montant est un calcul, pas un paiement constaté."
+          : "Aucun acompte n'est dû tant que le devis n'est pas accepté par le client.");
+      poser('finSolde', accepte ? eur(ttc * 0.7) + ' TTC' : '—',
+        accepte ? "Solde calculé : 70 % du TTC. Aucun paiement n'est constaté par l'application."
+                : "Le solde se calculera une fois le devis accepté.");
+
+      // Dépenses réellement enregistrées sur le chantier de ce devis.
+      const depQ = q.chantier_id ? DEPENSES.filter((d) => d.chantier_id === q.chantier_id) : [];
+      const coutQ = sommeHt(depQ);
+      poser('finDepenses', depQ.length ? eur(coutQ) : '—',
+        depQ.length
+          ? `${depQ.length} dépense(s) rattachée(s) à ce chantier :\n`
+            + depQ.map((d) => `${dateAchat(d).toLocaleDateString('fr-FR')} · ${d.fournisseur || 'fournisseur'} · ${eur(d.montant_ht)} HT`).join('\n')
+          : "Aucune dépense n'est rattachée à ce chantier. Photographiez vos tickets pour que la marge se calcule.");
+
+      const htQ = Number(q.total_ht || 0);
+      if (depQ.length && htQ > 0) {
+        const marge = htQ - coutQ;
+        poser('finMarge', `${eur(marge)} (${Math.round((marge / htQ) * 100)} %)`,
+          `Montant HT du devis ${eur(htQ)} moins ${eur(coutQ)} de dépenses enregistrées.\n`
+          + "La main-d'oeuvre n'est pas comptée : elle n'est pas saisie dans l'application.");
+      } else {
+        poser('finMarge', '—',
+          "Sans dépenses rattachées à ce chantier, la marge ne peut pas être calculée : aucun pourcentage n'est affiché plutôt qu'un chiffre inventé.");
+      }
+    }
+
+    function rendrePeriode() {
+      const liste = devisDeLaPeriode();
+      const lblCourt = document.getElementById('finPeriodLabel');
+      if (lblCourt) lblCourt.textContent = libellePeriodeCourte(periodeCourante);
+
+      const somme = (arr) => arr.reduce((s, d) => s + Number(d.total_ttc || 0), 0);
+      const acceptes = liste.filter((d) => d.status === 'accepte');
+      const detailSigne = acceptes.length
+        ? acceptes.map((d) => `${d.numero} · ${(d.chantiers && d.chantiers.client_name) || 'client'} · ${eur(d.total_ttc)}`).join('\n')
+        : "Aucun devis accepté sur cette période.";
+      poser('finTotSigne', acceptes.length ? eur(somme(acceptes)) : '—',
+        `Devis acceptés (${acceptes.length}) :\n${detailSigne}`);
+      poser('finTotAcompte', acceptes.length ? eur(somme(acceptes) * 0.3) : '—',
+        "Acomptes prévus : 30 % des devis acceptés.\nCes montants sont calculés, pas encaissés : l'application ne suit aucun paiement.");
+
+      // Dépenses : lues dans la table `depenses` (tickets photographiés ou
+      // saisies manuelles), filtrées sur la période par leur date d'achat.
+      const dep = depensesDeLaPeriode();
+      const totDep = sommeHt(dep);
+      poser('finTotDepenses', dep.length ? eur(totDep) : '—',
+        dep.length
+          ? `${dep.length} dépense(s) sur la période, ${eur(totDep)} HT :\n`
+            + dep.map((d) => `${dateAchat(d).toLocaleDateString('fr-FR')} · ${d.fournisseur || 'fournisseur'} · ${eur(d.montant_ht)} HT`).join('\n')
+          : "Aucune dépense enregistrée sur cette période. Photographiez un ticket de caisse depuis l'assistant pour l'ajouter.");
+
+      // ── TVA de la période ────────────────────────────────────────────
+      // Collectee : la TVA portee par les devis signes. Deductible : celle
+      // des achats. Le solde est un REPERE de tresorerie, pas un montant a
+      // declarer : l'application n'emet pas de facture, or la TVA devient
+      // exigible a la facturation (ou a l'encaissement pour les prestations
+      // de services), jamais a la signature du devis.
+      const tvaCollectee  = acceptes.reduce((s, d) => s + Number(d.total_tva || 0), 0);
+      const tvaDeductible = dep.reduce((s, d) => s + tvaEuros(d), 0);
+      const soldeTva      = tvaCollectee - tvaDeductible;
+      const aDesDonnees   = acceptes.length > 0 || dep.length > 0;
+
+      poser('finTvaCollectee', acceptes.length ? eur(tvaCollectee) : '—',
+        acceptes.length
+          ? `TVA portee par ${acceptes.length} devis signe(s) sur la periode.\n`
+            + "Elle ne devient exigible qu'a la facturation : ce montant est un repere, pas une declaration."
+          : "Aucun devis signe sur cette periode.", 'TVA collectée');
+
+      poser('finTvaDeductible', dep.length ? eur(tvaDeductible) : '—',
+        dep.length
+          ? `TVA recuperable sur ${dep.length} achat(s) :\n`
+            + dep.map((d) => `${dateAchat(d).toLocaleDateString('fr-FR')} · ${d.fournisseur || 'fournisseur'} · ${eur(tvaEuros(d))} (${Number(d.tva || 0)} %)`).join('\n')
+          : "Aucun achat enregistre. Photographiez vos tickets pour recuperer la TVA.", 'TVA récupérable');
+
+      const lblSolde = document.getElementById('finTvaSoldeLbl');
+      if (lblSolde) lblSolde.textContent = soldeTva >= 0 ? 'TVA à reverser' : 'Crédit de TVA';
+      poser('finTvaSolde', aDesDonnees ? eur(Math.abs(soldeTva)) : '—',
+        aDesDonnees
+          ? (soldeTva >= 0
+              ? `Vous avez collecte ${eur(tvaCollectee)} et recupere ${eur(tvaDeductible)}.\n`
+                + `Ecart : ${eur(soldeTva)} en faveur de l'administration.`
+              : `Vos achats portent plus de TVA que vos devis signes.\n`
+                + `Ecart : ${eur(Math.abs(soldeTva))} en votre faveur.`)
+            + "\n\nA verifier avec votre comptable : le regime (debits ou encaissements) change la date d'exigibilite."
+          : "Il faut au moins un devis signe ou un achat sur la periode.", lblSolde ? lblSolde.textContent : 'Solde TVA');
+
+      // Marge brute : seulement quand les deux termes existent réellement.
+      const idsAcceptes = new Set(acceptes.map((d) => d.chantier_id).filter(Boolean));
+      const depRattachees = dep.filter((d) => d.chantier_id && idsAcceptes.has(d.chantier_id));
+      const caHt = acceptes.reduce((s, d) => s + Number(d.total_ht || 0), 0);
+      const orphelines = dep.length - depRattachees.length;
+      if (acceptes.length && depRattachees.length && caHt > 0) {
+        const marge = caHt - sommeHt(depRattachees);
+        poser('finTotMarge', `${eur(marge)} (${Math.round((marge / caHt) * 100)} %)`,
+          `Chiffre d'affaires HT des devis acceptés ${eur(caHt)} moins ${eur(sommeHt(depRattachees))} de dépenses rattachées à ces chantiers.`
+          + (orphelines > 0 ? `\n${orphelines} dépense(s) non rattachée(s) à un chantier accepté ne sont pas comptées.` : '')
+          + "\nLa main-d'oeuvre n'est pas comptée : elle n'est pas saisie dans l'application.");
+      } else {
+        poser('finTotMarge', '—',
+          !acceptes.length
+            ? "Aucun devis accepté sur cette période : il n'y a pas de chiffre d'affaires sur lequel calculer une marge."
+            : (dep.length
+                ? `Les ${dep.length} dépense(s) de la période ne sont rattachées à aucun chantier accepté : la marge ne peut pas être calculée honnêtement.`
+                : "Aucune dépense enregistrée : la marge ne peut pas être calculée. Aucun pourcentage n'est affiché plutôt qu'un chiffre inventé."));
+      }
+      rendreDepenses();
+      rendreKpisFactures();
+      rendreGraphiques(acceptes, dep, liste);
+
+      const cnt = document.getElementById('cntQuotesInPeriodBadge');
+      if (cnt) cnt.textContent = liste.length ? `${liste.length} devis` : 'aucun devis';
+
+      const select = document.getElementById('selectDevisFinance');
+      if (select) {
+        select.textContent = '';
+        if (!liste.length) {
+          const opt = document.createElement('option');
+          opt.textContent = 'Aucun devis sur cette période';
+          opt.value = '';
+          select.appendChild(opt);
+        } else {
+          liste.forEach((d) => {
+            const opt = document.createElement('option');
+            opt.value = d.numero;
+            opt.textContent = `${d.numero} · ${(d.chantiers && d.chantiers.client_name) || 'client'} (${eur(d.total_ttc)} · ${STATUS_FR[d.status] || d.status})`;
+            select.appendChild(opt);
+          });
+        }
+      }
+      rendreDetail(liste.length ? liste[0].numero : null);
+    }
+
+    // ── Graphiques : deplies sous les tuiles ──────────────────────────────
+    //
+    // Le dessin vit dans ./js/fin-graphiques.js, partage avec analyses.html :
+    // ecrire ces courbes deux fois, c'est se garantir qu'une correction
+    // n'atterrira que d'un cote.
+    //
+    // Ici on ne montre QUE ce que la tuile touchee concerne. La vue complete
+    // est sur analyses.html, derriere le bouton.
+    let donneesCourantes = { acceptes: [], dep: [], liste: [] };
+
+    function volet(id, titre, badge) {
+      const v = document.getElementById(id);
+      if (!v) return null;
+      v.textContent = '';
+      const t = document.createElement('div');
+      t.className = 'fin-volet-t';
+      const g = document.createElement('span'); g.style.color = '#1C2B22'; g.textContent = titre;
+      const d = document.createElement('span'); d.textContent = badge || '';
+      t.append(g, d);
+      v.appendChild(t);
+      return v;
+    }
+
+    // Remplit un volet. Renvoie false si rien d'honnete a montrer : la tuile
+    // est alors rendue non cliquable plutot que d'ouvrir sur du vide.
+    function remplirVolet(cle) {
+      const { acceptes, dep, liste } = donneesCourantes;
+      if (cle === 'vueSigne') {
+        // Le volet suit la periode selectionnee en haut de l'ecran, comme les
+        // compteurs : une courbe figee a cote d'un filtre n'a pas de sens.
+        const [b1, b2] = bornes(periodeCourante);
+        const { points, pas } = G.serie(TOUS, DEPENSES, dateAchat, b1, b2);
+        const v = volet('vueSigne',
+          pas === 'semaine' ? 'Semaine par semaine' : 'Mois par mois', 'signé et dépenses');
+        if (!v) return false;
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.style.cssText = 'width:100%;height:auto;display:block;overflow:visible';
+        v.appendChild(svg);
+        const ok = G.courbe(svg, points, {
+          derniereIncomplete: b2 > new Date() ? (pas === 'semaine' ? 'semaine en cours' : 'mois en cours') : '',
+        });
+        if (!ok) return false;
+        const leg = document.createElement('div');
+        leg.style.cssText = 'display:flex;gap:16px;margin-top:9px;font-size:11.5px;color:#3D5A4E;';
+        leg.innerHTML = '<span><i style="display:inline-block;width:9px;height:9px;border-radius:3px;'
+          + 'background:#228B5B;margin-right:5px"></i>Signé</span>'
+          + '<span><i style="display:inline-block;width:9px;height:9px;border-radius:3px;'
+          + 'background:#C2410C;margin-right:5px"></i>Dépenses</span>';
+        v.appendChild(leg);
+        return true;
+      }
+      if (cle === 'vueDepenses') {
+        const v = volet('vueDepenses', "Où part l'argent", `${dep.length} dépense(s)`);
+        if (!v) return false;
+        const rangee = document.createElement('div');
+        rangee.style.cssText = 'display:flex;align-items:center;gap:14px;flex-wrap:wrap;';
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.style.cssText = 'width:118px;height:118px;flex:none;display:block';
+        const liste2 = document.createElement('div');
+        liste2.style.cssText = 'flex:1;min-width:140px;display:flex;flex-direction:column;gap:7px;';
+        rangee.append(svg, liste2); v.appendChild(rangee);
+        return G.postes(svg, liste2, dep);
+      }
+      if (cle === 'vueMarge') {
+        const v = volet('vueMarge', 'Marge par chantier', "hors main-d'œuvre");
+        if (!v) return false;
+        const zone = document.createElement('div');
+        zone.style.cssText = 'display:flex;flex-direction:column;gap:12px;';
+        v.appendChild(zone);
+        return G.marges(zone, acceptes, dep);
+      }
+      return false;
+    }
+
+    // Une tuile sans rien a montrer n'est pas cliquable. Pas de carte vide a
+    // expliquer, pas de clic qui n'ouvre rien.
+    function majTuiles() {
+      document.querySelectorAll('.fin-tuile').forEach((t) => {
+        const possible = remplirVolet(t.dataset.vue);
+        const v = document.getElementById(t.dataset.vue);
+        if (v) v.hidden = true;
+        t.setAttribute('aria-expanded', 'false');
+        t.disabled = !possible;
+        t.style.opacity = possible ? '' : '.55';
+        t.style.cursor = possible ? 'pointer' : 'default';
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('.fin-tuile');
+      if (!t || t.disabled) return;
+      const v = document.getElementById(t.dataset.vue);
+      if (!v) return;
+      const ouvert = !v.hidden;
+      // Un seul volet ouvert a la fois : sinon l'ecran redevient une pile.
+      document.querySelectorAll('.fin-volet').forEach((x) => { x.hidden = true; });
+      document.querySelectorAll('.fin-tuile').forEach((x) => x.setAttribute('aria-expanded', 'false'));
+      if (!ouvert) { v.hidden = false; t.setAttribute('aria-expanded', 'true'); }
+    });
+
+    function rendreGraphiques(acceptes, dep, liste) {
+      donneesCourantes = { acceptes: acceptes || [], dep: dep || [], liste: liste || [] };
+      try { majTuiles(); }
+      catch (e) { console.warn('[finances] graphiques', e); }
+    }
+
+    window.fermerExplication = fermerExplication;
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'finExplication') fermerExplication();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') fermerExplication();
+    });
+
+    // Handlers exposes aux `onclick` inline de la page.
+    window.switchFinPeriod = function (periodKey) {
+      periodeCourante = ['mois', 'trimestre', 'annee', 'periode'].includes(periodKey) ? periodKey : 'mois';
+      const panel = document.getElementById('customPeriodDateRange');
+      if (panel) panel.style.display = (periodeCourante === 'periode') ? 'flex' : 'none';
+      ['mois', 'trimestre', 'annee', 'periode'].forEach((k) => {
+        const btn = document.getElementById('btnPer' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (!btn) return;
+        btn.classList.toggle('mq-on', k === periodeCourante);
+      });
+      rendrePeriode();
+    };
+    window.applyCustomDateRange = function () { window.switchFinPeriod('periode'); };
+    window.handleSelectQuote = function (numero) { rendreDetail(numero); };
+
+    // ── Sous-onglets Bilan / Factures / Dépenses / Par chantier / Par poste ──
+    // « Dépenses », « Par chantier » et « Par poste » partagent le même
+    // panneau (panelDepenses) : ce sont trois entrées vers la même liste de
+    // dépenses, avec un regroupement différent — pas trois listes distinctes.
+    const PANEL_DE_ONGLET = {
+      bilan: 'panelBilan', factures: 'panelFactures',
+      depenses: 'panelDepenses', chantier: 'panelDepenses', poste: 'panelDepenses',
+    };
+    window.switchOnglet = function (nom, { pousserUrl = true } = {}) {
+      ongletCourant = Object.keys(PANEL_DE_ONGLET).includes(nom) ? nom : 'bilan';
+      document.querySelectorAll('#finTabs .mq-subtab').forEach((b) => {
+        b.classList.toggle('mq-on', b.dataset.tab === ongletCourant);
+      });
+      const cible = PANEL_DE_ONGLET[ongletCourant];
+      ['panelBilan', 'panelFactures', 'panelDepenses'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.hidden = (id !== cible);
+      });
+      if (ongletCourant === 'chantier' || ongletCourant === 'poste') {
+        groupeDepenses = ongletCourant;
+        document.querySelectorAll('.dep-tab').forEach((x) => x.classList.toggle('on', x.dataset.g === ongletCourant));
+        rendreDepenses();
+      }
+      if (ongletCourant === 'factures') rendreFacturesTab();
+      // Le panneau qui s'affiche entre par la droite.
+      if (typeof window.bsRejouer === 'function') window.bsRejouer(document.getElementById(cible), 'bs-glisse');
+      if (pousserUrl) {
+        const url = new URL(location.href);
+        url.searchParams.set('onglet', ongletCourant);
+        history.replaceState(null, '', url);
+      }
+    };
+    document.getElementById('finTabs')?.addEventListener('click', (e) => {
+      const b = e.target.closest('.mq-subtab');
+      if (b && b.dataset.tab) window.switchOnglet(b.dataset.tab);
+    });
+
+    // Dépli/repli du sélecteur de période (maquette 05, 04/09/2026) : la ligne
+    // « Septembre 2026 · Changer › » ouvre la carte Mois/Trimestre/Année/
+    // Période — repliée par défaut pour ne montrer qu'une ligne au premier
+    // coup d'œil.
+    document.getElementById('finPeriodToggle')?.addEventListener('click', (e) => {
+      const btn = e.currentTarget;
+      const menu = document.getElementById('finPeriodMenu');
+      if (!menu) return;
+      const ouvre = menu.hidden;
+      menu.hidden = !ouvre;
+      btn.setAttribute('aria-expanded', String(ouvre));
+    });
+
+    // Repli/dépli de la projection sur devis signés (04/09/2026) : repliée
+    // par défaut, dépliée à la demande — les 4 vraies tuiles factures restent
+    // seules visibles au premier coup d'œil.
+    document.getElementById('btnProjectionToggle')?.addEventListener('click', (e) => {
+      const btn = e.currentTarget;
+      const bloc = document.getElementById('blocProjection');
+      if (!bloc) return;
+      const ouvre = bloc.hidden;
+      bloc.hidden = !ouvre;
+      btn.setAttribute('aria-expanded', String(ouvre));
+      btn.textContent = ouvre ? 'Masquer la projection sur les devis signés' : 'Voir la projection sur les devis signés';
+    });
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+
+      // Garde de role. Ligne « Finances, depenses » de la matrice : le patron,
+      // et un chef d'equipe seulement si le patron l'y a autorise depuis les
+      // reglages. Cote base, la policy depenses_finances et la vue
+      // devis_visible refusent deja les chiffres ; sans cette garde l'ecran
+      // afficherait « 0 € » partout, ce qui est un mensonge plus grave qu'un
+      // refus assume.
+      const droits = await exigerDroit(
+        (d) => d.voit_prix || d.voit_marges,
+        'Cette page est réservée au responsable de l\u2019entreprise. '
+        + 'Votre responsable peut vous en ouvrir l\u2019accès depuis ses réglages.'
+      );
+      if (!droits) return;
+
+      // ⚠️ `TOUS = []` en cas d'echec faisait afficher « Aucune depense
+      // enregistree » et un chiffre d'affaires a 0 EUR a un artisan qui a 40
+      // tickets. Il prenait une decision de tresorerie sur un faux zero — et
+      // la marge etait surevaluee, les depenses manquant du calcul.
+      // Un ecran qui ne sait pas doit le DIRE, pas afficher zero.
+      let bsErreurChargement = false;
+      try {
+        TOUS = await listerDevis();
+      } catch (e) {
+        console.warn('[finances] chargement impossible', e);
+        bsErreurChargement = true;
+        TOUS = [];
+        const zone = document.querySelector('.scr-body');
+        if (zone) {
+          const bandeau = document.createElement('div');
+          bandeau.setAttribute('role', 'alert');
+          bandeau.style.cssText = 'background:#FDECEA;border:1px solid #E7B3A8;color:#9B2C1C;'
+            + 'border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5;margin-bottom:14px;font-weight:600;';
+          bandeau.textContent = "Vos chiffres n'ont pas pu être chargés. Les montants affichés "
+            + "ci-dessous sont incomplets — ne vous y fiez pas. Rechargez la page.";
+          zone.prepend(bandeau);
+        }
+      }
+      // Lecture des dépenses réelles : la table était écrite (OCR ticket,
+      // saisie manuelle) mais jamais relue. C'est ici que la boucle se ferme.
+      try {
+        const { data, error } = await supabase
+          .from('depenses')
+          .select('id, chantier_id, fournisseur, date_achat, categorie, designation, montant_ht, montant_ttc, source, tva')
+          .order('date_achat', { ascending: false });
+        if (error) throw error;
+        DEPENSES = data || [];
+      } catch (e) {
+        console.warn('[finances] dépenses illisibles', e);
+        DEPENSES = [];
+      }
+      // Les vraies factures : brouillons à envoyer, envoyées à suivre/relancer,
+      // payées pour l'historique. C'est la seule source des 4 tuiles réelles
+      // et de l'onglet Factures — jamais une projection sur devis.
+      try {
+        await chargerFactures();
+      } catch (e) {
+        console.warn('[finances] factures illisibles', e);
+        FACTURES = [];
+      }
+      // Rafraichit au retour sur l'ecran. Sans ca, un devis accepte ou un
+      // ticket scanne depuis un autre onglet n'apparaissait jamais ici.
+      if (window.bsRafraichirAuRetour) {
+        window.bsRafraichirAuRetour(async () => {
+          try { TOUS = await listerDevis(); } catch (e) { return; }
+          try {
+            const { data } = await supabase.from('depenses')
+              .select('id, chantier_id, fournisseur, date_achat, categorie, designation, montant_ht, montant_ttc, source, tva')
+              .order('date_achat', { ascending: false });
+            DEPENSES = data || [];
+          } catch (e) { /* on garde ce qu'on a plutot que de vider l'ecran */ }
+          try {
+            const { data } = await supabase.from('factures')
+              .select('id, numero, type, total_ht, total_tva, total_ttc, statut, date_emission, date_echeance, envoyee_le, payee_le, email_envoye_le, sent_to_email, chantier_id, chantiers(client_name, public_token)')
+              .order('date_emission', { ascending: false });
+            FACTURES = data || [];
+          } catch (e) { /* on garde ce qu'on a plutot que de vider l'ecran */ }
+          rendrePeriode();
+          if (ongletCourant === 'factures') rendreFacturesTab();
+        });
+      }
+
+      // `?periode=` (task 6, ouvrir_ecran : mois | trimestre | annee) vient
+      // s'ajouter à `?period=`, déjà lu par l'écran — mêmes valeurs,
+      // switchFinPeriod ne fait pas la différence.
+      const p = new URLSearchParams(location.search).get('period')
+        || new URLSearchParams(location.search).get('periode');
+      window.switchFinPeriod(p || 'mois');
+      const q = new URLSearchParams(location.search).get('quoteId')
+        || new URLSearchParams(location.search).get('devis');
+      if (q) {
+        const select = document.getElementById('selectDevisFinance');
+        if (select) select.value = q;
+        rendreDetail(q);
+      }
+      // Onglet initial : lu dans l'URL, comme la période.
+      const o = new URLSearchParams(location.search).get('onglet');
+      window.switchOnglet(o || 'bilan', { pousserUrl: false });
+    })();
+  </script>
+<script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+<script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+</body>
+</html>

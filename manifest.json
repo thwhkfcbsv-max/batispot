@@ -1,0 +1,76 @@
+{
+  "name": "BatiSpot — Trouvez un artisan vérifié",
+  "short_name": "BatiSpot",
+  "description": "Recevez 3 devis d'artisans vérifiés (KBIS, RC Pro, décennale) en 24h. 100% gratuit pour les particuliers.",
+  "start_url": "/app/index.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFBF9",
+  "theme_color": "#0F5132",
+  "lang": "fr",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png?v=6",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Demander un devis",
+      "short_name": "Devis",
+      "url": "/?source=pwa-shortcut-devis#hero-form",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Estimer mes travaux",
+      "short_name": "Estimer",
+      "url": "/estimateur.html?source=pwa-shortcut-estim",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Suivre ma demande",
+      "short_name": "Suivi",
+      "url": "/ma-demande.html?source=pwa-shortcut-suivi",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "lifestyle",
+    "productivity",
+    "business"
+  ],
+  "id": "/",
+  "prefer_related_applications": false,
+  "related_applications": []
+}

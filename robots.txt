@@ -1,0 +1,61 @@
+User-agent: *
+Allow: /
+
+# Endpoints API lus par erreur dans le JS des pages (26/08) : Google
+# prenait la chaine fetch(SB+"/rest/v1/...") pour une URL relative.
+Disallow: /rest/
+Disallow: /api/
+
+# Pages internes / admin
+Disallow: /_private/
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /dashboard.html
+Disallow: /crm
+Disallow: /crm624/
+Disallow: /backend/
+Disallow: /agents/
+Disallow: /_old/
+Disallow: /_maquette
+Disallow: /*.db$
+Disallow: /*.json$
+
+# Backups bascule v2 (anciennes versions, contenu dupliqué)
+Disallow: /artisan_old_pre_v2.html
+Disallow: /installer_old_pre_v2.html
+Disallow: /index_old_pre_v2.html
+Disallow: /*.report
+Disallow: /batispot.pro_2026-04-18_09-06-39.report.html
+
+
+# Pages techniques (app web : login, inscription, dashboard — pas pour SEO)
+Disallow: /app/
+Disallow: /website-preview/
+
+# Endpoints CMS / scripts internes
+Disallow: /social/
+Disallow: /email-agent/
+Disallow: /scripts/
+
+
+# Crawlers IA explicitement bienvenus (GEO)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://batispot.pro/sitemap.xml

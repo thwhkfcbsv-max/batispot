@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<meta name="robots" content="noindex,nofollow">
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>Mes documents — BatiSpot Pro</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="./css/app.css?v=v77_2026_09_06b">
+<link rel="stylesheet" href="./css/simulator-screens.css?v=v30_2026_09_02">
+<style>
+  .doc-cat { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
+  .doc-cat button { flex:0 0 auto; min-height:36px; padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+                    background:#fff; font-size:12px; font-weight:700; color:var(--muted); cursor:pointer; }
+  .doc-cat button.on { background:var(--t1); border-color:var(--t1); color:#fff; }
+  .doc-ico { width:38px; height:38px; border-radius:10px; background:#EBF7F1; color:var(--t1);
+             display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .doc-vide { text-align:center; padding:34px 18px; color:var(--muted); font-size:13.5px; line-height:1.6; }
+</style>
+</head>
+<body data-nav="1">
+<div class="phone-screen">
+
+  <div class="app-h">
+    <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;">
+      <svg class="app-h-logo" viewBox="0 0 48 48" aria-hidden="true">
+        <defs><linearGradient id="lg-c" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+        <rect width="48" height="48" rx="11" fill="url(#lg-c)"/>
+        <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+        <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.9"/>
+      </svg>
+    </a>
+    <button type="button" onclick="openAppDrawer()" title="Menu &amp; Profil Artisan" style="width:38px;height:38px;border-radius:10px;background:var(--border-soft);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </div>
+
+  <div class="mq-screen">
+    <p class="ui-note" style="margin:0;">Kbis, assurance, plans, PV de réception — au même endroit, accessibles du chantier.</p>
+
+    <!-- Alerte d'expiration : la seule chose qui justifie vraiment un coffre-fort -->
+    <div id="alerteExpiration" class="ui-note warn" style="display:none;"></div>
+
+    <button type="button" class="mq-btn mq-primary" style="width:100%;"
+            onclick="document.getElementById('fichierDoc').click()">
+      Ajouter un document
+    </button>
+    <input type="file" id="fichierDoc" style="display:none"
+           accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,application/pdf,image/*">
+
+    <!-- Recherche : promise quatre fois sur la page publique du coffre-fort
+         (« retrouvez n'importe quel document en quelques secondes ») et
+         absente de l'ecran. Les documents sont deja tous charges en memoire :
+         c'est un filtre, pas une requete. -->
+    <div style="position:relative;">
+      <input type="search" id="rechercheDoc" placeholder="Rechercher un document…"
+             autocomplete="off" aria-label="Rechercher un document" class="f-input"
+             style="width:100%;box-sizing:border-box;padding:10px 12px 10px 34px;min-height:44px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.4"
+           style="position:absolute;left:11px;top:50%;transform:translateY(-50%);pointer-events:none;">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </div>
+    <div class="doc-cat" id="filtres"></div>
+    <div id="liste"><div class="doc-vide">Chargement…</div></div>
+  </div>
+
+<!-- Barre du bas : generee par js/app-nav.js (Devis / Chantiers / Finances / Equipe / Menu). -->
+<nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+</div>
+
+<script src="./js/config.js"></script>
+  <script src="./js/app-alerte.js?v=2026_08_31" defer></script>
+<script type="module">
+import { requireAuth, toast, listCoffreDocs, uploadCoffreDoc, majVisibiliteDoc,
+         coffreDocSignedUrl, deleteCoffreDoc, coffreDocsExpirants } from './js/supabase.js';
+
+const session = await requireAuth('./login.html');
+if (!session) throw new Error('No session');
+
+const CATEGORIES = {
+  kbis: 'Kbis', decennale: 'Décennale', rc_pro: 'RC Pro', urssaf: 'URSSAF',
+  fiscale: 'Attestation fiscale', plan: 'Plans', pv_reception: 'PV de réception',
+  garantie: 'Garanties', facture_fournisseur: 'Factures fournisseur', autre: 'Autres',
+};
+// Ces pièces ont une date de fin : c'est le cœur de l'intérêt du coffre-fort.
+const AVEC_EXPIRATION = ['decennale', 'rc_pro', 'urssaf', 'fiscale'];
+
+// Qui voit quoi. Par defaut « prive » : un document n'est jamais expose a
+// l'equipe sans que le patron l'ait decide.
+// « Client » (01/09/2026) est le seul cran qui sort de l'entreprise : le
+// document devient lisible depuis le lien de suivi du chantier. C'est ce qui
+// permet enfin de remettre l'attestation decennale, que la loi 2014-626 oblige
+// a justifier — jusqu'ici aucune valeur ne le permettait, ni en base ni ici.
+const VISIBILITE = {
+  prive:  { libelle: 'Vous seul',        aide: 'Personne d\'autre ne le voit' },
+  chefs:  { libelle: 'Chefs d\'equipe',  aide: 'Vous et vos chefs d\'equipe' },
+  equipe: { libelle: 'Toute l\'equipe',  aide: 'Tous vos compagnons y ont acces' },
+  client: { libelle: 'Vos clients',      aide: 'Visible par le client, depuis son lien de suivi' },
+};
+
+let docs = [];
+let filtre = 'tous';
+let recherche = '';
+
+// Accents et casse ignores : un artisan qui tape « decennale » doit trouver
+// « Attestation décennale ».
+const sansAccent = (t) => String(t || '').toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function poids(o) {
+  if (!o) return '';
+  return o > 1048576 ? `${(o / 1048576).toFixed(1)} Mo` : `${Math.round(o / 1024)} Ko`;
+}
+
+function etatExpiration(d) {
+  if (!d.expire_le) return '';
+  const jours = Math.ceil((new Date(d.expire_le) - new Date()) / 86400000);
+  const date = new Date(d.expire_le).toLocaleDateString('fr-FR');
+  // Pilule ambre des que l'echeance est a moins de 60 jours (deja expiree incluse).
+  if (jours < 60) {
+    const texte = jours < 0 ? `Expirée le ${date}` : `Expire le ${date}`;
+    return `<span class="mq-pill mq-wait">${texte}</span>`;
+  }
+  return `<span style="font-size:11.5px;color:var(--muted);">Valide jusqu'au ${date}</span>`;
+}
+
+function rendre() {
+  const zone = document.getElementById('liste');
+  let vus = filtre === 'tous' ? docs : docs.filter((d) => d.categorie === filtre);
+  if (recherche) {
+    const q = sansAccent(recherche);
+    // On cherche dans le nom ET dans le libelle de categorie : « assurance »
+    // doit sortir la decennale meme si le fichier s'appelle « scan_042.pdf ».
+    vus = vus.filter((d) => sansAccent(d.nom).includes(q)
+      || sansAccent(CATEGORIES[d.categorie] || d.categorie).includes(q));
+  }
+
+  if (!docs.length) {
+    zone.innerHTML = `<div class="doc-vide">Aucun document pour l'instant.<br>
+      Ajoutez votre Kbis et votre attestation décennale : vous les aurez sur vous à chaque chantier.</div>`;
+    return;
+  }
+  if (!vus.length) {
+    zone.innerHTML = recherche
+      ? `<div class="doc-vide">Aucun document ne correspond à « ${esc(recherche)} ».</div>`
+      : `<div class="doc-vide">Aucun document dans cette catégorie.</div>`;
+    return;
+  }
+
+  zone.innerHTML = vus.map((d) => `
+    <div class="mq-card" style="flex-wrap:wrap;align-items:flex-start;">
+      <div class="doc-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      </div>
+      <div class="mq-t">
+        ${esc(d.nom)}
+        <small>${esc(CATEGORIES[d.categorie] || d.categorie)}${d.taille_octets ? ' · ' + poids(d.taille_octets) : ''}</small>
+      </div>
+      ${etatExpiration(d)}
+      <div style="flex-basis:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px;">
+        <button type="button" data-vis="${esc(d.id)}" data-actuelle="${esc(d.visibilite || 'prive')}"
+                style="background:none;border:none;padding:0;min-height:32px;font-size:11.5px;font-weight:700;color:var(--t1);cursor:pointer;text-decoration:underline;">
+          ${esc((VISIBILITE[d.visibilite] || VISIBILITE.prive).libelle)}
+        </button>
+        <div style="display:flex;gap:6px;">
+          <button type="button" class="mq-btn mq-ghost" style="min-height:40px;padding:0 12px;font-size:12px;"
+                  data-ouvrir="${esc(d.chemin)}">Ouvrir</button>
+          <button type="button" class="mq-btn mq-ghost" style="min-height:40px;padding:0 12px;font-size:12px;"
+                  data-suppr="${esc(d.id)}" data-chemin="${esc(d.chemin)}">Supprimer</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  zone.querySelectorAll('[data-ouvrir]').forEach((b) => {
+    b.onclick = async () => {
+      try { window.open(await coffreDocSignedUrl(b.dataset.ouvrir), '_blank'); }
+      catch { toast("Document introuvable. Il a peut-être été supprimé."); }
+    };
+  });
+  zone.querySelectorAll('[data-vis]').forEach((b) => {
+    b.onclick = async () => {
+      const ordre = ['prive', 'chefs', 'equipe', 'client'];
+      const liste = ordre.map((v, i) => `${i + 1}. ${VISIBILITE[v].libelle} — ${VISIBILITE[v].aide}`).join('\n');
+      const rep = prompt(`Qui peut voir ce document ?\n${liste}\n\nTapez le numéro :`,
+                         String(ordre.indexOf(b.dataset.actuelle) + 1));
+      const i = parseInt(rep, 10) - 1;
+      if (!(i >= 0 && i < ordre.length)) return;
+      try {
+        await majVisibiliteDoc(b.dataset.vis, ordre[i]);
+        const d = docs.find((x) => x.id === b.dataset.vis);
+        if (d) d.visibilite = ordre[i];
+        rendre();
+        toast(`Visible par : ${VISIBILITE[ordre[i]].libelle.toLowerCase()}.`);
+      } catch {
+        toast("Seul le patron peut changer qui voit un document.");
+      }
+    };
+  });
+
+  zone.querySelectorAll('[data-suppr]').forEach((b) => {
+    b.onclick = async () => {
+      if (!confirm('Supprimer ce document ?')) return;
+      try {
+        await deleteCoffreDoc(b.dataset.suppr, b.dataset.chemin);
+        docs = docs.filter((d) => d.id !== b.dataset.suppr);
+        rendre(); filtres(); toast('Document supprimé.');
+      } catch { toast("Suppression impossible. Seuls le patron et le chef d'équipe peuvent supprimer."); }
+    };
+  });
+}
+
+function filtres() {
+  const presentes = [...new Set(docs.map((d) => d.categorie))];
+  document.getElementById('filtres').innerHTML =
+    [['tous', 'Tous'], ...presentes.map((c) => [c, CATEGORIES[c] || c])]
+      .map(([v, l]) => `<button type="button" data-f="${v}" class="${v === filtre ? 'on' : ''}">${esc(l)}</button>`)
+      .join('');
+  document.querySelectorAll('#filtres button').forEach((b) => {
+    b.onclick = () => { filtre = b.dataset.f; filtres(); rendre(); };
+  });
+}
+
+async function alerter() {
+  try {
+    const proches = await coffreDocsExpirants(60);
+    const zone = document.getElementById('alerteExpiration');
+    if (!proches.length) { zone.style.display = 'none'; return; }
+    zone.style.display = 'block';
+    zone.textContent = proches.length === 1
+      ? `${CATEGORIES[proches[0].categorie] || 'Un document'} expire le ${new Date(proches[0].expire_le).toLocaleDateString('fr-FR')}.`
+      : `${proches.length} documents expirent dans les 60 jours.`;
+  } catch { /* l'alerte ne doit jamais empêcher l'affichage de la liste */ }
+}
+
+document.getElementById('fichierDoc').addEventListener('change', async (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  e.target.value = '';
+
+  const cats = Object.entries(CATEGORIES).map(([k, v], i) => `${i + 1}. ${v}`).join('\n');
+  const rep = prompt(`Quel type de document ?\n${cats}\n\nTapez le numéro :`, '1');
+  const idx = parseInt(rep, 10) - 1;
+  const cles = Object.keys(CATEGORIES);
+  if (!(idx >= 0 && idx < cles.length)) return;
+  const categorie = cles[idx];
+
+  let expire = null;
+  if (AVEC_EXPIRATION.includes(categorie)) {
+    const d = prompt("Date de fin de validité (JJ/MM/AAAA) — laissez vide si vous ne l'avez pas :", '');
+    if (d && /^\d{2}\/\d{2}\/\d{4}$/.test(d.trim())) {
+      const [j, m, a] = d.trim().split('/');
+      expire = `${a}-${m}-${j}`;
+    }
+  }
+
+  const ordreVis = ['prive', 'chefs', 'equipe', 'client'];
+  const listeVis = ordreVis.map((v, i) => `${i + 1}. ${VISIBILITE[v].libelle} — ${VISIBILITE[v].aide}`).join('\n');
+  const repVis = prompt(`Qui peut voir ce document ?\n${listeVis}\n\nTapez le numéro :`, '1');
+  const iv = parseInt(repVis, 10) - 1;
+  const visibilite = (iv >= 0 && iv < ordreVis.length) ? ordreVis[iv] : 'prive';
+
+  toast('Envoi en cours…');
+  try {
+    const cree = await uploadCoffreDoc(f, { categorie, expire_le: expire, visibilite });
+    docs.unshift(cree);
+    filtres(); rendre(); alerter();
+    toast('Document enregistré.');
+  } catch (err) {
+    toast(err && err.message ? err.message : "Envoi impossible. Vérifiez votre connexion.");
+  }
+});
+
+// ⚠️ Le message d'erreur etait ECRIT puis EFFACE dans le meme tick : `rendre()`
+// s'executait inconditionnellement juste apres et le remplacait par « Aucun
+// document ». L'artisan concluait que son coffre etait vide alors que la
+// requete avait echoue — et il redeposait ses attestations.
+let chargementOk = true;
+try {
+  const champRecherche = document.getElementById('rechercheDoc');
+if (champRecherche) {
+  champRecherche.addEventListener('input', () => {
+    recherche = champRecherche.value.trim();
+    rendre();
+  });
+}
+
+docs = await listCoffreDocs();
+} catch {
+  chargementOk = false;
+  document.getElementById('liste').innerHTML =
+    `<div class="doc-vide">Vos documents n'ont pas pu être chargés. Vérifiez votre connexion,
+     puis rechargez la page.<br><small>Vos documents ne sont pas perdus.</small></div>`;
+}
+filtres();
+if (chargementOk) rendre();
+alerter();
+</script>
+<script type="module" src="./js/app-menu.js?v=menu_2026_09_06f"></script>
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_06g"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_08_29_roles"></script>
+<script src="./js/app-assistant.js?v=2026_09_06l"></script>
+</body>
+</html>

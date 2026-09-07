@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/consent.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Frais generaux BTP : le calcul qui fait couler 40% des boites d'artisans</title>
+<meta name="description" content="Calcul reel des frais generaux artisan BTP 2026. Pourquoi votre taux horaire est trop bas. Coefficient multiplicateur, amortissement, frais caches : la methode complete.">
+<meta name="keywords" content="frais generaux BTP, taux horaire artisan, coefficient multiplicateur BTP, marge artisan, prix de revient chantier">
+<link rel="canonical" href="https://batispot.pro/blog-pro/frais-generaux-btp-calcul-marge-artisan-2026">
+<meta property="og:title" content="Frais generaux BTP : le calcul qui fait couler 40% des boites d'artisans">
+<meta property="og:description" content="La methode complete pour calculer frais generaux reels, coefficient multiplicateur et taux horaire viable.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://batispot.pro/og/blog-pro_frais-generaux-btp-calcul-marge-artisan-2026.png">
+<meta property="og:url" content="https://batispot.pro/blog-pro/frais-generaux-btp-calcul-marge-artisan-2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Frais generaux BTP : le calcul qui fait couler 40% des boites d'artisans","description":"La methode complète pour calculer frais generaux réels, coefficient multiplicateur et taux horaire viable.","datePublished":"2026-04-19","dateModified":"2026-04-19","author":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"publisher":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"}}</script>
+<style>
+:root{--g1:#0F5132;--g2:#166534;--t2:#0D9488;--t1:#0F766E;--text:#1C2B22;--sub:#4B6B5A;--border:#BBF7D0;--soft:#F0FDF4;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:#FAFAFA;line-height:1.7;}
+.nav{background:white;border-bottom:1px solid #E5E7EB;padding:16px 0;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:800px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-weight:900;font-size:1.3rem;color:var(--g1);text-decoration:none;}
+.nav-logo span{color:var(--g2);opacity:.85;}
+.nav-badge{background:var(--t2);color:white;padding:3px 10px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:8px;letter-spacing:.5px;}
+.nav-cta{background:var(--t2);color:white;padding:8px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.85rem;}
+article{max-width:800px;margin:0 auto;padding:40px 24px 80px;}
+.breadcrumb{font-size:.82rem;color:var(--sub);margin-bottom:24px;}
+.breadcrumb a{color:var(--t2);text-decoration:none;}
+.article-meta{display:flex;gap:16px;font-size:.82rem;color:var(--sub);margin-bottom:24px;flex-wrap:wrap;}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--g1);line-height:1.25;margin-bottom:16px;}
+h2{font-size:1.3rem;font-weight:700;color:var(--g1);margin:40px 0 16px;padding-top:8px;}
+h3{font-size:1.08rem;font-weight:700;color:var(--g2);margin:24px 0 10px;}
+p{margin-bottom:16px;font-size:1rem;}
+ul,ol{margin:12px 0 20px 22px;}li{margin-bottom:8px;}
+strong{color:var(--g1);}a{color:var(--t2);}
+.summary-box{background:var(--soft);border-left:4px solid var(--t2);padding:18px 22px;border-radius:0 10px 10px 0;margin:24px 0;}
+.summary-box h3{margin-top:0;color:var(--g1);}
+.summary-box ul{margin:8px 0 0 20px;}.summary-box li{margin-bottom:4px;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92rem;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #E5E7EB;}
+th{background:var(--g1);color:white;font-weight:700;font-size:.88rem;}
+tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#FAFAFA;}
+.warning-box{background:#FEF3C7;border-left:4px solid #F59E0B;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.warning-box strong{color:#92400E;}
+.info-box{background:#DBEAFE;border-left:4px solid #3B82F6;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.info-box strong{color:#1E40AF;}
+.cta-box{background:linear-gradient(135deg,#E6F7ED,#F0FDF4);border:2px solid #59C794;border-radius:16px;padding:28px;text-align:center;margin:40px 0;}
+.cta-box h3{font-size:1.2rem;color:var(--g1);margin-bottom:8px;}
+.cta-box p{color:var(--sub);margin-bottom:16px;}
+.cta-btn{display:inline-block;background:var(--t2);color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 4px 12px rgba(13,148,136,.3);}
+.related{margin:50px 0 20px;padding:24px;background:white;border-radius:12px;border:1px solid #E5E7EB;}
+.related h3{color:var(--g1);margin-bottom:14px;font-size:1.08rem;}
+.related ul{margin:0 0 0 18px;}.related a{font-weight:500;}
+.footer-blog{background:var(--g1);color:white;text-align:center;padding:32px 24px;font-size:.85rem;}
+.footer-blog a{color:#4CAF82;text-decoration:none;}
+@media(max-width:600px){article{padding:24px 16px 60px;}table{font-size:.82rem;}th,td{padding:10px 8px;}}
+
+@media(max-width:640px){
+ .wrap{padding:0 16px !important;}
+ .hero{padding:32px 0 20px !important;}
+ .content-body{padding:20px 16px !important;border-radius:16px !important;}
+ .lead-form-card{padding:22px 16px !important;border-radius:16px !important;margin:2rem 0 !important;}
+ .form-grid{grid-template-columns:1fr !important;gap:10px !important;}
+ .ai-snippet{padding:14px 16px !important;border-radius:12px !important;}
+}
+
+</style>
+<style id="lm-styles">
+.lm-block{max-width:700px;margin:48px auto 0;background:linear-gradient(135deg,#0F5132 0%,#166534 50%,#0D9488 100%);border-radius:20px;padding:40px 36px;color:white;box-shadow:0 20px 60px rgba(15,81,50,0.3);position:relative;overflow:hidden;}
+.lm-block::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.lm-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 14px;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;}
+.lm-title{font-size:1.5rem;font-weight:900;line-height:1.3;margin-bottom:10px;}
+.lm-subtitle{font-size:.95rem;opacity:.85;margin-bottom:28px;line-height:1.6;}
+.lm-form{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1;}
+.lm-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.lm-input{width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.15);color:white;font-family:inherit;font-size:.9rem;transition:all .2s;}
+.lm-input::placeholder{color:rgba(255,255,255,0.55);}
+.lm-input:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+.lm-btn{width:100%;padding:15px;border-radius:10px;border:none;background:white;color:#0F5132;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:4px;}
+.lm-btn:hover{background:#f0fdf4;transform:translateY(-1px);}
+.lm-privacy{font-size:.72rem;opacity:.6;text-align:center;margin-top:10px;}
+.lm-success{display:none;text-align:center;padding:20px 0;}
+.lm-success-icon{font-size:3rem;margin-bottom:12px;}
+.lm-success-title{font-size:1.3rem;font-weight:800;margin-bottom:8px;}
+.lm-success-msg{opacity:.85;font-size:.9rem;}
+@media(max-width:520px){.lm-row{grid-template-columns:1fr;}.lm-block{padding:28px 20px;}.lm-title{font-size:1.25rem;}}
+@media print{.lm-block{display:none!important;}.nav,.footer-blog,.nav-blog{display:none!important;}article{padding:0!important;}body{background:white!important;}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Pourquoi le taux horaire « marché » de 45 €/h fait-il perdre de l'argent ?", "acceptedAnswer": {"@type": "Answer", "text": "Parce que ces taux sont observés chez des artisans qui n'ont pas fait le calcul non plus : c'est une convention entre gens qui se trompent tous dans le même sens. Un taux horaire viable se calcule à partir de ses frais généraux réels et de ses heures réellement facturables ; il ne se copie pas."}}, {"@type": "Question", "name": "Combien d'heures un artisan facture-t-il réellement par an ?", "acceptedAnswer": {"@type": "Answer", "text": "Sur les 1 607 heures théoriques d'un temps plein, seules 1 100 à 1 250 heures sont réellement facturables. Le reste, c'est le chiffrage des devis (dont au moins 40 % ne sont pas signés), les déplacements inter-chantiers, le SAV gratuit, l'administratif, les formations et les congés."}}, {"@type": "Question", "name": "Comment calculer son taux horaire viable ?", "acceptedAnswer": {"@type": "Answer", "text": "Taux horaire viable = (salaire souhaité + charges sociales + frais généraux annuels + marge nette cible) divisé par les heures réellement facturables par an. Pour un auto-entrepreneur visant 40 000 € de chiffre d'affaires, cela donne environ 44 480 € à couvrir sur 1 150 heures, soit 38,70 € HT de l'heure au minimum."}}, {"@type": "Question", "name": "Quel taux horaire pour un artisan avec un salarié ?", "acceptedAnswer": {"@type": "Answer", "text": "Pour un artisan employant un compagnon N3 et visant 120 000 € de chiffre d'affaires, le total à couvrir atteint environ 126 330 € pour 2 200 heures facturables, soit un taux horaire viable d'environ 57,40 € HT de l'heure, bien au-dessus du « 45-55 € » couramment affiché."}}, {"@type": "Question", "name": "Pourquoi 40 % des entreprises du BTP ferment-elles avant 5 ans ?", "acceptedAnswer": {"@type": "Answer", "text": "Selon l'INSEE et la Banque de France, 40 à 45 % des entreprises BTP créées entre 2020 et 2023 ont cessé leur activité avant 5 ans. La cause n°1 n'est ni le manque de clients ni la concurrence, mais un calcul de frais généraux mal fait au départ qui aboutit à un taux horaire trop bas."}}]}</script>
+</head>
+<body><nav class="nav"><div class="nav-inner">
+<a href="https://batispot.pro" class="nav-logo" style="color:#0A1D14"><img src="https://batispot.pro/favicon.png" width="28" height="28" alt="" style="border-radius:7px;display:inline-block;vertical-align:middle;margin-right:8px">Bati<span style="color:#0A1D14">Spot</span><span class="nav-badge">PRO</span></a>
+<a href="https://batispot.pro/artisan" class="nav-cta">Rejoindre BatiSpot Pro</a>
+</div></nav>
+<article>
+<div class="breadcrumb"><a href="https://batispot.pro">Accueil</a> &rsaquo; <a href="https://batispot.pro/blog-pro/">Blog Artisans</a> &rsaquo; Frais generaux BTP : calcul qui fait couler 40% des boites</div>
+<h1>Frais generaux BTP : le calcul qui fait couler 40% des boites d'artisans</h1>
+<div class="bs-pilier-link" style="margin:14px 0 6px;padding:12px 16px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;font-size:.95rem"><a href="/notes-de-frais-scan-recus-artisan" style="color:#0F5132;font-weight:700;text-decoration:none">&rarr; Découvrir les notes de frais & scan de reçus dans BatiSpot Pro</a></div>
+<div class="article-meta"><span>Par l'equipe BatiSpot</span><span>Mis a jour le 19/04/2026</span><span>Lecture : 9 min</span></div>
+
+<div class="summary-box"><h3>Ce que vous allez apprendre</h3><ul>
+<li>Pourquoi le taux horaire "marche" de 45 EUR/h fait perdre de l'argent</li>
+<li>Liste exhaustive des frais generaux réels d'un artisan BTP (23 postes)</li>
+<li>Formule du coefficient multiplicateur materiaux (1,25 a 1,70)</li>
+<li>3 simulations completes : auto-entrepreneur, artisan salarié, SARL 3 compagnons</li>
+<li>Les 5 frais oublies que personne ne facture (et pourquoi la boite coule)</li>
+</ul></div>
+
+<p>La statistique est brutale : selon l'INSEE et les chiffres Banque de France, <strong>40 a 45 % des entreprises BTP creees entre 2020 et 2023 ont fait faillite ou cesse leur activite avant 5 ans</strong>. La cause n°1 n'est ni le manque de clients, ni la concurrence. C'est un calcul de frais generaux mal fait au depart, qui aboutit a un taux horaire trop bas. L'artisan facture a prix concurrent, remplit son carnet de commandes, travaille 55h par semaine, et pourtant la tresorerie fond. Ce guide est le calcul que personne ne vous apprend en CAP.</p>
+
+<h2>Le mythe du taux horaire "marche"</h2>
+
+<p>Dans les forums BTP et les groupes Facebook artisans, une fausse verite circule : "le taux horaire standard BTP Ile-de-France, c'est 45 a 55 EUR HT". Cette phrase a ruine des milliers d'entrepreneurs.</p>
+
+<p>Le problème : ces taux sont observes chez des artisans qui n'ont pas fait le calcul non plus. C'est une convention entre gens qui se trompent tous dans le même sens. Un taux horaire viable se calcule. Il ne se copie pas.</p>
+
+<div class="warning-box"><strong>Regle de base :</strong> si vous ne savez pas reciter la liste de vos frais generaux annuels au total et par heure productive, vous travaillez a perte sans le savoir. Le chiffre d'affaires qui rentre vous masque la fuite.</div>
+
+<h2>Les 23 postes de frais generaux d'un artisan BTP</h2>
+
+<p>Ces frais ne sont pas factures directement au client. Ils doivent etre repartis sur toutes les heures productives de l'annee.</p>
+
+<h3>1. Locaux et stockage (1 500 a 8 000 EUR/an)</h3>
+<ul>
+<li>Loyer atelier ou depot</li>
+<li>Charges locatives, taxe fonciere si proprietaire</li>
+<li>Électricité, eau, chauffage du local</li>
+<li>Assurance multirisque professionnelle</li>
+</ul>
+
+<h3>2. Vehicules utilitaires (3 500 a 7 500 EUR/an par vehicule)</h3>
+<ul>
+<li>Amortissement ou LOA (500 a 1 500 EUR/mois selon vehicule)</li>
+<li>Carburant (2 500 a 4 000 EUR/an selon kilometrage)</li>
+<li>Assurance pro (700 a 1 200 EUR/an)</li>
+<li>Entretien, pneus, revisions (800 a 1 500 EUR/an)</li>
+<li>Controle technique, peages, parkings</li>
+</ul>
+
+<h3>3. Outillage et materiel (1 000 a 5 000 EUR/an)</h3>
+<ul>
+<li>Amortissement outillage electroportatif (5 ans)</li>
+<li>Petit outillage consommable (meches, lames, disques)</li>
+<li>Echafaudages, echelles, harnais (amortis 10 ans)</li>
+<li>EPI : casques, chaussures, gants, lunettes (renouvelement annuel)</li>
+</ul>
+
+<h3>4. Assurances obligatoires (2 500 a 6 000 EUR/an)</h3>
+<ul>
+<li>Décennale BTP (la plus chere : 1 800 a 4 500 EUR/an selon métier et CA)</li>
+<li>Responsabilité civile pro (RC Pro)</li>
+<li>Assurance vehicule pro</li>
+<li>Mutuelle gerant obligatoire</li>
+</ul>
+
+<h3>5. Comptabilite et juridique (1 200 a 3 500 EUR/an)</h3>
+<ul>
+<li>Expert-comptable (80 a 250 EUR HT/mois)</li>
+<li>Logiciel de devis-facturation (20 a 80 EUR HT/mois)</li>
+<li>Avocat ponctuel, CFE, cotisation chambre de métiers</li>
+</ul>
+
+<h3>6. Commerciaux et communication (500 a 4 000 EUR/an)</h3>
+<ul>
+<li>Site internet, hebergement, domaine</li>
+<li>Flocage vehicule, cartes de visite, flyers</li>
+<li>Plateforme de mise en relation (Travaux.com, Izi by EDF, BatiSpot abonnement PRO)</li>
+<li>Publicite locale, Google Business</li>
+</ul>
+
+<h3>7. Frais bancaires et financiers (300 a 2 000 EUR/an)</h3>
+<ul>
+<li>Compte bancaire pro</li>
+<li>Agios, interets d'emprunts materiel ou vehicule</li>
+<li>Commissions CB, terminal paiement</li>
+<li>Frais de cautionnement, agrements</li>
+</ul>
+
+<h3>8. Formation et certifications (300 a 2 500 EUR/an)</h3>
+<ul>
+<li>Renouvellement RGE, QUALIBAT, QUALIGAZ, QUALIPAC</li>
+<li>Amiante sous-section 4, habilitations électriques</li>
+<li>Formations techniques chez fournisseurs</li>
+</ul>
+
+<h3>9. Temps non-productif (le poste oublie)</h3>
+<ul>
+<li>Devis non signes (minimum 40 % de vos heures de chiffrage)</li>
+<li>Deplacements inter-chantiers</li>
+<li>Administratif, relance clients, comptabilite quotidienne</li>
+<li>SAV gratuit hors garantie</li>
+<li>Conges, jours feries, maladie</li>
+</ul>
+
+<h2>Calcul du taux horaire viable : la formule</h2>
+
+<p>La formule est simple mais personne ne l'applique :</p>
+
+<div class="info-box"><strong>Taux horaire viable</strong> = (Salaire souhaite + Charges sociales + Frais generaux annuels + Marge nette cible) / Heures reellement facturables par an</div>
+
+<p>Le piège : les heures facturables. Un artisan plein temps travaille 1 607 heures theoriques. Mais sur 1 607 heures, seules <strong>1 100 a 1 250 heures sont reellement facturables</strong>. Le reste, c'est devis, deplacements, SAV, administratif, pannes, formations.</p>
+
+<h2>Simulation 1 : auto-entrepreneur seul, 40 000 EUR CA vise</h2>
+
+<table>
+<thead><tr><th>Poste</th><th>Montant annuel</th></tr></thead>
+<tbody>
+<tr><td>Revenu net souhaite (SMIC+30%)</td><td>22 000 EUR</td></tr>
+<tr><td>Cotisations URSSAF BTP prestations 21,2%</td><td>8 480 EUR</td></tr>
+<tr><td>Décennale + RC Pro</td><td>2 400 EUR</td></tr>
+<tr><td>Vehicule (LOA Kangoo + carburant)</td><td>4 200 EUR</td></tr>
+<tr><td>Local (coin d'atelier 30m2)</td><td>1 800 EUR</td></tr>
+<tr><td>Outillage amorti + EPI</td><td>1 500 EUR</td></tr>
+<tr><td>Compta, logiciel devis</td><td>1 100 EUR</td></tr>
+<tr><td>Comm, pub, plateforme</td><td>900 EUR</td></tr>
+<tr><td>Formation, certifications</td><td>600 EUR</td></tr>
+<tr><td>Frais divers + marge sécurité</td><td>1 500 EUR</td></tr>
+<tr><td><strong>Total a couvrir</strong></td><td><strong>44 480 EUR</strong></td></tr>
+</tbody>
+</table>
+
+<p>Heures facturables : 1 150 heures/an.</p>
+
+<p><strong>Taux horaire viable = 44 480 / 1 150 = 38,70 EUR HT par heure.</strong></p>
+
+<p>Pour un micro-entrepreneur c'est deja serre. En dessous de 38 EUR/h, il est en dessous du SMIC equivalent salarié.</p>
+
+<h2>Simulation 2 : artisan avec 1 salarié, 120 000 EUR CA vise</h2>
+
+<table>
+<thead><tr><th>Poste</th><th>Montant annuel</th></tr></thead>
+<tbody>
+<tr><td>Remuneration gerant (salaire + dividendes)</td><td>32 000 EUR</td></tr>
+<tr><td>Charges sociales gerant TNS 45%</td><td>14 400 EUR</td></tr>
+<tr><td>Salaire brut compagnon N3</td><td>26 500 EUR</td></tr>
+<tr><td>Charges patronales 42%</td><td>11 130 EUR</td></tr>
+<tr><td>Local 80m2 + charges</td><td>8 400 EUR</td></tr>
+<tr><td>2 vehicules utilitaires</td><td>11 500 EUR</td></tr>
+<tr><td>Décennale + RC + vehicules</td><td>5 500 EUR</td></tr>
+<tr><td>Outillage + EPI</td><td>3 200 EUR</td></tr>
+<tr><td>Comptabilite (expert + logiciel)</td><td>3 000 EUR</td></tr>
+<tr><td>Commercial + plateformes</td><td>2 400 EUR</td></tr>
+<tr><td>Formations + certifications</td><td>1 800 EUR</td></tr>
+<tr><td>Frais bancaires + financement</td><td>1 500 EUR</td></tr>
+<tr><td>Marge nette cible (pour tresorerie)</td><td>5 000 EUR</td></tr>
+<tr><td><strong>Total a couvrir</strong></td><td><strong>126 330 EUR</strong></td></tr>
+</tbody>
+</table>
+
+<p>Heures facturables : 2 200 heures (2 personnes).</p>
+
+<p><strong>Taux horaire viable = 126 330 / 2 200 = 57,40 EUR HT par heure.</strong></p>
+
+<div class="warning-box"><strong>Le piège habituel :</strong> l'artisan facture 48 EUR/h "comme tout le monde" et travaille a perte de 10 EUR/h pendant 2 200 heures. Soit <strong>22 000 EUR perdus par an</strong>. Au bout de 3 ans, fermeture de l'entreprise.</div>
+
+<h2>Simulation 3 : SARL 3 compagnons, 320 000 EUR CA vise</h2>
+
+<p>Même methode. Les frais generaux passent de 25 a 32 % du CA des qu'on franchit 2 salariés (secretariat partagé, logiciels gestion, entrepôt plus grand, expert-comptable plus cher).</p>
+
+<p>Taux horaire viable calcule : <strong>62 a 68 EUR HT</strong> selon le métier (plomberie/électricité plus eleve car normes + materiel plus cher que peinture/carrelage).</p>
+
+<h2>Le coefficient multiplicateur materiaux</h2>
+
+<p>Deuxieme erreur frequente : facturer les materiaux au prix d'achat. La regle professionnelle BTP impose un coefficient qui couvre :</p>
+
+<ul>
+<li>Le transport, le dechargement, le stockage</li>
+<li>Les casse, chutes, pertes (5 a 10 %)</li>
+<li>Le SAV sur défaut materiau (vous etes responsable vis-a-vis du client)</li>
+<li>Le temps administratif d'achat, de commande, de livraison</li>
+<li>Le cout de tresorerie : vous payez le fournisseur en 30j et le client vous paie en 45 a 60j</li>
+</ul>
+
+<table>
+<thead><tr><th>Situation</th><th>Coefficient recommande</th><th>Exemple : 1000 EUR achat HT</th></tr></thead>
+<tbody>
+<tr><td>Gros oeuvre, gros volumes, marges faibles</td><td>1,20 a 1,30</td><td>1 200 a 1 300 EUR HT</td></tr>
+<tr><td>Second oeuvre standard</td><td>1,30 a 1,45</td><td>1 300 a 1 450 EUR HT</td></tr>
+<tr><td>Plomberie, électricité, menuiserie</td><td>1,40 a 1,55</td><td>1 400 a 1 550 EUR HT</td></tr>
+<tr><td>Salles de bain, cuisines, haut de gamme</td><td>1,50 a 1,70</td><td>1 500 a 1 700 EUR HT</td></tr>
+<tr><td>Petites pieces detachees, SAV</td><td>1,60 a 2,00</td><td>1 600 a 2 000 EUR HT</td></tr>
+</tbody>
+</table>
+
+<p>Un coefficient inferieur a 1,25 sur du second oeuvre = vous payez vos fournisseurs au même prix que vous facturez, vous ne couvrez même pas les frais de gestion d'achat.</p>
+
+<h2>Les 5 frais oublies qui tuent la marge</h2>
+
+<h3>1. Les devis non signes</h3>
+
+<p>Pour 100 heures de chiffrage, 60 donnent lieu a un chantier. Les 40 autres sont du temps non productif. Si vous ne l'integrez pas a votre taux horaire, vous financez sur fonds propres les devis gratuits que vous faites aux autres.</p>
+
+<h3>2. Le temps de relance et d'encaissement</h3>
+
+<p>Un chantier de 10 000 EUR généré en moyenne 3 a 5 heures de relance pour obtenir le solde. Si votre client est en retard de 60 jours, ajoutez 8 a 12 heures en litige. Ce temps n'est jamais facture.</p>
+
+<h3>3. La retenue de garantie 5 %</h3>
+
+<p>Sur un marche prive, 5 % de votre CA est bloque pendant 12 mois. Sur 200 000 EUR de CA, c'est 10 000 EUR qui dorment. Si vous empruntez pour financer votre BFR, l'interet sur cette somme est un frais générale non couvert.</p>
+
+<h3>4. Les heures de SAV hors garantie commerciale</h3>
+
+<p>Vous avez pose une chaudiere il y a 3 ans. Le client vous appelle pour une pompe HS hors garantie constructeur. Vous venez "par geste commercial" : 2 heures de deplacement, 1h30 de diagnostic. Jamais facture. 100 clients par an = 300 heures de travail gratuit.</p>
+
+<h3>5. Les arrets maladie et conges</h3>
+
+<p>Un artisan TNS qui tombe malade ne touche rien avant 3 jours et percoit environ 25 EUR/jour ensuite. Pour se protéger, il faut une indemnite journaliere complementaire (prevoyance) qui coute 80 a 150 EUR/mois. Jamais integre dans le taux horaire.</p>
+
+<h2>Corriger sans perdre ses clients : la methode</h2>
+
+<div class="info-box"><strong>Augmenter son taux de 10 EUR/h d'un coup, c'est perdre la moitie de sa clientele.</strong> La methode qui marche :</div>
+
+<ol>
+<li><strong>Refaire ses 3 prochains devis</strong> avec le taux viable calcule. Comparer avec le "taux marche". Voir l'ecart.</li>
+<li><strong>Segmenter sa clientele</strong>. Les clients rentables resteront. Les clients au rabais partiront (c'est souhaitable).</li>
+<li><strong>Justifier la difference</strong> par le contenu du devis : chiffrage detaille, garanties, assurances affichees, références verifiables.</li>
+<li><strong>Augmenter par paliers de 3 a 5 EUR/h tous les 6 mois</strong> si la clientele ne peut pas absorber d'un coup.</li>
+<li><strong>Passer a 2 ou 3 chantiers simultanes</strong> plutot que 5 en même temps. Moins de deplacements, moins de SAV, plus de rentabilite.</li>
+</ol>
+
+<h2>Combien d'artisans font ce calcul ?</h2>
+
+<p>Les donnees CAPEB et FFB concordent : <strong>moins de 30 % des artisans BTP installes a leur compte ont calcule leur taux horaire viable au cours des 12 derniers mois</strong>. Sur les 70 % restants, la grande majorite sous-facture structurellement. C'est la raison principale des cessations d'activite qui explosent apres 3 ans.</p>
+
+
+<h2>Questions fréquentes — les frais généraux et le taux horaire BTP</h2>
+<h3>Pourquoi le taux horaire « marché » de 45 €/h fait-il perdre de l'argent ?</h3>
+<p>Parce que ces taux sont observés chez des artisans qui n'ont pas fait le calcul non plus : c'est une convention entre gens qui se trompent tous dans le même sens. Un taux horaire viable se calcule à partir de ses frais généraux réels et de ses heures réellement facturables ; il ne se copie pas.</p>
+<h3>Combien d'heures un artisan facture-t-il réellement par an ?</h3>
+<p>Sur les 1 607 heures théoriques d'un temps plein, seules 1 100 à 1 250 heures sont réellement facturables. Le reste, c'est le chiffrage des devis (dont au moins 40 % ne sont pas signés), les déplacements inter-chantiers, le SAV gratuit, l'administratif, les formations et les congés.</p>
+<h3>Comment calculer son taux horaire viable ?</h3>
+<p>Taux horaire viable = (salaire souhaité + charges sociales + frais généraux annuels + marge nette cible) divisé par les heures réellement facturables par an. Pour un auto-entrepreneur visant 40 000 € de chiffre d'affaires, cela donne environ 44 480 € à couvrir sur 1 150 heures, soit 38,70 € HT de l'heure au minimum.</p>
+<h3>Quel taux horaire pour un artisan avec un salarié ?</h3>
+<p>Pour un artisan employant un compagnon N3 et visant 120 000 € de chiffre d'affaires, le total à couvrir atteint environ 126 330 € pour 2 200 heures facturables, soit un taux horaire viable d'environ 57,40 € HT de l'heure, bien au-dessus du « 45-55 € » couramment affiché.</p>
+<h3>Pourquoi 40 % des entreprises du BTP ferment-elles avant 5 ans ?</h3>
+<p>Selon l'INSEE et la Banque de France, 40 à 45 % des entreprises BTP créées entre 2020 et 2023 ont cessé leur activité avant 5 ans. La cause n°1 n'est ni le manque de clients ni la concurrence, mais un calcul de frais généraux mal fait au départ qui aboutit à un taux horaire trop bas.</p>
+
+<!-- BS-DEVIS-CTA -->
+<div style="margin:28px 0;padding:24px 22px;border-radius:16px;background:linear-gradient(135deg,#1A6B45,#228B5B);color:#fff;font-family:'Inter',system-ui,-apple-system,sans-serif">
+ <div style="font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.85;margin-bottom:8px">Outil gratuit BatiSpot</div>
+ <h3 style="margin:0 0 8px;font-size:1.28rem;line-height:1.25;color:#fff">Faites vos devis en 30 secondes, gratuitement</h3>
+ <p style="margin:0 0 16px;font-size:.98rem;line-height:1.55;color:rgba(255,255,255,.92)">Dictez le chantier &agrave; voix haute&nbsp;: BatiSpot le chiffre au <strong>prix du march&eacute;</strong> &mdash; des devis plus justes, de meilleures marges. Devis pro sign&eacute; par le client, sans carte bancaire.</p>
+ <a href="https://batispot.pro/application-devis-gratuite" style="display:inline-block;background:#fff;color:#166534;font-weight:800;font-size:.95rem;padding:.7rem 1.5rem;border-radius:10px;text-decoration:none">Essayer l'outil de devis &rarr;</a>
+</div>
+<div class="cta-box">
+<h3>Etre rentable, c'est etre visible aux bons clients</h3>
+<p>Sur BatiSpot, les demandes sont qualifiées et vos tarifs sont respectes. Pas de guerre des prix avec 15 concurrents sur le même devis.</p>
+<a href="https://batispot.pro/artisan" class="cta-btn">Voir les offres Pro BatiSpot</a>
+</div>
+
+<div class="related"><h3>A lire aussi</h3><ul>
+<li><a href="/blog-pro/chiffrer-devis-btp-taux-horaire-marge-coefficient-2026">Chiffrer un devis BTP : taux horaire, marge, coefficient</a></li>
+<li><a href="/blog-pro/retenue-garantie-5-pourcent-btp-lever-rapidement">Lever la retenue de garantie 5% rapidement</a></li>
+<li><a href="/blog-pro/micro-entrepreneur-btp-seuils-2026-bascule-eurl">Micro-entrepreneur BTP : seuils 2026 et bascule EURL</a></li>
+<li><a href="/blog-pro/5-signaux-faillite-entreprise-btp-detecter">5 signaux de faillite a detecter tot</a></li>
+</ul></div>
+
+
+<div class="lm-block" id="lm-block">
+ <div class="lm-badge"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12L10 20v16h12V28h4v8h12V20Z"/></svg> Guide gratuit</div>
+ <div class="lm-title">T&#233;l&#233;chargez ce guide en PDF</div>
+ <div class="lm-subtitle">Recevez ce guide complet + nos prochains conseils exclusifs directement dans votre bo&#238;te mail.</div>
+ <form class="lm-form" id="lm-form">
+ <div class="lm-row">
+ <input class="lm-input" type="text" id="lm-prenom" placeholder="Pr&#233;nom" required>
+ <input class="lm-input" type="tel" id="lm-tel" placeholder="06 12 34 56 78">
+ </div>
+ <input class="lm-input" type="email" id="lm-email" placeholder="votre@email.fr" required>
+ <button type="submit" class="lm-btn" id="lm-btn">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+ T&#233;l&#233;charger le PDF gratuitement
+ </button>
+ <p class="lm-privacy">&#128274; Vos donn&#233;es restent confidentielles. Aucun spam.</p>
+ </form>
+ <div class="lm-success" id="lm-success">
+ <div class="lm-success-icon">&#9989;</div>
+ <div class="lm-success-title">C&#8217;est parti !</div>
+ <div class="lm-success-msg">Dans la boîte d'impression qui s'ouvre → choisissez <strong>Enregistrer en PDF</strong>. Vous recevrez aussi nos prochains conseils par email.</div>
+ <button onclick="window.print()" style="margin-top:14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:white;padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Télécharger à nouveau</button>
+ </div>
+</div>
+<script>
+(function(){
+ var form=document.getElementById('lm-form');
+ if(!form)return;
+ form.addEventListener('submit',async function(e){
+ e.preventDefault();
+ var btn=document.getElementById('lm-btn');
+ btn.textContent='Envoi en cours…';btn.disabled=true;
+ var prenom=document.getElementById('lm-prenom').value.trim();
+ var email=document.getElementById('lm-email').value.trim();
+ var tel=document.getElementById('lm-tel').value.trim();
+ try{
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/functions/v1/subscribe-lead',{
+ method:'POST',
+ headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({email:email,attributes:{PRENOM:prenom,SMS:tel,SOURCE:'blog_lead_magnet',PAGE:window.location.pathname},listIds:[3],updateEnabled:true})
+ });
+ }catch(err){}
+ if(typeof gtag==='function'){gtag('event','lead_magnet_download',{page:window.location.pathname});}
+ document.getElementById('lm-form').style.display='none';
+ document.getElementById('lm-success').style.display='block';
+ setTimeout(function(){window.print();},600);
+ });
+})();
+</script>
+</article>
+<!-- START: BatiSpot Pro Artisan Lead In-Page Banner -->
+<section class="bs-pro-banner-inpage" style="margin: 40px auto 30px; max-width: 860px; padding: 0 16px;">
+ <div style="background: linear-gradient(135deg, #0F5132 0%, #0D9488 100%); border-radius: 20px; padding: 32px 28px; color: #FFFFFF; box-shadow: 0 16px 36px -12px rgba(15, 81, 50, 0.35); position: relative; overflow: hidden;">
+ <div style="display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 2;">
+ <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border-radius: 999px; padding: 4px 14px; width: fit-content; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+ <span> Espace Artisans & Entreprises BTP</span>
+ </div>
+ <h3 style="font-size: clamp(20px, 4vw, 26px); font-weight: 900; line-height: 1.2; margin: 0; color: #FFFFFF; letter-spacing: -0.02em;">
+ Vous êtes artisan ? Chiffrez vos devis en 30 s sur mobile
+ </h3>
+ <p style="font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.92); margin: 0; max-width: 620px;">
+ Ne passez plus vos soirées sur l'administratif. BatiSpot Pro calcule vos marges, dicte vos devis au juste prix, gère le planning d'équipe et suit vos chantiers au jour le jour.
+ </p>
+ <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px;">
+ <a href="/?utm_source=seo_inpage&utm_medium=banner" style="background: #FFFFFF; color: #0F5132; font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); transition: transform 0.15s;">
+ <span>Tester 3 mois offerts</span>
+ <span style="font-size: 16px;">→</span>
+ </a>
+ <span style="font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.85);">
+ Sans engagement · Sans carte bancaire · 3 mois offerts
+ </span>
+ </div>
+ </div>
+ </div>
+</section>
+<!-- END: BatiSpot Pro Artisan Lead In-Page Banner -->
+<footer class="footer-blog">
+<p>BatiSpot - La plateforme de confiance pour artisans du BTP en Ile-de-France</p>
+<p style="margin-top:8px;"><a href="https://batispot.pro">batispot.pro</a> &middot; <a href="https://batispot.pro/artisan">Espace Artisan</a> &middot; <a href="https://batispot.pro/blog-pro/">Blog Pro</a></p>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>
