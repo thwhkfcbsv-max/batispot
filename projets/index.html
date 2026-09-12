@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/consent.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F5132">
+<title>BatiSpot Projets — imaginez vos travaux à partir d'une photo</title>
+<meta name="description" content="Prenez une photo de votre pièce : on vous suggère les travaux, le budget et la déco, puis on vous met en relation avec des artisans près de chez vous. Gratuit.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://batispot.pro/projets/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BatiSpot Projets — imaginez vos travaux à partir d'une photo">
+<meta property="og:description" content="Une photo de votre pièce → les travaux, le budget, la déco, et des devis d'artisans près de chez vous. Gratuit.">
+<meta property="og:url" content="https://batispot.pro/projets/">
+<meta property="og:image" content="https://batispot.pro/og/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"BatiSpot Projets","applicationCategory":"LifestyleApplication","operatingSystem":"Web, iOS, Android","description":"Photographiez votre pièce : suggestions de travaux, budget estimé et déco, puis mise en relation avec des artisans.","url":"https://batispot.pro/projets/","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"provider":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"}}
+</script>
+</head>
+<body>
+<style>
+ :root {
+ --ff: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ --ff-num: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+ --ground: #FCFCFA; --surface: #FFFFFF; --ink: #14251C; --ink-soft: #51655A;
+ --brand: #0F5132; --brand-bright: #1C7A4A; --hi: #F4C430; --hi-deep: #C99A00;
+ --peach: #E8916B; --line: #E9E8E1;
+ --shadow: 24px 40px 80px -34px rgba(15,45,25,.32);
+ /* pièce — état actuel (avant : daté, terne) */
+ --wall: #CFC6B0; --wall2: #BDB39B; --floor: #A68F6C; --sofa: #969CA3; --cushion: #787F86; --deco: #8A96A0;
+ }
+ :root[data-theme="dark"] {
+ --ground: #0B1510; --surface: #142019; --ink: #ECE6D5; --ink-soft: #9AAE9F;
+ --brand: #2FA86A; --brand-bright: #46C784; --line: #24352A;
+ --shadow: 24px 40px 80px -34px rgba(0,0,0,.7);
+ }
+ .after {
+ /* pièce — version rénovée (après : frais, lumineux) */
+ --wall: #F4F7F0; --wall2: #E6EFE6; --floor: #D3A05C; --sofa: #2F7150; --cushion: #F4C430; --deco: #1C7A4A;
+ }
+ * { box-sizing: border-box; }
+ html { overflow-x: hidden; }
+ body { margin: 0; font-family: var(--ff); background: var(--ground); color: var(--ink); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+ .wrap { width: min(1120px, 92vw); margin-inline: auto; }
+ ::selection { background: var(--hi); color: #14251C; }
+ :focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 8px; }
+
+ header { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--ground) 84%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+ .bar { display: flex; align-items: center; gap: 12px; height: 64px; }
+ .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+ .brandmark { height: 36px; width: auto; display: block; }
+ .brandmark text { fill: #1A6B45; }
+ :root[data-theme="dark"] .brandmark text { fill: #E7EFE9; }
+ .tag { font-weight: 700; color: var(--brand); font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; padding: 3px 9px; border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line)); border-radius: 999px; }
+ .bar .sp { flex: 1; }
+ .btn { font-family: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; border-radius: 12px; padding: 11px 18px; border: 0; letter-spacing: -.01em; transition: transform .12s, box-shadow .2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+ .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--brand) 80%, transparent); }
+ .btn-primary:hover { transform: translateY(-1px); }
+ .btn-hi { background: var(--hi); color: #221a00; box-shadow: 0 10px 24px -12px var(--hi-deep); }
+ .btn-hi:hover { transform: translateY(-1px); }
+ .btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+ .btn-line:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
+ .ghost { border: 0; background: transparent; color: var(--ink); cursor: pointer; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; }
+ .ghost:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+
+ .hero { padding: clamp(28px, 5vw, 56px) 0 clamp(20px, 3vw, 34px); text-align: center; }
+ .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--brand-bright); background: color-mix(in srgb, var(--brand) 12%, transparent); padding: 6px 13px; border-radius: 999px; }
+ .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--hi); animation: pulse 2.4s infinite; }
+ @keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hi) 70%, transparent);} 70%{box-shadow:0 0 0 9px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
+ h1 { font-size: clamp(2.1rem, 5.4vw, 3.6rem); line-height: 1; letter-spacing: -.035em; font-weight: 850; margin: 18px auto 0; max-width: 15ch; text-wrap: balance; }
+ h1 .u { color: var(--brand); position: relative; white-space: nowrap; }
+ h1 .u::after { content:""; position:absolute; left:0; right:0; bottom:.05em; height:.16em; background: var(--hi); border-radius:3px; z-index:-1; opacity:.85; }
+ .lede { font-size: clamp(1.02rem, 1.5vw, 1.18rem); color: var(--ink-soft); margin: 18px auto 0; max-width: 46ch; }
+
+ /* ---- démo pièce ---- */
+ .demo { margin: clamp(26px,4vw,42px) auto 0; max-width: 940px; }
+ .studio { display: grid; grid-template-columns: 1fr; gap: 18px; }
+ @media (min-width: 880px) { .studio { grid-template-columns: 1.15fr .85fr; align-items: start; } }
+
+ .room-card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+ .room-top { display: flex; align-items: center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid var(--line); font-size: .8rem; color: var(--ink-soft); }
+ .room-top .live { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--brand); }
+ .room-top .live::before { content:""; width: 8px; height: 8px; border-radius: 50%; background: var(--hi); }
+ .room-top .sp { flex: 1; }
+ .room-svg-wrap { position: relative; }
+ svg.room { display: block; width: 100%; height: auto; background: #ece6da; }
+ .room .wall { fill: var(--wall); transition: fill .8s ease; }
+ .room .wall-side { fill: var(--wall2); transition: fill .8s ease; }
+ .room .floor { fill: var(--floor); transition: fill .8s ease; }
+ .room .sofa { fill: var(--sofa); transition: fill .8s ease; }
+ .room .cushion { fill: var(--cushion); transition: fill .8s ease; }
+ .room .deco { fill: var(--deco); transition: fill .8s ease; }
+ .state-badge { position: absolute; top: 12px; left: 12px; z-index: 4; font-size: .66rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: rgba(20,37,28,.72); color: #fff; backdrop-filter: blur(4px); transition: background .5s ease; }
+ .room-card.after .state-badge { background: var(--brand); }
+ .only-after { opacity: 0; transition: opacity .8s ease .15s; }
+ .room-card.after .only-after { opacity: 1; }
+ .after-wash { opacity: 0; transition: opacity .8s ease; }
+ .room-card.after .after-wash { opacity: .16; }
+
+ /* scan */
+ .scan { position: absolute; left: 0; right: 0; top: 0; height: 34%; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--hi) 30%, transparent) 60%, color-mix(in srgb, var(--hi) 55%, transparent)); border-bottom: 2px solid var(--hi); opacity: 0; pointer-events: none; }
+ .scanning .scan { animation: scanmove 1.6s ease-in-out; opacity: 1; }
+ @keyframes scanmove { 0%{top:-34%; opacity:.2;} 20%{opacity:1;} 80%{opacity:1;} 100%{top:100%; opacity:0;} }
+
+ /* tags détectés */
+ .tag-hot { position: absolute; transform: translate(-50%,-50%) scale(.6); opacity: 0; background: var(--brand); color: #fff; font-size: .68rem; font-weight: 700; padding: 4px 9px; border-radius: 999px; white-space: nowrap; box-shadow: 0 6px 16px -6px rgba(15,45,25,.5); }
+ .tag-hot::after { content:""; position:absolute; left:-5px; top:50%; width:9px; height:9px; background: var(--brand); border-radius:50%; transform: translateY(-50%); }
+ .tag-hot.show { opacity: 1; transform: translate(-50%,-50%) scale(1); transition: opacity .3s, transform .4s cubic-bezier(.2,1.4,.4,1); }
+
+ .room-actions { display: flex; flex-wrap: wrap; gap: 9px; padding: 13px 14px; border-top: 1px solid var(--line); }
+ .room-actions .btn { font-size: .86rem; padding: 10px 15px; }
+ .toggle-ba { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--ink-soft); font-weight: 600; }
+ .switch { position: relative; width: 46px; height: 26px; border-radius: 999px; background: var(--line); border: 0; cursor: pointer; transition: background .25s; flex: none; }
+ .switch::after { content:""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .25s; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+ .switch[aria-pressed="true"] { background: var(--brand); }
+ .switch[aria-pressed="true"]::after { transform: translateX(20px); }
+ .badge-prem { font-size: .6rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--hi-deep); background: color-mix(in srgb, var(--hi) 22%, transparent); padding: 2px 6px; border-radius: 5px; }
+
+ /* panneau résultats */
+ .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); min-height: 220px; display: flex; flex-direction: column; }
+ .panel-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--ink-soft); gap: 12px; padding: 20px; }
+ .panel-empty .big { width: 54px; height: 54px; border-radius: 15px; background: color-mix(in srgb, var(--hi) 20%, transparent); display: grid; place-items: center; color: var(--hi-deep); }
+ .panel-empty .big svg { width: 28px; height: 28px; }
+ .p-kick { font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--brand-bright); opacity: 0; }
+ .p-kick.in { opacity: 1; transition: opacity .3s; }
+ .p-detected { font-size: .82rem; color: var(--ink-soft); margin: 4px 0 12px; opacity: 0; }
+ .p-detected.in { opacity: 1; transition: opacity .3s; }
+ .p-detected b { color: var(--ink); }
+
+ .work { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-top: 1px solid var(--line); opacity: 0; transform: translateY(8px); }
+ .work.in { opacity: 1; transform: none; transition: opacity .35s, transform .35s cubic-bezier(.2,.8,.2,1); }
+ .work .wic { width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--brand) 10%, transparent); color: var(--brand); display: grid; place-items: center; flex: none; }
+ .work .wic svg { width: 18px; height: 18px; }
+ .work .wtxt { flex: 1; min-width: 0; }
+ .work .wt { font-weight: 700; font-size: .92rem; }
+ .work .wsub { font-size: .76rem; color: var(--ink-soft); }
+ .work .wbud { font-family: var(--ff-num); font-variant-numeric: tabular-nums; font-weight: 700; font-size: .84rem; color: var(--brand); white-space: nowrap; }
+
+ .deco-row { display: flex; align-items: center; gap: 10px; padding: 12px 0 4px; border-top: 1px solid var(--line); margin-top: 4px; opacity: 0; }
+ .deco-row.in { opacity: 1; transition: opacity .35s; }
+ .deco-row .dl { font-size: .74rem; color: var(--ink-soft); font-weight: 600; }
+ .sw { width: 24px; height: 24px; border-radius: 7px; border: 1px solid rgba(0,0,0,.08); }
+ .p-cta { margin-top: 14px; opacity: 0; }
+ .p-cta.in { opacity: 1; transition: opacity .4s; }
+ .p-cta .btn { width: 100%; justify-content: center; }
+ .p-total { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0 2px; border-top: 2px solid var(--line); margin-top: 4px; opacity: 0; }
+ .p-total.in { opacity: 1; transition: opacity .35s; }
+ .p-total .k { font-weight: 700; font-size: .9rem; }
+ .p-total .v { font-family: var(--ff-num); font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.1rem; color: var(--brand); }
+ .p-note { font-size: .68rem; color: var(--ink-soft); margin-top: 8px; opacity: 0; }
+ .p-note.in { opacity: 1; transition: opacity .4s; }
+
+ /* connexion artisans */
+ .connect { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); opacity: 0; }
+ .connect.in { opacity: 1; transition: opacity .4s; }
+ .connect .ct { font-size: .78rem; color: var(--ink-soft); margin-bottom: 8px; }
+ .arti { display: flex; align-items: center; gap: 9px; padding: 7px 0; opacity: 0; transform: translateX(-6px); }
+ .arti.in { opacity: 1; transform: none; transition: opacity .3s, transform .3s; }
+ .arti .av { width: 28px; height: 28px; border-radius: 50%; background: var(--band, var(--brand)); background: linear-gradient(135deg,var(--brand),var(--brand-bright)); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: .78rem; flex: none; }
+ .arti .an { flex: 1; font-size: .82rem; } .arti .an b { display:block; } .arti .an span { color: var(--ink-soft); font-size: .72rem; }
+ .arti .ab { font-size: .68rem; font-weight: 700; color: var(--brand); background: color-mix(in srgb,var(--brand) 10%, transparent); padding: 3px 8px; border-radius: 999px; }
+
+ /* steps */
+ section.block { padding: clamp(40px,6vw,72px) 0; }
+ .kicker { font-weight: 800; font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--brand-bright); text-align: center; }
+ h2 { font-size: clamp(1.6rem,3vw,2.3rem); letter-spacing: -.03em; font-weight: 820; text-align: center; margin: 10px auto 0; max-width: 20ch; text-wrap: balance; }
+ .steps { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+ @media (min-width: 760px) { .steps { grid-template-columns: repeat(3,1fr); } }
+ .step { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+ .step .n { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; color: #fff; font-family: var(--ff-num); font-weight: 700; font-size: .8rem; background: var(--brand); }
+ .step:nth-child(2) .n { background: var(--hi); color: #221a00; }
+ .step h3 { margin: 14px 0 5px; font-size: 1.08rem; letter-spacing: -.02em; }
+ .step p { margin: 0; color: var(--ink-soft); font-size: .92rem; }
+
+ .final { text-align: center; padding: clamp(44px,7vw,84px) 0; }
+ .final .lede { margin: 14px auto 0; }
+ .final .btn { margin-top: 24px; }
+ footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--ink-soft); font-size: .84rem; }
+ .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; } .foot .sp { flex: 1; }
+ .foot a { text-decoration: none; } .foot a:hover { color: var(--brand); }
+ @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+</style>
+
+<header>
+ <div class="wrap bar">
+ <a class="logo" href="https://batispot.pro" target="_blank" rel="noopener" aria-label="BatiSpot">
+ <svg class="brandmark" width="150" height="38" viewBox="0 0 200 48" aria-hidden="true">
+ <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+ <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+ <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+ <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+ <text x="50" y="32" font-family="system-ui,Inter,sans-serif" font-weight="900" font-size="26" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text>
+ </svg>
+ <span class="tag">Projets</span>
+ </a>
+ <span class="sp"></span>
+ <button class="ghost" id="theme" aria-label="Changer le thème"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg></button>
+ <a class="btn btn-primary" href="#final">Commencer</a>
+ </div>
+</header>
+
+<main>
+ <section class="hero">
+ <div class="wrap">
+ <span class="eyebrow"><span class="dot"></span> Gratuit · pour les particuliers</span>
+ <h1>Prenez une photo. <span class="u">Imaginez</span> vos travaux.</h1>
+ <p class="lede">Photographiez votre pièce : l'IA repère ce qu'il y a à faire, propose les travaux, le budget et la déco, puis vous met en relation avec des artisans près de chez vous.</p>
+ </div>
+ </section>
+
+ <section class="demo">
+ <div class="wrap studio">
+ <div class="room-card">
+ <div class="room-top"><span class="live">BatiSpot Projets</span><span class="sp"></span><span id="roomState">Photo · votre salon</span></div>
+ <div class="room-svg-wrap" id="roomWrap">
+ <div class="state-badge" id="stateBadge">Avant</div>
+ <svg class="room" viewBox="0 0 400 300" id="roomSvg" aria-label="Illustration d'un salon">
+ <defs>
+ <linearGradient id="ceilG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".04"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>
+ <linearGradient id="aoWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".15"/></linearGradient>
+ <linearGradient id="warmWall" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBEFC9" stop-opacity=".4"/><stop offset=".55" stop-color="#FBEFC9" stop-opacity="0"/></linearGradient>
+ <linearGradient id="aoFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset=".45" stop-color="#000" stop-opacity="0"/></linearGradient>
+ <linearGradient id="sideShade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset="1" stop-color="#000" stop-opacity=".02"/></linearGradient>
+ <linearGradient id="sofaVol" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".24"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+ <linearGradient id="winPane" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9F5FC"/><stop offset="1" stop-color="#AAD0E7"/></linearGradient>
+ <radialGradient id="winGlow" cx="50%" cy="50%" r="55%"><stop offset="0" stop-color="#FCF3D2" stop-opacity=".85"/><stop offset="1" stop-color="#FCF3D2" stop-opacity="0"/></radialGradient>
+ <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FBE9A8" stop-opacity=".7"/><stop offset="1" stop-color="#FBE9A8" stop-opacity="0"/></radialGradient>
+ <radialGradient id="rugG" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#000" stop-opacity=".06"/></radialGradient>
+ <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
+ <filter id="soft2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+ <radialGradient id="vign" cx="50%" cy="38%" r="80%"><stop offset="66%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".11"/></radialGradient>
+ </defs>
+ <!-- plafond -->
+ <polygon points="0,0 400,0 400,26 60,26" fill="#EDE7DA"/>
+ <polygon points="0,0 400,0 400,26 60,26" fill="url(#ceilG)"/>
+ <!-- mur du fond + lumière + occlusion -->
+ <rect class="wall" x="60" y="26" width="340" height="184"/>
+ <rect x="60" y="26" width="340" height="184" fill="url(#warmWall)"/>
+ <rect x="60" y="26" width="340" height="184" fill="url(#aoWall)"/>
+ <!-- mur latéral (perspective, dans l'ombre) -->
+ <polygon class="wall-side" points="0,0 60,26 60,210 0,246"/>
+ <polygon points="0,0 60,26 60,210 0,246" fill="url(#sideShade)"/>
+ <rect x="60" y="26" width="24" height="184" fill="#000" opacity=".05" filter="url(#soft)"/>
+ <!-- sol -->
+ <polygon class="floor" points="60,210 400,210 400,300 0,300 0,246"/>
+ <polygon points="60,210 400,210 400,300 0,300 0,246" fill="url(#aoFloor)"/>
+ <g stroke="#000" stroke-opacity=".06" stroke-width="1">
+ <line x1="0" y1="264" x2="400" y2="257"/><line x1="0" y1="284" x2="400" y2="275"/><line x1="70" y1="240" x2="400" y2="235"/>
+ </g>
+ <!-- plinthe -->
+ <polygon points="0,246 60,210 400,210 400,219 60,219 0,255" fill="#000" fill-opacity=".1"/>
+ <!-- fenêtre : halo + vitre + cadre + rebord -->
+ <ellipse cx="213" cy="98" rx="120" ry="92" fill="url(#winGlow)"/>
+ <rect x="150" y="52" width="126" height="92" rx="3" fill="url(#winPane)"/>
+ <rect x="150" y="52" width="126" height="92" rx="3" fill="none" stroke="#fff" stroke-width="7"/>
+ <line x1="213" y1="52" x2="213" y2="144" stroke="#fff" stroke-width="4"/>
+ <line x1="150" y1="98" x2="276" y2="98" stroke="#fff" stroke-width="4"/>
+ <rect x="143" y="144" width="140" height="7" rx="2" fill="#fff"/>
+ <rect x="143" y="151" width="140" height="3" fill="#000" fill-opacity=".08"/>
+ <!-- coulée de lumière au sol -->
+ <polygon points="176,210 254,210 306,300 116,300" fill="#F8ECC4" fill-opacity=".3" filter="url(#soft)"/>
+ <!-- cadres déco (avec ombre portée) -->
+ <rect x="316" y="62" width="46" height="56" rx="3" fill="#000" fill-opacity=".12" filter="url(#soft)"/>
+ <rect class="deco" x="314" y="60" width="44" height="54" rx="3"/>
+ <rect x="320" y="66" width="32" height="42" fill="#fff" opacity=".5"/>
+ <rect class="deco" x="314" y="122" width="44" height="30" rx="3" opacity=".72"/>
+ <!-- lampadaire + lueur chaude -->
+ <ellipse cx="372" cy="116" rx="34" ry="30" fill="url(#lampGlow)"/>
+ <rect x="368" y="120" width="5" height="92" fill="#6f6f6f"/>
+ <path class="cushion" d="M357 120 h30 l-7 -22 h-16 z"/>
+ <path d="M357 120 h30 l-2 -6 h-26 z" fill="#000" fill-opacity=".12"/>
+ <ellipse cx="370" cy="214" rx="18" ry="5" fill="#000" fill-opacity=".14" filter="url(#soft)"/>
+ <!-- plante + ombre douce -->
+ <ellipse cx="42" cy="234" rx="28" ry="8" fill="#000" fill-opacity=".16" filter="url(#soft)"/>
+ <path d="M28 210 h24 l-4 26 h-16 z" fill="#B9764B"/>
+ <path d="M28 210 h24 l-1 6 h-22 z" fill="#000" fill-opacity=".12"/>
+ <g class="deco"><path d="M40 210 C20 178 31 170 40 190 C49 170 60 178 40 210"/><path d="M40 206 C28 186 22 194 33 200" opacity=".82"/><path d="M40 206 C52 186 58 194 47 200" opacity=".7"/></g>
+ <!-- tapis -->
+ <ellipse class="deco" cx="214" cy="270" rx="144" ry="27" opacity=".5"/>
+ <ellipse cx="214" cy="270" rx="144" ry="27" fill="url(#rugG)"/>
+ <ellipse cx="214" cy="270" rx="112" ry="19" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+ <!-- ombre canapé (floutée) -->
+ <ellipse cx="152" cy="250" rx="126" ry="16" fill="#000" fill-opacity=".16" filter="url(#soft2)"/>
+ <!-- canapé : base recolorable + volume -->
+ <rect class="sofa" x="66" y="168" width="170" height="44" rx="12"/>
+ <rect class="sofa" x="60" y="196" width="182" height="52" rx="13"/>
+ <rect class="sofa" x="60" y="184" width="22" height="62" rx="10"/>
+ <rect class="sofa" x="220" y="184" width="22" height="62" rx="10"/>
+ <rect x="66" y="168" width="170" height="44" rx="12" fill="url(#sofaVol)"/>
+ <rect x="60" y="196" width="182" height="52" rx="13" fill="url(#sofaVol)"/>
+ <rect x="60" y="184" width="22" height="62" rx="10" fill="url(#sofaVol)"/>
+ <rect x="220" y="184" width="22" height="62" rx="10" fill="url(#sofaVol)"/>
+ <rect class="cushion" x="88" y="196" width="54" height="30" rx="8"/>
+ <rect class="cushion" x="150" y="196" width="54" height="30" rx="8"/>
+ <rect x="88" y="196" width="54" height="30" rx="8" fill="url(#sofaVol)"/>
+ <rect x="150" y="196" width="54" height="30" rx="8" fill="url(#sofaVol)"/>
+ <rect class="cushion" x="94" y="174" width="34" height="28" rx="8" opacity=".95"/>
+ <rect x="94" y="174" width="34" height="28" rx="8" fill="url(#sofaVol)"/>
+ <line x1="146" y1="198" x2="146" y2="224" stroke="#000" stroke-opacity=".1" stroke-width="2"/>
+ <line x1="66" y1="196" x2="236" y2="196" stroke="#000" stroke-opacity=".07" stroke-width="2"/>
+ <rect x="74" y="244" width="8" height="12" rx="2" fill="#5a4632"/>
+ <rect x="220" y="244" width="8" height="12" rx="2" fill="#5a4632"/>
+ <!-- table basse -->
+ <ellipse cx="254" cy="262" rx="48" ry="13" fill="#000" fill-opacity=".14" filter="url(#soft)"/>
+ <ellipse class="deco" cx="254" cy="252" rx="44" ry="12" opacity=".9"/>
+ <ellipse cx="254" cy="252" rx="44" ry="12" fill="url(#rugG)"/>
+ <rect x="232" y="252" width="4" height="14" fill="#7a5c3e"/><rect x="272" y="252" width="4" height="14" fill="#7a5c3e"/>
+ <!-- éléments qui APPARAISSENT en version rénovée (premium) -->
+ <g class="only-after">
+ <ellipse cx="352" cy="238" rx="22" ry="6" fill="#000" fill-opacity=".14" filter="url(#soft)"/>
+ <path d="M343 216 h18 l-3 22 h-12 z" fill="#C97B4E"/>
+ <g fill="#2F7150"><path d="M352 216 C337 186 346 178 352 197 C358 178 368 186 352 216"/><path d="M352 212 C343 193 337 199 346 205" opacity=".85"/><path d="M352 212 C361 193 367 199 358 205" opacity=".72"/></g>
+ <rect x="198" y="176" width="30" height="26" rx="7" fill="#F4C430"/>
+ <path d="M60 220 q40 -12 74 2 l0 26 h-74 z" fill="#1C7A4A" opacity=".5"/>
+ <path d="M60 220 q40 -12 74 2" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="2"/>
+ <!-- suspension design -->
+ <line x1="316" y1="26" x2="316" y2="52" stroke="#3a3a3a" stroke-width="2"/>
+ <path d="M305 52 h22 l-4 15 h-14 z" fill="#F4C430"/>
+ <ellipse cx="316" cy="72" rx="18" ry="7" fill="url(#lampGlow)"/>
+ <!-- étagère + objets -->
+ <rect x="298" y="168" width="70" height="5" rx="2" fill="#8a6a4a"/>
+ <rect x="304" y="150" width="9" height="18" rx="1" fill="#2F7150"/>
+ <rect x="316" y="154" width="9" height="14" rx="1" fill="#1C7A4A"/>
+ <circle cx="336" cy="162" r="6" fill="#F4C430"/>
+ <!-- grande plante d'angle -->
+ <ellipse cx="356" cy="246" rx="20" ry="5" fill="#000" fill-opacity=".14" filter="url(#soft)"/>
+ <rect x="348" y="222" width="16" height="24" rx="2" fill="#C97B4E"/>
+ <g fill="#2F7150"><path d="M356 222 C336 184 348 176 356 200 C364 176 376 184 356 222"/><path d="M356 216 C346 196 338 202 348 208" opacity=".8"/></g>
+ </g>
+ <rect class="after-wash" x="0" y="0" width="400" height="300" fill="#FFF6DE" pointer-events="none"/>
+ <!-- vignette -->
+ <rect x="0" y="0" width="400" height="300" fill="url(#vign)" pointer-events="none"/>
+ </svg>
+ <div class="scan" id="scan"></div>
+ <div class="tag-hot" id="tag1" style="left:26%; top:35%">Murs défraîchis</div>
+ <div class="tag-hot" id="tag2" style="left:60%; top:82%">Sol à rénover</div>
+ <div class="tag-hot" id="tag3" style="left:80%; top:30%">Luminosité OK</div>
+ </div>
+ <div class="room-actions">
+ <button class="btn btn-hi" id="analyzeBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l2.5 6.5L22 12l-6.5 2.5L13 21l-2.5-6.5L4 12l6.5-2.5z"/></svg> Analyser ma pièce</button>
+ <label class="toggle-ba">Après <span class="badge-prem">Premium</span>
+ <button class="switch" id="baSwitch" aria-pressed="false" aria-label="Voir la version rénovée"></button>
+ </label>
+ </div>
+ </div>
+
+ <div class="panel" id="panel">
+ <div class="panel-empty" id="panelEmpty">
+ <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-3z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+ <div><b>Analysez votre pièce</b><br>L'IA détecte les travaux, chiffre le budget et propose la déco.</div>
+ </div>
+ <div id="panelResult" style="display:none; flex:1;"></div>
+ </div>
+ </div>
+ </section>
+
+ <section class="block">
+ <div class="wrap">
+ <span class="kicker">Comment ça marche</span>
+ <h2>De la photo au chantier, sans y penser.</h2>
+ <div class="steps">
+ <div class="step"><span class="n">1</span><h3>Vous photographiez</h3><p>Une photo de la pièce à rénover, depuis votre téléphone. Rien à remplir.</p></div>
+ <div class="step"><span class="n">2</span><h3>L'IA imagine</h3><p>Travaux détectés, budget estimé par fourchette, pistes déco et couleurs, en quelques secondes.</p></div>
+ <div class="step"><span class="n">3</span><h3>Les artisans répondent</h3><p>Votre projet part aux artisans BatiSpot près de chez vous. Ils vous envoient un devis en 30 secondes.</p></div>
+ </div>
+ </div>
+ </section>
+
+ <section class="final" id="final">
+ <div class="wrap">
+ <span class="kicker">Gratuit, sans engagement</span>
+ <h2>Votre projet commence par une photo.</h2>
+ <p class="lede">Imaginez vos travaux, obtenez des devis d'artisans de confiance. C'est gratuit.</p>
+ <a class="btn btn-primary" href="https://batispot.pro" target="_blank" rel="noopener">Lancer mon projet →</a>
+ </div>
+ </section>
+</main>
+
+<!-- START: BatiSpot Pro Artisan Lead In-Page Banner -->
+<section class="bs-pro-banner-inpage" style="margin: 40px auto 30px; max-width: 860px; padding: 0 16px;">
+ <div style="background: linear-gradient(135deg, #0F5132 0%, #0D9488 100%); border-radius: 20px; padding: 32px 28px; color: #FFFFFF; box-shadow: 0 16px 36px -12px rgba(15, 81, 50, 0.35); position: relative; overflow: hidden;">
+ <div style="display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 2;">
+ <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border-radius: 999px; padding: 4px 14px; width: fit-content; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+ <span>️ Espace Artisans & Entreprises BTP</span>
+ </div>
+ <h3 style="font-size: clamp(20px, 4vw, 26px); font-weight: 900; line-height: 1.2; margin: 0; color: #FFFFFF; letter-spacing: -0.02em;">
+ Vous êtes artisan ? Chiffrez vos devis en 30 s sur mobile
+ </h3>
+ <p style="font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.92); margin: 0; max-width: 620px;">
+ Ne passez plus vos soirées sur l'administratif. BatiSpot Pro calcule vos marges, dicte vos devis au juste prix, gère le planning d'équipe et suit vos chantiers au jour le jour.
+ </p>
+ <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px;">
+ <a href="/?utm_source=seo_inpage&utm_medium=banner" style="background: #FFFFFF; color: #0F5132; font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); transition: transform 0.15s;">
+ <span>Tester 3 mois offerts</span>
+ <span style="font-size: 16px;">→</span>
+ </a>
+ <span style="font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.85);">
+ Sans engagement · Sans commission · 0 € CB
+ </span>
+ </div>
+ </div>
+ </div>
+</section>
+<!-- END: BatiSpot Pro Artisan Lead In-Page Banner -->
+<footer>
+ <div class="wrap foot">
+ <a class="logo" href="https://batispot.pro" target="_blank" rel="noopener" aria-label="BatiSpot">
+ <svg class="brandmark" width="120" height="30" viewBox="0 0 200 48" aria-hidden="true">
+ <defs><linearGradient id="lgf" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+ <rect width="40" height="40" rx="10" y="4" fill="url(#lgf)"/>
+ <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+ <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+ <text x="50" y="32" font-family="system-ui,Inter,sans-serif" font-weight="900" font-size="26" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text>
+ </svg>
+ </a>
+ <span class="sp"></span>
+ <a href="https://batispot.pro" target="_blank" rel="noopener">batispot.pro</a>
+ <span>·</span><span>Aperçu du concept</span>
+ </div>
+</footer>
+
+<script>
+(function () {
+ "use strict";
+ document.documentElement.setAttribute("data-theme", "light");
+ var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+ var $ = function (id) { return document.getElementById(id); };
+ var run = 0, analyzed = false;
+
+ var WORKS = [
+ { ic: "M12 2 2 7v13h20V7z", t: "Peinture murs & plafond", sub: "Rafraîchir, ~24 m²", lo: 900, hi: 1300 },
+ { ic: "M3 3h18v18H3z M3 9h18 M9 3v18", t: "Rénovation du sol", sub: "Parquet ou stratifié", lo: 1200, hi: 1800 },
+ { ic: "M4 20h16 M6 20V10l6-4 6 4v10", t: "Reprise éclairage & finitions", sub: "Optionnel", lo: 350, hi: 600 }
+ ];
+ var DECO = ["#EFF4EE", "#2F6F4E", "#F4C430", "#C89A63", "#E8916B"];
+
+ function eur(n) { return n.toLocaleString("fr-FR") + " €"; }
+ function sleep(ms) { return new Promise(function (r) { setTimeout(function () { r(run); }, ms); }); }
+
+ async function analyze() {
+ var id = ++run;
+ analyzed = true;
+ $("roomState").textContent = "Analyse IA en cours…";
+ $("roomWrap").classList.add("scanning");
+ ["tag1","tag2","tag3"].forEach(function (t) { $(t).classList.remove("show"); });
+ // scan puis tags
+ if (!reduce) { await sleep(600); if (id!==run) return; }
+ $("tag1").classList.add("show");
+ if (!reduce) { await sleep(300); if (id!==run) return; }
+ $("tag2").classList.add("show");
+ if (!reduce) { await sleep(300); if (id!==run) return; }
+ $("tag3").classList.add("show");
+ if (!reduce) { await sleep(500); if (id!==run) return; }
+ $("roomWrap").classList.remove("scanning");
+ $("roomState").textContent = "Salon · analysé";
+
+ // construire le panneau
+ var lo = 0, hi = 0; WORKS.forEach(function (w) { lo += w.lo; hi += w.hi; });
+ var html = ''
+ + '<div class="p-kick in">Ce que l\'IA a repéré</div>'
+ + '<div class="p-detected in">Pièce : <b>salon ~24 m²</b> · peinture défraîchie, sol usé. Bonne lumière naturelle.</div>';
+ WORKS.forEach(function (w, i) {
+ html += '<div class="work" data-i="'+i+'">'
+ + '<span class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+w.ic+'"/></svg></span>'
+ + '<span class="wtxt"><span class="wt">'+w.t+'</span><span class="wsub">'+w.sub+'</span></span>'
+ + '<span class="wbud">'+eur(w.lo)+'–'+eur(w.hi)+'</span></div>';
+ });
+ html += '<div class="deco-row"><span class="dl">Palette déco suggérée</span>'
+ + DECO.map(function (c) { return '<span class="sw" style="background:'+c+'"></span>'; }).join('') + '</div>';
+ html += '<div class="p-total"><span class="k">Budget estimé</span><span class="v">'+eur(lo)+' – '+eur(hi)+'</span></div>';
+ html += '<div class="p-note">Fourchette indicative — un artisan confirme le prix exact après visite.</div>';
+ html += '<div class="p-cta"><button class="btn btn-primary" id="getDevis">Recevez 3 devis d\'artisans — gratuit</button></div>';
+ html += '<div class="connect" id="connect"><div class="ct">Projet envoyé à 3 artisans près de chez vous :</div>'
+ + '<div class="arti" data-i="0"><span class="av">M</span><span class="an"><b>Peinture Martin</b><span>Rénovation · 4,9 · 2 km</span></span><span class="ab">Répond en 1h</span></div>'
+ + '<div class="arti" data-i="1"><span class="av">D</span><span class="an"><b>Dubois & Fils</b><span>Sol & parquet · 4,8 · 3 km</span></span><span class="ab">Devis en 30s</span></div>'
+ + '<div class="arti" data-i="2"><span class="av">R</span><span class="an"><b>Élec Renaud</b><span>Finitions · 4,9 · 5 km</span></span><span class="ab">Dispo</span></div>'
+ + '</div>';
+
+ $("panelEmpty").style.display = "none";
+ var res = $("panelResult"); res.style.display = "flex"; res.style.flexDirection = "column"; res.innerHTML = html;
+
+ // révéler progressivement
+ var seq = [".p-kick", ".p-detected"];
+ if (reduce) {
+ res.querySelectorAll(".work,.deco-row,.p-total,.p-note,.p-cta,.connect,.arti,.p-kick,.p-detected").forEach(function(e){e.classList.add("in");});
+ } else {
+ $(".p-kick");
+ var works = res.querySelectorAll(".work");
+ for (var i=0;i<works.length;i++){ if(id!==run)return; works[i].classList.add("in"); await sleep(180); }
+ res.querySelector(".deco-row").classList.add("in"); await sleep(160); if(id!==run)return;
+ res.querySelector(".p-total").classList.add("in"); await sleep(140);
+ res.querySelector(".p-note").classList.add("in"); await sleep(120);
+ res.querySelector(".p-cta").classList.add("in"); await sleep(160);
+ if(id!==run)return;
+ $("getDevis").addEventListener("click", showConnect);
+ }
+ if (reduce) $("getDevis").addEventListener("click", showConnect);
+ }
+
+ async function showConnect() {
+ $("getDevis").textContent = "Projet envoyé ";
+ $("getDevis").disabled = true;
+ var c = $("connect"); c.classList.add("in");
+ var artis = c.querySelectorAll(".arti");
+ for (var i=0;i<artis.length;i++){ artis[i].classList.add("in"); if(!reduce) await sleep(260); }
+ c.scrollIntoView({ behavior: "smooth", block: "nearest" });
+ }
+
+ $("analyzeBtn").addEventListener("click", analyze);
+ $("baSwitch").addEventListener("click", function () {
+ var next = this.getAttribute("aria-pressed") !== "true";
+ this.setAttribute("aria-pressed", next ? "true" : "false");
+ document.querySelector(".room-card").classList.toggle("after", next);
+ $("stateBadge").textContent = next ? "Après " : "Avant";
+ $("roomState").textContent = next ? "Aperçu rénové · premium" : (analyzed ? "Salon · analysé" : "Photo · votre salon");
+ });
+ $("theme").addEventListener("click", function () {
+ var cur = document.documentElement.getAttribute("data-theme");
+ document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+ });
+})();
+</script>
+
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

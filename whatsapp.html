@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Devis travaux par WhatsApp sous 48h — BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/whatsapp">
+ <meta name="description" content="Décrivez votre projet de travaux sur WhatsApp et recevez un devis gratuit sous 48h d'un artisan vérifié en Île-de-France." />
+ <meta property="og:title" content="Devis travaux par WhatsApp — BatiSpot" />
+ <meta property="og:description" content="Décrivez votre projet par WhatsApp, recevez un devis sous 48h d'un artisan vérifié." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/whatsapp" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --wa: #25D366; --wa-h: #128C7E; --wa-bg: #DCF8C6;
+ }
+
+ nav {
+ background: var(--white); border-bottom: 1px solid var(--border);
+ padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between;
+ }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-back { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-back:hover { color: var(--g2); }
+
+ /* HERO */
+ .hero {
+ background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 60%, #1da462 100%);
+ padding: 4rem 5% 5rem; text-align: center; color: white; position: relative; overflow: hidden;
+ }
+ .hero::before {
+ content: ''; position: absolute; top: -40%; right: -10%; width: 500px; height: 500px;
+ background: rgba(255,255,255,.04); border-radius: 50%;
+ }
+ .hero-badge {
+ display: inline-flex; align-items: center; gap: .4rem;
+ background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+ border-radius: 999px; padding: .3rem .9rem; font-size: .78rem; font-weight: 700;
+ margin-bottom: 1.2rem; letter-spacing: .04em;
+ }
+ .hero h1 { font-size: 2.3rem; font-weight: 900; margin-bottom: .7rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+ .hero p { opacity: .85; font-size: 1.05rem; max-width: 480px; margin: 0 auto 2rem; }
+
+ .wa-btn-hero {
+ display: inline-flex; align-items: center; gap: .65rem;
+ background: var(--wa); color: white; text-decoration: none;
+ padding: 1rem 2.2rem; border-radius: 999px; font-size: 1.1rem; font-weight: 800;
+ box-shadow: 0 6px 24px rgba(37,211,102,.4);
+ transition: background .2s, transform .15s, box-shadow .2s;
+ }
+ .wa-btn-hero:hover { background: var(--wa-h); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(37,211,102,.5); }
+ .wa-btn-hero svg { width: 26px; height: 26px; flex-shrink: 0; }
+ .hero-note { margin-top: 1rem; font-size: .78rem; opacity: .65; }
+
+ /* FLOW SECTION */
+ .container { max-width: 780px; margin: 0 auto; padding: 0 1.2rem; }
+
+ .section { padding: 4rem 0; }
+ .section-title { text-align: center; font-size: 1.6rem; font-weight: 900; color: var(--g1); margin-bottom: .5rem; }
+ .section-sub { text-align: center; color: var(--sub); font-size: .95rem; margin-bottom: 2.5rem; }
+
+ /* Visual flow */
+ .flow-steps { display: flex; align-items: flex-start; gap: 0; position: relative; }
+ .flow-steps::before {
+ content: ''; position: absolute; top: 36px; left: calc(50px + 1rem); right: calc(50px + 1rem);
+ height: 2px; background: linear-gradient(90deg, var(--g3), var(--wa));
+ z-index: 0;
+ }
+ .flow-step {
+ flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
+ position: relative; z-index: 1;
+ }
+ .flow-icon {
+ width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+ font-size: 1.8rem; margin-bottom: .9rem; border: 3px solid white;
+ box-shadow: 0 4px 16px rgba(0,0,0,.1);
+ }
+ .flow-icon.s1 { background: var(--wa-bg); }
+ .flow-icon.s2 { background: #FFF9C4; }
+ .flow-icon.s3 { background: #E3F2FD; }
+ .flow-icon.s4 { background: var(--g-soft); }
+ .flow-step h3 { font-size: .88rem; font-weight: 800; color: var(--text); margin-bottom: .2rem; }
+ .flow-step p { font-size: .78rem; color: var(--sub); max-width: 120px; }
+
+ /* Chat preview */
+ .chat-section { padding: 4rem 0; background: var(--white); }
+ .chat-card {
+ background: #ECE5DD; border-radius: 20px; overflow: hidden;
+ max-width: 420px; margin: 0 auto;
+ box-shadow: 0 8px 40px rgba(0,0,0,.1);
+ }
+ .chat-header {
+ background: var(--wa-h); color: white; padding: .9rem 1.2rem;
+ display: flex; align-items: center; gap: .8rem;
+ }
+ .chat-avatar {
+ width: 40px; height: 40px; border-radius: 50%;
+ background: linear-gradient(135deg, var(--g2), var(--g3));
+ display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+ flex-shrink: 0;
+ }
+ .chat-header-info .name { font-weight: 700; font-size: .95rem; }
+ .chat-header-info .status { font-size: .75rem; opacity: .75; }
+ .chat-body { padding: 1rem 1rem 1.2rem; display: flex; flex-direction: column; gap: .7rem; }
+ .msg {
+ max-width: 82%; padding: .55rem .85rem; border-radius: 14px; font-size: .85rem; line-height: 1.45;
+ position: relative;
+ }
+ .msg .time { font-size: .65rem; opacity: .55; margin-top: .25rem; text-align: right; }
+ .msg.user { background: var(--wa-bg); align-self: flex-end; border-bottom-right-radius: 4px; }
+ .msg.bot { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+ .msg.bot strong { color: var(--wa-h); }
+
+ /* Why WhatsApp */
+ .why-grid {
+ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 1.2rem; margin-top: .5rem;
+ }
+ .why-card {
+ background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+ padding: 1.3rem 1.2rem; display: flex; flex-direction: column; gap: .5rem;
+ }
+ .why-icon { font-size: 1.8rem; }
+ .why-card h3 { font-size: .9rem; font-weight: 800; color: var(--g1); }
+ .why-card p { font-size: .8rem; color: var(--sub); }
+
+ /* Bottom CTA */
+ .bottom-cta {
+ background: linear-gradient(135deg, var(--g1), var(--g2));
+ padding: 4rem 5%; text-align: center; color: white;
+ }
+ .bottom-cta h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: .7rem; }
+ .bottom-cta p { opacity: .82; font-size: 1rem; margin-bottom: 2rem; max-width: 440px; margin-left: auto; margin-right: auto; }
+ .wa-btn-white {
+ display: inline-flex; align-items: center; gap: .65rem;
+ background: white; color: var(--g1); text-decoration: none;
+ padding: 1rem 2.2rem; border-radius: 999px; font-size: 1.05rem; font-weight: 800;
+ box-shadow: 0 6px 24px rgba(0,0,0,.2);
+ transition: transform .15s, box-shadow .2s;
+ }
+ .wa-btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,.25); }
+ .wa-btn-white svg { width: 24px; height: 24px; }
+
+ /* Trust bar */
+ .trust-bar {
+ background: var(--g-soft); border-top: 1px solid var(--border);
+ padding: 1.5rem 5%; display: flex; flex-wrap: wrap; justify-content: center;
+ gap: 1.5rem 2.5rem; font-size: .82rem; color: var(--sub);
+ }
+ .trust-item { display: flex; align-items: center; gap: .4rem; font-weight: 600; }
+
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+ @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+ @keyframes pulse { 0%,100% { box-shadow: 0 6px 24px rgba(37,211,102,.4); } 50% { box-shadow: 0 6px 32px rgba(37,211,102,.7); } }
+ .wa-btn-hero { animation: pulse 2.5s ease-in-out infinite; }
+
+ @media (max-width: 600px) {
+ .hero h1 { font-size: 1.6rem; }
+ .flow-steps { flex-direction: column; align-items: center; gap: 1.2rem; }
+ .flow-steps::before { display: none; }
+ .flow-step p { max-width: 200px; }
+ .section-title { font-size: 1.3rem; }
+ .bottom-cta h2 { font-size: 1.4rem; }
+ }
+ </style>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <a href="/" class="nav-back">← Retour au site</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+ <div class="hero-badge">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.054 23.5l5.789-1.524A11.937 11.937 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.003-1.367l-.36-.214-3.716.977.992-3.622-.234-.372A9.798 9.798 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+ WhatsApp : Réponse rapide
+ </div>
+ <h1>Décrivez votre projet par WhatsApp, recevez un devis sous 48h</h1>
+<p>Un artisan vérifié vous répond directement. Gratuit, sans inscription, sans engagement.</p>
+ <a href="https://wa.me/33600000000?text=Bonjour%2C%20je%20cherche%20un%20artisan%20pour%20mes%20travaux" class="wa-btn-hero" target="_blank" rel="noopener">
+ <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+ <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+ <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.054 23.5l5.789-1.524A11.937 11.937 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.003-1.367l-.36-.214-3.716.977.992-3.622-.234-.372A9.798 9.798 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+ </svg>
+ Contacter sur WhatsApp
+ </a>
+ <p class="hero-note">Disponible 7j/7 • Artisans vérifiés (Kbis + assurance décennale)</p>
+</div>
+
+<!-- FLOW VISUAL -->
+<div class="section">
+ <div class="container">
+ <h2 class="section-title">Comment ca fonctionne ?</h2>
+ <p class="section-sub">4 etapes, 48h, zero paperasse.</p>
+ <div class="flow-steps">
+ <div class="flow-step">
+ <div class="flow-icon s1">1</div>
+ <h3>1. Message</h3>
+ <p>Envoyez votre demande sur WhatsApp</p>
+ </div>
+ <div class="flow-step">
+ <div class="flow-icon s2">2</div>
+ <h3>2. Description projet</h3>
+ <p>Décrivez le type de travaux et la surface</p>
+ </div>
+ <div class="flow-step">
+ <div class="flow-icon s3">3</div>
+ <h3>3. Devis en 48h</h3>
+ <p>Recevez votre estimation gratuite</p>
+ </div>
+ <div class="flow-step">
+ <div class="flow-icon s4">4</div>
+ <h3>4. Artisan vérifié</h3>
+ <p>Mise en relation avec un pro certifié</p>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- CHAT PREVIEW -->
+<div class="chat-section">
+ <div class="container">
+ <h2 class="section-title" style="margin-bottom:.4rem">Un exemple de conversation</h2>
+ <p class="section-sub">Simple, rapide, direct.</p>
+ <div class="chat-card">
+ <div class="chat-header">
+ <div class="chat-avatar">BS</div>
+ <div class="chat-header-info">
+ <div class="name">BatiSpot Artisans</div>
+ <div class="status">En ligne</div>
+ </div>
+ </div>
+ <div class="chat-body">
+ <div class="msg user">
+ Bonjour, je cherche un artisan pour mes travaux
+ <div class="time">10:02 &#10003;&#10003;</div>
+ </div>
+ <div class="msg bot">
+ <strong>Bienvenue sur BatiSpot !</strong> Quel type de travaux ?<br><br>
+ 1) Plomberie<br>
+ 2) Electricite<br>
+ 3) Renovation<br>
+ 4) Peinture<br>
+ 5) Autre
+ <div class="time">10:02</div>
+ </div>
+ <div class="msg user">
+ 3
+ <div class="time">10:03 &#10003;&#10003;</div>
+ </div>
+ <div class="msg bot">
+ Super ! Dans quelle ville ? (ex : Paris 11, Boulogne-Billancourt)
+ <div class="time">10:03</div>
+ </div>
+ <div class="msg user">
+ Paris 15
+ <div class="time">10:04 &#10003;&#10003;</div>
+ </div>
+ <div class="msg bot">
+ Quelle surface approximative en m² ?
+ <div class="time">10:04</div>
+ </div>
+ <div class="msg user">
+ 65 m²
+ <div class="time">10:04 &#10003;&#10003;</div>
+ </div>
+ <div class="msg bot">
+ <strong>Estimation : 39 000 € — 65 000 €</strong> pour une rénovation de 65 m² à Paris.<br><br>
+ Pour un devis précis et gratuit, laissez votre <strong>nom</strong> et <strong>email</strong>.
+ <div class="time">10:04</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- WHY WHATSAPP -->
+<div class="section">
+ <div class="container">
+ <h2 class="section-title">Pourquoi passer par WhatsApp ?</h2>
+ <p class="section-sub">Parce que c'est l'outil que vous utilisez déjà.</p>
+ <div class="why-grid">
+ <div class="why-card">
+ <div class="why-icon">&#9654;</div>
+ <h3>Réponse rapide</h3>
+ <p>Pas de formulaire à remplir, pas d'email perdu dans les spams. La réponse arrive directement sur votre téléphone.</p>
+ </div>
+ <div class="why-card">
+ <div class="why-icon">&#9654;</div>
+ <h3>Envoyez des photos</h3>
+ <p>Une photo vaut mieux qu'une longue description. Prenez en photo votre chantier et envoyez-la directement.</p>
+ </div>
+ <div class="why-card">
+ <div class="why-icon">&#9654;</div>
+ <h3>Conversation sécurisée</h3>
+ <p>WhatsApp chiffre vos messages de bout en bout. Vos informations restent entre vous et l'artisan.</p>
+ </div>
+ <div class="why-card">
+ <div class="why-icon">&#9654;</div>
+ <h3>A votre rythme</h3>
+ <p>Répondez quand vous voulez. Pas besoin d'être disponible en temps réel pour obtenir votre devis.</p>
+ </div>
+ <div class="why-card">
+ <div class="why-icon">&#10003;</div>
+ <h3>Artisans vérifiés</h3>
+ <p>Tous nos artisans ont fourni leur Kbis et leur assurance décennale. Pas de mauvaise surprise.</p>
+ </div>
+ <div class="why-card">
+ <div class="why-icon">&#9654;</div>
+ <h3>100% gratuit</h3>
+ <p>La mise en relation est entièrement gratuite pour vous. Aucun frais, aucun engagement.</p>
+ </div>
+ </div>
+ </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+ <span class="trust-item">&#10003; Artisans certifiés Kbis</span>
+ <span class="trust-item">&#10003; Assurance décennale vérifiée</span>
+ <span class="trust-item">Artisans vérifiés</span>
+ <span class="trust-item">Partout en France</span>
+ <span class="trust-item">Réponse rapide</span>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+ <h2>Prêt à lancer votre projet ?</h2>
+ <p>Envoyez un simple message WhatsApp et recevez votre devis gratuit sous 48h.</p>
+ <a href="https://wa.me/33600000000?text=Bonjour%2C%20je%20cherche%20un%20artisan%20pour%20mes%20travaux" class="wa-btn-white" target="_blank" rel="noopener">
+ <svg viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg">
+ <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+ <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.054 23.5l5.789-1.524A11.937 11.937 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 0 1-5.003-1.367l-.36-.214-3.716.977.992-3.622-.234-.372A9.798 9.798 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+ </svg>
+ Démarrer sur WhatsApp →
+ </a>
+ <p style="margin-top:1rem;font-size:.78rem;opacity:.55;">Ou estimez votre budget en ligne : <a href="estimateur" style="color:white;font-weight:700;">Estimateur gratuit →</a></p>
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

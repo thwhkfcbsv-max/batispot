@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>TVA 5,5 % ou 10 % travaux : conditions | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/tva-reduite-travaux-55-10-conditions">
+ <meta name="description" content="TVA 5,5 % ou 10 % sur vos travaux de renovation : quels travaux eligibles, conditions, attestation simplifiee, erreurs a eviter. Guide 2026." />
+ <meta name="keywords" content="tva travaux 5.5, tva 10 renovation, tva reduite travaux conditions, attestation tva simplifiee" />
+ <meta property="og:title" content="TVA 5,5 % ou 10 % sur travaux : conditions 2026" />
+ <meta property="og:description" content="Quels travaux beneficient de la TVA reduite ? Conditions, attestation, erreurs courantes. Economisez jusqu'a 14,5 points de TVA." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/tva-reduite-travaux-55-10-conditions.png" />
+ <meta property="og:url" content="https://batispot.pro/tva-reduite-travaux-55-10-conditions" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Quels travaux beneficient de la TVA a 5,5 % ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La TVA a 5,5 % s'applique aux travaux d'amelioration de la performance energetique : isolation (murs, toiture, planchers, fenetres), installation de chauffage performant (PAC, chaudiere biomasse), VMC, chauffe-eau solaire ou thermodynamique. Le logement doit avoir plus de 2 ans et etre une residence principale ou secondaire."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels travaux beneficient de la TVA a 10 % ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La TVA a 10 % concerne les travaux de renovation, d'amelioration ou d'entretien qui ne relevent pas de la performance energetique : plomberie, electricite, peinture, carrelage, menuiserie interieure, remplacement sanitaires. Le logement doit avoir plus de 2 ans."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelle attestation fournir pour la TVA reduite ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le client doit remettre a l'artisan une attestation simplifiee (Cerfa 13948*05) pour les travaux n'affectant pas le gros oeuvre, ou une attestation normale (Cerfa 13947*05) pour les travaux touchant le gros oeuvre, les fondations ou plus de 5 des 6 elements de second oeuvre."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "La TVA reduite s'applique-t-elle aux materiaux que j'achete moi-meme ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Non, la TVA reduite ne s'applique qu'aux materiaux fournis par l'artisan et factures avec la pose. Si vous achetez les materiaux vous-meme en magasin, ils sont factures a 20 % de TVA."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels travaux restent a 20 % de TVA ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La TVA a 20 % s'applique aux constructions neuves, aux travaux d'agrandissement (extension > 10 % de surface), aux logements de moins de 2 ans, aux travaux de jardinage et aux equipements mobiliers (electromenager, meubles de cuisine)."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Aides renovation</a> > TVA reduite travaux</div>
+ <h1>TVA 5,5 % ou 10 % sur travaux : conditions 2026</h1>
+<p>Quels travaux beneficient de la TVA reduite ? Conditions, attestation a fournir, erreurs courantes. Economisez jusqu'a 14,5 points de TVA sur votre facture.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Les 3 taux de TVA sur les travaux</h2>
+ <p>En France, trois taux de TVA s'appliquent aux travaux de renovation selon leur nature et le type de logement :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Taux TVA</th>
+ <th>Type de travaux</th>
+ <th>Economie vs 20 %</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>5,5 %</strong></td>
+ <td>Travaux de performance energetique (isolation, PAC, VMC, etc.)</td>
+ <td><strong>14,5 points</strong></td>
+ </tr>
+ <tr>
+ <td><strong>10 %</strong></td>
+ <td>Renovation, amelioration, entretien (plomberie, electricite, peinture, etc.)</td>
+ <td><strong>10 points</strong></td>
+ </tr>
+ <tr>
+ <td><strong>20 %</strong></td>
+ <td>Construction neuve, agrandissement, logement < 2 ans</td>
+ <td>Taux normal</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>Travaux a TVA 5,5 % : la liste complete</h2>
+ <p>La TVA a 5,5 % s'applique aux travaux d'amelioration de la qualite energetique (article 278-0 bis A du CGI) :</p>
+ <ul class="factor-list">
+ <li><strong>Isolation thermique :</strong> murs (interieur/exterieur), toiture, planchers bas, fenetres et portes donnant sur l'exterieur.</li>
+ <li><strong>Chauffage :</strong> pompe a chaleur (air/eau, geothermique), chaudiere biomasse, poele a bois/granules, systeme solaire combine.</li>
+ <li><strong>Eau chaude sanitaire :</strong> chauffe-eau solaire, chauffe-eau thermodynamique.</li>
+ <li><strong>Ventilation :</strong> VMC simple flux hygroreglable B, VMC double flux.</li>
+ <li><strong>Materiaux d'isolation :</strong> fournis et poses par l'artisan, repondant aux criteres de performance minimale (R >= 3,7 m2.K/W pour les murs).</li>
+ </ul>
+ <p>Condition : le logement doit etre acheve depuis plus de 2 ans a la date du debut des travaux.</p>
+ </div>
+
+ <div class="card">
+ <h2>Travaux a TVA 10 % : la liste complete</h2>
+ <p>La TVA a 10 % s'applique aux travaux de renovation non energetique (article 279-0 bis du CGI) :</p>
+ <ul class="factor-list">
+ <li><strong>Plomberie :</strong> remplacement sanitaires, robinetterie, colonne montante, chauffe-eau electrique classique.</li>
+ <li><strong>Electricite :</strong> mise aux normes, remplacement tableau, prises, interrupteurs.</li>
+ <li><strong>Revetements :</strong> peinture, carrelage, parquet, faience, papier peint.</li>
+ <li><strong>Menuiserie interieure :</strong> portes interieures, placards, escaliers.</li>
+ <li><strong>Amenagement :</strong> creation salle de bain, cuisine (hors electromenager), cloisons.</li>
+ <li><strong>Ravalement de facade :</strong> nettoyage, enduit, peinture exterieure (hors ITE).</li>
+ <li><strong>Toiture :</strong> reparation, remplacement tuiles (hors isolation).</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Artisans verifies en IDF. TVA correcte appliquee sur vos devis.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux gratuitement</a>
+ </div>
+
+ <div class="card">
+ <h2>Economie concrete : combien vous gagnez</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Travaux</th>
+ <th>Cout HT</th>
+ <th>TVA 20 %</th>
+ <th>TVA reduite</th>
+ <th>Economie</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Isolation murs (ITE, 80 m2)</td>
+ <td>12 000 EUR</td>
+ <td>14 400 EUR</td>
+ <td>12 660 EUR (5,5 %)</td>
+ <td><strong>1 740 EUR</strong></td>
+ </tr>
+ <tr>
+ <td>Renovation salle de bain</td>
+ <td>8 000 EUR</td>
+ <td>9 600 EUR</td>
+ <td>8 800 EUR (10 %)</td>
+ <td><strong>800 EUR</strong></td>
+ </tr>
+ <tr>
+ <td>Renovation electrique complete</td>
+ <td>6 000 EUR</td>
+ <td>7 200 EUR</td>
+ <td>6 600 EUR (10 %)</td>
+ <td><strong>600 EUR</strong></td>
+ </tr>
+ <tr>
+ <td>PAC air/eau</td>
+ <td>10 000 EUR</td>
+ <td>12 000 EUR</td>
+ <td>10 550 EUR (5,5 %)</td>
+ <td><strong>1 450 EUR</strong></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>L'attestation simplifiee : obligatoire</h2>
+ <p>Pour beneficier de la TVA reduite, le client (proprietaire, locataire ou SCI) doit remettre a l'artisan une attestation avant le debut des travaux :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Type d'attestation</th>
+ <th>Cerfa</th>
+ <th>Quand l'utiliser</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Attestation simplifiee</strong></td>
+ <td>13948*05</td>
+ <td>Travaux n'affectant pas le gros oeuvre (peinture, plomberie, electricite, isolation interieure, etc.)</td>
+ </tr>
+ <tr>
+ <td><strong>Attestation normale</strong></td>
+ <td>13947*05</td>
+ <td>Travaux touchant le gros oeuvre ou plus de 5 des 6 elements de second oeuvre</td>
+ </tr>
+ </tbody>
+ </table>
+ <p>L'attestation engage la responsabilite du client. En cas de controle fiscal, une attestation erronee entraine un redressement au taux de 20 % avec penalites.</p>
+ </div>
+
+ <div class="card">
+ <h2>Erreurs courantes a eviter</h2>
+ <ul class="factor-list">
+ <li><strong>Acheter les materiaux soi-meme :</strong> les materiaux achetes en magasin sont factures a 20 %. Seuls les materiaux fournis et poses par l'artisan beneficient de la TVA reduite.</li>
+ <li><strong>Logement de moins de 2 ans :</strong> la TVA reduite ne s'applique pas. Verifiez la date d'achevement sur l'acte de propriete.</li>
+ <li><strong>Confondre 5,5 % et 10 % :</strong> un artisan qui facture de la peinture a 5,5 % commet une erreur. Seuls les travaux energetiques relevent du taux super-reduit.</li>
+ <li><strong>Oublier l'attestation :</strong> sans attestation signee, l'artisan doit facturer a 20 %. Remplissez-la avant le premier jour de chantier.</li>
+ <li><strong>Extension ou agrandissement :</strong> les surfaces supplementaires (veranda, surelevation, extension > 10 % de la surface) sont a 20 %.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Des devis avec la bonne TVA, garantis</h2>
+ <p>Les artisans BatiSpot appliquent le bon taux de TVA sur chaque poste. Devis detailles et conformes.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/maprimrenov-2026-guide-complet" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">MaPrimeRenov' 2026 : guide complet</div>
+ <div style="font-size:.76rem;color:var(--sub);">Montants, plafonds et cumul CEE</div>
+ </a>
+ <a href="/eco-ptz-2026-comment-en-beneficier" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Eco-PTZ 2026 : jusqu'a 50 000 EUR</div>
+ <div style="font-size:.76rem;color:var(--sub);">Pret a taux zero pour le reste a charge</div>
+ </a>
+ <a href="/devis-travaux-comprendre-comparer" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Lire et comparer des devis travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Pieges, postes a verifier, prix normaux</div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Cout au m2 selon surface et gamme</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

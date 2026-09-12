@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>DPE location meublee Airbnb 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/dpe-location-meublee-airbnb-2026">
+ <meta name="description" content="DPE et location Airbnb/meublee en 2026 : nouvelles regles, interdiction G, loi Le Meur, seuil DPE obligatoire. Ce qui change pour les loueurs." />
+ <meta property="og:title" content="DPE et location Airbnb/meublee : les regles 2026" />
+ <meta property="og:description" content="Loi Le Meur, seuil DPE pour les meubles touristiques, interdiction classe G : tout ce qui change pour les loueurs Airbnb en 2026." />
+ <meta property="og:type" content="article" />
+ <meta property="og:image" content="https://batispot.pro/og/dpe-location-meublee-airbnb-2026.png" />
+ <meta property="og:url" content="https://batispot.pro/dpe-location-meublee-airbnb-2026" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; color: white; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "-->"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Faut-il un DPE pour louer en Airbnb en 2026 ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui. La loi Le Meur du 19 novembre 2024 impose un DPE valide pour toute location meublee touristique. Depuis le 1er janvier 2025, les logements classes G ne peuvent plus etre proposes en location touristique dans les zones tendues."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelle classe DPE minimum pour louer en meuble touristique ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "En 2026, la classe minimale est F (les G sont interdits). A partir de 2028, il faudra au minimum une classe E. En 2034, seuls les logements classes D ou mieux pourront etre loues."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "La loi Le Meur s'applique-t-elle a toutes les locations meublees ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La loi Le Meur vise principalement les meubles de tourisme (Airbnb, Booking, etc.). Les locations meublees longue duree (bail mobilite, bail meuble classique) etaient deja soumises aux memes regles DPE que les locations nues depuis la loi Climat."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelles sanctions si je loue un Airbnb classe G en 2026 ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La mairie peut refuser ou retirer le numero d'enregistrement obligatoire. Sans ce numero, la publication d'annonces est interdite. Les plateformes (Airbnb, Booking) doivent verifier le DPE et peuvent desactiver les annonces non conformes. Les amendes peuvent atteindre 10 000 EUR par annonce."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Peut-on deduire les travaux de renovation d'un meuble touristique ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "En LMNP au regime reel, les travaux de renovation sont amortissables sur leur duree d'usage (5 a 25 ans selon la nature). Ils ne sont pas deductibles directement du revenu imposable comme en location nue, mais l'amortissement reduit le benefice imposable."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-dpe-2026-obligations-proprietaire">Guides DPE</a> > DPE Airbnb/meublee</div>
+ <h1>DPE et location Airbnb/meublee : les regles 2026</h1>
+<p>La loi Le Meur change la donne pour les loueurs en meuble touristique. Seuil DPE, numero d'enregistrement, sanctions : le point complet.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Ce que change la loi Le Meur (19 novembre 2024)</h2>
+ <p>La loi n 2024-1039 du 19 novembre 2024 "visant a renforcer les outils de regulation des meubles de tourisme a l'echelle locale" a introduit plusieurs mesures majeures :</p>
+ <ul class="factor-list">
+ <li><strong>DPE obligatoire :</strong> tout meuble de tourisme doit disposer d'un DPE valide. C'etait deja le cas en location longue duree, mais pas systematiquement applique en saisonnier.</li>
+ <li><strong>Seuil energetique :</strong> les meubles de tourisme sont soumis aux memes seuils d'indecence energetique que les locations classiques : classe G interdite depuis 2025, classe F en 2028, classe E en 2034.</li>
+ <li><strong>Numero d'enregistrement renforce :</strong> le numero d'enregistrement en mairie est desormais obligatoire partout (pas uniquement en zone tendue) et les plateformes doivent le verifier.</li>
+ <li><strong>Fiscalite alignee :</strong> l'abattement forfaitaire des meubles de tourisme non classes passe de 50 % a 30 % (aligne sur le micro-foncier). Les meubles classes conservent un abattement de 50 % avec un plafond de 77 700 EUR de recettes.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Calendrier des interdictions pour les meubles touristiques</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Echeance</th>
+ <th>Classe DPE interdite</th>
+ <th>Type de location concerne</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>1er janvier 2025</strong></td>
+ <td>Classe G</td>
+ <td>Toute location (nue, meublee, touristique)</td>
+ </tr>
+ <tr>
+ <td><strong>1er janvier 2028</strong></td>
+ <td>Classe F</td>
+ <td>Toute location</td>
+ </tr>
+ <tr>
+ <td><strong>1er janvier 2034</strong></td>
+ <td>Classe E</td>
+ <td>Toute location</td>
+ </tr>
+ </tbody>
+ </table>
+ <p><strong>Consequence immediate en 2026 :</strong> si votre logement Airbnb est classe G, vous ne pouvez plus le louer. Si vous etes en F, vous avez moins de 2 ans pour realiser les travaux necessaires.</p>
+ </div>
+
+ <div class="card">
+ <h2>Impact financier pour les loueurs Airbnb</h2>
+ <p>Prenons l'exemple d'un studio de 25 m2 a Paris loue en Airbnb :</p>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Revenu annuel brut moyen</div>
+ <div class="value">12 000 - 18 000 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Cout renovation G vers D</div>
+ <div class="value">8 000 - 15 000 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Economie chauffage/an</div>
+ <div class="value">400 - 700 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">ROI travaux</div>
+ <div class="value">1 a 2 saisons</div>
+ </div>
+ </div>
+ <p style="margin-top:1rem;">Sans travaux, vous perdez 12 000 a 18 000 EUR de revenus annuels. Avec 8 000 a 15 000 EUR de travaux (partiellement finances par les aides), le retour sur investissement est atteint en 1 a 2 saisons. Le calcul est clair.</p>
+ </div>
+
+ <div class="card">
+ <h2>Travaux prioritaires pour un meuble touristique</h2>
+ <p>Pour un studio ou T2 loue en courte duree, les travaux a privilegier :</p>
+ <ul class="factor-list">
+ <li><strong>Fenetres double vitrage :</strong> ameliore le confort acoustique (argument fort pour les avis) + gain DPE. Budget : 500 a 1 200 EUR par fenetre.</li>
+ <li><strong>Climatisation reversible (PAC air-air) :</strong> chauffe en hiver, rafraichit en ete (avantage concurrentiel sur Airbnb). Budget : 2 000 a 4 000 EUR pour un studio. Gain DPE significatif si remplacement de convecteurs.</li>
+ <li><strong>Isolation des murs :</strong> 3 000 a 6 000 EUR pour un studio de 25 m2 en ITI.</li>
+ <li><strong>Chauffe-eau thermodynamique :</strong> remplace un cumulus electrique classique. Budget : 2 000 a 3 500 EUR. Reduction de 50 a 70 % de la consommation d'eau chaude.</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Mettez votre meuble aux normes DPE</h2>
+ <p>Decrivez votre projet et recevez des devis d'artisans RGE en IDF sous 48h. Estimation gratuite.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux</a>
+ </div>
+
+ <div class="card">
+ <h2>Location meublee longue duree : les memes regles</h2>
+ <p>Attention : la location meublee longue duree (bail de 1 an ou bail mobilite de 1 a 10 mois) est soumise aux memes regles DPE que la location nue depuis la loi Climat et Resilience :</p>
+ <ul class="factor-list">
+ <li>Le DPE doit etre annexe au bail (comme pour une location nue).</li>
+ <li>Les seuils d'indecence energetique s'appliquent identiquement.</li>
+ <li>Le gel des loyers en F et G est en vigueur depuis aout 2022.</li>
+ <li>Le locataire peut exiger des travaux de mise en conformite en saisissant le juge.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Les aides accessibles aux loueurs meubles</h2>
+ <ul class="factor-list">
+ <li><strong>MaPrimeRenov' :</strong> accessible aux proprietaires bailleurs (y compris LMNP), dans la limite de 3 logements.</li>
+ <li><strong>CEE :</strong> accessibles sans condition de statut locatif.</li>
+ <li><strong>Eco-PTZ :</strong> accessible si le logement a plus de 2 ans et sert de residence principale au locataire (exclut donc le saisonnier pur).</li>
+ <li><strong>TVA 5,5 % :</strong> applicable pour les travaux d'amelioration energetique sur les logements de plus de 2 ans.</li>
+ <li><strong>Amortissement LMNP :</strong> au regime reel, les travaux sont amortissables sur 5 a 25 ans selon leur nature. Ce n'est pas une aide directe mais un levier fiscal important.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Trouvez des artisans pour votre meuble</h2>
+ <p>Renovation, isolation, climatisation : BatiSpot reference des artisans certifies en Ile-de-France. Comparez 3 devis gratuits.</p>
+ <a href="/estimateur" class="cta-btn-green">Obtenir mes devis gratuits</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/guide-dpe-2026-obligations-proprietaire" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">DPE 2026 : obligations proprietaires</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calendrier complet des interdictions</div>
+ </a>
+ <a href="/lmnp-travaux-amortissement" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">LMNP : amortir ses travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Regime reel, calculs et exemples</div>
+ </a>
+ <a href="/dpe-passoire-thermique-que-faire" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Passoire thermique : que faire ?</div>
+ <div style="font-size:.76rem;color:var(--sub);">Solutions concretes pour F et G</div>
+ </a>
+ <a href="/guide-installation-pompe-a-chaleur-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix climatisation Paris 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Tarifs PAC air-air et installation</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

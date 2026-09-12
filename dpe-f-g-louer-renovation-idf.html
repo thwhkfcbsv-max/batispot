@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<title>DPE F ou G en 2026 : location interdite, gel des loyers — comment relouer | BatiSpot IDF</title>
+<meta name="description" content="Passoire thermique classée F ou G : location interdite (G depuis 2025, F en 2028), gel des loyers depuis le 24 août 2022. Que faire en 2026 ? BatiSpot trouve un artisan vérifié en Île-de-France pour la rénovation énergétique et monte votre dossier MaPrimeRénov'. Gratuit pour le propriétaire.">
+<link rel="canonical" href="https://batispot.pro/dpe-f-g-louer-renovation-idf">
+
+<!-- PWA / mobile -->
+<meta name="theme-color" content="#0F5132">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="BatiSpot">
+<meta name="application-name" content="BatiSpot">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var.woff2" crossorigin>
+
+<!-- Open Graph + Twitter Card -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BatiSpot">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="DPE F ou G : comment continuer à louer votre bien en 2026">
+<meta property="og:description" content="DPE G interdit à la location, F en 2028, E en 2034. BatiSpot trouve un artisan vérifié et vous aide à monter votre dossier d'aides. Gratuit pour le propriétaire — Île-de-France.">
+<meta property="og:url" content="https://batispot.pro/dpe-f-g-louer-renovation-idf">
+<meta property="og:image" content="https://batispot.pro/og/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DPE F ou G : comment continuer à louer votre bien en 2026">
+<meta name="twitter:description" content="DPE G interdit à la location, F en 2028, E en 2034. BatiSpot trouve un artisan vérifié et monte votre dossier d'aides. Gratuit — Île-de-France.">
+<meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+
+<style>
+@font-face { font-family: 'Inter'; src: url('/fonts/inter-var.woff2') format('woff2-variations'), url('/fonts/inter-var.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+/* === Tokens charte BatiSpot (cohérents avec index.html) === */
+:root {
+ --g1:#1A6B45; --g2:#228B5B; --g3:#4CAF82;
+ --g-soft:#EBF7F1; --g-cream:#F7FBF8;
+ --cta:#166534; --cta-h:#0f4a2f;
+ --text:#1C2B22; --sub:#3D5A4E;
+ --border:rgba(34,139,91,0.12);
+ --shadow:rgba(26,107,69,0.08);
+ --white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1F2937;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid #228B5B;outline-offset:3px;border-radius:4px}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* NAV */
+.bs-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 3%;height:72px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.bs-nav .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+.bs-nav .nav-links{display:flex;gap:1.6rem;list-style:none;flex-shrink:0}
+.bs-nav .nav-links a{text-decoration:none;color:var(--sub);font-weight:500;font-size:.92rem;transition:color .2s;white-space:nowrap}
+.bs-nav .nav-links a:hover{color:var(--g1)}
+.bs-nav .nav-switch{display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.bs-nav .nav-pro-link{font-size:.85rem;font-weight:600;color:var(--sub);text-decoration:none;transition:color .2s;white-space:nowrap}
+.bs-nav .nav-pro-link:hover{color:var(--g2)}
+.bs-nav .nav-cta{background:var(--cta);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:10px;font-weight:800;font-size:.9rem;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s;white-space:nowrap}
+.bs-nav .nav-cta:hover{background:var(--cta-h);transform:translateY(-1px)}
+@media(max-width:1100px){ .bs-nav .nav-pro-link{display:none} }
+@media(max-width:900px){ .bs-nav .nav-links li:nth-child(n+4){display:none} }
+
+/* HERO */
+.bs-hero{background:radial-gradient(ellipse at 80% 20%,rgba(34,139,91,0.08) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(76,175,130,0.06) 0%,transparent 50%),linear-gradient(180deg,var(--g-cream) 0%,#fff 100%);padding:70px 5% 60px}
+.bs-hero-inner{max-width:880px;margin:0 auto;width:100%;text-align:center}
+.bs-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:var(--g-soft);color:var(--g1);padding:.35rem 1rem;border-radius:20px;font-size:.78rem;font-weight:700;border:1px solid var(--border);margin-bottom:1.3rem}
+.bs-eyebrow::before{content:'●';color:var(--g3);font-size:.5rem}
+.bs-hero h1{font-size:clamp(1.9rem,4vw,3rem);font-weight:900;color:var(--text);line-height:1.14;margin-bottom:1.1rem;letter-spacing:-.02em}
+.bs-hero h1 em{font-style:normal;color:var(--g2)}
+.bs-hero>.bs-hero-inner>p{font-size:1.08rem;color:var(--sub);margin:0 auto 2rem;max-width:620px;line-height:1.7}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.6rem}
+.btn-primary{display:inline-block;background:var(--cta);color:#fff;padding:.95rem 2.2rem;border-radius:14px;font-size:1rem;font-weight:900;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 8px 24px rgba(42,157,110,0.25)}
+.btn-primary:hover{background:var(--cta-h);transform:translateY(-2px)}
+.btn-ghost{display:inline-block;background:#fff;color:var(--g1);padding:.95rem 1.8rem;border-radius:14px;font-size:1rem;font-weight:800;text-decoration:none;border:1.5px solid var(--border);transition:background .2s,transform .15s}
+.btn-ghost:hover{background:var(--g-soft);transform:translateY(-2px)}
+.hero-note{font-size:.82rem;color:var(--sub)}
+.hero-note strong{color:var(--g1)}
+
+/* SECTIONS */
+section{padding:72px 5%}
+.section-inner{max-width:880px;margin:0 auto}
+.section-head{text-align:center;max-width:620px;margin:0 auto 3rem}
+.tag{display:inline-block;background:var(--g-soft);color:var(--g1);padding:.28rem .85rem;border-radius:20px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.7rem;border:1px solid var(--border)}
+.section-head h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:900;color:var(--text);line-height:1.2;margin-bottom:.7rem;letter-spacing:-.015em}
+.section-head p{color:var(--sub);font-size:.96rem}
+
+/* CALENDRIER */
+.bs-calendar{background:var(--g-soft)}
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.3rem}
+.cal-card{background:#fff;border-radius:20px;padding:1.8rem 1.5rem;box-shadow:0 4px 20px var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden}
+.cal-card.now{border-color:var(--g3);box-shadow:0 8px 28px rgba(26,107,69,0.14)}
+.cal-year{font-size:2rem;font-weight:900;color:var(--g2);line-height:1;margin-bottom:.5rem}
+.cal-class{display:inline-block;font-weight:900;color:#fff;background:#B91C1C;border-radius:8px;padding:.15rem .6rem;font-size:.95rem;margin-bottom:.7rem}
+.cal-class.e{background:#D97706}
+.cal-card h3{font-size:.98rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
+.cal-card p{font-size:.85rem;color:var(--sub);line-height:1.6}
+.cal-badge{position:absolute;top:14px;right:14px;background:var(--g2);color:#fff;font-size:.66rem;font-weight:800;padding:.2rem .55rem;border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+.cal-foot{text-align:center;font-size:.82rem;color:var(--sub);margin-top:1.8rem}
+
+/* CE QUE FAIT BATISPOT */
+.bs-what{background:#fff}
+.what-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.what-card{background:var(--g-cream);border-radius:20px;padding:2rem 1.6rem;border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.what-card:hover{transform:translateY(-5px);box-shadow:0 14px 38px rgba(26,107,69,0.12)}
+.w-icon{width:56px;height:56px;border-radius:16px;background:var(--g-soft);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem}
+.what-card h3{font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:.45rem}
+.what-card p{font-size:.88rem;color:var(--sub);line-height:1.6}
+.free-pill{display:inline-flex;align-items:center;gap:.4rem;background:#F0FDF4;border:1px solid rgba(34,139,91,0.2);padding:.3rem .9rem;border-radius:999px;font-size:.82rem;font-weight:800;color:#0F5132;margin:2rem auto 0;justify-content:center}
+
+/* ÉTAPES */
+.bs-steps{background:var(--g-soft)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem}
+.step{text-align:center;padding:1rem}
+.step-num{width:50px;height:50px;border-radius:50%;background:var(--cta);color:#fff;font-size:1.1rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 6px 18px rgba(42,157,110,0.28)}
+.step h3{font-size:.98rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
+.step p{font-size:.85rem;color:var(--sub)}
+
+/* RASSURANCE / TRUST */
+.bs-trust{background:#fff}
+.trust-list{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:.9rem}
+.trust-item{display:flex;align-items:flex-start;gap:.8rem;font-size:.95rem;color:var(--sub)}
+.trust-check{width:24px;height:24px;border-radius:50%;background:var(--g-soft);border:1.5px solid var(--g3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g2);font-size:.75rem;font-weight:900;margin-top:1px}
+.trust-item strong{color:var(--text)}
+
+/* FAQ */
+.bs-faq{background:var(--g-cream)}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.3rem 1.5rem;margin-bottom:1rem}
+.faq-item h3{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.5rem}
+.faq-item p{font-size:.9rem;color:var(--sub);line-height:1.7}
+
+/* CTA FINAL */
+.bs-cta-final{background:linear-gradient(135deg,#0d3320 0%,var(--g1) 50%,var(--g2) 100%);text-align:center;padding:84px 5%;color:#fff}
+.bs-cta-final h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:#fff;margin-bottom:1rem;letter-spacing:-.015em}
+.bs-cta-final p{font-size:.98rem;color:rgba(255,255,255,0.78);max-width:480px;margin:0 auto 2rem}
+.cta-final-btn{display:inline-block;background:#fff;color:var(--g1);padding:.95rem 2.6rem;border-radius:14px;font-size:1rem;font-weight:900;text-decoration:none;transition:transform .15s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.cta-final-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,0.2)}
+.cta-final-note{font-size:.8rem;color:rgba(255,255,255,0.6);margin-top:1rem}
+
+/* FOOTER */
+.bs-footer{background:#0a1c10;color:rgba(255,255,255,0.72);padding:2.5rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.8rem}
+.bs-footer .f-logo{font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none}
+.bs-footer a{color:rgba(255,255,255,0.65);text-decoration:none}
+.bs-footer a:hover{color:#fff}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+
+/* Hamburger mobile */
+.nav-burger{display:none;background:none;border:none;cursor:pointer;width:42px;height:42px;align-items:center;justify-content:center;color:var(--g1);border-radius:8px;flex-shrink:0}
+.nav-burger:hover{background:var(--g-soft)}
+.nav-burger svg{width:26px;height:26px}
+.nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(15,31,23,.08);z-index:99;animation:nav-slide-down .2s ease}
+.nav-mobile.open{display:block}
+.nav-mobile a{display:block;padding:14px 20px;font-size:15px;font-weight:600;color:var(--text);text-decoration:none;border-bottom:1px solid var(--border)}
+.nav-mobile a:hover{background:var(--g-cream);color:var(--g1)}
+.nav-mobile a.nav-mobile-cta{background:var(--cta);color:#fff;font-weight:800;text-align:center;border-bottom:none;margin:14px 20px;padding:14px 20px;border-radius:10px}
+.nav-mobile a.nav-mobile-cta:hover{background:var(--cta-h);color:#fff}
+@keyframes nav-slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){
+ .bs-nav{padding:0 4%;height:60px;gap:.5rem}
+ .bs-nav .nav-links,.bs-nav .nav-switch{display:none}
+ .bs-nav .logo svg{width:130px;height:34px}
+ .nav-burger{display:flex}
+}
+</style>
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+ {"@type":"Question","name":"Mon bien est classé G : puis-je encore le louer en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Non, pour une nouvelle mise en location. Depuis le 1er janvier 2025, les logements classés G au DPE sont considérés comme indécents et ne peuvent plus faire l'objet d'un nouveau contrat de location. Les baux en cours peuvent se poursuivre, mais le bien doit être rénové pour pouvoir être reloué. Une rénovation énergétique permet de remonter la classe et de relouer en toute légalité."}},
+ {"@type":"Question","name":"Quel est le calendrier d'interdiction des passoires thermiques ?","acceptedAnswer":{"@type":"Answer","text":"Classe G : interdit à la location depuis le 1er janvier 2025. Classe F : interdit à compter de 2028. Classe E : interdit à compter de 2034. Ce calendrier est fixé par la loi Climat et Résilience."}},
+ {"@type":"Question","name":"Peut-on augmenter le loyer d'un logement classé F ou G ?","acceptedAnswer":{"@type":"Answer","text":"Non. Depuis le 24 août 2022, la loi Climat et Résilience gèle le loyer des passoires thermiques classées F ou G : aucune augmentation, aucune révision annuelle (indice IRL), aucune réévaluation à la relocation ou au renouvellement du bail. Le loyer ne peut être débloqué qu'après des travaux de rénovation énergétique faisant passer le logement au moins en classe E, prouvé par un nouveau DPE."}},
+ {"@type":"Question","name":"Combien coûte une rénovation énergétique et existe-t-il des aides ?","acceptedAnswer":{"@type":"Answer","text":"Le coût dépend des travaux (isolation, chauffage, fenêtres, ventilation). De nombreuses aides existent : MaPrimeRénov', les CEE, l'éco-PTZ et des aides locales en Île-de-France. BatiSpot vous aide à identifier les aides auxquelles vous avez droit et à monter le dossier. Le service est gratuit pour le propriétaire."}},
+ {"@type":"Question","name":"BatiSpot est-il gratuit pour le propriétaire ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Déposer votre projet, recevoir des devis d'artisans vérifiés et être accompagné sur le montage du dossier d'aides est entièrement gratuit pour le propriétaire, sans engagement."}},
+ {"@type":"Question","name":"BatiSpot couvre-t-il l'Île-de-France ?","acceptedAnswer":{"@type":"Answer","text":"Oui. BatiSpot met en relation les propriétaires avec des artisans vérifiés (KBIS, RC Pro, Décennale) partout en Île-de-France : Paris et l'ensemble des départements de la région."}}
+ ]
+}
+</script>
+ <!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="bs-nav">
+ <a href="/" class="logo" aria-label="BatiSpot — Accueil">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+ <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+ <stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/>
+ </linearGradient></defs>
+ <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+ <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+ <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+ <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text>
+ </svg>
+ </a>
+ <ul class="nav-links">
+ <li><a href="#calendrier">Le calendrier</a></li>
+ <li><a href="#solution">Ce que fait BatiSpot</a></li>
+ <li><a href="#etapes">Comment ça marche</a></li>
+ <li><a href="/blog/">Guides &amp; conseils</a></li>
+ </ul>
+ <div class="nav-switch">
+ <a href="/app/client-login" class="nav-pro-link">Mon espace</a>
+ <a href="/devis/" class="nav-cta">Déposer mon projet</a>
+ </div>
+ <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+ </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile" aria-label="Menu mobile">
+ <a href="#calendrier">Le calendrier d'interdiction</a>
+ <a href="#solution">Ce que fait BatiSpot</a>
+ <a href="#etapes">Comment ça marche</a>
+ <a href="/blog/">Guides &amp; conseils</a>
+ <a href="/app/client-login">Mon espace client</a>
+ <a href="/devis/" class="nav-mobile-cta">Déposer mon projet</a>
+</div>
+
+<script>
+ (function(){
+ const btn = document.getElementById('nav-burger');
+ const menu = document.getElementById('nav-mobile');
+ if (!btn || !menu) return;
+ btn.addEventListener('click', () => {
+ const open = menu.classList.toggle('open');
+ btn.setAttribute('aria-expanded', open);
+ });
+ menu.addEventListener('click', (e) => {
+ if (e.target.tagName === 'A') { menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+ });
+ })();
+</script>
+
+<main>
+
+<!-- ── HERO ── -->
+<section class="bs-hero">
+ <div class="bs-hero-inner">
+ <div class="bs-eyebrow">Propriétaires bailleurs : Île-de-France</div>
+ <h1>Votre bien est classé F ou G ?<br>Voici comment <em>continuer à le louer</em> en 2026.</h1>
+<p>La loi Climat interdit progressivement la location des passoires thermiques. La bonne nouvelle : une rénovation énergétique remonte la classe de votre logement. BatiSpot trouve l'artisan vérifié et vous aide à monter votre dossier d'aides, gratuitement.</p>
+ <div class="hero-ctas">
+ <a href="/devis/" class="btn-primary">Déposer mon projet gratuitement →</a>
+ <a href="#calendrier" class="btn-ghost">Voir le calendrier</a>
+ </div>
+ <p class="hero-note"><strong>Gratuit pour le propriétaire</strong> · Sans engagement · Artisans vérifiés en Île-de-France</p>
+ </div>
+</section>
+
+<!-- ── CALENDRIER ── -->
+<section id="calendrier" class="bs-calendar">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">Loi Climat &amp; Résilience</span>
+ <h2>Le calendrier d'interdiction de location</h2>
+ <p>Les logements les plus énergivores sortent progressivement du marché locatif. Voici les échéances à connaître pour votre bien.</p>
+ </div>
+ <div class="cal-grid">
+ <div class="cal-card now">
+ <span class="cal-badge">En vigueur</span>
+ <div class="cal-year">2025</div>
+ <span class="cal-class">DPE G</span>
+ <h3>Déjà interdit à la location</h3>
+ <p>Depuis le 1<sup>er</sup> janvier 2025, un logement classé G ne peut plus être proposé à une nouvelle location.</p>
+ </div>
+ <div class="cal-card">
+ <div class="cal-year">2028</div>
+ <span class="cal-class">DPE F</span>
+ <h3>Prochaine échéance</h3>
+ <p>À partir de 2028, les logements classés F rejoindront les biens interdits à la location.</p>
+ </div>
+ <div class="cal-card">
+ <div class="cal-year">2034</div>
+ <span class="cal-class e">DPE E</span>
+ <h3>Échéance suivante</h3>
+ <p>En 2034, l'interdiction s'étendra aux logements classés E. Anticiper, c'est étaler le coût et éviter la pénurie d'artisans.</p>
+ </div>
+ </div>
+ <p class="cal-foot">Source : loi n° 2021-1104 dite « Climat et Résilience ». Les baux en cours peuvent se poursuivre, mais le bien doit être rénové pour être reloué.</p>
+ </div>
+</section>
+
+<!-- ── GEL DES LOYERS ── -->
+<section id="gel-loyers" class="bs-cal">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">Gel des loyers F/G</span>
+ <h2>Passoire thermique : le loyer est gelé depuis 2022</h2>
+ <p>Avant même l'interdiction de louer, une classe F ou G vous prive d'une chose : augmenter le loyer.</p>
+ </div>
+ <p style="max-width:760px;margin:0 auto 1rem;line-height:1.7;">Depuis le <strong>24 août 2022</strong>, la loi Climat &amp; Résilience <strong>interdit toute hausse du loyer d'un logement classé F ou G</strong> en France métropolitaine : pas d'augmentation, pas de révision annuelle (indexation IRL), pas de réévaluation à la relocation ou au renouvellement du bail. Le loyer est <strong>gelé</strong> tant que le bien reste une passoire thermique.</p>
+ <p style="max-width:760px;margin:0 auto 1rem;line-height:1.7;">La seule façon de <strong>débloquer le loyer</strong> : réaliser des <strong>travaux de rénovation énergétique</strong> qui font passer le logement <strong>au moins en classe E</strong>, prouvé par un <strong>nouveau DPE</strong> après travaux. Vous sortez alors du statut de passoire et retrouvez le droit d'ajuster le loyer.</p>
+ <p style="max-width:760px;margin:0 auto;line-height:1.7;">Autrement dit, en 2026 un bien F ou G cumule <strong>deux pénalités</strong> : loyer bloqué aujourd'hui, et interdiction de louer demain (G depuis 2025, F en 2028). La rénovation règle les deux d'un coup, et c'est là que BatiSpot vous trouve l'artisan et monte votre dossier d'aides.</p>
+ </div>
+</section>
+
+<!-- ── CE QUE FAIT BATISPOT ── -->
+<section id="solution" class="bs-what">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">La solution BatiSpot</span>
+ <h2>On s'occupe des travaux et du dossier d'aides</h2>
+ <p>Pas besoin de chercher un artisan fiable ni de vous perdre dans les démarches. BatiSpot fait le lien et vous accompagne de bout en bout.</p>
+ </div>
+ <div class="what-grid">
+ <div class="what-card">
+ <div class="w-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+ <h3>Un artisan vérifié pour la rénovation énergétique</h3>
+ <p>Isolation, chauffage performant, fenêtres, ventilation : on vous met en relation avec des artisans contrôlés (KBIS, RC Pro, Décennale) en Île-de-France.</p>
+ </div>
+ <div class="what-card">
+ <div class="w-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+ <h3>L'aide au montage du dossier d'aides</h3>
+ <p>MaPrimeRénov', CEE, éco-PTZ, aides locales IDF : on vous aide à identifier ce à quoi vous avez droit et à constituer votre dossier sereinement.</p>
+ </div>
+ <div class="what-card">
+ <div class="w-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+ <h3>Gratuit pour le propriétaire</h3>
+ <p>Déposer votre projet, recevoir des devis et être accompagné ne vous coûte rien. Vous comparez les offres et décidez à votre rythme.</p>
+ </div>
+ </div>
+ <div style="text-align:center"><span class="free-pill"> 0 € pour le propriétaire, sans engagement</span></div>
+ </div>
+</section>
+
+<!-- ── ÉTAPES ── -->
+<section id="etapes" class="bs-steps">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">Simple &amp; rapide</span>
+ <h2>3 étapes pour remettre votre bien aux normes</h2>
+ <p>De la demande aux devis, BatiSpot vous fait gagner du temps.</p>
+ </div>
+ <div class="steps">
+ <div class="step"><div class="step-num">1</div><h3>Décrivez votre bien</h3><p>Classe DPE, type de logement, adresse en Île-de-France et travaux envisagés, en moins de 2 minutes.</p></div>
+ <div class="step"><div class="step-num">2</div><h3>Recevez des devis vérifiés</h3><p>Des artisans certifiés de votre secteur vous envoient leurs propositions de rénovation énergétique.</p></div>
+ <div class="step"><div class="step-num">3</div><h3>Lancez les travaux avec les aides</h3><p>On vous accompagne sur le dossier MaPrimeRénov' et les autres aides, puis vous reloguez en toute légalité.</p></div>
+ </div>
+ </div>
+</section>
+
+<!-- ── RASSURANCE ── -->
+<section class="bs-trust">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">Pourquoi BatiSpot</span>
+ <h2>La sérénité, du diagnostic à la relocation</h2>
+ </div>
+ <div class="trust-list">
+ <div class="trust-item"><div class="trust-check"></div><span><strong>Artisans vérifiés</strong> — KBIS, assurance RC Pro, Décennale et pièce d'identité du gérant contrôlés avant l'accès à la plateforme.</span></div>
+ <div class="trust-item"><div class="trust-check"></div><span><strong>Spécialistes rénovation énergétique</strong> — isolation, pompe à chaleur, fenêtres, ventilation : les bons corps de métier pour faire remonter votre DPE.</span></div>
+ <div class="trust-item"><div class="trust-check"></div><span><strong>Accompagnement sur les aides</strong> — on vous oriente sur MaPrimeRénov', les CEE et l'éco-PTZ pour réduire le reste à charge.</span></div>
+ <div class="trust-item"><div class="trust-check"></div><span><strong>100 % Île-de-France</strong> — Paris et tous les départements de la région.</span></div>
+ <div class="trust-item"><div class="trust-check"></div><span><strong>Gratuit et sans engagement</strong> — vous comparez les devis et restez libre de votre décision.</span></div>
+ </div>
+ </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="bs-faq">
+ <div class="section-inner">
+ <div class="section-head">
+ <span class="tag">Questions fréquentes</span>
+ <h2>Ce que les propriétaires nous demandent</h2>
+ </div>
+ <div class="faq-item">
+ <h3>Mon bien est classé G : puis-je encore le louer en 2026 ?</h3>
+ <p>Non, pour une nouvelle mise en location. Depuis le 1<sup>er</sup> janvier 2025, les logements classés G sont considérés comme indécents et ne peuvent plus faire l'objet d'un nouveau contrat de location. Les baux en cours peuvent se poursuivre, mais le bien doit être rénové pour être reloué. Une rénovation énergétique permet de remonter la classe et de relouer en toute légalité.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Quel est le calendrier d'interdiction des passoires thermiques ?</h3>
+ <p>Classe G : interdit à la location depuis le 1<sup>er</sup> janvier 2025. Classe F : interdit à compter de 2028. Classe E : interdit à compter de 2034. Ce calendrier est fixé par la loi Climat et Résilience.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Peut-on augmenter le loyer d'un logement classé F ou G ?</h3>
+ <p>Non. Depuis le 24 août 2022, la loi Climat et Résilience gèle le loyer des passoires thermiques classées F ou G : aucune augmentation, aucune révision annuelle (indice IRL), aucune réévaluation à la relocation ou au renouvellement du bail. Le loyer ne peut être débloqué qu'après des travaux de rénovation énergétique faisant passer le logement au moins en classe E, prouvé par un nouveau DPE.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Combien coûte une rénovation énergétique et existe-t-il des aides ?</h3>
+ <p>Le coût dépend des travaux (isolation, chauffage, fenêtres, ventilation). De nombreuses aides existent : MaPrimeRénov', les CEE, l'éco-PTZ et des aides locales en Île-de-France. BatiSpot vous aide à identifier les aides auxquelles vous avez droit et à monter le dossier. Le service est gratuit pour le propriétaire.</p>
+ </div>
+ <div class="faq-item">
+ <h3>BatiSpot est-il vraiment gratuit pour le propriétaire ?</h3>
+ <p>Oui. Déposer votre projet, recevoir des devis d'artisans vérifiés et être accompagné sur le montage du dossier d'aides est entièrement gratuit, sans engagement.</p>
+ </div>
+ <div class="faq-item">
+ <h3>BatiSpot couvre-t-il toute l'Île-de-France ?</h3>
+ <p>Oui. BatiSpot met en relation les propriétaires avec des artisans vérifiés (KBIS, RC Pro, Décennale) partout en Île-de-France : Paris et l'ensemble des départements de la région.</p>
+ </div>
+ </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section class="bs-cta-final">
+ <h2>Anticipez : remettez votre bien sur le marché locatif</h2>
+ <p>Décrivez votre projet en 2 minutes. Recevez des devis d'artisans vérifiés et un accompagnement sur vos aides, gratuitement.</p>
+ <a href="/devis/" class="cta-final-btn">Déposer mon projet gratuitement →</a>
+ <p class="cta-final-note">Gratuit pour le propriétaire · Sans engagement · Île-de-France</p>
+</section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+
+<footer class="bs-footer">
+ <a href="/" class="f-logo">BatiSpot</a>
+ <div class="footer-links">
+ <a href="/cgu">CGU</a>
+ <a href="/mentions-legales">Mentions légales</a>
+ <a href="/confidentialite">Confidentialité</a>
+ <a href="mailto:contact@batispot.pro">contact@batispot.pro</a>
+ </div>
+ <span style="color:rgba(255,255,255,0.5)">© 2026 BatiSpot · Île-de-France</span>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

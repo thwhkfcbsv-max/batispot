@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Garantie biennale et parfait achèvement : ce qu'elles couvrent vraiment | BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/garantie-biennale-parfait-achevement-2026">
+<meta name="description" content="Différence entre garantie de parfait achèvement (1 an), biennale (2 ans) et décennale (10 ans). Ce qui est couvert, comment activer, les pièges 2026." />
+<meta name="keywords" content="garantie biennale, garantie parfait achevement, garantie travaux 2 ans, biennale exemple, parfait achevement 1 an" />
+<meta property="og:title" content="Garanties biennale et parfait achèvement — Guide 2026" />
+<meta property="og:description" content="Tout ce qui est couvert pendant 1 an et 2 ans après vos travaux. Comment activer les garanties, les pièges courants." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://batispot.pro/og/garantie-biennale-parfait-achevement-2026.png" />
+<meta property="og:url" content="https://batispot.pro/garantie-biennale-parfait-achevement-2026" />
+<style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.6}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g3:#4CAF82;--g-soft:#EBF7F1;--cta:#2A9D6E;--cta-h:#1A6B45;--text:#1C2B22;--sub:#5A7268;--border:rgba(34,139,91,0.12);--white:#fff;--orange:#F97316;--red:#dc2626}
+ nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+ .logo{display:inline-flex;align-items:center;text-decoration:none}
+ .nav-links{display:flex;gap:1.5rem}
+ .nav-links a{color:var(--sub);text-decoration:none;font-size:.85rem;font-weight:500}
+ .hero{background:linear-gradient(135deg,var(--g1),var(--g2));padding:3rem 5% 2.5rem;text-align:center;color:#fff}
+ .hero h1{font-size:2rem;font-weight:900;margin-bottom:.75rem}
+ .hero p{opacity:.9;font-size:1.05rem;max-width:680px;margin:0 auto}
+ .breadcrumb{font-size:.8rem;opacity:.75;margin-bottom:.75rem}
+ .breadcrumb a{color:rgba(255,255,255,.85);text-decoration:none}
+ .container{max-width:820px;margin:0 auto;padding:2.5rem 1.2rem 3rem}
+ .toc{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 18px rgba(0,0,0,.05);margin-bottom:1.8rem}
+ .toc h3{font-size:.95rem;color:var(--g1);margin-bottom:.6rem}
+ .toc ol{list-style:none;padding:0}
+ .toc li{padding:.3rem 0;font-size:.88rem}
+ .toc a{color:var(--sub);text-decoration:none}
+ .card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:1.8rem}
+ .card h2{font-size:1.4rem;font-weight:900;color:var(--g1);margin-bottom:1rem;scroll-margin-top:80px}
+ .card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem}
+ .card p{margin-bottom:.9rem;font-size:.95rem}
+ .card ul,.card ol{margin:.6rem 0 .9rem 1.5rem}
+ .card li{padding:.25rem 0;font-size:.92rem}
+ .badge{display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.2rem .7rem;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+ .alert-red{background:#FEF2F2;border-left:4px solid var(--red);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#991B1B}
+ .alert-green{background:#F0FDF4;border-left:4px solid #16a34a;padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#166534}
+ .alert-orange{background:#FEF3C7;border-left:4px solid var(--orange);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#92400E}
+ .courrier{background:#F9FAFB;border:1px dashed var(--border);border-radius:8px;padding:1.2rem;font-family:Georgia,serif;font-size:.85rem;line-height:1.7;margin:1rem 0;white-space:pre-wrap}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2.2rem;text-align:center;color:#fff;margin-bottom:1.8rem}
+ .cta-section h2{font-size:1.4rem;font-weight:900;margin-bottom:.5rem;color:#fff}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;text-decoration:none}
+ table{width:100%;border-collapse:collapse;margin:1rem 0}
+ th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}
+ th{background:var(--g-soft);color:var(--g1);font-weight:700}
+ footer{background:var(--g1);color:rgba(255,255,255,.8);text-align:center;padding:1.5rem;font-size:.8rem;margin-top:2rem}
+ footer a{color:rgba(255,255,255,.95);text-decoration:none}
+ @media(max-width:600px){.hero h1{font-size:1.5rem}.card{padding:1.3rem}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Garantie biennale et parfait achèvement : ce qu'elles couvrent vraiment | BatiSpot",
+ "description": "Différence entre garantie de parfait achèvement (1 an), biennale (2 ans) et décennale (10 ans). Ce qui est couvert, comment activer, les pièges 2026.",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-04-25",
+ "dateModified": "2026-06-12",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/garantie-biennale-parfait-achevement-2026"
+ }
+}
+</script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a>
+ <div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimer</a><a href="/">Artisan ?</a></div>
+</nav>
+
+<section class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › Guides › Garanties travaux</div>
+ <h1>Garantie biennale & parfait achèvement (2026)</h1>
+<p>Vos travaux sont couverts à plusieurs niveaux selon le défaut. Voici ce qui rentre dans 1 an, 2 ans, 10 ans, et comment activer chaque garantie sans se faire balader.</p>
+</section>
+
+<div class="container">
+
+ <div class="toc">
+ <h3>Sommaire</h3>
+ <ol>
+ <li>1. <a href="#tableau">Vue d'ensemble : 3 garanties à connaître</a></li>
+ <li>2. <a href="#parfait">Parfait achèvement (1 an)</a></li>
+ <li>3. <a href="#biennale">Biennale / bon fonctionnement (2 ans)</a></li>
+ <li>4. <a href="#decennale">Décennale (10 ans)</a></li>
+ <li>5. <a href="#activer">Comment activer une garantie</a></li>
+ <li>6. <a href="#pieges">Les 5 pièges courants</a></li>
+ </ol>
+ </div>
+
+ <div class="card" id="tableau">
+ <h2>Vue d'ensemble : 3 garanties à connaître</h2>
+ <p>Toutes courent <strong>à partir de la réception des travaux</strong>. Sans réception formelle, ces garanties ne démarrent pas.</p>
+ <table>
+ <tr><th>Garantie</th><th>Durée</th><th>Couvre</th><th>Qui paie</th></tr>
+ <tr><td><strong>Parfait achèvement</strong></td><td>1 an</td><td>Tous les désordres signalés à la réception ou apparus dans l'année</td><td>L'artisan directement</td></tr>
+ <tr><td><strong>Biennale</strong></td><td>2 ans</td><td>Équipements dissociables (volets, robinets, plaques, VMC...)</td><td>L'artisan ou son assureur</td></tr>
+ <tr><td><strong>Décennale</strong></td><td>10 ans</td><td>Solidité de l'ouvrage, étanchéité, structure, défauts qui rendent inutilisable</td><td>Assurance décennale obligatoire</td></tr>
+ </table>
+ <div class="alert-orange">
+ <strong> Cumul possible</strong> : un même défaut peut relever de 2 garanties différentes selon comment il est qualifié. C'est souvent l'expert qui tranche.
+ </div>
+ </div>
+
+ <div class="card" id="parfait">
+ <span class="badge">Garantie n°1</span>
+ <h2>La garantie de parfait achèvement (1 an)</h2>
+ <p>C'est la <strong>plus large</strong> et la moins connue. L'artisan doit corriger TOUS les désordres :</p>
+ <ul>
+ <li>Notés sur le PV de réception (réserves)</li>
+ <li>OU apparus dans l'année qui suit (même non signalés à la réception)</li>
+ </ul>
+
+ <h3>Exemples typiques :</h3>
+ <ul>
+ <li>Carreau qui se décolle 6 mois après la pose</li>
+ <li>Peinture qui s'écaille au niveau des plinthes</li>
+ <li>Robinet qui goutte progressivement</li>
+ <li>Joint silicone qui se détache de la baignoire</li>
+ <li>Porte qui frotte au sol après quelques mois</li>
+ <li>Prise électrique mal fixée qui bouge</li>
+ </ul>
+
+ <h3>Comment l'activer :</h3>
+ <ol>
+ <li><strong>Email à l'artisan</strong> dans les jours qui suivent la constatation : photo + description précise</li>
+ <li><strong>Demander un délai</strong> de réparation (15 jours raisonnables)</li>
+ <li><strong>Si pas de réponse</strong> : LRAR de mise en demeure</li>
+ <li><strong>Si toujours rien</strong> : médiateur de la consommation</li>
+ </ol>
+
+ <div class="alert-green">
+ <strong> Particularité</strong> : pendant cette année, vous n'avez <strong>pas besoin</strong> de prouver que c'est l'artisan qui a mal fait. La présomption joue en votre faveur, c'est à lui de prouver que c'est dû à un mauvais usage de votre part.
+ </div>
+ </div>
+
+ <div class="card" id="biennale">
+ <span class="badge">Garantie n°2</span>
+ <h2>La garantie biennale (2 ans)</h2>
+ <p>Aussi appelée "garantie de bon fonctionnement". Elle couvre les <strong>éléments d'équipement dissociables</strong> de l'ouvrage, c'est-à-dire ceux qu'on peut démonter sans abîmer le gros œuvre.</p>
+
+ <h3>Exemples couverts :</h3>
+ <table>
+ <tr><th>Type</th><th>Exemple</th></tr>
+ <tr><td>Plomberie</td><td>Robinetterie, mitigeur, chasse d'eau, ballon ECS</td></tr>
+ <tr><td>Électricité</td><td>Convecteurs électriques, plaques de cuisson, hotte</td></tr>
+ <tr><td>Menuiserie</td><td>Volets roulants, persiennes, fenêtres rapportées</td></tr>
+ <tr><td>Ventilation</td><td>VMC simple flux, VMC double flux, extracteurs</td></tr>
+ <tr><td>Cuisine</td><td>Meubles de cuisine fixés (mais pas l'évier scellé qui est décennal)</td></tr>
+ </table>
+
+ <h3>Exemples NON couverts (relèvent de la décennale) :</h3>
+ <ul>
+ <li>Carrelage scellé au sol</li>
+ <li>Chauffage par le sol</li>
+ <li>Cheminée maçonnée</li>
+ <li>Canalisations encastrées</li>
+ </ul>
+
+ <h3>Comment activer :</h3>
+ <ol>
+ <li>Email à l'artisan + photos + facture</li>
+ <li>Si pas de réponse en 30 jours : LRAR</li>
+ <li>Si l'entreprise n'existe plus : faire valoir auprès de son assurance biennale (souvent intégrée à la RC Pro)</li>
+ </ol>
+
+ <div class="alert-orange">
+ <strong>️ Subtilité</strong> : la biennale ne couvre que le bon fonctionnement, pas l'esthétique. Un volet qui se bloque = couvert. Un volet rayé = non.
+ </div>
+ </div>
+
+ <div class="card" id="decennale">
+ <span class="badge">Garantie n°3</span>
+ <h2>La garantie décennale (10 ans)</h2>
+ <p>La <strong>reine des garanties</strong>. Obligatoire pour tout artisan B2C en France (article 1792 du Code civil). Couvre les désordres qui :</p>
+ <ul>
+ <li>Compromettent la <strong>solidité de l'ouvrage</strong></li>
+ <li>OU rendent l'ouvrage <strong>impropre à sa destination</strong></li>
+ </ul>
+
+ <h3>Exemples typiques :</h3>
+ <ul>
+ <li>Fissures structurelles dans un mur porteur</li>
+ <li>Infiltrations d'eau par la toiture (étanchéité)</li>
+ <li>Affaissement de plancher</li>
+ <li>Installation électrique non sécuritaire (risque incendie)</li>
+ <li>Défaut d'isolation rendant le logement inhabitable l'hiver</li>
+ <li>Pompe à chaleur qui ne chauffe pas la surface annoncée</li>
+ </ul>
+
+ <p>Voir notre <a href="/garantie-decennale-travaux-guide">guide complet décennale</a> et <a href="/verifier-decennale-artisan-30-secondes-2026">comment vérifier l'attestation</a>.</p>
+
+ <div class="alert-green">
+ <strong> Avantage majeur</strong> : si l'artisan a coulé, vous attaquez directement son <strong>assureur</strong>, pas l'entreprise. C'est lui qui paye la réparation.
+ </div>
+ </div>
+
+ <div class="card" id="activer">
+ <span class="badge">Action</span>
+ <h2>Comment activer une garantie : modèle de courrier</h2>
+ <div class="courrier">[Vos nom + adresse]
+[Date]
+
+Lettre recommandée avec AR
+[Entreprise + adresse]
+
+Objet : Mise en jeu de la garantie [parfait achèvement / biennale / décennale]
+Chantier [adresse], devis n° [XX] du [date]
+Réception du [date]
+
+Madame, Monsieur,
+
+Faisant suite à la réception des travaux susmentionnés en date du [date], je vous informe avoir constaté le désordre suivant :
+
+[Description précise + photos jointes (numérotées)]
+
+Ce désordre relève de la garantie [parfait achèvement / biennale / décennale]
+prévue à l'article [1792-6 / 1792-3 / 1792 du Code civil].
+
+Je vous prie de bien vouloir intervenir sous QUINZE JOURS afin de réparer ce désordre, conformément à vos obligations.
+
+À défaut, je serai contraint(e) de saisir [le médiateur de la consommation / votre assureur / le tribunal judiciaire] pour faire valoir mes droits.
+
+Cordialement,
+[Signature]</div>
+ </div>
+
+ <div class="card" id="pieges">
+ <h2>5 pièges fréquents à éviter</h2>
+ <h3>1. "Pas de réception, pas de garantie"</h3>
+ <p>Si vous payez l'artisan sans signer un PV de réception, les garanties ne courent pas. Faites toujours une réception formelle (voir notre <a href="/reception-travaux-checklist-pv-2026">guide réception</a>).</p>
+
+ <h3>2. Confondre vice apparent et vice caché</h3>
+ <p>Un défaut <strong>apparent</strong> à la réception (carreau fissuré visible) doit être noté en réserve. Un défaut <strong>caché</strong> (canalisation qui fuit derrière un placo) peut être réclamé après. Tout désordre apparent non réservé devient quasi impossible à faire reprendre.</p>
+
+ <h3>3. Attendre trop longtemps</h3>
+ <p>Les délais sont stricts : 1 an, 2 ans, 10 ans. Une fois passés, votre droit s'éteint. Notez la date de réception sur votre frigo, prenez des photos régulières.</p>
+
+ <h3>4. Croire que la "garantie de l'équipement" remplace la biennale</h3>
+ <p>Quand l'artisan dit "j'utilise du matériel garanti 5 ans par le fabricant", ça ne change rien à la biennale qu'il vous doit. Garantie fabricant = pour le matériel. Biennale = pour la pose et le fonctionnement global.</p>
+
+ <h3>5. Payer le solde sans réception ni levée des réserves</h3>
+ <p>Le solde (généralement 5-10 %) est votre <strong>seul vrai levier</strong>. Tant qu'il n'est pas versé, l'artisan a intérêt à finir et corriger. Une fois payé, votre seul recours devient juridique.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Travaillez avec des artisans qui jouent le jeu</h2>
+ <p>BatiSpot vérifie que chaque artisan a sa décennale en cours et fournit ses attestations dès le devis. Pas de mauvaise surprise.</p>
+ <a href="/" class="cta-btn">Demander un devis →</a>
+ </div>
+
+</div>
+
+
+<footer>
+ © 2026 BatiSpot · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/cgu">CGU</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

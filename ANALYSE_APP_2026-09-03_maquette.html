@@ -1,0 +1,372 @@
+<title>BatiSpot Pro, écrans cibles</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F3F6F4; --paper:#FFFFFF; --ink:#1C2B22; --sub:#3D5A4E; --muted:#6B7F76;
+  --line:#DCE6E0; --line-soft:#E8EEEA;
+  --brand:#228B5B; --brand-deep:#1B7049; --brand-soft:#E6F4EC;
+  --amber:#B45309; --amber-soft:#FBF1E6; --danger:#C2410C; --info:#2563EB;
+  --note:#4B5D55;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#121A16; --paper:#1A2420; --ink:#EAF1ED; --sub:#B8C8BF; --muted:#8FA198;
+  --line:#2A3A32; --line-soft:#223029; --brand-soft:#1E3A2C; --amber-soft:#3A2A14; --note:#A9B8B0; } }
+:root[data-theme="dark"]{
+  --ground:#121A16; --paper:#1A2420; --ink:#EAF1ED; --sub:#B8C8BF; --muted:#8FA198;
+  --line:#2A3A32; --line-soft:#223029; --brand-soft:#1E3A2C; --amber-soft:#3A2A14; --note:#A9B8B0; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Manrope,"Segoe UI",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:1360px;margin:0 auto;padding:40px 24px 64px}
+h1{font-size:28px;font-weight:800;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+.lede{color:var(--sub);max-width:68ch;margin:0 0 28px;line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:0 0 32px;font-size:13px;color:var(--sub)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:4px;border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px 28px;align-items:start}
+.shot{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.notes{margin:0;padding-left:18px;color:var(--note);font-size:13.5px;line-height:1.5}
+.notes li{margin-bottom:4px}
+.notes b{color:var(--ink);font-weight:700}
+
+/* Téléphone : rendu clair volontaire, c'est l'appli en plein soleil */
+.phone{width:100%;max-width:330px;aspect-ratio:9/19.2;background:#F6F8F7;border-radius:36px;border:1px solid var(--line);
+  box-shadow:0 18px 40px rgba(20,40,30,.14);overflow:hidden;position:relative;display:flex;flex-direction:column;color:#1C2B22;font-size:14px}
+.status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:12px;font-weight:700}
+.screen{flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:6px 0 2px}
+.top h2{font-size:22px;font-weight:800;margin:0;letter-spacing:-.01em}
+.top small{display:block;font-size:12px;color:#6B7F76;font-weight:600}
+.avatar{width:36px;height:36px;border-radius:50%;background:#228B5B;color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.back{font-size:13px;font-weight:700;color:#228B5B}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px}
+.kpi .l{font-size:11px;color:#6B7F76;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.kpi .v{font-size:20px;font-weight:800;margin-top:2px;white-space:nowrap;letter-spacing:-.01em}
+.kpi.amber{border-color:#EAD3B5;background:#FBF1E6}
+.kpi.amber .v{color:#B45309}
+.sec{font-size:12px;font-weight:800;color:#3D5A4E;text-transform:uppercase;letter-spacing:.07em;margin-top:4px}
+.card{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.card .t{font-weight:700;flex:1;min-width:0}
+.card .t small{display:block;font-weight:600;color:#6B7F76;font-size:12px;margin-top:1px}
+.amt{font-weight:800;white-space:nowrap}
+.pill{font-size:11px;font-weight:800;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.pill.wait{background:#FBF1E6;color:#B45309}
+.pill.ok{background:#E6F4EC;color:#1B7049}
+.pill.info{background:#E8EEFB;color:#2563EB}
+.btn{min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;font-weight:800;font-size:15px;padding:0 16px}
+.btn.primary{background:#228B5B;color:#fff}
+.btn.ghost{background:#fff;border:1px solid #DCE6E0;color:#1B7049}
+.btn.hold{background:#228B5B;color:#fff;width:112px;height:112px;border-radius:50%;margin:8px auto 0;padding:0;box-shadow:0 0 0 12px #E6F4EC;font-size:12.5px;text-align:center;line-height:1.25;flex:none}
+.assist{margin-top:auto;background:#fff;border:1px solid #DCE6E0;border-radius:16px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.assist .h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#1B7049}
+.assist .dot{width:8px;height:8px;border-radius:50%;background:#228B5B}
+.chips{display:flex;gap:6px;overflow:hidden}
+.chip{flex:0 0 auto;font-size:12px;font-weight:700;color:#1B7049;background:#E6F4EC;border-radius:999px;padding:8px 10px;min-height:32px}
+.nav{height:78px;background:#fff;border-top:1px solid #DCE6E0;display:grid;grid-template-columns:repeat(5,1fr);padding:8px 6px 18px;font-size:10.5px;font-weight:800;color:#6B7F76;text-align:center}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:center}
+.nav i{width:22px;height:22px;border-radius:7px;background:#DCE6E0;display:block}
+.nav .on{color:#228B5B}
+.nav .on i{background:#228B5B}
+.tabs{display:flex;gap:6px}
+.tab{flex:1;text-align:center;font-size:12px;font-weight:800;padding:9px 0;border-radius:10px;color:#6B7F76;background:#fff;border:1px solid #DCE6E0}
+.tab.on{background:#228B5B;color:#fff;border-color:#228B5B}
+.day{display:flex;gap:10px}
+.day .d{width:44px;flex:none;text-align:center;font-size:11px;font-weight:800;color:#6B7F76;padding-top:6px}
+.day .d b{display:block;font-size:18px;color:#1C2B22}
+.tasks{flex:1;display:flex;flex-direction:column;gap:6px}
+.task{background:#fff;border:1px solid #DCE6E0;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px}
+.task .who{margin-left:auto;font-size:11px;color:#6B7F76;font-weight:700}
+.task .cb{width:20px;height:20px;border-radius:6px;border:2px solid #228B5B;flex:none}
+.task .cb.done{background:#228B5B}
+.task.done{color:#6B7F76;text-decoration:line-through}
+.progress{height:8px;background:#DCE6E0;border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;width:38%;background:#228B5B}
+.heard{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.45}
+.heard .l{font-size:11px;font-weight:800;color:#1B7049;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.lines{display:flex;flex-direction:column;gap:6px}
+.line{display:flex;justify-content:space-between;font-size:13px;font-weight:700;background:#fff;border:1px solid #DCE6E0;border-radius:10px;padding:8px 12px}
+.line span:last-child{color:#6B7F76;font-weight:700}
+.wave{display:flex;align-items:center;justify-content:center;gap:3px;height:28px}
+.wave i{width:3px;background:#228B5B;border-radius:2px;display:block}
+.center{text-align:center;color:#6B7F76;font-size:12px;font-weight:700}
+@media (prefers-reduced-motion:no-preference){ .wave i{animation:w 1.1s ease-in-out infinite alternate} }
+@keyframes w{from{opacity:.55}to{opacity:1}}
+.subtabs{display:flex;gap:4px;overflow:hidden}
+.subtab{flex:0 0 auto;font-size:11.5px;font-weight:800;padding:7px 10px;border-radius:999px;color:#6B7F76;background:#fff;border:1px solid #DCE6E0}
+.subtab.on{background:#1B7049;color:#fff;border-color:#1B7049}
+.period{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #DCE6E0;border-radius:12px;padding:9px 12px;font-weight:800;font-size:13px}
+.period span:last-child{color:#228B5B}
+.kpis4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpis4 .kpi{padding:10px 12px}
+.kpis4 .kpi .v{font-size:17px}
+.tva{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700}
+.tva .r{display:flex;justify-content:space-between}
+.tva .r.total{border-top:1px solid #DCE6E0;padding-top:6px;font-weight:800}
+.tva .hint{font-size:11px;color:#6B7F76;font-weight:600}
+.chart{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.chart .l{font-size:11px;font-weight:800;color:#6B7F76;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:56px}
+.bars i{flex:1;background:#DCE6E0;border-radius:4px 4px 0 0;display:block}
+.bars i.on{background:#228B5B}
+.bars i.amb{background:#B45309}
+.xl{display:flex;justify-content:space-between;font-size:10px;color:#6B7F76;font-weight:700;margin-top:4px}
+
+.ph-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.ph{aspect-ratio:1;border-radius:10px;background:linear-gradient(135deg,#C9D9CF,#9FB8AA);position:relative;overflow:hidden}
+.ph.add{background:#fff;border:2px dashed #228B5B;display:grid;place-items:center;color:#228B5B;font-weight:800;font-size:22px}
+.ph b{position:absolute;left:6px;bottom:6px;font-size:10px;background:rgba(28,43,34,.75);color:#fff;padding:2px 6px;border-radius:6px;font-weight:700}
+.week{display:grid;grid-template-columns:34px repeat(5,1fr);gap:3px;font-size:10px;font-weight:800;color:#6B7F76}
+.week .h{text-align:center;padding:4px 0}
+.week .h b{display:block;font-size:14px;color:#1C2B22}
+.week .h.today b{color:#228B5B}
+.week .hr{padding:2px 0;text-align:right;padding-right:4px}
+.week .cell{min-height:26px;border-top:1px solid #E6EDE9}
+.week .ev{background:#E6F4EC;border-left:3px solid #228B5B;border-radius:4px;padding:3px 4px;color:#1B7049;font-size:9.5px;line-height:1.15;min-height:26px}
+.week .ev.amb{background:#FBF1E6;border-color:#B45309;color:#B45309}
+.member{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.member .av{width:38px;height:38px;border-radius:50%;background:#E6F4EC;color:#1B7049;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.member .t{flex:1;font-weight:700;font-size:13px}
+.member .t small{display:block;color:#6B7F76;font-weight:600;font-size:11.5px}
+.load{width:54px;height:6px;background:#DCE6E0;border-radius:99px;overflow:hidden}
+.load i{display:block;height:100%;background:#228B5B}
+.load i.amb{background:#B45309}
+.menu{display:flex;flex-direction:column;background:#fff;border:1px solid #DCE6E0;border-radius:14px;overflow:hidden}
+.menu a{display:flex;align-items:center;gap:10px;padding:13px 14px;font-weight:700;font-size:14px;border-top:1px solid #E6EDE9;color:#1C2B22;min-height:48px}
+.menu a:first-child{border-top:0}
+.menu a i{width:22px;height:22px;border-radius:7px;background:#E6F4EC;display:block;flex:none}
+.menu a span:last-child{margin-left:auto;color:#6B7F76;font-size:12px;font-weight:700}
+.msg{max-width:84%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.35;font-weight:600}
+.msg.in{background:#fff;border:1px solid #DCE6E0;border-bottom-left-radius:4px;align-self:flex-start}
+.msg.out{background:#228B5B;color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.msg small{display:block;font-size:10px;opacity:.7;margin-top:3px;font-weight:700}
+.thread{display:flex;flex-direction:column;gap:8px;flex:1}
+.compose{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #DCE6E0;border-radius:999px;padding:6px 6px 6px 14px;font-size:13px;color:#6B7F76;font-weight:600}
+.compose i{width:36px;height:36px;border-radius:50%;background:#228B5B;display:block;flex:none;margin-left:auto}
+.qline{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;padding:8px 0;border-top:1px solid #E6EDE9}
+.qline:first-child{border-top:0}
+.qline small{display:block;color:#6B7F76;font-weight:600;font-size:11.5px}
+.qline .pr{white-space:nowrap;text-align:right}
+.qline .pr small{color:#6B7F76}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:15px;padding-top:8px;border-top:2px solid #1C2B22}
+.box{background:#fff;border:1px solid #DCE6E0;border-radius:14px;padding:10px 12px}
+.field{background:#fff;border:1.5px solid #DCE6E0;border-radius:12px;padding:12px 14px;font-weight:600;color:#6B7F76;font-size:14px;min-height:48px;display:flex;align-items:center}
+.field.filled{color:#1C2B22}
+.logo{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:36px;font-weight:800;font-size:24px;letter-spacing:-.02em}
+.logo i{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#228B5B,#4CAF82);display:block}
+.logo em{font-style:normal;background:#228B5B;color:#fff;font-size:11px;padding:3px 7px;border-radius:6px;letter-spacing:.05em}
+.client-top{background:#fff;border-bottom:1px solid #DCE6E0;margin:0 -16px;padding:10px 16px 12px}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
+.step i{width:22px;height:22px;border-radius:50%;border:2px solid #228B5B;display:grid;place-items:center;font-size:11px;color:#fff;flex:none}
+.step i.done{background:#228B5B}
+.step i.now{border-color:#B45309;color:#B45309}
+.step small{margin-left:auto;color:#6B7F76;font-weight:600;font-size:11px}
+.sep{height:1px;background:var(--line);margin:44px 0 28px}
+.h2{font-size:20px;font-weight:800;margin:0 0 6px;letter-spacing:-.01em}
+</style>
+
+<div class="wrap">
+  <h1>BatiSpot Pro, écrans cibles</h1>
+  <p class="lede">Quatre écrans qui appliquent les recommandations UI : un seul vert d'action (#228B5B), l'ambre réservé à ce qui attend une décision ou un paiement, une barre à 4 entrées + Menu, et l'assistant présent sur chaque écran avec des propositions liées à ce que l'artisan regarde. Montants et noms sont des exemples.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:#228B5B"></i>Action, actif, signé, payé</span>
+    <span><i class="sw" style="background:#B45309"></i>En attente, à encaisser</span>
+    <span><i class="sw" style="background:#2563EB"></i>Information</span>
+    <span><i class="sw" style="background:#DCE6E0"></i>Bordure renforcée (lisible au soleil)</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. Devis / accueil -->
+    <div class="shot">
+      <div class="eyebrow">01 · Devis (accueil)</div>
+      <div class="phone">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="screen">
+          <div class="top"><div><small>Jeudi 3 septembre</small><h2>Mes devis</h2></div><div class="avatar">KD</div></div>
+          <div class="kpis">
+            <div class="kpi amber"><div class="l">À signer</div><div class="v">2 · 7 840 €</div></div>
+            <div class="kpi"><div class="l">Signés ce mois</div><div class="v">5 · 21 300 €</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="btn primary">🎙 Dicter un devis</div><div class="btn primary" style="background:#1B7049">📷 Depuis une photo</div></div>
+          <div class="sec">En attente du client</div>
+          <div class="card"><div class="t">Salle de bain · Mme Ravier<small>Envoyé il y a 3 j · Pantin</small></div><span class="amt">4 620 €</span><span class="pill wait">À signer</span></div>
+          <div class="card"><div class="t">Ravalement · Copro Jaurès<small>Envoyé hier · Montreuil</small></div><span class="amt">3 220 €</span><span class="pill wait">À signer</span></div>
+          <div class="sec">Signés</div>
+          <div class="card"><div class="t">Cuisine · M. Benali<small>Chantier démarre le 8/09</small></div><span class="amt">9 800 €</span><span class="pill ok">Signé</span></div>
+          <div class="assist">
+            <div class="h"><span class="dot"></span>L'assistant propose</div>
+            <div class="chips"><span class="chip">Relancer Mme Ravier</span><span class="chip">Planifier Benali</span><span class="chip">Devis depuis photo</span></div>
+          </div>
+        </div>
+        <div class="nav"><div class="on"><i></i>Devis</div><div><i></i>Chantiers</div><div><i></i>Planning</div><div><i></i>Finances</div><div><i></i>Messages</div></div>
+      </div>
+      <ul class="notes">
+        <li><b>Ambre = attend le client.</b> L'argent en suspens est le premier chiffre lu, avant tout le reste.</li>
+        <li><b>Deux entrées principales, à égalité :</b> dicter, ou partir d'une photo de la pièce. La photo est un atout majeur de l'appli, elle ne se cache pas dans une chip.</li>
+        <li><b>Assistant contextuel :</b> trois propositions calculées depuis l'écran, pas un bouton flottant muet.</li>
+        <li><b>Barre 4 + Menu :</b> Devis · Chantiers · Planning · Finances · Messages, le Menu en haut à droite. Photos rejoint Chantiers ; Équipe (où l'on ajoute les membres), Entreprise, Réglages, Analyses, Coffre passent dans Menu.</li>
+      </ul>
+    </div>
+
+    <!-- 2. Chantier hub -->
+    <div class="shot">
+      <div class="eyebrow">02 · Chantier (hub)</div>
+      <div class="phone">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="screen">
+          <div class="top"><div><span class="back">‹ Chantiers</span><h2>Cuisine · M. Benali</h2><small>12 rue Marceau, Vincennes · 8 au 19 sept.</small></div></div>
+          <div class="progress"><i></i></div>
+          <div class="center">38 % · 5 étapes sur 13 · dans les temps</div>
+          <div class="tabs"><span class="tab on">Déroulement</span><span class="tab">Photos</span><span class="tab">Docs</span><span class="tab">Messages</span></div>
+          <div class="day"><div class="d">Jeu<b>10</b></div><div class="tasks">
+            <div class="task"><span class="cb done"></span><span class="done">Dépose ancienne cuisine</span><span class="who">Karim</span></div>
+            <div class="task"><span class="cb"></span>Plomberie alimentation<span class="who">Sofiane</span></div>
+          </div></div>
+          <div class="day"><div class="d">Ven<b>11</b></div><div class="tasks">
+            <div class="task"><span class="cb"></span>Électricité · 6 prises<span class="who">Sofiane</span></div>
+            <div class="task"><span class="cb"></span>Séchage ragréage · 24 h<span class="who">—</span></div>
+          </div></div>
+          <div class="day"><div class="d">Lun<b>14</b></div><div class="tasks">
+            <div class="task"><span class="cb"></span>Pose meubles bas<span class="who">Karim · Sofiane</span></div>
+          </div></div>
+          <div class="assist">
+            <div class="h"><span class="dot"></span>L'assistant propose</div>
+            <div class="chips"><span class="chip">Décaler la pose d'un jour</span><span class="chip">Prévenir le client</span><span class="chip">Photo d'avancement</span></div>
+          </div>
+        </div>
+        <div class="nav"><div><i></i>Devis</div><div class="on"><i></i>Chantiers</div><div><i></i>Planning</div><div><i></i>Finances</div><div><i></i>Messages</div></div>
+      </div>
+      <ul class="notes">
+        <li><b>Un mot pour une tâche :</b> « étape », partout (fini rendez-vous / intervention selon l'écran).</li>
+        <li><b>Le statut se calcule</b> depuis les étapes cochées, l'artisan ne le règle plus à la main.</li>
+        <li><b>Photos et Docs sont des onglets du chantier</b>, plus des pages à part : on photographie un chantier, pas une galerie.</li>
+        <li><b>Cocher = feedback immédiat</b> (toast « Étape terminée »), aujourd'hui absent des pages cœur.</li>
+      </ul>
+    </div>
+
+    <!-- 3. Finances -->
+    <div class="shot">
+      <div class="eyebrow">03 · Finances (facture)</div>
+      <div class="phone">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="screen">
+          <div class="top"><div><small>Septembre</small><h2>Finances</h2></div><div class="avatar">KD</div></div>
+          <div class="kpis">
+            <div class="kpi amber"><div class="l">À encaisser</div><div class="v">6 940 €</div></div>
+            <div class="kpi"><div class="l">Encaissé</div><div class="v">14 360 €</div></div>
+          </div>
+          <div class="sec">Factures</div>
+          <div class="card"><div class="t">Acompte 30 % · Benali<small>Prête · pas encore envoyée</small></div><span class="amt">2 940 €</span><span class="pill info">Brouillon</span></div>
+          <div class="btn primary">Envoyer la facture à M. Benali</div>
+          <div class="btn ghost">Partager le PDF · WhatsApp, mail</div>
+          <div class="card"><div class="t">Solde · Mme Ortiz<small>Envoyée le 26/08 · échéance 10/09</small></div><span class="amt">4 000 €</span><span class="pill wait">À encaisser</span></div>
+          <div class="card"><div class="t">Solde · SCI Lilas<small>Payée le 1/09 · virement</small></div><span class="amt">5 160 €</span><span class="pill ok">Payée</span></div>
+          <div class="assist">
+            <div class="h"><span class="dot"></span>L'assistant propose</div>
+            <div class="chips"><span class="chip">Relancer Mme Ortiz le 11/09</span><span class="chip">Facture de solde Benali</span></div>
+          </div>
+        </div>
+        <div class="nav"><div><i></i>Devis</div><div><i></i>Chantiers</div><div><i></i>Planning</div><div class="on"><i></i>Finances</div><div><i></i>Messages</div></div>
+      </div>
+      <ul class="notes">
+        <li><b>Le maillon manquant :</b> aujourd'hui la facture reste en brouillon et rien ne l'envoie. Ici, envoyer est le geste principal de l'écran.</li>
+        <li><b>Un vrai PDF partageable</b> (WhatsApp, mail), pas une impression navigateur.</li>
+        <li><b>Trois états, trois couleurs :</b> brouillon (bleu), à encaisser (ambre), payée (vert). Le vert ne sert plus à tout.</li>
+        <li><b>Les montants</b> sont en chiffres tabulaires, même poids partout : on compare d'un coup d'œil.</li>
+      </ul>
+    </div>
+
+    <!-- 4. Premier devis par dictée -->
+    <div class="shot">
+      <div class="eyebrow">04 · Premier devis (avant le compte)</div>
+      <div class="phone">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="screen">
+          <div class="top"><div><small>Étape 1 sur 2</small><h2>Dictez votre devis</h2></div></div>
+          <div class="center">Décrivez les travaux comme à un collègue. Le client, les mesures, ce que vous fournissez.</div>
+          <div class="wave"><i style="height:8px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:10px"></i><i style="height:20px"></i><i style="height:6px"></i></div>
+          <div class="btn hold">Maintenir<br>pour parler</div>
+          <div class="heard">
+            <div class="l">J'ai compris</div>
+            Salle de bain de 6 m² chez Mme Ravier à Pantin : dépose de la baignoire, pose d'une douche à l'italienne 90 × 120, faïence murale 22 m² fournie par vous, plomberie et évacuation.
+          </div>
+          <div class="lines">
+            <div class="line"><span>Dépose baignoire et évacuation</span><span>1 u</span></div>
+            <div class="line"><span>Receveur + paroi 90 × 120</span><span>1 u</span></div>
+            <div class="line"><span>Faïence murale, fourniture et pose</span><span>22 m²</span></div>
+            <div class="line"><span>Plomberie alimentation et évacuation</span><span>1 ens.</span></div>
+          </div>
+          <div class="btn primary">C'est ça, créer le devis</div>
+          <div class="center">Vos prix sont demandés à l'étape 2. Le compte, seulement pour l'envoyer.</div>
+        </div>
+      </div>
+      <ul class="notes">
+        <li><b>La valeur avant le compte :</b> le devis se dicte en 60 s, l'inscription arrive au moment d'envoyer.</li>
+        <li><b>Bouton maintenu</b>, pas un interrupteur : le micro se coupe quand on lâche.</li>
+        <li><b>« J'ai compris »</b> relit avant de créer. Chaque validation nourrit le jeu de test de la dictée.</li>
+        <li><b>Quantités seulement :</b> aucun prix proposé, ce sont ceux de l'artisan (règle physique ✅ / commerce ❌).</li>
+      </ul>
+    </div>
+
+
+    <!-- 5. Finances bilan -->
+    <div class="shot">
+      <div class="eyebrow">05 · Finances (bilan de période)</div>
+      <div class="phone">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="screen">
+          <div class="top"><div><small>Finances</small><h2>Bilan</h2></div><div class="avatar">KD</div></div>
+          <div class="subtabs"><span class="subtab on">Bilan</span><span class="subtab">Factures</span><span class="subtab">Dépenses</span><span class="subtab">Par chantier</span><span class="subtab">Par poste</span><span class="subtab">Analyses</span></div>
+          <div class="period"><span>Septembre 2026</span><span>Changer ›</span></div>
+          <div class="kpis4">
+            <div class="kpi"><div class="l">Facturé TTC</div><div class="v">21 300 €</div></div>
+            <div class="kpi amber"><div class="l">À encaisser</div><div class="v">6 940 €</div></div>
+            <div class="kpi"><div class="l">Dépenses</div><div class="v">8 120 €</div></div>
+            <div class="kpi"><div class="l">Marge nette</div><div class="v">38 %</div></div>
+          </div>
+          <div class="tva">
+            <div class="r"><span>TVA collectée</span><span>3 550 €</span></div>
+            <div class="r"><span>TVA récupérable</span><span>1 353 €</span></div>
+            <div class="r total"><span>Solde TVA</span><span>2 197 €</span></div>
+            <div class="hint">Repère pour anticiper, pas une déclaration.</div>
+          </div>
+          <div class="chart">
+            <div class="l">Encaissé par mois</div>
+            <div class="bars"><i style="height:40%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:70%"></i><i style="height:48%"></i><i class="on" style="height:85%"></i><i class="amb" style="height:38%"></i></div>
+            <div class="xl"><span>mars</span><span>avr.</span><span>mai</span><span>juin</span><span>juil.</span><span>août</span><span>sept.</span></div>
+          </div>
+          <div class="assist">
+            <div class="h"><span class="dot"></span>L'assistant propose</div>
+            <div class="chips"><span class="chip">Export pour le comptable</span><span class="chip">Ajouter un ticket</span></div>
+          </div>
+        </div>
+        <div class="nav"><div><i></i>Devis</div><div><i></i>Chantiers</div><div><i></i>Planning</div><div class="on"><i></i>Finances</div><div><i></i>Messages</div></div>
+      </div>
+      <ul class="notes">
+        <li><b>Rien n'est retiré :</b> période, bilan, TVA, dépenses, par chantier, par poste. Les graphiques d'Analyses deviennent un sous-onglet ici au lieu d'une page cachée dans le tiroir.</li>
+        <li><b>« Facturé » remplace « devis signés » :</b> le bilan repose sur des factures réelles, plus sur un acompte de 30 % présumé.</li>
+        <li><b>Ambre = à encaisser</b>, le mois en cours en ambre sur la courbe : ce qui n'est pas encore rentré se voit.</li>
+        <li><b>Six sous-onglets défilants</b> plutôt que six blocs empilés : moins de scroll sur chantier.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="sep"></div>
+  <div class="h2">Le reste de l'appli, même système</div>
+  <p class="lede">Neuf écrans de plus pour couvrir tout le parcours artisan et la page du client. Mêmes tuiles, mêmes pilules, même barre, même carte d'assistant.</p>
+  <div class="grid">
+    <div class="shot"><div class="eyebrow">06 · Chantiers (liste)</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><small>3 en cours · 2 à venir</small><h2>Chantiers</h2></div><div class="avatar">KD</div></div><div class="tabs"><span class="tab on">En cours</span><span class="tab">À venir</span><span class="tab">Terminés</span></div><div class="card"><div class="t">Cuisine · M. Benali<small>Vincennes · étape 5/13 · Karim, Sofiane</small><div class="progress" style="margin-top:6px"><i style="width:38%"></i></div></div><span class="pill ok">Dans les temps</span></div><div class="card"><div class="t">Salle de bain · Mme Ortiz<small>Bagnolet · étape 9/10 · Karim</small><div class="progress" style="margin-top:6px"><i style="width:90%"></i></div></div><span class="pill wait">Solde à facturer</span></div><div class="card"><div class="t">Ravalement · Copro Jaurès<small>Montreuil · étape 2/8 · toute l'équipe</small><div class="progress" style="margin-top:6px"><i style="width:25%;background:#B45309"></i></div></div><span class="pill wait">Retard 2 j</span></div><div class="sec">Aujourd'hui</div><div class="card"><div class="t">Karim et Sofiane · Benali<small>8 h à 17 h · plomberie alimentation</small></div><span class="pill info">Itinéraire</span></div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Où en est Ortiz ?</span><span class="chip">Décaler Jaurès</span><span class="chip">Photo du jour</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class="on"><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Un chantier = une ligne, trois infos :</b> où, quelle étape, qui. La barre d'avancement remplace le statut réglé à la main.</li><li><b>L'état se déduit</b> : retard (ambre) si une étape est passée sans être cochée, solde à facturer quand la dernière est cochée.</li><li><b>Aujourd'hui en bas :</b> l'itinéraire du jour vient du planning, pas d'un autre écran.</li></ul></div>
+    <div class="shot"><div class="eyebrow">07 · Chantier › Photos</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><span class="back">‹ Chantiers</span><h2>Cuisine · M. Benali</h2><small>24 photos · 3 phases</small></div></div><div class="tabs"><span class="tab">Déroulement</span><span class="tab on">Photos</span><span class="tab">Docs</span><span class="tab">Messages</span></div><div class="btn primary">📷 Prendre une photo</div><div class="sec">Pendant · jeudi 10</div><div class="ph-grid"><div class="ph"><b>Plomberie</b></div><div class="ph"><b>Dépose</b></div><div class="ph"><b>Dépose</b></div><div class="ph add">＋</div></div><div class="sec">Avant · lundi 8</div><div class="ph-grid"><div class="ph"><b>Avant</b></div><div class="ph"><b>Avant</b></div><div class="ph"><b>Avant</b></div></div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Envoyer au client</span><span class="chip">Devis depuis cette photo</span><span class="chip">Comparer avant / après</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class="on"><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Un seul bouton</b>, la phase est déduite de l'étape en cours (avant, pendant, après, autre). Plus de quatre boutons.</li><li><b>Groupées par jour</b>, comme le déroulement : la photo prouve l'étape.</li><li><b>Envoyer au client</b> alimente sa page de suivi ; c'est ce qui le rassure et évite l'appel.</li></ul></div>
+    <div class="shot"><div class="eyebrow">08 · Chantiers › Planning (semaine)</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><small>Semaine 37</small><h2>Planning</h2></div><div class="avatar">KD</div></div><div class="tabs"><span class="tab">Jour</span><span class="tab on">Semaine</span><span class="tab">Mois</span><span class="tab">Charge</span></div><div class="week"><div></div><div class="h">Lun<b>8</b></div><div class="h">Mar<b>9</b></div><div class="h today">Jeu<b>10</b></div><div class="h">Ven<b>11</b></div><div class="h">Lun<b>14</b></div><div class="hr">8 h</div><div class="cell"><div class="ev">Benali dépose</div></div><div class="cell"><div class="ev">Benali dépose</div></div><div class="cell"><div class="ev">Benali plomb.</div></div><div class="cell"><div class="ev">Benali élec.</div></div><div class="cell"><div class="ev">Benali meubles</div></div><div class="hr">11 h</div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="ev">Benali plomb.</div></div><div class="cell"><div class="ev">Benali élec.</div></div><div class="cell"><div class="ev">Benali meubles</div></div><div class="hr">14 h</div><div class="cell"><div class="ev amb">Ortiz finitions</div></div><div class="cell"><div class="ev amb">Ortiz finitions</div></div><div class="cell"></div><div class="cell"><div class="ev">Jaurès échaf.</div></div><div class="cell"><div class="ev">Jaurès échaf.</div></div><div class="hr">17 h</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div><div class="box" style="font-size:12.5px;font-weight:700">⚠ Karim est à 9 h le jeudi 10. <span style="color:#228B5B">Répartir ›</span></div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Planifier le devis Ravier</span><span class="chip">Qui est libre vendredi ?</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class="on"><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Planning vit dans Chantiers</b>, pas dans la barre : c'est la même donnée vue par le temps.</li><li><b>Ambre = étape en retard</b>, même code que partout. L'alerte de charge est une phrase, pas un graphique.</li><li><b>Quatre vues</b> au lieu de cinq : Année devient le zoom arrière de Mois.</li></ul></div>
+    <div class="shot"><div class="eyebrow">09 · Équipe</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><small>3 personnes · cette semaine</small><h2>Équipe</h2></div><div class="avatar">KD</div></div><div class="member"><div class="av">KD</div><div class="t">Karim Diallo<small>Vous · gérant · 42 h planifiées</small></div><div class="load"><i class="amb" style="width:100%"></i></div></div><div class="member"><div class="av">SB</div><div class="t">Sofiane Benyahia<small>Compagnon · 35 h · Benali, Jaurès</small></div><div class="load"><i style="width:85%"></i></div></div><div class="member"><div class="av">CD</div><div class="t">Christophe Durandet<small>Compagnon · invitation envoyée</small></div><span class="pill wait">En attente</span></div><div class="btn ghost">＋ Ajouter un compagnon</div><div class="sec">Ce que voit un compagnon</div><div class="box" style="font-size:12.5px;font-weight:600;color:#3D5A4E">Ses étapes du jour, l'adresse, les photos, la messagerie. Ni les prix, ni les finances.</div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Ajouter Christophe au chantier Benali</span><span class="chip">Charge de la semaine</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class=""><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class="on"><i></i>Messages</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Charge en barre</b> par personne : ambre à partir de 40 h. Aujourd'hui elle n'est visible qu'en vue Charge du planning.</li><li><b>Ajouter un compagnon depuis l'assistant</b> devient possible (aujourd'hui il refuse).</li><li><b>Dire ce que voit un compagnon</b> répond à la question que tout artisan pose avant d'inviter.</li></ul></div>
+    <div class="shot"><div class="eyebrow">10 · Menu</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><small>Diallo Rénovation · SIRET 812 …</small><h2>Menu</h2></div><div class="avatar">KD</div></div><div class="menu"><a><i></i>Mon entreprise<span>SIRET, décennale, logo</span></a><a><i></i>Ma grille de prix<span>118 prix</span></a><a><i></i>Analyses<span>graphiques</span></a><a><i></i>Coffre-fort<span>12 documents</span></a><a><i></i>Parrainage<span>1 mois offert</span></a><a><i></i>Abonnement<span>Pro · 39 €</span></a><a><i></i>Aide et visite guidée<span></span></a></div><div class="box" style="font-size:12.5px;font-weight:700;color:#B45309">⚠ Décennale : expire dans 41 jours. <span style="color:#228B5B">Mettre à jour ›</span></div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Ajouter mes anciens devis</span><span class="chip">Exporter pour le comptable</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class=""><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class="on"><i></i>Menu</div></div></div><ul class="notes"><li><b>Profil, entreprise et réglages fusionnés</b> en « Mon entreprise » ; trois pages deviennent une.</li><li><b>Ma grille de prix</b> devient un objet visible : c'est ce que les anciens devis alimentent.</li><li><b>La visite guidée est ici, à la demande</b>, plus au démarrage.</li></ul></div>
+    <div class="shot"><div class="eyebrow">11 · Devis › détail avant envoi</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><span class="back">‹ Devis</span><h2>Salle de bain · Mme Ravier</h2><small>Brouillon · 12 rue Hoche, Pantin</small></div></div><div class="box"><div class="qline"><div>Dépose baignoire et évacuation<small>1 u × 380 €</small></div><div class="pr">380 €</div></div><div class="qline"><div>Receveur + paroi 90 × 120<small>1 u × 1 240 € · fourni</small></div><div class="pr">1 240 €</div></div><div class="qline"><div>Faïence murale, fourniture et pose<small>22 m² × 95 €</small></div><div class="pr">2 090 €</div></div><div class="qline"><div>Plomberie alimentation et évacuation<small>1 ens. × 910 €</small></div><div class="pr">910 €</div></div><div class="tot"><span>Total TTC · TVA 10 %</span><span>5 082 €</span></div></div><div class="box" style="font-size:12px;font-weight:600;color:#3D5A4E">Acompte 30 % à la signature · solde à la fin · validité 30 jours · décennale AXA n° 4471 ✓</div><div class="btn primary">Envoyer à Mme Ravier</div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Ajouter une ligne</span><span class="chip">Retirer la faïence</span><span class="chip">Tes prix habituels : faïence 90 €</span></div></div></div><div class="nav"><div class="on"><i></i>Devis</div><div class=""><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Modifier après génération</b> : ajouter, retirer, corriger une ligne, à la main ou par l'assistant (aujourd'hui impossible).</li><li><b>Les prix sont ceux de l'artisan</b>, rappelés par l'assistant depuis sa grille. Jamais un catalogue.</li><li><b>Les mentions obligatoires se vérifient avant Envoyer</b> : si la décennale manque, le bouton le dit.</li></ul></div>
+    <div class="shot"><div class="eyebrow">12 · Chantier › Messages</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="top"><div><span class="back">‹ Chantiers</span><h2>Cuisine · M. Benali</h2><small>Messages avec le client</small></div></div><div class="tabs"><span class="tab">Déroulement</span><span class="tab">Photos</span><span class="tab">Docs</span><span class="tab on">Messages</span></div><div class="thread"><div class="msg in">Bonjour, la pose des meubles est bien lundi ?<small>M. Benali · 8:12</small></div><div class="msg out">Oui lundi 14 à 8 h, Karim et Sofiane. Le plan de travail arrive mardi.<small>Vous · 8:20</small></div><div class="msg in">Parfait, merci pour les photos d'hier 👍<small>M. Benali · 8:21</small></div></div><div class="compose">Écrire ou dicter…<i></i></div><div class="assist"><div class="h"><span class="dot"></span>L'assistant propose</div><div class="chips"><span class="chip">Prévenir du décalage</span><span class="chip">Envoyer les photos du jour</span></div></div></div><div class="nav"><div class=""><i></i>Devis</div><div class="on"><i></i>Chantiers</div><div class=""><i></i>Finances</div><div class=""><i></i>Équipe</div><div class=""><i></i>Menu</div></div></div><ul class="notes"><li><b>Les messages restent dans le chantier</b> et se retrouvent : le fil ne se perd plus (retour du 26/08).</li><li><b>Le client répond depuis sa page de suivi</b>, sans appli ni compte.</li><li><b>L'assistant rédige</b> le message de décalage avec la nouvelle date déjà remplie.</li></ul></div>
+    <div class="shot"><div class="eyebrow">13 · Page client (lien, sans appli)</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="client-top"><div class="logo" style="margin:0;font-size:18px;justify-content:flex-start"><i style="width:28px;height:28px;border-radius:8px"></i>Diallo Rénovation</div><small style="color:#6B7F76;font-weight:600">Votre chantier · Cuisine · 12 rue Marceau</small></div><div class="progress"><i style="width:38%"></i></div><div class="center">Étape 5 sur 13 · fin prévue le 19 septembre</div><div class="box"><div class="steps"><div class="step"><i class="done">✓</i>Devis signé<small>2 sept.</small></div><div class="step"><i class="done">✓</i>Acompte 30 % reçu<small>3 sept.</small></div><div class="step"><i class="now">●</i>Travaux en cours<small>8 → 19 sept.</small></div><div class="step"><i></i>Solde à la réception<small>6 860 €</small></div></div></div><div class="sec">Dernières photos</div><div class="ph-grid"><div class="ph"><b>jeu. 10</b></div><div class="ph"><b>jeu. 10</b></div><div class="ph"><b>lun. 8</b></div></div><div class="btn ghost">Télécharger le devis signé (PDF)</div><div class="compose">Écrire à Karim…<i></i></div></div></div><ul class="notes"><li><b>Aux couleurs de l'artisan</b>, pas de BatiSpot : c'est son client. Aucune barre artisan, aucune pub pour l'abonnement.</li><li><b>Quatre jalons, un seul chiffre :</b> ce qu'il reste à payer. Le reste est du détail.</li><li><b>Le PDF se télécharge</b>, le devis signé et plus tard la facture, sans compte.</li></ul></div>
+    <div class="shot"><div class="eyebrow">14 · Connexion</div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▮</span></div><div class="screen"><div class="logo"><i></i>BatiSpot <em>PRO</em></div><div class="center" style="margin-bottom:8px">Vos devis, vos chantiers, vos factures. Depuis le chantier.</div><div class="field filled">karim@diallo-renovation.fr</div><div class="field">Mot de passe</div><div class="btn primary">Se connecter</div><div class="center">Lien magique par e-mail · Mot de passe oublié</div><div style="flex:1"></div><div class="box" style="text-align:center;font-weight:700;font-size:13px">Pas encore de compte ? <span style="color:#228B5B">Dictez votre premier devis ›</span></div><div class="center" style="font-size:11px">Le compte se crée au moment de l'envoyer. 3 mois offerts.</div></div></div><ul class="notes"><li><b>Fond blanc, logo officiel</b>, une phrase, deux champs. Rien d'autre.</li><li><b>L'inscription commence par un devis</b>, pas par un formulaire en quatre étapes.</li><li><b>Lien magique</b> pour ceux qui ne retiennent pas de mot de passe sur chantier.</li></ul></div>
+  </div>
+</div>

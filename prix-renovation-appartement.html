@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix Rénovation Appartement 2026 : de 500€ à 1 200€/m² (Barème) | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-renovation-appartement">
+ <meta name="description" content="Barème 2026 vérifié · Estimation réelle rénovation appartement à Paris & IDF : rafraîchissement, rénovation complète ou lourde. Simulateur express et devis gratuits sous 48h.">
+ <meta property="og:title" content="Prix rénovation appartement au m² en 2026 : budget par type et surface" />
+ <meta property="og:description" content="Barème 2026 vérifié · Estimation réelle rénovation appartement à Paris & IDF : rafraîchissement, rénovation complète ou lourde. Simulateur express et devis gratuits sous 48h.">
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-renovation-appartement" />
+ <style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.65}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EBF7F1;--cta:#2A9D6E;--sub:#5A7268;--border:rgba(34,139,91,0.14);--orange:#F97316}
+ .wrap{max-width:840px;margin:0 auto;padding:0 1.2rem}
+ .nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0}
+ .nav .wrap{display:flex;justify-content:space-between;align-items:center}
+ .logo{font-weight:900;color:var(--g1);font-size:1.2rem;text-decoration:none}.logo span{color:var(--g2)}
+ .nav a.cta{background:var(--cta);color:#fff;padding:.5rem 1.1rem;border-radius:9px;font-weight:800;font-size:.85rem;text-decoration:none}
+ h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--g1);line-height:1.2;margin:1.6rem 0 .6rem}
+ .lead{color:var(--sub);font-size:1.02rem;margin-bottom:1.4rem}
+ h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin:2rem 0 .8rem}
+ h3{font-size:1.05rem;font-weight:700;color:var(--g2);margin:1.2rem 0 .4rem}
+ p{margin-bottom:1rem}ul,ol{margin:0 0 1rem 1.3rem}li{margin-bottom:.4rem}
+ strong{color:var(--g1)}a{color:var(--g2)}
+ table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.95rem}
+ th,td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #eef2f0}
+ th{background:var(--g1);color:#fff;font-weight:700;font-size:.9rem}
+ tr:nth-child(even) td{background:#FAFCFB}
+ .box{background:var(--g-soft);border-left:4px solid var(--g2);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2rem;text-align:center;color:#fff;margin:2rem 0}
+ .cta-section h2{color:#fff;margin:0 0 .5rem}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.8rem 1.9rem;border-radius:12px;font-weight:800;text-decoration:none}
+ .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+ .faq-item h3{margin:0 0 .3rem;color:#1F2937}.faq-item p{margin:0;color:var(--sub);font-size:.95rem}
+ .cities{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+ .cities a{background:#fff;border:1px solid var(--border);border-radius:9px;padding:.45rem .8rem;font-size:.88rem;text-decoration:none;color:var(--g2);font-weight:600}
+ footer{background:var(--g1);color:#fff;text-align:center;padding:1.6rem 1rem;font-size:.85rem;margin-top:2rem}
+ footer a{color:#9be3c1;text-decoration:none}
+ </style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Quel est le prix d'une rénovation d'appartement au m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Selon l'ampleur : un simple rafraîchissement coûte 250 à 500 €/m², une rénovation partielle 500 à 900 €/m², une rénovation complète 900 à 1 500 €/m², et une rénovation lourde (avec redistribution, plomberie et électricité neuves) 1 500 €/m² et plus. Pour un 60 m², cela va d'environ 15 000 € (rafraîchissement) à 90 000 € (rénovation lourde)."}},
+ {"@type":"Question","name":"Combien coûte la rénovation complète d'un appartement de 60 m² ?","acceptedAnswer":{"@type":"Answer","text":"Comptez environ 54 000 à 90 000 € pour une rénovation complète de 60 m² (900 à 1 500 €/m²), tous corps de métier compris. Le budget dépend du niveau de finition et du fait de refaire ou non la plomberie et l'électricité."}},
+ {"@type":"Question","name":"Que comprend le prix d'une rénovation d'appartement au m² ?","acceptedAnswer":{"@type":"Answer","text":"Le prix au m² inclut la main-d'œuvre et les fournitures des travaux réalisés : démolition, plomberie, électricité, cloisons, sols, peinture, cuisine et salle de bain selon le périmètre. Il ne comprend pas le mobilier ni l'électroménager. Le seul chiffre fiable reste un devis après visite."}},
+ {"@type":"Question","name":"Comment réduire le prix d'une rénovation d'appartement ?","acceptedAnswer":{"@type":"Answer","text":"Conserver l'implantation de la cuisine et de la salle de bain (pas de déplacement de plomberie), grouper les travaux pour mutualiser la main-d'œuvre, comparer plusieurs devis d'artisans vérifiés et profiter des aides quand des travaux d'économie d'énergie sont inclus."}}
+ ]}</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Accueil",
+ "item": "https://batispot.pro/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Tarifs Travaux BTP 2026",
+ "item": "https://batispot.pro/prix-renovation-appartement"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Rénovation Appartement",
+ "item": "https://batispot.pro/prix-renovation-appartement"
+ }
+ ]
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+<!-- START: Mini Simulateur Express -->
+<div class="bs-mini-calc" data-price-min="500" data-price-max="1200" data-unit="m²" style="background:#FFFFFF;border:1.5px solid #DCEBE1;border-radius:20px;padding:28px 24px;margin:28px 0;box-shadow:0 12px 32px -10px rgba(15,81,50,0.12);">
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0F5132;background:#EBF7F1;padding:4px 12px;border-radius:999px;letter-spacing:0.04em;">Simulateur Express 2026</span>
+ <span style="font-size:12px;color:#5E7268;font-weight:600;">Estimation immédiate sans engagement</span>
+ </div>
+ <h3 style="font-size:18px;font-weight:900;color:#0A1D14;margin:0 0 16px;">Estimez le coût de vos travaux (rénovation appartement) en direct</h3>
+ 
+ <div style="margin-bottom:18px;">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+ <label style="font-size:13px;font-weight:700;color:#1C2B22;">Quantité / Surface estimée :</label>
+ <span class="calc-val-display" style="font-size:16px;font-weight:900;color:#0F5132;background:#F1F7F4;padding:2px 10px;border-radius:8px;">40 m²</span>
+ </div>
+ <input type="range" class="calc-slider" min="10" max="150" value="40" step="5" style="width:100%;height:8px;accent-color:#0F5132;cursor:pointer;">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:#5E7268;margin-top:4px;">
+ <span>10 m²</span>
+ <span>75 m²</span>
+ <span>150 m²</span>
+ </div>
+ </div>
+
+ <div style="background:linear-gradient(135deg,#F1F7F4,#EBF7F1);border:1px solid #DCEBE1;border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:700;color:#5E7268;display:block;margin-bottom:4px;">FOURCHETTE ESTIMÉE (FOURNITURE & POSE)</span>
+ <div style="font-size:clamp(22px,4vw,28px);font-weight:900;color:#0F5132;">
+ <span class="calc-res-min">20000 €</span> à <span class="calc-res-max">48000 € TTC</span>
+ </div>
+ </div>
+
+ <div style="text-align:center;">
+ <a href="/devis/" style="display:inline-flex;align-items:center;gap:8px;background:#0F5132;color:#fff;font-size:14px;font-weight:800;padding:12px 24px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(15,81,50,0.25);">
+ <span>Recevoir 3 devis précis d'artisans vérifiés</span>
+ <span style="font-size:16px;">→</span>
+ </a>
+ </div>
+</div>
+<script src="/js/mini-calc.js" defer></script>
+<!-- END: Mini Simulateur Express -->
+ <a href="/" class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></a>
+ <a href="/estimateur" class="cta">Estimer mes travaux</a>
+</div></nav>
+
+<div class="wrap">
+ <h1>Prix d'une rénovation d'appartement au m² en 2026</h1>
+<p class="lead">Combien coûte une <strong>rénovation d'appartement</strong> en 2026 ? Le <strong>prix au m²</strong> selon le niveau (rafraîchissement, complète, lourde), le <strong>budget par surface</strong> et le <strong>coût par poste</strong> — pour cadrer votre projet avant de demander des devis.</p>
+
+ <h2>Prix d'une rénovation d'appartement au m² par niveau</h2>
+ <table>
+ <tr><th>Type de rénovation</th><th>Prix au m² (2026)</th></tr>
+ <tr><td>Rafraîchissement (peinture, sols, petits travaux)</td><td>250 – 500 €/m²</td></tr>
+ <tr><td>Rénovation partielle (une ou deux pièces, cuisine ou SdB)</td><td>500 – 900 €/m²</td></tr>
+ <tr><td>Rénovation complète (tous les corps de métier, finitions neuves)</td><td>900 – 1 500 €/m²</td></tr>
+ <tr><td>Rénovation lourde (redistribution, plomberie + électricité neuves)</td><td>1 500 €/m² et +</td></tr>
+ </table>
+ <p>Le <strong>prix au m²</strong> est la meilleure façon de cadrer un budget de rénovation. La <strong>main-d'œuvre pèse 40 à 60 %</strong> du total, et le poste qui fait le plus grimper la facture reste la <strong>plomberie et l'électricité</strong> quand elles sont entièrement refaites.</p>
+
+ <h2>Budget d'une rénovation d'appartement selon la surface</h2>
+ <table>
+ <tr><th>Surface</th><th>Rénovation complète (900-1 500 €/m²)</th></tr>
+ <tr><td>30 m² (studio)</td><td>27 000 – 45 000 €</td></tr>
+ <tr><td>50 m² (2 pièces)</td><td>45 000 – 75 000 €</td></tr>
+ <tr><td>60 m²</td><td>54 000 – 90 000 €</td></tr>
+ <tr><td>80 m² (3 pièces)</td><td>72 000 – 120 000 €</td></tr>
+ <tr><td>100 m² (4 pièces)</td><td>90 000 – 150 000 €</td></tr>
+ </table>
+ <div class="box"><strong>Repère :</strong> pour un simple rafraîchissement, divisez ces budgets par 2 à 3. Une rénovation lourde avec redistribution peut au contraire les dépasser de 20 à 40 %.</div>
+
+ <h2>Prix d'une rénovation d'appartement poste par poste</h2>
+ <table>
+ <tr><th>Poste</th><th>Prix indicatif 2026</th></tr>
+ <tr><td>Démolition / dépose</td><td>40 – 80 €/m²</td></tr>
+ <tr><td>Électricité (rénovation complète, mise aux normes)</td><td>90 – 150 €/m²</td></tr>
+ <tr><td>Plomberie</td><td>800 – 3 000 € par pièce d'eau</td></tr>
+ <tr><td>Cloisons / placo</td><td>40 – 90 €/m²</td></tr>
+ <tr><td>Sol (parquet, carrelage)</td><td>40 – 120 €/m²</td></tr>
+ <tr><td>Peinture</td><td>30 – 50 €/m²</td></tr>
+ <tr><td>Cuisine équipée (pose comprise)</td><td>5 000 – 15 000 €</td></tr>
+ <tr><td>Salle de bain complète</td><td>6 000 – 12 000 €</td></tr>
+ </table>
+
+ <h2>Ce qui fait varier le prix</h2>
+ <ul>
+ <li><strong>Le niveau de rénovation</strong> : rafraîchir n'a rien à voir avec tout casser et refaire.</li>
+ <li><strong>La plomberie et l'électricité</strong> : les refaire à neuf est le premier facteur de coût.</li>
+ <li><strong>La redistribution des pièces</strong> : abattre des cloisons, créer une suite, ouvrir un mur porteur.</li>
+ <li><strong>Le niveau de finition</strong> : entrée de gamme vs matériaux nobles.</li>
+ <li><strong>L'état initial</strong> : un appartement ancien demande souvent une remise à neuf complète des réseaux.</li>
+ <li><strong>La localisation</strong> : Paris et l'Île-de-France sont 20 à 30 % au-dessus de la moyenne nationale.</li>
+ </ul>
+
+ <div class="cta-section">
+ <h2>Obtenez le prix exact pour votre appartement</h2>
+ <p style="opacity:.9;margin-bottom:1.2rem">Le seul prix fiable, c'est un devis après visite. Recevez jusqu'à 3 devis gratuits d'artisans vérifiés sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de ma rénovation →</a>
+ </div>
+
+ <h2>Prix de la rénovation d'appartement près de chez vous</h2>
+ <p>Les tarifs varient d'une ville à l'autre en Île-de-France. Consultez le prix détaillé dans votre commune :</p>
+ <div class="cities">
+ <a href="/guide-renovation-appartement-ancien-paris">Paris</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Boulogne-Billancourt</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Argenteuil</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Montreuil</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Créteil</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Nanterre</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Colombes</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Saint-Denis</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Versailles</a>
+ <a href="/guide-renovation-appartement-ancien-paris">Vitry-sur-Seine</a>
+ </div>
+
+ <h2>Questions fréquentes, prix rénovation appartement</h2>
+ <div class="faq-item"><h3>Quel prix au m² pour rénover un appartement ?</h3><p>Rafraîchissement 250-500 €/m², partielle 500-900 €/m², complète 900-1 500 €/m², lourde 1 500 €/m² et plus.</p></div>
+ <div class="faq-item"><h3>Combien coûte la rénovation complète d'un 60 m² ?</h3><p>Environ 54 000 à 90 000 €, tous corps de métier compris, selon le niveau de finition.</p></div>
+ <div class="faq-item"><h3>Que comprend le prix au m² ?</h3><p>Main-d'œuvre et fournitures des travaux (démolition, réseaux, sols, peinture, cuisine, SdB). Hors mobilier et électroménager.</p></div>
+ <div class="faq-item"><h3>Comment réduire le budget ?</h3><p>Garder la plomberie en place, grouper les travaux, comparer les devis et profiter des aides énergie.</p></div>
+
+ <h2>À lire aussi</h2>
+ <ul>
+ <li><a href="/renovation-appartement-haussmannien-paris">Rénovation appartement haussmannien à Paris</a></li>
+ <li><a href="/prix-renovation-salle-de-bain">Prix rénovation salle de bain</a></li>
+ <li><a href="/prix-peinture-appartement">Prix peinture appartement au m²</a></li>
+ <li><a href="/estimateur">Estimateur de travaux BatiSpot</a></li>
+ </ul>
+</div>
+
+<div class="wrap" style="margin-bottom:2rem">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis gratuits pour votre rénovation</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Des artisans vérifiés (Kbis, assurance, décennale) en Île-de-France vous répondent sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez votre projet (surface, niveau de rénovation, pièces…)" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Un artisan vérifié vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'rénovation appartement',description:(d.desc||'Demande via page prix rénovation appartement')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_prix'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/prix-renovation-salle-de-bain">Prix salle de bain</a> &nbsp;|&nbsp;
+ <a href="/prix-peinture-appartement">Prix peinture appartement</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

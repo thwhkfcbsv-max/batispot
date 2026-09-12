@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Mon profil — BatiSpot Pro</title>
+<!-- Fusionné dans profile-entreprise.html (« Mon entreprise », sous-onglet
+     Profil) le 04/09/2026. Cette page ne reste que pour que les liens
+     existants (profile.html, profile.html#grille, profile.html#mes-prix)
+     continuent de fonctionner : redirection immédiate, hash conservé. -->
+<meta http-equiv="refresh" content="0;url=./profile-entreprise.html?onglet=profil">
+<script>
+  location.replace('./profile-entreprise.html?onglet=profil' + (location.hash || ''));
+</script>
+<!-- Remontee des erreurs JavaScript (05/09/2026). Cette page ne charge pas
+     ./js/config.js, qui l'importe pour les 28 autres : on la met donc en direct.
+     `test_erreurs_front.py` verifie qu'aucune page de app/*.html n'y echappe. -->
+<script type="module" src="./js/app-erreurs.js?v=2026_09_05"></script>
+</head>
+<body>
+<p>Cette page a déménagé vers <a href="./profile-entreprise.html?onglet=profil">Mon entreprise</a>.</p>
+</body>
+</html>

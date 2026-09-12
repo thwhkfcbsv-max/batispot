@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix Ravalement de Façade 2026 : de 45€ à 110€/m² (Barème & Devis) | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-ravalement-facade">
+ <meta name="description" content="Barème 2026 vérifié · Coût au m² du ravalement de façade en Île-de-France : nettoyage, traitement, peinture D3 et ITE. Devis détaillés d'entreprises certifiées sous 48h.">
+ <meta property="og:title" content="Prix ravalement de façade au m² en 2026 : tarifs par type" />
+ <meta property="og:description" content="Barème 2026 vérifié · Coût au m² du ravalement de façade en Île-de-France : nettoyage, traitement, peinture D3 et ITE. Devis détaillés d'entreprises certifiées sous 48h.">
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-ravalement-facade" />
+ <style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.65}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EBF7F1;--cta:#2A9D6E;--sub:#5A7268;--border:rgba(34,139,91,0.14);--orange:#F97316}
+ .wrap{max-width:840px;margin:0 auto;padding:0 1.2rem}
+ .nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0}
+ .nav .wrap{display:flex;justify-content:space-between;align-items:center}
+ .logo{font-weight:900;color:var(--g1);font-size:1.2rem;text-decoration:none}.logo span{color:var(--g2)}
+ .nav a.cta{background:var(--cta);color:#fff;padding:.5rem 1.1rem;border-radius:9px;font-weight:800;font-size:.85rem;text-decoration:none}
+ h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--g1);line-height:1.2;margin:1.6rem 0 .6rem}
+ .lead{color:var(--sub);font-size:1.02rem;margin-bottom:1.4rem}
+ h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin:2rem 0 .8rem}
+ h3{font-size:1.05rem;font-weight:700;color:var(--g2);margin:1.2rem 0 .4rem}
+ p{margin-bottom:1rem}ul,ol{margin:0 0 1rem 1.3rem}li{margin-bottom:.4rem}
+ strong{color:var(--g1)}a{color:var(--g2)}
+ table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.95rem}
+ th,td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #eef2f0}
+ th{background:var(--g1);color:#fff;font-weight:700;font-size:.9rem}
+ tr:nth-child(even) td{background:#FAFCFB}
+ .box{background:var(--g-soft);border-left:4px solid var(--g2);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2rem;text-align:center;color:#fff;margin:2rem 0}
+ .cta-section h2{color:#fff;margin:0 0 .5rem}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.8rem 1.9rem;border-radius:12px;font-weight:800;text-decoration:none}
+ .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+ .faq-item h3{margin:0 0 .3rem;color:#1F2937}.faq-item p{margin:0;color:var(--sub);font-size:.95rem}
+ footer{background:var(--g1);color:#fff;text-align:center;padding:1.6rem 1rem;font-size:.85rem;margin-top:2rem}
+ footer a{color:#9be3c1;text-decoration:none}
+ </style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Quel est le prix d'un ravalement de façade au m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Selon la technique : nettoyage et traitement 30 à 50 €/m², ravalement avec peinture de façade 30 à 65 €/m², ravalement avec enduit ou crépi 50 à 90 €/m². Un ravalement couplé à une isolation thermique par l'extérieur (ITE) monte à 110 à 200 €/m²."}},
+ {"@type":"Question","name":"Combien coûte le ravalement d'une maison de 100 m² de façade ?","acceptedAnswer":{"@type":"Answer","text":"Comptez environ 3 000 à 6 500 € pour une simple mise en peinture, et 6 000 à 8 500 € pour un enduit ou un crépi traditionnel. Le prix dépend de l'état de la façade et du coût de l'échafaudage."}},
+ {"@type":"Question","name":"L'échafaudage est-il compris dans le prix du ravalement ?","acceptedAnswer":{"@type":"Answer","text":"Pas toujours. L'échafaudage représente en moyenne environ 4 €/m² supplémentaires. C'est un poste à faire figurer clairement dans le devis, surtout pour un immeuble ou une façade en hauteur."}},
+ {"@type":"Question","name":"Quel est le prix d'un ravalement avec crépi ?","acceptedAnswer":{"@type":"Answer","text":"Le crépi projeté va d'environ 30 €/m² (finition non écrasée) à 60 €/m² (écrasée) ; le crépi taloché de 50 à 90 €/m² selon la finition. Le crépi projeté reste le plus économique."}},
+ {"@type":"Question","name":"Faut-il une autorisation pour ravaler une façade ?","acceptedAnswer":{"@type":"Answer","text":"Oui dans la plupart des cas : un ravalement avec changement d'aspect est soumis à déclaration préalable en mairie, et dans certaines communes le ravalement est même obligatoire à échéance régulière. En zone protégée (ABF), l'avis de l'Architecte des Bâtiments de France peut être requis."}}
+ ]}</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Accueil",
+ "item": "https://batispot.pro/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Tarifs Travaux BTP 2026",
+ "item": "https://batispot.pro/prix-ravalement-facade"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Ravalement de Façade",
+ "item": "https://batispot.pro/prix-ravalement-facade"
+ }
+ ]
+}
+</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+<!-- START: Mini Simulateur Express -->
+<div class="bs-mini-calc" data-price-min="45" data-price-max="110" data-unit="m²" style="background:#FFFFFF;border:1.5px solid #DCEBE1;border-radius:20px;padding:28px 24px;margin:28px 0;box-shadow:0 12px 32px -10px rgba(15,81,50,0.12);">
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0F5132;background:#EBF7F1;padding:4px 12px;border-radius:999px;letter-spacing:0.04em;">Simulateur Express 2026</span>
+ <span style="font-size:12px;color:#5E7268;font-weight:600;">Estimation immédiate sans engagement</span>
+ </div>
+ <h3 style="font-size:18px;font-weight:900;color:#0A1D14;margin:0 0 16px;">Estimez le coût de vos travaux (ravalement) en direct</h3>
+ 
+ <div style="margin-bottom:18px;">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+ <label style="font-size:13px;font-weight:700;color:#1C2B22;">Quantité / Surface estimée :</label>
+ <span class="calc-val-display" style="font-size:16px;font-weight:900;color:#0F5132;background:#F1F7F4;padding:2px 10px;border-radius:8px;">40 m²</span>
+ </div>
+ <input type="range" class="calc-slider" min="10" max="150" value="40" step="5" style="width:100%;height:8px;accent-color:#0F5132;cursor:pointer;">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:#5E7268;margin-top:4px;">
+ <span>10 m²</span>
+ <span>75 m²</span>
+ <span>150 m²</span>
+ </div>
+ </div>
+
+ <div style="background:linear-gradient(135deg,#F1F7F4,#EBF7F1);border:1px solid #DCEBE1;border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:700;color:#5E7268;display:block;margin-bottom:4px;">FOURCHETTE ESTIMÉE (FOURNITURE & POSE)</span>
+ <div style="font-size:clamp(22px,4vw,28px);font-weight:900;color:#0F5132;">
+ <span class="calc-res-min">1800 €</span> à <span class="calc-res-max">4400 € TTC</span>
+ </div>
+ </div>
+
+ <div style="text-align:center;">
+ <a href="/devis/" style="display:inline-flex;align-items:center;gap:8px;background:#0F5132;color:#fff;font-size:14px;font-weight:800;padding:12px 24px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(15,81,50,0.25);">
+ <span>Recevoir 3 devis précis d'artisans vérifiés</span>
+ <span style="font-size:16px;">→</span>
+ </a>
+ </div>
+</div>
+<script src="/js/mini-calc.js" defer></script>
+<!-- END: Mini Simulateur Express -->
+ <a href="/" class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></a>
+ <a href="/estimateur" class="cta">Estimer mes travaux</a>
+</div></nav>
+
+<div class="wrap">
+ <h1>Prix d'un ravalement de façade au m² en 2026</h1>
+<p class="lead">Combien coûte un ravalement de façade en 2026 ? Les <strong>tarifs réels au m²</strong> selon la technique (nettoyage, peinture, enduit, crépi), le <strong>budget par taille de façade</strong>, et ce qui fait varier le prix.</p>
+
+ <h2>Prix du ravalement de façade au m² par type</h2>
+ <table>
+ <tr><th>Prestation</th><th>Prix au m² de façade (2026)</th></tr>
+ <tr><td>Nettoyage + traitement (haute pression, anti-mousse, réparation fissures)</td><td>30 – 50 €/m²</td></tr>
+ <tr><td>Ravalement avec peinture de façade</td><td>30 – 65 €/m²</td></tr>
+ <tr><td>Ravalement avec enduit ou crépi</td><td>50 – 90 €/m²</td></tr>
+ <tr><td>Ravalement + isolation thermique extérieure (ITE)</td><td>110 – 200 €/m²</td></tr>
+ </table>
+ <p>Ces prix s'entendent <strong>par m² de façade</strong> (et non de surface habitable). Le poste qui fait le plus varier la facture, c'est l'<strong>état de la façade</strong> et la <strong>technique de finition</strong> choisie.</p>
+
+ <h2>Budget d'un ravalement selon la taille de la façade</h2>
+ <p>À partir d'un tarif moyen de 40 à 90 €/m² (peinture à crépi), voici les budgets à prévoir :</p>
+ <table>
+ <tr><th>Surface de façade</th><th>Budget ravalement (2026)</th></tr>
+ <tr><td>50 m²</td><td>2 000 – 4 500 €</td></tr>
+ <tr><td>80 m²</td><td>3 200 – 7 200 €</td></tr>
+ <tr><td>100 m²</td><td>4 000 – 9 000 €</td></tr>
+ <tr><td>120 m²</td><td>4 800 – 10 800 €</td></tr>
+ <tr><td>150 m²</td><td>6 000 – 13 500 €</td></tr>
+ </table>
+ <div class="box"><strong>Repère :</strong> une maison de 100 m² habitables représente souvent 100 à 150 m² de façade. Pour une simple mise en peinture, comptez ~3 000 à 6 500 € ; pour un enduit ou crépi traditionnel, ~6 000 à 8 500 €.</div>
+
+<style>.bs-midcta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.1rem;background:#EBF7F1;border:1px solid rgba(34,139,91,.18);border-left:5px solid #1A6B45;border-radius:14px;padding:1.4rem 1.6rem;margin:2rem 0}.bs-midcta .bs-midcta-txt{flex:1 1 260px;min-width:0}.bs-midcta .bs-midcta-t{font-weight:900;color:#1A6B45;font-size:1.08rem;margin:0 0 .3rem}.bs-midcta .bs-midcta-p{color:#5A7268;font-size:.92rem;line-height:1.5;margin:0}.bs-midcta .cta-btn{white-space:nowrap;flex-shrink:0}@media(max-width:560px){.bs-midcta{flex-direction:column;align-items:flex-start}}</style>
+<aside class="bs-midcta" aria-label="Devis gratuit BatiSpot">
+ <div class="bs-midcta-txt">
+ <p class="bs-midcta-t">Un ravalement de façade à prévoir ?</p>
+ <p class="bs-midcta-p">Décrivez votre façade en 1 minute : recevez jusqu'à 3 devis gratuits de façadiers vérifiés en Île-de-France sous 48 h.</p>
+ </div>
+ <a href="/estimateur" class="cta-btn">Obtenir mon devis gratuit →</a>
+</aside>
+
+ <h2>Ce qui fait varier le prix d'un ravalement</h2>
+ <ul>
+ <li><strong>L'état de la façade</strong> : fissures, décollements, humidité, mousses → plus de préparation et de réparation.</li>
+ <li><strong>La technique de finition</strong> : peinture &lt; enduit &lt; crépi taloché &lt; ITE.</li>
+ <li><strong>L'échafaudage</strong> : environ <strong>4 €/m²</strong> en plus, surtout en hauteur ou sur immeuble.</li>
+ <li><strong>Les reliefs et ornements</strong> : moulures, corniches, balcons rallongent le chantier.</li>
+ <li><strong>La hauteur et l'accès</strong> : un immeuble ou une façade sur rue étroite coûte plus qu'une maison de plain-pied.</li>
+ <li><strong>La zone géographique</strong> : Paris et l'Île-de-France sont en général 20 à 30 % au-dessus de la moyenne.</li>
+ </ul>
+
+ <h2>Ravalement + isolation : l'option à considérer</h2>
+ <p>Si votre façade doit être refaite, c'est le bon moment pour y coupler une <a href="/prix-isolation-exterieure"><strong>isolation thermique par l'extérieur (ITE)</strong></a> : vous mutualisez l'échafaudage, vous améliorez le DPE et vous devenez éligible à des aides (MaPrimeRénov', CEE). Le surcoût par rapport à un ravalement simple est réel (130 à 215 €/m²), mais souvent en partie financé, voir le <a href="/prix-isolation-exterieure">prix de l'isolation extérieure au m²</a>.</p>
+
+ <h2>Faut-il une autorisation pour ravaler sa façade ?</h2>
+ <p>Dans la plupart des communes, un ravalement avec changement d'aspect est soumis à <strong>déclaration préalable en mairie</strong>. Certaines villes imposent même un ravalement obligatoire à échéance régulière. En secteur protégé (proximité d'un monument historique), l'<strong>avis de l'Architecte des Bâtiments de France (ABF)</strong> peut être requis, avec des contraintes de couleur et de matériaux.</p>
+
+ <div class="cta-section">
+ <h2>Obtenez le prix exact pour votre façade</h2>
+ <p style="opacity:.9;margin-bottom:1.2rem">Le seul prix fiable, c'est un devis après visite. Recevez jusqu'à 3 devis gratuits de façadiers vérifiés sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de mes travaux →</a>
+ </div>
+
+ <h2>Questions fréquentes, prix ravalement de façade</h2>
+ <div class="faq-item"><h3>Quel est le prix d'un ravalement de façade au m² ?</h3><p>Nettoyage 30-50 €/m², peinture 30-65 €/m², enduit/crépi 50-90 €/m². Avec isolation extérieure (ITE) : 110-200 €/m².</p></div>
+ <div class="faq-item"><h3>Combien coûte le ravalement d'une maison de 100 m² de façade ?</h3><p>Environ 3 000 à 6 500 € en peinture, 6 000 à 8 500 € en enduit ou crépi traditionnel.</p></div>
+ <div class="faq-item"><h3>L'échafaudage est-il compris ?</h3><p>Pas toujours, comptez ~4 €/m² en plus. À faire figurer dans le devis, surtout en hauteur.</p></div>
+ <div class="faq-item"><h3>Quel prix pour un crépi ?</h3><p>Crépi projeté 30-60 €/m², crépi taloché 50-90 €/m² selon la finition.</p></div>
+ <div class="faq-item"><h3>Faut-il une autorisation ?</h3><p>Oui le plus souvent : déclaration préalable en mairie, et avis de l'ABF en secteur protégé.</p></div>
+
+ <h2>À lire aussi</h2>
+ <ul>
+ <li><a href="/prix-peinture-appartement">Prix peinture appartement au m²</a></li>
+ <li><a href="/aides-renovation-energetique-idf-2026">Aides à la rénovation énergétique en Île-de-France 2026</a></li>
+ <li><a href="/estimateur">Estimateur de travaux BatiSpot</a></li>
+ </ul>
+</div>
+
+<div class="wrap" style="margin-bottom:2rem">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis gratuits de façadiers vérifiés</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Des artisans vérifiés (Kbis, assurance, décennale) en Île-de-France vous répondent sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez votre projet (surface, type de finition, état…)" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Un artisan vérifié vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'ravalement façade',description:(d.desc||'Demande via page prix ravalement façade')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_prix'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/prix-peinture-appartement">Prix peinture appartement</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

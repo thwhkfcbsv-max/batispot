@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Renovation appartement ancien Paris : guide 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/guide-renovation-appartement-ancien-paris">
+ <meta name="description" content="Renover un appartement ancien a Paris : contraintes copropriete, budget au m2, etapes cles, diagnostics plomb et amiante. Guide complet 2026." />
+ <meta name="keywords" content="renovation appartement ancien paris, renover haussmannien, budget renovation paris, copropriete travaux paris" />
+ <meta property="og:title" content="Renovation appartement ancien Paris : guide complet 2026" />
+ <meta property="og:description" content="Budget, etapes, contraintes copro et ABF pour renover un appartement ancien a Paris. Artisans verifies." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/guide-renovation-appartement-ancien-paris.png" />
+ <meta property="og:url" content="https://batispot.pro/guide-renovation-appartement-ancien-paris" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--g1); margin: 1.2rem 0 .6rem; }
+ .card p, .card li { font-size: .92rem; color: var(--text); margin-bottom: .5rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table .low { color: #16a34a; font-weight: 600; }
+ .price-table .mid { color: var(--g1); font-weight: 700; }
+ .price-table .high { color: var(--orange); font-weight: 600; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) {
+ .hero h1 { font-size: 1.5rem; }
+ .card { padding: 1.3rem; }
+ .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Quel budget prevoir pour renover un appartement ancien a Paris ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le budget moyen se situe entre 800 et 1 500 euros/m2 pour une renovation partielle, et entre 1 500 et 2 500 euros/m2 pour une renovation complete. Un 60 m2 haussmannien coute donc entre 90 000 et 150 000 euros en renovation lourde."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Faut-il un permis de construire pour renover un appartement ancien a Paris ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Non dans la plupart des cas. Une declaration prealable suffit si vous modifiez la facade (fenetres, volets). En revanche, si l'immeuble est classe ou situe dans un perimetre ABF, l'avis de l'Architecte des Batiments de France est obligatoire."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelles sont les contraintes specifiques a la copropriete ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Toute modification des parties communes (colonnes montantes, facade, plancher) necessite un vote en assemblee generale. Les travaux bruyants sont interdits avant 8h et apres 20h en semaine, et limites le samedi. Un etat des lieux des parties communes est recommande avant le chantier."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Le diagnostic plomb et amiante est-il obligatoire avant travaux ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui. Pour tout immeuble construit avant 1949, un diagnostic plomb est obligatoire. Pour ceux construits avant juillet 1997, un reperage amiante avant travaux (RAT) est exige. Le non-respect expose a des sanctions penales et a des risques sanitaires graves."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Combien de temps durent les travaux de renovation d'un appartement ancien ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Comptez 2 a 4 mois pour un rafraichissement (peinture, sols, cuisine), 4 a 6 mois pour une renovation complete (electricite, plomberie, cloisonnement), et 6 a 9 mois pour une renovation lourde avec redistribution complete des espaces."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &rsaquo; <a href="/guide-renovation-appartement-ancien-paris">Guides travaux</a> &rsaquo; Renovation appartement ancien Paris</div>
+ <h1>Renover un appartement ancien a Paris : le guide complet 2026</h1>
+<p>Contraintes de copropriete, diagnostics obligatoires, budget au m2, etapes et artisans : tout ce qu'il faut savoir avant de lancer votre chantier.</p>
+<p style="margin:18px 0;padding:12px 16px;background:#F1F7F4;border-left:3px solid #0D9488;border-radius:0 10px 10px 0;font-size:.95rem"><a href="/audit-technique-avant-travaux-2026" style="color:#0F5132;font-weight:700;text-decoration:none">&rarr; Audit technique avant travaux : quand le faire, par qui et combien ça coûte</a></p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Pourquoi renover un appartement ancien a Paris est particulier</h2>
+ <p>Paris concentre plus de 60 % d'immeubles construits avant 1945. Moulures, parquets, cheminee en marbre : le charme de l'ancien attire, mais les contraintes techniques sont reelles. Un appartement haussmannien ou pre-haussmannien presente des specificites que les immeubles recents n'ont pas : canalisations en plomb, electricite vetuste, absence d'isolation, planchers bois porteurs parfois fragilises.</p>
+ <p>A cela s'ajoutent les contraintes administratives parisiennes : copropriete exigeante, perimetre de protection des Monuments Historiques (qui concerne des arrondissements entiers), et reglementation thermique a respecter des que l'on touche a plus de 25 % de la surface des parois.</p>
+ </div>
+
+ <div class="card">
+ <h2>Budget renovation appartement ancien a Paris : les chiffres reels</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Prix constates en 2026, main-d'oeuvre et fournitures incluses, hors honoraires architecte.</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Type de renovation</th>
+ <th>Prix bas / m2</th>
+ <th>Prix moyen / m2</th>
+ <th>Prix haut / m2</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Rafraichissement (peinture, sols, petits ajustements)</td>
+ <td class="low">400 &euro;</td>
+ <td class="mid">600 &euro;</td>
+ <td class="high">800 &euro;</td>
+ </tr>
+ <tr>
+ <td>Renovation partielle (cuisine ou SDB + electricite)</td>
+ <td class="low">800 &euro;</td>
+ <td class="mid">1 200 &euro;</td>
+ <td class="high">1 500 &euro;</td>
+ </tr>
+ <tr>
+ <td>Renovation complete (tout corps d'etat)</td>
+ <td class="low">1 500 &euro;</td>
+ <td class="mid">1 800 &euro;</td>
+ <td class="high">2 200 &euro;</td>
+ </tr>
+ <tr>
+ <td>Renovation lourde (redistribution, structure)</td>
+ <td class="low">2 000 &euro;</td>
+ <td class="mid">2 500 &euro;</td>
+ <td class="high">3 000 &euro;</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">* Pour un 60 m2 en renovation complete, comptez entre 90 000 et 132 000 euros. Les arrondissements centraux (1er-8e, 16e) affichent des couts 10 a 15 % superieurs en raison des contraintes d'acces et de stationnement.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les chiffres cles a retenir</h2>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Budget moyen 60 m2</div>
+ <div class="value">90 000 - 150 000 &euro;</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Duree moyenne</div>
+ <div class="value">4 a 6 mois</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Architecte obligatoire</div>
+ <div class="value">Non (sauf facade)</div>
+ </div>
+ <div class="info-item">
+ <div class="label">TVA applicable</div>
+ <div class="value">10 % (renovation)</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Comparez jusqu'a 3 devis d'artisans verifies en Ile-de-France, gratuitement et sans engagement.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de ma renovation &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Les contraintes specifiques a l'ancien parisien</h2>
+
+ <h3>1. Copropriete : ce que vous pouvez et ne pouvez pas faire</h3>
+ <p>En copropriete, les parties communes ne vous appartiennent pas. Les murs porteurs, les colonnes montantes d'eau et de gaz, les facades et les planchers entre etages sont des parties communes. Toute modification necessite un vote en assemblee generale, a la majorite absolue (article 25 de la loi du 10 juillet 1965).</p>
+ <p>Concretement : si vous souhaitez ouvrir un mur porteur, vous devez missionner un bureau d'etudes structure (BET), obtenir un avis favorable, puis soumettre le projet au syndic pour inscription a l'ordre du jour de la prochaine AG. Delai typique : 3 a 6 mois avant meme de commencer.</p>
+
+ <h3>2. Architecte des Batiments de France (ABF)</h3>
+ <p>Paris compte pres de 1 800 monuments historiques. Si votre immeuble est situe dans un perimetre de 500 metres autour d'un monument (ce qui concerne la majorite des immeubles du centre), toute modification visible depuis l'espace public (fenetres, volets, stores, balcons) necessite l'avis conforme de l'ABF. Les delais d'instruction varient de 1 a 4 mois, et les prescriptions portent souvent sur les materiaux et les couleurs.</p>
+
+ <h3>3. Diagnostics obligatoires avant travaux</h3>
+ <ul class="factor-list">
+ <li><strong>Plomb (CREP) :</strong> obligatoire pour tout immeuble construit avant 1949. Si la concentration depasse 1 mg/cm2, les travaux doivent suivre un protocole de protection specifique.</li>
+ <li><strong>Amiante (RAT) :</strong> obligatoire pour tout immeuble construit avant juillet 1997. Le reperage avant travaux est a la charge du maitre d'ouvrage. Cout : 300 a 800 euros selon la surface.</li>
+ <li><strong>Electricite :</strong> pas obligatoire avant travaux, mais le diagnostic est requis pour la vente. Il revele souvent des installations aux normes des annees 1960-1970, incompatibles avec les usages actuels.</li>
+ <li><strong>Termites / merule :</strong> a realiser si des signes d'infestation sont visibles sur les bois (parquets, poutres). Certains arrondissements sont en zone a risque.</li>
+ </ul>
+
+ <h3>4. Planchers anciens et charges admissibles</h3>
+ <p>Les planchers bois haussmanniens supportent en general 150 a 250 kg/m2. Si vous prevoyez une chape beton pour un carrelage lourd ou une salle de bain, un bureau d'etudes doit verifier la capacite portante. Le renforcement d'un plancher coute entre 100 et 300 euros/m2.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les 8 etapes d'une renovation d'appartement ancien</h2>
+ <ul class="factor-list">
+ <li><strong>Etape 1 - Etat des lieux et diagnostics :</strong> Faites realiser les diagnostics plomb, amiante et un releve precis de l'existant (plans, reseaux, structure). Budget : 500 a 1 500 euros.</li>
+ <li><strong>Etape 2 - Conception du projet :</strong> Definissez vos besoins avec un architecte ou un maitre d'oeuvre. Plans, choix de materiaux, budget previsionnel.</li>
+ <li><strong>Etape 3 - Autorisations :</strong> Declaration prealable si modification de facade. Accord de copropriete si mur porteur ou parties communes. Avis ABF si perimetre protege.</li>
+ <li><strong>Etape 4 - Selection des artisans :</strong> Obtenez au minimum 3 devis detailles. Verifiez Kbis, assurance decennale, references. Privilegiez les artisans RGE pour beneficier des aides.</li>
+ <li><strong>Etape 5 - Demolition et gros oeuvre :</strong> Depose des revetements, ouverture de murs (si prevu), renforcement de plancher. Duree : 1 a 3 semaines.</li>
+ <li><strong>Etape 6 - Second oeuvre :</strong> Electricite, plomberie, isolation, cloisons, chape. C'est la phase la plus longue : 4 a 8 semaines.</li>
+ <li><strong>Etape 7 - Finitions :</strong> Peinture, pose de sol, faience, installation cuisine et salle de bain, menuiseries interieures. Duree : 3 a 5 semaines.</li>
+ <li><strong>Etape 8 - Reception des travaux :</strong> Visite contradictoire avec l'artisan, liste des reserves, signature du PV de reception. C'est le point de depart de la garantie decennale.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Les aides financieres disponibles en 2026</h2>
+ <p>Plusieurs dispositifs permettent de reduire le cout d'une renovation d'appartement ancien a Paris :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Aide</th>
+ <th>Montant</th>
+ <th>Conditions principales</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>MaPrimeRenov' (renovation energetique)</td>
+ <td class="mid">2 000 a 20 000 &euro;</td>
+ <td>Logement > 15 ans, artisan RGE</td>
+ </tr>
+ <tr>
+ <td>CEE (Certificats d'Economies d'Energie)</td>
+ <td class="mid">500 a 4 000 &euro;</td>
+ <td>Isolation, chauffage, fenetres</td>
+ </tr>
+ <tr>
+ <td>Eco-PTZ (pret a taux zero)</td>
+ <td class="mid">Jusqu'a 50 000 &euro;</td>
+ <td>Bouquet de travaux energetiques</td>
+ </tr>
+ <tr>
+ <td>TVA a 5,5 %</td>
+ <td class="mid">Reduction sur facture</td>
+ <td>Travaux d'amelioration energetique</td>
+ </tr>
+ <tr>
+ <td>Aides de la Ville de Paris</td>
+ <td class="mid">Variable</td>
+ <td>Eco-renovation, adaptation PMR</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.85rem;margin-top:.8rem;">Pour en savoir plus, consultez notre <a href="/guide-aides-renovation" style="color:var(--g2);font-weight:600;">guide des aides a la renovation 2026</a>.</p>
+ </div>
+
+ <div class="card">
+ <h2>Comment choisir ses artisans pour une renovation a Paris</h2>
+ <ul class="factor-list">
+ <li><strong>Verifiez les assurances :</strong> assurance decennale et responsabilite civile professionnelle. Demandez les attestations a jour.</li>
+ <li><strong>Exigez un devis detaille :</strong> chaque poste (demolition, electricite, plomberie, peinture) doit etre chiffre separement, avec le detail main-d'oeuvre et fournitures.</li>
+ <li><strong>Visitez des chantiers termines :</strong> un artisan serieux accepte de vous montrer des realisations recentes dans le meme type d'immeuble.</li>
+ <li><strong>Privilegiez les artisans locaux :</strong> un plombier ou un electricien base dans votre arrondissement sera plus reactif pour le SAV.</li>
+ <li><strong>Attention aux prix trop bas :</strong> un devis 30 % en dessous du marche cache souvent du travail non declare ou des materiaux de mauvaise qualite.</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Pret a lancer votre renovation ?</h2>
+ <p>Decrivez votre projet en 2 minutes. Recevez jusqu'a 3 devis d'artisans verifies sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Recevoir mes devis gratuits &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Les erreurs les plus frequentes en renovation d'ancien</h2>
+ <ul class="factor-list">
+ <li><strong>Sous-estimer le budget :</strong> prevoyez toujours une marge de 10 a 15 % pour les imprevisus (canalisations cachees, structure degradee, amiante non detectee).</li>
+ <li><strong>Oublier les autorisations de copropriete :</strong> des travaux non autorises peuvent etre stoppes par le syndic et vous obliger a remettre en etat a vos frais.</li>
+ <li><strong>Negliger l'isolation :</strong> un appartement ancien non isole consomme 2 a 3 fois plus d'energie. L'isolation par l'interieur (ITI) est la solution la plus courante en copropriete.</li>
+ <li><strong>Choisir ses artisans uniquement sur le prix :</strong> la qualite d'execution et la fiabilite du planning comptent autant que le tarif.</li>
+ <li><strong>Ne pas faire de reception de chantier :</strong> sans PV de reception signe, vous ne pouvez pas activer la garantie decennale.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Trouvez vos artisans pour renover votre appartement ancien</h2>
+ <p>BatiSpot reference uniquement des artisans verifies : Kbis actif, assurance decennale, avis clients controles. Obtenez 3 devis gratuits et comparez en toute serenite.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/renovation-appartement-haussmannien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Renovation appartement haussmannien</div><div style="font-size:.76rem;color:var(--sub);">Prix, contraintes, postes cles</div></a>
+ <a href="/prix-renovation-appartement" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement au m2</div><div style="font-size:.76rem;color:var(--sub);">Budgets 2026 par ampleur de travaux</div></a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit en 2 minutes</div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Cout au m2 selon surface et gamme</div>
+ </a>
+ <a href="/guide-renovation-electrique-complete" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Guide renovation electrique</div>
+ <div style="font-size:.76rem;color:var(--sub);">Norme NF C 15-100, budget, etapes</div>
+ </a>
+ <a href="/guide-isolation-thermique-interieure" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Guide isolation thermique interieure</div>
+ <div style="font-size:.76rem;color:var(--sub);">Materiaux, epaisseur, prix au m2</div>
+ </a>
+ <a href="/ordre-travaux-renovation-etapes" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Ordre des travaux de renovation</div>
+ <div style="font-size:.76rem;color:var(--sub);">Les 8 etapes dans le bon ordre</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

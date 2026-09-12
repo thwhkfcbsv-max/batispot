@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Garantie decennale : guide complet | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/garantie-decennale-travaux-guide">
+ <meta name="description" content="Garantie decennale : droits du proprietaire, duree, sinistres couverts, comment activer la garantie, dommage-ouvrage. Guide pratique 2026." />
+ <meta name="keywords" content="garantie decennale, assurance decennale travaux, sinistre decennale, dommage ouvrage" />
+ <meta property="og:title" content="Garantie decennale travaux : vos droits en 2026" />
+ <meta property="og:description" content="Quels sinistres sont couverts, comment activer la garantie, delais, dommage-ouvrage. Tout ce que le proprietaire doit savoir." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/garantie-decennale-travaux-guide.png" />
+ <meta property="og:url" content="https://batispot.pro/garantie-decennale-travaux-guide" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Que couvre la garantie decennale ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "La garantie decennale couvre les dommages qui compromettent la solidite de l'ouvrage ou le rendent impropre a sa destination pendant 10 ans apres la reception des travaux. Exemples : fissures structurelles, infiltrations par la toiture, defaut d'etancheite, effondrement de plancher, defaillance du systeme de chauffage rendant le logement inhabitable." }
+ },
+ {
+ "@type": "Question",
+ "name": "Comment activer la garantie decennale ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "Envoyez une lettre recommandee avec AR a l'artisan decrivant le sinistre, avec photos. Si vous avez souscrit une assurance dommage-ouvrage, declarez aussi le sinistre a votre assureur DO qui doit repondre sous 60 jours et prefinancer les reparations. Si l'artisan ne repond pas ou a fait faillite, adressez-vous directement a son assureur decennale." }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelle difference entre garantie decennale et dommage-ouvrage ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "La decennale est l'assurance de l'artisan (obligatoire pour lui). Le dommage-ouvrage (DO) est l'assurance du proprietaire (obligatoire pour le maitre d'ouvrage). Le DO prefinance les reparations sans attendre de determiner les responsabilites, puis se retourne contre l'assureur decennale de l'artisan." }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels travaux ne sont pas couverts par la decennale ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "La decennale ne couvre pas : les travaux d'entretien courant, les desordres purement esthetiques (rayure, tache), les equipements dissociables du batiment (electromenager, mobilier), l'usure normale, et les dommages causes par le proprietaire ou un tiers. La peinture et les revetements de sol sont couverts uniquement s'ils rendent le logement impropre a sa destination." }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Guides travaux</a> > Garantie decennale</div>
+ <h1>Garantie decennale : vos droits en 2026</h1>
+<p>Duree, sinistres couverts, demarches pour activer la garantie, dommage-ouvrage. Tout ce que le proprietaire doit savoir pour se proteger.</p>
+</div>
+
+<div class="container">
+<div class="ai-snippet" style="background:#F0FDF4;border:1.5px solid #16A34A;border-radius:14px;padding:18px 22px;margin:24px 0 28px;font-size:15px;color:#14532D;line-height:1.6;">
+ <strong style="display:flex;align-items:center;gap:6px;font-size:16px;color:#166534;margin-bottom:8px;"> En résumé (Garantie Décennale 2026) :</strong>
+ <p style="margin:0 0 8px;">La <strong>garantie décennale (Article 1792 du Code Civil)</strong> couvre pendant 10 ans tous les dommages compromettant la solidité du bâtiment ou le rendant impropre à son usage (toiture, fondations, murs porteurs, étanchéité).</p>
+ <ul style="margin:0 0 0 18px;padding:0;">
+ <li><strong>Obligation artisan :</strong> Attestation d'assurance décennale obligatoire jointe au devis.</li>
+ <li><strong>Point de départ :</strong> La date de signature du procès-verbal de réception de chantier.</li>
+ </ul>
+</div>
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Les 3 garanties legales apres travaux</h2>
+ <table class="price-table">
+ <thead>
+ <tr><th>Garantie</th><th>Duree</th><th>Ce qu'elle couvre</th></tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Parfait achevement</strong></td>
+ <td>1 an</td>
+ <td>Tous les desordres signales par PV ou LRAR dans l'annee suivant la reception</td>
+ </tr>
+ <tr>
+ <td><strong>Bon fonctionnement</strong></td>
+ <td>2 ans</td>
+ <td>Equipements dissociables : volets, radiateurs, robinetterie, VMC</td>
+ </tr>
+ <tr>
+ <td><strong>Decennale</strong></td>
+ <td>10 ans</td>
+ <td>Dommages compromettant la solidite ou rendant impropre a destination</td>
+ </tr>
+ </tbody>
+ </table>
+ <p>Les delais courent a compter de la reception des travaux (PV de reception signe par les deux parties).</p>
+ </div>
+
+ <div class="card">
+ <h2>Exemples de sinistres couverts par la decennale</h2>
+ <ul class="factor-list">
+ <li><strong>Fissures structurelles :</strong> fissures traversantes dans les murs porteurs, affaissement de fondations.</li>
+ <li><strong>Infiltrations :</strong> toiture, terrasse, facade -- des lors que l'eau penetre dans le logement.</li>
+ <li><strong>Defaut d'etancheite :</strong> salle de bain, douche a l'italienne causant des degats aux etages inferieurs.</li>
+ <li><strong>Chauffage defaillant :</strong> systeme de chauffage installe qui ne fonctionne pas ou rend le logement inhabitable en hiver.</li>
+ <li><strong>Electricite dangereuse :</strong> installation electrique non conforme causant un risque d'incendie ou d'electrocution.</li>
+ <li><strong>Plancher affaisse :</strong> deformation du plancher compromettant l'usage normal du logement.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Ce qui n'est PAS couvert</h2>
+ <ul class="factor-list">
+ <li><strong>Desordres esthetiques :</strong> rayure sur un carrelage, teinte de peinture non conforme, joint irregulier. Releve de la garantie de parfait achevement (1 an).</li>
+ <li><strong>Usure normale :</strong> vieillissement naturel des materiaux apres plusieurs annees d'utilisation.</li>
+ <li><strong>Equipements dissociables :</strong> robinet, interrupteur, radiateur electrique. Releve de la garantie biennale (2 ans).</li>
+ <li><strong>Dommages par le proprietaire :</strong> modification des travaux sans accord de l'artisan, defaut d'entretien.</li>
+ <li><strong>Travaux sans devis ni facture :</strong> aucune garantie possible sans preuve ecrite de la relation contractuelle.</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Artisans avec assurance decennale verifiee. Devis detailles pour vos travaux en IDF.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux gratuitement</a>
+ </div>
+
+ <div class="card">
+ <h2>Comment activer la garantie decennale : etape par etape</h2>
+ <ul class="factor-list">
+ <li><strong>Etape 1 :</strong> constatez le desordre et documentez-le (photos, videos, date d'apparition).</li>
+ <li><strong>Etape 2 :</strong> envoyez une LRAR a l'artisan decrivant le sinistre, avec les preuves. Demandez une intervention sous 15 jours.</li>
+ <li><strong>Etape 3 :</strong> si vous avez une assurance dommage-ouvrage (DO), declarez le sinistre a votre assureur DO dans les 5 jours.</li>
+ <li><strong>Etape 4 :</strong> l'assureur DO mandate un expert sous 60 jours. Si le sinistre est couvert, il prefinance les reparations sous 90 jours.</li>
+ <li><strong>Etape 5 :</strong> si l'artisan ne repond pas ou a ferme, contactez directement son assureur decennale (le numero figure sur l'attestation d'assurance qui doit etre jointe au devis).</li>
+ <li><strong>Etape 6 :</strong> en dernier recours, saisissez le tribunal judiciaire. Le delai de prescription est de 10 ans a compter de la reception.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Dommage-ouvrage : pourquoi c'est indispensable</h2>
+ <p>L'assurance dommage-ouvrage (DO) est obligatoire pour le maitre d'ouvrage (proprietaire qui fait construire ou renover). En pratique, beaucoup de particuliers ne la souscrivent pas pour des travaux de renovation, ce qui est une erreur :</p>
+ <table class="price-table">
+ <thead><tr><th>Sans DO</th><th>Avec DO</th></tr></thead>
+ <tbody>
+ <tr>
+ <td>Vous devez prouver la responsabilite de l'artisan (procedure judiciaire, 2 a 5 ans)</td>
+ <td>L'assureur DO prefinance les reparations sous 90 jours, sans attendre la determination des responsabilites</td>
+ </tr>
+ <tr>
+ <td>Si l'artisan a ferme, vous devez retrouver son assureur et prouver le lien</td>
+ <td>L'assureur DO se charge de se retourner contre l'assureur de l'artisan</td>
+ </tr>
+ <tr>
+ <td>Cout : 0 EUR</td>
+ <td>Cout : 2 a 5 % du montant des travaux (1 500 a 5 000 EUR pour une renovation d'appartement)</td>
+ </tr>
+ </tbody>
+ </table>
+ <p>Conseil : pour les travaux de plus de 20 000 EUR, la DO est un investissement qui peut vous eviter des annees de procedure.</p>
+ </div>
+
+ <div class="trust-box">
+ <h2>Artisans avec decennale verifiee</h2>
+ <p>BatiSpot verifie l'assurance decennale de chaque artisan reference. des devis gratuits d'artisans vérifiés.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/comment-choisir-artisan-rge-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Choisir un artisan RGE en IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Verification, labels et arnaques</div>
+ </a>
+ <a href="/devis-travaux-comprendre-comparer" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Lire et comparer des devis travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Pieges, postes a verifier, prix normaux</div>
+ </a>
+ <a href="/travaux-sans-permis-risques-regularisation" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Travaux sans permis : risques</div>
+ <div style="font-size:.76rem;color:var(--sub);">Prescription, regularisation, sanctions</div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Cout au m2 selon surface et gamme</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

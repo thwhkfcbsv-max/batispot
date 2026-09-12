@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Guide Aides Rénovation 2026 Île-de-France — MaPrimeRénov', Éco-PTZ, CEE — BatiSpot</title>
+ <meta name="description" content="Guide complet et gratuit : toutes les aides financières pour vos travaux de rénovation en 2026 en Île-de-France. MaPrimeRénov', Éco-PTZ jusqu'à 50 000€, CEE, TVA réduite, aides régionales." />
+ <meta name="keywords" content="aides renovation 2026, maprimerénov 2026, éco-ptz, CEE travaux, TVA réduite renovation, aides ile-de-france renovation, prime energie renovation, financement travaux" />
+ <meta property="og:title" content="Guide Gratuit : Toutes les Aides Rénovation 2026 en Île-de-France" />
+ <meta property="og:description" content="MaPrimeRénov', Éco-PTZ, CEE, TVA réduite — tous les montants et conditions pour financer vos travaux en 2026." />
+ <meta property="og:type" content="article" />
+ <meta property="og:image" content="https://batispot.pro/og/guide-aides-renovation.png" />
+ <meta property="og:url" content="https://batispot.pro/guide-aides-renovation" />
+ <meta name="robots" content="index, follow" />
+ <link rel="canonical" href="https://batispot.pro/guide-aides-renovation">
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.7; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --orange: #F97316; --orange-h: #EA6A0A;
+ }
+
+ /* NAV */
+ nav {
+ background: var(--white); border-bottom: 1px solid var(--border);
+ padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between;
+ position: sticky; top: 0; z-index: 100;
+ }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-back { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-back:hover { color: var(--g2); }
+
+ /* HERO */
+ .hero {
+ background: linear-gradient(135deg, var(--g1) 0%, #0F3D28 100%);
+ padding: 3.5rem 5% 4rem; text-align: center; color: white; position: relative; overflow: hidden;
+ }
+ .hero::before {
+ content: ''; position: absolute; inset: 0;
+ background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+ }
+ .hero-badge {
+ display: inline-block; background: rgba(249,115,22,.9); color: white;
+ font-size: .75rem; font-weight: 800; padding: .3rem .8rem; border-radius: 20px;
+ text-transform: uppercase; letter-spacing: .05em; margin-bottom: 1rem;
+ }
+ .hero h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.2; margin-bottom: 1rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+ .hero h1 span { color: #6EE7B7; }
+ .hero-sub { opacity: .85; font-size: 1.05rem; max-width: 560px; margin: 0 auto 2rem; }
+ .hero-bullets {
+ display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-bottom: 2rem;
+ }
+ .hero-bullet {
+ background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+ border-radius: 20px; padding: .35rem .85rem; font-size: .82rem; font-weight: 600;
+ }
+ .hero-cta {
+ display: inline-block; background: var(--orange); color: white;
+ padding: .9rem 2.2rem; border-radius: 12px; font-size: 1.05rem; font-weight: 800;
+ text-decoration: none; transition: background .2s, transform .1s; box-shadow: 0 4px 16px rgba(249,115,22,.4);
+ }
+ .hero-cta:hover { background: var(--orange-h); transform: translateY(-2px); }
+
+ /* LAYOUT */
+ .page-wrap { max-width: 900px; margin: 0 auto; padding: 0 1.2rem; }
+
+ /* LEAD FORM SECTION */
+ .lead-section {
+ background: var(--white); border-radius: 20px;
+ box-shadow: 0 8px 40px rgba(0,0,0,0.08); padding: 2.5rem;
+ margin: -2rem auto 2.5rem; max-width: 620px; position: relative; z-index: 10;
+ }
+ .lead-section h2 { font-size: 1.3rem; font-weight: 800; color: var(--g1); margin-bottom: .4rem; }
+ .lead-section .lead-sub { font-size: .9rem; color: var(--sub); margin-bottom: 1.5rem; }
+ .lead-form { display: grid; gap: .7rem; }
+ .lead-form input {
+ width: 100%; padding: .75rem 1rem; border: 2px solid var(--border); border-radius: 10px;
+ font-size: .92rem; color: var(--text); background: var(--white); transition: border-color .2s;
+ }
+ .lead-form input:focus { border-color: var(--g2); outline: none; }
+ .lead-form .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+ .lead-btn {
+ width: 100%; padding: .9rem; background: var(--orange); color: white; border: none;
+ border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;
+ transition: background .2s, transform .1s; margin-top: .3rem;
+ }
+ .lead-btn:hover { background: var(--orange-h); transform: translateY(-1px); }
+ .lead-note { font-size: .72rem; color: var(--sub); text-align: center; margin-top: .5rem; }
+ .form-success { display: none; text-align: center; padding: 1.5rem 0; }
+ .form-success.show { display: block; }
+ .form-success .check-big { font-size: 3rem; }
+ .form-success h3 { color: var(--g1); font-size: 1.2rem; margin: .5rem 0; }
+ .form-success p { color: var(--sub); font-size: .9rem; }
+
+ /* GUIDE CONTENT */
+ .guide { padding: 1rem 0 4rem; }
+ .guide-intro {
+ background: var(--g-soft); border-left: 4px solid var(--g2);
+ padding: 1.2rem 1.5rem; border-radius: 0 12px 12px 0; margin-bottom: 2.5rem; font-size: .95rem; color: var(--text);
+ }
+
+ .section-card {
+ background: var(--white); border-radius: 16px; padding: 2rem 2rem 1.5rem;
+ box-shadow: 0 2px 16px rgba(0,0,0,0.05); margin-bottom: 2rem;
+ border-top: 4px solid var(--g2);
+ }
+ .section-card.orange-top { border-top-color: var(--orange); }
+ .section-card.blue-top { border-top-color: #3B82F6; }
+ .section-card.purple-top { border-top-color: #8B5CF6; }
+ .section-card.teal-top { border-top-color: #0D9488; }
+
+ .section-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem; }
+ .section-icon {
+ width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center;
+ justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+ background: var(--g-soft);
+ }
+ .section-icon.orange { background: #FEF3EC; }
+ .section-icon.blue { background: #EFF6FF; }
+ .section-icon.purple { background: #F5F3FF; }
+ .section-icon.teal { background: #F0FDFA; }
+ .section-title { font-size: 1.3rem; font-weight: 900; color: var(--g1); }
+ .section-title.orange { color: #C2410C; }
+ .section-title.blue { color: #1D4ED8; }
+ .section-title.purple { color: #6D28D9; }
+ .section-title.teal { color: #0F766E; }
+ .section-tag {
+ display: inline-block; font-size: .7rem; font-weight: 700; padding: .2rem .6rem;
+ border-radius: 20px; background: var(--g-soft); color: var(--g1); margin-top: .25rem;
+ }
+ .section-tag.orange { background: #FEF3EC; color: #C2410C; }
+ .section-tag.blue { background: #EFF6FF; color: #1D4ED8; }
+ .section-tag.purple { background: #F5F3FF; color: #6D28D9; }
+ .section-tag.teal { background: #F0FDFA; color: #0F766E; }
+
+ h3 { font-size: 1rem; font-weight: 800; color: var(--g1); margin: 1.2rem 0 .6rem; }
+ h3.orange { color: #C2410C; }
+ h3.blue { color: #1D4ED8; }
+ h3.purple { color: #6D28D9; }
+ h3.teal { color: #0F766E; }
+
+ p { color: var(--sub); font-size: .92rem; margin-bottom: .8rem; }
+ ul, ol { color: var(--sub); font-size: .92rem; padding-left: 1.4rem; margin-bottom: .8rem; }
+ ul li, ol li { margin-bottom: .35rem; }
+
+ /* TABLES */
+ .table-wrap { overflow-x: auto; margin: 1rem 0; }
+ table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+ thead th {
+ background: var(--g-soft); color: var(--g1); padding: .6rem .8rem;
+ text-align: left; font-weight: 700; border-bottom: 2px solid var(--border);
+ }
+ thead.orange th { background: #FEF3EC; color: #C2410C; }
+ thead.blue th { background: #EFF6FF; color: #1D4ED8; }
+ thead.purple th { background: #F5F3FF; color: #6D28D9; }
+ thead.teal th { background: #F0FDFA; color: #0F766E; }
+ tbody td { padding: .5rem .8rem; border-bottom: 1px solid var(--border); color: var(--text); }
+ tbody tr:last-child td { border-bottom: none; }
+ tbody tr:hover { background: #FAFAFA; }
+ .td-green { color: var(--g1); font-weight: 700; }
+ .td-orange { color: #C2410C; font-weight: 700; }
+ .td-blue { color: #1D4ED8; font-weight: 700; }
+ .td-badge {
+ display: inline-block; font-size: .72rem; font-weight: 700; padding: .15rem .5rem;
+ border-radius: 10px; background: var(--g-soft); color: var(--g1);
+ }
+ .td-badge.r { background: #FEF2F2; color: #B91C1C; }
+ .td-badge.o { background: #FEF3EC; color: #C2410C; }
+ .td-badge.b { background: #EFF6FF; color: #1D4ED8; }
+
+ /* CALLOUT BOXES */
+ .callout {
+ border-radius: 12px; padding: 1rem 1.2rem; font-size: .88rem;
+ display: flex; gap: .8rem; align-items: flex-start; margin: 1rem 0;
+ }
+ .callout.green { background: var(--g-soft); border-left: 3px solid var(--g2); }
+ .callout.orange { background: #FEF3EC; border-left: 3px solid var(--orange); }
+ .callout.blue { background: #EFF6FF; border-left: 3px solid #3B82F6; }
+ .callout.red { background: #FEF2F2; border-left: 3px solid #EF4444; }
+ .callout-icon { font-size: 1.1rem; flex-shrink: 0; }
+ .callout p { margin: 0; color: var(--text); }
+ .callout strong { font-weight: 700; }
+
+ /* CHECKLIST */
+ .checklist { list-style: none; padding-left: 0; }
+ .checklist li {
+ display: flex; align-items: flex-start; gap: .7rem; padding: .5rem 0;
+ border-bottom: 1px solid var(--border); font-size: .9rem; color: var(--text);
+ }
+ .checklist li:last-child { border-bottom: none; }
+ .check-box {
+ width: 20px; height: 20px; border: 2px solid var(--g3); border-radius: 5px;
+ flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+ color: var(--g2); font-size: .7rem; margin-top: 2px;
+ }
+ .check-label { flex: 1; }
+ .check-label strong { display: block; font-weight: 700; color: var(--text); font-size: .9rem; }
+ .check-label span { font-size: .8rem; color: var(--sub); }
+
+ /* TOC */
+ .toc {
+ background: var(--white); border-radius: 16px; padding: 1.5rem 2rem;
+ box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 2.5rem;
+ border: 1px solid var(--border);
+ }
+ .toc h2 { font-size: 1rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .toc ol { padding-left: 1.2rem; }
+ .toc li { margin-bottom: .4rem; }
+ .toc a { color: var(--g2); text-decoration: none; font-size: .9rem; font-weight: 600; }
+ .toc a:hover { text-decoration: underline; }
+
+ /* CTA INLINE */
+ .cta-inline {
+ background: linear-gradient(135deg, var(--g1), var(--g2)); color: white;
+ border-radius: 16px; padding: 2rem; text-align: center; margin: 2.5rem 0;
+ }
+ .cta-inline h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: .5rem; }
+ .cta-inline p { color: rgba(255,255,255,.8); font-size: .9rem; margin-bottom: 1.2rem; }
+ .cta-inline a {
+ display: inline-block; background: var(--orange); color: white;
+ padding: .8rem 2rem; border-radius: 10px; font-size: .95rem; font-weight: 800;
+ text-decoration: none; transition: background .2s;
+ }
+ .cta-inline a:hover { background: var(--orange-h); }
+
+ /* FOOTER */
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+ @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+ @media (max-width: 640px) {
+ .hero h1 { font-size: 1.6rem; }
+ .lead-section { padding: 1.5rem; }
+ .lead-form .row-2 { grid-template-columns: 1fr; }
+ .section-card { padding: 1.4rem; }
+ .hero-bullets { flex-direction: column; align-items: center; }
+ }
+ </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Guide Aides Rénovation 2026 Île-de-France — MaPrimeRénov', Éco-PTZ, CEE — BatiSpot",
+ "description": "Guide complet et gratuit : toutes les aides financières pour vos travaux de rénovation en 2026 en Île-de-France. MaPrimeRénov",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-04-17",
+ "dateModified": "2026-06-12",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/guide-aides-renovation"
+ }
+}
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Qui peut bénéficier de MaPrimeRénov' en 2026 ?", "acceptedAnswer": {"@type": "Answer", "text": "Tout propriétaire occupant ou bailleur d'un logement de plus de 15 ans, en résidence principale (au moins 8 mois par an) ; les locataires peuvent en bénéficier avec l'accord du propriétaire. L'aide, gérée par l'ANAH, est versée après réalisation des travaux par un artisan RGE, à condition d'avoir déposé la demande avant le démarrage du chantier."}}, {"@type": "Question", "name": "Combien peut-on toucher avec MaPrimeRénov' ?", "acceptedAnswer": {"@type": "Answer", "text": "Le montant dépend du profil de revenus. Pour l'isolation des combles, par exemple : 75 % du coût HT pour un ménage très modeste, 60 % pour un modeste, 40 % pour un intermédiaire, 15 % pour un supérieur. Les travaux mono-geste sont plafonnés à 15 000 € par an et la rénovation d'ampleur à 70 000 € sur 5 ans (jusqu'à environ 49 000 € d'aide)."}}, {"@type": "Question", "name": "Qu'est-ce que l'Éco-PTZ et quel montant peut-on emprunter ?", "acceptedAnswer": {"@type": "Answer", "text": "C'est un prêt sans intérêts, sans condition de revenus, pour financer des travaux réalisés par un artisan RGE dans un logement construit avant le 1er janvier 2000. Les plafonds : 15 000 € pour une action, 25 000 € pour deux, 30 000 € pour trois actions ou plus, et jusqu'à 50 000 € sur 20 ans pour une rénovation globale."}}, {"@type": "Question", "name": "Peut-on cumuler MaPrimeRénov', l'Éco-PTZ et les CEE ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, ces aides sont cumulables dans la limite de 100 % du coût des travaux. En pratique, un ménage très modeste peut couvrir 80 à 90 % du montant en combinant MaPrimeRénov', l'Éco-PTZ, les CEE et la TVA réduite à 5,5 %."}}, {"@type": "Question", "name": "Quand faut-il déposer la demande d'aide ?", "acceptedAnswer": {"@type": "Answer", "text": "Impérativement avant le démarrage des travaux, sur maprimerenov.gouv.fr : toute demande postérieure aux travaux est rejetée. L'artisan doit être certifié RGE. Pour une rénovation d'ampleur au-delà de 5 000 € de subvention, le passage par un Accompagnateur Rénov' est obligatoire."}}]}</script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <a href="/" class="nav-back">← Retour au site</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+ <div class="hero-badge">Guide Gratuit 2026</div>
+ <h1>Toutes les Aides pour vos<br><span>Travaux de Rénovation</span></h1>
+<p class="hero-sub">MaPrimeRénov', Éco-PTZ, CEE, TVA réduite, aides régionales, tous les montants et conditions mis à jour pour 2026 en Île-de-France.</p>
+ <div class="hero-bullets">
+ <span class="hero-bullet">MaPrimeRénov' 2026</span>
+ <span class="hero-bullet">Éco-PTZ jusqu'à 50 000€</span>
+ <span class="hero-bullet">CEE / Primes Énergie</span>
+ <span class="hero-bullet">TVA 5.5% et 10%</span>
+ <span class="hero-bullet">Aides Île-de-France</span>
+ <span class="hero-bullet">Checklist documents</span>
+ </div>
+ <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+ <a href="/simulateur-aides" class="hero-cta" style="background:#fff;color:var(--g1);">Simuler mes aides en 2 min →</a>
+ <a href="#lead-form" class="hero-cta" style="background:transparent;border:2px solid #fff;color:#fff;">Recevoir le guide par email</a>
+ </div>
+</div>
+
+<!-- LEAD CAPTURE FORM -->
+<div class="page-wrap">
+ <div class="lead-section" id="lead-form">
+ <h2>Recevoir ce guide par email</h2>
+ <p class="lead-sub">Entrez vos coordonnées et on vous envoie le guide + une liste personnalisée des aides disponibles selon votre projet.</p>
+ <div id="formWrap">
+ <form class="lead-form" id="guideForm" onsubmit="submitGuideForm(event)">
+ <div class="row-2">
+ <input type="text" id="gNom" placeholder="Votre prénom *" required />
+ <input type="email" id="gEmail" placeholder="Votre email *" required />
+ </div>
+ <div class="row-2">
+ <input type="tel" id="gTel" placeholder="Téléphone (optionnel)" />
+ <input type="text" id="gCP" placeholder="Code postal *" required maxlength="5" pattern="[0-9]{5}" />
+ </div>
+ <button type="submit" class="lead-btn">Recevoir le guide gratuit →</button>
+ </form>
+ <p class="lead-note">100% gratuit • Sans engagement • Vos données ne sont jamais revendues</p>
+ </div>
+ <div class="form-success" id="formSuccess">
+ <div class="check-big">&#10003;</div>
+ <h3>Guide envoyé !</h3>
+ <p>Vérifiez votre email. Continuez à lire le guide complet ci-dessous.</p>
+ </div>
+ </div>
+</div>
+
+<!-- GUIDE CONTENT -->
+<div class="page-wrap">
+<div class="guide">
+
+ <div class="guide-intro">
+ <strong>Mise à jour janvier 2026.</strong> Ce guide recense toutes les aides financières disponibles pour financer vos travaux de rénovation en Île-de-France. Les montants et conditions sont ceux en vigueur au 1er janvier 2026. Certains dispositifs peuvent évoluer en cours d'année, consultez toujours le site officiel avant de déposer un dossier.
+ </div>
+
+ <!-- TABLE OF CONTENTS -->
+ <div class="toc">
+ <h2>Sommaire du guide</h2>
+ <ol>
+ <li><a href="#maprimerénov">MaPrimeRénov' 2026, barèmes et montants par revenu</a></li>
+ <li><a href="#ecoptz">Éco-PTZ, prêt à taux zéro jusqu'à 50 000€</a></li>
+ <li><a href="#cee">CEE : Certificats d'Économie d'Énergie et primes énergie</a></li>
+ <li><a href="#tva">TVA réduite à 5.5% et 10%</a></li>
+ <li><a href="#idf">Aides spécifiques Île-de-France</a></li>
+ <li><a href="#checklist">Checklist documents à préparer</a></li>
+ </ol>
+ </div>
+
+ <!-- =========================
+ SECTION 1 : MAPRIMERÉNOV'
+ ========================= -->
+ <div class="section-card" id="maprimerénov">
+ <div class="section-header">
+ <div class="section-icon section-icon--text">Aid.</div>
+ <div>
+ <div class="section-title">1. MaPrimeRénov' 2026</div>
+ <span class="section-tag">Subvention directe de l'État</span>
+ </div>
+ </div>
+
+ <p>MaPrimeRénov' est la principale aide de l'État pour financer des travaux de rénovation énergétique. Elle est gérée par l'ANAH (Agence Nationale de l'Habitat) et versée directement sur votre compte bancaire après réalisation des travaux par un artisan RGE (Reconnu Garant de l'Environnement).</p>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">i</div>
+ <p><strong>Qui peut en bénéficier ?</strong> Tout propriétaire occupant ou bailleur, dont le logement a plus de 15 ans. Les locataires peuvent en bénéficier avec l'accord du propriétaire. Le logement doit être votre résidence principale (au moins 8 mois par an).</p>
+ </div>
+
+ <h3>Barèmes de revenus 2026 (Île-de-France, ménage de 2 personnes)</h3>
+ <p>Les montants d'aide dépendent de votre "profil" de revenus, déterminé par vos revenus fiscaux de référence (N-1 ou N-2) et la composition de votre foyer.</p>
+
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+ <th>Profil</th>
+ <th>1 pers.</th>
+ <th>2 pers.</th>
+ <th>3 pers.</th>
+ <th>4 pers.</th>
+ <th>Pers. supp.</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><span class="td-badge">Très modeste</span></td>
+ <td class="td-green">23 541€</td>
+ <td class="td-green">34 551€</td>
+ <td class="td-green">41 493€</td>
+ <td class="td-green">48 447€</td>
+ <td class="td-green">+6 957€</td>
+ </tr>
+ <tr>
+ <td><span class="td-badge o">Modeste</span></td>
+ <td>28 657€</td>
+ <td>42 058€</td>
+ <td>50 513€</td>
+ <td>58 981€</td>
+ <td>+8 468€</td>
+ </tr>
+ <tr>
+ <td><span class="td-badge b">Intermédiaire</span></td>
+ <td>40 018€</td>
+ <td>58 827€</td>
+ <td>70 382€</td>
+ <td>82 839€</td>
+ <td>+12 456€</td>
+ </tr>
+ <tr>
+ <td><span class="td-badge r">Supérieur</span></td>
+ <td colspan="5" style="color:var(--sub);font-style:italic">Au-delà des plafonds intermédiaires</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <h3>Montants d'aide par type de travaux (en % du coût HT)</h3>
+
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+ <th>Type de travaux</th>
+ <th>Très modeste</th>
+ <th>Modeste</th>
+ <th>Intermédiaire</th>
+ <th>Supérieur</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Isolation combles perdus</strong></td>
+ <td class="td-green">75%</td>
+ <td class="td-green">60%</td>
+ <td>40%</td>
+ <td>15%</td>
+ </tr>
+ <tr>
+ <td><strong>Isolation plancher bas</strong></td>
+ <td class="td-green">75%</td>
+ <td class="td-green">60%</td>
+ <td>40%</td>
+ <td>15%</td>
+ </tr>
+ <tr>
+ <td><strong>Isolation murs ext./int.</strong></td>
+ <td class="td-green">75%</td>
+ <td class="td-green">60%</td>
+ <td>40%</td>
+ <td>15%</td>
+ </tr>
+ <tr>
+ <td><strong>Pompe à chaleur air/eau</strong></td>
+ <td class="td-green">65%</td>
+ <td class="td-green">50%</td>
+ <td>40%</td>
+ <td>20%</td>
+ </tr>
+ <tr>
+ <td><strong>Chaudière biomasse</strong></td>
+ <td class="td-green">65%</td>
+ <td class="td-green">50%</td>
+ <td>40%</td>
+ <td>20%</td>
+ </tr>
+ <tr>
+ <td><strong>Chauffe-eau solaire</strong></td>
+ <td class="td-green">60%</td>
+ <td class="td-green">45%</td>
+ <td>35%</td>
+ <td>15%</td>
+ </tr>
+ <tr>
+ <td><strong>Chauffe-eau thermodynamique</strong></td>
+ <td class="td-green">40%</td>
+ <td class="td-green">35%</td>
+ <td>25%</td>
+ <td>10%</td>
+ </tr>
+ <tr>
+ <td><strong>VMC double flux</strong></td>
+ <td class="td-green">75%</td>
+ <td class="td-green">60%</td>
+ <td>40%</td>
+ <td>15%</td>
+ </tr>
+ <tr>
+ <td><strong>Audit énergétique</strong></td>
+ <td class="td-green">500€</td>
+ <td class="td-green">400€</td>
+ <td>300€</td>
+ <td>—</td>
+ </tr>
+ <tr>
+ <td><strong>Rénovation globale (MPR Accompagnée)</strong></td>
+ <td class="td-green">70%</td>
+ <td class="td-green">60%</td>
+ <td>45%</td>
+ <td>30%</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <h3>Plafonds de travaux retenus (2026)</h3>
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+ <th>Type d'opération</th>
+ <th>Plafond HT des travaux</th>
+ <th>Aide max (ménage très modeste)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Travaux mono-geste (isolation, chauffage…)</td>
+ <td>15 000€ / an</td>
+ <td class="td-green">~11 250€</td>
+ </tr>
+ <tr>
+ <td>Rénovation d'ampleur (MPR Accompagnée)</td>
+ <td>70 000€ sur 5 ans</td>
+ <td class="td-green">~49 000€</td>
+ </tr>
+ <tr>
+ <td>Sortie de passoire thermique (F ou G)</td>
+ <td>Majoration de 10 pts</td>
+ <td class="td-green">Bonus inclus</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="callout orange">
+ <div class="callout-icon callout-icon--text">!</div>
+ <p><strong>Condition impérative :</strong> L'artisan doit être certifié RGE. La demande doit être déposée sur <strong>maprimerenov.gouv.fr</strong> <em>avant</em> le démarrage des travaux. Toute demande postérieure aux travaux est rejetée.</p>
+ </div>
+
+ <h3>MaPrimeRénov' Accompagnée (rénovation globale)</h3>
+ <p>Depuis 2024, pour bénéficier d'aides sur une rénovation globale (plusieurs postes de travaux), vous devez passer par un <strong>Accompagnateur Rénov'</strong> (AMO). L'accompagnement est subventionné à 100% pour les ménages très modestes et 80% pour les ménages modestes. Il est obligatoire dès que le montant dépasse 5 000€ de subvention demandée pour une rénovation d'ampleur.</p>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Astuce :</strong> Combiner MPR + Éco-PTZ + CEE est possible et fortement recommandé. Ces aides sont cumulables dans la limite de 100% du coût des travaux. En pratique, un ménage très modeste peut couvrir 80 à 90% du montant.</p>
+ </div>
+ </div>
+
+ <!-- =========================
+ SECTION 2 : ÉCO-PTZ
+ ========================= -->
+ <div class="section-card orange-top" id="ecoptz">
+ <div class="section-header">
+ <div class="section-icon orange section-icon--text">CEE</div>
+ <div>
+ <div class="section-title orange">2. Éco-PTZ : Prêt à Taux Zéro</div>
+ <span class="section-tag orange">Prêt sans intérêt, jusqu'à 50 000€</span>
+ </div>
+ </div>
+
+ <p>L'Éco-prêt à taux zéro (Éco-PTZ) est un prêt bancaire sans intérêts pour financer des travaux de rénovation énergétique. Vous empruntez et remboursez uniquement le capital, sans frais d'intérêts, l'État prend en charge les intérêts à votre place.</p>
+
+ <h3 class="orange">Conditions d'éligibilité</h3>
+ <ul>
+ <li>Le logement doit avoir été construit <strong>avant le 1er janvier 2000</strong> (depuis le 01/01/2024, la condition "avant 1990" a été assouplie)</li>
+ <li>Résidence principale (propriétaire occupant, bailleur, ou locataire avec accord propriétaire)</li>
+ <li>Les travaux doivent être réalisés par un artisan <strong>certifié RGE</strong></li>
+ <li>Le prêt est accordé par les banques conventionnées avec l'État (BNP, Crédit Agricole, Caisse d'Épargne, La Banque Postale, Banque Populaire, Société Générale…)</li>
+ <li><strong>Pas de conditions de revenus</strong> pour l'Éco-PTZ, toutes les catégories de ménages y ont droit</li>
+ </ul>
+
+ <h3 class="orange">Montants et durées de remboursement (2026)</h3>
+ <div class="table-wrap">
+ <table>
+ <thead class="orange">
+ <tr>
+ <th>Nature des travaux</th>
+ <th>Montant max</th>
+ <th>Durée max</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>1 action d'amélioration énergétique</td>
+ <td class="td-orange">15 000€</td>
+ <td>15 ans</td>
+ </tr>
+ <tr>
+ <td>2 actions d'amélioration énergétique</td>
+ <td class="td-orange">25 000€</td>
+ <td>15 ans</td>
+ </tr>
+ <tr>
+ <td>3 actions ou plus</td>
+ <td class="td-orange">30 000€</td>
+ <td>15 ans</td>
+ </tr>
+ <tr>
+ <td>Rénovation globale (saut de 2 classes DPE min.)</td>
+ <td class="td-orange">50 000€</td>
+ <td>20 ans</td>
+ </tr>
+ <tr>
+ <td>Sortie de passoire thermique (F/G → E ou mieux)</td>
+ <td class="td-orange">50 000€</td>
+ <td>20 ans</td>
+ </tr>
+ <tr>
+ <td>Adaptation handicap / perte d'autonomie</td>
+ <td class="td-orange">10 000€</td>
+ <td>10 ans</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="callout orange">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Cumul possible :</strong> L'Éco-PTZ est cumulable avec MaPrimeRénov', les CEE et d'autres aides. Le montant de l'Éco-PTZ + aides ne peut pas dépasser 100% du montant HT des travaux.</p>
+ </div>
+
+ <h3 class="orange">Les 6 grandes familles de travaux éligibles</h3>
+ <ol>
+ <li>Isolation thermique des toitures (combles, toiture-terrasse)</li>
+ <li>Isolation thermique des murs extérieurs ou intérieurs</li>
+ <li>Isolation thermique des parois vitrées et portes donnant sur l'extérieur</li>
+ <li>Installation ou remplacement de systèmes de chauffage (hors fioul et charbon)</li>
+ <li>Installation ou remplacement de systèmes de production d'eau chaude sanitaire</li>
+ <li>Installation d'équipements utilisant une source d'énergie renouvelable</li>
+ </ol>
+
+ <h3 class="orange">Comment obtenir un Éco-PTZ ?</h3>
+ <ol>
+ <li>Obtenez vos devis d'artisans RGE</li>
+ <li>Demandez l'Éco-PTZ à votre banque (avec les formulaires "devis éco-ptz")</li>
+ <li>La banque valide le dossier et débloque le prêt</li>
+ <li>Les artisans réalisent les travaux, vous payez avec les fonds</li>
+ <li>Vous remboursez uniquement le capital, sans intérêts</li>
+ </ol>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Simulation :</strong> Pour 30 000€ sur 15 ans → mensualité d'environ <strong>167€/mois</strong>, sans aucun intérêt à payer. Un crédit classique aux mêmes conditions coûterait ~200€/mois, économie d'environ 6 000€ sur la durée.</p>
+ </div>
+ </div>
+
+ <!-- =========================
+ SECTION 3 : CEE
+ ========================= -->
+ <div class="section-card blue-top" id="cee">
+ <div class="section-header">
+ <div class="section-icon blue section-icon--text">Elec.</div>
+ <div>
+ <div class="section-title blue">3. CEE : Certificats d'Économie d'Énergie</div>
+ <span class="section-tag blue">Primes versées par les fournisseurs d'énergie</span>
+ </div>
+ </div>
+
+ <p>Les CEE (Certificats d'Économie d'Énergie) sont des primes versées directement par les fournisseurs d'énergie (EDF, Engie, TotalEnergies, etc.) ou des sociétés spécialisées. Ce sont eux qui paient, pas l'État directement, car ils ont l'obligation légale de financer des économies d'énergie chez leurs clients.</p>
+
+ <h3 class="blue">Comment ça marche ?</h3>
+ <p>Les fournisseurs d'énergie doivent financer des travaux d'économie d'énergie sous peine d'amende. Ils vous proposent donc une prime (appelée "prime énergie" ou "prime CEE") en échange de la réalisation de travaux éligibles. La prime est versée avant ou après les travaux selon les acteurs.</p>
+
+ <div class="callout blue">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Pas de revenus minimum exigés :</strong> Les CEE sont accessibles à tous. Les ménages modestes (MaPrimeRénov' "Très modeste" et "Modeste") reçoivent des <strong>CEE Coup de Pouce</strong> avec des montants majorés de 50 à 100%.</p>
+ </div>
+
+ <h3 class="blue">Montants indicatifs des CEE 2026 (exemples)</h3>
+ <div class="table-wrap">
+ <table>
+ <thead class="blue">
+ <tr>
+ <th>Type de travaux</th>
+ <th>Ménage standard</th>
+ <th>Ménage modeste (Coup de Pouce)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Isolation combles perdus (50m²)</td>
+ <td>150–400€</td>
+ <td class="td-blue">300–800€</td>
+ </tr>
+ <tr>
+ <td>Isolation murs par l'extérieur (50m²)</td>
+ <td>800–1 500€</td>
+ <td class="td-blue">1 500–3 000€</td>
+ </tr>
+ <tr>
+ <td>PAC air/eau (remplacement chaudière)</td>
+ <td>1 000–2 500€</td>
+ <td class="td-blue">2 000–4 000€</td>
+ </tr>
+ <tr>
+ <td>Chaudière à granulés biomasse</td>
+ <td>800–2 000€</td>
+ <td class="td-blue">1 500–3 500€</td>
+ </tr>
+ <tr>
+ <td>Isolation plancher bas (50m²)</td>
+ <td>100–300€</td>
+ <td class="td-blue">200–600€</td>
+ </tr>
+ <tr>
+ <td>Remplacement fenêtres double vitrage (5 fen.)</td>
+ <td>200–600€</td>
+ <td class="td-blue">400–1 000€</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <p style="font-size:.82rem; color:var(--sub); font-style: italic;">*Les montants varient selon le fournisseur, la zone climatique et les barèmes en vigueur. Comparez les offres sur <strong>faire.fr</strong> (site officiel).</p>
+
+ <h3 class="blue">Où demander ses CEE ?</h3>
+ <ul>
+ <li><strong>faire.fr</strong> — portail officiel du gouvernement, compare les offres</li>
+ <li>Directement auprès d'EDF (EDF Agir), Engie (Chèque Énergie), TotalEnergies, Eni…</li>
+ <li>Via des courtiers spécialisés (Hellio, Effy, Sonergia…) — attention aux conditions</li>
+ </ul>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>CEE Coup de Pouce :</strong> Si vous remplacez une chaudière fioul, charbon, gaz ou propane par une PAC ou une chaudière biomasse, et que vous êtes en revenu modeste, vous bénéficiez automatiquement du <strong>Coup de Pouce Chauffage</strong> — les primes sont 2 à 3× plus élevées.</p>
+ </div>
+ </div>
+
+ <!-- CTA INLINE -->
+ <div class="cta-inline">
+ <h3>Vous ne savez pas à quelles aides vous avez droit ?</h3>
+ <p>Nos artisans partenaires vous aident à monter votre dossier d'aides gratuitement. Recevez 3 devis avec simulation d'aides incluse.</p>
+ <a href="/estimateur">Estimer mon projet gratuitement →</a>
+ </div>
+
+ <!-- =========================
+ SECTION 4 : TVA RÉDUITE
+ ========================= -->
+ <div class="section-card purple-top" id="tva">
+ <div class="section-header">
+ <div class="section-icon purple section-icon--text">Fin.</div>
+ <div>
+ <div class="section-title purple">4. TVA Réduite à 5.5% et 10%</div>
+ <span class="section-tag purple">Applicable directement sur la facture artisan</span>
+ </div>
+ </div>
+
+ <p>La TVA réduite est l'aide la plus simple à activer : elle s'applique automatiquement sur la facture de votre artisan, sans dossier à déposer. Vous n'avez rien à faire, sauf attester que votre logement remplit les conditions. Économie directe de 14.5 points (vs TVA à 20%).</p>
+
+ <h3 class="purple">TVA à 5.5% : Amélioration énergétique</h3>
+ <p>La TVA à 5,5% s'applique aux travaux d'amélioration de la qualité énergétique des logements de plus de 2 ans.</p>
+ <div class="table-wrap">
+ <table>
+ <thead class="purple">
+ <tr>
+ <th>Travaux éligibles à 5.5%</th>
+ <th>Conditions</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Isolation thermique (toiture, murs, plancher)</td>
+ <td>Logement &gt; 2 ans, résidence principale ou secondaire</td>
+ </tr>
+ <tr>
+ <td>Fenêtres et portes-fenêtres double vitrage</td>
+ <td>Conformes aux normes thermiques en vigueur</td>
+ </tr>
+ <tr>
+ <td>Pompes à chaleur, chaudières biomasse</td>
+ <td>Équipements classés "haute performance"</td>
+ </tr>
+ <tr>
+ <td>Chauffe-eau solaire / thermodynamique</td>
+ <td>Installation par professionnel qualifié</td>
+ </tr>
+ <tr>
+ <td>VMC double flux</td>
+ <td>Conformes aux critères réglementaires</td>
+ </tr>
+ <tr>
+ <td>Audit énergétique</td>
+ <td>Réalisé par auditeur certifié</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <h3 class="purple">TVA à 10% : Autres travaux de rénovation</h3>
+ <p>La TVA à 10% s'applique à l'ensemble des travaux de rénovation, d'amélioration, de transformation et d'entretien des logements de plus de 2 ans, pour ceux qui ne bénéficient pas du taux de 5.5%.</p>
+ <ul>
+ <li>Rénovation complète (hors amélioration énergétique)</li>
+ <li>Travaux de plomberie, électricité, peinture</li>
+ <li>Cuisine, salle de bain, carrelage</li>
+ <li>Maçonnerie, couverture, charpente</li>
+ <li>Extension et surélévation (si logement &gt; 2 ans)</li>
+ </ul>
+
+ <div class="callout blue">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Attestation obligatoire :</strong> Pour bénéficier des taux réduits, vous devez remettre à votre artisan une <strong>attestation de TVA réduite</strong> (formulaire Cerfa 1301-SD). L'artisan est responsable de l'application du bon taux sur sa facture.</p>
+ </div>
+
+ <h3 class="purple">Exemple d'économie TVA</h3>
+ <div class="table-wrap">
+ <table>
+ <thead class="purple">
+ <tr>
+ <th>Montant HT travaux</th>
+ <th>TVA 20% (standard)</th>
+ <th>TVA 5.5%</th>
+ <th>Économie</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>5 000€</td>
+ <td>6 000€ TTC</td>
+ <td class="td-blue">5 275€ TTC</td>
+ <td class="td-green"><strong>725€</strong></td>
+ </tr>
+ <tr>
+ <td>10 000€</td>
+ <td>12 000€ TTC</td>
+ <td class="td-blue">10 550€ TTC</td>
+ <td class="td-green"><strong>1 450€</strong></td>
+ </tr>
+ <tr>
+ <td>25 000€</td>
+ <td>30 000€ TTC</td>
+ <td class="td-blue">26 375€ TTC</td>
+ <td class="td-green"><strong>3 625€</strong></td>
+ </tr>
+ <tr>
+ <td>50 000€</td>
+ <td>60 000€ TTC</td>
+ <td class="td-blue">52 750€ TTC</td>
+ <td class="td-green"><strong>7 250€</strong></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="callout orange">
+ <div class="callout-icon callout-icon--text">!</div>
+ <p><strong>Attention :</strong> La TVA réduite est applicable aux travaux, pas à la fourniture seule de matériaux. Si vous achetez des matériaux et les faites poser, la TVA réduite s'applique à l'ensemble (main d'œuvre + matériaux) si la part main d'œuvre est significative. Les matériaux achetés seuls en magasin restent à 20%.</p>
+ </div>
+ </div>
+
+ <!-- =========================
+ SECTION 5 : AIDES IDF
+ ========================= -->
+ <div class="section-card teal-top" id="idf">
+ <div class="section-header">
+ <div class="section-icon teal section-icon--text">IDF</div>
+ <div>
+ <div class="section-title teal">5. Aides Spécifiques Île-de-France</div>
+ <span class="section-tag teal">Région + Départements + Communes</span>
+ </div>
+ </div>
+
+ <p>En Île-de-France, plusieurs niveaux de collectivités proposent des aides complémentaires aux dispositifs nationaux. Elles sont souvent méconnues et sous-utilisées.</p>
+
+ <h3 class="teal">Île-de-France : Programme PACTE Énergie Solidarité</h3>
+ <p>La Région Île-de-France propose via l'ADIL (Agence Départementale d'Information sur le Logement) un programme d'aide pour les ménages modestes :</p>
+ <ul>
+ <li>Aide complémentaire de <strong>500 à 2 000€</strong> pour les ménages dont les revenus ne dépassent pas 60% des plafonds HLM</li>
+ <li>Accompagnement gratuit pour monter les dossiers MPR + CEE</li>
+ <li>Disponible dans les 8 départements franciliens</li>
+ </ul>
+
+ <h3 class="teal">Ville de Paris : Rénovation thermique</h3>
+ <ul>
+ <li><strong>Paris Logement Copropriétés :</strong> Subvention jusqu'à 50% pour les travaux en copropriété (isolation façade, toiture, chauffage collectif)</li>
+ <li><strong>Élan Paris :</strong> Dispositif d'accompagnement gratuit pour les copropriétés parisiennes, audit + montage des dossiers d'aides</li>
+ <li><strong>Chèque SERENITY Paris :</strong> Pour les propriétaires occupants très modestes parisiens, aide complémentaire de 500 à 3 000€</li>
+ </ul>
+
+ <h3 class="teal">Département 92 (Hauts-de-Seine)</h3>
+ <ul>
+ <li>Aide Solidarité Habitat : jusqu'à 5 000€ pour adaptation du logement aux personnes âgées ou handicapées</li>
+ <li>Subvention copropriété pour travaux de toiture et façade dans les communes prioritaires</li>
+ </ul>
+
+ <h3 class="teal">Département 93 (Seine-Saint-Denis)</h3>
+ <ul>
+ <li>Programme REHA (Réhabilitation Habitat) : aide pour les propriétaires occupants modestes jusqu'à 3 000€ complémentaires</li>
+ <li>Partenariat avec l'ANAH pour simplifier les dossiers MaPrimeRénov'</li>
+ </ul>
+
+ <h3 class="teal">Département 94 (Val-de-Marne)</h3>
+ <ul>
+ <li>Aide Amélioration Habitat : jusqu'à 2 500€ pour les ménages sous condition de ressources</li>
+ <li>Espace Info-Énergie : conseil gratuit en rénovation énergétique dans chaque ville</li>
+ </ul>
+
+ <h3 class="teal">Autres dispositifs franciliens</h3>
+ <div class="table-wrap">
+ <table>
+ <thead class="teal">
+ <tr>
+ <th>Dispositif</th>
+ <th>Public</th>
+ <th>Montant indicatif</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>Action Logement</strong> (salariés secteur privé)</td>
+ <td>Salariés entreprises &gt;10 personnes</td>
+ <td class="td-green">Prêt travaux 0% jusqu'à 10 000€</td>
+ </tr>
+ <tr>
+ <td><strong>Prêt Accession Sociale (PAS)</strong></td>
+ <td>Propriétaires revenus modestes</td>
+ <td>Taux préférentiel, selon dossier</td>
+ </tr>
+ <tr>
+ <td><strong>ANAH : Habiter Serein</strong></td>
+ <td>Propriétaires, logements dégradés</td>
+ <td class="td-green">Jusqu'à 50% du montant des travaux</td>
+ </tr>
+ <tr>
+ <td><strong>Aides CROUS</strong> (étudiants)</td>
+ <td>Propriétaires bailleurs étudiants</td>
+ <td>Variable selon convention</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>ADIL de votre département :</strong> Chaque département d'Île-de-France dispose d'une ADIL (Agence Départementale d'Information sur le Logement) qui offre des consultations <strong>gratuites et neutres</strong> pour identifier toutes les aides auxquelles vous avez droit. Consultez adil.org pour trouver la vôtre.</p>
+ </div>
+ </div>
+
+ <!-- =========================
+ SECTION 6 : CHECKLIST
+ ========================= -->
+ <div class="section-card" id="checklist">
+ <div class="section-header">
+ <div class="section-icon section-icon--text">Docs</div>
+ <div>
+ <div class="section-title">6. Checklist Documents à Préparer</div>
+ <span class="section-tag">Avant de déposer vos dossiers d'aides</span>
+ </div>
+ </div>
+
+ <p>Voici les documents à rassembler avant de déposer une demande d'aides. Préparez-les en avance pour ne pas perdre de temps lors de l'instruction de votre dossier.</p>
+
+ <h3>Documents identité et propriété</h3>
+ <ul class="checklist">
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Pièce d'identité en cours de validité</strong>
+ <span>CNI, passeport ou titre de séjour pour tous les demandeurs</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Titre de propriété ou bail de location</strong>
+ <span>Acte de propriété ou contrat de location en cours</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Justificatif de résidence principale</strong>
+ <span>Facture EDF/Engie ou quittance de loyer de moins de 3 mois</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Coordonnées bancaires (RIB)</strong>
+ <span>Pour le versement des aides directement sur votre compte</span>
+ </div>
+ </li>
+ </ul>
+
+ <h3>Documents fiscaux</h3>
+ <ul class="checklist">
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Avis d'imposition N-1 et N-2</strong>
+ <span>Les 2 dernières années pour déterminer votre catégorie de revenus</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Revenus fiscaux de référence</strong>
+ <span>Case "revenu fiscal de référence" de votre avis d'imposition</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Numéro fiscal</strong>
+ <span>Sur votre avis d'imposition, nécessaire pour créer votre compte maprimerenov.gouv.fr</span>
+ </div>
+ </li>
+ </ul>
+
+ <h3>Documents sur le logement</h3>
+ <ul class="checklist">
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Diagnostic de Performance Énergétique (DPE) actuel</strong>
+ <span>Si disponible, permet d'identifier les travaux prioritaires. Obligatoire pour MPR Accompagnée.</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Année de construction du logement</strong>
+ <span>Date de dépôt du permis de construire ou acte de propriété</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Surface habitable</strong>
+ <span>En m², sur le titre de propriété ou la déclaration de revenus fonciers</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Référence cadastrale</strong>
+ <span>Sur le titre de propriété ou sur cadastre.gouv.fr</span>
+ </div>
+ </li>
+ </ul>
+
+ <h3>Documents artisan et travaux</h3>
+ <ul class="checklist">
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Devis détaillé de l'artisan RGE</strong>
+ <span>Avec mention de la certification RGE, numéro SIRET, description précise des travaux et matériaux</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Numéro de certification RGE de l'artisan</strong>
+ <span>Vérifiable sur qualite.construction.gouv.fr, obligatoire pour toutes les aides</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Assurance décennale de l'artisan</strong>
+ <span>Certificat en cours de validité, demandez-la avant de signer</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Facture définitive après travaux</strong>
+ <span>Pour le versement de MaPrimeRénov', la facture doit mentionner les caractéristiques des équipements posés</span>
+ </div>
+ </li>
+ </ul>
+
+ <h3>Documents spécifiques selon les aides</h3>
+ <ul class="checklist">
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Pour l'Éco-PTZ : formulaire "devis éco-ptz"</strong>
+ <span>À faire remplir par votre artisan RGE, disponible auprès de votre banque</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Pour les CEE : signature AVANT le début des travaux</strong>
+ <span>L'engagement de prime CEE doit être signé avant tout démarrage de chantier</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Pour MPR Accompagnée : mandat Accompagnateur Rénov'</strong>
+ <span>Contrat de mission avec votre AMO (Accompagnateur Mon projet Rénov')</span>
+ </div>
+ </li>
+ <li>
+ <div class="check-box">&#10003;</div>
+ <div class="check-label">
+ <strong>Attestation TVA réduite (Cerfa 1301-SD)</strong>
+ <span>À remettre à votre artisan avant la facturation, téléchargeable sur impots.gouv.fr</span>
+ </div>
+ </li>
+ </ul>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Conseil pratique :</strong> Créez un dossier numérique avec tous ces documents scannés. Vous en aurez besoin plusieurs fois (MPR, banque, artisan, ADIL…). Avoir tous ces documents prêts réduit le délai de traitement de votre dossier de plusieurs semaines.</p>
+ </div>
+ </div>
+
+ <!-- RECAP CUMUL -->
+ <div class="section-card">
+ <div class="section-header">
+ <div class="section-icon section-icon--text">Calc.</div>
+ <div>
+ <div class="section-title">Récapitulatif : Cumuler les aides</div>
+ <span class="section-tag">Simulation pour un projet isolation + chauffage</span>
+ </div>
+ </div>
+
+ <p>Voici une simulation concrète pour un ménage modeste en Île-de-France souhaitant isoler sa maison et remplacer sa chaudière fioul par une pompe à chaleur.</p>
+
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+ <th>Travaux</th>
+ <th>Coût HT</th>
+ <th>MaPrimeRénov'</th>
+ <th>CEE Coup de Pouce</th>
+ <th>Éco-PTZ</th>
+ <th>Reste à charge</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Isolation combles (80m²)</td>
+ <td>3 200€</td>
+ <td class="td-green">1 920€ (60%)</td>
+ <td class="td-blue">600€</td>
+ <td>—</td>
+ <td class="td-orange">680€</td>
+ </tr>
+ <tr>
+ <td>Isolation murs ext. (60m²)</td>
+ <td>12 000€</td>
+ <td class="td-green">7 200€ (60%)</td>
+ <td class="td-blue">2 000€</td>
+ <td>—</td>
+ <td class="td-orange">2 800€</td>
+ </tr>
+ <tr>
+ <td>PAC air/eau (remplacement fioul)</td>
+ <td>9 000€</td>
+ <td class="td-green">4 500€ (50%)</td>
+ <td class="td-blue">3 000€</td>
+ <td>—</td>
+ <td class="td-orange">1 500€</td>
+ </tr>
+ <tr style="background: var(--g-soft); font-weight: 700;">
+ <td><strong>TOTAL</strong></td>
+ <td><strong>24 200€</strong></td>
+ <td class="td-green"><strong>13 620€</strong></td>
+ <td class="td-blue"><strong>5 600€</strong></td>
+ <td class="td-blue"><strong>Éco-PTZ dispo</strong></td>
+ <td class="td-orange"><strong>4 980€</strong></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ <p style="font-size:.8rem; color: var(--sub); font-style: italic;">*Reste à charge de 4 980€ finançable par Éco-PTZ (taux 0%, durée 15 ans = ~28€/mois). Soit un reste à charge réel quasi nul, avec des économies de chauffage estimées à 1 200–1 800€/an.</p>
+
+ <div class="callout green">
+ <div class="callout-icon callout-icon--text">+</div>
+ <p><strong>Règle d'or :</strong> Demandez toujours les aides <em>avant</em> de signer avec l'artisan. L'ordre est : (1) Audit si nécessaire → (2) Devis artisan RGE → (3) Engagement CEE + MPR déposé → (4) Signature du bon de commande → (5) Travaux → (6) Facture → (7) Versement des aides.</p>
+ </div>
+ </div>
+
+ <!-- FINAL CTA -->
+ <div class="cta-inline">
+ <h3>Prêt à lancer votre projet de rénovation ?</h3>
+ <p>Nos artisans partenaires certifiés RGE vous aident à monter votre dossier d'aides et vous fournissent des devis gratuits d'artisans vérifiés.</p>
+ <a href="/estimateur">Estimer le coût de mes travaux →</a>
+ </div>
+
+ <!-- INTERNAL LINKS -->
+ <div style="background:var(--white);border-radius:16px;padding:1.8rem 2rem;box-shadow:0 2px 16px rgba(0,0,0,0.05);margin-bottom:2rem;">
+ <div style="font-size:1.05rem;font-weight:800;color:var(--g1);margin-bottom:1rem;">Ressources complémentaires</div>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.85rem;">
+ <a href="/simulateur-aides" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:linear-gradient(135deg,var(--g2),var(--g3));border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:#fff;">Simulateur d'aides en 2 min</div>
+ <div style="font-size:.76rem;color:rgba(255,255,255,0.9);margin-top:.15rem;">Wizard : MaPrimeRénov', CEE, Éco-PTZ personnalisés</div>
+ </div>
+ </a>
+ <a href="/estimateur" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Estimez le coût de vos travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Fourchette de prix en 2 minutes, gratuit</div>
+ </div>
+ </a>
+ <a href="/" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Trouver un artisan certifié</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Devis gratuits d'artisans vérifiés sous 48h</div>
+ </div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Prix rénovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Budget par m² selon gamme et état</div>
+ </div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Prix rénovation salle de bain</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Budget salle de bain complète à Paris</div>
+ </div>
+ </a>
+ <a href="/prix-plombier" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Prix plombier Paris 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Tarifs pour travaux éligibles aux aides</div>
+ </div>
+ </a>
+ <a href="/prix-electricien" style="display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;background:var(--g-soft);border-radius:10px;text-decoration:none;border:1px solid var(--border);">
+ <div>
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);">Prix électricien Paris 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);margin-top:.15rem;">Mise aux normes et travaux éligibles TVA 10%</div>
+ </div>
+ </a>
+ </div>
+ </div>
+
+</div>
+</div>
+
+
+<div class="page-wrap"><div class="section-card">
+<h2>Questions fréquentes, les aides à la rénovation 2026</h2>
+<h3>Qui peut bénéficier de MaPrimeRénov' en 2026 ?</h3>
+<p>Tout propriétaire occupant ou bailleur d'un logement de plus de 15 ans, en résidence principale (au moins 8 mois par an) ; les locataires peuvent en bénéficier avec l'accord du propriétaire. L'aide, gérée par l'ANAH, est versée après réalisation des travaux par un artisan RGE, à condition d'avoir déposé la demande avant le démarrage du chantier.</p>
+<h3>Combien peut-on toucher avec MaPrimeRénov' ?</h3>
+<p>Le montant dépend du profil de revenus. Pour l'isolation des combles, par exemple : 75 % du coût HT pour un ménage très modeste, 60 % pour un modeste, 40 % pour un intermédiaire, 15 % pour un supérieur. Les travaux mono-geste sont plafonnés à 15 000 € par an et la rénovation d'ampleur à 70 000 € sur 5 ans (jusqu'à environ 49 000 € d'aide).</p>
+<h3>Qu'est-ce que l'Éco-PTZ et quel montant peut-on emprunter ?</h3>
+<p>C'est un prêt sans intérêts, sans condition de revenus, pour financer des travaux réalisés par un artisan RGE dans un logement construit avant le 1er janvier 2000. Les plafonds : 15 000 € pour une action, 25 000 € pour deux, 30 000 € pour trois actions ou plus, et jusqu'à 50 000 € sur 20 ans pour une rénovation globale.</p>
+<h3>Peut-on cumuler MaPrimeRénov', l'Éco-PTZ et les CEE ?</h3>
+<p>Oui, ces aides sont cumulables dans la limite de 100 % du coût des travaux. En pratique, un ménage très modeste peut couvrir 80 à 90 % du montant en combinant MaPrimeRénov', l'Éco-PTZ, les CEE et la TVA réduite à 5,5 %.</p>
+<h3>Quand faut-il déposer la demande d'aide ?</h3>
+<p>Impérativement avant le démarrage des travaux, sur maprimerenov.gouv.fr : toute demande postérieure aux travaux est rejetée. L'artisan doit être certifié RGE. Pour une rénovation d'ampleur au-delà de 5 000 € de subvention, le passage par un Accompagnateur Rénov' est obligatoire.</p>
+</div></div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+async function submitGuideForm(e) {
+ e.preventDefault();
+ const data = {
+ nom: document.getElementById('gNom').value,
+ email: document.getElementById('gEmail').value,
+ telephone: document.getElementById('gTel').value,
+ code_postal: document.getElementById('gCP').value,
+ source: 'guide-aides-renovation',
+ _subject: `Téléchargement guide aides rénovation — ${document.getElementById('gCP').value}`,
+ };
+
+ try {
+ await fetch('https://formspree.io/f/xdayeyra', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(data),
+ });
+ } catch (err) {}
+
+ document.getElementById('formWrap').style.display = 'none';
+ document.getElementById('formSuccess').classList.add('show');
+}
+</script>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

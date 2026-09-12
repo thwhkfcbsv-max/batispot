@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script>document.documentElement.classList.add('js')</script>
+<title>Suivi de chantier &amp; rentabilité en temps réel pour artisan | BatiSpot Pro</title>
+<meta name="description" content="Suivez la marge, le C.A encaissé et les dépenses de chaque chantier en temps réel, sans tableur. Le tableau de bord Finances de BatiSpot Pro vous montre enfin ce que chaque chantier rapporte — et ce qu'il coûte.">
+<meta name="keywords" content="suivi de chantier, rentabilite chantier artisan, marge brute chantier, tableau de bord finances artisan, suivi depenses chantier, gestion chantier BTP, logiciel rentabilite artisan">
+<link rel="canonical" href="https://batispot.pro/suivi-chantier-rentabilite-artisan">
+<meta property="og:title" content="Suivi de chantier &amp; rentabilité en temps réel pour artisan">
+<meta property="og:description" content="C.A encaissé, dépenses, marge brute et taux de marge par chantier, en temps réel, sans tableur. Vous voyez enfin les chantiers qui rapportent.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://batispot.pro/favicon.png"><meta property="og:url" content="https://batispot.pro/suivi-chantier-rentabilite-artisan">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BatiSpot Pro — Suivi de chantier &amp; rentabilité","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","description":"Tableau de bord Finances pour artisan du bâtiment : C.A encaissé, factures en attente, achats et dépenses HT, marge brute estimée et taux de marge, par période et par chantier, en temps réel.","url":"https://batispot.pro/suivi-chantier-rentabilite-artisan","offers":{"@type":"Offer","price":"39","priceCurrency":"EUR"},"provider":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Comment BatiSpot calcule ma marge ?","acceptedAnswer":{"@type":"Answer","text":"BatiSpot part de votre C.A encaissé et retire vos achats et dépenses HT rattachés au chantier. La différence donne la marge brute estimée, et le taux de marge est ce montant rapporté au chiffre d'affaires. Tout se met à jour au fil de vos factures et de vos dépenses, sans calcul manuel."}},{"@type":"Question","name":"Le suivi est-il en temps réel ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Dès qu'une facture est encaissée ou qu'une dépense est enregistrée, le tableau de bord Finances se recalcule : C.A encaissé, factures en attente, dépenses HT, marge brute et taux de marge. Vous voyez l'état du chantier au moment où vous le consultez, pas en fin de trimestre."}},{"@type":"Question","name":"Je peux suivre plusieurs chantiers ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Chaque chantier a sa propre rentabilité, et vous pouvez aussi voir une vue d'ensemble par période. Vous comparez d'un coup d'œil les chantiers qui rapportent et ceux qui vous coûtent."}},{"@type":"Question","name":"Ça remplace mon tableur Excel ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Les devis, factures et dépenses alimentent le tableau de bord tout seuls : plus de double saisie dans un tableur, plus de formules à maintenir. Vous gardez le suivi de la marge à jour sans y penser."}}]}</script>
+<style>
+:root{
+ --ink:#0A1D14;--sub:#5E7268;--g1:#0F5132;--g2:#166534;--teal:#0D9488;--teal2:#14B8A6;
+ --line:#E4EDE8;--line2:#EDF3F0;--bg:#FBFCFB;--card:#FFF;--soft:#F1F7F4;--cta:#0F5132;--cta-h:#0b3f27;--amber:#F59E0B;--maxw:1160px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.ey{font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--teal);text-transform:uppercase}
+h2.h{font-size:clamp(1.9rem,3.5vw,2.7rem);font-weight:800;line-height:1.06;letter-spacing:-.03em}
+.win{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -24px rgba(10,29,20,.4);border:1px solid var(--line);background:#fff}
+.win .bar{height:34px;background:#0d2b1e;display:flex;align-items:center;gap:7px;padding:0 14px}
+.win .bar i{width:11px;height:11px;border-radius:50%;background:#2f4a3c}
+.win .bar i:first-child{background:#ff5f57}.win .bar i:nth-child(2){background:#febc2e}.win .bar i:nth-child(3){background:#28c840}
+nav{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.82);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.4rem}
+.brand em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:#228B5B;padding:2px 6px;border-radius:5px}
+.nav-cta{background:var(--cta);color:#fff;padding:.55rem 1.1rem;border-radius:10px;font-weight:600;font-size:.88rem;transition:.18s}
+.nav-cta:hover{background:var(--cta-h);transform:translateY(-1px)}
+.nav-drop{position:relative}
+.nav-drop>summary{list-style:none;cursor:pointer;font-weight:600;font-size:.88rem;color:var(--ink);display:inline-flex;align-items:center;gap:.25rem;padding:.5rem 0}
+.nav-drop>summary::-webkit-details-marker{display:none}
+.nav-drop>summary::after{content:"\25be";font-size:.65rem;color:var(--teal)}
+.nav-drop-panel{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 50px -20px rgba(10,29,20,.35);padding:8px;display:flex;flex-direction:column;gap:2px;min-width:240px;z-index:60}
+.nav-drop-panel a{padding:.55rem .8rem;border-radius:9px;font-size:.9rem;font-weight:500;color:var(--ink);white-space:nowrap}
+.nav-drop-panel a:hover{background:var(--soft);color:var(--g1)}
+@media(max-width:520px){.nav-drop-panel{left:auto;right:0;transform:none;min-width:210px}}
+.hero{position:relative;overflow:hidden;padding:70px 0 30px;text-align:center}
+.hero::before{content:"";position:absolute;top:-28%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse at center,rgba(13,148,136,.14),transparent 62%);pointer-events:none}
+.crumb{position:relative;font-size:.8rem;color:var(--sub);margin-bottom:1.4rem}
+.crumb a{color:var(--teal)}
+.badge{position:relative;display:inline-flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;font-size:.8rem;font-weight:600;color:var(--ink);box-shadow:0 1px 2px rgba(10,29,20,.04);margin-bottom:1.4rem}
+.badge .pip{width:7px;height:7px;border-radius:50%;background:var(--teal2);box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.hero h1{position:relative;font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;max-width:880px;margin:0 auto .9rem;padding-bottom:.12em;background:linear-gradient(180deg,var(--ink),#204034);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{position:relative;font-size:1.15rem;color:var(--sub);max-width:640px;margin:0 auto 1.8rem}
+.cta-row{position:relative;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:.85rem 1.5rem;border-radius:12px;font-weight:600;font-size:1rem;transition:.18s;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;border:0}
+.btn-p{background:var(--cta);color:#fff;box-shadow:0 6px 20px rgba(15,81,50,.22)}
+.btn-p:hover{background:var(--cta-h);transform:translateY(-2px)}
+.btn-s{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn-s:hover{border-color:var(--teal);color:var(--g1)}
+.hero-shot{position:relative;max-width:540px;margin:46px auto 0}
+/* ===== DEMO : tableau de bord Finances ===== */
+.demo-body{background:#fff;padding:16px 18px 20px;text-align:left}
+.dq-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+.dq-h b{font-size:.98rem;color:var(--ink)}
+.dq-tag{font-size:.68rem;font-weight:700;color:var(--g1);background:#E6F4EC;border:1px solid #BBECCF;border-radius:999px;padding:3px 10px}
+/* Grille à 3 colonnes (02/09/2026) : libellé souple, montant et badge en
+   colonnes de largeur fixe. Sans ça, le badge « 16 % » de la 3e ligne
+   poussait son montant vers la gauche et la colonne des euros n'était plus
+   alignée. text-align:left annule le centrage hérité du hero. */
+.dqline{display:grid;grid-template-columns:1fr 88px 58px;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2);text-align:left;opacity:0;transform:translateY(8px)}
+.dqline.on{animation:dqin .45s ease forwards}
+@keyframes dqin{to{opacity:1;transform:none}}
+.dq-tx{flex:1;min-width:0}
+.dq-t{font-size:.86rem;font-weight:700;color:var(--ink)}
+.dq-s{font-size:.72rem;color:var(--sub);margin-top:1px}
+.dq-p{font-size:.9rem;font-weight:800;color:var(--ink);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.cbadge{font-size:.68rem;font-weight:800;border-radius:999px;padding:4px 9px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;justify-self:end}
+.cbadge.ok{color:#0F5132;background:#E6F4EC;border:1px solid #BBECCF}
+.cbadge.low{color:#92400E;background:#FEF3C7;border:1px solid #FCD97B}
+.cbadge svg{width:11px;height:11px}
+.dq-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;background:var(--soft);border-radius:10px;padding:11px 14px;font-weight:800;color:var(--g1)}
+.demo-benefit{margin-top:12px;text-align:center;font-size:.84rem;font-weight:800;color:var(--g2);opacity:0;transform:translateY(6px);transition:.45s}
+.demo-benefit.on{opacity:1;transform:none}
+section{padding:66px 0}
+.sec-head{text-align:center;max-width:660px;margin:0 auto 3rem}
+.sec-head .ey{display:block;margin-bottom:.7rem}
+.sec-head p{color:var(--sub);margin-top:.8rem;font-size:1.05rem}
+.frow{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+.frow.flip .fmedia{order:2}
+.ftext .k{display:inline-flex;align-items:center;gap:.5rem;font-size:.74rem;font-weight:700;letter-spacing:.05em;color:var(--teal);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;margin-bottom:1rem;text-transform:uppercase}
+.ftext h3{font-size:1.6rem;font-weight:800;letter-spacing:-.025em;line-height:1.14;margin-bottom:.7rem}
+.ftext p{color:var(--sub);font-size:1.02rem;margin-bottom:1rem}
+.ftext ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.ftext li{display:flex;gap:.6rem;align-items:flex-start;font-size:.97rem;font-weight:500}
+.ftext li svg{width:18px;height:18px;color:var(--teal);flex-shrink:0;margin-top:2px}
+.hublink{display:inline-block;margin-top:1.2rem;color:#0F6838;font-weight:700;font-size:.95rem}
+.chat{background:#fff;padding:16px 16px 18px;display:flex;flex-direction:column;gap:9px}
+.chat-h{display:flex;align-items:center;gap:8px;padding-bottom:11px;margin-bottom:3px;border-bottom:1px solid var(--line2)}
+.chat-h .ic{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--g1),var(--teal));display:grid;place-items:center}
+.chat-h .ic svg{width:15px;height:15px;color:#fff}
+.chat-h b{font-size:.84rem}
+.chat-h span.st{font-size:.68rem;color:var(--teal);font-weight:600;margin-left:auto}
+.msg{max-width:84%;font-size:.85rem;line-height:1.45;padding:9px 12px;border-radius:14px}
+.msg.me{align-self:flex-end;background:var(--cta);color:#fff;border-bottom-right-radius:5px}
+.msg.bot{align-self:flex-start;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.bot b{color:var(--g1)}
+.js .fmedia.in .msg{opacity:0;transform:translateY(8px);animation:msgin .45s ease forwards}
+.js .fmedia.in .msg:nth-child(3){animation-delay:.7s}
+.js .fmedia.in .msg:nth-child(4){animation-delay:1.3s}
+.js .fmedia.in .msg:nth-child(5){animation-delay:1.9s}
+@keyframes msgin{to{opacity:1;transform:none}}
+.journey{background:var(--soft)}
+.jgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:j}
+.jstep{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px}
+.jn{counter-increment:j;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--teal));color:#fff;font-weight:800;font-size:.9rem;margin-bottom:12px}
+.jn::before{content:counter(j)}
+.jstep b{display:block;font-size:1.08rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem}
+.jstep p{color:var(--sub);font-size:.92rem}
+.faq{max-width:760px;margin:0 auto}
+.faq details{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:2px 20px;margin-bottom:12px}
+.faq summary{cursor:pointer;font-weight:700;color:var(--ink);padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--teal);font-size:1.3rem;font-weight:400;flex-shrink:0}
+.faq details[open] summary::after{content:"\2013"}
+.faq details p{color:var(--sub);font-size:.96rem;padding:0 0 16px}
+.cta-final{text-align:center}
+.cta-card{background:linear-gradient(140deg,var(--g1),var(--teal));border-radius:28px;padding:60px 32px;color:#fff;position:relative;overflow:hidden}
+.cta-card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 100% at 80% 0%,rgba(255,255,255,.14),transparent 55%)}
+.cta-card h2{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.7rem;position:relative}
+.cta-card p{color:rgba(255,255,255,.85);margin-bottom:1.7rem;position:relative}
+.cta-card .btn-w{background:#fff;color:var(--g1);position:relative;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.cta-card .btn-w:hover{transform:translateY(-2px)}
+.cta-card .n{margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.7);position:relative}
+.metiers{padding:52px 0;border-top:1px solid var(--line2)}
+.metiers .ey{text-align:center;display:block;margin-bottom:1.1rem}
+.mtags{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;max-width:820px;margin:0 auto}
+.mtags a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;font-size:.88rem;font-weight:600;color:var(--ink);transition:.15s}
+.mtags a:hover{border-color:var(--teal);color:var(--g1)}
+footer{padding:36px 24px;text-align:center;color:var(--sub);font-size:.85rem;border-top:1px solid var(--line2)}
+footer a{color:var(--g1);font-weight:600}
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}.dqline{opacity:1;transform:none;animation:none}.demo-benefit{opacity:1;transform:none}}
+@media(max-width:840px){.frow,.frow.flip .fmedia{grid-template-columns:1fr;order:0}.jgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="nav-in">
+ <a class="brand" href="https://batispot.pro/artisan" aria-label="BatiSpot Pro — accueil">
+ <svg width="139" height="42" viewBox="0 0 158 48" xmlns="http://www.w3.org/2000/svg">
+ <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+ <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+ <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+ <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+ <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+ </svg><em>PRO</em>
+ </a>
+ <details class="nav-drop">
+ <summary>Fonctionnalités</summary>
+ <div class="nav-drop-panel">
+ <a href="/application-devis-gratuite">Devis au juste prix</a>
+ <a href="/logiciel-planning-chantier-gestion-equipes">Planning &amp; équipes</a>
+ <a href="/recevez-des-chantiers-artisan">Recevez des chantiers</a>
+ <a href="/suivi-chantier-rentabilite-artisan">Suivi &amp; rentabilité</a>
+ <a href="/notes-de-frais-scan-recus-artisan">Notes de frais</a>
+ <a href="/coffre-fort-numerique-documents-artisan">Coffre-fort documents</a>
+ <a href="/blog-pro/facturation-electronique-2026-artisan-btp">Guide facture électronique</a>
+ </div>
+ </details>
+ <a class="nav-cta" href="https://batispot.pro/artisan">Rejoindre BatiSpot Pro</a>
+</div></nav>
+
+<header class="hero">
+ <div class="wrap">
+ <div class="crumb"><a href="https://batispot.pro">Accueil</a> › <a href="https://batispot.pro/artisan">BatiSpot Pro</a> › Suivi de chantier</div>
+ <span class="badge reveal"><span class="pip"></span> Tableau de bord Finances</span>
+ <h1 class="reveal">Enfin, vous savez ce que chaque chantier rapporte</h1>
+<p class="lead reveal">Le suivi de la marge, du C.A et des dépenses par chantier, en temps réel, sans tableur. BatiSpot fait le calcul pendant que vous êtes sur le terrain.</p>
+ <div class="cta-row reveal">
+ <a class="btn btn-p" href="https://batispot.pro/artisan">Rejoindre BatiSpot Pro →</a>
+ <a class="btn btn-s" href="#comment">Voir comment ça marche</a>
+ </div>
+ <div class="hero-shot reveal">
+ <div class="win demo" id="demo">
+ <div class="bar"><i></i><i></i><i></i></div>
+ <div class="demo-body">
+ <div class="dq-h"><b>Finances : Chantier Dupont</b><span class="dq-tag">Ce mois-ci</span></div>
+ <div class="dqline">
+ <div class="dq-tx"><div class="dq-t">C.A encaissé</div><div class="dq-s">Factures réglées</div></div>
+ <div class="dq-p">1 542 €</div>
+ </div>
+ <div class="dqline">
+ <div class="dq-tx"><div class="dq-t">Achats &amp; dépenses HT</div><div class="dq-s">Matériaux, sous-traitance</div></div>
+ <div class="dq-p">1 175 €</div>
+ </div>
+ <div class="dqline">
+ <div class="dq-tx"><div class="dq-t">Marge brute estimée</div><div class="dq-s">C.A encaissé − dépenses HT</div></div>
+ <div class="dq-p">227 €</div>
+ <span class="cbadge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>16 %</span>
+ </div>
+ <div class="dq-total"><span>Chantier Dupont</span><span>marge 18 %</span></div>
+ <div class="demo-benefit" id="demoBenefit">Vous voyez enfin les chantiers qui rapportent, et ceux qui vous coûtent.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</header>
+
+<section style="padding-top:0" id="comment-anchor">
+ <div class="wrap">
+ <div class="frow">
+ <div class="ftext reveal">
+ <span class="k">Rentabilité</span>
+ <h3>La marge en clair, chantier par chantier</h3>
+ <p>Le C.A encaissé, les achats et dépenses HT, la marge brute et son taux : tout est suivi en temps réel, par période et par chantier. Plus besoin d'attendre le bilan pour savoir si un chantier était rentable, le tableau de bord Finances le montre pendant qu'il tourne, sans une seule formule à saisir.</p>
+ <ul>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>C.A encaissé et factures en attente, à jour en continu</span></li>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Marge brute et taux de marge calculés tout seuls</span></li>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Vue par période ou par chantier, en un coup d'œil</span></li>
+ </ul>
+ <a class="hublink" href="https://batispot.pro/blog-pro/rentabilite-chantier-chiffres-cles">Les chiffres clés de la rentabilité d'un chantier →</a>
+ </div>
+ <div class="fmedia reveal">
+ <div class="win">
+ <div class="bar"><i></i><i></i><i></i></div>
+ <div class="demo-body">
+ <div class="dq-h"><b>Vue par chantier</b><span class="dq-tag">Trimestre en cours</span></div>
+ <div class="dqline on"><div class="dq-tx"><div class="dq-t">Chantier Dupont</div><div class="dq-s">Rénovation salle de bain</div></div><div class="dq-p">18 %</div><span class="cbadge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dans le vert</span></div>
+ <div class="dqline on"><div class="dq-tx"><div class="dq-t">Chantier Martin</div><div class="dq-s">Extension garage</div></div><div class="dq-p">6 %</div><span class="cbadge low"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>À surveiller</span></div>
+ <div class="dqline on"><div class="dq-tx"><div class="dq-t">Chantier Leroy</div><div class="dq-s">Peinture appartement</div></div><div class="dq-p">21 %</div><span class="cbadge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dans le vert</span></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section style="padding-top:0">
+ <div class="wrap">
+ <div class="frow flip">
+ <div class="fmedia reveal">
+ <div class="win">
+ <div class="bar"><i></i><i></i><i></i></div>
+ <div class="chat">
+ <div class="chat-h"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12 L12 6 L4 12 L4 20 L20 20 Z"/></svg></span><b>Assistant BatiSpot</b><span class="st">en ligne</span></div>
+ <div class="msg bot">Chantier Dupont : marge <b>18 %</b>, tout est dans le vert.</div>
+ <div class="msg me">Et Martin ?</div>
+ <div class="msg bot">Attention : <b>90 % du budget matériaux</b> déjà atteint sur Martin. On surveille.</div>
+ </div>
+ </div>
+ </div>
+ <div class="ftext reveal">
+ <span class="k">Proactif</span>
+ <h3>L'assistant surveille vos marges pour vous</h3>
+ <p>Vous n'avez pas à ouvrir un tableur pour savoir où vous en êtes. L'assistant BatiSpot suit chaque chantier en continu et vous prévient quand une marge se tend ou qu'un budget matériaux approche de sa limite. Vous réagissez pendant qu'il est encore temps d'agir, pas une fois le chantier terminé.</p>
+ <ul>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Un point clair sur la marge, dès que vous le demandez</span></li>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Alerte quand un budget matériaux approche de sa limite</span></li>
+ <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Le chantier qui se tend repéré avant qu'il ne coûte</span></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="journey" id="comment">
+ <div class="wrap">
+ <div class="sec-head reveal">
+ <span class="ey">Une seule plateforme</span>
+ <h2 class="h">De la découverte du projet à sa réalisation</h2>
+ <p>Le suivi de la marge n'est pas une saisie de plus : tout s'enchaîne au même endroit et alimente le tableau de bord tout seul.</p>
+ </div>
+ <div class="jgrid">
+ <div class="jstep reveal"><span class="jn"></span><b>Le devis se chiffre</b><p>À la voix ou par photo, au juste prix. Il fixe le C.A visé du chantier.</p></div>
+ <div class="jstep reveal"><span class="jn"></span><b>Signature électronique</b><p>Le client signe à l'écran, horodaté. Le chantier est lancé, budget en tête.</p></div>
+ <div class="jstep reveal"><span class="jn"></span><b>Le chantier démarre</b><p>Achats et dépenses s'enregistrent au fil de l'eau, rattachés au chantier.</p></div>
+ <div class="jstep reveal"><span class="jn"></span><b>Le chantier démarre</b><p>Le devis signé devient un chantier. Le C.A engagé se met à jour.</p></div>
+ <div class="jstep reveal"><span class="jn"></span><b>Le comptable reçoit tout</b><p>Devis et factures s'exportent vers votre expert-comptable en 1 clic.</p></div>
+ <div class="jstep reveal"><span class="jn"></span><b>Vous suivez la rentabilité</b><p>Marge brute et taux par chantier, en temps réel : ce qui rapporte, ce qui coûte.</p></div>
+ </div>
+ </div>
+</section>
+
+<section style="padding-top:0">
+ <div class="wrap">
+ <div class="sec-head reveal">
+ <span class="ey">Questions fréquentes</span>
+ <h2 class="h">Ce que les artisans nous demandent</h2>
+ </div>
+ <div class="faq reveal">
+ <details><summary>Comment BatiSpot calcule ma marge ?</summary><p>BatiSpot part de votre C.A encaissé et retire vos achats et dépenses HT rattachés au chantier. La différence donne la marge brute estimée, et le taux de marge est ce montant rapporté au chiffre d'affaires. Tout se met à jour au fil de vos factures et de vos dépenses, sans calcul manuel.</p></details>
+ <details><summary>Le suivi est-il en temps réel ?</summary><p>Oui. Dès qu'une facture est encaissée ou qu'une dépense est enregistrée, le tableau de bord Finances se recalcule : C.A encaissé, factures en attente, dépenses HT, marge brute et taux de marge. Vous voyez l'état du chantier au moment où vous le consultez, pas en fin de trimestre.</p></details>
+ <details><summary>Je peux suivre plusieurs chantiers ?</summary><p>Oui. Chaque chantier a sa propre rentabilité, et vous pouvez aussi voir une vue d'ensemble par période. Vous comparez d'un coup d'œil les chantiers qui rapportent et ceux qui vous coûtent.</p></details>
+ <details><summary>Ça remplace mon tableur Excel ?</summary><p>Oui. Les devis, factures et dépenses alimentent le tableau de bord tout seuls : plus de double saisie dans un tableur, plus de formules à maintenir. Vous gardez le suivi de la marge à jour sans y penser.</p></details>
+ </div>
+ </div>
+</section>
+
+<section class="cta-final">
+ <div class="wrap">
+ <div class="cta-card reveal">
+ <h2>Sachez enfin ce que chaque chantier rapporte</h2>
+ <p>Le C.A, les dépenses et la marge de chaque chantier, à jour tout seuls. Sans tableur.</p>
+ <a class="btn btn-w" href="https://batispot.pro/artisan">Rejoindre BatiSpot Pro →</a>
+ <div class="n">Suivi en temps réel · par chantier · sans double saisie</div>
+ </div>
+ </div>
+</section>
+
+<section class="metiers">
+ <span class="ey">Aller plus loin</span>
+ <div class="mtags">
+ <a href="https://batispot.pro/blog-pro/gestion-chantier-pilotage-artisan-btp-2026">Piloter ses chantiers</a>
+ <a href="https://batispot.pro/blog-pro/rentabilite-chantier-chiffres-cles">Rentabilité : chiffres clés</a>
+ <a href="https://batispot.pro/blog-pro/suivre-depenses-chantier-artisan">Suivre ses dépenses de chantier</a>
+ <a href="https://batispot.pro/application-devis-gratuite">Application de devis</a>
+ <a href="https://batispot.pro/artisan">BatiSpot Pro</a>
+ </div>
+</section>
+
+
+<footer>
+ © 2026 BatiSpot — <a href="https://batispot.pro">batispot.pro</a> · <a href="https://batispot.pro/artisan">BatiSpot Pro</a> · <a href="https://batispot.pro/blog-pro/">Blog Artisans</a>
+</footer>
+
+<script>
+(function(){
+ var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(reduce){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});}
+ else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});document.querySelectorAll('.reveal').forEach(function(e){io.observe(e)});}
+ var demo=document.getElementById('demo');if(!demo)return;
+ var lines=[].slice.call(demo.querySelectorAll('.dqline')),ben=document.getElementById('demoBenefit');
+ if(reduce){lines.forEach(function(l){l.classList.add('on')});ben.classList.add('on');return;}
+ var run=0,tmr=[];
+ function at(ms,fn){tmr.push(setTimeout(fn,ms));}
+ function play(){
+ var id=++run;tmr.forEach(clearTimeout);tmr=[];lines.forEach(function(l){l.classList.remove('on')});ben.classList.remove('on');
+ lines.forEach(function(l,i){at(500+i*600,function(){l.classList.add('on');});});
+ at(500+lines.length*600+300,function(){ben.classList.add('on');});
+ at(500+lines.length*600+4200,function(){if(id===run)play();});
+ }
+ var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play();}else{run++;tmr.forEach(clearTimeout);}})},{threshold:.4});
+ io2.observe(demo);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Meta Pixel (BatiSpot) — chargé UNIQUEMENT après consentement (RGPD/CNIL via bsConsent) -->
+ <script>(function(){function loadFbq(){if(window.fbq)return;!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');}
+ function ready(){var c=window.bsConsent;if(!c){return setTimeout(ready,300);}var s=c.get&&c.get();if(s&&s.analytics){loadFbq();}if(c.onChange){c.onChange(function(e){if(e&&e.analytics){loadFbq();}});}}
+ ready();})();</script>
+ <!-- End Meta Pixel -->
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix ravalement de façade d'immeuble en 2026 : tarifs par étage &amp; copropriété | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-ravalement-facade-immeuble">
+ <meta name="description" content="Prix d'un ravalement de façade d'immeuble en 2026 : 40 à 120 €/m² de façade selon la finition, budget par nombre d'étages, coût de l'échafaudage et répartition en copropriété. Devis gratuits d'entreprises vérifiées en Île-de-France." />
+ <meta property="og:title" content="Prix ravalement de façade d'immeuble en 2026 : tarifs par étage & copropriété" />
+ <meta property="og:description" content="Combien coûte le ravalement de façade d'un immeuble ? Prix au m², budget par nombre d'étages (R+2 à R+6), échafaudage, répartition en copropriété et devis gratuits." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-ravalement-facade-immeuble" />
+ <style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.65}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EBF7F1;--cta:#2A9D6E;--sub:#5A7268;--border:rgba(34,139,91,0.14);--orange:#F97316}
+ .wrap{max-width:840px;margin:0 auto;padding:0 1.2rem}
+ .nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0}
+ .nav .wrap{display:flex;justify-content:space-between;align-items:center}
+ .logo{font-weight:900;color:var(--g1);font-size:1.2rem;text-decoration:none}.logo span{color:var(--g2)}
+ .nav a.cta{background:var(--cta);color:#fff;padding:.5rem 1.1rem;border-radius:9px;font-weight:800;font-size:.85rem;text-decoration:none}
+ h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:900;color:var(--g1);line-height:1.2;margin:1.6rem 0 .6rem}
+ .lead{color:var(--sub);font-size:1.02rem;margin-bottom:1.4rem}
+ h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin:2rem 0 .8rem}
+ h3{font-size:1.05rem;font-weight:700;color:var(--g2);margin:1.2rem 0 .4rem}
+ p{margin-bottom:1rem}ul,ol{margin:0 0 1rem 1.3rem}li{margin-bottom:.4rem}
+ strong{color:var(--g1)}a{color:var(--g2)}
+ table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.95rem}
+ th,td{padding:.7rem .9rem;text-align:left;border-bottom:1px solid #eef2f0}
+ th{background:var(--g1);color:#fff;font-weight:700;font-size:.9rem}
+ tr:nth-child(even) td{background:#FAFCFB}
+ .box{background:var(--g-soft);border-left:4px solid var(--g2);border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:1.2rem 0}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2rem;text-align:center;color:#fff;margin:2rem 0}
+ .cta-section h2{color:#fff;margin:0 0 .5rem}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.8rem 1.9rem;border-radius:12px;font-weight:800;text-decoration:none}
+ .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+ .faq-item h3{margin:0 0 .3rem;color:#1F2937}.faq-item p{margin:0;color:var(--sub);font-size:.95rem}
+ footer{background:var(--g1);color:#fff;text-align:center;padding:1.6rem 1rem;font-size:.85rem;margin-top:2rem}
+ footer a{color:#9be3c1;text-decoration:none}
+ </style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Quel est le prix d'un ravalement de façade d'immeuble au m² en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Comptez 40 à 120 €/m² de façade selon la finition : nettoyage et traitement 40 à 60 €/m², peinture 50 à 80 €/m², enduit ou crépi 70 à 120 €/m². L'échafaudage ajoute environ 4 à 8 €/m². Avec isolation thermique par l'extérieur (ITE), le prix monte à 130 à 200 €/m²."}},
+ {"@type":"Question","name":"Combien coûte le ravalement d'un immeuble de 4 étages ?","acceptedAnswer":{"@type":"Answer","text":"Pour un immeuble R+4 avec environ 400 à 600 m² de façade, le budget se situe entre 25 000 et 70 000 € selon la finition et l'état, échafaudage compris. Le coût est ensuite réparti entre les copropriétaires selon les tantièmes."}},
+ {"@type":"Question","name":"Comment se répartit le coût d'un ravalement en copropriété ?","acceptedAnswer":{"@type":"Answer","text":"Le ravalement des façades est une charge de copropriété votée en assemblée générale. La dépense est répartie entre les copropriétaires au prorata des tantièmes de chaque lot. Des aides existent (MaPrimeRénov' Copropriété si couplé à une isolation, éco-PTZ collectif, aides locales)."}},
+ {"@type":"Question","name":"Le ravalement d'immeuble est-il obligatoire ?","acceptedAnswer":{"@type":"Answer","text":"Oui dans de nombreuses communes. À Paris et dans plusieurs villes d'Île-de-France, le ravalement est obligatoire tous les 10 ans ; la mairie peut mettre en demeure la copropriété de réaliser les travaux. Un ravalement avec modification d'aspect nécessite une déclaration préalable, et l'avis de l'Architecte des Bâtiments de France en secteur protégé."}}
+ ]}</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+ <a href="/" class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></a>
+ <a href="/estimateur" class="cta">Estimer mes travaux</a>
+</div></nav>
+
+<div class="wrap">
+ <h1>Prix d'un ravalement de façade d'immeuble en 2026</h1>
+<p class="lead">Combien coûte le <strong>ravalement de façade d'un immeuble</strong> en 2026 ? Les <strong>tarifs au m²</strong> selon la finition, le <strong>budget par nombre d'étages</strong> (R+2 à R+6), le coût de l'échafaudage et la <strong>répartition en copropriété</strong>.</p>
+
+ <h2>Prix du ravalement d'immeuble au m² de façade</h2>
+ <table>
+ <tr><th>Prestation</th><th>Prix au m² de façade (2026)</th></tr>
+ <tr><td>Nettoyage + traitement (haute pression, anti-mousse, réparation fissures)</td><td>40 – 60 €/m²</td></tr>
+ <tr><td>Ravalement avec peinture de façade</td><td>50 – 80 €/m²</td></tr>
+ <tr><td>Ravalement avec enduit ou crépi</td><td>70 – 120 €/m²</td></tr>
+ <tr><td>Ravalement + isolation thermique extérieure (ITE)</td><td>130 – 200 €/m²</td></tr>
+ <tr><td>Échafaudage (supplément)</td><td>+ 4 – 8 €/m²</td></tr>
+ </table>
+ <p>Sur un immeuble, l'<strong>échafaudage</strong>, la <strong>hauteur</strong> et l'<strong>accès sur rue</strong> pèsent davantage que sur une maison. Le prix s'entend <strong>par m² de façade</strong>, pas de surface habitable.</p>
+
+ <h2>Budget d'un ravalement selon le nombre d'étages</h2>
+ <table>
+ <tr><th>Type d'immeuble</th><th>Surface de façade estimée</th><th>Budget ravalement (2026)</th></tr>
+ <tr><td>R+2 (petit immeuble)</td><td>200 – 300 m²</td><td>12 000 – 35 000 €</td></tr>
+ <tr><td>R+4</td><td>400 – 600 m²</td><td>25 000 – 70 000 €</td></tr>
+ <tr><td>R+5 / R+6 (immeuble haussmannien)</td><td>600 – 900 m²</td><td>40 000 – 110 000 €</td></tr>
+ </table>
+ <div class="box"><strong>Repère :</strong> rapporté au lot, un ravalement de copropriété représente souvent <strong>3 000 à 12 000 € par appartement</strong>, selon les tantièmes et la finition retenue.</div>
+
+ <h2>Comment se répartit le coût en copropriété</h2>
+ <p>Le ravalement des façades est une <strong>charge de copropriété votée en assemblée générale</strong>. La dépense est répartie entre les copropriétaires <strong>au prorata des tantièmes</strong> de chaque lot. Avant le vote, le syndic met en concurrence plusieurs entreprises : c'est le moment de comparer les devis poste par poste (préparation, finition, échafaudage, garanties).</p>
+ <p>Pour bien préparer le vote et les obligations légales, consultez notre page dédiée aux <a href="/ravalement-facade-copropriete-obligations"><strong>obligations de ravalement en copropriété</strong></a>.</p>
+
+ <h2>Ravalement d'immeuble : quelles aides en 2026 ?</h2>
+ <ul>
+ <li><strong>MaPrimeRénov' Copropriété</strong> : si le ravalement est couplé à une <a href="/prix-isolation-exterieure">isolation thermique par l'extérieur</a>, la copropriété peut être aidée sur la part isolation.</li>
+ <li><strong>Éco-PTZ collectif</strong> : prêt à taux zéro pour financer les travaux votés.</li>
+ <li><strong>Aides locales</strong> : certaines communes et l'ANAH soutiennent la rénovation des façades, surtout en secteur protégé.</li>
+ </ul>
+
+ <h2>Le ravalement d'immeuble est-il obligatoire ?</h2>
+ <p>Oui dans de nombreuses communes. À <strong>Paris</strong> et dans plusieurs villes d'Île-de-France, le ravalement est <strong>obligatoire tous les 10 ans</strong> ; la mairie peut mettre la copropriété en demeure. Un ravalement avec changement d'aspect nécessite une <strong>déclaration préalable</strong>, et l'avis de l'<strong>Architecte des Bâtiments de France</strong> en secteur protégé.</p>
+
+ <div class="cta-section">
+ <h2>Obtenez des devis pour le ravalement de votre immeuble</h2>
+ <p style="opacity:.9;margin-bottom:1.2rem">Syndic ou copropriétaire : recevez jusqu'à 3 devis gratuits d'entreprises de ravalement vérifiées, après visite, sous 48h.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix du ravalement →</a>
+ </div>
+
+ <h2>Questions fréquentes, prix ravalement immeuble</h2>
+ <div class="faq-item"><h3>Quel prix au m² pour un ravalement d'immeuble ?</h3><p>Nettoyage 40-60 €/m², peinture 50-80 €/m², enduit/crépi 70-120 €/m². Échafaudage +4-8 €/m². Avec ITE : 130-200 €/m².</p></div>
+ <div class="faq-item"><h3>Combien coûte le ravalement d'un immeuble de 4 étages ?</h3><p>Environ 25 000 à 70 000 € pour un R+4 (400-600 m² de façade), échafaudage compris.</p></div>
+ <div class="faq-item"><h3>Comment se répartit le coût entre copropriétaires ?</h3><p>Voté en AG, réparti au prorata des tantièmes. Souvent 3 000 à 12 000 € par lot.</p></div>
+ <div class="faq-item"><h3>Le ravalement est-il obligatoire ?</h3><p>Oui dans beaucoup de communes : obligatoire tous les 10 ans à Paris et en IDF, avec mise en demeure possible.</p></div>
+
+ <h2>À lire aussi</h2>
+ <ul>
+ <li><a href="/prix-ravalement-facade">Prix ravalement de façade au m² (maison)</a></li>
+ <li><a href="/ravalement-facade-copropriete-obligations">Ravalement en copropriété : obligations légales</a></li>
+ <li><a href="/prix-isolation-exterieure">Prix de l'isolation extérieure (ITE)</a></li>
+ <li><a href="/estimateur">Estimateur de travaux BatiSpot</a></li>
+ </ul>
+</div>
+
+<div class="wrap" style="margin-bottom:2rem">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis pour le ravalement de votre immeuble</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Entreprises de ravalement vérifiées (Kbis, assurance, décennale) en Île-de-France. Réponse sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom (syndic / copropriétaire)" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez l'immeuble (nombre d'étages, surface de façade, finition…)" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Une entreprise vérifiée vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'ravalement façade immeuble',description:(d.desc||'Demande via page prix ravalement façade immeuble')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_prix'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/prix-ravalement-facade">Prix ravalement façade</a> &nbsp;|&nbsp;
+ <a href="/prix-renovation-salle-de-bain">Prix salle de bain</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

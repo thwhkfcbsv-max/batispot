@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Prix Chauffagiste & PAC 2026 : Tarifs Pompes à Chaleur & Devis | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/prix-chauffagiste">
+ <meta name="description" content="Barème 2026 vérifié · Combien coûte une pompe à chaleur ou chaudière en IDF en 2026 ? Simulateur d'aides MaPrimeRénov et devis d'artisans RGE QualiPAC vérifiés.">
+ <meta property="og:title" content="Prix chauffagiste Île-de-France 2026 — tarifs réels par ville" />
+ <meta property="og:description" content="Barème 2026 vérifié · Combien coûte une pompe à chaleur ou chaudière en IDF en 2026 ? Simulateur d'aides MaPrimeRénov et devis d'artisans RGE QualiPAC vérifiés.">
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/prix-chauffagiste" />
+ <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+:root { --g1:#1A6B45; --g2:#228B5B; --g3:#4CAF82; --g-soft:#EBF7F1; --cta:#2A9D6E; --cta-h:#1A6B45; --text:#1C2B22; --sub:#5A7268; --border:rgba(34,139,91,0.12); --white:#fff; --orange:#F97316; }
+nav { background:var(--white); border-bottom:1px solid var(--border); padding:0 5%; height:60px; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-size:1.4rem; font-weight:900; color:var(--g1); text-decoration:none; display:flex; align-items:center; gap:.5rem; }
+.nav-links { display:flex; gap:1.5rem; align-items:center; }
+.nav-links a { color:var(--sub); text-decoration:none; font-size:.85rem; font-weight:500; }
+.nav-links a:hover { color:var(--g2); }
+.hero { background:linear-gradient(135deg,var(--g1),var(--g2)); padding:3rem 5% 2.5rem; text-align:center; color:#fff; }
+.hero h1 { font-size:2rem; font-weight:900; margin-bottom:.75rem; }
+.hero p { opacity:.9; font-size:1rem; max-width:620px; margin:0 auto; }
+.breadcrumb { font-size:.8rem; opacity:.7; margin-bottom:.75rem; }
+.breadcrumb a { color:rgba(255,255,255,.8); text-decoration:none; }
+.container { max-width:840px; margin:0 auto; padding:2.5rem 1.2rem 3rem; }
+.answer { background:var(--g-soft); border-left:4px solid var(--g2); border-radius:0 12px 12px 0; padding:1.2rem 1.4rem; margin-bottom:1.8rem; font-size:1.02rem; }
+.answer strong { color:var(--g1); }
+.card { background:var(--white); border-radius:16px; padding:2rem; box-shadow:0 4px 24px rgba(0,0,0,0.06); margin-bottom:1.8rem; }
+.card h2 { font-size:1.25rem; font-weight:800; color:var(--g1); margin-bottom:1rem; }
+.card h3 { font-size:1.02rem; font-weight:700; color:var(--text); margin:1.1rem 0 .4rem; }
+.price-table { width:100%; border-collapse:collapse; font-size:.9rem; margin:.5rem 0; }
+.price-table th { background:var(--g-soft); color:var(--g1); padding:.7rem 1rem; text-align:left; font-weight:700; }
+.price-table td { padding:.6rem 1rem; border-bottom:1px solid var(--border); }
+.price-table tr:last-child td { border-bottom:none; }
+.price-table .low { color:#16a34a; font-weight:600; }
+.price-table .mid { color:var(--g1); font-weight:700; }
+.price-table .high { color:var(--orange); font-weight:600; }
+.badge { display:inline-block; background:var(--g-soft); color:var(--g1); border-radius:20px; padding:.2rem .7rem; font-size:.78rem; font-weight:700; margin-bottom:.8rem; }
+.cta-section { background:linear-gradient(135deg,var(--g1),var(--g2)); border-radius:16px; padding:2.2rem; text-align:center; color:#fff; margin-bottom:1.8rem; }
+.cta-section h2 { font-size:1.4rem; font-weight:900; margin-bottom:.5rem; color:#fff; }
+.cta-section p { opacity:.9; margin-bottom:1.4rem; font-size:.95rem; }
+.cta-btn { display:inline-block; background:var(--orange); color:#fff; padding:.85rem 2rem; border-radius:12px; font-size:1rem; font-weight:800; text-decoration:none; transition:transform .15s,opacity .15s; }
+.cta-btn:hover { transform:translateY(-2px); opacity:.92; }
+.cta-btn-green { display:inline-block; background:var(--cta); color:#fff; padding:.85rem 2rem; border-radius:12px; font-size:1rem; font-weight:800; text-decoration:none; }
+.cta-btn-green:hover { background:var(--cta-h); }
+.info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; margin-top:.8rem; }
+.info-item { background:var(--g-soft); border-radius:12px; padding:1rem; }
+.info-item .label { font-size:.78rem; color:var(--sub); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+.info-item .value { font-size:1.1rem; font-weight:800; color:var(--g1); margin-top:.2rem; }
+.factor-list { list-style:none; padding:0; }
+.factor-list li { padding:.5rem 0; border-bottom:1px solid var(--border); font-size:.9rem; display:flex; gap:.6rem; }
+.factor-list li:last-child { border-bottom:none; }
+.factor-list li::before { content:"\2192"; color:var(--g2); font-weight:700; flex-shrink:0; }
+.faq dt { font-weight:800; color:var(--g1); margin-top:1rem; font-size:.98rem; }
+.faq dd { margin:.3rem 0 0; color:var(--text); font-size:.92rem; }
+.city-table td a { color:var(--g2); text-decoration:none; font-weight:600; }
+.trust-box { border:2px solid var(--g3); border-radius:16px; padding:1.6rem; text-align:center; margin-bottom:1.8rem; }
+.trust-box h2 { color:var(--g1); font-size:1.15rem; margin-bottom:.5rem; }
+.trust-box p { color:var(--sub); font-size:.9rem; margin-bottom:1.2rem; }
+footer { background:var(--g1); color:rgba(255,255,255,.7); text-align:center; padding:1.5rem; font-size:.8rem; }
+footer a { color:rgba(255,255,255,.9); text-decoration:none; }
+@media (max-width:600px) { .hero h1 { font-size:1.5rem; } .card { padding:1.3rem; } .price-table th,.price-table td { padding:.5rem .6rem; font-size:.82rem; } }</style>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Prix chauffagiste Île-de-France","areaServed":{"@type":"AdministrativeArea","name":"Île-de-France"},"provider":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"offers":{"@type":"AggregateOffer","priceCurrency":"EUR","lowPrice":"60","highPrice":"8000"}}</script>
+ <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Combien coûte un chauffagiste en Île-de-France en 2026 ?","acceptedAnswer":{"@type":"Answer","text":"Les tarifs vont d'environ 60 € pour une petite intervention à plus de 8000 € pour une rénovation complète. Une intervention de base (entretien chaudière gaz) coûte en moyenne 135 € en Île-de-France, hors urgence."}},{"@type":"Question","name":"Le prix varie-t-il selon la ville ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Les tarifs sont plus élevés à Paris intra-muros et dans les Hauts-de-Seine (Neuilly, Boulogne) qu'en grande couronne. L'écart atteint couramment 20 à 30 % entre une commune chère et une commune populaire."}},{"@type":"Question","name":"Comment obtenir un prix exact pour mon projet ?","acceptedAnswer":{"@type":"Answer","text":"Le seul moyen d'avoir un prix ferme est de demander un devis détaillé. Sur BatiSpot, vous recevez gratuitement jusqu'à 3 devis d'artisans vérifiés sous 48h, sans engagement."}},{"@type":"Question","name":"Les artisans BatiSpot sont-ils vérifiés ?","acceptedAnswer":{"@type":"Answer","text":"Oui. BatiSpot ne référence que des artisans dont le Kbis est actif, l'assurance décennale valide et les avis clients contrôlés. Aucune commission n'est prélevée sur vos travaux."}}]}</script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Accueil",
+ "item": "https://batispot.pro/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Tarifs Travaux BTP 2026",
+ "item": "https://batispot.pro/prix-chauffagiste"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Chauffagiste",
+ "item": "https://batispot.pro/prix-chauffagiste"
+ }
+ ]
+}
+</script>
+</head>
+<body>
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a>
+ <div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimateur</a><a href="/">Artisan</a></div>
+</nav>
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › <a href="/estimateur">Prix travaux</a> › Prix chauffagiste</div>
+ <h1>Prix d'un chauffagiste en Île-de-France en 2026</h1>
+<p style="font-size:.78rem;color:var(--sub);margin:.35rem 0 0">Dernière mise à jour : <strong>juillet 2026</strong> · Tarifs relevés en Île-de-France</p>
+ <p>Tarifs réels constatés en Île-de-France, comparés ville par ville. Dépannage, installation, rénovation, toutes les fourchettes, sans jargon.</p>
+</div>
+<div class="container">
+<!-- START: Mini Simulateur Express -->
+<div class="bs-mini-calc" data-price-min="60" data-price-max="95" data-unit="h" style="background:#FFFFFF;border:1.5px solid #DCEBE1;border-radius:20px;padding:28px 24px;margin:28px 0;box-shadow:0 12px 32px -10px rgba(15,81,50,0.12);">
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:#0F5132;background:#EBF7F1;padding:4px 12px;border-radius:999px;letter-spacing:0.04em;">Simulateur Express 2026</span>
+ <span style="font-size:12px;color:#5E7268;font-weight:600;">Estimation immédiate sans engagement</span>
+ </div>
+ <h3 style="font-size:18px;font-weight:900;color:#0A1D14;margin:0 0 16px;">Estimez le coût de vos travaux (chauffage) en direct</h3>
+ 
+ <div style="margin-bottom:18px;">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+ <label style="font-size:13px;font-weight:700;color:#1C2B22;">Quantité / Surface estimée :</label>
+ <span class="calc-val-display" style="font-size:16px;font-weight:900;color:#0F5132;background:#F1F7F4;padding:2px 10px;border-radius:8px;">40 h</span>
+ </div>
+ <input type="range" class="calc-slider" min="10" max="150" value="40" step="5" style="width:100%;height:8px;accent-color:#0F5132;cursor:pointer;">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:#5E7268;margin-top:4px;">
+ <span>10 h</span>
+ <span>75 h</span>
+ <span>150 h</span>
+ </div>
+ </div>
+
+ <div style="background:linear-gradient(135deg,#F1F7F4,#EBF7F1);border:1px solid #DCEBE1;border-radius:14px;padding:18px;text-align:center;margin-bottom:18px;">
+ <span style="font-size:12px;font-weight:700;color:#5E7268;display:block;margin-bottom:4px;">FOURCHETTE ESTIMÉE (FOURNITURE & POSE)</span>
+ <div style="font-size:clamp(22px,4vw,28px);font-weight:900;color:#0F5132;">
+ <span class="calc-res-min">2400 €</span> à <span class="calc-res-max">3800 € TTC</span>
+ </div>
+ </div>
+
+ <div style="text-align:center;">
+ <a href="/devis/" style="display:inline-flex;align-items:center;gap:8px;background:#0F5132;color:#fff;font-size:14px;font-weight:800;padding:12px 24px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(15,81,50,0.25);">
+ <span>Recevoir 3 devis précis d'artisans vérifiés</span>
+ <span style="font-size:16px;">→</span>
+ </a>
+ </div>
+</div>
+<script src="/js/mini-calc.js" defer></script>
+<!-- END: Mini Simulateur Express -->
+
+ <div class="answer">
+ <strong>En bref :</strong> en 2026, faire intervenir un chauffagiste en Île-de-France coûte de <strong>60 €</strong> (petite intervention)
+ à plus de <strong>8 000 €</strong> (rénovation complète). Une intervention de base revient en moyenne à <strong>135 €</strong>,
+ avec un écart de 20 à 30 % entre Paris et la grande couronne. Le prix exact dépend de l'urgence, de l'accès au logement et des matériaux, le plus fiable reste de comparer 3 devis.
+ </div>
+
+ <div class="card">
+ <span class="badge">Mis à jour juin 2026</span>
+ <h2>Quels sont les tarifs d'un chauffagiste en 2026 ?</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Fourchettes moyennes observées en Île-de-France. Elles incluent la main-d'œuvre ; les matériaux varient selon la gamme choisie.</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Prestation</th>
+ <th>Prix bas</th>
+ <th>Prix moyen</th>
+ <th>Prix haut</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Entretien chaudière gaz (annuel)</td>
+ <td class="low">90 €</td>
+ <td class="mid">135 €</td>
+ <td class="high">180 €</td>
+ </tr>
+ <tr>
+ <td>Entretien chaudière fioul (annuel)</td>
+ <td class="low">150 €</td>
+ <td class="mid">195 €</td>
+ <td class="high">250 €</td>
+ </tr>
+ <tr>
+ <td>Dépannage / réparation urgence</td>
+ <td class="low">100 €</td>
+ <td class="mid">190 €</td>
+ <td class="high">300 €</td>
+ </tr>
+ <tr>
+ <td>Désembouage radiateurs (circuit complet)</td>
+ <td class="low">300 €</td>
+ <td class="mid">480 €</td>
+ <td class="high">700 €</td>
+ </tr>
+ <tr>
+ <td>Remplacement radiateur (pièce)</td>
+ <td class="low">300 €</td>
+ <td class="mid">520 €</td>
+ <td class="high">800 €</td>
+ </tr>
+ <tr>
+ <td>Thermostat connecté (fourni + posé)</td>
+ <td class="low">200 €</td>
+ <td class="mid">340 €</td>
+ <td class="high">500 €</td>
+ </tr>
+ <tr>
+ <td>Remplacement chaudière gaz condensation</td>
+ <td class="low">3 000 €</td>
+ <td class="mid">4 500 €</td>
+ <td class="high">6 000 €</td>
+ </tr>
+ <tr>
+ <td>Installation PAC air/air</td>
+ <td class="low">5 000 €</td>
+ <td class="mid">7 500 €</td>
+ <td class="high">10 000 €</td>
+ </tr>
+ <tr>
+ <td>Remplacement chaudière fioul par PAC air/eau</td>
+ <td class="low">10 000 €</td>
+ <td class="mid">14 000 €</td>
+ <td class="high">18 000 €</td>
+ </tr>
+ <tr>
+ <td>Plancher chauffant (au m²)</td>
+ <td class="low">50 €/m²</td>
+ <td class="mid">85 €/m²</td>
+ <td class="high">120 €/m²</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">* Tarifs indicatifs 2026 : Île-de-France. TVA 10 % (rénovation, résidence principale &gt; 2 ans) ou 5,5 % (travaux d'amélioration énergétique).</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Obtenez le prix exact pour votre projet</h2>
+ <p>3 devis gratuits d'chauffagistes vérifiés près de chez vous, sous 48h, sans engagement.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de mes travaux gratuitement →</a>
+ </div>
+
+ <div class="card">
+ <h2>Prix d'un chauffagiste par ville en Île-de-France</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Tarif d'une intervention de base (entretien chaudière gaz) et taux horaire moyen, par commune. Les prix grimpent à Paris et dans les Hauts-de-Seine, baissent en grande couronne.</p>
+ <table class="price-table city-table">
+ <thead><tr><th>Ville</th><th>Prix bas</th><th>Prix moyen</th><th>Prix haut</th><th>Taux horaire</th></tr></thead>
+ <tbody>
+<tr><td>Paris</td><td class="low">90 €</td><td class="mid">135 €</td><td class="high">180 €</td><td>65–95 €/h</td></tr>
+<tr><td>Argenteuil</td><td class="low">88 €</td><td class="mid">122 €</td><td class="high">165 €</td><td>52–82 €/h</td></tr>
+<tr><td>Montreuil</td><td class="low">90 €</td><td class="mid">130 €</td><td class="high">175 €</td><td>58–88 €/h</td></tr>
+<tr><td>Nanterre</td><td class="low">90 €</td><td class="mid">132 €</td><td class="high">175 €</td><td>60–90 €/h</td></tr>
+<tr><td>Creteil</td><td class="low">90 €</td><td class="mid">128 €</td><td class="high">175 €</td><td>57–87 €/h</td></tr>
+<tr><td>Versailles</td><td class="low">95 €</td><td class="mid">140 €</td><td class="high">185 €</td><td>65–95 €/h</td></tr>
+<tr><td>Courbevoie</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Colombes</td><td class="low">90 €</td><td class="mid">128 €</td><td class="high">175 €</td><td>57–87 €/h</td></tr>
+<tr><td>Asnieres-Sur-Seine</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Aulnay-Sous-Bois</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Vitry-Sur-Seine</td><td class="low">90 €</td><td class="mid">125 €</td><td class="high">170 €</td><td>55–85 €/h</td></tr>
+<tr><td>Antony</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Issy-Les-Moulineaux</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Neuilly-Sur-Seine</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Cergy</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Massy</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Pontoise</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Acheres</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Alfortville</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Aubervilliers</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Bagneux</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Bagnolet</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Bezons</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+<tr><td>Bobigny</td><td class="low">9 000 €</td><td class="mid">13 000 €</td><td class="high">18 000 €</td><td>—</td></tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">Données BatiSpot — 24 communes d'Île-de-France. Demandez un devis pour le tarif exact dans votre commune.</p>
+ </div>
+
+ <div class="card">
+ <h2>Qu'est-ce qui fait varier le prix d'un chauffagiste ?</h2>
+ <ul class="factor-list">
+ <li><strong>Logements en immeuble collectif :</strong> à Paris, 90 % des logements sont en appartement. Pour un remplacement de chaudière individuelle, le chauffagiste doit souvent négocier le passage dans les parties communes (gaines techniques, cave). Prévoyez une majoration de 200 à 500 € si les travaux nécessitent une autorisation du syndic.</li>
+ <li><strong>Chauffage collectif vs individuel :</strong> les immeubles haussmanniens disposent souvent d'un chauffage collectif géré par le syndic. Le remplacement d'un radiateur ou d'un thermostat est alors à coordonner avec la maintenance de l'immeuble, le tarif individuel ne s'applique pas dans ce cas.</li>
+ <li><strong>Accès parking et manutention :</strong> les chauffagistes à Paris facturent 50 à 150 € de surcoût pour accéder à un appartement au-delà du 4e étage sans ascenseur, ou pour un couloir d'accès étroit (typique des immeubles du 18e au 20e siècle).</li>
+ <li><strong>PAC en appartement parisien :</strong> l'installation d'une PAC air/air dans un appartement parisien peut nécessiter l'accord de la copropriété si l'unité extérieure est visible depuis la rue. Certains arrondissements (secteur sauvegardé, Marais) ont des contraintes architecturales supplémentaires.</li>
+ <li><strong>Urgences chauffage en hiver :</strong> en janvier-février, les chauffagistes parisiens sont saturés. Les délais d'intervention en urgence peuvent atteindre 48h. Prévoyez l'entretien annuel en septembre-octobre pour éviter ce pic.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Combien coûte chauffagiste à l'heure ?</h2>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Taux horaire moyen</div>
+ <div class="value">65–95 €/h</div>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Comment éviter les mauvaises surprises ?</h2>
+ <ul class="factor-list">
+ <li>Exigez un devis écrit détaillé avant toute intervention (main-d'œuvre et matériaux séparés).</li>
+ <li>Vérifiez l'assurance décennale et la responsabilité civile professionnelle, demandez l'attestation.</li>
+ <li>Pour les gros postes, comparez au moins 3 devis avant de signer.</li>
+ <li>Méfiez-vous d'un tarif anormalement bas : un artisan non déclaré ne vous couvre pas en cas de sinistre.</li>
+ <li>Conservez la facture : indispensable pour l'assurance et les aides (MaPrimeRénov', CEE).</li>
+ </ul>
+ </div>
+
+ <div class="card faq">
+ <h2>Questions fréquentes sur le prix d'un chauffagiste</h2>
+ <dl>
+<dt>Combien coûte un chauffagiste en Île-de-France en 2026 ?</dt><dd>Les tarifs vont d'environ 60 € pour une petite intervention à plus de 8000 € pour une rénovation complète. Une intervention de base (entretien chaudière gaz) coûte en moyenne 135 € en Île-de-France, hors urgence.</dd>
+<dt>Le prix varie-t-il selon la ville ?</dt><dd>Oui. Les tarifs sont plus élevés à Paris intra-muros et dans les Hauts-de-Seine (Neuilly, Boulogne) qu'en grande couronne. L'écart atteint couramment 20 à 30 % entre une commune chère et une commune populaire.</dd>
+<dt>Comment obtenir un prix exact pour mon projet ?</dt><dd>Le seul moyen d'avoir un prix ferme est de demander un devis détaillé. Sur BatiSpot, vous recevez gratuitement jusqu'à 3 devis d'artisans vérifiés sous 48h, sans engagement.</dd>
+<dt>Les artisans BatiSpot sont-ils vérifiés ?</dt><dd>Oui. BatiSpot ne référence que des artisans dont le Kbis est actif, l'assurance décennale valide et les avis clients contrôlés. Aucune commission n'est prélevée sur vos travaux.</dd>
+ </dl>
+ </div>
+
+ <div class="trust-box">
+ <h2>Trouvez un chauffagiste de confiance en Île-de-France</h2>
+ <p>BatiSpot référence uniquement des artisans vérifiés : Kbis actif, assurance décennale, avis clients contrôlés, et 0 % de commission sur vos travaux. Obtenez 3 devis gratuits et comparez sereinement.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot →</a>
+ </div>
+
+ <div class="card">
+ <h2>À lire aussi</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+<a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div><div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit, résultat en 2 minutes</div></a>
+<a href="/guide-aides-renovation" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Aides à la rénovation 2026</div><div style="font-size:.76rem;color:var(--sub);">MaPrimeRénov', CEE, TVA 5,5 % — le guide complet</div></a>
+<a href="/" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Voir les artisans vérifiés</div><div style="font-size:.76rem;color:var(--sub);">Kbis, décennale, avis contrôlés</div></a>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Prix des autres métiers en Île-de-France</h2>
+ <div style="margin-top:.4rem;"><a href="/prix-plombier" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix plombier</a><a href="/prix-electricien" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix électricien</a><a href="/prix-macon" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix maçon</a><a href="/prix-peintre" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix peintre</a><a href="/prix-menuisier" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix menuisier</a><a href="/prix-carreleur" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix carreleur</a><a href="/prix-serrurier" style="display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.35rem .9rem;font-size:.83rem;font-weight:700;text-decoration:none;margin:.2rem .25rem .2rem 0;border:1px solid var(--border);">Prix serrurier</a></div>
+ </div>
+
+</div>
+<div style="max-width:840px;margin:0 auto 2rem;padding:0 1.2rem;font-family:'Segoe UI',system-ui,sans-serif">
+ <div id="bs-lf" style="background:linear-gradient(135deg,#1A6B45,#228B5B);border-radius:16px;padding:2rem;color:#fff">
+ <h2 style="font-size:1.35rem;margin:0 0 .4rem;color:#fff">Recevez 3 devis gratuits d'artisans vérifiés</h2>
+ <p style="opacity:.92;margin:0 0 1.1rem;font-size:.92rem">Sans engagement. Des chauffagistes vérifiés (Kbis, assurance, décennale) en Île-de-France vous répondent sous 48h.</p>
+ <form onsubmit="return bsLeadX(event)">
+ <input name="nom" placeholder="Votre nom" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+ <input name="tel" placeholder="Téléphone" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <input name="email" type="email" placeholder="Email" required style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ </div>
+ <input name="desc" placeholder="Décrivez votre projet" style="width:100%;padding:.7rem .9rem;border:none;border-radius:10px;font-size:.9rem;margin-bottom:.6rem;font-family:inherit;color:#1F2937">
+ <button type="submit" style="width:100%;padding:.85rem;background:#F97316;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:.3rem">Recevoir mes 3 devis gratuits &rarr;</button>
+ </form>
+ <div id="bs-ok" style="display:none;background:rgba(255,255,255,.15);border-radius:10px;padding:1rem;text-align:center;font-weight:700">Demande envoyée ! Un artisan vérifié vous recontacte sous 48h.</div>
+ </div>
+</div>
+<script>
+async function bsLeadX(e){e.preventDefault();var f=e.target,d=Object.fromEntries(new FormData(f).entries());
+try{await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis',{method:'POST',headers:{'apikey':'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','authorization':'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1','content-type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({...(window.bsAttr?bsAttr():{}),client_id:null,client_name:(d.nom||'').trim()||null,client_email:(d.email||'').trim().toLowerCase()||null,client_phone:(d.tel||'').trim()||null,adresse:'Île-de-France',code_postal:null,type_travaux:'chauffagiste',description:(d.desc||'Demande via hub prix')})});}catch(_){}
+if(window.bsTrack)bsTrack('demande_submitted',{page_type:'hub_metier'});if(window.fbq)fbq('track','Lead');
+f.style.display='none';document.getElementById('bs-ok').style.display='block';return false;}
+</script>
+
+<!-- START: Maillage Interne Géographique IDF -->
+<section class="bs-geo-internal-linking" style="margin: 36px auto; max-width: 860px; padding: 24px; background: #FFFFFF; border: 1px solid #E4EDE8; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+ <h4 style="font-size: 15px; font-weight: 800; color: #0F5132; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;">
+ <span></span>
+ <span>Tarifs & Artisans Vérifiés par Département en Île-de-France</span>
+ </h4>
+ <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+ <a href="/prix-plombier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Paris (75)</a>
+ <a href="/prix-peintre" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Hauts-de-Seine (92)</a>
+ <a href="/prix-carreleur" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-Saint-Denis (93)</a>
+ <a href="/prix-electricien" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-de-Marne (94)</a>
+ <a href="/prix-macon" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Yvelines (78)</a>
+ <a href="/prix-chauffagiste" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Essonne (91)</a>
+ <a href="/prix-menuisier" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Val-d'Oise (95)</a>
+ <a href="/prix-ravalement-facade" style="background:#F1F7F4; color:#0F5132; padding:6px 12px; border-radius:8px; font-weight:600; text-decoration:none;">Seine-et-Marne (77)</a>
+ </div>
+ <p style="font-size: 11px; color: #5E7268; margin: 12px 0 0;">
+ BatiSpot couvre l'ensemble des 1 276 communes d'Île-de-France avec des barèmes et devis vérifiés sous 48h.
+ </p>
+</section>
+<!-- END: Maillage Interne Géographique IDF -->
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/simulateur-aides">Simulateur d'aides 2026</a> &nbsp;|&nbsp;
+ <a href="/estimateur">Estimateur travaux</a> &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

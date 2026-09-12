@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Contact — BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/contact">
+<meta name="description" content="Une question sur BatiSpot ? Écrivez-nous à contact@batispot.pro ou via le formulaire. On vous répond rapidement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A1D14;--sub:#5E7268;--g1:#0F5132;--g2:#166534;--teal:#0D9488;--line:#E4EDE8;--line2:#EDF3F0;--bg:#FBFCFB;--card:#FFF;--soft:#F1F7F4;--cta:#0F5132;--cta-h:#0b3f27;--maxw:820px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:900;font-size:1.15rem}
+.brand em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:#228B5B;padding:2px 6px;border-radius:5px;margin-left:.3rem}
+.nav-a{font-size:.88rem;font-weight:600;color:var(--sub)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.hero{text-align:center;padding:60px 0 8px}
+.ey{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal)}
+h1{font-size:clamp(2rem,4vw,2.7rem);font-weight:900;letter-spacing:-.03em;margin:.5rem 0 .6rem}
+.lead{font-size:1.1rem;color:var(--sub);max-width:46ch;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr 1.3fr;gap:22px;margin:40px auto 60px;align-items:start}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+.card h2{font-size:1.05rem;font-weight:800;margin-bottom:.5rem}
+.card p{color:var(--sub);font-size:.92rem;margin-bottom:.8rem}
+.mail{display:inline-flex;align-items:center;gap:.5rem;font-weight:800;color:var(--g1);font-size:1.05rem;word-break:break-all}
+.hours{font-size:.85rem;color:var(--sub);margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--line2)}
+label{display:block;font-size:.8rem;font-weight:700;margin:.9rem 0 .3rem}
+input,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:.95rem;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{outline:none;border-color:var(--teal)}
+textarea{resize:vertical;min-height:120px}
+.btn{width:100%;margin-top:1rem;background:var(--cta);color:#fff;border:0;border-radius:12px;padding:.9rem;font-weight:800;font-size:1rem;cursor:pointer;transition:.18s}
+.btn:hover{background:var(--cta-h)}
+.btn:disabled{opacity:.6;cursor:wait}
+.ok{display:none;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;color:var(--g1);font-weight:700;margin-top:1rem}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+footer{padding:34px 24px;text-align:center;color:var(--sub);font-size:.85rem;border-top:1px solid var(--line2)}
+footer a{color:var(--g1)}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Contact — BatiSpot",
+ "description": "Une question sur BatiSpot ? Écrivez-nous à contact@batispot.pro ou via le formulaire. On vous répond rapidement.",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-08-16",
+ "dateModified": "2026-08-16",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/contact"
+ }
+}
+</script>
+</head>
+<body>
+<nav><div class="nav-in">
+ <a href="/" class="brand">BatiSpot<em>PRO</em></a>
+ <a href="/tarifs" class="nav-a">Tarifs</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+ <div class="ey">Contact</div>
+ <h1>Une question ? On vous répond.</h1>
+<p class="lead">Particulier ou artisan, écrivez-nous, on revient vers vous rapidement.</p>
+</div></header>
+
+<section class="wrap"><div class="grid">
+ <div class="card">
+ <h2>Par email</h2>
+ <p>Le plus direct :</p>
+ <a class="mail" href="mailto:contact@batispot.pro">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F5132" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+ contact@batispot.pro
+ </a>
+ <div class="hours">Réponse en général sous 24 h ouvrées. Île-de-France &amp; partout en France pour les artisans.</div>
+ </div>
+
+ <div class="card">
+ <h2>Par message</h2>
+ <p>Remplissez le formulaire, on vous recontacte à l'email indiqué.</p>
+ <form id="cform" autocomplete="on">
+ <input type="text" id="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+ <label for="nom">Votre nom</label>
+ <input id="nom" required placeholder="Prénom Nom">
+ <label for="email">Votre email</label>
+ <input id="email" type="email" required placeholder="vous@email.fr">
+ <label for="msg">Votre message</label>
+ <textarea id="msg" required placeholder="Comment peut-on vous aider ?"></textarea>
+ <button type="submit" class="btn" id="send">Envoyer</button>
+ </form>
+ <div class="ok" id="ok">Merci ! Votre message est bien parti, on vous répond vite.</div>
+ </div>
+</div></section>
+
+
+<footer>
+ &copy; 2026 BatiSpot &middot; <a href="/">Accueil</a> &middot; <a href="/tarifs">Tarifs</a> &middot; <a href="/">Espace artisan</a> &middot; <a href="mailto:contact@batispot.pro">contact@batispot.pro</a>
+</footer>
+
+<script>
+(function(){
+ var SB='https://cisniwhaiydazdpzvino.supabase.co',K='sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1';
+ var f=document.getElementById('cform'),ok=document.getElementById('ok'),btn=document.getElementById('send'),hp=document.getElementById('hp');
+ f.addEventListener('submit',function(e){
+ e.preventDefault();
+ if(hp.value)return;
+ var nom=document.getElementById('nom').value.trim(),email=document.getElementById('email').value.trim(),msg=document.getElementById('msg').value.trim();
+ if(!nom||!email||!msg)return;
+ btn.disabled=true;btn.textContent='Envoi…';
+ fetch(SB+'/functions/v1/notify-admin',{method:'POST',headers:{'apikey':K,'authorization':'Bearer '+K,'content-type':'application/json'},body:JSON.stringify({subject:'Contact site — '+nom,data:{nom:nom,email:email,message:msg,source:'page contact'},reply_to:email})})
+ .then(function(r){if(!r.ok)throw 0;f.style.display='none';ok.style.display='block';})
+ .catch(function(){btn.disabled=false;btn.textContent='Réessayer';btn.style.background='#b45309';});
+ });
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

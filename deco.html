@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BatiSpot — Imaginez vos travaux</title>
+<meta name="description" content="Prenez une photo de votre pièce : découvrez une vraie transformation, des idées de travaux et un budget chiffré, puis recevez des devis d'artisans vérifiés.">
+<link rel="canonical" href="https://batispot.pro/deco">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<style>
+  :root{
+    --g1:#228B5B; --g2:#4CAF82; --ink:#14281E; --sub:#5B7267;
+    --soft:#EEF7F1; --line:#E1EDE6; --citron:#F5C542; --card:#fff;
+    --bg:#F6FAF8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1f16;color:var(--ink);-webkit-font-smoothing:antialiased}
+  /* app = colonne mobile centrée */
+  .app{max-width:460px;min-height:100dvh;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  /* top bar */
+  .top{display:flex;align-items:center;gap:8px;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .logo{display:flex;align-items:center;gap:8px}
+  .logo .ic{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--g1),var(--g2));display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(34,139,91,.5)}
+  .logo .ic svg{width:17px;height:17px}
+  .logo b{font-size:1.15rem;font-weight:900;letter-spacing:-.02em;color:#0A1D14}
+  .logo b span{color:#0A1D14}
+  .top .step{margin-left:auto;font-size:.72rem;font-weight:800;color:var(--sub);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+  /* progress */
+  .prog{display:flex;gap:4px;padding:0 18px;margin-top:12px}
+  .prog i{height:4px;flex:1;border-radius:2px;background:var(--line);transition:background .3s}
+  .prog i.on{background:var(--g2)}
+  .prog i.done{background:var(--g1)}
+  /* screen */
+  .screen{flex:1;display:none;flex-direction:column;padding:22px 18px 26px;animation:fade .4s ease}
+  .screen.on{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g1)}
+  h1{font-size:1.85rem;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin:.5rem 0 .6rem}
+  .lead{color:var(--sub);font-size:1rem;line-height:1.5}
+  .spacer{flex:1}
+  /* buttons */
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border:0;border-radius:14px;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;transition:.15s}
+  .btn-p{background:var(--g1);color:#fff;box-shadow:0 12px 26px -10px rgba(34,139,91,.6)}
+  .btn-p:active{transform:translateY(1px)}
+  .btn-g{background:#fff;color:var(--g1);border:1.5px solid var(--line)}
+  .btn:disabled{opacity:.45}
+  .btn svg{width:18px;height:18px}
+  /* welcome visual */
+  .hero-art{border-radius:20px;overflow:hidden;position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#0d3320,var(--g1) 60%,var(--g2));display:grid;place-items:center;margin-bottom:20px;box-shadow:0 24px 50px -22px rgba(13,31,22,.6)}
+  .hero-art .badge{position:absolute;bottom:14px;left:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:8px 12px;font-size:.78rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px}
+  .hero-art .badge b{color:var(--g1)}
+  .hero-art .center{color:#fff;text-align:center;padding:20px}
+  .hero-art .center svg{width:52px;height:52px;opacity:.95}
+  .hero-art .center p{font-weight:800;margin-top:8px;font-size:.95rem;opacity:.92}
+  .feat-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .feat-row span{font-size:.78rem;font-weight:700;color:var(--g1);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 11px;display:inline-flex;gap:5px;align-items:center}
+  .feat-row svg{width:13px;height:13px;color:var(--g2)}
+  /* photo */
+  .drop{border:2px dashed var(--g2);border-radius:18px;background:var(--soft);padding:34px 18px;text-align:center;cursor:pointer;transition:.15s}
+  .drop:active{background:#e6f3ec}
+  .drop .ic{width:56px;height:56px;border-radius:16px;background:#fff;display:grid;place-items:center;margin:0 auto 12px;box-shadow:0 8px 18px -8px rgba(34,139,91,.4)}
+  .drop .ic svg{width:26px;height:26px;color:var(--g1)}
+  .drop b{display:block;font-size:1rem;font-weight:800}
+  .drop small{color:var(--sub);font-size:.82rem}
+  .preview{border-radius:18px;overflow:hidden;position:relative;margin-top:4px;box-shadow:0 16px 34px -18px rgba(13,31,22,.5)}
+  .preview img{width:100%;display:block;max-height:340px;object-fit:cover}
+  .preview .re{position:absolute;top:10px;right:10px;background:rgba(20,40,30,.7);color:#fff;border:0;border-radius:10px;padding:7px 11px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px)}
+  /* chat */
+  .chat-h{display:flex;align-items:center;gap:9px;background:linear-gradient(120deg,var(--g1),var(--g2));border-radius:16px 16px 0 0;padding:12px 15px}
+  .chat-h .bot{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center}
+  .chat-h .bot svg{width:18px;height:18px}
+  .chat-h b{color:#fff;font-size:.95rem;font-weight:900;display:block}
+  .chat-h span{color:rgba(255,255,255,.85);font-size:.75rem;font-weight:600}
+  .chat{background:#fff;border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;flex:1;display:flex;flex-direction:column;overflow:hidden}
+  .msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;min-height:220px}
+  .b{max-width:85%;padding:10px 13px;border-radius:15px;font-size:.9rem;line-height:1.4;font-weight:500;animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .b.ai{align-self:flex-start;background:var(--soft);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .b.me{align-self:flex-end;background:var(--g1);color:#fff;border-bottom-right-radius:5px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 14px}
+  .opt{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:11px 14px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.12s;flex:1 1 44%}
+  .opt:active{transform:scale(.98)}
+  .opt:hover{border-color:var(--g2);background:var(--soft)}
+  /* results */
+  .cards{display:flex;flex-direction:column;gap:16px}
+  .rcard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 14px 30px -20px rgba(13,31,22,.4)}
+  .rcard .vis{aspect-ratio:16/10;position:relative;display:grid;place-items:end start}
+  .rcard .vis .ov{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.55}
+  .rcard .vis .tag{position:relative;margin:12px;background:rgba(255,255,255,.94);border-radius:10px;padding:6px 11px;font-weight:800;font-size:.85rem;color:var(--ink)}
+  .rcard .body{padding:14px 15px 16px}
+  .rcard h3{font-size:1.1rem;font-weight:900;letter-spacing:-.02em}
+  .rcard .palette{display:flex;gap:6px;margin:9px 0}
+  .rcard .palette i{width:20px;height:20px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+  .rcard .travaux{list-style:none;display:flex;flex-direction:column;gap:5px;margin:8px 0 12px}
+  .rcard .travaux li{font-size:.86rem;color:var(--sub);display:flex;gap:7px;align-items:flex-start}
+  .rcard .travaux svg{width:14px;height:14px;color:var(--g2);flex-shrink:0;margin-top:3px}
+  .rcard .est{display:flex;align-items:baseline;justify-content:space-between;background:var(--soft);border-radius:11px;padding:9px 12px;margin-bottom:12px}
+  .rcard .est small{font-size:.72rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.03em}
+  .rcard .est b{font-size:1.15rem;font-weight:900;color:var(--g1)}
+  .note{font-size:.76rem;color:var(--sub);text-align:center;margin-top:14px;line-height:1.4}
+  /* lead */
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:.82rem;font-weight:800;color:var(--ink);margin-bottom:5px}
+  .field input,.field select{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff}
+  .field input:focus,.field select:focus{outline:0;border-color:var(--g2)}
+  .reassure{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--sub);background:var(--soft);border-radius:11px;padding:10px 12px;margin:6px 0 16px}
+  .reassure svg{width:16px;height:16px;color:var(--g1);flex-shrink:0}
+  /* done */
+  .done-ic{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g2));display:grid;place-items:center;margin:10px auto 18px;box-shadow:0 18px 36px -14px rgba(34,139,91,.6)}
+  .done-ic svg{width:38px;height:38px}
+  .recap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:18px;text-align:left}
+  .recap .r{display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;border-bottom:1px solid var(--line)}
+  .recap .r:last-child{border:0}
+  .recap .r span{color:var(--sub)}.recap .r b{font-weight:800}
+  .center-txt{text-align:center}
+  /* Splash d'allumage */
+  #splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#F6FAF8,#E4F1EA);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s ease}
+  #splash.hide{opacity:0;pointer-events:none}
+  .sp-logo{display:flex;align-items:center;gap:13px;animation:sp-pop .55s ease}
+  .sp-ic{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#228B5B,#4CAF82);display:grid;place-items:center;box-shadow:0 20px 40px -14px rgba(34,139,91,.6)}
+  .sp-ic svg{width:34px;height:34px}
+  .sp-name{font-size:2.1rem;font-weight:900;letter-spacing:-.03em;color:#0A1D14}
+  .sp-name span{color:#0A1D14}
+  .sp-tag{font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#5B7267}
+  .sp-bar{width:132px;height:4px;border-radius:2px;background:#d6e8de;overflow:hidden;margin-top:8px}
+  .sp-bar i{display:block;height:100%;width:40%;border-radius:2px;background:linear-gradient(90deg,#228B5B,#4CAF82);animation:sp-load 1.1s ease-in-out infinite}
+  @keyframes sp-load{0%{margin-left:-40%}100%{margin-left:132%}}
+  @keyframes sp-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){.sp-bar i{animation:none;width:100%}.sp-logo{animation:none}#splash{transition:none}}
+  .entree-choice{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .entree-choice button{text-align:left;padding:18px}
+  .blur-lock{filter:blur(18px);pointer-events:none;user-select:none;transition:filter .4s ease}
+  .blur-lock.unlocked{filter:none;pointer-events:auto;user-select:auto}
+  .adbanner{margin-top:16px;padding:10px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--line);font-size:.78rem;color:var(--sub);text-align:center}
+</style>
+<script>
+  window.__BATISPOT_CONFIG__ = { TURNSTILE_SITE_KEY: '0x4AAAAAAEZMLp0fQ9DKKCZA' };
+</script>
+<script src="/js/turnstile-helper.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "BatiSpot — Imaginez vos travaux",
+  "description": "Prenez une photo de votre pièce : découvrez une vraie transformation, des idées de travaux et un budget chiffré, puis recevez des devis d",
+  "author": {
+    "@type": "Organization",
+    "name": "BatiSpot"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BatiSpot",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://batispot.pro/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-23",
+  "dateModified": "2026-08-24",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://batispot.pro/deco"
+  }
+}
+</script>
+</head>
+<body>
+<div id="splash">
+  <div class="sp-logo">
+    <span class="sp-ic"><svg viewBox="0 0 40 40" fill="none"><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="#fff"/></svg></span>
+    <span class="sp-name">Bati<span>Spot</span></span>
+  </div>
+  <div class="sp-tag">Photo Studio</div>
+  <div class="sp-bar"><i></i></div>
+</div>
+<div class="app">
+  <div class="top">
+    <div class="logo">
+      <span class="ic"><svg viewBox="0 0 40 40" fill="none"><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="#fff"/></svg></span>
+      <b>Bati<span>Spot</span></b>
+    </div>
+    <span class="step" id="stepLabel">Bienvenue</span>
+  </div>
+  <div class="prog" id="prog"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <section class="screen on" id="s-entree">
+    <span class="eyebrow">Avant de commencer</span>
+    <h1>Quelle est votre situation ?</h1>
+    <p class="lead">On adapte le ton, l'outil reste le même.</p>
+    <div class="entree-choice">
+      <button class="btn btn-p" onclick="setEntree('achat')">Je viens d'acheter / d'emménager</button>
+      <button class="btn btn-g" onclick="setEntree('rafraichissement')">Envie de rafraîchir ma pièce</button>
+      <button class="btn btn-g" onclick="setEntree('artisan')">Je cherche un artisan pour mes travaux</button>
+    </div>
+    <p class="note" style="margin-top:14px">Les deux premiers vous montrent votre pièce transformée. Le dernier va droit au but : votre photo part directement chez un artisan.</p>
+  </section>
+
+  <section class="screen" id="s-welcome">
+    <div class="hero-art">
+      <div class="center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+        <p id="welcomeVisualTxt">Votre pièce, réinventée</p>
+      </div>
+      <div class="badge"><b>Gratuit</b> · idées + artisans près de chez vous</div>
+    </div>
+    <span class="eyebrow" id="welcomeEyebrow">Votre projet</span>
+    <h1 id="welcomeTitle">Prenez une photo,<br>on vous inspire.</h1>
+    <p class="lead" id="welcomeLead">Photographiez votre pièce, répondez à quelques questions, et découvrez une vraie transformation puis un budget chiffré — avant de recevoir des devis d'artisans près de chez vous.</p>
+    <div class="feat-row">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Gratuit</span>
+      <span id="featTransformation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Vraie transformation IA</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Artisans vérifiés</span>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-p" onclick="go('photo')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span id="welcomeCta">Commencer avec ma pièce</span>
+    </button>
+  </section>
+
+  <section class="screen" id="s-photo">
+    <span class="eyebrow">Étape 1 · Votre pièce</span>
+    <h1>Une photo de votre pièce</h1>
+    <p class="lead" style="margin-bottom:18px">Cadrez la pièce en entier, en lumière du jour si possible.</p>
+    <label class="drop" id="drop" for="file">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+      <b>Prendre ou choisir une photo</b>
+      <small>Appareil photo ou galerie</small>
+    </label>
+    <input type="file" id="file" accept="image/*" capture="environment" style="display:none" onchange="onPhoto(this)">
+    <div id="previewWrap"></div>
+    <div class="field" id="pieceTypeWrap" style="display:none;margin-top:14px">
+      <label>Type de pièce</label>
+      <select id="pieceTypeSelect">
+        <option value="salon">Salon / Séjour</option>
+        <option value="cuisine">Cuisine</option>
+        <option value="chambre">Chambre</option>
+        <option value="salle de bain">Salle de bain</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-p" id="photoNext" disabled onclick="go(estParcoursArtisan() ? 'besoin' : 'chat')">Continuer</button>
+    <button class="btn btn-g" style="margin-top:10px" onclick="go('welcome')">Retour</button>
+  </section>
+
+  <section class="screen" id="s-chat">
+    <span class="eyebrow">Étape 2 · Vos envies</span>
+    <div class="chat-h">
+      <span class="bot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
+      <div><b>L'assistant BatiSpot</b><span>Il cerne votre projet en 3 questions</span></div>
+    </div>
+    <div class="chat">
+      <div class="msgs" id="msgs"></div>
+      <div class="opts" id="opts"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-generating">
+    <div class="spacer"></div>
+    <div class="center-txt">
+      <div class="done-ic" style="background:linear-gradient(135deg,var(--g1),var(--g2))">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1.4s linear infinite"><path d="M21 12a9 9 0 1 1-9-9"/></svg>
+      </div>
+      <h1 style="font-size:1.4rem">Génération en cours…</h1>
+      <p class="lead" id="generatingMsg">On analyse votre pièce.</p>
+    </div>
+    <div class="spacer"></div>
+  </section>
+  <section class="screen" id="s-results">
+    <span class="eyebrow" id="resultsEyebrow">Étape 3 · Votre transformation</span>
+    <h1 style="font-size:1.5rem" id="resultsTitle">Voici votre pièce transformée</h1>
+    <div class="preview" style="margin-bottom:14px">
+      <img id="resultImg" class="blur-lock" src="" alt="Votre pièce transformée" style="width:100%">
+    </div>
+    <div class="rcard" style="margin-bottom:14px">
+      <div class="body">
+        <h3>Travaux suggérés</h3>
+        <ul class="travaux" id="resultTravaux"></ul>
+      </div>
+    </div>
+    <p class="note" id="resultsNote">Débloquez le budget chiffré précis en laissant vos coordonnées.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-p" style="margin-top:18px" onclick="go('lead')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Voir le budget chiffré et recevoir des devis
+    </button>
+  </section>
+  <section class="screen" id="s-lead">
+    <span class="eyebrow">Presque fini</span>
+    <h1 style="font-size:1.55rem">Débloquez le budget chiffré</h1>
+    <p class="lead" style="margin-bottom:18px">Des artisans vérifiés près de chez vous vous recontactent pour votre projet.</p>
+    <div class="field"><label>Votre code postal</label><input id="cp" inputmode="numeric" maxlength="5" placeholder="75011"></div>
+    <div class="field"><label>Votre téléphone (pour être rappelé)</label><input id="tel" inputmode="tel" placeholder="06 12 34 56 78"></div>
+    <div class="field"><label>Email (facultatif)</label><input id="email" type="email" placeholder="vous@email.com"></div>
+    <div class="bs-turnstile" data-action="deco_lead"></div>
+    <div class="reassure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Gratuit et sans engagement. Vos coordonnées ne sont partagées qu'avec les artisans qui répondent.</div>
+    <div class="spacer"></div>
+    <button class="btn btn-p" id="leadBtn" onclick="submitLead()">Débloquer mon budget chiffré</button>
+    <button class="btn btn-g" style="margin-top:10px" onclick="go('results')">Retour au résultat</button>
+  </section>
+  <section class="screen" id="s-done">
+    <span class="eyebrow">C'est débloqué</span>
+    <div class="preview" style="margin-bottom:14px">
+      <img id="doneImg" src="" alt="Votre pièce transformée" style="width:100%">
+    </div>
+    <div class="rcard" style="margin-bottom:14px" id="doneChiffrageWrap">
+      <div class="body">
+        <h3>Budget chiffré</h3>
+        <div id="doneChiffrageLoading" class="lead">Calcul en cours…</div>
+        <div id="doneChiffrageItems" style="display:none"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:10px">
+      <span style="font-size:.8rem;color:var(--sub)">Ce résultat vous a-t-il aidé ?</span>
+      <button class="btn-g" style="width:auto;padding:4px 10px;border-radius:8px" onclick="envoyerFeedback('pouce_haut')" aria-label="Utile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg></button>
+      <button class="btn-g" style="width:auto;padding:4px 10px;border-radius:8px" onclick="envoyerFeedback('pouce_bas')" aria-label="Pas utile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg></button>
+    </div>
+    <p class="lead">Des artisans vérifiés de votre secteur vont étudier votre projet et vous recontacter.</p>
+    <div class="adbanner">BatiSpot Pro — le logiciel de devis vocal pour artisans. <a href="/tarifs" style="color:var(--g1);font-weight:700">Découvrir →</a></div>
+    <div class="spacer"></div>
+    <button class="btn btn-g" onclick="location.reload()">Nouveau projet</button>
+  </section>
+
+  <!-- ── Parcours "je cherche un artisan" : besoin -> coordonnees -> envoye ── -->
+  <section class="screen" id="s-besoin">
+    <span class="eyebrow">Étape 2 · Votre besoin</span>
+    <h1 style="font-size:1.5rem">Que faut-il faire ?</h1>
+    <p class="lead" style="margin-bottom:18px">Plus c'est précis, plus l'artisan pourra vous répondre vite et juste.</p>
+    <div class="field">
+      <label for="besoinType">Type de travaux</label>
+      <select id="besoinType">
+        <option value="Peinture">Peinture</option>
+        <option value="Plomberie">Plomberie</option>
+        <option value="Électricité">Électricité</option>
+        <option value="Carrelage / sol">Carrelage / sol</option>
+        <option value="Menuiserie">Menuiserie</option>
+        <option value="Maçonnerie">Maçonnerie</option>
+        <option value="Salle de bain">Salle de bain complète</option>
+        <option value="Cuisine">Cuisine complète</option>
+        <option value="Rénovation complète">Rénovation complète</option>
+        <option value="Autre">Autre / je ne sais pas</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="besoinDesc">Décrivez ce qu'il y a à faire</label>
+      <textarea id="besoinDesc" rows="5"
+        style="width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff;resize:vertical"
+        placeholder="Ex : repeindre le salon, environ 20 m², murs et plafond. Quelques fissures à reboucher."></textarea>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-p" onclick="validerBesoin()">Continuer</button>
+    <button class="btn btn-g" style="margin-top:10px" onclick="go('photo')">Retour</button>
+  </section>
+
+  <section class="screen" id="s-contactpro">
+    <span class="eyebrow">Dernière étape</span>
+    <h1 style="font-size:1.5rem">Où vous joindre ?</h1>
+    <p class="lead" style="margin-bottom:18px">Un artisan vérifié de votre secteur étudie votre demande et vous recontacte.</p>
+    <div class="field"><label for="proCp">Votre code postal</label><input id="proCp" inputmode="numeric" maxlength="5" placeholder="75011"></div>
+    <div class="field"><label for="proNom">Votre nom</label><input id="proNom" placeholder="Prénom Nom"></div>
+    <div class="field"><label for="proTel">Votre téléphone</label><input id="proTel" inputmode="tel" placeholder="06 12 34 56 78"></div>
+    <div class="field"><label for="proEmail">Email (facultatif)</label><input id="proEmail" type="email" placeholder="vous@email.com"></div>
+    <div class="bs-turnstile" data-action="demande_artisan"></div>
+    <div class="reassure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Gratuit et sans engagement. Vos coordonnées ne sont partagées qu'avec l'artisan qui prend votre chantier.</div>
+    <div class="spacer"></div>
+    <button class="btn btn-p" id="proBtn" onclick="envoyerDemandeArtisan()">Envoyer ma demande</button>
+    <button class="btn btn-g" style="margin-top:10px" onclick="go('besoin')">Retour</button>
+  </section>
+
+  <section class="screen" id="s-envoyepro">
+    <div class="spacer"></div>
+    <div class="center-txt">
+      <div class="done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h1 style="font-size:1.55rem">Demande envoyée</h1>
+      <p class="lead">Votre photo et votre description sont parties. Un artisan vérifié de votre secteur vous recontacte pour votre projet.</p>
+      <div class="recap" id="proRecap"></div>
+    </div>
+    <div class="adbanner">BatiSpot Pro — le logiciel de devis vocal pour artisans. <a href="/tarifs" style="color:var(--g1);font-weight:700">Découvrir</a></div>
+    <div class="spacer"></div>
+    <button class="btn btn-g" onclick="location.reload()">Nouvelle demande</button>
+  </section>
+</div>
+
+<script>
+const SB_URL = "https://cisniwhaiydazdpzvino.supabase.co";
+const SB_ANON = "sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1";
+const state = { entree:null, photo:null, photoB64:null, photoMime:null, pieceType:null, style:null, budget:null, ampleur:null, cp:"", tel:"", email:"" };
+const SCREENS = ["entree","welcome","photo","chat","generating","results","lead","done","besoin","contactpro","envoyepro"];
+const STEP_OF = {entree:0, welcome:1, photo:1, chat:2, generating:3, results:3, lead:4, done:4, besoin:2, contactpro:3, envoyepro:4};
+const LABELS = {entree:"Bienvenue", welcome:"Bienvenue", photo:"Photo", chat:"Vos envies", generating:"Génération", results:"Résultat", lead:"Devis", done:"Terminé", besoin:"Votre besoin", contactpro:"Vos coordonnées", envoyepro:"Envoyé"};
+
+function go(name){
+  SCREENS.forEach(s=>{ const el=document.getElementById("s-"+s); if(el) el.classList.toggle("on", s===name); });
+  document.getElementById("stepLabel").textContent = LABELS[name];
+  const step = STEP_OF[name];
+  [...document.querySelectorAll("#prog i")].forEach((el,i)=>{ el.classList.toggle("done", i<step); el.classList.toggle("on", i===step); });
+  if(name==="chat" && !chatStarted) startChat();
+  document.querySelector(".app").scrollTop=0;
+}
+
+// Le parcours "artisan" ne passe PAS par la transformation IA : la personne
+// sait deja ce qu'elle veut, elle a besoin d'etre mise en relation. C'est
+// aussi le parcours le moins cher a servir (aucune generation d'image).
+function estParcoursArtisan(){ return state.entree === 'artisan'; }
+
+function setEntree(val){
+  state.entree = val;
+  if (val === 'artisan') {
+    document.getElementById("welcomeEyebrow").textContent = "Vos travaux";
+    document.getElementById("welcomeTitle").innerHTML = "Photographiez,<br>on trouve l'artisan.";
+    document.getElementById("welcomeLead").textContent =
+      "Prenez une photo de ce qu'il y a à faire, décrivez votre besoin en deux lignes, et un artisan vérifié de votre secteur vous recontacte.";
+    document.getElementById("welcomeVisualTxt").textContent = "Vos travaux, pris en charge";
+    document.getElementById("welcomeCta").textContent = "Commencer";
+    document.getElementById("featTransformation").style.display = "none";
+  } else {
+    document.getElementById("welcomeEyebrow").textContent = val==="achat" ? "Vous venez d'emménager" : "Envie de changement";
+    document.getElementById("welcomeTitle").innerHTML = val==="achat"
+      ? "Projetez-vous<br>dans votre nouveau chez-vous."
+      : "Prenez une photo,<br>on vous inspire.";
+  }
+  go("welcome");
+}
+(function(){
+  const p = new URLSearchParams(location.search).get('entree');
+  if(p === 'achat' || p === 'rafraichissement' || p === 'artisan') setEntree(p);
+})();
+
+function onPhoto(input){
+  const f = input.files && input.files[0];
+  if(!f) return;
+  state.photo = f;
+  const url = URL.createObjectURL(f);
+  document.getElementById("previewWrap").innerHTML =
+    '<div class="preview"><img src="'+url+'" alt="Votre pièce"><button class="re" onclick="resetPhoto()">Changer</button></div>';
+  document.getElementById("drop").style.display="none";
+  document.getElementById("photoNext").disabled=false;
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    state.photoB64 = String(reader.result).replace(/^data:[^;]+;base64,/, '');
+    state.photoMime = f.type || 'image/jpeg';
+    // Auto-detection du type de piece (mode deja en prod, reutilise tel quel).
+    try {
+      const r = await fetch(SB_URL + '/functions/v1/gemini-assistant', {
+        method: 'POST',
+        headers: { 'content-type':'application/json', apikey: SB_ANON, authorization: 'Bearer ' + SB_ANON },
+        body: JSON.stringify({ mode:'scan-room-photo', image:{ data: state.photoB64, mimeType: state.photoMime } }),
+      });
+      const j = await r.json();
+      const detected = j?.data?.typePiece;
+      const sel = document.getElementById('pieceTypeSelect');
+      if (detected && sel) {
+        const opt = [...sel.options].find(o => detected.toLowerCase().includes(o.value));
+        if (opt) sel.value = opt.value;
+      }
+    } catch (e) { /* best-effort : la selection manuelle reste possible */ }
+    document.getElementById('pieceTypeWrap').style.display = 'block';
+  };
+  reader.readAsDataURL(f);
+}
+function resetPhoto(){
+  state.photo=null; state.photoB64=null;
+  document.getElementById("previewWrap").innerHTML="";
+  document.getElementById("drop").style.display="block";
+  document.getElementById("photoNext").disabled=true;
+  document.getElementById("pieceTypeWrap").style.display="none";
+  document.getElementById("file").value="";
+}
+
+let chatStarted=false, qIdx=0;
+const QUESTIONS = [
+  { key:"style", ask:"Quelle ambiance vous fait envie ?",
+    opts:[["moderne","Moderne épurée"],["scandinave","Scandinave bois clair"],["campagne","Campagne chaleureuse"],["industriel","Industriel"]] },
+  { key:"ampleur", ask:"Et vous pensez à quoi comme travaux ?",
+    opts:[["rafraichir","Juste rafraîchir (peinture, façades)"],["partielle","Rénovation partielle"],["complete","Rénovation complète"]] },
+  { key:"budget", ask:"Quel budget avez-vous en tête ?",
+    opts:[["eco","Petit budget"],["moyen","Budget moyen"],["premium","Sans trop de limite"]] },
+];
+function bubble(role,text){
+  const d=document.createElement("div"); d.className="b "+role; d.textContent=text;
+  const box=document.getElementById("msgs"); box.appendChild(d); box.scrollTop=box.scrollHeight;
+}
+function startChat(){
+  chatStarted=true; qIdx=0;
+  document.getElementById("msgs").innerHTML="";
+  bubble("ai","Bonjour ! Je vais vous proposer une transformation pour votre pièce.");
+  setTimeout(askNext, 500);
+}
+function askNext(){
+  const q=QUESTIONS[qIdx];
+  bubble("ai", q.ask);
+  const opts=document.getElementById("opts"); opts.innerHTML="";
+  q.opts.forEach(([val,label])=>{
+    const b=document.createElement("button"); b.className="opt"; b.textContent=label;
+    b.onclick=()=>answer(val,label);
+    opts.appendChild(b);
+  });
+}
+function answer(val,label){
+  const q=QUESTIONS[qIdx];
+  state[q.key]=val;
+  bubble("me",label);
+  document.getElementById("opts").innerHTML="";
+  qIdx++;
+  if(qIdx<QUESTIONS.length){ setTimeout(askNext, 420); }
+  else {
+    state.pieceType = document.getElementById('pieceTypeSelect').value;
+    setTimeout(()=>{ bubble("ai","Parfait, je prépare votre transformation…"); setTimeout(lancerGeneration, 900); }, 420);
+  }
+}
+
+// ---- Repli style (fallback prototype, utilise UNIQUEMENT si le plafond
+// deco-generate est atteint — jamais presente comme la vraie transformation). ----
+const STYLES = {
+  moderne:   {name:"Moderne épurée",   grad:"linear-gradient(135deg,#3a3f45,#8a9199)"},
+  scandinave:{name:"Scandinave",       grad:"linear-gradient(135deg,#cdbfa8,#eef0e8)"},
+  campagne:  {name:"Campagne chic",    grad:"linear-gradient(135deg,#7d9b7f,#e5d9c2)"},
+  industriel:{name:"Industriel",       grad:"linear-gradient(135deg,#3b3b3b,#7a6a5a)"},
+};
+// Reprises du prototype (~/batispot-deco-app/index.html) — utilisees SEULEMENT
+// pour estimer un budget indicatif en repli (consommees par le Task 5).
+const BUDGET_BASE = { eco:[3500,6000], moyen:[7000,13000], premium:[15000,28000] };
+const AMPLEUR_MULT = { rafraichir:0.5, partielle:1, complete:1.5 };
+const IDEAS = {
+  moderne:["Façades sans poignées + plan quartz","Éclairage LED sous meubles","Sol grès effet béton"],
+  scandinave:["Façades bois clair","Peinture blanc chaud","Sol parquet clair"],
+  campagne:["Façades bois patiné","Peinture vert sauge","Rangements ouverts"],
+  industriel:["Façades mates anthracite","Suspensions industrielles","Sol béton ciré"],
+};
+
+const GENERATING_MSGS = [
+  "On analyse votre pièce…",
+  "On applique le style choisi…",
+  "On prépare les suggestions de travaux…",
+  "Presque fini…",
+];
+
+async function lancerGeneration(){
+  go('generating');
+  let msgIdx = 0;
+  const msgTimer = setInterval(() => {
+    msgIdx = (msgIdx + 1) % GENERATING_MSGS.length;
+    document.getElementById('generatingMsg').textContent = GENERATING_MSGS[msgIdx];
+  }, 3000);
+
+  try {
+    const r = await fetch(SB_URL + '/functions/v1/deco-generate', {
+      method: 'POST',
+      headers: { 'content-type':'application/json', apikey: SB_ANON, authorization: 'Bearer ' + SB_ANON },
+      body: JSON.stringify({
+        photo: { data: state.photoB64, mimeType: state.photoMime },
+        style: state.style, ampleur: state.ampleur, entree: state.entree,
+      }),
+    });
+    const j = await r.json();
+    clearInterval(msgTimer);
+
+    if (j.success) {
+      state.generationId = j.generationId;
+      state.imageUrl = j.imageUrl;
+      state.travaux = j.travaux;
+      // Le modele ne renvoie quasi jamais la partie texte PIECE: (constate en
+      // test reel), auquel cas deco-generate retombe sur le libelle generique
+      // "piece". Ce libelle est TOUJOURS moins bon que le choix deja confirme
+      // par l'utilisateur a l'etape photo (select#pieceTypeSelect) : ne jamais
+      // l'ecraser avec la valeur generique.
+      if (j.pieceType && j.pieceType !== 'pièce') state.pieceType = j.pieceType;
+      renderResultatReel();
+    } else if (j.error === 'plafond_deco_atteint') {
+      renderRepliStyle();
+    } else {
+      document.getElementById('generatingMsg').textContent = "Ça n'a pas fonctionné, on vous propose un aperçu express à la place.";
+      setTimeout(renderRepliStyle, 1200);
+    }
+  } catch (e) {
+    clearInterval(msgTimer);
+    renderRepliStyle();
+  }
+}
+
+function renderResultatReel(){
+  document.getElementById('resultsEyebrow').textContent = 'Étape 3 · Votre transformation';
+  document.getElementById('resultsTitle').textContent = 'Voici votre ' + (state.pieceType || 'pièce') + ' transformée';
+  const img = document.getElementById('resultImg');
+  img.src = state.imageUrl;
+  // L'image reste floutee (classe blur-lock par defaut dans le HTML) tant que
+  // le lead n'a pas ete soumis avec succes dans submitLead() — c'est le seul
+  // mecanisme qui rend la capture de lead utile pour l'utilisateur (spec
+  // 2026-08-23-app-deco-particulier-design.md, decision #4).
+  document.getElementById('resultsNote').textContent = 'Débloquez le budget chiffré précis en laissant vos coordonnées.';
+  const tv = document.getElementById('resultTravaux');
+  tv.innerHTML = (state.travaux || []).map(t =>
+    '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>'+t+'</li>'
+  ).join('');
+  go('results');
+}
+
+function renderRepliStyle(){
+  // Repli explicitement etiquete "Apercu express" — jamais confondu avec la
+  // vraie transformation IA (garde-fou "aucun faux succes" du spec).
+  state.generationId = null;
+  state.imageUrl = null;
+  const st = STYLES[state.style] || STYLES.moderne;
+  document.getElementById('resultsEyebrow').textContent = 'Aperçu express (forte demande, réessayez plus tard pour la version IA complète)';
+  document.getElementById('resultsTitle').textContent = 'Aperçu de style : ' + st.name;
+  const img = document.getElementById('resultImg');
+  img.removeAttribute('src');
+  img.style.background = st.grad;
+  img.style.minHeight = '220px';
+  // Idem : reste flouee (blur-lock) jusqu'a soumission reussie du lead.
+  document.getElementById('resultsNote').textContent = 'Aperçu de style indicatif — pas une transformation de votre photo.';
+  const tv = document.getElementById('resultTravaux');
+  tv.innerHTML = (IDEAS[state.style] || IDEAS.moderne).map(t =>
+    '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>'+t+'</li>'
+  ).join('');
+  go('results');
+}
+
+async function submitLead(){
+  state.cp = document.getElementById("cp").value.trim();
+  state.tel = document.getElementById("tel").value.trim();
+  state.email = document.getElementById("email").value.trim();
+  if(state.cp.length<5 || state.tel.length<8){ alert("Merci d'indiquer votre code postal et votre téléphone."); return; }
+
+  const token = window.bsTurnstile ? window.bsTurnstile.getToken() : 'no-turnstile-dev';
+  if (!token || token === 'no-turnstile-widget') { alert("Validation antispam échouée, réessayez."); return; }
+
+  const btn = document.getElementById("leadBtn");
+  btn.textContent = "Envoi…"; btn.disabled = true;
+
+  try {
+    if (token !== 'no-turnstile-dev') {
+      const v = await fetch(SB_URL + '/functions/v1/verify-turnstile', {
+        method: 'POST',
+        headers: { 'content-type':'application/json', apikey: SB_ANON, authorization: 'Bearer ' + SB_ANON },
+        body: JSON.stringify({ token, action: 'deco_lead' }),
+      }).then(r => r.json());
+      if (!v.ok) { alert("Validation antispam échouée, réessayez."); btn.textContent="Débloquer mon budget chiffré"; btn.disabled=false; return; }
+    }
+
+    const leadRes = await fetch(SB_URL + "/rest/v1/leads_deco", {
+      method: "POST",
+      headers: { apikey: SB_ANON, authorization: "Bearer " + SB_ANON, "content-type": "application/json", prefer: "return=minimal" },
+      body: JSON.stringify({
+        projet: state.pieceType || 'Pièce', style: state.style, ampleur: state.ampleur, budget: state.budget,
+        code_postal: state.cp, telephone: state.tel, email: state.email || null, source: "app-deco",
+        piece_type: state.pieceType, generation_id: state.generationId, entree: state.entree,
+      }),
+    });
+    // fetch() ne rejette que sur echec reseau : une reponse HTTP 4xx/5xx
+    // (RLS, payload invalide...) resout normalement et ne doit PAS deverrouiller
+    // l'image ni lancer le chiffrage — meme discipline que submitDemandeDevis()
+    // dans app/js/supabase.js (if (error) throw error;).
+    if (!leadRes.ok) {
+      alert("L'enregistrement a échoué, réessayez.");
+      btn.textContent = "Débloquer mon budget chiffré"; btn.disabled = false;
+      return;
+    }
+  } catch (e) {
+    alert("L'enregistrement a échoué, réessayez.");
+    btn.textContent = "Débloquer mon budget chiffré"; btn.disabled = false;
+    return;
+  }
+
+  go('done');
+  document.getElementById('doneImg').src = state.imageUrl || '';
+  if (window.bsTurnstile) window.bsTurnstile.reset();
+  const resultImg = document.getElementById('resultImg');
+  if (resultImg) resultImg.classList.add('unlocked');
+  lancerChiffrageReel();
+}
+
+// generate-quote refuse de chiffrer sans surface (quantite principale) : sans
+// metre reel a ce stade du parcours, on fournit une surface TYPE par piece,
+// dite explicitement comme une estimation. Sans ca, items reste quasi
+// toujours vide (constate en test reel) et la promesse "budget chiffre
+// precis" de l'ecran lead n'est jamais tenue.
+const SURFACE_TYPE_PAR_PIECE = {
+  salon: 20, cuisine: 12, chambre: 14, 'salle de bain': 6,
+};
+async function lancerChiffrageReel(){
+  const surfaceType = SURFACE_TYPE_PAR_PIECE[state.pieceType] || 15;
+  const desc = `Rénovation ${state.ampleur} d'un(e) ${state.pieceType || 'pièce'} de style ${state.style}, `
+    + `surface estimée à ${surfaceType} m² (non mesurée sur place, à confirmer par l'artisan) : `
+    + (state.travaux || []).join(', ') + '.';
+  try {
+    const r = await fetch(SB_URL + '/functions/v1/gemini-assistant', {
+      method: 'POST',
+      headers: { 'content-type':'application/json', apikey: SB_ANON, authorization: 'Bearer ' + SB_ANON },
+      body: JSON.stringify({ mode: 'generate-quote', prompt: desc }),
+    });
+    const j = await r.json();
+    const items = j?.data?.items || [];
+    document.getElementById('doneChiffrageLoading').style.display = 'none';
+    const wrap = document.getElementById('doneChiffrageItems');
+    wrap.style.display = 'block';
+    if (!items.length) {
+      wrap.innerHTML = '<p class="lead">Un artisan affinera le chiffrage exact lors de sa visite.</p>';
+      return;
+    }
+    const total = items.reduce((s,i) => s + (Number(i.quantity)||0) * (Number(i.unitPrice)||0), 0);
+    wrap.innerHTML = '<ul class="travaux">' + items.map(i =>
+      '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>'
+      + (i.description || i.category) + ' — <b>' + Math.round((Number(i.quantity)||0)*(Number(i.unitPrice)||0)).toLocaleString('fr-FR') + ' € HT</b></li>'
+    ).join('') + '</ul>'
+    + '<div class="est" style="margin-top:10px"><small>Total estimé HT</small><b>' + Math.round(total).toLocaleString('fr-FR') + ' €</b></div>';
+  } catch (e) {
+    document.getElementById('doneChiffrageLoading').textContent = 'Un artisan affinera le chiffrage exact lors de sa visite.';
+  }
+}
+
+async function envoyerFeedback(note){
+  if (!state.generationId) return; // pas de generation reelle en mode repli
+  try {
+    await fetch(SB_URL + "/rest/v1/deco_feedback", {
+      method: "POST",
+      headers: { apikey: SB_ANON, authorization: "Bearer " + SB_ANON, "content-type": "application/json", prefer: "return=minimal" },
+      body: JSON.stringify({ generation_id: state.generationId, note }),
+    });
+  } catch (e) { /* best-effort */ }
+}
+
+// ── Parcours "je cherche un artisan" ────────────────────────────────────────
+// Aucune generation d'image ici : la photo et la description partent telles
+// quelles chez l'artisan. Tout se joue cote serveur (fonction demande-artisan)
+// parce que le bucket photo est prive et que l'email ne doit pas pouvoir etre
+// declenche depuis le navigateur.
+function validerBesoin(){
+  const desc = document.getElementById('besoinDesc').value.trim();
+  if (desc.length < 10) { alert("Décrivez en quelques mots ce qu'il y a à faire, l'artisan en a besoin pour vous répondre."); return; }
+  state.typeTravaux = document.getElementById('besoinType').value;
+  state.description = desc;
+  go('contactpro');
+}
+
+async function envoyerDemandeArtisan(){
+  const cp = document.getElementById('proCp').value.trim();
+  const nom = document.getElementById('proNom').value.trim();
+  const tel = document.getElementById('proTel').value.trim();
+  const email = document.getElementById('proEmail').value.trim();
+  if (cp.length < 5) { alert("Merci d'indiquer votre code postal."); return; }
+  if (tel.length < 8 && !email) { alert("Laissez au moins un téléphone ou un email pour être recontacté."); return; }
+
+  const token = window.bsTurnstile ? window.bsTurnstile.getToken() : 'no-turnstile-dev';
+  if (!token || token === 'no-turnstile-widget') { alert("Validation antispam échouée, réessayez."); return; }
+
+  const btn = document.getElementById('proBtn');
+  btn.textContent = 'Envoi…'; btn.disabled = true;
+
+  try {
+    const r = await fetch(SB_URL + '/functions/v1/demande-artisan', {
+      method: 'POST',
+      headers: { 'content-type':'application/json', apikey: SB_ANON, authorization: 'Bearer ' + SB_ANON },
+      body: JSON.stringify({
+        photo: state.photoB64 ? { data: state.photoB64, mimeType: state.photoMime } : undefined,
+        description: state.description,
+        typeTravaux: state.typeTravaux,
+        codePostal: cp, nom, email, telephone: tel,
+        turnstileToken: token === 'no-turnstile-dev' ? '' : token,
+      }),
+    });
+    const j = await r.json();
+    // On ne confirme QUE si le serveur a vraiment enregistre : annoncer un
+    // envoi qui n'a pas eu lieu, c'est perdre le client deux fois.
+    if (!j || !j.success) {
+      alert("L'envoi a échoué, réessayez dans un instant.");
+      btn.textContent = 'Envoyer ma demande'; btn.disabled = false;
+      if (window.bsTurnstile) window.bsTurnstile.reset();
+      return;
+    }
+    document.getElementById('proRecap').innerHTML =
+      '<div class="r"><span>Travaux</span><b>' + state.typeTravaux + '</b></div>'
+      + '<div class="r"><span>Secteur</span><b>' + cp + '</b></div>'
+      + '<div class="r"><span>Contact</span><b>' + (tel || email) + '</b></div>'
+      + '<div class="r"><span>Photo</span><b>' + (state.photoB64 ? 'jointe' : 'aucune') + '</b></div>';
+    go('envoyepro');
+  } catch (e) {
+    alert("L'envoi a échoué, vérifiez votre connexion et réessayez.");
+    btn.textContent = 'Envoyer ma demande'; btn.disabled = false;
+    if (window.bsTurnstile) window.bsTurnstile.reset();
+  }
+}
+</script>
+<script src="/js/clarity-init.js" defer></script>
+<script>
+setTimeout(function(){ var s=document.getElementById("splash"); if(s){ s.classList.add("hide"); setTimeout(function(){ s.remove(); }, 550); } }, 1800);
+</script>
+</body>
+</html>

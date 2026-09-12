@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<script>document.documentElement.classList.add('js')</script>
+<title>Outils Gratuits & Modèles Devis / Juridiques BTP 2026 | BatiSpot Pro</title>
+<meta name="description" content="Barème 2026 vérifié (CAPEB / FFB) · Hub des outils gratuits pour artisans du bâtiment : simulateur de taux horaire rentable, packs juridiques impayés, modèles d'avenant et de facture d'acompte.">
+<meta name="keywords" content="calculateur taux horaire artisan batiment, simulateur rentabilite btp, modele devis batiment gratuit, pack juridique artisan travaux, modele avenant devis gratuit">
+<link rel="canonical" href="https://batispot.pro/ressources">
+<meta property="og:title" content="Outils Gratuits & Simulateurs pour Artisans du Bâtiment | BatiSpot Pro">
+<meta property="og:description" content="Simulateur de taux horaire, modèles Word/PDF d'avenant, mise en demeure et facture d'acompte.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://batispot.pro/favicon.png">
+<meta property="og:url" content="https://batispot.pro/ressources">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "Simulateur de Taux Horaire & Hub Outils BTP BatiSpot Pro",
+ "url": "https://batispot.pro/ressources",
+ "applicationCategory": "BusinessApplication",
+ "operatingSystem": "Web, iOS, Android",
+ "offers": {
+ "@type": "Offer",
+ "price": "0",
+ "priceCurrency": "EUR"
+ },
+ "description": "Simulateur gratuit de rentabilité et de taux horaire pour les artisans du bâtiment en France, incluant la bibliothèque de modèles juridiques BTP prêts à l'emploi."
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {
+ "@type": "ListItem",
+ "position": 1,
+ "name": "Accueil",
+ "item": "https://batispot.pro/"
+ },
+ {
+ "@type": "ListItem",
+ "position": 2,
+ "name": "Espace Artisan",
+ "item": "https://batispot.pro/artisan"
+ },
+ {
+ "@type": "ListItem",
+ "position": 3,
+ "name": "Outils & Ressources",
+ "item": "https://batispot.pro/ressources"
+ }
+ ]
+}
+</script>
+<style>
+:root{--ink:#0A1D14;--sub:#5E7268;--g1:#0F5132;--g2:#166534;--teal:#0D9488;--line:#E4EDE8;--line2:#EDF3F0;--bg:#FBFCFB;--soft:#F1F7F4;--cta:#0F5132;--cta-h:#0b3f27;--amber:#F59E0B;--maxw:1120px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.4rem}
+.brand em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--g1);padding:2px 6px;border-radius:5px}
+.hero{padding:50px 0 30px;text-align:center}
+.crumb{font-size:.82rem;color:var(--sub);margin-bottom:1.2rem}
+.crumb a{color:var(--teal);font-weight:600}
+.badge-top{display:inline-flex;align-items:center;gap:.5rem;background:#EBF7F1;border:1px solid #DCEBE1;border-radius:999px;padding:.4rem .9rem;font-size:.8rem;font-weight:700;color:var(--g1);margin-bottom:1.2rem}
+h1{font-size:clamp(2rem,4vw,3.1rem);font-weight:900;line-height:1.15;letter-spacing:-.03em;margin-bottom:1rem;color:var(--ink)}
+p.lead{font-size:1.15rem;color:var(--sub);max-width:760px;margin:0 auto 2rem}
+
+/* SIMULATOR CARD */
+.sim-box{background:#FFFFFF;border:1.5px solid var(--line);border-radius:24px;padding:36px;box-shadow:0 16px 40px -12px rgba(15,81,50,0.12);margin-bottom:60px}
+.sim-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px}
+.sim-field{margin-bottom:20px}
+.sim-label{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;color:#1C2B22;margin-bottom:8px}
+.sim-val{font-size:16px;font-weight:900;color:var(--g1);background:var(--soft);padding:3px 10px;border-radius:8px}
+.sim-slider{width:100%;height:8px;accent-color:var(--g1);cursor:pointer}
+.sim-res-card{background:linear-gradient(135deg,#0F5132 0%,#0D9488 100%);border-radius:20px;padding:30px;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.res-num{font-size:clamp(28px,4vw,38px);font-weight:900;line-height:1.1;color:#fff;margin:8px 0}
+.res-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500}
+
+/* RESOURCE GRID */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-bottom:60px}
+.res-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;justify-content:space-between}
+.res-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px -8px rgba(15,81,50,0.12);border-color:var(--teal)}
+.res-badge{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--g1);background:var(--soft);padding:3px 10px;border-radius:999px;width:fit-content;margin-bottom:12px}
+.res-title{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.res-desc{font-size:13.5px;color:var(--sub);margin-bottom:20px;line-height:1.55}
+.btn-dl{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--soft);color:var(--g1);padding:10px 18px;border-radius:12px;font-weight:800;font-size:13.5px;transition:background .2s,color .2s}
+.res-card:hover .btn-dl{background:var(--g1);color:#fff}
+
+/* LEAD CAPTURE FORM */
+.lead-modal{background:linear-gradient(135deg,#0F5132 0%,#0D9488 100%);border-radius:24px;padding:40px;color:#fff;margin:40px 0 60px;box-shadow:0 20px 48px -12px rgba(15,81,50,0.35)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.form-input{width:100%;padding:13px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.95);color:#0A1D14;font-size:14px;font-family:inherit;outline:none}
+.form-input:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,0.3)}
+.btn-submit-all{grid-column:1 / -1;background:#F59E0B;color:#0A1D14;font-weight:900;font-size:15px;padding:15px;border:none;border-radius:12px;cursor:pointer;transition:transform .15s}
+.btn-submit-all:hover{transform:translateY(-2px);background:#d97706}
+
+/* DOWNLOADS LIST AFTER SUBMISSION */
+.dl-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;text-align:left}
+.dl-item{display:flex;align-items:center;justify-content:space-between;background:#F1F7F4;padding:14px 18px;border-radius:12px;text-decoration:none;color:#0F5132;font-weight:700;font-size:14px;transition:background .15s}
+.dl-item:hover{background:#E2EFE7}
+
+footer{border-top:1px solid var(--line2);padding:40px 0;text-align:center;font-size:.85rem;color:var(--sub)}
+
+/* RESPONSIVE FLUID ENGINE */
+@media(max-width:840px){
+ .sim-grid{grid-template-columns:1fr;gap:24px}
+ .form-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+ .wrap{padding:0 16px}
+ .hero{padding:30px 0 20px}
+ .sim-box{padding:22px 16px;border-radius:18px;margin-bottom:36px}
+ .sim-label{flex-wrap:wrap;gap:6px}
+ .sim-val{font-size:14px}
+ .sim-res-card{padding:22px 18px;border-radius:16px}
+ .lead-modal{padding:24px 16px;border-radius:18px;margin:30px 0 40px}
+ .res-grid{grid-template-columns:1fr;gap:16px;margin-bottom:40px}
+ .res-card{padding:20px 16px;border-radius:16px}
+ .dl-item{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 14px;font-size:13.5px}
+ .btn-submit-all{padding:14px;font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+ <div class="nav-in">
+ <a href="/" class="brand">
+ <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="url(#ng)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="#fff" opacity=".92"/><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0F5132"/><stop offset="1" stop-color="#0D9488"/></linearGradient></defs></svg>
+ <b>BatiSpot</b><em>PRO</em>
+ </a>
+ <a href="/" style="background:var(--cta);color:#fff;padding:8px 16px;border-radius:10px;font-weight:700;font-size:.88rem;">Essai Gratuit</a>
+ </div>
+</nav>
+
+<div class="wrap">
+ <div class="hero">
+ <div class="crumb"><a href="/">Accueil</a> &gt; <a href="/">Espace Artisan</a> &gt; Outils &amp; Ressources</div>
+ <div class="badge-top">HUB OUTILS ARTISANS BTP 2026</div>
+ <h1>Simulateurs &amp; Modèles Prêts à l'Emploi pour Artisans BTP</h1>
+ <p class="lead">Calculez votre taux horaire minimum rentable, sécurisez vos chantiers et téléchargez les modèles reprenant les mentions obligatoires du Code civil et du Code général des impôts.</p>
+ </div>
+
+ <!-- SIMULATEUR DE TAUX HORAIRE RENTABLE -->
+ <section class="sim-box" id="simulateur-taux-horaire">
+ <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;color:var(--g1);background:var(--soft);padding:4px 12px;border-radius:999px;">SIMULATEUR DE RENTABILITÉ BTP</span>
+ <span style="font-size:13px;color:var(--sub);font-weight:600;">Calcul selon les charges réelles d'exploitation</span>
+ </div>
+
+ <div class="sim-grid">
+ <div>
+ <div class="sim-field">
+ <div class="sim-label">
+ <span>Salaire Net Mensuel Souhaité :</span>
+ <span id="displaySalary" class="sim-val">3 000 € net / mois</span>
+ </div>
+ <input type="range" id="inputSalary" class="sim-slider" min="1500" max="6000" step="100" value="3000" oninput="calcTaux()">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:4px;">
+ <span>1 500 €</span><span>3 500 €</span><span>6 000 €</span>
+ </div>
+ </div>
+
+ <div class="sim-field">
+ <div class="sim-label">
+ <span>Charges fixes d'activité (Camion, Assurance, Outils) :</span>
+ <span id="displayCharges" class="sim-val">1 200 € / mois</span>
+ </div>
+ <input type="range" id="inputCharges" class="sim-slider" min="400" max="3500" step="100" value="1200" oninput="calcTaux()">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:4px;">
+ <span>400 €</span><span>1 800 €</span><span>3 500 €</span>
+ </div>
+ </div>
+
+ <div class="sim-field">
+ <div class="sim-label">
+ <span>Jours de chantier facturés par an :</span>
+ <span id="displayDays" class="sim-val">200 jours / an</span>
+ </div>
+ <input type="range" id="inputDays" class="sim-slider" min="140" max="240" step="5" value="200" oninput="calcTaux()">
+ <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:4px;">
+ <span>140 jours</span><span>190 jours</span><span>240 jours</span>
+ </div>
+ </div>
+ </div>
+
+ <div class="sim-res-card">
+ <div>
+ <span class="res-sub">VOTRE TAUX HORAIRE MINIMUM RENTABLE</span>
+ <div id="resHourly" class="res-num">56 € HT / h</div>
+ <p style="font-size:13px;color:rgba(255,255,255,0.9);line-height:1.4;">
+ Soit un tarif journalier minimum de <strong id="resDaily" style="color:#F5C542;">392 € HT / jour</strong> pour couvrir vos charges et cotisations sociales.
+ </p>
+ </div>
+
+ <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);">
+ <div style="font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:6px;">Chiffre d'Affaires Annuel Cible :</div>
+ <div id="resYearly" style="font-size:22px;font-weight:900;color:#fff;">78 400 € HT</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- FORMULAIRE CENTRAL DE CAPTURE DE LEADS (PACK COMPLET) -->
+ <div class="lead-modal" id="form-all-resources">
+ <span style="font-size:12px;font-weight:800;text-transform:uppercase;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:999px;"> ACCÈS IMMÉDIAT AUX 5 MODÈLES</span>
+ <h3 style="font-size:24px;font-weight:900;margin:12px 0 6px;">Débloquez vos 5 Modèles Juridiques &amp; Outils BTP 2026</h3>
+ <p style="font-size:14px;color:rgba(255,255,255,0.9);">Renseignez vos coordonnées pour afficher immédiatement les liens de téléchargement et recevoir votre bilan de rentabilité.</p>
+
+ <form id="resourceAllForm" onsubmit="handleResourceSubmit(event)">
+ <div class="form-grid">
+ <input type="text" id="artName" class="form-input" placeholder="Votre Nom ou Société" required>
+ <input type="email" id="artEmail" class="form-input" placeholder="Votre Email Professionnel" required>
+ <input type="tel" id="artPhone" class="form-input" placeholder="Votre Numéro de Téléphone Mobile" required pattern="[0-9+ ]{10,14}">
+ <select id="artTrade" class="form-input" required>
+ <option value="">Votre Corps d'État Principal</option>
+ <option value="Plomberie / Chauffage">Plomberie / Chauffage</option>
+ <option value="Électricité">Électricité</option>
+ <option value="Peinture / Sols">Peinture / Sols</option>
+ <option value="Carrelage">Carrelage</option>
+ <option value="Maçonnerie / Gros Œuvre">Maçonnerie / Gros Œuvre</option>
+ <option value="Menuiserie / Serrurerie">Menuiserie / Serrurerie</option>
+ <option value="Entreprise Générale">Entreprise Générale</option>
+ </select>
+ <button type="submit" id="btnResSubmit" class="btn-submit-all">
+ Débloquer les 5 Modèles Imprimables &amp; Téléchargeables
+ </button>
+ </div>
+ </form>
+
+ <div id="resSuccessMsg" style="display:none;background:#FFFFFF;color:#0F5132;padding:26px;border-radius:16px;margin-top:20px;">
+ <h4 style="font-size:18px;font-weight:900;margin:0 0 6px;color:#0F5132;">Vos 5 Modèles sont Prêts au Téléchargement Immédiat :</h4>
+ <p style="font-size:13px;color:#5E7268;margin:0 0 16px;">Cliquez sur chaque modèle ci-dessous pour l'ouvrir, le personnaliser ou l'enregistrer en PDF :</p>
+ 
+ <div class="dl-list">
+ <a href="/telechargements/modele-mise-en-demeure-impaye-btp" target="_blank" class="dl-item">
+ <span>1. Modèle Lettre de Mise en Demeure sous 8 jours (Impayés)</span>
+ <span>Ouvrir &amp; PDF →</span>
+ </a>
+ <a href="/telechargements/modele-avenant-travaux-imprevus" target="_blank" class="dl-item">
+ <span>2. Modèle d'Avenant Devis Travaux Imprévus (Art. 1793)</span>
+ <span>Ouvrir &amp; PDF →</span>
+ </a>
+ <a href="/telechargements/modele-protocole-resiliation-amiable" target="_blank" class="dl-item">
+ <span>3. Modèle Protocole d'Accord Résiliation Amiable sans Litige</span>
+ <span>Ouvrir &amp; PDF →</span>
+ </a>
+ <a href="/telechargements/modele-facture-acompte-factur-x" target="_blank" class="dl-item">
+ <span>4. Modèle de Facture d'Acompte 30% : Mentions Obligatoires</span>
+ <span>Ouvrir &amp; PDF →</span>
+ </a>
+ <a href="/telechargements/cerfa-tva-reduite-1301-sd-guide" target="_blank" class="dl-item">
+ <span>5. Modèle Attestation Simplifiée TVA 10% &amp; 5,5% (Cerfa 1301-SD)</span>
+ <span>Ouvrir &amp; PDF →</span>
+ </a>
+ </div>
+
+ <div style="margin-top:20px;padding-top:16px;border-top:1px solid #DCEBE1;text-align:center;">
+ <a href="/" style="display:inline-block;background:#0F5132;color:#fff;padding:12px 24px;border-radius:10px;font-weight:800;font-size:14px;text-decoration:none;">
+ Découvrir BatiSpot Pro (Formule Gratuite &amp; 0% Commission) →
+ </a>
+ </div>
+ </div>
+ </div>
+
+ <!-- LES 5 PACKS DE RESSOURCES OFFICIELLES -->
+ <h2 style="font-size:24px;font-weight:900;color:var(--ink);margin-bottom:20px;">Bibliothèque des Modèles Prêts à l'Emploi</h2>
+ 
+ <div class="res-grid">
+ <div class="res-card">
+ <div>
+ <div class="res-badge">JURIDIQUE &amp; RECOUVREMENT</div>
+ <h3 class="res-title">Pack Recouvrement des Impayés &amp; Mise en Demeure</h3>
+ <p class="res-desc">Modèle de mise en demeure sous 8 jours, procédure d'injonction de payer sans avocat et rappel de la règle légale des 5% de retenue de garantie.</p>
+ </div>
+ <a href="/telechargements/modele-mise-en-demeure-impaye-btp" class="btn-dl">
+ <span>Ouvrir le Modèle</span>
+ <span>→</span>
+ </a>
+ </div>
+
+ <div class="res-card">
+ <div>
+ <div class="res-badge">GESTION DE CHANTIER</div>
+ <h3 class="res-title">Pack Avenant Travaux Imprévus 2026</h3>
+ <p class="res-desc">Modèle d'avenant au devis avec clause d'urgence, allongement de délai contractuel et validation par signature électronique sur chantier.</p>
+ </div>
+ <a href="/telechargements/modele-avenant-travaux-imprevus" class="btn-dl">
+ <span>Ouvrir le Modèle</span>
+ <span>→</span>
+ </a>
+ </div>
+
+ <div class="res-card">
+ <div>
+ <div class="res-badge">MÉDIATION &amp; CONTRAT</div>
+ <h3 class="res-title">Pack Protocole de Résiliation Amiable sans Litige</h3>
+ <p class="res-desc">Protocole d'accord transactionnel conforme à l'Article 1193 du Code Civil avec décompte des travaux réalisés et renonciation réciproque à recours.</p>
+ </div>
+ <a href="/telechargements/modele-protocole-resiliation-amiable" class="btn-dl">
+ <span>Ouvrir le Modèle</span>
+ <span>→</span>
+ </a>
+ </div>
+
+ <div class="res-card">
+ <div>
+ <div class="res-badge">FISCALITÉ &amp; ACOMPTES</div>
+ <h3 class="res-title">Modèle de Facture d'Acompte 30% : Mentions Obligatoires</h3>
+ <p class="res-desc">Modèle conforme à l'Article 289 du CGI avec les 12 mentions fiscales obligatoires et le standard hybride PDF/A-3 + XML DGFIP 2026.</p>
+ </div>
+ <a href="/telechargements/modele-facture-acompte-factur-x" class="btn-dl">
+ <span>Ouvrir le Modèle</span>
+ <span>→</span>
+ </a>
+ </div>
+
+ <div class="res-card">
+ <div>
+ <div class="res-badge">TVA RÉDUITE 10% &amp; 5.5%</div>
+ <h3 class="res-title">Attestation Simplifiée TVA BTP (Cerfa 1301-SD)</h3>
+ <p class="res-desc">Guide d'application et attestation pré-remplie pour sécuriser l'application de la TVA à taux réduit sur les logements de plus de 2 ans.</p>
+ </div>
+ <a href="/telechargements/cerfa-tva-reduite-1301-sd-guide" class="btn-dl">
+ <span>Ouvrir le Cerfa</span>
+ <span>→</span>
+ </a>
+ </div>
+
+ <div class="res-card">
+ <div>
+ <div class="res-badge">LOGICIEL &amp; GAIN DE TEMPS</div>
+ <h3 class="res-title">BatiSpot Pro : Gestion BTP Tout-en-Un</h3>
+ <p class="res-desc">L'application mobile pour chiffrer vos devis en 30s à la voix, suivre vos chantiers et recevoir des chantiers avec 0% de commission.</p>
+ </div>
+ <a href="/" class="btn-dl" style="background:var(--g1);color:#fff;">
+ <span>Découvrir BatiSpot Pro</span>
+ <span>→</span>
+ </a>
+ </div>
+ </div>
+</div>
+
+<footer>
+ <div class="wrap">
+ BatiSpot Pro : L'Assistant &amp; Gestionnaire BTP · <a href="/">BatiSpot.pro</a> · <a href="/">Espace Artisan</a>
+ </div>
+</footer>
+
+<script>
+function calcTaux() {
+ var salary = parseFloat(document.getElementById('inputSalary').value);
+ var charges = parseFloat(document.getElementById('inputCharges').value);
+ var days = parseFloat(document.getElementById('inputDays').value);
+
+ document.getElementById('displaySalary').textContent = salary.toLocaleString('fr-FR') + ' € net / mois';
+ document.getElementById('displayCharges').textContent = charges.toLocaleString('fr-FR') + ' € / mois';
+ document.getElementById('displayDays').textContent = days + ' jours / an';
+
+ // Calcul BTP TPE :
+ // Salaire brut / charges patronales = ~1.75x le net
+ // Charges annuelles = (Salaire * 1.75 + Charges) * 12
+ var coutAnnuelTotal = (salary * 1.75 + charges) * 12;
+ var tarifJourHT = Math.round(coutAnnuelTotal / days);
+ var tarifHeureHT = Math.round(tarifJourHT / 7);
+ var caCible = Math.round(tarifJourHT * days);
+
+ document.getElementById('resHourly').textContent = tarifHeureHT + ' € HT / h';
+ document.getElementById('resDaily').textContent = tarifJourHT.toLocaleString('fr-FR') + ' € HT / jour';
+ document.getElementById('resYearly').textContent = caCible.toLocaleString('fr-FR') + ' € HT';
+}
+
+async function handleResourceSubmit(e) {
+ e.preventDefault();
+ var btn = document.getElementById('btnResSubmit');
+ btn.disabled = true;
+ btn.textContent = 'Déblocage en cours...';
+
+ var name = document.getElementById('artName').value;
+ var email = document.getElementById('artEmail').value;
+ var phone = document.getElementById('artPhone').value;
+ var trade = document.getElementById('artTrade').value;
+
+ var attr = (window.bsAttr ? window.bsAttr() : {});
+
+ try {
+ // 1. Enregistrement Supabase
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/rest/v1/demandes_devis', {
+ method: 'POST',
+ headers: {
+ 'apikey': 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1',
+ 'authorization': 'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1',
+ 'content-type': 'application/json',
+ 'Prefer': 'return=minimal'
+ },
+ body: JSON.stringify({
+ ...attr,
+ client_name: name,
+ client_email: email,
+ client_phone: phone,
+ type_travaux: trade,
+ description: 'Téléchargement Pack Intégral Ressources & Simulateur Taux Horaire 2026'
+ })
+ });
+
+ // 2. Notification Email Admin Instantanée
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/functions/v1/notify-admin', {
+ method: 'POST',
+ headers: {
+ 'apikey': 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1',
+ 'authorization': 'Bearer sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1',
+ 'content-type': 'application/json'
+ },
+ body: JSON.stringify({
+ subject: 'Nouveau Lead Hub Ressources — ' + name + ' (' + trade + ') — ' + phone,
+ data: {
+ nom: name,
+ email: email,
+ telephone: phone,
+ metier: trade,
+ source: 'Hub Ressources & Simulateur Taux Horaire',
+ ville: attr.geo_city || 'IDF',
+ ip: attr.client_ip || '',
+ canal: attr.channel || 'Inbound'
+ },
+ reply_to: email
+ })
+ });
+ } catch(_) {}
+
+ if (window.bsTrack) {
+ window.bsTrack('lead_hub_ressources_download', { trade: trade });
+ }
+
+ document.getElementById('resourceAllForm').style.display = 'none';
+ document.getElementById('resSuccessMsg').style.display = 'block';
+}
+
+// Init calculation
+calcTaux();
+</script>
+
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

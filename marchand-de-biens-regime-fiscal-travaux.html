@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Marchand de biens : fiscalite travaux | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/marchand-de-biens-regime-fiscal-travaux">
+ <meta name="description" content="Marchand de biens : regime fiscal optimal, TVA sur marge, travaux deductibles, statut juridique, rentabilite. Guide complet 2026 pour investisseurs IDF." />
+ <meta name="keywords" content="marchand de biens fiscalite, tva sur marge immobilier, marchand de biens travaux, regime fiscal achat revente" />
+ <meta property="og:title" content="Marchand de biens : regime fiscal et travaux 2026" />
+ <meta property="og:description" content="TVA sur marge, travaux deductibles, statut juridique, rentabilite. Le guide fiscal du marchand de biens en IDF." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/marchand-de-biens-regime-fiscal-travaux.png" />
+ <meta property="og:url" content="https://batispot.pro/marchand-de-biens-regime-fiscal-travaux" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Qu'est-ce que la TVA sur marge pour un marchand de biens ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La TVA sur marge permet au marchand de biens de ne payer la TVA (20 %) que sur la difference entre le prix de revente et le prix d'achat (la marge), et non sur le prix total. Elle s'applique quand le bien a ete achete a un particulier (sans TVA a l'achat). Exemple : achat 150 000 EUR, revente 220 000 EUR, TVA sur marge = 70 000 x 20 % = 14 000 EUR."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Les travaux sont-ils deductibles pour un marchand de biens ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui, les travaux de renovation sont des charges deductibles du benefice imposable (BIC ou IS). Ils augmentent le prix de revient du bien et reduisent donc la marge imposable. La TVA sur les travaux (10 % ou 5,5 %) est recuperable si le marchand est assujetti a la TVA."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quel statut juridique pour etre marchand de biens ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Les formes les plus courantes sont la SAS/SASU (souplesse de gestion, IS par defaut), la SARL/EURL, ou l'entreprise individuelle. La SAS est la plus utilisee car elle permet de distribuer des dividendes sans cotisations sociales TNS et offre une grande flexibilite statutaire."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels droits de mutation pour un marchand de biens ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le marchand de biens beneficie de droits de mutation reduits : 0,715 % au lieu de 7-8 % pour un particulier, a condition de s'engager a revendre dans les 5 ans (4 ans pour les terrains a batir). En cas de non-revente dans le delai, les droits de mutation normaux sont rappeles avec penalites."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Fiscalite travaux</a> > Marchand de biens</div>
+ <h1>Marchand de biens : regime fiscal et travaux</h1>
+<p>TVA sur marge, travaux deductibles, droits de mutation reduits, statut juridique optimal. Le guide fiscal pour les operations d'achat-renovation-revente.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Le regime fiscal du marchand de biens</h2>
+ <p>Le marchand de biens est un professionnel qui achete des immeubles pour les revendre avec benefice, apres eventuelle renovation. Son activite releve des BIC (benefices industriels et commerciaux) et beneficie d'avantages fiscaux specifiques.</p>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Droits de mutation</div>
+ <div class="value">0,715 %</div>
+ </div>
+ <div class="info-item">
+ <div class="label">TVA sur marge</div>
+ <div class="value">20 % sur la marge</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Delai de revente</div>
+ <div class="value">5 ans max</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Imposition benefice</div>
+ <div class="value">IS 15-25 %</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>TVA sur marge : le mecanisme</h2>
+ <p>Quand un marchand de biens achete un bien a un particulier (operation non soumise a TVA), il peut appliquer la TVA sur la marge a la revente :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Element</th>
+ <th>Exemple chiffre</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td>Prix d'achat</td><td>150 000 EUR</td></tr>
+ <tr><td>Travaux de renovation</td><td>60 000 EUR HT</td></tr>
+ <tr><td>Prix de revente</td><td>260 000 EUR</td></tr>
+ <tr><td>Marge brute</td><td>260 000 - 150 000 = <strong>110 000 EUR</strong></td></tr>
+ <tr><td>TVA sur marge (20 %)</td><td>110 000 / 1,2 x 0,2 = <strong>18 333 EUR</strong></td></tr>
+ <tr><td>TVA recuperee sur travaux (10 %)</td><td>60 000 x 10 % = <strong>6 000 EUR</strong></td></tr>
+ <tr><td>TVA nette a payer</td><td>18 333 - 6 000 = <strong>12 333 EUR</strong></td></tr>
+ </tbody>
+ </table>
+ <p>Attention : si le bien est achete a un assujetti TVA, c'est la TVA sur le prix total qui s'applique, ce qui change radicalement le calcul.</p>
+ </div>
+
+ <div class="card">
+ <h2>Travaux deductibles : optimiser la marge</h2>
+ <ul class="factor-list">
+ <li><strong>Tous les travaux sont deductibles :</strong> renovation, amelioration, mise aux normes, amenagement -- tout ce qui augmente la valeur du bien reduit le benefice imposable.</li>
+ <li><strong>TVA recuperable :</strong> la TVA payee sur les travaux (10 % ou 5,5 %) est recuperable via les declarations de TVA, ce qui reduit le cout reel des travaux.</li>
+ <li><strong>Frais annexes deductibles :</strong> honoraires architecte, frais de notaire, frais d'agence a l'achat, diagnostics, assurance dommage-ouvrage.</li>
+ <li><strong>Pas de distinction entretien/amelioration :</strong> contrairement aux revenus fonciers, tous les travaux sont traites de la meme maniere en BIC.</li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Artisans habitues aux chantiers de marchands de biens. Devis detailles avec TVA explicite.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux gratuitement</a>
+ </div>
+
+ <div class="card">
+ <h2>Simulation complete : operation achat-renovation-revente IDF</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Poste</th>
+ <th>Montant</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td>Achat appartement T3 (Montreuil, 60 m2)</td><td>200 000 EUR</td></tr>
+ <tr><td>Droits de mutation (0,715 %)</td><td>1 430 EUR</td></tr>
+ <tr><td>Travaux de renovation complete</td><td>80 000 EUR HT</td></tr>
+ <tr><td>TVA travaux (10 %)</td><td>8 000 EUR (recuperable)</td></tr>
+ <tr><td>Frais divers (notaire, diagnostics)</td><td>5 000 EUR</td></tr>
+ <tr><td><strong>Prix de revient total</strong></td><td><strong>286 430 EUR</strong></td></tr>
+ <tr><td>Prix de revente</td><td>350 000 EUR</td></tr>
+ <tr><td>Marge brute</td><td>63 570 EUR</td></tr>
+ <tr><td>TVA sur marge</td><td>- 10 595 EUR</td></tr>
+ <tr><td>IS (15 % sur 42 500 + 25 % au-dela)</td><td>- 8 643 EUR</td></tr>
+ <tr><td><strong>Benefice net</strong></td><td><strong>44 332 EUR</strong></td></tr>
+ </tbody>
+ </table>
+ <p>Soit une rentabilite nette de 15,5 % sur l'investissement total, pour une operation de 6 a 10 mois.</p>
+ </div>
+
+ <div class="card">
+ <h2>Statut juridique : quel choix ?</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Forme</th>
+ <th>Avantages</th>
+ <th>Inconvenients</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>SAS / SASU</strong></td>
+ <td>Souplesse, dividendes sans cotisations TNS, image pro</td>
+ <td>Formalisme, cout creation + comptable</td>
+ </tr>
+ <tr>
+ <td><strong>SARL / EURL</strong></td>
+ <td>Cadre legal rigide mais securisant, IS</td>
+ <td>Cotisations TNS sur remuneration gerant</td>
+ </tr>
+ <tr>
+ <td><strong>EI / Micro</strong></td>
+ <td>Simplicite, pas de societe a creer</td>
+ <td>IR au bareme, pas de TVA sur marge en micro</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="trust-box">
+ <h2>Artisans pour vos operations marchand de biens</h2>
+ <p>Entreprises habituees aux delais serres et aux renovations completes. Devis detailles sous 48h.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/achat-revente-renovation-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Achat-revente avec travaux IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Marge, fiscalite, artisans et delais</div>
+ </a>
+ <a href="/sci-is-travaux-amortissement-strategie" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">SCI a l'IS : amortir les travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Strategie patrimoniale IR vs IS</div>
+ </a>
+ <a href="/renovation-immeuble-rapport-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Renovation immeuble de rapport IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Budget m2, rentabilite et aides</div>
+ </a>
+ <a href="/devis-travaux-comprendre-comparer" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Lire et comparer des devis travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Pieges, postes a verifier, prix normaux</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

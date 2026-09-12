@@ -1,0 +1,26 @@
+# Cloudflare Pages cache headers
+
+# Fonts : immutable 1 an (le contenu est versionne par hash de nom de fichier)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Icones SVG / PNG : immutable 1 an
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/app/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# CSS / JS de l'app PWA : 1 jour (peut etre maj sans bump version)
+/app/css/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/app/js/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+# Favicon
+/favicon.svg
+  Cache-Control: public, max-age=2592000
+
+/favicon.png
+  Cache-Control: public, max-age=2592000

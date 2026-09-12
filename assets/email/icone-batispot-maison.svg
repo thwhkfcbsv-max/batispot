@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="BatiSpot">
+<defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+<rect width="48" height="48" rx="12" fill="url(#g)"/>
+<path d="M24 14 L12 23 L12 36 L36 36 L36 23 Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/>
+<rect x="21" y="28" width="6" height="8" rx="1" fill="#fff" opacity="0.92"/>
+</svg>

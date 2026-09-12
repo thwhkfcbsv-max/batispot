@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Vrai prix d'une rénovation complète à Paris 2026 — analyse de devis réels | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/vrai-prix-renovation-complete-paris-analyse-devis">
+ <meta name="description" content="On dissèque 2 devis réels de rénovation complète à Paris (T3 62 m²) ligne par ligne : 72 500 € vs 115 000 €. Prix poste par poste, marges cachées, pièges à éviter." />
+ <meta name="keywords" content="prix renovation complete paris 2026, analyse devis renovation paris, cout renovation appartement paris, devis travaux paris detaille, prix renovation t3 paris" />
+ <meta property="og:title" content="Vrai prix d'une rénovation complète à Paris 2026 — analyse de devis réels" />
+ <meta property="og:description" content="Ligne par ligne : pourquoi un devis coûte 72 500 € et l'autre 115 000 € pour le même T3 62 m² à Paris." />
+ <meta property="og:type" content="article" />
+ <meta property="og:image" content="https://batispot.pro/og/vrai-prix-renovation-complete-paris-analyse-devis.png" />
+ <meta property="og:url" content="https://batispot.pro/vrai-prix-renovation-complete-paris-analyse-devis" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316;
+ --red: #DC2626; --amber: #F59E0B;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .nav-links a { color: var(--sub); text-decoration: none; margin-left: 1.5rem; font-size: .95rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g1); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g3)); color: white; padding: 3.5rem 5% 2.5rem; }
+ .hero .breadcrumb { font-size: .8rem; opacity: .9; margin-bottom: 1rem; }
+ .hero .breadcrumb a { color: white; text-decoration: none; }
+ .hero h1 { font-size: 2.1rem; font-weight: 900; max-width: 850px; line-height: 1.2; letter-spacing: -0.5px; }
+ .hero p { font-size: 1.05rem; opacity: .95; max-width: 800px; margin-top: .9rem; }
+ .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+ .card { background: var(--white); border-radius: 14px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(26,107,69,0.06); border: 1px solid var(--border); }
+ .card h2 { color: var(--g1); font-size: 1.4rem; font-weight: 800; margin-bottom: 1.1rem; letter-spacing: -0.3px; }
+ .card h3 { color: var(--text); font-size: 1.05rem; font-weight: 700; margin: 1.2rem 0 .5rem; }
+ .card p { margin-bottom: .8rem; color: var(--text); }
+ .card ul, .card ol { padding-left: 1.3rem; margin-bottom: .8rem; }
+ .card li { margin-bottom: .45rem; color: var(--text); }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); padding: .25rem .8rem; border-radius: 6px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .8rem; }
+ .chantier-box { background: linear-gradient(135deg, #F0F9F4, #FFFFFF); border-left: 4px solid var(--g2); padding: 1.1rem 1.3rem; border-radius: 10px; margin: 1rem 0; }
+ .chantier-box strong { color: var(--g1); }
+ .price-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem .6rem; text-align: left; font-weight: 700; font-size: .82rem; }
+ .price-table td { padding: .55rem .6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+ .price-table tr:last-child td { border-bottom: none; font-weight: 700; background: #F0F9F4; }
+ .price-table .label { font-weight: 600; color: var(--text); }
+ .price-table .qty { color: var(--sub); font-size: .82rem; }
+ .price-table .amount { font-weight: 700; color: var(--g1); text-align: right; white-space: nowrap; }
+ .price-table .amount.red { color: var(--red); }
+ .price-table .flag { font-size: 1rem; margin-right: .2rem; }
+ .comparatif { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+ .comp-card { padding: 1rem; border-radius: 10px; border: 2px solid; }
+ .comp-a { border-color: var(--g2); background: #F0F9F4; }
+ .comp-b { border-color: var(--red); background: #FEF2F2; }
+ .comp-card .comp-title { font-weight: 800; font-size: .95rem; margin-bottom: .5rem; }
+ .comp-a .comp-title { color: var(--g1); }
+ .comp-b .comp-title { color: var(--red); }
+ .comp-card .comp-total { font-size: 1.4rem; font-weight: 900; margin: .3rem 0 .2rem; }
+ .warning-box { background: #FFFBEB; border-left: 4px solid var(--amber); padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+ .warning-box strong { color: #92400E; }
+ .cta-section { text-align: center; padding: 2.2rem 1.5rem; background: linear-gradient(135deg, var(--g1), var(--g3)); border-radius: 14px; color: white; margin: 2rem 0; }
+ .cta-section h2 { color: white !important; margin-bottom: .6rem; font-size: 1.35rem; }
+ .cta-section p { color: rgba(255,255,255,0.95); margin-bottom: 1.2rem; }
+ .cta-btn { display: inline-block; background: white; color: var(--g1); padding: .85rem 1.8rem; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .75rem 1.4rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: .95rem; }
+ .trust-box { background: var(--g-soft); border-radius: 12px; padding: 1.5rem; text-align: center; margin: 1.5rem 0; }
+ .trust-box h2 { color: var(--g1); margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); margin-bottom: 1rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,0.85); padding: 1.8rem 5%; text-align: center; font-size: .85rem; }
+ footer a { color: white; text-decoration: none; }
+ @media (max-width: 680px) {
+ .hero h1 { font-size: 1.55rem; }
+ .hero { padding: 2.5rem 5% 2rem; }
+ .card { padding: 1.2rem; }
+ .card h2 { font-size: 1.2rem; }
+ .comparatif { grid-template-columns: 1fr; }
+ .price-table { font-size: .82rem; }
+ .price-table th, .price-table td { padding: .4rem .3rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Vrai prix d'une rénovation complète à Paris 2026 — analyse ligne par ligne de 2 devis réels",
+ "description": "Analyse détaillée de 2 devis réels pour un T3 de 62 m² à Paris : 72 500 € vs 115 000 €. Ventilation poste par poste, marges cachées, pièges à repérer.",
+ "datePublished": "2026-04-20",
+ "dateModified": "2026-04-20",
+ "author": { "@type": "Organization", "name": "BatiSpot", "url": "https://batispot.pro" },
+ "publisher": { "@type": "Organization", "name": "BatiSpot", "logo": { "@type": "ImageObject", "url": "https://batispot.pro/favicon.svg" } },
+ "image": "https://batispot.pro/og/vrai-prix-renovation-complete-paris-analyse-devis.png",
+ "mainEntityOfPage": "https://batispot.pro/vrai-prix-renovation-complete-paris-analyse-devis.html"
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › <a href="/guide-renovation-appartement-ancien-paris">Prix rénovation Paris</a> › Analyse de devis réels</div>
+ <h1>Vrai prix d'une rénovation complète à Paris en 2026, analyse ligne par ligne de 2 devis réels</h1>
+<p>Pour le même appartement, le premier devis tombe à 72 500 € TTC, le second à 115 000 €. Voici pourquoi, et ce que révèle chaque ligne.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Publié avril 2026, cas réel anonymisé</span>
+ <h2>Pourquoi disséquer un devis plutôt que regarder une fourchette ?</h2>
+ <p>Les fourchettes générales « 900 à 1 800 €/m² » ne disent rien sur ce qui se passe vraiment dans un devis. Deux entreprises peuvent proposer des prix du simple au double pour le même chantier, et une seule des deux aura des lignes justifiables.</p>
+ <p>Nous avons obtenu deux devis émis en mars 2026 pour une même rénovation complète d'un <strong>T3 de 62 m² à Paris 11<sup>e</sup></strong>. Nous les avons dépouillés poste par poste avec les maîtres d'œuvre concernés. Ce qui suit est l'analyse de ce qui sépare un devis raisonnable d'un devis à éviter.</p>
+ </div>
+
+ <div class="card">
+ <h2>Le chantier type : T3 62 m², Paris 11<sup>e</sup></h2>
+ <div class="chantier-box">
+ <p><strong>Appartement :</strong> 62 m² habitables, 3<sup>e</sup> étage sans ascenseur, immeuble haussmannien fin XIX<sup>e</sup>, dernier propriétaire occupé depuis 1992.</p>
+ <p><strong>Travaux demandés :</strong></p>
+ <ul>
+ <li>Redistribution partielle : ouverture cuisine sur séjour (suppression d'une cloison non porteuse)</li>
+ <li>Réfection complète électricité (tableau + 100 % du câblage)</li>
+ <li>Plomberie : remplacement colonnes PER, pose salle de bain neuve, pose cuisine neuve</li>
+ <li>Parquet massif chêne (62 m²), ponçage + vitrification des lames existantes + raccord sur 12 m² neufs</li>
+ <li>Peinture murs + plafonds (surface totale ~240 m²)</li>
+ <li>Cuisine équipée milieu de gamme</li>
+ <li>Salle de bain : douche italienne, meuble vasque simple, sèche-serviettes, faïence sol + mur</li>
+ </ul>
+ </div>
+ <p>Aucun des deux devis ne traite d'amiante, de plomb ou d'isolation thermique, ces postes ont été validés absents par un diagnostic préalable. La TVA applicable est la TVA travaux 10 % (résidence principale de plus de 2 ans).</p>
+ </div>
+
+ <div class="card">
+ <h2>Devis A, entreprise générale de quartier <span style="font-weight:400;font-size:.9rem;color:var(--sub);">(accepté par le propriétaire)</span></h2>
+ <table class="price-table">
+ <thead>
+ <tr><th style="width:52%;">Poste</th><th style="width:28%;">Base de prix</th><th style="width:20%;text-align:right;">Total HT</th></tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><span class="flag"></span><span class="label">Dépose cloison + évacuation gravats</span><div class="qty">~8 m² de cloison + benne mutualisée</div></td>
+ <td class="qty">45 €/m² + 480 € benne</td>
+ <td class="amount">840 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Rénovation électrique complète</span><div class="qty">Tableau + câblage + prises 62 m²</div></td>
+ <td class="qty">95 €/m²</td>
+ <td class="amount">5 890 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Plomberie (colonnes + cuisine + SDB)</span><div class="qty">Tuyauterie PER + raccords évacuations</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount">4 200 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag">️</span><span class="label">Salle de bain clé en main</span><div class="qty">Douche italienne, meuble, faïence 18 m², WC</div></td>
+ <td class="qty">forfait fourniture + pose</td>
+ <td class="amount">6 500 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Cuisine équipée (milieu de gamme)</span><div class="qty">Meubles + plan + électroménager + pose</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount">9 800 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Parquet chêne massif</span><div class="qty">Ponçage/vitrification 50 m² + pose 12 m² neufs</div></td>
+ <td class="qty">18 €/m² + 135 €/m²</td>
+ <td class="amount">2 520 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Peinture murs + plafonds</span><div class="qty">240 m² (2 couches + préparation)</div></td>
+ <td class="qty">28 €/m²</td>
+ <td class="amount">6 720 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Huisseries + portes intérieures (×3)</span><div class="qty">Rénovation et rejointoiement</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount">1 850 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag">️</span><span class="label">Gestion déchets + arrêté voirie</span><div class="qty">Benne 8 m³ + permis stationnement mairie</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount">720 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Coordination et direction de chantier</span><div class="qty">~8 % des postes (standard EG)</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount">3 100 €</td>
+ </tr>
+ <tr>
+ <td><strong>Sous-total HT</strong></td>
+ <td></td>
+ <td class="amount">42 140 €</td>
+ </tr>
+ <tr>
+ <td><strong>Provision imprévus structurels (~10 %)</strong></td>
+ <td class="qty">Non chiffrée, mentionnée en annexe</td>
+ <td class="amount">4 200 €</td>
+ </tr>
+ <tr>
+ <td><strong>Total TTC (TVA 10 %)</strong></td>
+ <td></td>
+ <td class="amount">72 534 €</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.85rem;color:var(--sub);">Soit environ <strong>1 170 €/m²</strong> TTC, dans la fourchette haute de la rénovation complète classique pour Paris, justifiée par le 3<sup>e</sup> sans ascenseur et l'âge de l'immeuble.</p>
+ </div>
+
+ <div class="card">
+ <h2>Devis B, entreprise générale « haut de gamme » <span style="font-weight:400;font-size:.9rem;color:var(--red);">(refusé par le propriétaire)</span></h2>
+ <table class="price-table">
+ <thead>
+ <tr><th style="width:52%;">Poste</th><th style="width:28%;">Base de prix</th><th style="width:20%;text-align:right;">Total HT</th></tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><span class="flag"></span><span class="label">Démolition et évacuation</span><div class="qty">« Études structurelles incluses »</div></td>
+ <td class="qty">forfait non détaillé</td>
+ <td class="amount red">2 800 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Électricité (« prémium + domotique »)</span><div class="qty">Tableau connecté, interrupteurs tactiles</div></td>
+ <td class="qty">160 €/m²</td>
+ <td class="amount red">9 920 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Plomberie « complète »</span><div class="qty">Sans détail tuyauterie/pose</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount red">8 400 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag">️</span><span class="label">Salle de bain « signature »</span><div class="qty">Robinetterie Grohe haut gamme, carrelage importé</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount red">14 500 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Cuisine « sur-mesure architecte »</span><div class="qty">Frais de conception inclus</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount red">22 000 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Parquet chêne « premium »</span><div class="qty">Dépose totale + parquet neuf 62 m²</div></td>
+ <td class="qty">180 €/m²</td>
+ <td class="amount red">11 160 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Peinture « finition décorative »</span><div class="qty">3 couches peinture mate qualité supérieure</div></td>
+ <td class="qty">48 €/m²</td>
+ <td class="amount red">11 520 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Menuiserie « restauration esthétique »</span><div class="qty">Huisseries + portes remplacées neuves</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount red">5 800 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag"></span><span class="label">Honoraires architecte d'intérieur</span><div class="qty">Non demandés par le client</div></td>
+ <td class="qty">12 % du chantier</td>
+ <td class="amount red">9 500 €</td>
+ </tr>
+ <tr>
+ <td><span class="flag">️</span><span class="label">Logistique chantier</span><div class="qty">Benne + protection + gardiennage</div></td>
+ <td class="qty">forfait</td>
+ <td class="amount red">2 000 €</td>
+ </tr>
+ <tr>
+ <td><strong>Sous-total HT</strong></td>
+ <td></td>
+ <td class="amount red">97 600 €</td>
+ </tr>
+ <tr>
+ <td><strong>Marge « aléas de chantier »</strong></td>
+ <td class="qty">Non isolée, intégrée sans base</td>
+ <td class="amount red">+ 8 000 €</td>
+ </tr>
+ <tr>
+ <td><strong>Total TTC (TVA 20 %)</strong></td>
+ <td class="qty">TVA 20 % appliquée à tort (résidence &gt;2 ans = 10 %)</td>
+ <td class="amount red">126 720 €</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.85rem;color:var(--red);"><strong>~2 045 €/m² TTC</strong> — 75 % plus cher que le devis A, pour un cahier des charges identique.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les 6 écarts qui expliquent 54 000 € de différence</h2>
+
+ <h3>1. TVA 20 % au lieu de 10 % (+5 280 €)</h3>
+ <p>L'entreprise B a appliqué la TVA standard 20 %. Pour un logement achevé depuis plus de 2 ans et occupé en résidence principale, la <strong>TVA travaux à 10 %</strong> est la règle, et même 5,5 % sur certains postes d'économie d'énergie. Demander au prestataire de fournir l'attestation TVA réduite (<em>formulaire 1301-SD</em>) avant signature. Le client signe, le prestataire applique. C'est un droit, pas une faveur.</p>
+
+ <h3>2. Honoraires architecte non demandés (+9 500 €)</h3>
+ <p>Le devis B intègre 12 % d'honoraires de conception alors que le client n'a jamais demandé d'architecte d'intérieur. Pour une redistribution simple sans modification de mur porteur, aucune intervention d'architecte n'est nécessaire, ce poste est à supprimer purement.</p>
+
+ <h3>3. Peinture à 48 €/m² au lieu de 28 €/m² (+4 800 €)</h3>
+ <p>Le prix moyen d'une peinture 2 couches à Paris est de <a href="/prix-peintre">25 à 35 €/m² pour une prestation complète</a>. 48 €/m² n'est justifié que sur des techniques spéciales (stuc, tadelakt, moulures conservées), non demandées ici.</p>
+
+ <h3>4. Électricité à 160 €/m² au lieu de 95 €/m² (+4 030 €)</h3>
+ <p>Le prix moyen d'une rénovation électrique complète à Paris se situe entre <a href="/prix-electricien">80 et 120 €/m²</a>. L'option « domotique prémium » est ce qui fait grimper, mais le client n'a jamais demandé de tableau connecté ni d'interrupteurs tactiles. À retirer ou renégocier poste par poste.</p>
+
+ <h3>5. Parquet neuf 62 m² au lieu de rénovation + complément (+8 640 €)</h3>
+ <p>Le devis B propose de déposer l'intégralité du parquet massif d'origine pour poser un neuf. Le devis A conserve les 50 m² existants (ponçage + vitrification à 18 €/m²) et ne pose que 12 m² neufs. <strong>Conserver un parquet massif en bon état est presque toujours une meilleure décision</strong> — esthétiquement, écologiquement, financièrement.</p>
+
+ <h3>6. Cuisine à 22 000 € au lieu de 9 800 € (+12 200 €)</h3>
+ <p>Pour une rénovation de T3 en investissement locatif ou habitation personnelle classique, une cuisine milieu de gamme complète (meubles, plan travail, électroménager, pose) est parfaitement possible entre 8 000 et 12 000 € à Paris. Au-delà, on entre dans le sur-mesure, ce qui n'était pas demandé. La mention « honoraires de conception inclus » cache typiquement une marge sur les meubles bien supérieure aux 15-20 % du marché.</p>
+
+ <div class="warning-box">
+ <p><strong>️ Règle simple :</strong> toute ligne d'un devis qui dit « forfait » sans détail sous-jacent doit être challengée. Un bon devis détaille les quantités (m², heures, ml) et les prix unitaires. Un forfait opaque est une marge cachée.</p>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Comparatif ligne par ligne, devis A vs devis B</h2>
+ <table class="price-table">
+ <thead>
+ <tr><th>Poste</th><th style="text-align:right;">Devis A</th><th style="text-align:right;">Devis B</th><th style="text-align:right;">Écart</th></tr>
+ </thead>
+ <tbody>
+ <tr><td class="label">Démolition / évacuation</td><td class="amount">840 €</td><td class="amount red">2 800 €</td><td class="amount red">+1 960 €</td></tr>
+ <tr><td class="label">Électricité</td><td class="amount">5 890 €</td><td class="amount red">9 920 €</td><td class="amount red">+4 030 €</td></tr>
+ <tr><td class="label">Plomberie</td><td class="amount">4 200 €</td><td class="amount red">8 400 €</td><td class="amount red">+4 200 €</td></tr>
+ <tr><td class="label">Salle de bain</td><td class="amount">6 500 €</td><td class="amount red">14 500 €</td><td class="amount red">+8 000 €</td></tr>
+ <tr><td class="label">Cuisine</td><td class="amount">9 800 €</td><td class="amount red">22 000 €</td><td class="amount red">+12 200 €</td></tr>
+ <tr><td class="label">Parquet</td><td class="amount">2 520 €</td><td class="amount red">11 160 €</td><td class="amount red">+8 640 €</td></tr>
+ <tr><td class="label">Peinture</td><td class="amount">6 720 €</td><td class="amount red">11 520 €</td><td class="amount red">+4 800 €</td></tr>
+ <tr><td class="label">Menuiseries</td><td class="amount">1 850 €</td><td class="amount red">5 800 €</td><td class="amount red">+3 950 €</td></tr>
+ <tr><td class="label">Architecte d'intérieur (non demandé)</td><td class="amount">—</td><td class="amount red">9 500 €</td><td class="amount red">+9 500 €</td></tr>
+ <tr><td class="label">Gestion / coordination</td><td class="amount">3 820 €</td><td class="amount red">2 000 €</td><td class="amount">−1 820 €</td></tr>
+ <tr><td><strong>Total TTC</strong></td><td class="amount">72 534 €</td><td class="amount red">126 720 €</td><td class="amount red">+54 186 €</td></tr>
+ </tbody>
+ </table>
+
+ <div class="comparatif">
+ <div class="comp-card comp-a">
+ <div class="comp-title">Devis A (accepté)</div>
+ <div class="comp-total">72 534 € TTC</div>
+ <div style="font-size:.82rem;color:var(--sub);">1 170 €/m² · TVA 10 % · imprévus isolés</div>
+ </div>
+ <div class="comp-card comp-b">
+ <div class="comp-title">Devis B (refusé)</div>
+ <div class="comp-total">126 720 € TTC</div>
+ <div style="font-size:.82rem;color:var(--red);">2 045 €/m² · TVA 20 % erronée · marges opaques</div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Ce que les deux devis ne chiffrent pas (et qu'il faut ajouter à votre budget)</h2>
+ <ul>
+ <li><strong>Déménagement / relogement :</strong> 5 à 12 semaines de chantier pour ce type de rénovation. Compter 2 000 à 4 500 € de relogement à Paris sur la période.</li>
+ <li><strong>Mobilier et équipement hors cuisine/SDB :</strong> luminaires, rideaux, sommier, literie. Un ordre de 2 000 à 6 000 € est réaliste pour un T3.</li>
+ <li><strong>Contrat de syndic :</strong> certains règlements de copropriété imposent un bon de commande ou une déclaration de travaux pour toute intervention, parfois avec caution (300 à 800 €).</li>
+ <li><strong>Assurance dommages-ouvrage :</strong> facultative mais fortement recommandée pour les chantiers &gt; 20 000 €. Compter 2 à 4 % du montant HT des travaux.</li>
+ <li><strong>Diagnostic plomb obligatoire :</strong> immeuble avant 1949, coût 150 à 300 €. Sans diagnostic, l'artisan est en droit de refuser d'intervenir.</li>
+ <li><strong>Aides à déduire :</strong> MaPrimeRénov', Éco-PTZ, CEE. Sur un chantier comme celui-ci, un propriétaire modeste peut récupérer <a href="/guide-aides-renovation">entre 3 000 et 9 000 €</a> selon revenus et postes énergétiques.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Comment repérer un devis mal ficelé en 5 minutes</h2>
+ <ol>
+ <li><strong>Cherche « forfait » ou « global » :</strong> plus il y en a, plus il faut demander le détail. Un bon artisan n'a aucun problème à ventiler.</li>
+ <li><strong>Vérifie la TVA :</strong> 10 % sur résidence principale &gt;2 ans. 5,5 % sur postes d'économie d'énergie. 20 % uniquement sur logement &lt; 2 ans ou non-habitation.</li>
+ <li><strong>Contrôle les prix unitaires :</strong> compare à nos pages <a href="/prix-plombier">plombier</a>, <a href="/prix-electricien">électricien</a>, <a href="/prix-peintre">peintre</a>, <a href="/prix-carreleur">carreleur</a>, <a href="/prix-macon">maçon</a>.</li>
+ <li><strong>Demande l'assurance décennale :</strong> numéro et compagnie sur le devis. Vérifiable en 2 minutes auprès de la compagnie.</li>
+ <li><strong>Regarde les mentions obligatoires :</strong> SIRET, dénomination sociale, adresse, date, durée de validité du devis, délai d'exécution. Absence de l'un = devis non opposable.</li>
+ </ol>
+ </div>
+
+ <div class="cta-section">
+ <h2>Recevez 3 devis détaillés pour votre rénovation à Paris</h2>
+ <p>Artisans vérifiés (Kbis, décennale, identité). 0 % de commission sur vos travaux. Réponse sous 48 h.</p>
+ <a href="/" class="cta-btn">Obtenir 3 devis gratuits →</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles liés</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix rénovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Tableau des prix par m² et par poste, tous niveaux</div>
+ </a>
+ <a href="/devis-renovation-appartement-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Devis rénovation Paris, guide complet</div>
+ <div style="font-size:.76rem;color:var(--sub);">Que doit contenir un devis, comment le challenger</div>
+ </a>
+ <a href="/guide-aides-renovation" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Aides à la rénovation 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">MaPrimeRénov', Éco-PTZ, TVA réduite</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimateur rénovation gratuit</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calcul de budget en 2 minutes</div>
+ </a>
+ <a href="/prix-electricien" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix électricien Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Mise aux normes électriques, tarifs 2026</div>
+ </a>
+ <a href="/prix-peintre" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix peintre Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Tarif peinture appartement et maison</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

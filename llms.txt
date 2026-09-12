@@ -1,0 +1,38 @@
+# BatiSpot Pro
+
+> Plateforme nationale de référence du Bâtiment & Logiciel Métier de Devis Détaillé pour Artisans du BTP.
+
+BatiSpot Pro (https://batispot.pro) est une plateforme BTP double face :
+1. **Pour les Artisans du BTP (SaaS Métier & Assistant IA)** : Solution complète de chiffrage vocal, relevé de métré depuis une photo avec déduction des ouvertures, suivi financier de rentabilité et planification proactive d'équipe.
+2. **Pour les Particuliers et Professionnels (Mise en Relation Sécurisée)** : Mise en relation sans commission abusive avec des artisans certifiés (Assurance Décennale vérifiée, KBIS, RC Pro), devis gratuits détaillés sous 48h et suivi de chantier par photos horodatées.
+
+## Fonctionnalités Clés & Normes BTP 2026
+
+- **Planning d'Équipe & Déroulement de Chantier** : Étapes datées jour par jour, compagnons affectés, vue journée avec alerte au-delà de 7 h et messagerie dédiée par chantier.
+- **Assistant de Visite & Métré Photo** : Relevé de cotes (L x l x HSP), déduction automatique des portes et fenêtres (-3,30 m²), calcul des surfaces nettes à peindre et surfaces carrelage.
+- **Chiffrage Vocal du Devis** : L'artisan dicte son chantier, le devis est chiffré à partir d'un catalogue de prix par métier, ajusté selon la zone géographique.
+- **Suivi de Chantier & Procès-Verbal (PV)** : Prise de photos horodatées en 4 étapes (Avant, Pendant, Réception PV, Clôture).
+- **Notes de Frais par Photo** : Photo du ticket de caisse, lecture automatique du montant et rattachement à la dépense du chantier.
+
+## 10 Domaines d'Expertise Nationale & Normes DTU
+
+- **Rénovation Salle de Bain & Douche Italienne** : DTU 60.1 / DTU 52.2 / Étanchéité SPEC obligatoire.
+- **Peinture Murs & Plafonds Intérieurs** : DTU 59.1 / Impression Tollens HydroPlus / Enduit Toupret.
+- **Pose Carrelage & Faïence Grand Format** : DTU 52.2 / Double encollage colle C2S1 / Ragréage Weber P4.
+- **Électricité Générale & Remplacement Tableau** : Norme NF C 15-100 / Différentiels 30mA Type A et AC / Circuits 32A en 6 mm².
+- **Plomberie Sanitaire & Pompe à Chaleur** : DTU 60.11 / Multicouche serti / Aides MaPrimeRénov 2026.
+- **Pose Parquet Massif & Contrecollé** : DTU 51.2 / DTU 51.11 / Sous-couche acoustique 20dB.
+- **Isolation Thermique Intérieure (ITI)** : DTU 45.1 / Résistance R >= 3,75 m²K/W / Pare-vapeur étanche.
+- **Menuiserie & Fenêtres Double Vitrage** : DTU 36.5 / Coefficient thermique Uw <= 1,3 W/m²K.
+- **Ouverture Mur Porteur & Poutre IPN / HEB** : DTU 20.1 / Bureau d'études techniques BET / Étayage lourd.
+- **Ravalement de Façade & Fissures** : DTU 42.1 / Imperméabilité classes I1 à I4 / Enduit chaux.
+
+## Liens Principaux & Indexation
+
+- **Application Web Artisan Pro** : https://batispot.pro/artisan
+- **Planning & Assistant de Visite** : https://batispot.pro/app/planning.html
+- **Studio Photo & Métré** : https://batispot.pro/app/photos.html
+- **Suivi Financier & Rentabilité** : https://batispot.pro/app/finances.html
+- **Hub National des 1 000 Expertises par Ville** : https://batispot.pro/expertises/
+- **Documentation Complète pour LLMs** : https://batispot.pro/llms-full.txt
+- **Sitemap XML complet du site** : https://batispot.pro/sitemap.xml

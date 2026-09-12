@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>BatiSpot Pro — L'assistant & gestionnaire BTP tout-en-un pour artisans</title>
+<link rel="canonical" href="https://batispot.pro/artisan">
+<meta name="description" content="L'appli tout-en-un des artisans du bâtiment : dictez ou photographiez le chantier, l'assistant génère devis et planning. Suivi financier, factures, OCR des reçus, planning équipes et gestion de chantier. France.">
+<meta property="og:title" content="BatiSpot Pro — L'assistant & gestionnaire BTP">
+<meta property="og:url" content="https://batispot.pro/artisan">
+<meta property="og:image" content="https://batispot.pro/assets/real-suivi.png">
+<script>document.documentElement.classList.add('js')</script>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-5Z1GK4VJ4E',{anonymize_ip:true});</script>
+<style>
+:root{
+  --ink:#0A1D14;--sub:#5E7268;--g1:#0F5132;--g2:#166534;--teal:#0D9488;--teal2:#14B8A6;
+  --amber:#F59E0B;--line:#E4EDE8;--line2:#EDF3F0;--bg:#FBFCFB;--card:#FFF;--soft:#F1F7F4;--cta:#0F5132;--cta-h:#0b3f27;--r:20px;--maxw:1160px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;letter-spacing:-.011em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.ey{font-size:.78rem;font-weight:600;letter-spacing:.02em;color:var(--teal)}
+h2.h{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:800;line-height:1.06;letter-spacing:-.03em}
+
+/* browser frame */
+.win{border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -24px rgba(10,29,20,.4);border:1px solid var(--line);background:#fff}
+.win .bar{height:34px;background:#0d2b1e;display:flex;align-items:center;gap:7px;padding:0 14px}
+.win .bar i{width:11px;height:11px;border-radius:50%;background:#2f4a3c}
+.win .bar i:first-child{background:#ff5f57}.win .bar i:nth-child(2){background:#febc2e}.win .bar i:nth-child(3){background:#28c840}
+.win img{width:100%;display:block}
+.win video{width:100%;display:block}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.82);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
+.brand .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--g1),var(--teal));display:grid;place-items:center}
+.brand .dot svg{width:15px;height:15px}
+.brand em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--g1);padding:2px 6px;border-radius:5px}
+.nav-cta{background:var(--cta);color:#fff;padding:.55rem 1.1rem;border-radius:10px;font-weight:600;font-size:.88rem;transition:.18s}
+.nav-cta:hover{background:var(--cta-h);transform:translateY(-1px)}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:80px 0 40px;text-align:center}
+.hero::before{content:"";position:absolute;top:-28%;left:50%;transform:translateX(-50%);width:1000px;height:720px;background:radial-gradient(ellipse at center,rgba(13,148,136,.14),transparent 62%);pointer-events:none}
+.hero .badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;font-size:.8rem;font-weight:600;color:var(--ink);box-shadow:0 1px 2px rgba(10,29,20,.04);margin-bottom:1.5rem}
+.hero .badge .pip{width:7px;height:7px;border-radius:50%;background:var(--teal2);box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.hero h1{font-size:clamp(2.2rem,5vw,3.9rem);font-weight:800;line-height:1.04;letter-spacing:-.04em;max-width:920px;margin:0 auto .9rem;background:linear-gradient(180deg,var(--ink),#204034);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:1.18rem;color:var(--sub);max-width:620px;margin:0 auto 2rem}
+.hero .cta-row{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:.85rem 1.5rem;border-radius:12px;font-weight:600;font-size:1rem;transition:.18s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-p{background:var(--cta);color:#fff;box-shadow:0 6px 20px rgba(15,81,50,.22)}
+.btn-p:hover{background:var(--cta-h);transform:translateY(-2px)}
+.btn-s{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn-s:hover{border-color:var(--teal);color:var(--g1)}
+.hero .trust{margin-top:1.4rem;font-size:.82rem;color:var(--sub)}
+.hero-chips{display:flex;flex-wrap:wrap;gap:.55rem .6rem;justify-content:center;margin-top:1.5rem}
+.hero-chips span{display:inline-flex;align-items:center;gap:.4rem;font-size:.86rem;font-weight:600;color:var(--g1);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:.42rem .9rem}
+.hero-chips svg{width:15px;height:15px;color:var(--teal);flex-shrink:0}
+.hero-shot{max-width:1240px;margin:52px auto 0;display:flex;align-items:flex-end;justify-content:center;gap:18px}
+.hero-shot .win{flex:1;min-width:0}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-phone{position:relative;width:184px;flex:0 0 184px;padding:8px;border-radius:34px;background:linear-gradient(150deg,#1e2d24,#070e0a);box-shadow:0 40px 70px -18px rgba(10,29,20,.55),inset 0 0 0 1px rgba(255,255,255,.07);z-index:3}
+.hp-screens{position:relative;width:100%;aspect-ratio:390/844;border-radius:26px;overflow:hidden;background:#0a1510}
+.hp-scr{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .7s ease}
+.hp-scr.on{opacity:1}
+.hero-phone::before{content:"";position:absolute;top:50%;left:-3px;transform:translateY(-50%);width:3px;height:48px;border-radius:2px;background:#1e2d24}
+.hero-phone::after{content:"";position:absolute;top:19px;left:50%;transform:translateX(-50%);width:34px;height:5px;border-radius:99px;background:rgba(0,0,0,.55);z-index:4}
+@media(max-width:640px){.hero-phone{display:none}}
+
+/* FEATURE ROWS */
+section{padding:70px 0}
+.sec-head{text-align:center;max-width:660px;margin:0 auto 3rem}
+.sec-head .ey{display:block;margin-bottom:.7rem}
+.sec-head p{color:var(--sub);margin-top:.8rem;font-size:1.05rem}
+.frow{display:grid;grid-template-columns:1fr 1.25fr;gap:48px;align-items:center;margin-bottom:56px}
+.frow:last-child{margin-bottom:0}
+.frow.flip .fmedia{order:2}
+.ftext .k{display:inline-flex;align-items:center;gap:.5rem;font-size:.74rem;font-weight:700;letter-spacing:.05em;color:var(--teal);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;margin-bottom:1rem}
+.ftext h3{font-size:1.7rem;font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-bottom:.7rem}
+.ftext p{color:var(--sub);font-size:1.02rem;margin-bottom:1rem}
+.ftext ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.ftext li{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;font-weight:500}
+.ftext li svg{width:18px;height:18px;color:var(--teal);flex-shrink:0;margin-top:2px}
+
+/* STEPS */
+.steps{background:var(--soft)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.st .n{counter-increment:s;font-size:.85rem;font-weight:700;color:var(--teal)}
+.st .n::before{content:"0" counter(s)}
+.st h3{font-size:1.15rem;font-weight:700;margin:.5rem 0 .35rem;letter-spacing:-.02em}
+.st p{color:var(--sub);font-size:.95rem}
+
+/* CTA */
+.cta-final{text-align:center}
+.cta-card{background:linear-gradient(140deg,var(--g1),var(--teal));border-radius:28px;padding:64px 32px;color:#fff;position:relative;overflow:hidden}
+.cta-card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 100% at 80% 0%,rgba(255,255,255,.14),transparent 55%)}
+.cta-card h2{font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.7rem;position:relative}
+.cta-card p{color:rgba(255,255,255,.82);margin-bottom:1.9rem;position:relative}
+.cta-card form{display:flex;gap:.6rem;max-width:460px;margin:0 auto;flex-wrap:wrap;justify-content:center;position:relative}
+.cta-card input{flex:1;min-width:210px;padding:.85rem 1.1rem;border:0;border-radius:11px;font-size:.95rem;font-family:inherit}
+.cta-card button{background:#fff;color:var(--g1);border:0;padding:.85rem 1.6rem;border-radius:11px;font-weight:700;cursor:pointer;font-size:.95rem}
+.cta-card .n{margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.7)}
+
+.metiers{padding:56px 0;border-top:1px solid var(--line2)}
+.metiers .ey{text-align:center;display:block;margin-bottom:1.1rem}
+.mtags{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;max-width:800px;margin:0 auto}
+.mtags a{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.42rem .95rem;font-size:.86rem;font-weight:500;color:var(--ink);transition:.15s}
+.mtags a:hover{border-color:var(--teal);color:var(--g1)}
+footer{padding:36px 24px;text-align:center;color:var(--sub);font-size:.85rem;border-top:1px solid var(--line2)}
+
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}.hero-shot .win{animation:none}}
+@media(max-width:840px){.frow,.frow.flip .fmedia{grid-template-columns:1fr;order:0}.steps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="nav-in">
+  <a class="brand" href="/" aria-label="BatiSpot Pro">
+    <svg width="132" height="34" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+      <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+      <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+      <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#1A6B45" letter-spacing="-0.5">Bati<tspan fill="#4CAF82">Spot</tspan></text>
+    </svg><em>PRO</em>
+  </a>
+  <a class="nav-cta" href="#join">Rejoindre</a>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge reveal"><span class="pip"></span> L'assistant &amp; gestionnaire BTP</span>
+    <h1 class="reveal">Dictez, photographiez — l'assistant gère tout le reste.</h1>
+    <p class="lead reveal">Devis, planning, chantiers, factures, dépenses et équipes : une seule appli qui transforme un relevé de chantier en devis chiffré, et pilote votre business au quotidien.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-p" href="#join">Commencer gratuitement</a>
+      <a class="btn btn-s" href="#tour">Voir l'appli en action</a>
+    </div>
+    <div class="hero-chips reveal">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Devis chiffré en 30 secondes</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Matériaux au meilleur prix</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Sans commission, sans engagement</span>
+    </div>
+    <div class="hero-shot reveal">
+      <div class="win"><div class="bar"><i></i><i></i><i></i></div><video src="assets/demo.mp4?v=6" autoplay loop muted playsinline poster="assets/demo-poster.jpg"></video></div>
+      <div class="hero-phone"><div class="hp-screens">
+        <img class="hp-scr on" src="assets/mobile-creer.png" alt="BatiSpot Pro mobile : dictée & scan sur le chantier">
+        <img class="hp-scr" src="assets/mobile-suivi.png" alt="BatiSpot Pro mobile : suivi financier">
+        <img class="hp-scr" src="assets/mobile-planning.png" alt="BatiSpot Pro mobile : planning équipes">
+        <img class="hp-scr" src="assets/mobile-equipe.png" alt="BatiSpot Pro mobile : gestion d'équipe">
+      </div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== DÉMO ANIMÉE : un devis, 3 façons de le créer ===== -->
+<section class="dd-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="ey">LE DEVIS EN 30 SECONDES</span>
+      <h2 class="h">Un devis, trois façons de le créer</h2>
+      <p>Dictez-le, photographiez la pièce, ou saisissez-le à la main — le devis se chiffre tout seul.</p>
+    </div>
+    <div class="dd-card reveal">
+      <div class="dd-tabs">
+        <button class="dd-tab on" data-m="voix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg> À la voix</button>
+        <button class="dd-tab" data-m="photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Par photo</button>
+        <button class="dd-tab" data-m="main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> À la main</button>
+      </div>
+      <div class="dd-stage">
+        <!-- INPUT -->
+        <div class="dd-input">
+          <div class="dd-in voix">
+            <div class="dd-mic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg></div>
+            <div class="dd-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="dd-transcript"></div>
+          </div>
+          <div class="dd-in photo">
+            <div class="dd-photo"><div class="dd-scan"></div><div class="dd-cotes"><span>L 6,0 m</span><span>l 4,0 m</span><span>H 2,50 m</span><span>Murs 41 m²</span></div></div>
+          </div>
+          <div class="dd-in main">
+            <div class="dd-type"><span class="dd-typed"></span><span class="dd-cursor">|</span></div>
+          </div>
+        </div>
+        <!-- DEVIS -->
+        <div class="dd-devis">
+          <div class="dd-doc">
+            <div class="dd-doctop">
+              <div><div class="dd-co">Peinture Martin</div><div class="dd-cosub">Artisan peintre · RCS Paris</div></div>
+              <div class="dd-meta"><div class="dd-t">DEVIS</div><div>N° DEV-2026-001</div><div>14/08/2026</div></div>
+            </div>
+            <div class="dd-client">Client : M. Dupont — Rénovation séjour <span class="dd-status">en cours…</span></div>
+            <table class="dd-table">
+              <thead><tr><th>Prestation</th><th>Qté</th><th>P.U. HT</th><th>Total HT</th></tr></thead>
+              <tbody>
+                <tr class="dd-line"><td>Peinture murs (2 couches)</td><td>41 m²</td><td>28,00 €</td><td>1&nbsp;148,00 €</td></tr>
+                <tr class="dd-line"><td>Peinture plafond (2 couches)</td><td>24 m²</td><td>32,00 €</td><td>768,00 €</td></tr>
+                <tr class="dd-line"><td>Préparation & protection</td><td>forfait</td><td>180,00 €</td><td>180,00 €</td></tr>
+              </tbody>
+            </table>
+            <div class="dd-total dd-totals">
+              <div><span>Sous-total HT</span><span>2&nbsp;096,00 €</span></div>
+              <div><span>TVA 10 %</span><span>209,60 €</span></div>
+              <div class="dd-ttc"><span>Total TTC</span><b class="dd-amt">2&nbsp;305,60 €</b></div>
+            </div>
+            <div class="dd-foot"><span>Devis valable 30 jours · acompte 30 % à la commande</span><span class="dd-sign">Bon pour accord — signé</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.dd-sec{padding:70px 0;background:var(--soft)}
+.dd-card{max-width:820px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px -28px rgba(10,29,20,.3)}
+.dd-tabs{display:flex;gap:6px;padding:14px;border-bottom:1px solid var(--line2);background:#fbfdfc}
+.dd-tab{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:.7rem;font-weight:700;font-size:.92rem;color:var(--sub);cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.dd-tab span{font-size:1.1rem}
+.dd-tab.on{background:var(--g1);color:#fff;border-color:var(--g1)}
+.dd-stage{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:300px}
+.dd-input{padding:28px;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line2);position:relative;background:radial-gradient(120% 90% at 50% 0%,rgba(13,148,136,.06),transparent 60%)}
+.dd-in{display:none;flex-direction:column;align-items:center;gap:1rem;width:100%}
+.dd-in.show{display:flex}
+.dd-mic{width:64px;height:64px;border-radius:50%;background:var(--g1);display:grid;place-items:center;position:relative}
+.dd-mic svg{width:28px;height:28px}
+.dd-mic::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--teal);opacity:0;animation:ddping 1.6s infinite}
+@keyframes ddping{0%{transform:scale(.85);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+.dd-wave{display:flex;gap:4px;align-items:center;height:26px}
+.dd-wave i{width:4px;background:var(--teal);border-radius:2px;height:6px;animation:ddwv 1s ease-in-out infinite}
+.dd-wave i:nth-child(2){animation-delay:.1s}.dd-wave i:nth-child(3){animation-delay:.2s}.dd-wave i:nth-child(4){animation-delay:.3s}.dd-wave i:nth-child(5){animation-delay:.4s}.dd-wave i:nth-child(6){animation-delay:.5s}.dd-wave i:nth-child(7){animation-delay:.6s}
+@keyframes ddwv{0%,100%{height:6px}50%{height:24px}}
+.dd-transcript{font-size:.92rem;color:var(--ink);text-align:center;min-height:2.6em;font-weight:500;max-width:240px}
+.dd-photo{width:200px;height:150px;border-radius:12px;background:linear-gradient(135deg,#cfe3da,#eaf3ee);position:relative;overflow:hidden;border:1px solid var(--line)}
+.dd-photo::before{content:"";position:absolute;inset:16px;border:2px solid rgba(15,81,50,.16);border-radius:8px}
+.dd-photo::after{content:"";position:absolute;left:16px;right:16px;bottom:16px;height:34%;background:rgba(15,81,50,.1);border-radius:0 0 6px 6px}
+.dd-tab svg{width:17px;height:17px}
+.dd-scan{position:absolute;left:0;right:0;height:3px;background:var(--teal2);box-shadow:0 0 12px var(--teal2);top:0;animation:ddscan 2s ease-in-out infinite}
+@keyframes ddscan{0%,100%{top:0}50%{top:147px}}
+.dd-cotes{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:5px;padding:10px}
+.dd-cotes span{background:rgba(15,81,50,.88);color:#fff;font-size:.68rem;font-weight:700;padding:.2rem .45rem;border-radius:6px;opacity:0}
+.dd-type{font-size:.95rem;color:var(--ink);font-weight:500;max-width:240px;min-height:3em}
+.dd-cursor{color:var(--teal);animation:ddblink 1s step-end infinite}
+@keyframes ddblink{50%{opacity:0}}
+.dd-devis{padding:22px;display:flex;align-items:center}
+.dd-doc{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 18px 14px;box-shadow:0 6px 20px -10px rgba(10,29,20,.15);font-size:.82rem}
+.dd-doctop{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:10px;border-bottom:2px solid var(--g1);margin-bottom:10px}
+.dd-co{font-weight:800;color:var(--g1);font-size:.95rem}
+.dd-cosub{font-size:.7rem;color:var(--sub)}
+.dd-meta{text-align:right;font-size:.72rem;color:var(--sub);line-height:1.4}
+.dd-meta .dd-t{font-weight:900;color:var(--ink);font-size:.95rem;letter-spacing:.04em}
+.dd-client{font-size:.76rem;color:var(--sub);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.dd-status{font-size:.66rem;font-weight:700;color:var(--teal);background:var(--soft);padding:.15rem .5rem;border-radius:999px;white-space:nowrap}
+.dd-table{width:100%;border-collapse:collapse}
+.dd-table th{text-align:left;font-size:.64rem;letter-spacing:.04em;color:var(--sub);font-weight:700;padding:0 4px 6px;border-bottom:1px solid var(--line)}
+.dd-table th:nth-child(n+2),.dd-table td:nth-child(n+2){text-align:right;white-space:nowrap}
+.dd-table td{padding:7px 4px;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.dd-line{opacity:0;transform:translateY(5px)}
+.dd-line.in{opacity:1;transform:none;transition:.45s}
+.dd-totals{margin-top:10px;margin-left:auto;width:64%;opacity:0;transition:.5s}
+.dd-totals.in{opacity:1}
+.dd-totals>div{display:flex;justify-content:space-between;font-size:.78rem;padding:2px 0;color:var(--sub)}
+.dd-ttc{border-top:1px solid var(--line);margin-top:4px;padding-top:6px!important;color:var(--ink)!important;font-weight:700}
+.dd-ttc .dd-amt{font-size:1.15rem;font-weight:900;color:var(--g1)}
+.dd-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2);font-size:.64rem;color:var(--sub)}
+.dd-sign{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:.35rem .6rem;font-size:.7rem;font-weight:700;color:var(--g1);opacity:0;transition:.5s;white-space:nowrap}
+.dd-sign.in{opacity:1}
+@media(max-width:720px){.dd-stage{grid-template-columns:1fr}.dd-input{border-right:0;border-bottom:1px solid var(--line2)}}
+@media(prefers-reduced-motion:reduce){.dd-scan,.dd-mic::after,.dd-wave i{animation:none}}
+</style>
+<script>
+(function(){
+  var sec=document.querySelector('.dd-sec'); if(!sec) return;
+  var tabs=sec.querySelectorAll('.dd-tab'), ins=sec.querySelectorAll('.dd-in');
+  var lines=sec.querySelectorAll('.dd-line'), total=sec.querySelector('.dd-total'),
+      sign=sec.querySelector('.dd-sign'), status=sec.querySelector('.dd-status'),
+      transcript=sec.querySelector('.dd-transcript'), typed=sec.querySelector('.dd-typed'),
+      cotes=sec.querySelectorAll('.dd-cotes span');
+  var methods=['voix','photo','main'], idx=0, timers=[], playing=false;
+  var texts={voix:'« Séjour 24 m², murs et plafond, deux couches, plus la prépa »',main:'Séjour 24 m², murs + plafond 2 couches, préparation'};
+  function T(fn,ms){var t=setTimeout(fn,ms);timers.push(t);}
+  function clearAll(){timers.forEach(clearTimeout);timers=[];}
+  function reset(){
+    lines.forEach(function(l){l.classList.remove('in')});
+    total.classList.remove('in');sign.classList.remove('in');
+    status.textContent='en cours…';transcript.textContent='';typed.textContent='';
+    cotes.forEach(function(c){c.style.opacity=0});
+  }
+  function show(m){ins.forEach(function(el){el.classList.toggle('show',el.classList.contains(m))});}
+  function typeText(el,txt,done){var i=0;(function step(){if(i<=txt.length){el.textContent=txt.slice(0,i++);T(step,26);}else if(done)done();})();}
+  function buildDevis(){
+    lines.forEach(function(l,i){T(function(){l.classList.add('in')},400+i*450);});
+    T(function(){total.classList.add('in');status.textContent='chiffré ';},400+lines.length*450+300);
+    T(function(){sign.classList.add('in');},400+lines.length*450+900);
+  }
+  function play(m){
+    clearAll();reset();show(m);playing=true;
+    if(m==='voix'){typeText(transcript,texts.voix,buildDevis);}
+    else if(m==='main'){typeText(typed,texts.main,buildDevis);}
+    else{ // photo
+      cotes.forEach(function(c,i){T(function(){c.style.opacity=1;c.style.transition='.3s'},700+i*250);});
+      T(buildDevis,1600);
+    }
+    // enchaîner la méthode suivante
+    T(function(){idx=(idx+1)%methods.length;setTab(methods[idx]);play(methods[idx]);},6800);
+  }
+  function setTab(m){tabs.forEach(function(t){t.classList.toggle('on',t.dataset.m===m)});}
+  tabs.forEach(function(t){t.addEventListener('click',function(){idx=methods.indexOf(t.dataset.m);setTab(t.dataset.m);play(t.dataset.m);});});
+  // démarre quand la section entre à l'écran
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!playing){play('voix');io.disconnect();}})},{threshold:.3});
+  io.observe(sec);
+})();
+</script>
+
+<section id="tour">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="ey">TOUTE LA GESTION DU CHANTIER, DANS UNE APPLI</span>
+      <h2 class="h">Une fonctionnalité pour chaque moment de votre métier</h2>
+      <p>Du relevé sur le terrain à l'export comptable, tout est réuni — et tout part d'une simple dictée ou d'une photo.</p>
+    </div>
+
+    <div class="tabx reveal">
+      <div class="tabx-nav">
+        <button class="tabx-btn on" type="button" data-i="0">1 · Devis</button>
+        <button class="tabx-btn" type="button" data-i="1">2 · Photo</button>
+        <button class="tabx-btn" type="button" data-i="2">3 · Planning</button>
+        <button class="tabx-btn" type="button" data-i="3">4 · Communication</button>
+        <button class="tabx-btn" type="button" data-i="4">5 · Notes de frais</button>
+        <button class="tabx-btn" type="button" data-i="5">6 · Suivi</button>
+        <button class="tabx-btn" type="button" data-i="6">7 · Leads</button>
+      </div>
+      <div class="tabx-panes">
+        <div class="tabx-pane on" data-i="0">
+          <div class="tabx-txt">
+            <h3>Créez vos devis en 30 secondes</h3>
+            <p>Dictez le chantier à voix haute : l'appli reconnaît les prestations, applique le prix du marché, met le devis en page — et votre client signe à distance.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Dictée vocale des notes de visite</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Prix du marché appliqué automatiquement</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Signature du client à distance</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-devis.png" alt="Créer un devis BatiSpot par dictée vocale"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="1">
+          <div class="tabx-txt">
+            <h3>Une photo → les cotes et les surfaces</h3>
+            <p>Prenez une simple photo de la pièce : l'appli calcule la longueur, la largeur, la hauteur sous plafond et les surfaces à peindre ou carreler, puis pré-remplit votre devis.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Cotes calculées automatiquement</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Surfaces à peindre et à carreler</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Photos types de chantier en 1 clic</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-photo.png" alt="Scanner IA BatiSpot : cotes et surfaces par photo"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="2">
+          <div class="tabx-txt">
+            <h3>Le planning de vos équipes terrain</h3>
+            <p>Visualisez la semaine de chaque compagnon, affectez les chantiers, planifiez les visites. Chacun sait où il va et sur quel chantier, sans coup de fil.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Calendrier hebdo par membre et par chantier</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Affectation des équipes en un geste</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Prise de RDV et visites planifiées</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-planning.png" alt="Planning des équipes terrain BatiSpot"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="3">
+          <div class="tabx-txt">
+            <h3>Toute l'équipe sur le même fil</h3>
+            <p>Une messagerie par chantier entre chefs et compagnons : consignes, photos, validations. Et vos ouvriers ne voient <b>jamais</b> les montants.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Messagerie par chantier</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Espaces terrain et client</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Prix HT/TTC masqués aux équipes terrain</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-communication.png" alt="Messagerie d'équipe BatiSpot par chantier"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="4">
+          <div class="tabx-txt">
+            <h3>Vos reçus scannés, lus par l'IA</h3>
+            <p>L'ouvrier photographie un ticket : l'appli lit le montant, la TVA et le fournisseur, et l'ajoute aux dépenses du chantier. La TVA récupérable est calculée pour vous.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> OCR des reçus et notes de frais</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> TVA récupérable calculée</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Remboursement de l'équipe suivi</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-notesfrais.png" alt="OCR des reçus et notes de frais BatiSpot"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="5">
+          <div class="tabx-txt">
+            <h3>Vos finances et votre rentabilité, en temps réel</h3>
+            <p>Chiffre d'affaires encaissé, marge brute par chantier, dépenses — tout est suivi en direct. Éditez vos factures et exportez pour votre expert-comptable en un clic.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> CA, marge brute et dépenses par période</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Factures éditées dans l'appli</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Export comptable en 1 clic</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-suivi.png" alt="Suivi financier et comptabilité BatiSpot"></div></div>
+        </div>
+        <div class="tabx-pane" data-i="6">
+          <div class="tabx-txt">
+            <h3>Des chantiers qualifiés, sans commission</h3>
+            <p>Recevez des demandes de chantier près de chez vous et transformez-les directement en devis dans l'appli. Ce que vous signez est à vous, entièrement.</p>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Demandes ciblées sur votre zone</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> 0 % de commission sur vos contrats</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg> Du lead au devis, sans ressaisie</li></ul>
+          </div>
+          <div class="tabx-media"><div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-leads.png" alt="Leads chantiers BatiSpot"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.tabx{max-width:1240px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:30px;padding:48px 52px;box-shadow:0 40px 90px -46px rgba(10,29,20,.30)}
+.tabx-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:44px}
+.tabx-btn{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:.72rem 1.4rem;font-weight:600;font-size:.96rem;color:var(--sub);cursor:pointer;transition:.2s}
+.tabx-btn:hover{border-color:var(--teal);color:var(--g1)}
+.tabx-btn.on{background:var(--g1);color:#fff;border-color:var(--g1);box-shadow:0 8px 20px -8px rgba(15,81,50,.5)}
+.tabx-pane{display:none;grid-template-columns:1fr 1.32fr;gap:56px;align-items:center}
+.tabx-pane.on{display:grid;animation:tabfade .5s}
+@keyframes tabfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.tabx-txt h3{font-size:2rem;font-weight:800;letter-spacing:-.025em;margin-bottom:.8rem;line-height:1.12}
+.tabx-txt p{color:var(--sub);font-size:1.12rem;margin-bottom:1.2rem}
+.tabx-txt ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.tabx-txt li{display:flex;gap:.6rem;align-items:flex-start;font-size:1.02rem;font-weight:500}
+.tabx-txt li svg{width:20px;height:20px;color:var(--teal);flex-shrink:0;margin-top:2px}
+.tabx-media .win{box-shadow:0 40px 80px -30px rgba(10,29,20,.45)}
+@media(max-width:820px){.tabx{padding:30px 22px;border-radius:24px}.tabx-pane.on{grid-template-columns:1fr;gap:28px}.tabx-txt h3{font-size:1.6rem}}
+</style>
+<script>
+(function(){
+  var wrap=document.querySelector('.tabx'); if(!wrap) return;
+  var btns=wrap.querySelectorAll('.tabx-btn'), panes=wrap.querySelectorAll('.tabx-pane'), cur=0, timer;
+  function go(i){cur=i;var di=btns[i].getAttribute('data-i');btns.forEach(function(b,k){b.classList.toggle('on',k===i)});panes.forEach(function(p){p.classList.toggle('on',p.getAttribute('data-i')===di)});}
+  function auto(){clearInterval(timer);timer=setInterval(function(){go((cur+1)%panes.length)},5000);}
+  btns.forEach(function(b,i){b.addEventListener('click',function(){go(i);auto();})});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){auto();io.disconnect();}})},{threshold:.3});io.observe(wrap);
+})();
+</script>
+
+<!-- ===== DÉMO ANIMÉE : l'assistant IA ===== -->
+<section class="ai-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="ey">UN SEUL ASSISTANT — TOUT VOTRE MÉTIER</span>
+      <h2 class="h">Parlez-lui. Il fait le reste.</h2>
+      <p>Devis, planning, matériel, relances, TVA, messages à l'équipe… vous demandez, l'assistant exécute. Fini de jongler entre plusieurs applis — tout se pilote ici, à la voix.</p>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-head">
+        <div class="ai-ava"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>
+        <div><div class="ai-name">Mon Assistant</div><div class="ai-sub">Mémoire active</div></div>
+      </div>
+      <div class="ai-body" id="aiBody"></div>
+    </div>
+    <p class="ai-replace reveal">Un seul assistant remplace votre appli de <b>devis</b>, votre <b>compta</b>, votre <b>agenda</b> et votre <b>messagerie</b>. Tout est là.</p>
+  </div>
+</section>
+<style>
+.ai-sec{padding:80px 0}
+.ai-replace{text-align:center;max-width:640px;margin:28px auto 0;color:var(--sub);font-size:1rem;font-weight:500}
+.ai-replace b{color:var(--g1);font-weight:800}
+.ai-card{max-width:660px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 60px -28px rgba(10,29,20,.3)}
+.ai-head{display:flex;align-items:center;gap:.7rem;padding:16px 20px;background:linear-gradient(120deg,var(--g1),var(--g2))}
+.ai-ava{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.16);display:grid;place-items:center}
+.ai-ava svg{width:21px;height:21px}
+.ai-name{color:#fff;font-weight:800;font-size:.98rem}
+.ai-sub{color:rgba(255,255,255,.7);font-size:.72rem}
+.ai-body{padding:22px;min-height:340px;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.ai-msg{max-width:82%;padding:.7rem .9rem;border-radius:14px;font-size:.9rem;line-height:1.45;opacity:0;transform:translateY(8px);animation:aiin .4s forwards}
+@keyframes aiin{to{opacity:1;transform:none}}
+.ai-msg.user{align-self:flex-end;background:var(--g1);color:#fff;border-bottom-right-radius:4px}
+.ai-msg.bot{align-self:flex-start;background:#fff;color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:4px}
+.ai-act{align-self:flex-start;margin-top:-6px;background:var(--soft);border:1px solid var(--teal);color:var(--g1);font-weight:700;font-size:.82rem;padding:.5rem .9rem;border-radius:10px;display:inline-flex;align-items:center;gap:.4rem;opacity:0;animation:aiin .4s forwards}
+.ai-dots{align-self:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:.75rem .9rem;display:flex;gap:5px}
+.ai-dots i{width:7px;height:7px;border-radius:50%;background:var(--sub);opacity:.4;animation:aidot 1.2s infinite}
+.ai-dots i:nth-child(2){animation-delay:.2s}.ai-dots i:nth-child(3){animation-delay:.4s}
+@keyframes aidot{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+</style>
+<script>
+(function(){
+  var body=document.getElementById('aiBody'); if(!body) return;
+  var chat=[
+    {q:"Quel est mon planning pour demain ?",
+     a:"Demain, Karim et Luc sont sur le chantier Dupont (rénovation R+1) : bâchage, ponçage puis impression. Sofia et Momo enchaînent la pose carrelage chez Martin.",
+     act:"Ouvrir le planning"},
+    {q:"Quel matériel pour le chantier de demain ?",
+     a:"Pour Dupont : sous-couche d'impression, peinture satin, rouleaux et bâches de protection. Vous avez déjà la peinture Zolpan achetée le 07/08. Pensez aux 2 échelles."},
+    {q:"Combien de TVA je dois reverser ce mois ?",
+     a:"TVA collectée 210 € − TVA déductible sur vos achats (Point.P, Zolpan, carburant) 195 € = 15 € à reverser. Vous êtes presque à l'équilibre."}
+  ];
+  function el(cls,html){var d=document.createElement('div');d.className=cls;if(html!=null)d.innerHTML=html;return d;}
+  function typeInto(node,txt,done){var i=0;(function s(){if(i<=txt.length){node.textContent=txt.slice(0,i++);setTimeout(s,14);}else if(done)done();})();}
+  var timers=[];function T(fn,ms){timers.push(setTimeout(fn,ms));}
+  function run(k){
+    if(k>=chat.length){ // boucle
+      T(function(){body.innerHTML='';run(0);},3500);return;
+    }
+    var m=chat[k];
+    var u=el('ai-msg user',m.q);body.appendChild(u);
+    T(function(){
+      var dots=el('ai-dots','<i></i><i></i><i></i>');body.appendChild(dots);
+      T(function(){
+        body.removeChild(dots);
+        var b=el('ai-msg bot','');body.appendChild(b);
+        typeInto(b,m.a,function(){
+          if(m.act){var a=el('ai-act','<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> '+m.act);body.appendChild(a);}
+          T(function(){run(k+1);},1800);
+        });
+      },1100);
+    },700);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(0);io.disconnect();}})},{threshold:.3});
+  io.observe(body);
+})();
+</script>
+
+<!-- ===== DÉMO : planning en 1 clic depuis un devis ===== -->
+<section class="pl-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="ey">DU DEVIS AU CHANTIER</span>
+      <h2 class="h">Le planning en un clic, depuis le devis signé</h2>
+      <p>Un devis accepté ? BatiSpot génère le planning d'exécution et affecte les équipes automatiquement.</p>
+    </div>
+    <div class="pl-stage reveal">
+      <div class="pl-left">
+        <div class="pl-devis">
+          <div class="pl-dnum">Devis DEV-2026-001</div>
+          <div class="pl-dcli">M. Dupont — Rénovation séjour</div>
+          <div class="pl-dttc">2&nbsp;305,60 € TTC</div>
+          <div class="pl-signed">Signé par le client</div>
+        </div>
+        <button class="pl-btn" type="button">Générer le planning</button>
+      </div>
+      <div class="pl-cal">
+        <div class="pl-calhead">Semaine 42 · Chantier Dupont</div>
+        <div class="pl-grid">
+          <div class="pl-day"><span>LUN</span><div class="pl-blk b1">Bâchage & ponçage — Karim, Luc</div></div>
+          <div class="pl-day"><span>MAR</span><div class="pl-blk b2">Impression — Karim</div></div>
+          <div class="pl-day"><span>MER</span><div class="pl-blk b1">Ratissage plafond — Luc</div></div>
+          <div class="pl-day"><span>JEU</span><div class="pl-blk b3">Peinture 1re couche — Luc, Sofia</div></div>
+          <div class="pl-day"><span>VEN</span><div class="pl-blk b2">Finitions & réception — Équipe</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DÉMO : messagerie d'équipe ===== -->
+<section class="msg-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="ey">SUR LE TERRAIN</span>
+      <h2 class="h">Toute l'équipe sur le même fil</h2>
+      <p>Chefs et compagnons échangent par chantier — sans jamais voir les montants.</p>
+    </div>
+    <div class="msg-card reveal">
+      <div class="msg-head"><span class="msg-dot"></span> Équipe · Chantier Dupont</div>
+      <div class="msg-body" id="msgBody"></div>
+    </div>
+  </div>
+</section>
+<style>
+.pl-sec{padding:80px 0;background:var(--soft)}
+.pl-stage{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:center;max-width:900px;margin:0 auto}
+.pl-devis{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px -12px rgba(10,29,20,.18)}
+.pl-dnum{font-weight:800;color:var(--g1)}
+.pl-dcli{font-size:.82rem;color:var(--sub);margin:.2rem 0 .8rem}
+.pl-dttc{font-size:1.3rem;font-weight:900;color:var(--ink)}
+.pl-signed{margin-top:.7rem;font-size:.74rem;font-weight:700;color:var(--g1);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:.4rem .6rem;display:inline-block}
+.pl-signed::before{content:"✓ "}
+.pl-btn{margin-top:14px;width:100%;background:var(--cta);color:#fff;border:0;border-radius:12px;padding:.85rem;font-weight:700;font-size:.95rem;cursor:pointer;transition:.15s}
+.pl-btn.click{transform:scale(.96);box-shadow:0 0 0 6px rgba(15,81,50,.15)}
+.pl-cal{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 24px -12px rgba(10,29,20,.18);opacity:.35;transition:.5s}
+.pl-cal.on{opacity:1}
+.pl-calhead{font-weight:800;font-size:.9rem;margin-bottom:12px;color:var(--ink)}
+.pl-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pl-day span{font-size:.62rem;font-weight:700;letter-spacing:.06em;color:var(--sub);display:block;margin-bottom:5px;text-align:center}
+.pl-blk{font-size:.66rem;font-weight:600;color:#fff;border-radius:8px;padding:.5rem;min-height:74px;opacity:0;transform:translateY(10px);transition:.5s}
+.pl-blk.in{opacity:1;transform:none}
+.pl-blk.b1{background:var(--g1)}.pl-blk.b2{background:var(--teal)}.pl-blk.b3{background:#B45309}
+.msg-sec{padding:80px 0}
+.msg-card{max-width:560px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px -28px rgba(10,29,20,.3)}
+.msg-head{padding:14px 18px;background:var(--g1);color:#fff;font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.5rem}
+.msg-dot{width:8px;height:8px;border-radius:50%;background:#28c840;box-shadow:0 0 0 3px rgba(40,200,64,.25)}
+.msg-body{padding:20px;min-height:300px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+.msg-row{display:flex;gap:9px;align-items:flex-end;opacity:0;transform:translateY(8px);animation:aiin .4s forwards}
+.msg-row.me{flex-direction:row-reverse}
+.msg-ava{width:30px;height:30px;border-radius:50%;background:var(--g2);color:#fff;font-size:.7rem;font-weight:800;display:grid;place-items:center;flex-shrink:0}
+.msg-b{max-width:78%;padding:.6rem .8rem;border-radius:13px;font-size:.86rem;line-height:1.4}
+.msg-row:not(.me) .msg-b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg-row.me .msg-b{background:var(--g1);color:#fff;border-bottom-right-radius:4px}
+.msg-b .who{font-size:.68rem;font-weight:700;color:var(--teal);margin-bottom:2px}
+@media(max-width:720px){.pl-stage{grid-template-columns:1fr}.pl-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script>
+(function(){
+  // Planning depuis devis
+  var sec=document.querySelector('.pl-sec');
+  if(sec){
+    var btn=sec.querySelector('.pl-btn'),cal=sec.querySelector('.pl-cal'),blks=sec.querySelectorAll('.pl-blk');
+    var tk=[];function reset(){cal.classList.remove('on');btn.classList.remove('click');blks.forEach(function(b){b.classList.remove('in')});}
+    function play(){reset();
+      tk.push(setTimeout(function(){btn.classList.add('click');},900));
+      tk.push(setTimeout(function(){btn.classList.remove('click');cal.classList.add('on');},1300));
+      blks.forEach(function(b,i){tk.push(setTimeout(function(){b.classList.add('in');},1600+i*300));});
+      tk.push(setTimeout(play,7000));
+    }
+    btn.addEventListener('click',function(){tk.forEach(clearTimeout);tk=[];play();});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){play();io.disconnect();}})},{threshold:.3});io.observe(sec);
+  }
+  // Messagerie équipe
+  var body=document.getElementById('msgBody');
+  if(body){
+    var msgs=[
+      {w:"Karim (Chef)",i:"KB",me:false,t:"On attaque le bâchage et le ponçage ce matin sur Dupont."},
+      {w:"Luc",i:"LM",me:false,t:"Reçu, je charge les bâches et le rouleau à poncer."},
+      {w:"Vous",i:"MD",me:true,t:"Parfait. Pensez au masquage des prises avant l'impression."},
+      {w:"Karim (Chef)",i:"KB",me:false,t:"C'est noté. Je vous envoie une photo dans 1h."}
+    ];
+    function row(m){var r=document.createElement('div');r.className='msg-row'+(m.me?' me':'');
+      r.innerHTML='<div class="msg-ava">'+m.i+'</div><div class="msg-b">'+(m.me?'':'<div class="who">'+m.w+'</div>')+m.t+'</div>';return r;}
+    var t=[];function run(k){if(k>=msgs.length){t.push(setTimeout(function(){body.innerHTML='';run(0);},3800));return;}
+      body.appendChild(row(msgs[k]));t.push(setTimeout(function(){run(k+1);},1500));}
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(0);io2.disconnect();}})},{threshold:.3});io2.observe(body);
+  }
+})();
+</script>
+
+<section class="steps">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="ey">DÉMARRER</span><h2 class="h">Opérationnel en 48 heures</h2></div>
+    <div class="steps-grid">
+      <div class="st reveal"><span class="n"></span><h3>Créez votre compte</h3><p>Votre métier, votre zone, votre équipe.</p></div>
+      <div class="st reveal"><span class="n"></span><h3>Dictez votre premier chantier</h3><p>L'assistant sort le devis, vous ajustez.</p></div>
+      <div class="st reveal"><span class="n"></span><h3>Pilotez tout au même endroit</h3><p>Planning, chantiers, factures, finances.</p></div>
+    </div>
+  </div>
+</section>
+
+<style>
+.chantiers-sec{padding:60px 0 70px}
+.ch-card{background:linear-gradient(140deg,var(--g1),#0b3f27);color:#fff;border-radius:30px;padding:56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative;overflow:hidden;box-shadow:0 44px 90px -44px rgba(10,29,20,.55)}
+.ch-card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 100% at 88% 0%,rgba(20,184,166,.28),transparent 55%);pointer-events:none}
+.ch-txt{position:relative}
+.ch-txt .ey{color:var(--teal2);display:block;margin-bottom:.7rem}
+.ch-txt h2{color:#fff;font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin-bottom:.9rem}
+.ch-txt p{color:rgba(255,255,255,.86);font-size:1.08rem;margin-bottom:1.4rem;max-width:520px}
+.ch-list{list-style:none;display:flex;flex-direction:column;gap:.65rem;margin-bottom:1.8rem}
+.ch-list li{display:flex;gap:.6rem;align-items:flex-start;font-weight:600;font-size:1rem}
+.ch-list li svg{width:19px;height:19px;color:var(--teal2);flex-shrink:0;margin-top:2px}
+.ch-card .btn-p{background:#fff;color:var(--g1);box-shadow:0 10px 30px -8px rgba(0,0,0,.35)}
+.ch-card .btn-p:hover{background:#f0f7f3}
+.ch-media{position:relative}
+.ch-media .win{border:1px solid rgba(255,255,255,.14);box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+.ch-strip{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:30px}
+.ch-strip span{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:.44rem .95rem;font-size:.86rem;font-weight:600;color:var(--g1)}
+.ch-strip .hot{background:var(--g1);color:#fff;border-color:var(--g1)}
+@media(max-width:820px){.ch-card{grid-template-columns:1fr;padding:34px 24px;gap:30px}}
+</style>
+<section class="chantiers-sec">
+  <div class="wrap">
+    <div class="ch-card reveal">
+      <div class="ch-txt">
+        <span class="ey">LA PLATEFORME LA PLUS COMPLÈTE</span>
+        <h2>Gérez votre métier — et recevez des chantiers.</h2>
+        <p>BatiSpot n'est pas qu'un outil de gestion. Les particuliers déposent leurs projets près de chez vous : vous recevez des demandes de chantiers qualifiées, directement dans l'appli.</p>
+        <ul class="ch-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Des chantiers dans votre zone, sans commission</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Devis chiffré en 30 s, matériaux au meilleur prix</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Planning, factures, notes de frais et équipes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Tout au même endroit — du 1er contact à la facture</li>
+        </ul>
+        <a class="btn btn-p" href="#join" data-loc="chantiers">Recevoir des chantiers</a>
+      </div>
+      <div class="ch-media">
+        <div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="assets/real-leads.png" alt="Recevez des chantiers qualifiés dans votre zone avec BatiSpot"></div>
+      </div>
+    </div>
+    <div class="ch-strip">
+      <span>Devis vocal</span><span>Photo → cotes</span><span>Fournitures au meilleur prix</span><span>Planning équipes</span><span>Messagerie chantier</span><span>Notes de frais</span><span>Suivi &amp; rentabilité</span><span class="hot">Chantiers reçus</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="wrap">
+    <div class="cta-card reveal" id="join">
+      <h2>Prêt à gérer tout votre métier depuis une seule appli ?</h2>
+      <p>Rejoignez BatiSpot Pro — l'assistant &amp; gestionnaire BTP des artisans.</p>
+      <form onsubmit="this.querySelector('button').textContent=' Reçu';return false;">
+        <input type="email" required placeholder="Votre email professionnel" aria-label="Email professionnel">
+        <button type="submit">Commencer gratuitement</button>
+      </form>
+      <p class="n">Partout en France · sans commission · sans carte bancaire</p>
+    </div>
+  </div>
+</section>
+
+<section class="metiers">
+  <div class="wrap">
+    <span class="ey">BATISPOT PRO PAR MÉTIER</span>
+    <div class="mtags">
+      <a href="/pro/plombier-paris.html">Plombier</a><a href="/pro/electricien-paris.html">Électricien</a>
+      <a href="/pro/peintre-paris.html">Peintre</a><a href="/pro/macon-paris.html">Maçon</a>
+      <a href="/pro/carreleur-paris.html">Carreleur</a><a href="/pro/menuisier-paris.html">Menuisier</a>
+      <a href="/pro/chauffagiste-paris.html">Chauffagiste</a><a href="/pro/couvreur-paris.html">Couvreur</a>
+      <a href="/pro/plaquiste-paris.html">Plaquiste</a><a href="/pro/serrurier-paris.html">Serrurier</a>
+      <a href="/pro/charpentier-paris.html">Charpentier</a><a href="/pro/facadier-paris.html">Façadier</a>
+    </div>
+  </div>
+</section>
+
+<footer>BatiSpot Pro — l'assistant &amp; gestionnaire BTP des artisans · <a href="/">BatiSpot</a></footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(e){io.observe(e)});
+  setTimeout(function(){els.forEach(function(e){e.classList.add('in')})},1800);
+})();
+</script>
+<script>
+(function(){var s=document.querySelectorAll('.hp-scr');if(s.length<2)return;var i=0;setInterval(function(){s[i].classList.remove('on');i=(i+1)%s.length;s[i].classList.add('on');},2600);})();
+</script>
+<!-- Conversion tracking (GA4 events) -->
+<script>
+(function(){
+  var UTM=(function(){try{var p=new URLSearchParams(location.search),o={},got=false;
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(x){if(p.get(x)){o[x]=p.get(x);got=true;}});
+    if(got)localStorage.setItem('bs_utm',JSON.stringify(o));
+    return JSON.parse(localStorage.getItem('bs_utm')||'{}');}catch(e){return {};}})();
+  function ev(n,p){ p=p||{}; for(var k in UTM){p[k]=UTM[k];} if(window.gtag) gtag('event',n,p); }
+  document.querySelectorAll('.btn-p').forEach(function(a){a.addEventListener('click',function(){ev('cta_click',{location:'primary'});});});
+  document.querySelectorAll('.btn-s').forEach(function(a){a.addEventListener('click',function(){ev('cta_click',{location:'secondary'});});});
+  document.querySelectorAll('.nav-cta').forEach(function(a){a.addEventListener('click',function(){ev('cta_click',{location:'nav'});});});
+  var f=document.querySelector('.cta-card form');
+  if(f) f.addEventListener('submit',function(){ev('signup_submit',{location:'final'});});
+  var v=document.querySelector('.win video'), played=false;
+  if(v) v.addEventListener('play',function(){if(!played){played=true;ev('demo_video_play',{});}});
+  document.querySelectorAll('.tabx-btn').forEach(function(b){b.addEventListener('click',function(){ev('feature_view',{feature:b.textContent.trim()});});});
+  document.querySelectorAll('.mtags a').forEach(function(a){a.addEventListener('click',function(){ev('metier_click',{metier:a.textContent.trim()});});});
+  var seen={};
+  window.addEventListener('scroll',function(){
+    var d=document.documentElement,p=(d.scrollTop)/(d.scrollHeight-d.clientHeight);
+    [25,50,75,90].forEach(function(m){if(p*100>=m&&!seen[m]){seen[m]=1;ev('scroll_depth',{percent:m});}});
+  },{passive:true});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/consent.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Comment calculer sa marge sur un chantier (et arreter de travailler a perte)</title>
+<meta name="description" content="Calculer sa marge chantier BTP : deboursé sec, coefficient de vente, frais generaux, seuil de rentabilite. La methode pour chiffrer juste.">
+<meta name="keywords" content="calculer sa marge chantier, marge chantier btp, deboursé sec, coefficient de vente, rentabilite artisan, prix de vente chantier">
+<link rel="canonical" href="https://batispot.pro/blog-pro/calculer-marge-chantier-btp">
+<meta property="og:title" content="Comment calculer sa marge sur un chantier (et arreter de travailler a perte)"><meta property="og:description" content="Calculer sa marge chantier BTP : deboursé sec, coefficient de vente, frais generaux, seuil de rentabilite. La methode complete pour chiffrer juste et arreter de travailler a perte.">
+<meta property="og:type" content="article">
+ <meta property="og:image" content="https://batispot.pro/og/blog-pro_calculer-marge-chantier-btp.png" /><meta property="og:url" content="https://batispot.pro/blog-pro/calculer-marge-chantier-btp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Comment calculer sa marge sur un chantier (et arreter de travailler a perte)","description":"Calculer sa marge chantier BTP : deboursé sec, coefficient de vente, frais generaux, seuil de rentabilite. La methode complete pour chiffrer juste et arreter de travailler a perte.","datePublished":"2026-08-14","dateModified":"2026-08-14","author":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"publisher":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Quelle marge viser sur un chantier BTP ?","acceptedAnswer":{"@type":"Answer","text":"Il n'existe pas de chiffre universel : cela depend de votre metier, de la part de main-d'oeuvre et de vos frais generaux. La bonne approche n'est pas de copier un pourcentage mais de calculer votre propre coefficient de vente a partir de vos frais reels, puis de verifier que chaque devis reste au-dessus de votre seuil de rentabilite."}},{"@type":"Question","name":"Quelle difference entre marge et benefice ?","acceptedAnswer":{"@type":"Answer","text":"La marge brute est ce qui reste apres le cout direct du chantier (deboursé sec). Le benefice, c'est ce qui reste apres avoir aussi paye les frais generaux de l'entreprise. Un chantier peut afficher une marge brute et pourtant ne degager aucun benefice si les frais de structure ne sont pas couverts."}},{"@type":"Question","name":"Comment integrer les frais generaux dans un devis ?","acceptedAnswer":{"@type":"Answer","text":"Via le coefficient de vente. Vous calculez le poids de vos frais generaux par rapport a votre deboursé sec annuel, vous en deduisez un multiplicateur, et vous l'appliquez au deboursé sec de chaque chantier. Ainsi chaque devis participe au financement de la structure."}},{"@type":"Question","name":"Pourquoi ajouter 20 % au cout ne donne pas 20 % de marge ?","acceptedAnswer":{"@type":"Answer","text":"Parce que la marge se calcule sur le prix de vente, pas sur le cout. Ajouter 20 % a un cout de 1 000 EUR donne 1 200 EUR, mais la marge de 200 EUR ne represente que 16,7 % du prix de vente. Pour obtenir une vraie marge de 20 %, il faut diviser le cout par 0,8, soit un prix de vente de 1 250 EUR."}}]}</script>
+<style>
+:root{--g1:#0F5132;--g2:#166534;--t2:#0D9488;--t1:#0F766E;--text:#1C2B22;--sub:#4B6B5A;--border:#BBF7D0;--soft:#F0FDF4;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:#FAFAFA;line-height:1.7;}
+.nav{background:white;border-bottom:1px solid #E5E7EB;padding:16px 0;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:800px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-weight:900;font-size:1.3rem;color:var(--g1);text-decoration:none;}
+.nav-logo span{color:var(--g2);opacity:.85;}
+.nav-badge{background:var(--t2);color:white;padding:3px 10px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:8px;letter-spacing:.5px;}
+.nav-cta{background:var(--t2);color:white;padding:8px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.85rem;}
+.nav-cta:hover{background:var(--t1);}
+article{max-width:800px;margin:0 auto;padding:40px 24px 80px;}
+.breadcrumb{font-size:.82rem;color:var(--sub);margin-bottom:24px;}
+.breadcrumb a{color:var(--t2);text-decoration:none;}
+.article-meta{display:flex;gap:16px;font-size:.82rem;color:var(--sub);margin-bottom:24px;flex-wrap:wrap;}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--g1);line-height:1.25;margin-bottom:16px;}
+h2{font-size:1.3rem;font-weight:700;color:var(--g1);margin:40px 0 16px;padding-top:8px;}
+h3{font-size:1.08rem;font-weight:700;color:var(--g2);margin:24px 0 10px;}
+p{margin-bottom:16px;font-size:1rem;}
+ul,ol{margin:12px 0 20px 22px;}li{margin-bottom:8px;}
+strong{color:var(--g1);}a{color:var(--t2);}
+.summary-box{background:var(--soft);border-left:4px solid var(--t2);padding:18px 22px;border-radius:0 10px 10px 0;margin:24px 0;}
+.summary-box h3{margin-top:0;color:var(--g1);}
+.summary-box ul{margin:8px 0 0 20px;}.summary-box li{margin-bottom:4px;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92rem;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #E5E7EB;}
+th{background:var(--g1);color:white;font-weight:700;font-size:.88rem;}
+tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#FAFAFA;}
+.warning-box{background:#FEF3C7;border-left:4px solid #F59E0B;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.warning-box strong{color:#92400E;}
+.info-box{background:#DBEAFE;border-left:4px solid #3B82F6;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.info-box strong{color:#1E40AF;}
+.cta-box{background:linear-gradient(135deg,#E6F7ED,#F0FDF4);border:2px solid #59C794;border-radius:16px;padding:28px;text-align:center;margin:40px 0;}
+.cta-box h3{font-size:1.2rem;color:var(--g1);margin-bottom:8px;}
+.cta-box p{color:var(--sub);margin-bottom:16px;}
+.cta-btn{display:inline-block;background:var(--t2);color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 4px 12px rgba(13,148,136,.3);}
+.cta-btn:hover{background:var(--t1);transform:translateY(-2px);}
+.related{margin:50px 0 20px;padding:24px;background:white;border-radius:12px;border:1px solid #E5E7EB;}
+.related h3{color:var(--g1);margin-bottom:14px;font-size:1.08rem;}
+.related ul{margin:0 0 0 18px;}.related a{font-weight:500;}
+.footer-blog{background:var(--g1);color:white;text-align:center;padding:32px 24px;font-size:.85rem;}
+.footer-blog a{color:#4CAF82;text-decoration:none;}
+@media(max-width:600px){article{padding:24px 16px 60px;}table{font-size:.82rem;}th,td{padding:10px 8px;}}
+
+@media(max-width:640px){
+ .wrap{padding:0 16px !important;}
+ .hero{padding:32px 0 20px !important;}
+ .content-body{padding:20px 16px !important;border-radius:16px !important;}
+ .lead-form-card{padding:22px 16px !important;border-radius:16px !important;margin:2rem 0 !important;}
+ .form-grid{grid-template-columns:1fr !important;gap:10px !important;}
+ .ai-snippet{padding:14px 16px !important;border-radius:12px !important;}
+}
+
+</style>
+<style id="lm-styles">
+.lm-block{max-width:700px;margin:48px auto 0;background:linear-gradient(135deg,#0F5132 0%,#166534 50%,#0D9488 100%);border-radius:20px;padding:40px 36px;color:white;box-shadow:0 20px 60px rgba(15,81,50,0.3);position:relative;overflow:hidden;}
+.lm-block::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.lm-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 14px;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px;}
+.lm-title{font-size:1.5rem;font-weight:900;line-height:1.3;margin-bottom:10px;}
+.lm-subtitle{font-size:.95rem;opacity:.85;margin-bottom:28px;line-height:1.6;}
+.lm-form{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1;}
+.lm-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.lm-input{width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.15);color:white;font-family:inherit;font-size:.9rem;transition:all .2s;}
+.lm-input::placeholder{color:rgba(255,255,255,0.55);}
+.lm-input:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+.lm-btn{width:100%;padding:15px;border-radius:10px;border:none;background:white;color:#0F5132;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:4px;}
+.lm-btn:hover{background:#f0fdf4;transform:translateY(-1px);}
+.lm-privacy{font-size:.72rem;opacity:.6;text-align:center;margin-top:10px;}
+.lm-success{display:none;text-align:center;padding:20px 0;}
+.lm-success-icon{font-size:3rem;margin-bottom:12px;}
+.lm-success-title{font-size:1.3rem;font-weight:800;margin-bottom:8px;}
+.lm-success-msg{opacity:.85;font-size:.9rem;}
+@media(max-width:520px){.lm-row{grid-template-columns:1fr;}.lm-block{padding:28px 20px;}.lm-title{font-size:1.25rem;}}
+@media print{.lm-block{display:none!important;}.nav,.footer-blog,.nav-blog{display:none!important;}article{padding:0!important;}body{background:white!important;}}
+</style>
+</head>
+<body><nav class="nav"><div class="nav-inner">
+<a href="https://batispot.pro" class="nav-logo" style="color:#0A1D14"><img src="https://batispot.pro/favicon.png" width="28" height="28" alt="" style="border-radius:7px;display:inline-block;vertical-align:middle;margin-right:8px">Bati<span style="color:#0A1D14">Spot</span><span class="nav-badge">PRO</span></a>
+<a href="https://batispot.pro/artisan" class="nav-cta">Rejoindre BatiSpot Pro</a>
+</div></nav>
+<article>
+<div class="breadcrumb"><a href="https://batispot.pro">Accueil</a> &rsaquo; <a href="https://batispot.pro/blog-pro/">Blog Artisans</a> &rsaquo; Comment calculer sa marge sur un chantier</div>
+<h1>Comment calculer sa marge sur un chantier (et arreter de travailler a perte)</h1>
+<div class="bs-pilier-link" style="margin:14px 0 6px;padding:12px 16px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;font-size:.95rem"><a href="/suivi-chantier-rentabilite-artisan" style="color:#0F5132;font-weight:700;text-decoration:none">&rarr; Découvrir le suivi & la rentabilité dans BatiSpot Pro</a></div>
+<div class="article-meta"><span>Par l'equipe BatiSpot</span><span>Mis a jour le 14/08/2026</span><span>Lecture : 9 min</span></div>
+<div class="summary-box"><h3>Ce que vous allez apprendre</h3><ul>
+<li>La difference entre marge et benefice, et pourquoi la confondre coute cher</li>
+<li>Comment calculer sa marge chantier a partir du deboursé sec reel</li>
+<li>Le coefficient de vente qui integre vos frais generaux (le piège n 1)</li>
+<li>Le seuil de rentabilite en dessous duquel vous perdez de l'argent en travaillant</li>
+</ul></div>
+
+<p>Beaucoup d'artisans facturent leurs materiaux plus une "marge au feeling" et decouvrent en fin d'annee que le resultat ne suit pas. Le probleme n'est presque jamais le carnet de commandes : c'est le chiffrage. Savoir <strong>calculer sa marge sur un chantier</strong> n'est pas une competence de comptable, c'est ce qui separe l'entreprise qui vit de celle qui court derriere sa tresorerie. Voici la methode complete, chiffres a l'appui.</p>
+
+<h2>Marge, benefice, marque : ne plus confondre</h2>
+<p>Premiere source d'erreur : appliquer un pourcentage sur le mauvais montant. Trois notions a distinguer clairement.</p>
+<ul>
+<li><strong>La marge</strong> = ce qui reste apres avoir paye tout ce que le chantier a reellement coute (materiaux + main-d'oeuvre + frais).</li>
+<li><strong>Le taux de marque</strong> = la marge exprimee en pourcentage du <em>prix de vente</em>.</li>
+<li><strong>Le coefficient de marge</strong> = le multiplicateur applique au cout pour obtenir le prix de vente.</li>
+</ul>
+<p>Le piège classique : "je prends 20 % de marge" en ajoutant 20 % au cout. Ajouter 20 % a un cout de 1 000 EUR donne 1 200 EUR, mais la marge reelle sur ce prix de vente n'est que de 200 / 1 200 = <strong>16,7 %</strong>, pas 20 %. Sur des dizaines de chantiers, cet ecart efface votre resultat.</p>
+
+<h2>Etape 1 : calculer le deboursé sec</h2>
+<p>Le deboursé sec, c'est le cout direct du chantier, sans un centime de frais de structure ni de benefice. Il additionne deux blocs.</p>
+<h3>Les fournitures</h3>
+<p>Prix d'achat reel des materiaux (HT, remises fournisseur deduites), plus les consommables souvent oublies : visserie, colle, protection, evacuation des dechets, location de materiel. Une regle de survie : ajoutez toujours une ligne "petites fournitures" de quelques pourcents, sinon elles sortent de votre poche.</p>
+<h3>La main-d'oeuvre</h3>
+<p>Ce n'est pas le salaire net. C'est le <strong>cout horaire charge</strong> : salaire brut + charges patronales + conges + paniers et deplacements. Un compagnon paye 13 EUR net de l'heure coute souvent 28 a 35 EUR de l'heure a l'entreprise une fois tout charge. Multipliez ce cout par le temps reellement estime, pas par le temps que vous esperez.</p>
+<p>Deboursé sec = fournitures + main-d'oeuvre chargee. C'est votre point de depart, jamais votre prix de vente.</p>
+
+<h2>Etape 2 : integrer les frais generaux avec le coefficient de vente</h2>
+<p>C'est ici que la majorite des artisans travaillent a perte sans le savoir. Votre entreprise a des frais qui ne sont sur aucun devis : assurance decennale, vehicule, carburant, telephone, comptable, local, logiciels, temps passe a chiffrer les devis non signes. Ces frais generaux doivent etre repartis sur chaque chantier.</p>
+<p>La methode : calculez vos frais generaux annuels, divisez-les par votre deboursé sec annuel, vous obtenez un taux. Puis appliquez un <strong>coefficient de vente</strong> a chaque chantier :</p>
+<div class="info-box"><strong>Prix de vente HT = deboursé sec x coefficient.</strong> Le coefficient couvre a la fois les frais generaux <em>et</em> le benefice vise. Dans le batiment, il se situe souvent entre 1,3 et 1,7 selon le metier, la structure et la part de main-d'oeuvre. A vous de calculer le votre a partir de vos vrais chiffres.</div>
+<p>Exemple concret. Deboursé sec d'un chantier de renovation : 6 000 EUR. Coefficient de 1,5. Prix de vente HT = 9 000 EUR. Marge brute = 3 000 EUR, dont une partie couvre les frais generaux, le reste est votre benefice. Sans coefficient, vous auriez peut-etre facture 6 800 EUR "pour etre competitif" et perdu de l'argent en travaillant.</p>
+
+<table>
+<tr><th>Poste</th><th>Chiffrage "au feeling"</th><th>Chiffrage avec coefficient</th></tr>
+<tr><td>Deboursé sec</td><td>6 000 EUR</td><td>6 000 EUR</td></tr>
+<tr><td>Prix de vente HT</td><td>6 800 EUR</td><td>9 000 EUR</td></tr>
+<tr><td>Frais generaux a couvrir</td><td>1 800 EUR</td><td>1 800 EUR</td></tr>
+<tr><td>Resultat reel</td><td>-1 000 EUR (perte)</td><td>+1 200 EUR</td></tr>
+</table>
+
+<h2>Etape 3 : verifier son seuil de rentabilite</h2>
+<p>Le seuil de rentabilite, c'est le prix en dessous duquel un chantier vous appauvrit. Un devis peut afficher un montant confortable et rester sous ce seuil si la main-d'oeuvre a ete sous-estimee. Deux reflexes.</p>
+<ul>
+<li><strong>Chiffrez le temps honnetement.</strong> Le poste qui plombe la marge, ce n'est presque jamais le materiau, c'est l'heure de main-d'oeuvre oubliee : preparation, deplacements, reprises, nettoyage.</li>
+<li><strong>Comparez vos prix d'achat.</strong> Sur un chantier a forte part de fournitures, negocier ou trouver le meilleur fournisseur peut faire gagner plusieurs points de marge sans toucher au prix client.</li>
+</ul>
+<div class="warning-box"><strong>Signal d'alerte :</strong> si vous devez baisser votre prix sous le deboursé sec + frais generaux pour "avoir le chantier", ce n'est plus une remise, c'est une perte que vous financez. Mieux vaut refuser et garder du temps pour un chantier rentable.</div>
+
+<h2>Etape 4 : suivre la marge reelle, pas seulement la marge prevue</h2>
+<p>Le devis annonce une marge. Le chantier reel en donne une autre : heures depassees, materiaux repris, avenants non factures. Sans suivi, vous refaites l'annee suivante les memes devis sous-evalues. Notez pour chaque chantier le deboursé prevu, le deboursé reel et l'ecart. Au bout de quelques chantiers, vous saurez precisement quel metier, quel type de client ou quelle prestation tire votre marge vers le bas, et vous ajusterez vos prix en connaissance de cause.</p>
+
+<h2>Comment BatiSpot Pro aide a chiffrer juste</h2>
+<p>Calculer sa marge a la main sur chaque devis est faisable, mais chronophage et vite abandonne apres une longue journee de chantier. BatiSpot Pro integre le calcul directement dans le devis. Vous dictez le chantier a la voix, l'assistant le chiffre <strong>au prix du marche</strong> et affiche la marge estimee avant meme d'envoyer le devis. Les notes de frais se scannent en photo et se rattachent au bon chantier, ce qui rend la marge reelle visible sans ressaisie. Et le suivi de chantier compare le prevu au reel, pour que vos prochains devis soient encore plus justes.</p>
+<p>Objectif : ne plus jamais signer un chantier a perte par manque de temps pour le chiffrer correctement. Le tout dans une seule application, pour 39 EUR par mois. Vous pouvez aussi <a href="https://batispot.pro/application-devis-gratuite">tester le devis gratuit</a> ou parcourir le <a href="https://batispot.pro/blog-pro/">blog artisans</a> pour d'autres methodes concretes.</p>
+
+<h2>FAQ : calculer sa marge sur un chantier</h2>
+<h3>Quelle marge viser sur un chantier BTP ?</h3>
+<p>Il n'existe pas de chiffre universel : cela depend de votre metier, de la part de main-d'oeuvre et de vos frais generaux. La bonne approche n'est pas de copier un pourcentage mais de calculer votre propre coefficient de vente a partir de vos frais reels, puis de verifier que chaque devis reste au-dessus de votre seuil de rentabilite.</p>
+<h3>Quelle difference entre marge et benefice ?</h3>
+<p>La marge brute est ce qui reste apres le cout direct du chantier (deboursé sec). Le benefice, c'est ce qui reste apres avoir aussi paye les frais generaux de l'entreprise. Un chantier peut afficher une marge brute et pourtant ne degager aucun benefice si les frais de structure ne sont pas couverts.</p>
+<h3>Comment integrer les frais generaux dans un devis ?</h3>
+<p>Via le coefficient de vente. Vous calculez le poids de vos frais generaux par rapport a votre deboursé sec annuel, vous en deduisez un multiplicateur, et vous l'appliquez au deboursé sec de chaque chantier. Ainsi chaque devis participe au financement de la structure.</p>
+<h3>Pourquoi ajouter 20 % au cout ne donne pas 20 % de marge ?</h3>
+<p>Parce que la marge se calcule sur le prix de vente, pas sur le cout. Ajouter 20 % a un cout de 1 000 EUR donne 1 200 EUR, mais la marge de 200 EUR ne represente que 16,7 % du prix de vente. Pour obtenir une vraie marge de 20 %, il faut diviser le cout par 0,8, soit un prix de vente de 1 250 EUR.</p>
+
+<h2>Conclusion</h2>
+<p>Calculer sa marge sur un chantier tient en quatre gestes : etablir le deboursé sec reel, appliquer un coefficient de vente qui couvre vos frais generaux, verifier le seuil de rentabilite, puis suivre la marge reelle pour ajuster. Ce n'est pas de la comptabilite savante, c'est le reflexe qui garantit qu'a la fin du chantier, vous avez gagne de l'argent et pas seulement travaille.</p>
+
+<!-- BS-DEVIS-CTA -->
+<div style="margin:28px 0;padding:24px 22px;border-radius:16px;background:linear-gradient(135deg,#1A6B45,#228B5B);color:#fff;font-family:'Inter',system-ui,-apple-system,sans-serif">
+ <div style="font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.85;margin-bottom:8px">Outil gratuit BatiSpot</div>
+ <h3 style="margin:0 0 8px;font-size:1.28rem;line-height:1.25;color:#fff">Faites vos devis en 30 secondes, gratuitement</h3>
+ <p style="margin:0 0 16px;font-size:.98rem;line-height:1.55;color:rgba(255,255,255,.92)">Dictez le chantier &agrave; voix haute&nbsp;: BatiSpot le chiffre au <strong>prix du march&eacute;</strong> &mdash; des devis plus justes, de meilleures marges. Devis pro sign&eacute; par le client, sans carte bancaire.</p>
+ <a href="https://batispot.pro/application-devis-gratuite" style="display:inline-block;background:#fff;color:#166534;font-weight:800;font-size:.95rem;padding:.7rem 1.5rem;border-radius:10px;text-decoration:none">Essayer l'outil de devis &rarr;</a>
+</div>
+<div class="cta-box">
+<h3>Chiffrez juste et protégez votre marge sur chaque chantier</h3>
+<p>Commencez gratuitement, sans carte bancaire.</p>
+<a href="https://batispot.pro/artisan" class="cta-btn">Commencer gratuitement</a>
+</div>
+<div class="related"><h3>A lire aussi</h3><ul><li><a href="5-chantiers-ne-jamais-accepter-artisan-btp">Les 5 chantiers a ne jamais accepter</a></li>
+<li><a href="https://batispot.pro/artisan">Devenir partenaire BatiSpot Pro</a></li>
+<li><a href="https://batispot.pro/blog-pro/">Tous les conseils artisans</a></li></ul></div>
+
+<div class="lm-block" id="lm-block">
+ <div class="lm-badge"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12L10 20v16h12V28h4v8h12V20Z"/></svg> Guide gratuit</div>
+ <div class="lm-title">T&#233;l&#233;chargez ce guide en PDF</div>
+ <div class="lm-subtitle">Recevez ce guide complet + nos prochains conseils exclusifs directement dans votre bo&#238;te mail.</div>
+ <form class="lm-form" id="lm-form">
+ <div class="lm-row">
+ <input class="lm-input" type="text" id="lm-prenom" placeholder="Pr&#233;nom" required>
+ <input class="lm-input" type="tel" id="lm-tel" placeholder="06 12 34 56 78">
+ </div>
+ <input class="lm-input" type="email" id="lm-email" placeholder="votre@email.fr" required>
+ <button type="submit" class="lm-btn" id="lm-btn">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+ T&#233;l&#233;charger le PDF gratuitement
+ </button>
+ <p class="lm-privacy">&#128274; Vos donn&#233;es restent confidentielles. Aucun spam.</p>
+ </form>
+ <div class="lm-success" id="lm-success">
+ <div class="lm-success-icon">&#9989;</div>
+ <div class="lm-success-title">C&#8217;est parti !</div>
+ <div class="lm-success-msg">Dans la boîte d'impression qui s'ouvre → choisissez <strong>Enregistrer en PDF</strong>. Vous recevrez aussi nos prochains conseils par email.</div>
+ <button onclick="window.print()" style="margin-top:14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:white;padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Télécharger à nouveau</button>
+ </div>
+</div>
+<script>
+(function(){
+ var form=document.getElementById('lm-form');
+ if(!form)return;
+ form.addEventListener('submit',async function(e){
+ e.preventDefault();
+ var btn=document.getElementById('lm-btn');
+ btn.textContent='Envoi en cours…';btn.disabled=true;
+ var prenom=document.getElementById('lm-prenom').value.trim();
+ var email=document.getElementById('lm-email').value.trim();
+ var tel=document.getElementById('lm-tel').value.trim();
+ try{
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/functions/v1/subscribe-lead',{
+ method:'POST',
+ headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({email:email,attributes:{PRENOM:prenom,SMS:tel,SOURCE:'blog_lead_magnet',PAGE:window.location.pathname},listIds:[3],updateEnabled:true})
+ });
+ }catch(err){}
+ if(typeof gtag==='function'){gtag('event','lead_magnet_download',{page:window.location.pathname});}
+ document.getElementById('lm-form').style.display='none';
+ document.getElementById('lm-success').style.display='block';
+ setTimeout(function(){window.print();},600);
+ });
+})();
+</script>
+</article>
+<!-- START: BatiSpot Pro Artisan Lead In-Page Banner -->
+<section class="bs-pro-banner-inpage" style="margin: 40px auto 30px; max-width: 860px; padding: 0 16px;">
+ <div style="background: linear-gradient(135deg, #0F5132 0%, #0D9488 100%); border-radius: 20px; padding: 32px 28px; color: #FFFFFF; box-shadow: 0 16px 36px -12px rgba(15, 81, 50, 0.35); position: relative; overflow: hidden;">
+ <div style="display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 2;">
+ <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border-radius: 999px; padding: 4px 14px; width: fit-content; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+ <span> Espace Artisans & Entreprises BTP</span>
+ </div>
+ <h3 style="font-size: clamp(20px, 4vw, 26px); font-weight: 900; line-height: 1.2; margin: 0; color: #FFFFFF; letter-spacing: -0.02em;">
+ Vous êtes artisan ? Chiffrez vos devis en 30 s sur mobile
+ </h3>
+ <p style="font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.92); margin: 0; max-width: 620px;">
+ Ne passez plus vos soirées sur l'administratif. BatiSpot Pro calcule vos marges, dicte vos devis au juste prix, gère le planning d'équipe et suit vos chantiers au jour le jour.
+ </p>
+ <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px;">
+ <a href="/?utm_source=seo_inpage&utm_medium=banner" style="background: #FFFFFF; color: #0F5132; font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); transition: transform 0.15s;">
+ <span>Tester 3 mois offerts</span>
+ <span style="font-size: 16px;">→</span>
+ </a>
+ <span style="font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.85);">
+ Sans engagement · Sans carte bancaire · 3 mois offerts
+ </span>
+ </div>
+ </div>
+ </div>
+</section>
+<!-- END: BatiSpot Pro Artisan Lead In-Page Banner -->
+<footer class="footer-blog">
+<p>&copy; 2026 BatiSpot &mdash; <a href="https://batispot.pro">batispot.pro</a> &middot;
+<a href="https://batispot.pro/blog-pro/">Blog Artisans</a> &middot;
+<a href="https://batispot.pro/artisan">Devenir partenaire</a></p>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>

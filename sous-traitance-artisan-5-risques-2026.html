@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Sous-traitance artisan : 5 risques pour le particulier en 2026 | BatiSpot</title>
+<link rel="canonical" href="https://batispot.pro/sous-traitance-artisan-5-risques-2026">
+<meta name="description" content="Votre artisan sous-traite une partie du chantier ? 5 risques pour vous (assurance, paiement direct, malfaçon) et comment vous protéger en 2026." />
+<meta name="keywords" content="sous-traitance travaux, sous-traitance artisan risque, paiement direct sous-traitant, decennale sous-traitant, sous-traitance illegale" />
+<meta property="og:title" content="Sous-traitance artisan : 5 risques pour vous" />
+<meta property="og:description" content="Décennale du sous-traitant, paiement direct possible, risques de malfaçon. Tout ce qu'un particulier doit savoir avant que son artisan sous-traite." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://batispot.pro/og/sous-traitance-artisan-5-risques-2026.png" />
+<meta property="og:url" content="https://batispot.pro/sous-traitance-artisan-5-risques-2026" />
+<style>
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1F2937;background:#F8FAFA;line-height:1.6}
+ :root{--g1:#1A6B45;--g2:#228B5B;--g3:#4CAF82;--g-soft:#EBF7F1;--cta:#2A9D6E;--cta-h:#1A6B45;--text:#1C2B22;--sub:#5A7268;--border:rgba(34,139,91,0.12);--white:#fff;--orange:#F97316;--red:#dc2626}
+ nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+ .logo{display:inline-flex;align-items:center;text-decoration:none}
+ .nav-links{display:flex;gap:1.5rem}
+ .nav-links a{color:var(--sub);text-decoration:none;font-size:.85rem;font-weight:500}
+ .hero{background:linear-gradient(135deg,var(--g1),var(--g2));padding:3rem 5% 2.5rem;text-align:center;color:#fff}
+ .hero h1{font-size:2rem;font-weight:900;margin-bottom:.75rem}
+ .hero p{opacity:.9;font-size:1.05rem;max-width:680px;margin:0 auto}
+ .breadcrumb{font-size:.8rem;opacity:.75;margin-bottom:.75rem}
+ .breadcrumb a{color:rgba(255,255,255,.85);text-decoration:none}
+ .container{max-width:820px;margin:0 auto;padding:2.5rem 1.2rem 3rem}
+ .toc{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 4px 18px rgba(0,0,0,.05);margin-bottom:1.8rem}
+ .toc h3{font-size:.95rem;color:var(--g1);margin-bottom:.6rem}
+ .toc ol{list-style:none;padding:0}
+ .toc li{padding:.3rem 0;font-size:.88rem}
+ .toc a{color:var(--sub);text-decoration:none}
+ .card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:1.8rem}
+ .card h2{font-size:1.4rem;font-weight:900;color:var(--g1);margin-bottom:1rem;scroll-margin-top:80px}
+ .card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem}
+ .card p{margin-bottom:.9rem;font-size:.95rem}
+ .card ul,.card ol{margin:.6rem 0 .9rem 1.5rem}
+ .card li{padding:.25rem 0;font-size:.92rem}
+ .badge{display:inline-block;background:var(--g-soft);color:var(--g1);border-radius:20px;padding:.2rem .7rem;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+ .alert-red{background:#FEF2F2;border-left:4px solid var(--red);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#991B1B}
+ .alert-green{background:#F0FDF4;border-left:4px solid #16a34a;padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#166534}
+ .alert-orange{background:#FEF3C7;border-left:4px solid var(--orange);padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:.92rem;color:#92400E}
+ .courrier{background:#F9FAFB;border:1px dashed var(--border);border-radius:8px;padding:1.2rem;font-family:Georgia,serif;font-size:.85rem;line-height:1.7;margin:1rem 0;white-space:pre-wrap}
+ .cta-section{background:linear-gradient(135deg,var(--g1),var(--g2));border-radius:16px;padding:2.2rem;text-align:center;color:#fff;margin-bottom:1.8rem}
+ .cta-section h2{font-size:1.4rem;font-weight:900;margin-bottom:.5rem;color:#fff}
+ .cta-btn{display:inline-block;background:var(--orange);color:#fff;padding:.85rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;text-decoration:none}
+ table{width:100%;border-collapse:collapse;margin:1rem 0}
+ th,td{padding:.7rem .8rem;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top}
+ th{background:var(--g-soft);color:var(--g1);font-weight:700}
+ footer{background:var(--g1);color:rgba(255,255,255,.8);text-align:center;padding:1.5rem;font-size:.8rem;margin-top:2rem}
+ footer a{color:rgba(255,255,255,.95);text-decoration:none}
+ @media(max-width:600px){.hero h1{font-size:1.5rem}.card{padding:1.3rem}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Sous-traitance artisan : 5 risques pour le particulier en 2026 | BatiSpot",
+ "description": "Votre artisan sous-traite une partie du chantier ? 5 risques pour vous (assurance, paiement direct, malfaçon) et comment vous protéger en 2026.",
+ "author": {
+ "@type": "Organization",
+ "name": "BatiSpot"
+ },
+ "publisher": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "logo": {
+ "@type": "ImageObject",
+ "url": "https://batispot.pro/favicon.png"
+ }
+ },
+ "datePublished": "2026-04-25",
+ "dateModified": "2026-06-12",
+ "mainEntityOfPage": {
+ "@type": "WebPage",
+ "@id": "https://batispot.pro/sous-traitance-artisan-5-risques-2026"
+ }
+}
+</script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot"><svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg></a>
+ <div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimer</a><a href="/">Artisan ?</a></div>
+</nav>
+
+<section class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › Guides › Sous-traitance</div>
+ <h1>Sous-traitance artisan : 5 risques pour vous</h1>
+<p>Votre artisan sous-traite une partie du chantier sans vous prévenir ? Pas de panique, mais quelques règles à connaître pour rester protégé.</p>
+</section>
+
+<div class="container">
+
+ <div class="toc">
+ <h3>Sommaire</h3>
+ <ol>
+ <li>1. <a href="#cest-quoi">C'est quoi la sous-traitance et c'est légal ?</a></li>
+ <li>2. <a href="#risque-1">Risque #1 : Décennale du sous-traitant invalide</a></li>
+ <li>3. <a href="#risque-2">Risque #2 : Travail au noir camouflé</a></li>
+ <li>4. <a href="#risque-3">Risque #3 : Refus du sous-traitant en cas de malfaçon</a></li>
+ <li>5. <a href="#risque-4">Risque #4 : Le sous-traitant vous demande paiement direct</a></li>
+ <li>6. <a href="#risque-5">Risque #5 : Le sous-traitant abandonne le chantier</a></li>
+ <li>7. <a href="#protection">Comment vous protéger</a></li>
+ </ol>
+ </div>
+
+ <div class="card" id="cest-quoi">
+ <h2>Sous-traitance : c'est quoi, et c'est légal ?</h2>
+ <p>Loi du 31 décembre 1975 (n° 75-1334) : un artisan peut <strong>sous-traiter une partie</strong> de votre chantier à un autre professionnel. C'est légal et fréquent.</p>
+ <p>Exemples typiques :</p>
+ <ul>
+ <li>Une entreprise tous corps d'état sous-traite l'électricité à un électricien spécialisé</li>
+ <li>Un plombier sous-traite la peinture finale à un peintre</li>
+ <li>Une agence d'architectes sous-traite la maîtrise d'œuvre à un MOE indépendant</li>
+ </ul>
+ <p>L'artisan principal (titulaire du devis) reste votre <strong>seul interlocuteur</strong> et reste responsable de l'ensemble du chantier face à vous.</p>
+ <div class="alert-orange">
+ <strong> Mais</strong> : la loi 1975 impose à l'artisan principal de <strong>vous notifier par écrit</strong> tout sous-traitant utilisé, avec son SIRET et son attestation décennale. Beaucoup ne le font pas, d'où les risques.
+ </div>
+ </div>
+
+ <div class="card" id="risque-1">
+ <span class="badge">Risque #1</span>
+ <h2>Décennale du sous-traitant invalide</h2>
+ <p>L'artisan principal a une décennale en règle. Il sous-traite la pose du carrelage à un copain qui n'a pas la sienne. 6 ans plus tard, le carrelage se décolle massivement. Vous attaquez la décennale du principal, qui pointe le sous-traitant.</p>
+ <p><strong>Si le sous-traitant n'a pas de décennale</strong>, ou si la sienne est lapsed, c'est l'assureur du principal qui paye en premier. Mais ils peuvent contester si le sous-traitant n'était pas déclaré.</p>
+ <h3>Comment vous protéger :</h3>
+ <ul>
+ <li>Demander par écrit la liste des sous-traitants AVANT le début du chantier</li>
+ <li>Demander la décennale de chaque sous-traitant (pas seulement du principal)</li>
+ <li>Vérifier la validité sur l'attestation (date d'échéance + métier couvert)</li>
+ </ul>
+ </div>
+
+ <div class="card" id="risque-2">
+ <span class="badge">Risque #2</span>
+ <h2>Travail au noir camouflé en sous-traitance</h2>
+ <p>Le piège classique : l'artisan facture au tarif normal, mais sur le chantier travaille un "ami" non déclaré. C'est du <strong>travail dissimulé</strong> (article L.8221-3 Code du travail).</p>
+ <p>Conséquences pour vous :</p>
+ <ul>
+ <li>En cas d'accident sur le chantier : <strong>vous pouvez être tenu responsable</strong> (employeur de fait)</li>
+ <li>Aucune décennale ne couvrira ses interventions</li>
+ <li>Risque de redressement URSSAF en cas de contrôle fiscal</li>
+ </ul>
+ <div class="alert-red">
+ <strong>️ Signaux d'alerte</strong> :
+ <ul style="margin-top:.4rem">
+ <li>Un nouveau visage arrive sur le chantier sans présentation</li>
+ <li>L'artisan refuse de fournir l'identité du "collègue"</li>
+ <li>Demande de paiement en espèces "pour aller plus vite"</li>
+ <li>Pas de facture détaillant les heures du sous-traitant</li>
+ </ul>
+ </div>
+ </div>
+
+ <div class="card" id="risque-3">
+ <span class="badge">Risque #3</span>
+ <h2>Refus du sous-traitant en cas de malfaçon</h2>
+ <p>Le sous-traitant a posé l'électricité. Quelques mois plus tard, défaillance, disjoncteur qui saute en permanence. Vous appelez l'artisan principal. Il vous dit : "C'est l'électricien sous-traitant, vous devez voir avec lui."</p>
+ <p><strong>Faux légalement.</strong> L'artisan principal reste votre seul interlocuteur. Il doit vous arranger ça (et se débrouiller avec son sous-traitant).</p>
+ <h3>Comment réagir :</h3>
+ <ol>
+ <li>LRAR au principal qui rappelle l'article 1184 du Code civil et la loi 1975</li>
+ <li>Refus catégorique de contacter le sous-traitant directement (cela exonérerait le principal)</li>
+ <li>Si refus persistant : médiation → tribunal contre le principal</li>
+ </ol>
+ </div>
+
+ <div class="card" id="risque-4">
+ <span class="badge">Risque #4</span>
+ <h2>Le sous-traitant vous demande paiement direct</h2>
+ <p>Cas spécifique mais important. Si l'artisan principal ne paie pas son sous-traitant, ce dernier peut, sous certaines conditions, vous réclamer le paiement directement (article 12 de la loi 1975).</p>
+ <h3>Vos obligations :</h3>
+ <ul>
+ <li>Si le sous-traitant a été <strong>agréé par vous</strong> par écrit, vous pouvez devoir le payer directement (et déduire du montant dû au principal)</li>
+ <li>Si l'agrément n'a pas été demandé : vous n'avez aucune obligation, vous payez le principal</li>
+ </ul>
+ <p>Pour les chantiers <strong>professionnels</strong> (B2B avec syndic, marchand de biens), l'agrément est <strong>obligatoire</strong> dès qu'un sous-traitant intervient.</p>
+ <p>Pour les chantiers <strong>particulier</strong> (B2C), l'agrément n'est pas obligatoire mais fortement recommandé.</p>
+ </div>
+
+ <div class="card" id="risque-5">
+ <span class="badge">Risque #5</span>
+ <h2>Le sous-traitant abandonne le chantier</h2>
+ <p>Le sous-traitant a un problème (faillite, accident, conflit avec le principal) et abandonne. L'artisan principal peine à le remplacer rapidement. Votre chantier est <strong>bloqué</strong>.</p>
+ <h3>Vos recours :</h3>
+ <ul>
+ <li>Le principal reste responsable du délai d'achèvement, vous pouvez exiger des pénalités si elles sont prévues</li>
+ <li>Si le délai dérape de plus de 30 jours, vous pouvez résilier le contrat (LRAR + médiation)</li>
+ <li>Vous pouvez exiger un avenant qui acte un nouveau sous-traitant + nouveau délai</li>
+ </ul>
+ <div class="alert-orange">
+ <strong> Soyez vigilant</strong> sur les chantiers complets tous corps d'état : le principal peut sous-traiter 70 % du chantier. Si lui-même fait faillite, vous vous retrouvez face à une multitude de sous-traitants impayés.
+ </div>
+ </div>
+
+ <div class="card" id="protection">
+ <h2>Comment vous protéger : 6 actions concrètes</h2>
+ <ol>
+ <li><strong>Clause sous-traitance dans le devis</strong> : exigez que toute sous-traitance soit notifiée par écrit avec accord préalable</li>
+ <li><strong>Liste exhaustive des intervenants</strong> avant chantier : nom, SIRET, métier, décennale</li>
+ <li><strong>Présentation physique</strong> de chaque sous-traitant le 1er jour de son intervention</li>
+ <li><strong>Photos quotidiennes du chantier</strong> avec qui fait quoi (utile en cas de litige)</li>
+ <li><strong>Réception poste par poste</strong> : recevez chaque corps d'état séparément (plomberie, électricité, peinture)</li>
+ <li><strong>Acompte raisonnable</strong> (max 30 %) et solde à la levée totale des réserves</li>
+ </ol>
+ <div class="alert-green">
+ <strong> Le bon réflexe</strong> : préférez un artisan qui dit honnêtement "je sous-traite ces 3 lots" plutôt qu'un qui prétend tout faire seul et amène un autre quand vous avez le dos tourné.
+ </div>
+ </div>
+
+ <div class="cta-section">
+ <h2>Tous les artisans BatiSpot déclarent leur sous-traitance</h2>
+ <p>Notre charte impose la déclaration écrite de tout sous-traitant + ses justificatifs (SIRET, décennale). Pas de mauvaise surprise.</p>
+ <a href="/" class="cta-btn">Demander un devis →</a>
+ </div>
+
+ <div class="card">
+ <h2>Questions fréquentes</h2>
+ <h3>Mon artisan a sous-traité sans me le dire, c'est grave ?</h3>
+ <p>Pas grave en soi (il reste responsable), mais demandez-lui par écrit la liste + les attestations. S'il refuse, c'est un signal d'alarme.</p>
+ <h3>Puis-je refuser un sous-traitant ?</h3>
+ <p>Oui, vous pouvez refuser un sous-traitant agréé pour motif légitime (réputation douteuse, certifications manquantes). L'artisan doit en proposer un autre.</p>
+ <h3>Le sous-traitant peut-il intervenir sans être sur le devis ?</h3>
+ <p>Oui, le sous-traitant n'a pas à apparaître sur votre devis (qui lie l'artisan principal et vous). Mais l'artisan a obligation de vous le notifier par écrit avant le chantier (loi 1975 article 3).</p>
+ </div>
+
+</div>
+
+
+<footer>
+ © 2026 BatiSpot · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/cgu">CGU</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

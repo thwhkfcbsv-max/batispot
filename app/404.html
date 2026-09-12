@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Page introuvable — BatiSpot</title>
+  <meta name="description" content="Cette page n'existe pas ou a été déplacée. Retournez à l'accueil de l'app BatiSpot.">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <noscript></noscript>
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0d3320 0%, #1A6B45 50%, #228B5B 100%);
+      color: #fff;
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .logo-square {
+      width: 80px; height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #228B5B, #4CAF82);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 16px 40px rgba(34,139,91,0.35);
+    }
+    .code {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .code span { color: #4CAF82; }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 8px 0 12px;
+      letter-spacing: -0.02em;
+    }
+    p {
+      font-size: 14px;
+      opacity: 0.88;
+      max-width: 320px;
+      line-height: 1.55;
+      margin: 0 0 28px;
+    }
+    .cta-stack {
+      width: 100%;
+      max-width: 320px;
+      display: flex; flex-direction: column;
+      gap: 10px;
+    }
+    .cta-primary {
+      background: #fff;
+      color: #1A6B45;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 15px;
+      text-decoration: none;
+      transition: transform .12s, box-shadow .15s;
+    }
+    .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,255,255,0.18); }
+    .cta-ghost {
+      background: rgba(255,255,255,0.10);
+      border: 1.5px solid rgba(255,255,255,0.30);
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .cta-ghost:hover { background: rgba(255,255,255,0.18); }
+  </style>
+  <script src="/js/clarity-init.js" defer></script>
+  <script src="/js/sentry-init.js" defer></script>
+  <script src="/js/turnstile-helper.js" defer></script>
+<!-- Remontee des erreurs JavaScript (05/09/2026). Cette page ne charge pas
+     ./js/config.js, qui l'importe pour les 28 autres : on la met donc en direct.
+     `test_erreurs_front.py` verifie qu'aucune page de app/*.html n'y echappe. -->
+<script type="module" src="/app/js/app-erreurs.js?v=2026_09_05"></script>
+</head>
+<body>
+  <main>
+    <div class="logo-square">
+      <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 12 L12 22 L12 36 L36 36 L36 22 Z" fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="20" y="27" width="8" height="9" rx="1.5" fill="white" opacity="0.92"/>
+      </svg>
+    </div>
+    <div class="code">4<span>0</span>4</div>
+    <h1>Page introuvable</h1>
+    <p>Cette page n'existe pas ou a été déplacée. Vérifiez l'URL ou revenez à l'accueil.</p>
+    <div class="cta-stack">
+      <a href="./index.html" class="cta-primary">Revenir à l'accueil</a>
+      <a href="mailto:contact@batispot.pro?subject=Probl%C3%A8me%20rencontr%C3%A9%20sur%20BatiSpot" class="cta-ghost">Signaler un problème</a>
+    </div>
+  </main>
+</body>
+</html>

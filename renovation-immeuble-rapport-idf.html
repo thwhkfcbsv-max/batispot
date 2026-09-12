@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Renovation immeuble de rapport IDF | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/renovation-immeuble-rapport-idf">
+ <meta name="description" content="Renovation immeuble de rapport en IDF : budget au m2, strategie travaux, rentabilite, aides 2026. Guide investisseur avec simulation chiffree." />
+ <meta name="keywords" content="renovation immeuble rapport, budget renovation immeuble, rentabilite immeuble rapport idf, travaux immeuble locatif" />
+ <meta property="og:title" content="Renovation immeuble de rapport IDF : guide investisseur" />
+ <meta property="og:description" content="Budget m2, strategie travaux, rentabilite locative et aides. Le guide pour renover un immeuble de rapport en Ile-de-France." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/renovation-immeuble-rapport-idf.png" />
+ <meta property="og:url" content="https://batispot.pro/renovation-immeuble-rapport-idf" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; color: white; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Combien coute la renovation d'un immeuble de rapport en IDF ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le budget de renovation d'un immeuble de rapport en IDF varie de 600 a 1 200 EUR/m2 pour une renovation standard (electricite, plomberie, revetements) et de 1 200 a 2 000 EUR/m2 pour une renovation complete incluant facade, toiture et parties communes. Pour un immeuble de 300 m2, comptez entre 180 000 et 600 000 EUR."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelle rentabilite viser apres renovation ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La rentabilite brute cible apres renovation d'un immeuble de rapport en IDF est de 7 a 10 % en grande couronne et de 5 a 7 % en petite couronne. La cle est de maitriser le budget travaux pour que le prix de revient total (achat + travaux) reste coherent avec les loyers du secteur."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelles aides pour renover un immeuble de rapport ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "En tant que proprietaire bailleur, vous pouvez beneficier de MaPrimeRenov' (jusqu'a 3 logements), des CEE, de l'Eco-PTZ, de la TVA a 5,5 % sur les travaux energetiques, du deficit foncier (deduction des travaux des revenus fonciers) et du dispositif Denormandie dans les villes eligibles."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Faut-il renover lot par lot ou tout d'un coup ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "La renovation globale est plus economique (economies d'echelle, un seul maitre d'oeuvre) mais necessite de liberer tous les lots simultanement. La renovation lot par lot permet de conserver les loyers pendant les travaux mais coute 15 a 25 % plus cher au total. Le choix depend de votre capacite de tresorerie et du taux de vacance."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-aides-renovation">Guides travaux</a> > Immeuble de rapport IDF</div>
+ <h1>Renovation immeuble de rapport en IDF</h1>
+<p>Budget au m2, strategie travaux, rentabilite locative, aides et fiscalite. Le guide pour les investisseurs qui renovent un immeuble en Ile-de-France.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Budget de renovation au m2</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Niveau de renovation</th>
+ <th>Budget / m2</th>
+ <th>Immeuble 300 m2</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Rafraichissement (peinture, sols)</td>
+ <td><strong>300 - 600 EUR</strong></td>
+ <td>90 000 - 180 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Renovation standard (elec, plomberie, revetements)</td>
+ <td><strong>600 - 1 200 EUR</strong></td>
+ <td>180 000 - 360 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Renovation complete (+ facade, toiture, parties communes)</td>
+ <td><strong>1 200 - 2 000 EUR</strong></td>
+ <td>360 000 - 600 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Rehabilitation lourde (structure, planchers, redistribution)</td>
+ <td><strong>2 000 - 3 000 EUR</strong></td>
+ <td>600 000 - 900 000 EUR</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>Simulation : immeuble 5 lots en petite couronne</h2>
+ <p>Immeuble R+2, 5 appartements (total 250 m2), acquis a Montreuil (93) :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Poste</th>
+ <th>Montant</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td>Achat immeuble</td><td>650 000 EUR</td></tr>
+ <tr><td>Frais de notaire (7,5 %)</td><td>48 750 EUR</td></tr>
+ <tr><td>Renovation complete (1 200 EUR/m2 x 250 m2)</td><td>300 000 EUR</td></tr>
+ <tr><td>Ravalement facade</td><td>40 000 EUR</td></tr>
+ <tr><td>Toiture</td><td>25 000 EUR</td></tr>
+ <tr><td><strong>Prix de revient total</strong></td><td><strong>1 063 750 EUR</strong></td></tr>
+ <tr><td>Loyers annuels (5 x T2, 850 EUR/mois)</td><td>51 000 EUR/an</td></tr>
+ <tr><td><strong>Rentabilite brute</strong></td><td><strong>4,8 %</strong></td></tr>
+ </tbody>
+ </table>
+ <p>En grande couronne (Meaux, Melun), le meme immeuble achete 300 000 EUR avec 250 000 EUR de travaux genere 8-9 % de rentabilite brute.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Artisans tous corps d'etat en IDF, habitues aux chantiers d'immeubles. Devis detailles et gratuits.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux gratuitement</a>
+ </div>
+
+ <div class="card">
+ <h2>Strategie travaux : prioriser les postes</h2>
+ <ul class="factor-list">
+ <li><strong>Priorite 1 -- Securite :</strong> electricite (mise aux normes), gaz (colonnes montantes), structure (planchers, charpente). Ces postes conditionnent l'assurabilite du bien.</li>
+ <li><strong>Priorite 2 -- Etancheite :</strong> toiture, facade, menuiseries exterieures. Sans etancheite, les travaux interieurs sont compromis.</li>
+ <li><strong>Priorite 3 -- Reseaux :</strong> plomberie (colonnes d'eau, evacuations), chauffage, ventilation. Les reseaux vetustes generent des sinistres couteux.</li>
+ <li><strong>Priorite 4 -- Amenagement :</strong> redistribution des lots, creation de salles de bain, cuisines, revetements. C'est ce qui determine le loyer.</li>
+ <li><strong>Priorite 5 -- Performance energetique :</strong> isolation (si non faite en facade), chauffage performant. Necessite pour louer les logements classes F ou G (interdiction progressive).</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Fiscalite : optimiser la deductibilite des travaux</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Regime</th>
+ <th>Deduction travaux</th>
+ <th>Ideal pour</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Revenus fonciers (IR)</td>
+ <td>Deficit foncier : deduction des travaux d'entretien/reparation + 10 700 EUR/an sur revenu global</td>
+ <td>Investisseur personne physique, TMI eleve</td>
+ </tr>
+ <tr>
+ <td>SCI a l'IR</td>
+ <td>Meme regime que foncier, deficit reporte 10 ans</td>
+ <td>Co-investissement, transmission</td>
+ </tr>
+ <tr>
+ <td>SCI a l'IS</td>
+ <td>Amortissement bien + travaux, IS 15-25 %</td>
+ <td>Patrimoine long terme, pas de revente</td>
+ </tr>
+ <tr>
+ <td>LMNP reel</td>
+ <td>Amortissement bien + travaux + mobilier</td>
+ <td>Location meublee, tourisme</td>
+ </tr>
+ <tr>
+ <td>Denormandie</td>
+ <td>Reduction d'impot 12-21 % (travaux >= 25 %)</td>
+ <td>Villes eligibles grande couronne</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="trust-box">
+ <h2>Entreprises tous corps d'etat en IDF</h2>
+ <p>BatiSpot reference des entreprises capables de gerer un chantier complet d'immeuble. Devis gratuits sous 48h.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/achat-revente-renovation-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Achat-revente avec travaux IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Marge, fiscalite, artisans et delais</div>
+ </a>
+ <a href="/sci-is-travaux-amortissement-strategie" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">SCI a l'IS : amortir les travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Strategie patrimoniale IR vs IS</div>
+ </a>
+ <a href="/deficit-foncier-travaux-renovation" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Deficit foncier et travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Deduire vos travaux de vos revenus fonciers</div>
+ </a>
+ <a href="/niche-fiscale-denormandie-renovation" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Denormandie : defiscaliser en renovant</div>
+ <div style="font-size:.76rem;color:var(--sub);">Reduction d'impot jusqu'a 21 %</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>
