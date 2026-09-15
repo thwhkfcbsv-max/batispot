@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Redirection BatiSpot…</title>
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 60px 24px; background: #F6F9F7; color: #0F5132; text-align: center; }
+  .logo { font-size: 1.8rem; font-weight: 900; color: #1A6B45; }
+  .logo span { color: #228B5B; }
+  p { color: #5A7268; margin-top: 1rem; font-size: 0.95rem; }
+  .spinner { margin: 28px auto 0; width: 32px; height: 32px; border: 3px solid #d1d5db; border-top-color: #228B5B; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+  <link rel="canonical" href="https://batispot.pro/r">
+</head>
+<body>
+
+<div class="logo" style="color:#0A1D14">Bati<span style="color:#0A1D14">Spot</span></div>
+<p>Redirection en cours…</p>
+<div class="spinner"></div>
+
+<script>
+(function () {
+  var qs = new URLSearchParams(location.search);
+  var id = qs.get('id') || 'unknown';
+  var to = qs.get('to') || 'https://batispot.pro/';
+  var src = qs.get('src') || 'sms';
+  var camp = qs.get('camp') || 'sms_default';
+
+  // Ne redirige que vers batispot.pro pour éviter open redirect abuse
+  try {
+    var u = new URL(to, 'https://batispot.pro');
+    if (u.hostname && u.hostname !== 'batispot.pro' && !u.hostname.endsWith('.batispot.pro')) {
+      u = new URL('https://batispot.pro/');
+    }
+    to = u.toString();
+  } catch (_) {
+    to = 'https://batispot.pro/';
+  }
+
+  // Log event GA4 + Brevo + console
+  try {
+    gtag('event', 'sms_click', {
+      sms_id: id,
+      sms_campaign: camp,
+      sms_source: src,
+      destination: to,
+    });
+  } catch (_) {}
+
+  // Beacon vers notre propre log si dispo (CRM local non accessible en prod, OK)
+  try {
+    var beaconUrl = 'https://batispot.pro/_track-click?id=' + encodeURIComponent(id) + '&camp=' + encodeURIComponent(camp);
+    if (navigator.sendBeacon) navigator.sendBeacon(beaconUrl);
+  } catch (_) {}
+
+  // Redirection après 200ms (laisse le temps au pixel de partir)
+  setTimeout(function () { window.location.replace(to); }, 200);
+})();
+</script>
+
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

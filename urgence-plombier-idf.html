@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <link rel="canonical" href="https://batispot.pro/urgence-plombier-idf">
+ <title>Plombier urgence Île-de-France — Tarifs par département 2026 | BatiSpot</title>
+ <meta name="description" content="Plombier urgence en Île-de-France 48h/24 : tarifs Paris, 92, 93, 94, 77, 78, 91, 95. Comparatif des départements, conseils, artisans vérifiés." />
+ <meta property="og:title" content="Plombier urgence Île-de-France 48h/24" />
+ <meta property="og:description" content="Comparatif des tarifs urgence plomberie par département IDF en 2026. Conseils anti-arnaque, délais d'intervention, artisans vérifiés." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://batispot.pro/urgence-plombier-idf" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; --red: #c0392b; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .hero { background: linear-gradient(135deg, var(--red), #e74c3c); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2.1rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .92; font-size: 1.02rem; max-width: 660px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.85); text-decoration: none; }
+ .container { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.3rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card p { color: var(--sub); font-size: .92rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table .low { color: #16a34a; font-weight: 600; }
+ .price-table .mid { color: var(--g1); font-weight: 700; }
+ .price-table .high { color: var(--orange); font-weight: 600; }
+ .alert-box { background: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem; }
+ .alert-box p { color: #991b1b; font-size: .92rem; font-weight: 600; margin: 0; }
+ .dept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+ .dept-card { background: var(--g-soft); border-radius: 14px; padding: 1.4rem; text-decoration: none; transition: transform .15s, box-shadow .15s; display: block; border: 1px solid var(--border); }
+ .dept-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,139,91,0.15); }
+ .dept-card .dept-num { font-size: 1.6rem; font-weight: 900; color: var(--g1); }
+ .dept-card .dept-name { font-size: .98rem; font-weight: 700; color: var(--g1); margin: .15rem 0; }
+ .dept-card .dept-cities { font-size: .82rem; color: var(--sub); margin-bottom: .6rem; }
+ .dept-card .dept-tarif { font-size: .85rem; color: var(--orange); font-weight: 700; }
+ .dept-card .dept-link { font-size: .8rem; color: var(--g2); font-weight: 700; margin-top: .5rem; }
+ .dept-card.soon { opacity: .65; cursor: not-allowed; }
+ .dept-card.soon .dept-link { color: var(--sub); }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.4rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .9; margin-bottom: 1.4rem; font-size: 1rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .95rem 2.2rem; border-radius: 12px; font-size: 1.05rem; font-weight: 800; text-decoration: none; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; }
+ .compare-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: .5rem 0; }
+ .compare-table th { background: var(--g1); color: white; padding: .8rem 1rem; text-align: left; font-weight: 700; font-size: .85rem; }
+ .compare-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--border); }
+ .compare-table tr:nth-child(even) td { background: #fafafa; }
+ .compare-table tr:last-child td { border-bottom: none; }
+ .faq-section { margin-top: .5rem; }
+ .faq-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+ .faq-item:last-child { border-bottom: none; }
+ .faq-item h3 { font-size: .98rem; font-weight: 700; color: var(--g1); margin-bottom: .4rem; }
+ .faq-item p { font-size: .9rem; color: var(--sub); }
+ .check-list { list-style: none; padding: 0; }
+ .check-list li { padding: .55rem 0 .55rem 2rem; position: relative; font-size: .92rem; color: var(--sub); }
+ .check-list li::before { content: ""; position: absolute; left: .3rem; top: .55rem; color: var(--g2); font-weight: 800; font-size: 1.1rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.6rem; } .card { padding: 1.3rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {"@type": "Question", "name": "Quel département d'Île-de-France a les tarifs urgence plomberie les plus élevés ?", "acceptedAnswer": {"@type": "Answer", "text": "Paris (75) et les Hauts-de-Seine (92) ont les tarifs les plus élevés, avec une moyenne de 200-330 € pour une fuite la nuit. Le 93 reste le plus accessible (150-290 €) grâce à une concurrence forte. Le 94 et la grande couronne (77, 78, 91, 95) se situent entre les deux."}},
+ {"@type": "Question", "name": "Existe-t-il un service public d'urgence plomberie en IDF ?", "acceptedAnswer": {"@type": "Answer", "text": "Non. La plomberie n'est pas un service public d'urgence comme les pompiers. En revanche, en logement social (HLM), un service d'astreinte 48h/24 est obligatoire et gratuit — appelez d'abord le numéro affiché dans votre hall avant tout plombier privé."}},
+ {"@type": "Question", "name": "Comment vérifier qu'un plombier d'urgence n'est pas un escroc ?", "acceptedAnswer": {"@type": "Answer", "text": "Vérifiez le SIRET sur annuaire-entreprises.data.gouv.fr (gratuit, instantané), demandez la fourchette de prix par téléphone AVANT le déplacement, refusez les flyers dans la boîte aux lettres (signalés par 60 Millions de Consommateurs comme la principale source d'arnaques en IDF)."}},
+ {"@type": "Question", "name": "Mon assurance habitation couvre-t-elle un plombier urgence en Île-de-France ?", "acceptedAnswer": {"@type": "Answer", "text": "La majorité des contrats habitation IDF (MAIF, Macif, Matmut, MAAF, AXA, Generali, Allianz, GMF) incluent une assistance 48h/24 avec plombier agréé sans avance de frais. Appelez le numéro figurant sur votre carte verte habitation AVANT de chercher un plombier en ligne — vous économisez 150-300 €."}},
+ {"@type": "Question", "name": "Combien de temps un plombier d'urgence met-il à arriver en IDF la nuit ?", "acceptedAnswer": {"@type": "Answer", "text": "Paris et petite couronne (92, 93, 94) : 30 à 60 minutes en moyenne. Grande couronne (77, 78, 91, 95) : 45 à 90 minutes selon la commune. Les communes excentrées (Brie comtoise, plateau de Saclay, Vexin) peuvent dépasser 90 min."}}
+ ]
+ }
+ </script>
+</head>
+<body>
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links"><a href="/">Accueil</a><a href="/estimateur">Estimateur</a><a href="/">Artisan</a></div>
+</nav>
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &gt; Urgence plombier IDF</div>
+ <h1>Plombier urgence Île-de-France</h1>
+<p>Tarifs réels 2026 par département, délais d'intervention, conseils anti-arnaque. Trouvez un plombier vérifié 48h/24 dans toute l'Île-de-France.</p>
+</div>
+<div class="container">
+
+ <div class="alert-box">
+ <p>PREMIER RÉFLEXE en cas de fuite : coupez l'arrivée d'eau générale (vanne sous l'évier, dans le placard technique, ou au sous-sol en copropriété). Une fuite sans urgence vraie peut attendre le matin au tarif normal, économie : 150 à 250 €.</p>
+ </div>
+
+ <div class="card">
+ <h2>Choisir son département</h2>
+ <p>Cliquez sur votre département pour les tarifs locaux 2026, les villes couvertes et les spécificités plomberie de votre zone. Les pages sont mises à jour avec les tarifs réels constatés auprès d'artisans actifs.</p>
+ <div class="dept-grid">
+
+ <a href="/plombier-urgence-paris-nuit" class="dept-card">
+ <div class="dept-num">75</div>
+ <div class="dept-name">Paris</div>
+ <div class="dept-cities">20 arrondissements, intra-muros</div>
+ <div class="dept-tarif">160-300 € / nuit</div>
+ <div class="dept-link">Voir tarifs Paris →</div>
+ </a>
+
+ <a href="/plombier-urgence-92" class="dept-card">
+ <div class="dept-num">92</div>
+ <div class="dept-name">Hauts-de-Seine</div>
+ <div class="dept-cities">Boulogne, Neuilly, Levallois, La Défense</div>
+ <div class="dept-tarif">180-330 € / nuit</div>
+ <div class="dept-link">Voir tarifs 92 →</div>
+ </a>
+
+ <a href="/plombier-urgence-93" class="dept-card">
+ <div class="dept-num">93</div>
+ <div class="dept-name">Seine-Saint-Denis</div>
+ <div class="dept-cities">Saint-Denis, Bobigny, Montreuil, Aubervilliers</div>
+ <div class="dept-tarif">150-290 € / nuit</div>
+ <div class="dept-link">Voir tarifs 93 →</div>
+ </a>
+
+ <a href="/plombier-urgence-94" class="dept-card">
+ <div class="dept-num">94</div>
+ <div class="dept-name">Val-de-Marne</div>
+ <div class="dept-cities">Créteil, Vincennes, Saint-Maur, Maisons-Alfort</div>
+ <div class="dept-tarif">160-300 € / nuit</div>
+ <div class="dept-link">Voir tarifs 94 →</div>
+ </a>
+
+ <span class="dept-card soon">
+ <div class="dept-num">77</div>
+ <div class="dept-name">Seine-et-Marne</div>
+ <div class="dept-cities">Meaux, Melun, Chelles, Pontault-Combault</div>
+ <div class="dept-tarif">140-280 € / nuit</div>
+ <div class="dept-link">Page bientôt disponible</div>
+ </span>
+
+ <span class="dept-card soon">
+ <div class="dept-num">78</div>
+ <div class="dept-name">Yvelines</div>
+ <div class="dept-cities">Versailles, Saint-Germain, Mantes, Poissy</div>
+ <div class="dept-tarif">160-310 € / nuit</div>
+ <div class="dept-link">Page bientôt disponible</div>
+ </span>
+
+ <span class="dept-card soon">
+ <div class="dept-num">91</div>
+ <div class="dept-name">Essonne</div>
+ <div class="dept-cities">Évry, Massy, Étampes, Palaiseau</div>
+ <div class="dept-tarif">150-290 € / nuit</div>
+ <div class="dept-link">Page bientôt disponible</div>
+ </span>
+
+ <span class="dept-card soon">
+ <div class="dept-num">95</div>
+ <div class="dept-name">Val-d'Oise</div>
+ <div class="dept-cities">Cergy, Argenteuil, Sarcelles, Pontoise</div>
+ <div class="dept-tarif">150-290 € / nuit</div>
+ <div class="dept-link">Page bientôt disponible</div>
+ </span>
+
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Comparatif tarifs urgence plomberie par département (2026)</h2>
+ <p>Tarifs constatés auprès d'artisans actifs dans chaque département pour une intervention nuit (22h-8h) sur fuite simple, déplacement inclus :</p>
+ <table class="compare-table">
+ <thead>
+ <tr>
+ <th>Département</th>
+ <th>Fuite simple (nuit)</th>
+ <th>Débouchage (nuit)</th>
+ <th>Délai moyen</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr><td><strong>Paris (75)</strong></td><td>160-300 €</td><td>180-350 €</td><td>30-60 min</td></tr>
+ <tr><td><strong>Hauts-de-Seine (92)</strong></td><td>180-330 €</td><td>200-380 €</td><td>30-90 min</td></tr>
+ <tr><td><strong>Seine-Saint-Denis (93)</strong></td><td>150-290 €</td><td>170-330 €</td><td>30-75 min</td></tr>
+ <tr><td><strong>Val-de-Marne (94)</strong></td><td>160-300 €</td><td>180-350 €</td><td>35-90 min</td></tr>
+ <tr><td>Seine-et-Marne (77)</td><td>140-280 €</td><td>160-310 €</td><td>45-120 min</td></tr>
+ <tr><td>Yvelines (78)</td><td>160-310 €</td><td>180-340 €</td><td>40-110 min</td></tr>
+ <tr><td>Essonne (91)</td><td>150-290 €</td><td>170-320 €</td><td>40-100 min</td></tr>
+ <tr><td>Val-d'Oise (95)</td><td>150-290 €</td><td>170-320 €</td><td>45-110 min</td></tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;margin-top:.8rem;color:var(--sub);">Tarifs indicatifs main-d'œuvre incluse, hors matériaux remplacés. Soirée (19h-22h) = -25 % environ. Dimanche/férié = équivalent tarifs nuit en moyenne.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Plombier urgence vérifié partout en IDF</h2>
+ <p>Artisans BatiSpot vérifiés (Kbis, RC Pro, Décennale), tarifs transparents, intervention 48h/24 dans toute l'Île-de-France.</p>
+ <a href="/" class="cta-btn">Trouver un plombier maintenant</a>
+ </div>
+
+ <div class="card">
+ <h2>Pourquoi les tarifs varient autant entre départements IDF</h2>
+ <p>Trois facteurs principaux expliquent les écarts entre Paris, petite couronne et grande couronne :</p>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">1. La densité d'artisans nocturnes</h3>
+ <p>Paris et le 93 concentrent le plus de plombiers actifs la nuit, ce qui maintient les tarifs sous pression concurrentielle. La grande couronne (77 sud, 95 nord) voit certains artisans facturer 30-50 € de plus à cause des trajets plus longs.</p>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">2. Le type de bâti</h3>
+ <p>Les immeubles haussmanniens (Paris centre, Boulogne, Neuilly) ont des canalisations en plomb ou cuivre vétuste, interventions plus complexes, donc tarifs plus élevés. Les pavillons (Saint-Maur, Saint-Germain, Versailles) impliquent souvent un terrassement en cas de rupture, majorant l'urgence.</p>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">3. La densité de population et concurrence</h3>
+ <p>Les communes très denses (Saint-Denis, Aubervilliers, Vitry) ont un grand nombre d'artisans qui se font concurrence sur les tarifs. À l'inverse, les communes rurales du 77 ou de l'Essonne sud ont moins d'options, donc tarifs négociables plus difficilement.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les 5 réflexes avant d'appeler un plombier la nuit</h2>
+ <ul class="check-list">
+ <li><strong style="color:var(--g1);">Coupez l'eau d'abord.</strong> La vanne d'arrêt général se trouve sous l'évier, dans un placard technique près de l'entrée, ou en copropriété au sous-sol près des compteurs.</li>
+ <li><strong style="color:var(--g1);">Appelez votre assurance habitation.</strong> 80 % des contrats IDF incluent une assistance 48h/24 avec plombier agréé sans avance de frais. Numéro sur votre carte verte habitation.</li>
+ <li><strong style="color:var(--g1);">Appelez votre syndic en copropriété.</strong> Si la fuite vient d'une partie commune (colonne d'eau, gaine technique), le plombier est facturé à la copropriété, pas à vous.</li>
+ <li><strong style="color:var(--g1);">Demandez le prix total par téléphone.</strong> Un plombier sérieux annonce une fourchette ferme avant de se déplacer. Refusez les "je verrai sur place".</li>
+ <li><strong style="color:var(--g1);">Vérifiez le SIRET.</strong> Sur annuaire-entreprises.data.gouv.fr (gratuit, instantané). Les arnaques nocturnes viennent quasi exclusivement d'artisans non-déclarés.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Reconnaître une vraie urgence (et savoir attendre)</h2>
+ <table class="price-table">
+ <thead><tr><th>Situation</th><th>Vraie urgence ?</th><th>Action recommandée</th></tr></thead>
+ <tbody>
+ <tr><td>Fuite sous évier (joint qui suinte)</td><td class="low">Non</td><td>Bassine + vanne locale fermée, plombier le matin</td></tr>
+ <tr><td>WC bouché (bâtiment avec 2 WC)</td><td class="low">Non</td><td>Ventouse, attendre le matin pour déboucheur</td></tr>
+ <tr><td>Canalisation percée (eau active)</td><td class="high">OUI</td><td>Couper l'eau générale + appel immédiat</td></tr>
+ <tr><td>Dégât des eaux chez voisin</td><td class="high">OUI</td><td>Couper l'eau, prévenir voisins + assurance dans les 5 jours</td></tr>
+ <tr><td>Chauffe-eau qui fuit</td><td class="mid">Modérée</td><td>Couper alimentation électrique + vanne, attendre matin si fuite faible</td></tr>
+ <tr><td>Plus d'eau chaude la nuit</td><td class="low">Non</td><td>Plombier le lendemain matin, pas d'urgence sanitaire</td></tr>
+ <tr><td>Fuite gaz suspectée</td><td class="high">OUI : APPELER 17 (police) ou 112</td><td>Pas de plombier, sécurité civile + GRDF (0800 47 33 33)</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>Spécificités par typologie de logement en IDF</h2>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">Logement social (HLM)</h3>
+ <p>Tous les bailleurs sociaux IDF ont l'obligation d'un service d'astreinte 48h/24 gratuit. Numéro affiché dans le hall ou sur l'avis d'échéance. Bailleurs principaux : Paris Habitat, RIVP, ICF Habitat, Plaine Commune Habitat, Seine-Saint-Denis Habitat, Valophis, OPH 93. <strong>Ne payez jamais un plombier privé pour une fuite en HLM</strong> — l'intervention est gratuite.</p>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">Copropriété privée</h3>
+ <p>Vérifiez si la fuite vient d'une partie commune (colonne d'eau, gaine technique, toiture) ou privative (votre appartement seul). Pour les parties communes, appelez le syndic, l'intervention est facturée à la copropriété. Pour les parties privatives, l'intervention est à votre charge mais peut être prise en charge par votre assurance habitation.</p>
+ <h3 style="font-size:1rem;color:var(--g1);margin:1rem 0 .5rem;font-weight:800;">Pavillon (maison individuelle)</h3>
+ <p>Vous êtes seul responsable de toute votre installation depuis le compteur d'eau. La vanne d'arrêt général est généralement à l'entrée du pavillon (cave, garage, regard sur la voie). En cas de gel l'hiver, les canalisations enterrées peuvent éclater, intervention urgente avec terrassement (250 à 600 €).</p>
+ </div>
+
+ <div class="card">
+ <h2>Questions fréquentes, urgence plomberie IDF</h2>
+ <div class="faq-section">
+ <div class="faq-item">
+ <h3>Quel département IDF a les tarifs urgence plomberie les plus élevés ?</h3>
+ <p>Paris (75) et les Hauts-de-Seine (92) sont en tête : 200-330 € pour une fuite la nuit. Le 93 reste le plus accessible (150-290 €) grâce à la concurrence locale forte. La grande couronne se situe entre les deux selon la distance et la disponibilité.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Existe-t-il un service public d'urgence plomberie en IDF ?</h3>
+ <p>Non. La plomberie n'est pas un service public d'urgence comme les pompiers. Les seuls cas d'intervention publique : fuite gaz (GRDF 0800 47 33 33), risque pour la sécurité publique (pompiers 18), ou logement social (astreinte du bailleur).</p>
+ </div>
+ <div class="faq-item">
+ <h3>Comment vérifier qu'un plombier d'urgence n'est pas un escroc ?</h3>
+ <p>SIRET vérifiable sur annuaire-entreprises.data.gouv.fr (gratuit, instantané), prix annoncé par téléphone, refus des flyers dans la boîte aux lettres (signalés comme principale source d'arnaques en IDF par 60 Millions de Consommateurs). Une assurance RC Pro est exigible, un artisan sérieux la fournit en 30 secondes.</p>
+ </div>
+ <div class="faq-item">
+ <h3>L'assurance habitation couvre-t-elle un plombier urgence en IDF ?</h3>
+ <p>La majorité des contrats habitation IDF (MAIF, Macif, Matmut, MAAF, AXA, Generali, Allianz, GMF, Direct Assurance) incluent une assistance 48h/24 avec plombier agréé sans avance de frais. Appelez le numéro de votre carte verte AVANT de chercher un plombier, économie moyenne : 150-300 €.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Combien de temps un plombier d'urgence met-il à arriver en IDF la nuit ?</h3>
+ <p>Paris et petite couronne (92, 93, 94) : 30 à 60 minutes. Grande couronne (77, 78, 91, 95) : 45 à 90 minutes. Communes excentrées (Brie, Vexin, plateau de Saclay) : 60 à 120 minutes selon la disponibilité des artisans.</p>
+ </div>
+ <div class="faq-item">
+ <h3>Que faire si l'intervention est facturée plus cher que le devis téléphonique ?</h3>
+ <p>Refusez de payer la différence. Un plombier ne peut pas modifier unilatéralement un prix annoncé. Si l'artisan menace de ne pas terminer le travail, appelez la police (17). Vous pouvez ensuite déposer plainte à la DGCCRF (signal.conso.gouv.fr), pratique très courante notamment en IDF la nuit.</p>
+ </div>
+ </div>
+ </div>
+
+ <div class="cta-section">
+ <h2>Trouver un artisan vérifié maintenant</h2>
+ <p>Tous nos plombiers sont contrôlés : SIRET, RC Pro, Décennale, tarifs transparents.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles liés</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/prix-plombier" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Prix plombier Paris 2026</div><div style="font-size:.76rem;color:var(--sub);">Tarifs en journée</div></a>
+ <a href="/comment-choisir-artisan-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Choisir un artisan</div><div style="font-size:.76rem;color:var(--sub);">Critères et pièges</div></a>
+ <a href="/litige-artisan-recours-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Litige artisan : recours</div><div style="font-size:.76rem;color:var(--sub);">Que faire en cas d'abus</div></a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);">Estimateur de travaux</div><div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit</div></a>
+ </div>
+ </div>
+</div>
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

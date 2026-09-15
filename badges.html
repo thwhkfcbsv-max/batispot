@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Badges Officiels & Partenaires | BatiSpot Pro</title>
+<meta name="description" content="Intégrez le badge officiel BatiSpot Pro sur votre site internet pour afficher votre statut d'artisan vérifié et rassurer vos clients particuliers.">
+<link rel="canonical" href="https://batispot.pro/badges">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A1D14;--sub:#5E7268;--g1:#0F5132;--g2:#166534;--teal:#0D9488;--line:#E4EDE8;--line2:#EDF3F0;--bg:#FBFCFB;--maxw:940px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:50;background:rgba(251,252,251,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.4rem}
+.brand em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--g1);padding:2px 6px;border-radius:5px}
+.hero{padding:60px 0 30px;text-align:center}
+h1{font-size:clamp(2rem,4vw,2.8rem);font-weight:900;letter-spacing:-.03em;margin-bottom:1rem;}
+p.lead{font-size:1.15rem;color:var(--sub);max-width:680px;margin:0 auto 2rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;margin-bottom:28px;box-shadow:0 8px 24px -12px rgba(10,29,20,.06)}
+.card h2{font-size:1.35rem;font-weight:800;color:var(--g1);margin-bottom:.5rem}
+.card p{font-size:.95rem;color:var(--sub);margin-bottom:1.2rem}
+.badge-preview{padding:24px;background:#F8FAF9;border:1px dashed var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem}
+.code-box{background:#0A1D14;color:#A9DDC0;padding:16px;border-radius:12px;font-family:monospace;font-size:.82rem;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;background:var(--g1);color:#fff;font-size:.82rem;font-weight:700;padding:8px 16px;border-radius:8px;margin-top:10px;cursor:pointer;border:0}
+footer{border-top:1px solid var(--line2);padding:40px 0;text-align:center;font-size:.85rem;color:var(--sub)}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Badges Officiels & Partenaires | BatiSpot Pro",
+  "description": "Intégrez le badge officiel BatiSpot Pro sur votre site internet pour afficher votre statut d'artisan vérifié et rassurer vos clients particuliers.",
+  "author": {
+    "@type": "Organization",
+    "name": "BatiSpot"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BatiSpot",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://batispot.pro/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-17",
+  "dateModified": "2026-08-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://batispot.pro/badges"
+  }
+}
+</script>
+</head>
+<body>
+
+<nav>
+ <div class="nav-in">
+ <a href="/" class="brand">
+ <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="url(#ng)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="#fff" opacity=".92"/><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0F5132"/><stop offset="1" stop-color="#0D9488"/></linearGradient></defs></svg>
+ <b>BatiSpot</b><em>PRO</em>
+ </a>
+ <a href="/" style="font-weight:700;font-size:.88rem;color:var(--g1);">Espace Artisan</a>
+ </div>
+</nav>
+
+<div class="wrap">
+ <div class="hero">
+ <h1>Badges Officiels BatiSpot Pro pour Votre Site</h1>
+<p class="lead">Artisans du bâtiment, rassurez vos clients particuliers en intégrant le badge officiel attestant votre statut d'artisan vérifié : Kbis et assurance décennale contrôlés.</p>
+ </div>
+
+ <!-- Badge 1 -->
+ <div class="card">
+ <h2>1. Badge "Artisan Vérifié BatiSpot"</h2>
+ <p>Idéal pour le bas de page (footer) ou la page d'accueil de votre site d'artisan.</p>
+ 
+ <div class="badge-preview">
+ <a href="https://batispot.pro" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#0F5132;color:#fff;padding:10px 18px;border-radius:12px;font-family:Inter,sans-serif;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(15,81,50,.25);">
+ <span style="font-size:16px;">️</span>
+ <span>Artisan Vérifié par <strong>BatiSpot Pro</strong></span>
+ </a>
+ </div>
+
+ <div class="code-box">&lt;a href="https://batispot.pro" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#0F5132;color:#fff;padding:10px 18px;border-radius:12px;font-family:system-ui,sans-serif;font-size:13px;font-weight:700;text-decoration:none;"&gt;
+ &lt;span&gt;️&lt;/span&gt;
+ &lt;span&gt;Artisan Vérifié par &lt;strong&gt;BatiSpot Pro&lt;/strong&gt;&lt;/span&gt;
+&lt;/a&gt;</div>
+ </div>
+
+ <!-- Badge 2 -->
+ <div class="card">
+ <h2>2. Badge Sombre Élégant "Chiffrage & Planning Certifiés"</h2>
+ <p>Parfait pour les sites modernes d'architectes, rénovateurs et entreprises générales du bâtiment.</p>
+ 
+ <div class="badge-preview">
+ <a href="https://batispot.pro/artisan" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#0A1D14;color:#fff;border:1px solid #166534;padding:10px 18px;border-radius:12px;font-family:Inter,sans-serif;font-size:13px;font-weight:700;text-decoration:none;">
+ <span style="width:8px;height:8px;border-radius:50%;background:#14B8A6;"></span>
+ <span>Membre du Réseau <strong>BatiSpot Pro Île-de-France</strong></span>
+ </a>
+ </div>
+
+ <div class="code-box">&lt;a href="https://batispot.pro/artisan" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#0A1D14;color:#fff;border:1px solid #166534;padding:10px 18px;border-radius:12px;font-family:system-ui,sans-serif;font-size:13px;font-weight:700;text-decoration:none;"&gt;
+ &lt;span style="width:8px;height:8px;border-radius:50%;background:#14B8A6;"&gt;&lt;/span&gt;
+ &lt;span&gt;Membre du Réseau &lt;strong&gt;BatiSpot Pro Île-de-France&lt;/strong&gt;&lt;/span&gt;
+&lt;/a&gt;</div>
+ </div>
+</div>
+
+<footer>
+ <div class="wrap">
+ BatiSpot Pro — <a href="/">Retour à l'accueil</a> · <a href="/">Espace Artisan</a>
+ </div>
+</footer>
+
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

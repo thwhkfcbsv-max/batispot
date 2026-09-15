@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>DPE 2026 : obligations proprietaires | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/guide-dpe-2026-obligations-proprietaire">
+ <meta name="description" content="DPE 2026 : interdiction location F et G, calendrier, sanctions, travaux obligatoires. Guide complet pour les proprietaires en Ile-de-France." />
+ <meta property="og:title" content="DPE 2026 : tout ce qui change pour les proprietaires" />
+ <meta property="og:description" content="Interdiction de louer les passoires thermiques F et G, calendrier 2025-2034, sanctions et travaux a prevoir. Guide expert BatiSpot." />
+ <meta property="og:type" content="article" />
+ <meta property="og:image" content="https://batispot.pro/og/guide-dpe-2026-obligations-proprietaire.png" />
+ <meta property="og:url" content="https://batispot.pro/guide-dpe-2026-obligations-proprietaire" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--g1); margin: 1.2rem 0 .6rem; }
+ .card p { color: var(--sub); font-size: .9rem; margin-bottom: .8rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; color: white; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "-->"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) {
+ .hero h1 { font-size: 1.5rem; }
+ .card { padding: 1.3rem; }
+ .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Quand les logements classes G seront-ils interdits a la location ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Depuis le 1er janvier 2025, les logements classes G au DPE ne peuvent plus faire l'objet d'un nouveau bail en France metropolitaine. Les baux en cours restent valides jusqu'a leur renouvellement."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelles sanctions si je loue un logement classe G en 2026 ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Le locataire peut saisir le juge pour exiger une mise en conformite et demander une reduction de loyer. Le proprietaire s'expose a une interdiction de louer tant que les travaux ne sont pas realises, et potentiellement a des dommages et interets."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Combien coutent les travaux pour passer de G a D au DPE ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Pour un appartement de 50 a 70 m2 en Ile-de-France, comptez entre 15 000 et 35 000 EUR selon l'etat initial. Les postes principaux sont l'isolation des murs (6 000-12 000 EUR), le remplacement des fenetres (3 000-8 000 EUR) et le changement du systeme de chauffage (4 000-15 000 EUR). Les aides (MaPrimeRenov, CEE, eco-PTZ) peuvent couvrir 40 a 60 % du montant."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Le DPE est-il obligatoire pour une location meublee ou Airbnb ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui. Depuis 2023, tout logement mis en location, meublee ou non, doit disposer d'un DPE valide. Depuis 2025, les logements classes G ne peuvent plus etre loues, y compris en meuble touristique. En 2028, ce sera le tour des classes F."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Existe-t-il des exemptions a l'interdiction de louer les passoires thermiques ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui, dans trois cas : les batiments classes monuments historiques, les logements dont les travaux necessiteraient des modifications incompatibles avec les regles d'urbanisme, et les logements ou le cout des travaux depasse 50 % de la valeur du bien (critere de disproportion). La copropriete qui refuse les travaux en AG peut aussi constituer un cas d'exemption documentee."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> > <a href="/guide-dpe-2026-obligations-proprietaire">Guides DPE</a> > Obligations DPE 2026</div>
+ <h1>DPE 2026 : tout ce qui change pour les proprietaires</h1>
+<p>Interdiction de louer les passoires thermiques, calendrier, sanctions et travaux a prevoir. Le guide complet pour les proprietaires en Ile-de-France.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Le calendrier des interdictions de location</h2>
+ <p>La loi Climat et Resilience du 22 aout 2021 a instaure un calendrier progressif d'interdiction de mise en location des logements les plus energivores. Voici les echeances en vigueur :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Echeance</th>
+ <th>Classe DPE concernee</th>
+ <th>Effet concret</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>1er janvier 2023</strong></td>
+ <td>G+ (> 450 kWh/m2/an)</td>
+ <td>Interdiction de louer (seuil indecence energetique)</td>
+ </tr>
+ <tr>
+ <td><strong>1er janvier 2025</strong></td>
+ <td>Classe G</td>
+ <td>Interdiction de nouveaux baux</td>
+ </tr>
+ <tr>
+ <td><strong>1er janvier 2028</strong></td>
+ <td>Classe F</td>
+ <td>Interdiction de nouveaux baux</td>
+ </tr>
+ <tr>
+ <td><strong>1er janvier 2034</strong></td>
+ <td>Classe E</td>
+ <td>Interdiction de nouveaux baux</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">Source : Loi n 2021-1104 du 22 aout 2021, articles 160 et suivants. Decret n 2023-796 du 18 aout 2023 relatif au seuil de performance energetique minimale.</p>
+ </div>
+
+ <div class="card">
+ <h2>Ce que cela signifie concretement en 2026</h2>
+ <p>En avril 2026, nous sommes dans une situation intermediaire :</p>
+ <ul class="factor-list">
+ <li><strong>Classe G :</strong> depuis le 1er janvier 2025, impossible de signer un nouveau bail. Les baux en cours restent valides jusqu'a echeance, mais le locataire peut exiger une mise en conformite.</li>
+ <li><strong>Classe F :</strong> vous avez jusqu'au 31 decembre 2027 pour realiser les travaux. Apres cette date, votre logement sera egalement interdit a la location.</li>
+ <li><strong>Gel des loyers :</strong> depuis aout 2022, les logements classes F et G ne peuvent plus faire l'objet d'une augmentation de loyer, meme en cas de changement de locataire (article 159 de la loi Climat).</li>
+ <li><strong>Audit energetique obligatoire :</strong> pour vendre un logement classe F ou G, un audit energetique est obligatoire en plus du DPE depuis le 1er avril 2023.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Les sanctions encourues</h2>
+ <p>La loi ne prevoit pas d'amende directe, mais les consequences financieres sont bien reelles :</p>
+ <ul class="factor-list">
+ <li><strong>Action du locataire :</strong> le locataire peut saisir le tribunal judiciaire pour exiger des travaux de mise en conformite. Le juge peut ordonner une reduction de loyer, voire suspendre le paiement jusqu'a la realisation des travaux.</li>
+ <li><strong>Dommages et interets :</strong> si le proprietaire refuse de faire les travaux, le locataire peut obtenir des dommages et interets pour prejudice (trouble de jouissance, surcout de chauffage).</li>
+ <li><strong>Interdiction de louer :</strong> le bien ne peut tout simplement plus etre remis sur le marche locatif sans travaux.</li>
+ <li><strong>Impact sur la valeur du bien :</strong> les etudes montrent une decote de 5 a 15 % sur les passoires thermiques en Ile-de-France par rapport aux logements equivalents bien classes.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Quels travaux pour sortir du statut de passoire thermique ?</h2>
+ <p>Pour passer d'une classe G ou F a une classe D (objectif recommande pour la perennite), les postes de travaux prioritaires sont :</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Poste de travaux</th>
+ <th>Gain DPE moyen</th>
+ <th>Budget IDF (appart. 60 m2)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Isolation des murs par l'interieur</td>
+ <td>1 a 2 classes</td>
+ <td>6 000 - 12 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Remplacement fenetres (double vitrage)</td>
+ <td>0,5 a 1 classe</td>
+ <td>3 000 - 8 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Isolation des combles/toiture</td>
+ <td>1 a 2 classes</td>
+ <td>2 000 - 5 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Remplacement chaudiere par PAC</td>
+ <td>1 a 2 classes</td>
+ <td>8 000 - 15 000 EUR</td>
+ </tr>
+ <tr>
+ <td>Installation VMC double flux</td>
+ <td>0,5 classe</td>
+ <td>3 000 - 6 000 EUR</td>
+ </tr>
+ </tbody>
+ </table>
+ <p><strong>Budget global moyen pour passer de G a D :</strong> 15 000 a 35 000 EUR pour un appartement de 60 m2 en Ile-de-France, avant deduction des aides.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les aides financieres mobilisables en 2026</h2>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">MaPrimeRenov' Parcours accompagne</div>
+ <div class="value">Jusqu'a 63 000 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Eco-PTZ</div>
+ <div class="value">Jusqu'a 50 000 EUR a 0 %</div>
+ </div>
+ <div class="info-item">
+ <div class="label">CEE (primes energie)</div>
+ <div class="value">1 000 - 5 000 EUR</div>
+ </div>
+ <div class="info-item">
+ <div class="label">TVA reduite</div>
+ <div class="value">5,5 % au lieu de 20 %</div>
+ </div>
+ </div>
+ <p style="margin-top:1rem;">En cumulant toutes les aides, un proprietaire aux revenus modestes peut financer 60 a 80 % des travaux de renovation energetique. Meme pour les revenus superieurs, le reste a charge descend a 40-60 % du cout total.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Votre logement est classe F ou G ?</h2>
+ <p>Decrivez votre projet de renovation et recevez des devis d'artisans certifies RGE sous 48h. Estimation gratuite, sans engagement.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux de renovation energetique</a>
+ </div>
+
+ <div class="card">
+ <h2>Les exemptions : qui n'est pas concerne ?</h2>
+ <ul class="factor-list">
+ <li><strong>Monuments historiques :</strong> les batiments inscrits ou classes au titre des monuments historiques sont exemptes.</li>
+ <li><strong>Contraintes d'urbanisme :</strong> si les travaux necessaires sont incompatibles avec les regles d'urbanisme locales (PLU, ABF), une exemption peut etre demandee.</li>
+ <li><strong>Disproportion economique :</strong> si le cout des travaux depasse 50 % de la valeur venale du bien, le proprietaire peut invoquer la disproportion (decret du 18 aout 2023).</li>
+ <li><strong>Refus de la copropriete :</strong> si l'assemblee generale refuse les travaux necessaires, le proprietaire doit documenter ce refus pour justifier l'impossibilite de se conformer.</li>
+ </ul>
+ <p>Attention : ces exemptions sont strictement encadrees. Elles ne dispensent pas d'afficher la classe DPE dans les annonces de location.</p>
+ </div>
+
+ <div class="card">
+ <h2>Strategie recommandee pour les proprietaires en IDF</h2>
+ <ul class="factor-list">
+ <li><strong>1. Faites realiser un DPE recent :</strong> le nouveau DPE (methode 3CL 2021) est plus fiable que l'ancien. Si votre DPE date d'avant le 1er juillet 2021, il a ete invalide au 1er janvier 2025. Comptez 150 a 250 EUR pour un nouveau diagnostic.</li>
+ <li><strong>2. Demandez un audit energetique :</strong> contrairement au DPE (constat), l'audit propose des scenarios de travaux chiffres avec les gains attendus. Cout : 500 a 1 200 EUR.</li>
+ <li><strong>3. Priorisez les travaux a fort impact :</strong> isolation des murs et remplacement du chauffage representent souvent 70 % du gain energetique.</li>
+ <li><strong>4. Cumulez les aides :</strong> MaPrimeRenov' + CEE + eco-PTZ sont cumulables. Un accompagnateur Renov' (obligatoire pour MaPrimeRenov' Parcours accompagne) vous aide a monter le dossier.</li>
+ <li><strong>5. Anticipez l'echeance 2028 :</strong> si votre bien est classe F, n'attendez pas. Les artisans RGE sont deja tres sollicites en IDF, et les delais s'allongent a l'approche des echeances legales.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Trouvez des artisans RGE pour vos travaux de renovation</h2>
+ <p>BatiSpot reference des artisans certifies RGE en Ile-de-France. Obtenez 3 devis gratuits pour vos travaux d'isolation, chauffage ou fenetres.</p>
+ <a href="/estimateur" class="cta-btn-green">Obtenir mes devis gratuits</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/dpe-passoire-thermique-que-faire" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Passoire thermique : que faire ?</div>
+ <div style="font-size:.76rem;color:var(--sub);">Solutions concretes pour les logements F et G</div>
+ </a>
+ <a href="/audit-energetique-obligatoire-vente" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Audit energetique obligatoire pour vendre</div>
+ <div style="font-size:.76rem;color:var(--sub);">Qui est concerne, cout, comment ameliorer sa note</div>
+ </a>
+ <a href="/maprimrenov-2026-guide-complet" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">MaPrimeRenov' 2026 : guide complet</div>
+ <div style="font-size:.76rem;color:var(--sub);">Montants, conditions, cumul avec les CEE</div>
+ </a>
+ <a href="/credit-impot-renovation-energetique-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Credits d'impot renovation 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Tous les dispositifs fiscaux pour vos travaux</div>
+ </a>
+ <a href="/prix-chauffagiste" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix chauffagiste Paris 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Tarifs installation PAC, chaudiere, radiateurs</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/consent.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BatiSpot — Artisan PWA</title>
+<style>
+ @font-face { font-family: 'Inter'; src: url('../../fonts/Inter-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+ @font-face { font-family: 'Inter'; src: url('../../fonts/Inter-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; }
+ @font-face { font-family: 'Inter'; src: url('../../fonts/Inter-Black.otf') format('opentype'); font-weight: 900; font-style: normal; }
+ * { box-sizing: border-box; }
+ html, body { margin: 0; padding: 0; }
+ body {
+ font-family: 'Inter', system-ui, -apple-system, sans-serif;
+ background: #EAEEEC;
+ color: #0F1F17;
+ min-height: 100vh;
+ -webkit-font-smoothing: antialiased;
+ text-rendering: optimizeLegibility;
+ }
+ .page-shell { padding: 32px 24px 80px; max-width: 1600px; margin: 0 auto; }
+ .page-head { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+ .page-head h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.025em; margin: 0; }
+ .page-head .sub { color: #4B6B5A; font-size: 14px; font-weight: 600; }
+ .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 36px 24px; margin-top: 32px; }
+ .device-cell { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+ .device-label { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #4B6B5A; }
+ .device-label .dot { display: inline-block; width: 6px; height: 6px; background: #15803D; border-radius: 999px; margin-right: 6px; vertical-align: middle; }
+ .device-sub { font-size: 12px; color: #4B6B5A; font-weight: 500; margin-top: -8px; }
+ .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 18px; padding: 6px; background: #fff; border-radius: 12px; border: 1px solid #E5EDE7; width: fit-content; }
+ .nav-tab { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; background: transparent; color: #4B6B5A; font-family: inherit; letter-spacing: -0.01em; }
+ .nav-tab.active { background: #0F5132; color: #fff; }
+ .section-divider { display: flex; align-items: center; gap: 14px; margin: 56px 0 0; padding-bottom: 14px; border-bottom: 1px solid #D0D9D4; }
+ .section-divider h2 { font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #4B6B5A; margin: 0; }
+ .section-divider .line { flex: 1; height: 1px; background: transparent; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="android-frame.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel" src="screens.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState } = React;
+
+function Demo() {
+ const [iosScreen, setIosScreen] = useState('dashboard');
+ const [androidScreen, setAndroidScreen] = useState('onboarding');
+ const [selected, setSelected] = useState(SAMPLE_CHANTIERS[0]);
+
+ const renderScreen = (key, platform) => {
+ const safeTop = platform === 'android' ? 32 : 50;
+ switch (key) {
+ case 'onboarding': return <OnboardingScreen safeTop={safeTop} onContinue={() => (platform === 'ios' ? setIosScreen('upload') : setAndroidScreen('upload'))}/>;
+ case 'upload': return <UploadDocsScreen safeTop={safeTop} onBack={() => (platform === 'ios' ? setIosScreen('onboarding') : setAndroidScreen('onboarding'))} onContinue={() => (platform === 'ios' ? setIosScreen('dashboard') : setAndroidScreen('dashboard'))}/>;
+ case 'dashboard': return <DashboardScreen safeTop={safeTop} platform={platform} onChantierClick={(c) => { setSelected(c); platform === 'ios' ? setIosScreen('detail') : setAndroidScreen('detail'); }}/>;
+ case 'detail': return <ChantierDetailScreen safeTop={safeTop} chantier={selected} onBack={() => (platform === 'ios' ? setIosScreen('dashboard') : setAndroidScreen('dashboard'))} onAccept={() => (platform === 'ios' ? setIosScreen('dashboard') : setAndroidScreen('dashboard'))}/>;
+ case 'profil': return <ProfilScreen safeTop={safeTop} platform={platform}/>;
+ case 'notif': return <NotificationsScreen safeTop={safeTop} platform={platform} onBack={() => (platform === 'ios' ? setIosScreen('dashboard') : setAndroidScreen('dashboard'))}/>;
+ default: return null;
+ }
+ };
+
+ const tabs = [
+ { key: 'onboarding', label: 'Onboarding' },
+ { key: 'upload', label: 'Documents' },
+ { key: 'dashboard', label: 'Dashboard' },
+ { key: 'detail', label: 'Fiche chantier' },
+ { key: 'profil', label: 'Profil' },
+ { key: 'notif', label: 'Notifications' },
+ ];
+
+ return (
+ <div className="page-shell" data-screen-label="Artisan PWA — Index">
+ <div className="page-head">
+ <BatiSpotLogo height={28} onDark={false}/>
+ <div style={{ flex: 1 }}>
+ <h1>Artisan PWA — UI kit</h1>
+ <div className="sub">6 écrans · Mobile-first · Inter Black/Bold/Regular · Charte BatiSpot</div>
+ </div>
+ </div>
+
+ <div className="section-divider">
+ <h2>iOS — iPhone 14 (393 × 852)</h2><div className="line"/>
+ </div>
+ <div className="nav-tabs">
+ {tabs.map(t => (
+ <button key={t.key} className={`nav-tab ${iosScreen === t.key ? 'active' : ''}`} onClick={() => setIosScreen(t.key)}>{t.label}</button>
+ ))}
+ </div>
+ <div className="grid" style={{ gridTemplateColumns: '1fr', justifyItems: 'center' }}>
+ <div className="device-cell">
+ <IOSDevice width={393} height={852}>
+ {renderScreen(iosScreen, 'ios')}
+ </IOSDevice>
+ </div>
+ </div>
+
+ <div className="section-divider">
+ <h2>Android — Material 3 (412 × 892)</h2><div className="line"/>
+ </div>
+ <div className="nav-tabs">
+ {tabs.map(t => (
+ <button key={t.key} className={`nav-tab ${androidScreen === t.key ? 'active' : ''}`} onClick={() => setAndroidScreen(t.key)}>{t.label}</button>
+ ))}
+ </div>
+ <div className="grid" style={{ gridTemplateColumns: '1fr', justifyItems: 'center' }}>
+ <div className="device-cell">
+ <AndroidDevice width={412} height={892}>
+ {renderScreen(androidScreen, 'android')}
+ </AndroidDevice>
+ </div>
+ </div>
+
+ <div className="section-divider">
+ <h2>Tous les écrans · iPhone</h2><div className="line"/>
+ </div>
+ <div className="grid">
+ {tabs.map(t => (
+ <div key={t.key} className="device-cell">
+ <div className="device-label"><span className="dot"/>{t.label}</div>
+ <IOSDevice width={393} height={852}>{renderScreen(t.key, 'ios')}</IOSDevice>
+ </div>
+ ))}
+ </div>
+ </div>
+ );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+<!-- START: BatiSpot Pro Artisan Lead In-Page Banner -->
+<section class="bs-pro-banner-inpage" style="margin: 40px auto 30px; max-width: 860px; padding: 0 16px;">
+ <div style="background: linear-gradient(135deg, #0F5132 0%, #0D9488 100%); border-radius: 20px; padding: 32px 28px; color: #FFFFFF; box-shadow: 0 16px 36px -12px rgba(15, 81, 50, 0.35); position: relative; overflow: hidden;">
+ <div style="display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 2;">
+ <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.16); backdrop-filter: blur(8px); border-radius: 999px; padding: 4px 14px; width: fit-content; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">
+ <span>️ Espace Artisans & Entreprises BTP</span>
+ </div>
+ <h3 style="font-size: clamp(20px, 4vw, 26px); font-weight: 900; line-height: 1.2; margin: 0; color: #FFFFFF; letter-spacing: -0.02em;">
+ Vous êtes artisan ? Chiffrez vos devis en 30 s sur mobile
+ </h3>
+ <p style="font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.92); margin: 0; max-width: 620px;">
+ Ne passez plus vos soirées sur l'administratif. BatiSpot Pro calcule vos marges, dicte vos devis au juste prix, gère le planning d'équipe et prépare la facturation électronique 2026.
+ </p>
+ <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px;">
+ <a href="/?utm_source=seo_inpage&utm_medium=banner" style="background: #FFFFFF; color: #0F5132; font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); transition: transform 0.15s;">
+ <span>Tester 3 mois offerts</span>
+ <span style="font-size: 16px;">→</span>
+ </a>
+ <span style="font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.85);">
+ Sans engagement · Sans carte bancaire · 3 mois offerts
+ </span>
+ </div>
+ </div>
+ </div>
+</section>
+<!-- END: BatiSpot Pro Artisan Lead In-Page Banner -->
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

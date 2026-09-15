@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Rénovation d'un appartement Airbnb : budget, travaux prioritaires et ROI 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/renovation-appartement-airbnb-guide">
+ <meta name="description" content="Comment renover un appartement pour Airbnb en IDF ? Travaux qui augmentent le tarif/nuit, budget 8K-25K, ROI calcule. Guide expert 2026." />
+ <meta name="keywords" content="renovation airbnb, travaux location courte duree, amenagement airbnb paris, ROI airbnb travaux" />
+ <meta property="og:title" content="Renovation appartement Airbnb : travaux, budget, ROI" />
+ <meta property="og:description" content="Les travaux qui augmentent votre tarif/nuit Airbnb. Budget, ROI calcule, artisans specialises IDF." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/renovation-appartement-airbnb-guide.png" />
+ <meta property="og:url" content="https://batispot.pro/renovation-appartement-airbnb-guide" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table .low { color: #16a34a; font-weight: 600; }
+ .price-table .mid { color: var(--g1); font-weight: 700; }
+ .price-table .high { color: var(--orange); font-weight: 600; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) {
+ .hero h1 { font-size: 1.5rem; }
+ .card { padding: 1.3rem; }
+ .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Quel budget prevoir pour renover un appartement destine a Airbnb ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "En Ile-de-France, comptez entre 8 000 et 25 000 euros pour une renovation complete d'un T2 destine a la location courte duree. Les postes principaux sont la salle de bain (3 000-8 000 euros), la cuisine (2 000-6 000 euros) et la decoration/ameublement (2 000-5 000 euros)."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels travaux augmentent le plus le tarif par nuit sur Airbnb ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Les travaux les plus rentables sont la renovation de la salle de bain (+15-25% sur le tarif/nuit), l'installation d'une cuisine equipee (+10-15%), et la creation d'un espace de travail dedie (+5-10%). Une decoration soignee avec photos professionnelles peut augmenter le taux de reservation de 30%."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "En combien de temps les travaux Airbnb sont-ils rentabilises ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Pour un investissement de 12 000 euros sur un T2 a Paris, avec une augmentation du tarif/nuit de 20 euros et un taux d'occupation de 75%, le retour sur investissement se situe entre 18 et 24 mois."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Faut-il des autorisations specifiques pour louer en courte duree a Paris ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Oui. A Paris, la location meublee touristique de votre residence principale est limitee a 120 jours par an. Pour une residence secondaire, vous devez obtenir un changement d'usage aupres de la mairie et un numero d'enregistrement obligatoire."
+ }
+ },
+ {
+ "@type": "Question",
+ "name": "Quels artisans choisir pour renover un appartement Airbnb ?",
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": "Privilegiez des artisans polyvalents ou une entreprise tous corps d'etat pour limiter les interlocuteurs et les delais. Verifiez leur assurance decennale et demandez des references de projets similaires. BatiSpot met en relation avec des artisans certifies en Ile-de-France."
+ }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &rsaquo; <a href="/renovation-appartement-airbnb-guide">Investissement locatif</a> &rsaquo; Renovation Airbnb</div>
+ <h1>Renover un appartement pour Airbnb : le guide complet</h1>
+<p>Les travaux qui augmentent votre tarif par nuit, le budget a prevoir et le retour sur investissement calcule pour l'Ile-de-France en 2026.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Guide investisseur 2026</span>
+ <h2>Pourquoi renover avant de mettre en location courte duree ?</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Un appartement bien renove se loue en moyenne 25 a 40 % plus cher par nuit qu'un logement non renove dans le meme quartier. A Paris, la difference entre un T2 "basique" a 85 euros/nuit et un T2 renove a 120 euros/nuit represente plus de 9 500 euros de revenus supplementaires par an (a 75 % d'occupation).</p>
+ <p style="font-size:.9rem;">Les voyageurs Airbnb en 2026 comparent des dizaines d'annonces. Les criteres decisifs sont, dans l'ordre : les photos (directement liees a l'etat du logement), la salle de bain, la literie et la cuisine. Chacun de ces postes releve de travaux concrets avec un ROI mesurable.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les travaux a plus fort ROI pour Airbnb</h2>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Poste de travaux</th>
+ <th>Budget moyen</th>
+ <th>Impact tarif/nuit</th>
+ <th>ROI estime</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Renovation salle de bain complete</td>
+ <td class="mid">4 000 - 8 000 &#8364;</td>
+ <td class="low">+15 a 25 %</td>
+ <td>12-18 mois</td>
+ </tr>
+ <tr>
+ <td>Cuisine equipee (plaque, frigo, micro-ondes)</td>
+ <td class="mid">2 500 - 6 000 &#8364;</td>
+ <td class="low">+10 a 15 %</td>
+ <td>14-20 mois</td>
+ </tr>
+ <tr>
+ <td>Peinture complete + eclairage LED</td>
+ <td class="mid">1 500 - 3 500 &#8364;</td>
+ <td class="low">+10 a 20 %</td>
+ <td>6-10 mois</td>
+ </tr>
+ <tr>
+ <td>Literie haut de gamme + linge</td>
+ <td class="mid">800 - 2 000 &#8364;</td>
+ <td class="low">+5 a 10 %</td>
+ <td>4-8 mois</td>
+ </tr>
+ <tr>
+ <td>Espace de travail (bureau, prise USB, Wi-Fi)</td>
+ <td class="mid">300 - 800 &#8364;</td>
+ <td class="low">+5 a 10 %</td>
+ <td>3-6 mois</td>
+ </tr>
+ <tr>
+ <td>Serrure connectee + boite a cles</td>
+ <td class="mid">150 - 400 &#8364;</td>
+ <td class="low">+5 % (note)</td>
+ <td>2-4 mois</td>
+ </tr>
+ <tr>
+ <td>Insonorisation (double vitrage, joints)</td>
+ <td class="mid">2 000 - 5 000 &#8364;</td>
+ <td class="low">+10 % (note)</td>
+ <td>18-24 mois</td>
+ </tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">* ROI calcule sur un T2 a Paris, tarif de base 90 euros/nuit, occupation 75 %. Donnees marche 2026.</p>
+ </div>
+
+ <div class="card">
+ <h2>Budget total : combien investir selon la surface ?</h2>
+ <div class="info-grid">
+ <div class="info-item">
+ <div class="label">Studio 18-25 m2</div>
+ <div class="value">5 000 - 12 000 &#8364;</div>
+ </div>
+ <div class="info-item">
+ <div class="label">T2 35-50 m2</div>
+ <div class="value">8 000 - 20 000 &#8364;</div>
+ </div>
+ <div class="info-item">
+ <div class="label">T3 55-75 m2</div>
+ <div class="value">12 000 - 30 000 &#8364;</div>
+ </div>
+ <div class="info-item">
+ <div class="label">Delai moyen travaux</div>
+ <div class="value">3 a 6 semaines</div>
+ </div>
+ </div>
+ <p style="font-size:.9rem;margin-top:1rem;">Ces fourchettes incluent la main-d'oeuvre et les materiaux de qualite moyenne-haute. En IDF hors Paris, deduisez 15 a 20 % sur la main-d'oeuvre. Pour un rendu "premium" qui justifie un tarif superieur a 150 euros/nuit en T2, prevoyez le haut de la fourchette.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Estimez le budget de renovation de votre Airbnb</h2>
+ <p>Recevez 3 devis gratuits d'artisans specialises location courte duree en Ile-de-France.</p>
+ <a href="/estimateur" class="cta-btn">Estimer mes travaux gratuitement &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Simulation ROI : exemple concret d'un T2 a Paris 11e</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Prenons un T2 de 42 m2 achete 280 000 euros dans le 11e arrondissement, avec un budget renovation de 14 000 euros.</p>
+ <table class="price-table">
+ <thead>
+ <tr>
+ <th>Indicateur</th>
+ <th>Avant travaux</th>
+ <th>Apres travaux</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Tarif moyen / nuit</td>
+ <td>85 &#8364;</td>
+ <td class="mid">118 &#8364;</td>
+ </tr>
+ <tr>
+ <td>Taux d'occupation annuel</td>
+ <td>62 %</td>
+ <td class="mid">78 %</td>
+ </tr>
+ <tr>
+ <td>Revenu brut annuel</td>
+ <td>19 237 &#8364;</td>
+ <td class="mid">33 597 &#8364;</td>
+ </tr>
+ <tr>
+ <td>Revenu net (apres charges, 30 %)</td>
+ <td>13 466 &#8364;</td>
+ <td class="mid">23 518 &#8364;</td>
+ </tr>
+ <tr>
+ <td>Gain net supplementaire / an</td>
+ <td colspan="2" class="mid" style="text-align:center;">+10 052 &#8364;</td>
+ </tr>
+ <tr>
+ <td>Retour sur investissement travaux</td>
+ <td colspan="2" class="low" style="text-align:center;">17 mois</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="card">
+ <h2>Les erreurs a eviter en renovation Airbnb</h2>
+ <ul class="factor-list">
+ <li><strong>Sur-investir dans la decoration :</strong> un logement a 200 euros de deco/m2 n'est pas 2 fois plus reserve qu'un logement a 100 euros/m2. Concentrez le budget sur la salle de bain, la cuisine et la literie.</li>
+ <li><strong>Negliger la conformite :</strong> detecteurs de fumee, diagnostics electriques, normes gaz -- un voyageur qui signale un probleme de securite peut entrainer la suspension de votre annonce.</li>
+ <li><strong>Oublier l'insonorisation :</strong> les mauvais avis lies au bruit sont les plus difficiles a rattraper. Investir dans du double vitrage et des joints de porte est rentable a moyen terme.</li>
+ <li><strong>Choisir des materiaux fragiles :</strong> le parquet massif se raye, le marbre se tache. Preferez le gres cerame imitation bois et le quartz pour les plans de travail -- resistants et faciles a entretenir.</li>
+ <li><strong>Faire les travaux soi-meme sans experience :</strong> une plomberie mal faite ou une installation electrique non conforme peut couter 3 fois plus cher en reparation. Faites appel a des artisans assures.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Reglementation location courte duree a Paris en 2026</h2>
+ <ul class="factor-list">
+ <li><strong>Residence principale :</strong> 120 jours maximum par an. Declaration en mairie obligatoire, numero d'enregistrement a afficher sur l'annonce.</li>
+ <li><strong>Residence secondaire :</strong> changement d'usage obligatoire (compensation dans certains arrondissements). Amende jusqu'a 50 000 euros en cas d'infraction.</li>
+ <li><strong>Taxe de sejour :</strong> collectee automatiquement par Airbnb (entre 1 et 5 euros par nuit et par personne selon la commune).</li>
+ <li><strong>Fiscalite :</strong> regime micro-BIC jusqu'a 77 700 euros de revenus (abattement 50 %), ou reel au-dela. Les travaux sont deductibles au reel.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Vos travaux Airbnb avec des artisans de confiance</h2>
+ <p>BatiSpot met en relation proprietaires et artisans certifies en Ile-de-France. Renovation salle de bain, cuisine, peinture, electricite : obtenez 3 devis gratuits et comparez.</p>
+ <a href="/estimateur" class="cta-btn-green">Obtenir mes devis gratuits &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/normes-securite-location-saisonniere-2026" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Normes securite location saisonniere 2026</div>
+ <div style="font-size:.76rem;color:var(--sub);">Detecteurs, electricite, sanctions</div>
+ </a>
+ <a href="/amenagement-studio-airbnb-idf-budget" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Amenager un studio Airbnb en IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Budget 5K-15K, ROI calcule</div>
+ </a>
+ <a href="/guide-renovation-appartement-ancien-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix renovation appartement Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Cout au m2 selon surface et gamme</div>
+ </a>
+ <a href="/devis-travaux-comprendre-comparer" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Lire et comparer des devis travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Pieges, postes a verifier, prix normaux</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit -- resultat en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> -- Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

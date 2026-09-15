@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>CGU — BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/cgu">
+ <style>
+ body { font-family: 'Segoe UI', system-ui, sans-serif; color: #1C2B22; background: #fff; line-height: 1.8; padding: 40px 5%; max-width: 800px; margin: 0 auto; }
+ h1 { font-size: 2rem; font-weight: 900; color: #1A6B45; margin-bottom: 2rem; }
+ h2 { font-size: 1.2rem; font-weight: 800; color: #1A6B45; margin: 2rem 0 .5rem; }
+ p, li { font-size: .95rem; color: #5A7268; }
+ a { color: #228B5B; }
+ .back { display: inline-block; margin-bottom: 2rem; color: #228B5B; text-decoration: none; font-weight: 600; }
+ </style>
+<!-- Google Analytics -->
+</head>
+<body>
+ <a href="/" class="back">&larr; Retour au site</a>
+ <h1>Conditions Générales d'Utilisation et de Vente</h1>
+<p><em>Dernière mise à jour : 19 avril 2026</em></p>
+
+ <h2>1. Objet</h2>
+ <p>BatiSpot est une plateforme de mise en relation entre particuliers ayant un projet de travaux (« Clients ») et professionnels du bâtiment (« Artisans »). Les présentes CGU/CGV régissent l'utilisation du site batispot.pro et de ses services, incluant les abonnements souscrits par les Artisans.</p>
+
+ <h2>2. Inscription</h2>
+ <p><strong>Clients :</strong> L'utilisation du service est gratuite. Le dépôt d'une demande de devis nécessite de renseigner un formulaire avec des informations exactes.</p>
+ <p><strong>Artisans :</strong> L'inscription sur la plateforme est gratuite. BatiSpot se réserve le droit de vérifier les documents professionnels (KBIS, RC Pro, assurance décennale à jour) avant activation du profil. L'accès aux demandes qualifiées nécessite une formule d'abonnement décrite à l'article 7.</p>
+
+ <h2>3. Rôle de BatiSpot</h2>
+ <p>BatiSpot est un intermédiaire technique. La plateforme facilite la mise en relation mais n'intervient pas dans la relation contractuelle entre le Client et l'Artisan. BatiSpot ne réalise aucun travail et ne se porte pas garant de la qualité des prestations.</p>
+
+ <h2>4. Obligations des utilisateurs</h2>
+ <p>Les utilisateurs s'engagent à :</p>
+ <ul>
+ <li>Fournir des informations exactes et à jour</li>
+ <li>Ne pas utiliser le service à des fins frauduleuses</li>
+ <li>Respecter les lois et réglementations en vigueur</li>
+ <li>Pour les Artisans : maintenir à jour leurs documents professionnels (KBIS, assurances) pendant toute la durée de l'abonnement</li>
+ </ul>
+
+ <h2>5. Responsabilité</h2>
+ <p>BatiSpot met tout en œuvre pour assurer la qualité du service mais ne peut être tenu responsable des litiges entre Clients et Artisans, des retards ou défauts d'exécution des travaux, ni des interruptions techniques du site.</p>
+
+ <h2>6. Données personnelles</h2>
+ <p>Les données sont traitées conformément au RGPD. Voir notre page <a href="confidentialite">Politique de confidentialité</a>.</p>
+
+ <h2>7. Abonnement Artisan, conditions de vente</h2>
+
+ <p><strong>7.1 Tarifs.</strong> L'abonnement mensuel est proposé en trois formules : Devis à 19 € TTC/mois, Pro à 39 € TTC/mois, et Équipe à 79 € TTC/mois (jusqu'à 5 compagnons, puis 15 € TTC/mois par compagnon supplémentaire). Une période d'essai de trois (3) mois offerts est appliquée à la souscription ; aucun prélèvement n'intervient avant son terme. Les tarifs en vigueur sont affichés sur batispot.pro/tarifs.</p>
+
+ <p><strong>7.2 Facturation.</strong> L'abonnement est facturé mensuellement, terme à échoir, par prélèvement automatique ou par le moyen de paiement enregistré lors de la souscription. Une facture électronique conforme est émise à chaque échéance.</p>
+
+ <p><strong>7.3 Reconduction.</strong> L'abonnement est reconduit tacitement de mois en mois, sans durée d'engagement initiale autre que la période en cours.</p>
+
+ <p><strong>7.4 Résiliation par l'Artisan, préavis d'un mois.</strong> L'Artisan peut résilier son abonnement à tout moment, <strong>sous réserve d'un préavis d'un (1) mois</strong> à compter de la date de notification de la résiliation. La résiliation prend effet à l'issue de ce préavis. Durant le préavis, l'Artisan continue de bénéficier de l'accès aux demandes qualifiées et reste redevable de la mensualité correspondante. Aucun remboursement prorata temporis n'est effectué sur le mois en cours lorsque la résiliation intervient en cours de période.</p>
+
+ <p><strong>7.5 Modalités de notification de la résiliation.</strong> La demande de résiliation doit être adressée par courriel à <a href="mailto:contact@batispot.pro">contact@batispot.pro</a> depuis l'adresse e-mail enregistrée dans le compte Artisan, en précisant la raison sociale, le SIREN et la date souhaitée de fin de préavis. Un accusé de réception est envoyé sous 48 heures ouvrées. À défaut d'accusé de réception dans ce délai, l'Artisan peut confirmer par courrier recommandé avec accusé de réception.</p>
+
+ <p><strong>7.6 Résiliation par BatiSpot.</strong> BatiSpot peut suspendre ou résilier l'abonnement de plein droit, sans préavis ni indemnité, en cas de (i) défaut de paiement non régularisé sous 15 jours après relance, (ii) non-respect des obligations de l'article 4, (iii) absence ou expiration de l'assurance décennale ou RC Pro, (iv) litige avéré et récurrent avec des Clients, ou (v) usage frauduleux de la plateforme.</p>
+
+ <p><strong>7.7 Période d'essai.</strong> La période d'essai de trois (3) mois est offerte, sans engagement : l'Artisan peut résilier à tout moment pendant l'essai sans être facturé. À l'issue de l'essai, l'abonnement se poursuit au tarif de la formule choisie, sauf résiliation.</p>
+
+ <p><strong>7.8 Droit de rétractation.</strong> Conformément à l'article L221-18 du Code de la consommation, le droit de rétractation de 14 jours ne s'applique pas aux professionnels souscrivant l'abonnement dans le cadre de leur activité. Aucun remboursement n'est donc dû au titre de la rétractation.</p>
+
+ <p><strong>7.9 Conséquences de la résiliation.</strong> À la date effective de résiliation, l'accès aux demandes qualifiées est coupé. Les données du compte Artisan (profil, historique, évaluations clients) sont conservées pendant 36 mois conformément aux obligations comptables et fiscales, puis supprimées sur demande.</p>
+
+ <h2>8. Modification</h2>
+ <p>BatiSpot se réserve le droit de modifier les présentes CGU/CGV. Les utilisateurs seront informés de toute modification substantielle par courriel au moins 30 jours avant la prise d'effet. Les Artisans disposent alors d'un droit de résiliation anticipée s'ils refusent les nouvelles conditions.</p>
+
+ <h2>9. Droit applicable</h2>
+ <p>Les présentes CGU/CGV sont régies par le droit français. Tout litige fait l'objet d'une tentative de résolution amiable préalable ; à défaut d'accord dans les 30 jours, les tribunaux compétents sont ceux du ressort du siège social de BatiSpot.</p>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

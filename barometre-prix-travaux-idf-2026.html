@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Baromètre 2026 des prix des travaux en Île-de-France | BatiSpot</title>
+ <meta name="description" content="Baromètre 2026 : fourchettes de prix réelles pour 64 prestations de travaux (plombier, électricien, peintre, chauffagiste…) consolidées sur 114 communes d'Île-de-France. Données réutilisables librement avec citation." />
+ <link rel="canonical" href="https://batispot.pro/barometre-prix-travaux-idf-2026">
+ <meta property="og:title" content="Baromètre 2026 des prix des travaux en Île-de-France">
+ <meta property="og:description" content="64 prestations chiffrées, 8 métiers, 114 communes IDF. Données libres de réutilisation avec citation.">
+ <meta property="og:url" content="https://batispot.pro/barometre-prix-travaux-idf-2026">
+ <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+ <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Comment ce baromètre est-il construit ?", "acceptedAnswer": {"@type": "Answer", "text": "Les fourchettes sont consolidées par BatiSpot à partir des tarifs pratiqués par les artisans vérifiés de la plateforme et des demandes de devis reçues sur 114 communes d'Île-de-France, hors fournitures sauf mention contraire. Mise à jour : juin 2026."}}, {"@type": "Question", "name": "Pourquoi les prix varient-ils autant d'une commune à l'autre ?", "acceptedAnswer": {"@type": "Answer", "text": "Trois facteurs dominent : le pouvoir d'achat local (Neuilly-sur-Seine vs Sevran), les contraintes du bâti (haussmannien, copropriétés anciennes, accès) et la densité d'artisans disponibles. L'écart constaté atteint 20 à 35 % entre l'ouest parisien et la grande couronne."}}, {"@type": "Question", "name": "Puis-je réutiliser ces données ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Les chiffres et tableaux de ce baromètre sont réutilisables librement (presse, blogs, études) à condition de citer la source avec un lien vers cette page."}}, {"@type": "Question", "name": "Comment obtenir un devis au prix juste ?", "acceptedAnswer": {"@type": "Answer", "text": "Décrivez votre projet sur BatiSpot : 3 artisans vérifiés (Kbis, assurance, décennale) de votre commune vous répondent sous 48h, gratuitement et sans engagement."}}]}</script>
+ <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Baromètre des prix des travaux en Île-de-France 2026", "description": "Fourchettes de prix pour 64 prestations de travaux (8 corps de métier) consolidées sur 114 communes d'Île-de-France.", "url": "https://batispot.pro/barometre-prix-travaux-idf-2026", "creator": {"@type": "Organization", "name": "BatiSpot", "url": "https://batispot.pro"}, "license": "https://creativecommons.org/licenses/by/4.0/deed.fr", "temporalCoverage": "2026", "spatialCoverage": "Île-de-France, France"}</script>
+ <style>
+ :root{--g1:#1A6B45;--g2:#228B5B;--g-soft:#EAF6F0;--ink:#0d3320;--sub:#3D5A4E;--border:rgba(34,139,91,.16);}
+ *{box-sizing:border-box;margin:0;padding:0;}
+ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);background:#FAFCFB;line-height:1.6;}
+ header{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;padding:2.6rem 1.2rem 2.2rem;text-align:center;}
+ header .logo{font-weight:900;font-size:1.15rem;letter-spacing:-.01em;}
+ h1{font-size:clamp(1.5rem,4vw,2.3rem);font-weight:900;letter-spacing:-.02em;margin:.7rem auto .5rem;max-width:820px;}
+ header p{opacity:.92;max-width:680px;margin:0 auto;font-size:.98rem;}
+ .wrap{max-width:880px;margin:0 auto;padding:1.4rem 1.2rem 3rem;}
+ .card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin:1.1rem 0;}
+ h2{font-size:1.18rem;font-weight:900;color:var(--g1);margin-bottom:.5rem;}
+ .sub{color:var(--sub);font-size:.92rem;margin-bottom:.8rem;}
+ table{width:100%;border-collapse:collapse;font-size:.9rem;}
+ th{text-align:left;background:var(--g-soft);color:var(--g1);padding:.55rem .6rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;}
+ td{padding:.55rem .6rem;border-top:1px solid var(--border);}
+ .lo{color:#2E7D32;font-weight:700;}.mi{font-weight:800;}.hi{color:#C62828;font-weight:700;}
+ .toc{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 0;}
+ .toc a{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.45rem .85rem;text-decoration:none;color:var(--g1);font-weight:700;font-size:.85rem;}
+ .note{background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;font-size:.88rem;color:var(--sub);}
+ details{border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin:.5rem 0;background:#fff;}
+ summary{font-weight:800;color:var(--g1);cursor:pointer;}
+ details p{margin-top:.5rem;color:var(--sub);font-size:.92rem;}
+ .cta{display:block;text-align:center;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-weight:900;border-radius:12px;padding:1rem;text-decoration:none;margin:1.4rem 0;font-size:1.02rem;}
+ footer{text-align:center;color:var(--sub);font-size:.85rem;padding:1.6rem;border-top:1px solid var(--border);}
+ footer a{color:var(--g1);font-weight:700;}
+ </style>
+</head>
+<body>
+<header>
+ <div class="logo" style="color:#0A1D14">Bati<span style="opacity:1;color:#0A1D14">Spot</span></div>
+ <h1>Baromètre 2026 des prix des travaux en Île-de-France</h1>
+<p>64 prestations chiffrées · 8 corps de métier · 114 communes, fourchettes réelles constatées auprès d'artisans vérifiés. Mise à jour : juin 2026.</p>
+</header>
+<div class="wrap">
+ <p style="margin:.4rem 0 0;color:var(--sub);font-size:.95rem;">Combien coûte vraiment un plombier, un électricien ou un chauffagiste en Île-de-France en 2026 ? Ce baromètre consolide les fourchettes de prix pratiquées par les artisans vérifiés BatiSpot et les demandes de devis reçues sur 114 communes des huit départements franciliens. Les montants s'entendent hors fournitures, sauf mention contraire.</p>
+ <div class="toc"><a href="#plombier"> Plombier</a><a href="#electricien"> Électricien</a><a href="#peintre"> Peintre</a><a href="#carreleur">◼️ Carreleur</a><a href="#macon"> Maçon</a><a href="#menuisier"> Menuisier</a><a href="#chauffagiste"> Chauffagiste</a><a href="#serrurier"> Serrurier</a></div>
+ 
+ <section class="card" id="plombier">
+ <h2> Prix plombier en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de plomberie (dépannage, installation sanitaire, fuite, chauffe-eau) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Déplacement + diagnostic</td><td class='lo'>60 €</td><td class='mi'>90 €</td><td class='hi'>130 €</td></tr><tr><td>Recherche et réparation de fuite</td><td class='lo'>120 €</td><td class='mi'>250 €</td><td class='hi'>550 €</td></tr><tr><td>Remplacement chauffe-eau (ballon)</td><td class='lo'>350 €</td><td class='mi'>600 €</td><td class='hi'>1 100 €</td></tr><tr><td>Installation WC suspendu</td><td class='lo'>250 €</td><td class='mi'>420 €</td><td class='hi'>700 €</td></tr><tr><td>Pose mitigeur / robinetterie</td><td class='lo'>80 €</td><td class='mi'>140 €</td><td class='hi'>240 €</td></tr><tr><td>Débouchage canalisation</td><td class='lo'>90 €</td><td class='mi'>160 €</td><td class='hi'>350 €</td></tr><tr><td>Rénovation salle de bain complète (plomberie)</td><td class='lo'>1 500 €</td><td class='mi'>3 200 €</td><td class='hi'>6 500 €</td></tr><tr><td>Installation lave-vaisselle / arrivée d'eau</td><td class='lo'>90 €</td><td class='mi'>150 €</td><td class='hi'>260 €</td></tr></tbody></table>
+ </section>
+ <section class="card" id="electricien">
+ <h2> Prix électricien en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs d'électricité (mise aux normes, tableau, dépannage, rénovation) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Déplacement + diagnostic</td><td class='lo'>60 €</td><td class='mi'>90 €</td><td class='hi'>130 €</td></tr><tr><td>Remplacement tableau électrique</td><td class='lo'>450 €</td><td class='mi'>800 €</td><td class='hi'>1 500 €</td></tr><tr><td>Mise aux normes NF C 15-100 (appartement)</td><td class='lo'>1 500 €</td><td class='mi'>3 000 €</td><td class='hi'>6 000 €</td></tr><tr><td>Ajout d'une prise / point lumineux</td><td class='lo'>80 €</td><td class='mi'>130 €</td><td class='hi'>220 €</td></tr><tr><td>Installation interrupteur / va-et-vient</td><td class='lo'>60 €</td><td class='mi'>100 €</td><td class='hi'>170 €</td></tr><tr><td>Pose tableau de communication</td><td class='lo'>250 €</td><td class='mi'>400 €</td><td class='hi'>650 €</td></tr><tr><td>Rénovation électrique complète (au m²)</td><td class='lo'>80 €/m²</td><td class='mi'>110 €/m²</td><td class='hi'>160 €/m²</td></tr><tr><td>Dépannage panne / disjoncteur</td><td class='lo'>90 €</td><td class='mi'>150 €</td><td class='hi'>300 €</td></tr></tbody></table>
+ </section>
+ <section class="card" id="peintre">
+ <h2> Prix peintre en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de peinture intérieure et extérieure (murs, plafonds, boiseries) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Peinture murs (2 couches, par m²)</td><td class='lo'>22 €/m²</td><td class='mi'>32 €/m²</td><td class='hi'>48 €/m²</td></tr><tr><td>Peinture plafond</td><td class='lo'>25 €/m²</td><td class='mi'>35 €/m²</td><td class='hi'>52 €/m²</td></tr><tr><td>Préparation / rebouchage / enduit</td><td class='lo'>12 €/m²</td><td class='mi'>20 €/m²</td><td class='hi'>35 €/m²</td></tr><tr><td>Pose toile de verre + peinture</td><td class='lo'>28 €/m²</td><td class='mi'>40 €/m²</td><td class='hi'>60 €/m²</td></tr><tr><td>Peinture boiseries (portes, plinthes)</td><td class='lo'>30 €/u</td><td class='mi'>55 €/u</td><td class='hi'>90 €/u</td></tr><tr><td>Pose papier peint</td><td class='lo'>18 €/m²</td><td class='mi'>30 €/m²</td><td class='hi'>48 €/m²</td></tr><tr><td>Peinture appartement complet (par m² sol)</td><td class='lo'>30 €/m²</td><td class='mi'>45 €/m²</td><td class='hi'>70 €/m²</td></tr><tr><td>Ravalement façade (par m²)</td><td class='lo'>40 €/m²</td><td class='mi'>70 €/m²</td><td class='hi'>120 €/m²</td></tr></tbody></table>
+ </section>
+ <section class="card" id="carreleur">
+ <h2>◼️ Prix carreleur en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de pose de carrelage (sol, murs, douche à l'italienne) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Carrelage sol classique (20x20 à 40x40)</td><td class='lo'>32 €/m²</td><td class='mi'>50 €/m²</td><td class='hi'>72 €/m²</td></tr><tr><td>Carrelage grand format (60x60+)</td><td class='lo'>50 €/m²</td><td class='mi'>70 €/m²</td><td class='hi'>95 €/m²</td></tr><tr><td>Carrelage mural (cuisine, SDB)</td><td class='lo'>35 €/m²</td><td class='mi'>55 €/m²</td><td class='hi'>85 €/m²</td></tr><tr><td>Dépose ancien carrelage</td><td class='lo'>14 €/m²</td><td class='mi'>22 €/m²</td><td class='hi'>36 €/m²</td></tr><tr><td>Ragréage / préparation sol</td><td class='lo'>14 €/m²</td><td class='mi'>22 €/m²</td><td class='hi'>38 €/m²</td></tr><tr><td>Carrelage imitation bois (lames)</td><td class='lo'>42 €/m²</td><td class='mi'>60 €/m²</td><td class='hi'>85 €/m²</td></tr><tr><td>Douche à l'italienne (étanchéité + carrelage)</td><td class='lo'>550 €</td><td class='mi'>950 €</td><td class='hi'>1 600 €</td></tr><tr><td>Joints époxy (remplacement)</td><td class='lo'>18 €/m²</td><td class='mi'>32 €/m²</td><td class='hi'>50 €/m²</td></tr></tbody></table>
+ </section>
+ <section class="card" id="macon">
+ <h2> Prix maçon en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de maçonnerie (ouverture de mur, cloison, dalle, gros œuvre) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Ouverture de mur porteur (avec IPN)</td><td class='lo'>1 800 €</td><td class='mi'>3 500 €</td><td class='hi'>7 000 €</td></tr><tr><td>Création cloison placo</td><td class='lo'>45 €/m²</td><td class='mi'>65 €/m²</td><td class='hi'>95 €/m²</td></tr><tr><td>Dalle béton (par m²)</td><td class='lo'>60 €/m²</td><td class='mi'>90 €/m²</td><td class='hi'>140 €/m²</td></tr><tr><td>Montage mur parpaing</td><td class='lo'>55 €/m²</td><td class='mi'>80 €/m²</td><td class='hi'>120 €/m²</td></tr><tr><td>Ouverture / pose de porte intérieure</td><td class='lo'>350 €</td><td class='mi'>600 €</td><td class='hi'>1 100 €</td></tr><tr><td>Reprise de fissures façade</td><td class='lo'>40 €/ml</td><td class='mi'>80 €/ml</td><td class='hi'>160 €/ml</td></tr><tr><td>Création d'une trémie d'escalier</td><td class='lo'>1 500 €</td><td class='mi'>2 800 €</td><td class='hi'>5 500 €</td></tr><tr><td>Enduit de façade (par m²)</td><td class='lo'>35 €/m²</td><td class='mi'>55 €/m²</td><td class='hi'>95 €/m²</td></tr></tbody></table>
+ </section>
+ <section class="card" id="menuisier">
+ <h2> Prix menuisier en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de menuiserie (fenêtres, portes, placards, parquet) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Pose fenêtre PVC double vitrage</td><td class='lo'>450 €</td><td class='mi'>700 €</td><td class='hi'>1 100 €</td></tr><tr><td>Pose fenêtre aluminium</td><td class='lo'>650 €</td><td class='mi'>950 €</td><td class='hi'>1 600 €</td></tr><tr><td>Pose porte d'entrée</td><td class='lo'>800 €</td><td class='mi'>1 400 €</td><td class='hi'>2 800 €</td></tr><tr><td>Pose porte intérieure</td><td class='lo'>180 €</td><td class='mi'>320 €</td><td class='hi'>550 €</td></tr><tr><td>Placard sur mesure (par ml)</td><td class='lo'>350 €/ml</td><td class='mi'>600 €/ml</td><td class='hi'>1 100 €/ml</td></tr><tr><td>Pose parquet flottant</td><td class='lo'>25 €/m²</td><td class='mi'>38 €/m²</td><td class='hi'>55 €/m²</td></tr><tr><td>Pose parquet massif cloué/collé</td><td class='lo'>45 €/m²</td><td class='mi'>65 €/m²</td><td class='hi'>95 €/m²</td></tr><tr><td>Pose volet roulant</td><td class='lo'>350 €</td><td class='mi'>600 €</td><td class='hi'>1 000 €</td></tr></tbody></table>
+ </section>
+ <section class="card" id="chauffagiste">
+ <h2> Prix chauffagiste en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de chauffage (chaudière, pompe à chaleur, radiateurs, entretien) TVA applicable : 5,5 % (rénovation énergétique) (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Installation pompe à chaleur air/eau</td><td class='lo'>9 000 €</td><td class='mi'>13 000 €</td><td class='hi'>18 000 €</td></tr><tr><td>Installation chaudière gaz à condensation</td><td class='lo'>3 500 €</td><td class='mi'>5 000 €</td><td class='hi'>7 500 €</td></tr><tr><td>Remplacement radiateur</td><td class='lo'>250 €</td><td class='mi'>400 €</td><td class='hi'>700 €</td></tr><tr><td>Entretien annuel chaudière</td><td class='lo'>90 €</td><td class='mi'>130 €</td><td class='hi'>190 €</td></tr><tr><td>Installation plancher chauffant (par m²)</td><td class='lo'>60 €/m²</td><td class='mi'>90 €/m²</td><td class='hi'>130 €/m²</td></tr><tr><td>Désembouage circuit chauffage</td><td class='lo'>350 €</td><td class='mi'>550 €</td><td class='hi'>850 €</td></tr><tr><td>Pose thermostat connecté</td><td class='lo'>150 €</td><td class='mi'>250 €</td><td class='hi'>420 €</td></tr><tr><td>Installation ballon thermodynamique</td><td class='lo'>2 200 €</td><td class='mi'>3 200 €</td><td class='hi'>4 500 €</td></tr></tbody></table>
+ </section>
+ <section class="card" id="serrurier">
+ <h2> Prix serrurier en Île-de-France (2026)</h2>
+ <p class="sub">Tarifs de serrurerie (ouverture de porte, changement de serrure, blindage) TVA applicable : 10 % (résidence principale &gt; 2 ans).</p>
+ <table><thead><tr><th>Prestation</th><th>Fourchette basse</th><th>Prix moyen</th><th>Fourchette haute</th></tr></thead><tbody><tr><td>Ouverture de porte claquée</td><td class='lo'>80 €</td><td class='mi'>130 €</td><td class='hi'>200 €</td></tr><tr><td>Ouverture de porte verrouillée</td><td class='lo'>120 €</td><td class='mi'>200 €</td><td class='hi'>350 €</td></tr><tr><td>Changement de cylindre / barillet</td><td class='lo'>90 €</td><td class='mi'>150 €</td><td class='hi'>280 €</td></tr><tr><td>Installation serrure 3 points</td><td class='lo'>250 €</td><td class='mi'>400 €</td><td class='hi'>700 €</td></tr><tr><td>Blindage de porte</td><td class='lo'>800 €</td><td class='mi'>1 400 €</td><td class='hi'>2 500 €</td></tr><tr><td>Pose porte blindée</td><td class='lo'>1 500 €</td><td class='mi'>2 500 €</td><td class='hi'>4 500 €</td></tr><tr><td>Installation verrou supplémentaire</td><td class='lo'>120 €</td><td class='mi'>200 €</td><td class='hi'>350 €</td></tr><tr><td>Dépannage rideau métallique</td><td class='lo'>150 €</td><td class='mi'>280 €</td><td class='hi'>550 €</td></tr></tbody></table>
+ </section>
+ <section class="card" id="departements">
+ <h2> Les écarts de prix par département</h2>
+ <p class="sub">À prestation égale, les tarifs varient de 20 à 35 % en Île-de-France. Constats issus de nos demandes de devis :</p>
+ <table><thead><tr><th>Zone</th><th>Niveau de prix</th><th>Pourquoi</th></tr></thead><tbody>
+ <tr><td>Paris &amp; ouest 92 (Neuilly, Levallois, Saint-Cloud)</td><td class="hi">Haut</td><td>Pouvoir d'achat élevé, bâti haussmannien exigeant, accès et stationnement difficiles</td></tr>
+ <tr><td>Est 92, 94 bords de Marne, Vincennes/Saint-Mandé</td><td class="mi">Moyen-haut</td><td>Standing résidentiel, demande de finitions soignées</td></tr>
+ <tr><td>78 / 91 (Versailles, Saint-Germain, vallées)</td><td class="mi">Moyen</td><td>Pavillonnaire dominant, chantiers plus grands mais concurrence artisanale réelle</td></tr>
+ <tr><td>93 / 95 / 77 (Sevran, Garges, Melun…)</td><td class="lo">Accessible</td><td>Fort volume de rénovation, tarifs plus compétitifs, gros potentiel rénovation énergétique</td></tr>
+ </tbody></table>
+ </section>
+ <section class="card">
+ <h2> Méthodologie &amp; réutilisation</h2><p style="margin-top:12px"> <strong>Données brutes en libre accès</strong> : les jeux de données de ce baromètre sont publiés en open data (CSV, licence CC BY 4.0) sur <a href="https://github.com/thwhkfcbsv-max/barometre-travaux-idf" rel="noopener">notre dépôt GitHub</a>.</p>
+ <p class="sub">Fourchettes consolidées en juin 2026 à partir des tarifs des artisans vérifiés BatiSpot (Kbis, assurance, décennale contrôlés) et des demandes de devis reçues sur 114 communes d'Île-de-France. Prix TTC indicatifs hors fournitures sauf mention. La TVA applicable (10 %, 5,5 % rénovation énergétique, ou 20 %) dépend de la prestation et de l'ancienneté du logement.</p>
+ <div class="note"> <strong>Journalistes, blogueurs :</strong> ces données sont réutilisables librement (licence CC BY 4.0), citez « Baromètre BatiSpot 2026 » avec un lien vers cette page. Déclinaisons par département ou commentaire expert sur demande : contact@batispot.pro</div>
+ </section>
+ <section class="card">
+ <h2> Questions fréquentes</h2>
+ <details><summary>Comment ce baromètre est-il construit ?</summary><p>Les fourchettes sont consolidées par BatiSpot à partir des tarifs pratiqués par les artisans vérifiés de la plateforme et des demandes de devis reçues sur 114 communes d'Île-de-France, hors fournitures sauf mention contraire. Mise à jour : juin 2026.</p></details><details><summary>Pourquoi les prix varient-ils autant d'une commune à l'autre ?</summary><p>Trois facteurs dominent : le pouvoir d'achat local (Neuilly-sur-Seine vs Sevran), les contraintes du bâti (haussmannien, copropriétés anciennes, accès) et la densité d'artisans disponibles. L'écart constaté atteint 20 à 35 % entre l'ouest parisien et la grande couronne.</p></details><details><summary>Puis-je réutiliser ces données ?</summary><p>Oui. Les chiffres et tableaux de ce baromètre sont réutilisables librement (presse, blogs, études) à condition de citer la source avec un lien vers cette page.</p></details><details><summary>Comment obtenir un devis au prix juste ?</summary><p>Décrivez votre projet sur BatiSpot : 3 artisans vérifiés (Kbis, assurance, décennale) de votre commune vous répondent sous 48h, gratuitement et sans engagement.</p></details>
+ </section>
+ <a class="cta" href="/devis/">Obtenir 3 devis gratuits d'artisans vérifiés →</a>
+</div>
+
+<footer><a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France · <a href="/estimateur">Estimateur de travaux</a> · <a href="/mentions-legales">Mentions légales</a></footer>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>
