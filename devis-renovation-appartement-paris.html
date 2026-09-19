@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Devis rénovation appartement Paris 2026 — Guide complet | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/devis-renovation-appartement-paris">
+ <meta name="description" content="Comment obtenir un bon devis de rénovation à Paris ? Que doit contenir un devis, comment comparer, pièges à éviter. Guide complet 2026." />
+ <meta name="keywords" content="devis renovation appartement paris, obtenir devis renovation paris, comparer devis renovation, devis travaux paris 2026" />
+ <meta property="og:title" content="Devis rénovation appartement Paris — Guide complet 2026" />
+ <meta property="og:description" content="Tout savoir sur le devis de rénovation à Paris : ce qu'il doit contenir, comment comparer 3 devis, pièges courants. Guide BatiSpot 2026." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/devis-renovation-appartement-paris.png" />
+ <meta property="og:url" content="https://batispot.pro/devis-renovation-appartement-paris" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 600px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--g1); margin: 1.2rem 0 .6rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table .low { color: #16a34a; font-weight: 600; }
+ .price-table .mid { color: var(--g1); font-weight: 700; }
+ .price-table .high { color: var(--orange); font-weight: 600; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .checklist { list-style: none; padding: 0; }
+ .checklist li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .checklist li:last-child { border-bottom: none; }
+ .checklist li::before { content: "\2713"; color: var(--g2); font-weight: 900; flex-shrink: 0; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "→"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .warning-box { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 12px; padding: 1.2rem 1.4rem; margin: 1rem 0; }
+ .warning-box strong { color: var(--orange); }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) {
+ .hero h1 { font-size: 1.5rem; }
+ .card { padding: 1.3rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "HowTo",
+ "name": "Comment obtenir un devis de rénovation d'appartement à Paris",
+ "description": "Guide complet pour obtenir et comparer des devis de rénovation à Paris. Ce qu'un bon devis doit contenir, comment choisir son artisan.",
+ "step": [
+ { "@type": "HowToStep", "name": "Définir le périmètre des travaux", "text": "Listez tous les corps de métier nécessaires avant de contacter les artisans." },
+ { "@type": "HowToStep", "name": "Demander au moins 3 devis", "text": "Contactez plusieurs artisans pour comparer les tarifs et la qualité des propositions." },
+ { "@type": "HowToStep", "name": "Vérifier les mentions obligatoires", "text": "SIRET, assurances, détail main-d'œuvre et matériaux, TVA applicable." }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimer mes travaux</a>
+ <a href="/simulateur-aides">Aides MaPrimeRénov'</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> › <a href="#">Guides</a> › Devis rénovation Paris</div>
+ <h1>Devis rénovation appartement Paris</h1>
+<p>Tout ce que vous devez savoir pour obtenir, lire et comparer un devis de rénovation à Paris. Guide pratique 2026, sans jargon.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Guide pratique 2026</span>
+ <h2>Pourquoi comparer plusieurs devis est indispensable à Paris</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">À Paris, les écarts de prix entre artisans pour un même chantier peuvent atteindre 40 à 60 %. Un T3 de 65 m² à rénover complètement peut coûter entre 35 000 € et 75 000 € selon l'artisan, la gamme de matériaux et la qualité de coordination. Comparer 3 devis n'est pas une option, c'est une nécessité.</p>
+ <table class="price-table">
+ <thead>
+ <tr><th>Type de rénovation</th><th>Budget bas /m²</th><th>Budget moyen /m²</th><th>Budget haut /m²</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Rafraîchissement (peinture + sol)</td><td class="low">180 €</td><td class="mid">260 €</td><td class="high">380 €</td></tr>
+ <tr><td>Rénovation légère (revêtements + électricité)</td><td class="low">420 €</td><td class="mid">580 €</td><td class="high">800 €</td></tr>
+ <tr><td>Rénovation complète tous corps d'état</td><td class="low">700 €</td><td class="mid">950 €</td><td class="high">1 300 €</td></tr>
+ <tr><td>Rénovation haut de gamme</td><td class="low">1 200 €</td><td class="mid">1 800 €</td><td class="high">2 800 €</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="cta-section">
+ <h2>Obtenez 3 devis comparatifs en 2 minutes</h2>
+ <p>BatiSpot met en relation avec des artisans vérifiés à Paris et petite couronne. Gratuit, sans engagement.</p>
+ <a href="/estimateur" class="cta-btn">Démarrer mon devis de rénovation →</a>
+ </div>
+
+ <div class="card">
+ <h2>Ce qu'un devis de rénovation doit obligatoirement contenir</h2>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:1rem;">Un devis est un document contractuel. En France, pour les travaux supérieurs à 150 € TTC, il doit comporter ces éléments :</p>
+ <ul class="checklist">
+ <li><strong>Les coordonnées complètes de l'artisan</strong> : raison sociale, adresse, numéro SIRET et numéro d'assurance RC professionnelle.</li>
+ <li><strong>La date d'émission et la durée de validité</strong> : généralement 30 jours, rarement plus de 90 jours à Paris où les prix des matériaux fluctuent.</li>
+ <li><strong>Le détail poste par poste</strong> : chaque tâche listée séparément avec quantité, prix unitaire, prix total. Refusez les devis "forfait global".</li>
+ <li><strong>La distinction main-d'œuvre / fournitures</strong> : cela vous permet de comparer les offres sur la même base et de négocier les matériaux si vous les fournissez vous-même.</li>
+ <li><strong>Le taux de TVA applicable</strong> : 10 % pour la rénovation d'une résidence principale de plus de 2 ans, 20 % dans les autres cas. Vérifiez que l'artisan applique le bon taux.</li>
+ <li><strong>Les conditions de paiement</strong> : acompte maximum légal de 30 % pour les travaux > 3 000 €. Méfiez-vous des artisans qui demandent 50 % ou plus à la commande.</li>
+ </ul>
+
+ <div class="warning-box">
+ <strong>Attention :</strong> un devis sans numéro SIRET n'est pas une garantie professionnelle. Vérifiez la validité du SIRET sur <strong>societe.com</strong> avant de signer, cela prend 30 secondes et peut vous éviter de graves problèmes.
+ </div>
+ </div>
+
+ <div class="card">
+ <h2>Comment comparer 3 devis de rénovation à Paris</h2>
+ <h3>1. Assurez-vous que les périmètres sont identiques</h3>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:.8rem;">Avant de comparer les prix, vérifiez que les 3 artisans ont devisé le même périmètre. Si l'un inclut la dépose de l'ancien sol et l'autre non, la comparaison est biaisée.</p>
+ <h3>2. Analysez le prix des matériaux</h3>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:.8rem;">Certains artisans proposent des tarifs bas sur la main-d'œuvre mais majorent fortement les matériaux (jusqu'à +50 %). Demandez des références produits précises pour pouvoir vérifier les prix.</p>
+ <h3>3. Évaluez la réactivité et la clarté</h3>
+ <p style="color:var(--sub);font-size:.9rem;margin-bottom:.8rem;">Un artisan qui répond vite, visite le chantier avant de devis et pose des questions pertinentes est généralement plus fiable qu'un artisan qui envoie un devis en 10 minutes sans avoir vu le logement.</p>
+ <h3>4. Vérifiez les références récentes</h3>
+ <p style="color:var(--sub);font-size:.9rem;">Demandez 2–3 références de chantiers similaires à Paris ou en IDF réalisés dans les 12 derniers mois. Un artisan sérieux les fournit sans hésitation.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les pièges classiques des devis de rénovation à Paris</h2>
+ <ul class="factor-list">
+ <li><strong>Le devis "squelette" :</strong> un devis de 3 lignes qui cache des travaux supplémentaires facturés après. Refusez tout devis qui ne détaille pas les postes individuellement.</li>
+ <li><strong>Le tarif anormalement bas :</strong> un devis 30 % sous le marché cache souvent une sous-traitance non déclarée, des matériaux de mauvaise qualité ou une TVA non collectée (artisan non déclaré).</li>
+ <li><strong>L'acompte excessif :</strong> légalement, un artisan ne peut pas exiger plus de 30 % d'acompte à la commande. Au-delà, c'est un signal d'alerte.</li>
+ <li><strong>Les "travaux imprévus" systématiques :</strong> les bons artisans identifient les imprévus lors de la visite (amiante, humidité, câblage à remplacer) et les intègrent dans le devis initial ou en option chiffrée.</li>
+ <li><strong>L'absence de garantie décennale :</strong> pour les travaux structurels (plomberie, électricité, gros œuvre), la garantie décennale est obligatoire. Sans attestation valide, vous n'avez aucun recours pendant 10 ans.</li>
+ </ul>
+ </div>
+
+ <div class="trust-box">
+ <h2>Obtenez 3 devis vérifiés avec BatiSpot</h2>
+ <p>BatiSpot pré-sélectionne les artisans : Kbis, assurances, avis clients. Vous comparez en toute sécurité, sans démarchage téléphonique abusif.</p>
+ <a href="/estimateur" class="cta-btn-green">Lancer ma demande de devis →</a>
+ </div>
+
+ <div class="card">
+ <h2>Pages liées</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/prix-renovation-appartement" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix rénovation appartement au m²</div><div style="font-size:.76rem;color:var(--sub);">Budgets 2026 par ampleur de travaux</div></a>
+ <a href="/comment-choisir-artisan-paris" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Comment choisir son artisan</div>
+ <div style="font-size:.76rem;color:var(--sub);">Checklist avant de signer</div>
+ </a>
+ 
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Coût rénovation T3 Paris</div>
+ <div style="font-size:.76rem;color:var(--sub);">Budget détaillé pour un 3 pièces</div>
+ 
+ <a href="/renovation-energetique-paris-aides" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Aides rénovation énergétique</div>
+ <div style="font-size:.76rem;color:var(--sub);">MaPrimeRénov', CEE, TVA 5.5%</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

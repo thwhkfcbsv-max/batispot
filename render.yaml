@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: batispot-track
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
+    disk:
+      name: batispot-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BatiSpot Pro — 3 Mois Offerts</title>
+<link rel="canonical" href="https://batispot.pro/">
+<meta http-equiv="refresh" content="0; url=/?utm_source=shortlink&utm_medium=pro">
+<script>
+  try {
+    localStorage.setItem('bs_attr_v1', JSON.stringify({
+      channel: 'Social Organique',
+      source: 'shortlink_pro',
+      medium: 'bio',
+      campaign: 'pro',
+      landing_page: '/pro',
+      first_seen: new Date().toISOString(),
+      visits_count: 1
+    }));
+  } catch(_) {}
+  location.replace("/?utm_source=shortlink&utm_medium=pro");
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "BatiSpot Pro — 3 Mois Offerts",
+  "description": "BatiSpot Pro — 3 Mois Offerts",
+  "author": {
+    "@type": "Organization",
+    "name": "BatiSpot"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BatiSpot",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://batispot.pro/favicon.png"
+    }
+  },
+  "datePublished": "2026-08-17",
+  "dateModified": "2026-08-21",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://batispot.pro/pro"
+  }
+}
+</script>
+</head>
+<body style="font-family:system-ui,-apple-system,sans-serif;padding:2rem;text-align:center;color:#0F5132;background:#FBFCFB;">
+  <p>Redirection vers BatiSpot Pro (3 mois offerts)...</p>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

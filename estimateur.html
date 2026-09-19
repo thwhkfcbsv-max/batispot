@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<!-- Google Analytics -->
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Estimateur prix travaux 2026 — BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/estimateur">
+ <meta name="description" content="Estimez le prix de vos travaux en 2 minutes. Rénovation, plomberie, électricité, peinture, salle de bain, cuisine. Prix moyens en Île-de-France 2026." />
+ <meta name="keywords" content="prix travaux, estimation renovation, cout plombier paris, prix salle de bain, devis travaux gratuit, combien coute renovation" />
+ <meta property="og:title" content="Estimateur prix travaux 2026 — Gratuit" />
+ <meta property="og:description" content="Estimez le prix de vos travaux en 2 minutes. Gratuit, sans inscription." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/estimateur.png" />
+ <meta property="og:url" content="https://batispot.pro/estimateur" />
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff;
+ }
+
+ nav {
+ background: var(--white); border-bottom: 1px solid var(--border);
+ padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between;
+ }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-back { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-back:hover { color: var(--g2); }
+
+ .hero-est {
+ background: linear-gradient(135deg, var(--g1), var(--g2));
+ padding: 3rem 5% 2.5rem; text-align: center; color: white;
+ }
+ .hero-est h1 { font-size: 2rem; font-weight: 900; margin-bottom: .5rem; }
+ .hero-est p { opacity: .85; font-size: 1rem; max-width: 500px; margin: 0 auto; }
+
+ .container { max-width: 700px; margin: -2rem auto 3rem; padding: 0 1rem; }
+
+ .card {
+ background: var(--white); border-radius: 16px; padding: 2rem;
+ box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.5rem;
+ }
+ .card h2 { font-size: 1.15rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h2 .step { display: inline-block; width: 28px; height: 28px; background: var(--g2); color: white; border-radius: 50%; text-align: center; line-height: 28px; font-size: .8rem; margin-right: .5rem; }
+
+ .options { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: .6rem; }
+ .opt {
+ border: 2px solid var(--border); border-radius: 12px; padding: .8rem .6rem;
+ text-align: center; cursor: pointer; transition: all .2s; font-size: .85rem; font-weight: 600;
+ background: var(--white);
+ }
+ .opt:hover { border-color: var(--g3); background: var(--g-soft); }
+ .opt.active { border-color: var(--g2); background: var(--g-soft); box-shadow: 0 0 0 3px rgba(34,139,91,0.15); }
+ .opt .emoji { font-size: 1.5rem; display: block; margin-bottom: .3rem; }
+
+ .range-wrap { margin: .8rem 0; }
+ .range-wrap label { font-size: .85rem; color: var(--sub); font-weight: 600; }
+ .range-wrap .val { float: right; font-weight: 800; color: var(--g1); }
+ input[type=range] { width: 100%; margin: .5rem 0; accent-color: var(--g2); height: 6px; }
+
+ .select-wrap { margin: .5rem 0; }
+ .select-wrap select {
+ width: 100%; padding: .7rem 1rem; border: 2px solid var(--border); border-radius: 10px;
+ font-size: .9rem; color: var(--text); background: var(--white); cursor: pointer;
+ }
+ .select-wrap select:focus { border-color: var(--g2); outline: none; }
+
+ .result-box {
+ background: linear-gradient(135deg, var(--g1), var(--g2));
+ border-radius: 16px; padding: 2rem; color: white; text-align: center; margin: 1.5rem 0;
+ display: none;
+ }
+ .result-box.show { display: block; animation: fadeUp .4s ease; }
+ .result-box .label { font-size: .85rem; opacity: .8; margin-bottom: .3rem; }
+ .result-box .price { font-size: 2.8rem; font-weight: 900; }
+ .result-box .range { font-size: 1rem; opacity: .7; margin-top: .3rem; }
+ .result-box .detail { margin-top: 1rem; font-size: .85rem; opacity: .8; text-align: left; }
+ .result-box .detail div { padding: .3rem 0; border-bottom: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: space-between; }
+
+ .cta-box {
+ background: var(--white); border: 2px solid var(--g2); border-radius: 16px;
+ padding: 2rem; text-align: center; display: none;
+ }
+ .cta-box.show { display: block; animation: fadeUp .4s ease; }
+ .cta-box h3 { font-size: 1.2rem; font-weight: 800; color: var(--g1); margin-bottom: .5rem; }
+ .cta-box p { font-size: .9rem; color: var(--sub); margin-bottom: 1.2rem; }
+ .cta-box input {
+ width: 100%; padding: .7rem 1rem; border: 2px solid var(--border); border-radius: 10px;
+ font-size: .9rem; margin-bottom: .6rem;
+ }
+ .cta-box input:focus { border-color: var(--g2); outline: none; }
+ .cta-btn {
+ width: 100%; padding: .85rem; background: var(--cta); color: white; border: none;
+ border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer;
+ transition: background .2s, transform .1s;
+ }
+ .cta-btn:hover { background: var(--cta-h); transform: translateY(-1px); }
+ .cta-note { font-size: .72rem; color: var(--sub); margin-top: .6rem; }
+
+ .success-msg { display: none; text-align: center; padding: 2rem; }
+ .success-msg.show { display: block; }
+ .success-msg .check { font-size: 3rem; }
+ .success-msg h3 { color: var(--g1); margin: .5rem 0; }
+
+ .seo-content { max-width: 700px; margin: 2rem auto 3rem; padding: 0 1rem; }
+ .seo-content h2 { font-size: 1.2rem; color: var(--g1); margin: 1.5rem 0 .5rem; }
+ .seo-content p { font-size: .88rem; color: var(--sub); margin-bottom: .8rem; }
+ .seo-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .85rem; }
+ .seo-content th { background: var(--g-soft); color: var(--g1); padding: .6rem; text-align: left; }
+ .seo-content td { padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
+
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+
+ @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+ @media (max-width: 600px) {
+ .hero-est h1 { font-size: 1.5rem; }
+ .options { grid-template-columns: repeat(2, 1fr); }
+ .result-box .price { font-size: 2.2rem; }
+ .card { padding: 1.3rem; }
+ }
+ </style>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <a href="/" class="nav-back">← Retour au site</a>
+</nav>
+
+<div class="hero-est">
+ <h1>Estimez le prix de vos travaux</h1>
+<p>Gratuit, instantané, basé sur les prix réels en Île-de-France 2026</p>
+</div>
+
+<div class="container">
+
+ <!-- STEP 1 -->
+ <div class="card" id="step1">
+ <h2><span class="step">1</span> Quel type de travaux ?</h2>
+ <div class="options" id="typeOptions">
+ <div class="opt" data-type="plomberie">Plomberie</div>
+ <div class="opt" data-type="electricite">Électricité</div>
+ <div class="opt" data-type="peinture">Peinture</div>
+ <div class="opt" data-type="sdb">Salle de bain</div>
+ <div class="opt" data-type="cuisine">Cuisine</div>
+ <div class="opt" data-type="carrelage">Carrelage</div>
+ <div class="opt" data-type="renovation">Rénovation complète</div>
+ <div class="opt" data-type="isolation">Isolation</div>
+ <div class="opt" data-type="toiture">Toiture</div>
+ <div class="opt" data-type="chauffage">Chauffage</div>
+ <div class="opt" data-type="climatisation">Climatisation</div>
+ <div class="opt" data-type="maconnerie">Maçonnerie</div>
+ </div>
+ </div>
+
+ <!-- STEP 2 -->
+ <div class="card" id="step2" style="display:none">
+ <h2><span class="step">2</span> Surface et détails</h2>
+ <div class="range-wrap">
+ <label>Surface : <span class="val" id="surfaceVal">30 m²</span></label>
+ <input type="range" id="surface" min="5" max="200" value="30" oninput="updateSurface()">
+ </div>
+ <div class="select-wrap" id="gammeWrap">
+ <select id="gamme">
+ <option value="eco">Économique, matériaux entrée de gamme</option>
+ <option value="moyen" selected>Moyen, bon rapport qualité/prix</option>
+ <option value="haut">Haut de gamme, matériaux premium</option>
+ </select>
+ </div>
+ <div class="select-wrap">
+ <select id="etat">
+ <option value="bon">État actuel : correct, rafraîchissement</option>
+ <option value="moyen" selected>État actuel : à rénover</option>
+ <option value="mauvais">État actuel : très dégradé, gros travaux</option>
+ </select>
+ </div>
+ <div style="margin-top:1rem;text-align:center">
+ <button class="cta-btn" onclick="calculate()" style="max-width:300px">Calculer le prix →</button>
+ </div>
+ </div>
+
+ <!-- RESULT -->
+ <div class="result-box" id="resultBox">
+ <div class="label">Estimation pour votre projet</div>
+ <div class="price" id="resultPrice">—</div>
+ <div class="range" id="resultRange">—</div>
+ <div class="detail" id="resultDetail"></div>
+ <p style="margin-top:1.2rem;font-size:.78rem;opacity:.6;">*Estimation indicative basée sur les prix moyens constatés en Île-de-France. Le prix réel dépend de votre situation.</p>
+ </div>
+
+ <!-- CTA -->
+ <div class="cta-box" id="ctaBox">
+ <h3>Obtenez le vrai prix pour VOTRE projet</h3>
+ <p>Recevez 3 devis gratuits d'artisans vérifiés dans votre zone, sous 48h.</p>
+
+ <!-- Récap de l'estimation : reprend ce que l'utilisateur vient de calculer -->
+ <div id="leadEstimRecap" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 14px;margin:8px 0 14px;font-size:.82rem;color:#166534;line-height:1.4;display:none">
+ <strong style="color:#064e3b">Votre projet :</strong>
+ <span id="leadEstimText"></span>
+ </div>
+
+ <form id="leadForm" onsubmit="submitLead(event)">
+ <input type="text" id="leadNom" placeholder="Votre prénom" required />
+ <input type="email" id="leadEmail" placeholder="Votre email" required />
+ <input type="tel" id="leadTel" placeholder="Votre téléphone (optionnel)" />
+ <input type="text" id="leadVille" placeholder="Votre ville (ex: Paris 15, Montreuil...)" required />
+ <button type="submit" class="cta-btn">Recevoir mes 3 devis gratuits →</button>
+ </form>
+ <p class="cta-note">100% gratuit • Sans engagement • Artisans vérifiés (Kbis + assurance décennale)</p>
+ </div>
+
+ <div class="success-msg" id="successMsg">
+ <div class="check">&#10003;</div>
+ <h3>Demande envoyée !</h3>
+ <p style="color:var(--sub)">Redirection vers votre espace de suivi…</p>
+ <a href="/" style="color:var(--g2);font-weight:700;margin-top:1rem;display:inline-block">← Retour à BatiSpot</a>
+ </div>
+
+</div>
+
+<!-- SEO CONTENT -->
+<div class="seo-content">
+ <h2>Prix moyens des travaux en Île-de-France (2026)</h2>
+ <p>Les prix varient selon la surface, la gamme de matériaux et l'état du logement. Voici les fourchettes moyennes constatées en région parisienne.</p>
+
+ <table>
+ <tr><th>Type de travaux</th><th>Prix bas / m²</th><th>Prix moyen / m²</th><th>Prix haut / m²</th></tr>
+ <tr><td>Plomberie</td><td>50 €</td><td>80 €</td><td>130 €</td></tr>
+ <tr><td>Électricité</td><td>60 €</td><td>100 €</td><td>160 €</td></tr>
+ <tr><td>Peinture</td><td>20 €</td><td>35 €</td><td>55 €</td></tr>
+ <tr><td>Salle de bain</td><td>800 €</td><td>1 200 €</td><td>2 000 €</td></tr>
+ <tr><td>Cuisine</td><td>500 €</td><td>900 €</td><td>1 500 €</td></tr>
+ <tr><td>Carrelage</td><td>40 €</td><td>65 €</td><td>100 €</td></tr>
+ <tr><td>Rénovation complète</td><td>600 €</td><td>1 000 €</td><td>1 600 €</td></tr>
+ <tr><td>Isolation</td><td>30 €</td><td>55 €</td><td>90 €</td></tr>
+ <tr><td>Toiture</td><td>80 €</td><td>130 €</td><td>200 €</td></tr>
+ <tr><td>Chauffage</td><td>70 €</td><td>110 €</td><td>180 €</td></tr>
+ <tr><td>Climatisation</td><td>60 €</td><td>100 €</td><td>160 €</td></tr>
+ <tr><td>Maçonnerie</td><td>50 €</td><td>85 €</td><td>140 €</td></tr>
+ </table>
+
+ <h2>Pourquoi comparer plusieurs devis ?</h2>
+ <p>Avec un seul devis, impossible de savoir si le prix est juste. Avec 3 devis d'artisans différents, vous connaissez le prix du marché et pouvez négocier en confiance. BatiSpot vous envoie gratuitement 3 devis d'artisans vérifiés sous 48h.</p>
+
+ <h2>Comment fonctionne l'estimateur BatiSpot ?</h2>
+ <p>Notre estimateur utilise les prix moyens constatés en Île-de-France en 2026. Il prend en compte le type de travaux, la surface, la gamme de matériaux et l'état actuel du logement pour vous donner une fourchette réaliste. Pour un prix précis adapté à votre situation, demandez vos devis gratuits.</p>
+
+ <h2>Pour aller plus loin</h2>
+ <p>Une fois votre budget estimé, pensez à vérifier les aides auxquelles vous avez droit, elles peuvent couvrir jusqu'à 70 % du montant pour des travaux d'isolation ou de chauffage.</p>
+
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin:1.2rem 0;">
+ <a href="guide-aides-renovation" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Découvrez les aides pour financer vos travaux</div>
+ <div style="font-size:.78rem;color:var(--sub);">MaPrimeRénov', Éco-PTZ, CEE, guide complet 2026</div>
+ </a>
+ <a href="prix-plombier-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix d'un plombier à Paris</div>
+ <div style="font-size:.78rem;color:var(--sub);">Tarifs détaillés : dépannage, chauffe-eau, rénovation SDB</div>
+ </a>
+ <a href="prix-electricien-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix d'un électricien à Paris</div>
+ <div style="font-size:.78rem;color:var(--sub);">Mise aux normes, tableau électrique, dépannage</div>
+ </a>
+ <a href="prix-renovation-appartement-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix rénovation appartement Paris</div>
+ <div style="font-size:.78rem;color:var(--sub);">Budget par m² selon la gamme et l'ampleur des travaux</div>
+ </a>
+ <a href="prix-renovation-salle-de-bain-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix rénovation salle de bain</div>
+ <div style="font-size:.78rem;color:var(--sub);">Budget salle de bain complète à Paris en 2026</div>
+ </a>
+ <a href="prix-peinture-appartement-paris" style="display:block;background:var(--g-soft);border-radius:12px;padding:1rem 1.1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.88rem;font-weight:800;color:var(--g1);margin-bottom:.25rem;">Prix peinture appartement Paris</div>
+ <div style="font-size:.78rem;color:var(--sub);">Tarifs peintre par pièce ou pour un appartement entier</div>
+ </a>
+ </div>
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans vérifiés en Île-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions légales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialité</a>
+</footer>
+
+<script>
+const PRICES = {
+ plomberie: { eco: 50, moyen: 80, haut: 130 },
+ electricite: { eco: 60, moyen: 100, haut: 160 },
+ peinture: { eco: 20, moyen: 35, haut: 55 },
+ sdb: { eco: 800, moyen: 1200,haut: 2000 },
+ cuisine: { eco: 500, moyen: 900, haut: 1500 },
+ carrelage: { eco: 40, moyen: 65, haut: 100 },
+ renovation: { eco: 600, moyen: 1000,haut: 1600 },
+ isolation: { eco: 30, moyen: 55, haut: 90 },
+ toiture: { eco: 80, moyen: 130, haut: 200 },
+ chauffage: { eco: 70, moyen: 110, haut: 180 },
+ climatisation: { eco: 60, moyen: 100, haut: 160 },
+ maconnerie: { eco: 50, moyen: 85, haut: 140 },
+};
+
+const TYPE_NAMES = {
+ plomberie: 'Plomberie', electricite: 'Électricité', peinture: 'Peinture',
+ sdb: 'Salle de bain', cuisine: 'Cuisine', carrelage: 'Carrelage',
+ renovation: 'Rénovation complète', isolation: 'Isolation', toiture: 'Toiture',
+ chauffage: 'Chauffage', climatisation: 'Climatisation', maconnerie: 'Maçonnerie',
+};
+
+let selectedType = null;
+
+document.querySelectorAll('.opt[data-type]').forEach(el => {
+ el.addEventListener('click', () => {
+ document.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+ el.classList.add('active');
+ selectedType = el.dataset.type;
+ document.getElementById('step2').style.display = 'block';
+ document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'center' });
+ // Hide previous results
+ document.getElementById('resultBox').classList.remove('show');
+ document.getElementById('ctaBox').classList.remove('show');
+ });
+});
+
+function updateSurface() {
+ document.getElementById('surfaceVal').textContent = document.getElementById('surface').value + ' m²';
+}
+
+function calculate() {
+ if (!selectedType) return;
+ const surface = parseInt(document.getElementById('surface').value);
+ const gamme = document.getElementById('gamme').value;
+ const etat = document.getElementById('etat').value;
+
+ const pricePerM2 = PRICES[selectedType][gamme];
+ let multiplier = 1.0;
+ if (etat === 'bon') multiplier = 0.8;
+ if (etat === 'mauvais') multiplier = 1.3;
+
+ const total = Math.round(pricePerM2 * surface * multiplier);
+ const low = Math.round(total * 0.8);
+ const high = Math.round(total * 1.25);
+
+ const fmt = n => n.toLocaleString('fr-FR');
+
+ document.getElementById('resultPrice').textContent = fmt(total) + ' €';
+ document.getElementById('resultRange').textContent = `Fourchette : ${fmt(low)} € — ${fmt(high)} €`;
+
+ let detail = `
+ <div><span>${TYPE_NAMES[selectedType]}</span><span>${fmt(pricePerM2)} €/m²</span></div>
+ <div><span>Surface</span><span>${surface} m²</span></div>
+ <div><span>Gamme</span><span>${gamme === 'eco' ? 'Économique' : gamme === 'moyen' ? 'Moyen' : 'Haut de gamme'}</span></div>
+ <div><span>État</span><span>${etat === 'bon' ? 'Correct' : etat === 'moyen' ? 'À rénover' : 'Très dégradé'}</span></div>
+ `;
+ document.getElementById('resultDetail').innerHTML = detail;
+
+ const rb = document.getElementById('resultBox');
+ rb.classList.add('show');
+
+ setTimeout(() => {
+ document.getElementById('ctaBox').classList.add('show');
+ document.getElementById('ctaBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }, 600);
+
+ // Track estimation in sessionStorage for form submission
+ sessionStorage.setItem('estimation', JSON.stringify({
+ type: selectedType, typeName: TYPE_NAMES[selectedType],
+ surface, gamme, etat, total, low, high
+ }));
+
+ // Pré-remplit la zone récap au-dessus du form (donne au visiteur l'impression que tout est déjà là)
+ const recap = document.getElementById('leadEstimRecap');
+ const recapText = document.getElementById('leadEstimText');
+ if (recap && recapText) {
+ recapText.innerHTML = `${TYPE_NAMES[selectedType]} · ${surface} m² · gamme ${gamme === 'eco' ? 'économique' : gamme === 'moyen' ? 'moyenne' : 'haut de gamme'} → estimation <strong>${fmt(total)} €</strong> (${fmt(low)}–${fmt(high)} €)`;
+ recap.style.display = 'block';
+ }
+}
+
+async function submitLead(e) {
+ e.preventDefault();
+ const est = JSON.parse(sessionStorage.getItem('estimation') || '{}');
+ const data = {
+ nom: document.getElementById('leadNom').value,
+ email: document.getElementById('leadEmail').value,
+ telephone: document.getElementById('leadTel').value,
+ ville: document.getElementById('leadVille').value,
+ type_travaux: est.typeName || '',
+ surface: est.surface || '',
+ estimation: est.total ? `${est.total}€ (${est.low}€-${est.high}€)` : '',
+ gamme: est.gamme || '',
+ source: 'estimateur',
+ _subject: `Nouveau lead estimateur — ${est.typeName || 'Travaux'} ${document.getElementById('leadVille').value}`,
+ };
+
+ try {
+ await fetch('https://formspree.io/f/xdayeyra', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(data),
+ });
+ } catch (err) {}
+
+ // + CAPTURE dans demandes_devis (lead routé vers les artisans actifs)
+ try {
+ const SB = 'https://cisniwhaiydazdpzvino.supabase.co';
+ const KEY = 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1'; // gitleaks:allow
+ await fetch(`${SB}/rest/v1/demandes_devis`, {
+ method: 'POST',
+ headers: { 'apikey': KEY, 'authorization': `Bearer ${KEY}`, 'content-type': 'application/json', 'Prefer': 'return=minimal' },
+ body: JSON.stringify({ ...(window.bsAttr?bsAttr():{}),
+ client_id: null,
+ adresse: 'Non précisée',
+ client_name: (data.nom || '').trim() || null,
+ client_email: (data.email || '').trim().toLowerCase() || null,
+ client_phone: (data.telephone || '').trim() || null,
+ code_postal: (data.ville || '').trim() || null,
+ type_travaux: data.type_travaux || null,
+ description: `Estimateur — ${data.surface || ''} m², gamme ${data.gamme || ''}, estimation ${data.estimation || ''}`,
+ budget_estime: data.estimation || null,
+ }),
+ });
+ if (window.fbq) fbq('track', 'Lead');
+ } catch (_) {}
+
+ // Persiste la demande pour la page /ma-demande.html (mêmes clés que index.html)
+ try {
+ sessionStorage.setItem('bs_lead_demande', JSON.stringify({
+ prenom: data.nom,
+ email: data.email,
+ telephone: data.telephone,
+ code_postal: data.ville,
+ type_travaux: data.type_travaux,
+ budget: data.estimation,
+ source: 'estimateur',
+ }));
+ sessionStorage.setItem('bs_lead_demande_start', String(Date.now()));
+ } catch(_) {}
+
+ // Redirection vers le dashboard de suivi (cohérent avec form hero index.html)
+ window.location.href = '/ma-demande.html';
+}
+</script>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

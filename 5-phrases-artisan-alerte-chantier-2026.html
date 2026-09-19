@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<!-- Google Analytics -->
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>5 phrases d'artisan qui cachent un vrai problème — alerte chantier 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/5-phrases-artisan-alerte-chantier-2026">
+ <meta name="description" content="Les 5 phrases que vous pouvez entendre sur un chantier et qui signalent un vrai problème juridique ou assurantiel : ce qu'elles cachent, ce que dit la loi, ce qu'il faut répondre." />
+ <meta name="keywords" content="artisan pas serieux phrases, chantier probleme juridique, artisan tva liquide, attestation decennale fin chantier, devis obligatoire artisan" />
+ <meta property="og:title" content="5 phrases d'artisan qui cachent un vrai problème en 2026" />
+ <meta property="og:description" content="Ce que la phrase révèle, la base juridique, la réponse à donner. Un guide concret pour client avant/pendant chantier." />
+ <meta property="og:type" content="article" />
+ <meta property="og:image" content="https://batispot.pro/og/5-phrases-artisan-alerte-chantier-2026.png" />
+ <meta property="og:url" content="https://batispot.pro/5-phrases-artisan-alerte-chantier-2026" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root {
+ --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1;
+ --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268;
+ --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316;
+ --red: #DC2626; --amber: #F59E0B;
+ }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .nav-links a { color: var(--sub); text-decoration: none; margin-left: 1.5rem; font-size: .95rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g1); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g3)); color: white; padding: 3.5rem 5% 2.5rem; }
+ .hero .breadcrumb { font-size: .8rem; opacity: .9; margin-bottom: 1rem; }
+ .hero .breadcrumb a { color: white; text-decoration: none; }
+ .hero h1 { font-size: 2.1rem; font-weight: 900; max-width: 850px; line-height: 1.2; letter-spacing: -0.5px; }
+ .hero p { font-size: 1.05rem; opacity: .95; max-width: 800px; margin-top: .9rem; }
+ .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+ .card { background: var(--white); border-radius: 14px; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px rgba(26,107,69,0.06); border: 1px solid var(--border); }
+ .card h2 { color: var(--g1); font-size: 1.3rem; font-weight: 800; margin-bottom: 1.1rem; letter-spacing: -0.3px; }
+ .card h3 { color: var(--text); font-size: 1rem; font-weight: 700; margin: 1.2rem 0 .5rem; text-transform: uppercase; letter-spacing: .4px; }
+ .card p { margin-bottom: .8rem; color: var(--text); }
+ .card ul, .card ol { padding-left: 1.3rem; margin-bottom: .8rem; }
+ .card li { margin-bottom: .45rem; color: var(--text); }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); padding: .25rem .8rem; border-radius: 6px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .8rem; }
+ .quote-box { background: #FEF2F2; border-left: 5px solid var(--red); padding: 1.2rem 1.4rem; border-radius: 10px; margin: 1rem 0 1.5rem; font-style: italic; font-size: 1.08rem; font-weight: 500; color: #7F1D1D; }
+ .quote-box::before { content: '"'; font-size: 2rem; color: var(--red); line-height: 0; vertical-align: -0.4em; margin-right: .2rem; font-style: normal; }
+ .reveal-box { background: #FFFBEB; border-left: 4px solid var(--amber); padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+ .reveal-box strong { color: #92400E; }
+ .law-box { background: #F0F9F4; border-left: 4px solid var(--g2); padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+ .law-box strong { color: var(--g1); }
+ .response-box { background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; }
+ .response-box strong { color: #1E40AF; }
+ .cta-section { text-align: center; padding: 2.2rem 1.5rem; background: linear-gradient(135deg, var(--g1), var(--g3)); border-radius: 14px; color: white; margin: 2rem 0; }
+ .cta-section h2 { color: white !important; margin-bottom: .6rem; font-size: 1.35rem; }
+ .cta-section p { color: rgba(255,255,255,0.95); margin-bottom: 1.2rem; }
+ .cta-btn { display: inline-block; background: white; color: var(--g1); padding: .85rem 1.8rem; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+ .trust-box { background: var(--g-soft); border-radius: 12px; padding: 1.5rem; text-align: center; margin: 1.5rem 0; }
+ .trust-box h2 { color: var(--g1); margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); margin-bottom: 1rem; }
+ .phrase-number { display: inline-block; background: var(--red); color: white; width: 34px; height: 34px; border-radius: 50%; font-weight: 900; text-align: center; line-height: 34px; margin-right: .5rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,0.85); padding: 1.8rem 5%; text-align: center; font-size: .85rem; }
+ footer a { color: white; text-decoration: none; }
+ @media (max-width: 680px) {
+ .hero h1 { font-size: 1.55rem; }
+ .hero { padding: 2.5rem 5% 2rem; }
+ .card { padding: 1.2rem; }
+ .quote-box { font-size: 1rem; }
+ }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "5 phrases d'artisan qui cachent un vrai problème — alerte chantier 2026",
+ "description": "Les 5 phrases qu'un artisan peu scrupuleux peut vous dire pendant un chantier : ce que chacune révèle, la base juridique, et la réponse à donner.",
+ "datePublished": "2026-04-20",
+ "dateModified": "2026-04-20",
+ "author": { "@type": "Organization", "name": "BatiSpot", "url": "https://batispot.pro" },
+ "publisher": { "@type": "Organization", "name": "BatiSpot", "logo": { "@type": "ImageObject", "url": "https://batispot.pro/favicon.svg" } },
+ "image": "https://batispot.pro/og/5-phrases-artisan-alerte-chantier-2026.png",
+ "mainEntityOfPage": "https://batispot.pro/5-phrases-artisan-alerte-chantier-2026.html"
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<section class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &rsaquo; 5 phrases d'artisan à repérer</div>
+ <h1>5 phrases d'artisan qui cachent un vrai problème, repérer l'arnaque avant la catastrophe</h1>
+<p>Un bon artisan est rare, un honnête artisan encore plus. Certaines phrases paraissent anodines mais trahissent soit une faute grave, soit une tentative pour vous faire porter un risque qui n'est pas le vôtre. Voici celles qui reviennent le plus souvent, ce qu'elles révèlent juridiquement, et quoi répondre.</p>
+</section>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Phrase n°1</span>
+ <h2><span class="phrase-number">1</span>Sur l'assurance</h2>
+ <div class="quote-box">Pour des travaux comme les vôtres, pas besoin de souscrire une dommage-ouvrage, c'est cher et ça sert à rien.</div>
+
+ <div class="reveal-box">
+ <strong>Ce que ça cache :</strong> soit l'artisan n'a pas lui-même de garantie décennale en règle et veut éviter de tomber sur un client qui mobilisera son assurance, soit il ne connaît pas ses obligations, soit il compte sur votre méconnaissance du circuit assurantiel.
+ </div>
+
+ <div class="law-box">
+ <strong>Base juridique :</strong> la garantie décennale est imposée à tout constructeur par la loi Spinetta de 1978 (article L.241-1 du Code des assurances), obligatoire dès que l'ouvrage touche à la solidité ou à la destination de l'usage. La dommage-ouvrage, elle, est obligatoire pour le maître d'ouvrage qui fait construire ou qui fait des travaux importants sur le bâti existant (article L.242-1 du même Code). Elle permet d'être indemnisé <em>rapidement</em> sans attendre que la justice désigne le responsable.
+ </div>
+
+ <div class="response-box">
+ <strong>Réponse à donner :</strong> « Je prends mon DO séparément, c'est mon sujet, pas le vôtre. Par contre vous, vous me fournissez votre attestation de décennale de l'année en cours, signée et confirmée par votre assureur. »
+ </div>
+ </div>
+
+ <div class="card">
+ <span class="badge">Phrase n°2</span>
+ <h2><span class="phrase-number">2</span>Sur le paiement</h2>
+ <div class="quote-box">Si vous payez en liquide, je vous fais un prix, sinon je dois ajouter la TVA.</div>
+
+ <div class="reveal-box">
+ <strong>Ce que ça cache :</strong> travail dissimulé, au moins partiellement. L'artisan propose de ne pas déclarer une partie du chantier pour échapper à la TVA et aux cotisations URSSAF. Vous devenez complice de fait.
+ </div>
+
+ <div class="law-box">
+ <strong>Base juridique :</strong> le travail dissimulé est puni par les articles L.8221-1 et L.8221-5 du Code du travail. Le donneur d'ordre (le client) peut être poursuivi s'il a connaissance du dispositif, avec solidarité financière pour les cotisations dues. Plus concret pour vous : sans facture, vous perdez la garantie décennale, la TVA à taux réduit (5,5 % ou 10 % selon travaux), et tout recours en cas de malfaçon.
+ </div>
+
+ <div class="response-box">
+ <strong>Réponse à donner :</strong> « La TVA n'est pas en option, elle est légale. Je veux une facture complète, mentions légales obligatoires, TVA détaillée. Si ce n'est pas possible pour vous, je travaillerai avec quelqu'un d'autre. »
+ </div>
+ </div>
+
+ <div class="card">
+ <span class="badge">Phrase n°3</span>
+ <h2><span class="phrase-number">3</span>Sur le devis</h2>
+ <div class="quote-box">Pour des petits travaux comme ça, pas besoin de devis, on se met d'accord à l'oral.</div>
+
+ <div class="reveal-box">
+ <strong>Ce que ça cache :</strong> vous ne pourrez prouver ni le prix, ni le périmètre convenu, ni le délai. En cas de désaccord, litige, vice caché, c'est parole contre parole. Et ce n'est pas « petit » : un chantier à 1 000 € peut vite grimper à 3 000 € avec des « extras » que vous ne pourrez pas refuser.
+ </div>
+
+ <div class="law-box">
+ <strong>Base juridique :</strong> l'arrêté du 2 mars 1990 et le Code de la consommation imposent aux artisans du BTP un devis écrit dès lors que le montant total dépasse 150 € TTC, ou systématiquement pour tout dépannage/réparation à domicile (arrêté du 24 janvier 2017). Le devis doit être détaillé (quantité, taux horaire, prix unitaires, TVA, durée de validité).
+ </div>
+
+ <div class="response-box">
+ <strong>Réponse à donner :</strong> « Tout passe par écrit. Un devis détaillé signé, daté, ou on ne commence pas. C'est autant votre protection que la mienne. »
+ </div>
+ </div>
+
+ <div class="card">
+ <span class="badge">Phrase n°4</span>
+ <h2><span class="phrase-number">4</span>Sur l'urbanisme</h2>
+ <div class="quote-box">L'autorisation en mairie, ne vous occupez pas de ça, je connais le service, ça passera.</div>
+
+ <div class="reveal-box">
+ <strong>Ce que ça cache :</strong> l'artisan n'est pas habilité à déposer ou engager une démarche d'urbanisme à votre place sans mandat écrit. S'il démarre sans l'autorisation, c'est vous qui serez mis en cause par la mairie et à qui on imposera remise en état (abattage d'une extension, réouverture d'un mur, etc.).
+ </div>
+
+ <div class="law-box">
+ <strong>Base juridique :</strong> les articles L.421-1 à L.421-4 du Code de l'urbanisme imposent soit une déclaration préalable, soit un permis de construire selon la nature des travaux (changement de destination, modification de façade, extension > 5 m², etc.). Les sanctions peuvent aller jusqu'à 6 000 € d'amende par m² illégal (article L.480-4), sans parler de l'obligation de remise en état.
+ </div>
+
+ <div class="response-box">
+ <strong>Réponse à donner :</strong> « Je dépose moi-même le dossier en mairie, avec votre aide technique. Rien ne commence avant d'avoir l'accusé de réception et l'absence d'opposition dans le délai légal. »
+ </div>
+ </div>
+
+ <div class="card">
+ <span class="badge">Phrase n°5</span>
+ <h2><span class="phrase-number">5</span>Sur la garantie</h2>
+ <div class="quote-box">Je vous donnerai l'attestation de décennale à la fin du chantier, là je l'ai pas sur moi.</div>
+
+ <div class="reveal-box">
+ <strong>Ce que ça cache :</strong> l'attestation doit exister <em>avant</em> le démarrage. Si elle arrive « à la fin », ça peut être une attestation sortie en catastrophe, sans que l'assureur ait confirmé l'activité réellement exercée pendant les travaux. Pire : si un sinistre survient sept ans plus tard, on découvrira que la police avait été suspendue ou changée pendant le chantier.
+ </div>
+
+ <div class="law-box">
+ <strong>Base juridique :</strong> l'article L.241-1 du Code des assurances impose que l'assurance décennale soit souscrite <em>avant l'ouverture du chantier</em>. Le professionnel doit justifier de cette couverture. Une attestation fournie <em>a posteriori</em> ne garantit pas que la couverture était active au moment des travaux litigieux.
+ </div>
+
+ <div class="response-box">
+ <strong>Réponse à donner :</strong> « Attestation remise avant signature du devis final, et je la confirme par un appel à votre assureur avec votre numéro de police. Si c'est trop demander, je comprends, mais alors on ne signe pas. »
+ </div>
+
+ <p style="margin-top:1rem;"><a href="/verifier-decennale-artisan-30-secondes-2026">→ Voir le guide complet : vérifier la décennale d'un artisan en 30 secondes</a></p>
+ </div>
+
+ <div class="card">
+ <span class="badge">Résumé</span>
+ <h2>Les 5 réflexes qui vous protègent</h2>
+ <ol>
+ <li><strong>Écrit systématique.</strong> Devis détaillé, facture avec TVA, pas d'accord verbal même pour les petits montants.</li>
+ <li><strong>Attestation décennale avant signature.</strong> Nom de l'entreprise identique à celui du devis, année de chantier dans la période couverte, activités déclarées correspondent aux travaux.</li>
+ <li><strong>Vérification téléphonique auprès de l'assureur.</strong> Quarante-cinq secondes qui valent dix ans de tranquillité.</li>
+ <li><strong>Urbanisme : vous déposez vous-même.</strong> Jamais la mairie via l'artisan sans mandat écrit.</li>
+ <li><strong>Refus net du liquide pour échapper à la TVA.</strong> C'est vous qui portez le risque final.</li>
+ </ol>
+ </div>
+
+ <div class="trust-box">
+ <h2>Ces vérifications, BatiSpot les fait pour vous</h2>
+ <p>Chaque artisan référencé sur BatiSpot fournit son attestation décennale à jour, un extrait Kbis ou équivalent, et accepte la facturation réglementaire. Vous décrivez votre chantier, on vous présente des profils qui répondent déjà aux 5 réflexes ci-dessus.</p>
+ <a href="/" class="cta-btn">Trouver un artisan vérifié</a>
+ </div>
+
+ <div class="card">
+ <h2>À lire ensuite</h2>
+ <ul>
+ <li><a href="/verifier-decennale-artisan-30-secondes-2026">Vérifier la décennale d'un artisan en 30 secondes</a></li>
+ <li><a href="/devis-travaux-comprendre-comparer">Comprendre et comparer des devis travaux</a></li>
+ <li><a href="/vrai-prix-renovation-complete-paris-analyse-devis">Vrai prix d'une rénovation complète à Paris</a></li>
+ <li><a href="/erreurs-renovation-eviter">Les erreurs de rénovation à éviter</a></li>
+ </ul>
+ </div>
+
+ <div class="cta-section">
+ <h2>Votre chantier mérite mieux qu'une poignée de main</h2>
+ <p>Décrivez votre projet : nous vous mettons en relation avec des artisans dont l'assurance et les statuts sont vérifiés avant que vous ne signiez le premier devis.</p>
+ <a href="/estimateur" class="cta-btn">Démarrer ma demande</a>
+ </div>
+
+</div>
+
+
+<footer>
+ <p>&copy; 2026 BatiSpot — <a href="/mentions-legales">Mentions légales</a> · <a href="/cgu">CGU</a></p>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

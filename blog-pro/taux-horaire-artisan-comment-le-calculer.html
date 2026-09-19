@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+<script src="/js/consent.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Comment un artisan calcule son taux horaire (la méthode, pas une moyenne)</title>
+<meta name="description" content="Aucun prix moyen n'existe qui vaille pour deux entreprises différentes. La méthode pour construire son propre taux horaire : charges, heures réellement vendables, marge.">
+<link rel="canonical" href="https://batispot.pro/blog-pro/taux-horaire-artisan-comment-le-calculer">
+<meta property="og:title" content="Comment un artisan calcule son taux horaire (la méthode, pas une moyenne)"><meta property="og:description" content="Aucun prix moyen n'existe qui vaille pour deux entreprises différentes. La méthode pour construire son propre taux horaire : charges, heures réellement vendables, marge.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://batispot.pro/blog-pro/taux-horaire-artisan-comment-le-calculer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Comment un artisan calcule son taux horaire (la méthode, pas une moyenne)","description":"Aucun prix moyen n'existe qui vaille pour deux entreprises différentes. La méthode pour construire son propre taux horaire : charges, heures réellement vendables, marge.","datePublished":"2026-09-14","dateModified":"2026-09-14","author":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"publisher":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"C'est quoi la différence entre taux horaire et coût de revient horaire ?","acceptedAnswer":{"@type":"Answer","text":"Le coût de revient horaire est le seuil d'équilibre : les charges de l'année divisées par les heures réellement vendables, sans aucun bénéfice dedans. Le taux horaire facturé au client ajoute par-dessus une marge et une provision pour aléas. Vendre au coût de revient revient à travailler sans filet au premier imprévu."}},{"@type":"Question","name":"Pourquoi ne pas diviser mes charges par 1607 heures pour trouver mon taux ?","acceptedAnswer":{"@type":"Answer","text":"1607 heures est la durée légale annuelle de référence pour un temps plein (article L3121-41 du Code du travail), mais elle inclut du temps qui n'est jamais facturé à un client : devis, métrés, trajets, entretien du matériel, gestion administrative. Diviser par ce chiffre sous-estime le vrai coût de chaque heure vendue."}},{"@type":"Question","name":"Quelles charges dois-je inclure dans le calcul ?","acceptedAnswer":{"@type":"Answer","text":"Deux blocs à additionner sur l'année : la main-d'œuvre (rémunération brute, cotisations sociales, mutuelle) et les charges de structure (assurance décennale et RC pro, véhicule utilitaire, outillage, expert-comptable, logiciels, téléphone, frais bancaires). Le total se divise ensuite par les heures réellement productives."}},{"@type":"Question","name":"Je dois compter combien d'heures productives par an ?","acceptedAnswer":{"@type":"Answer","text":"Il n'existe pas de chiffre unique qui vaille pour toutes les entreprises : cela dépend du temps que chacun passe sur les devis, les trajets, l'administratif et l'entretien du matériel. La méthode consiste à partir du temps de travail réel de l'année, puis à retrancher tout ce qui n'est pas du temps posé sur un chantier facturé."}},{"@type":"Question","name":"Est-ce que je dois compter mon propre salaire dans le calcul ?","acceptedAnswer":{"@type":"Answer","text":"Oui : votre rémunération et vos cotisations sociales personnelles font partie des charges à couvrir, exactement comme celles d'un salarié. Un artisan qui oublie de se rémunérer dans son calcul obtient un taux horaire qui ne fait vivre que l'entreprise, pas la personne qui la dirige."}}]}</script>
+<style>
+:root{--g1:#0F5132;--g2:#166534;--t2:#0D9488;--t1:#0F766E;--text:#1C2B22;--sub:#4B6B5A;--border:#BBF7D0;--soft:#F0FDF4;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:#FAFAFA;line-height:1.7;}
+.nav{background:white;border-bottom:1px solid #E5E7EB;padding:16px 0;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:800px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;flex:0 1 auto;min-width:0;}.nav-logo img{width:118px;height:auto;max-width:100%;display:block;}.nav-logo em{font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:#fff;background:#228B5B;padding:2px 6px;border-radius:5px;flex:0 0 auto;}
+.nav-logo span{color:var(--g2);opacity:.85;}
+.nav-badge{background:var(--t2);color:white;padding:3px 10px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:8px;letter-spacing:.5px;}
+.nav-cta{background:var(--t2);color:white;padding:8px 20px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.85rem;}
+.nav-cta:hover{background:var(--t1);}
+article{max-width:800px;margin:0 auto;padding:40px 24px 80px;}
+.breadcrumb{font-size:.82rem;color:var(--sub);margin-bottom:24px;}
+.breadcrumb a{color:var(--t2);text-decoration:none;}
+.article-meta{display:flex;gap:16px;font-size:.82rem;color:var(--sub);margin-bottom:24px;flex-wrap:wrap;}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--g1);line-height:1.25;margin-bottom:16px;}
+h2{font-size:1.3rem;font-weight:700;color:var(--g1);margin:40px 0 16px;padding-top:8px;}
+h3{font-size:1.08rem;font-weight:700;color:var(--g2);margin:24px 0 10px;}
+p{margin-bottom:16px;font-size:1rem;}
+ul,ol{margin:12px 0 20px 22px;}li{margin-bottom:8px;}
+strong{color:var(--g1);}a{color:var(--t2);}
+.summary-box{background:var(--soft);border-left:4px solid var(--t2);padding:18px 22px;border-radius:0 10px 10px 0;margin:24px 0;}
+.summary-box h3{margin-top:0;color:var(--g1);}
+.summary-box ul{margin:8px 0 0 20px;}.summary-box li{margin-bottom:4px;}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.92rem;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #E5E7EB;}
+th{background:var(--g1);color:white;font-weight:700;font-size:.88rem;}
+tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:#FAFAFA;}
+.warning-box{background:#FEF3C7;border-left:4px solid #F59E0B;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.warning-box strong{color:#92400E;}
+.info-box{background:#DBEAFE;border-left:4px solid #3B82F6;padding:16px 20px;border-radius:0 8px 8px 0;margin:20px 0;font-size:.95rem;}
+.info-box strong{color:#1E40AF;}
+.cta-box{background:linear-gradient(135deg,#E6F7ED,#F0FDF4);border:2px solid #59C794;border-radius:16px;padding:28px;text-align:center;margin:40px 0;}
+.cta-box h3{font-size:1.2rem;color:var(--g1);margin-bottom:8px;}
+.cta-box p{color:var(--sub);margin-bottom:16px;}
+.cta-btn{display:inline-block;background:var(--t2);color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 4px 12px rgba(13,148,136,.3);}
+.cta-btn:hover{background:var(--t1);transform:translateY(-2px);}
+.related{margin:50px 0 20px;padding:24px;background:white;border-radius:12px;border:1px solid #E5E7EB;}
+.related h3{color:var(--g1);margin-bottom:14px;font-size:1.08rem;}
+.related ul{margin:0 0 0 18px;}.related a{font-weight:500;}
+.sources-box{background:white;border:1px solid #E5E7EB;border-radius:12px;padding:22px 24px;margin:32px 0;}
+.sources-box h3{margin-top:0;color:var(--g1);}
+.sources-box ul{margin:8px 0 0 20px;}.sources-box li{margin-bottom:6px;font-size:.92rem;}
+.footer-blog{background:var(--g1);color:white;text-align:center;padding:32px 24px;font-size:.85rem;}
+.footer-blog a{color:#4CAF82;text-decoration:none;}
+@media(max-width:600px){article{padding:24px 16px 60px;}table{font-size:.82rem;}th,td{padding:10px 8px;}}
+</style>
+</head><body>
+<nav class="nav"><div class="nav-inner">
+<a href="https://batispot.pro" class="nav-logo" aria-label="BatiSpot Pro"><img src="https://batispot.pro/assets/logo-batispot.svg" alt="BatiSpot" width="118" height="36"><em>PRO</em></a>
+<a href="https://batispot.pro/application-devis-gratuite" class="nav-cta">Rejoindre BatiSpot Pro</a>
+</div></nav>
+<article>
+<div class="breadcrumb"><a href="https://batispot.pro">Accueil</a> &rsaquo; <a href="https://batispot.pro/blog-pro/">Blog Artisans</a> &rsaquo; Calculer son taux horaire</div>
+<h1>Comment un artisan calcule son taux horaire</h1>
+<div class="article-meta"><span>14 septembre 2026</span><span>&middot;</span><span>7 min de lecture</span></div>
+
+<div class="summary-box">
+<p><strong>L'essentiel en une phrase.</strong> Le taux horaire se construit, il ne se copie pas : il additionne toutes les charges de l'année, se divise par le nombre d'heures réellement vendables à un client, puis reçoit une marge. Aucun chiffre moyen ne remplace ce calcul, parce qu'il dépend entièrement de la structure de chaque entreprise.</p>
+</div>
+
+<p>Cet article ne donne aucun prix ni aucune moyenne du secteur. Il n'existe pas de taux horaire « normal » dans le bâtiment : deux entreprises avec le même métier, la même région et le même chiffre d'affaires peuvent avoir des coûts de structure très différents, selon qu'elles roulent avec un vieux fourgon amorti ou un utilitaire neuf en leasing, qu'elles travaillent seules ou avec un compagnon. Ce que cet article explique, c'est la méthode : les composantes à additionner, et le piège qui fait sous-évaluer le résultat.</p>
+
+<p>Le calcul se fait en trois temps : compter le total des charges annuelles, compter le nombre d'heures que l'on peut réellement facturer à un client sur l'année, diviser les premières par les secondes pour obtenir le coût de revient horaire, puis ajouter une marge par-dessus pour obtenir le taux de vente. Chacune de ces étapes contient une erreur fréquente qui fausse tout le reste.</p>
+
+<h2>Première étape : la liste complète des charges annuelles</h2>
+<p>Deux blocs à faire tenir dans le même total, sur une année entière.</p>
+<ul>
+<li><strong>La main-d'œuvre directe</strong> : rémunération brute de l'artisan et de chaque salarié, cotisations sociales associées, mutuelle et prévoyance quand elles existent.</li>
+<li><strong>Les charges de structure</strong> : assurance décennale et responsabilité civile professionnelle, loyer ou dépôt de matériel, amortissement ou leasing du véhicule utilitaire et de l'outillage, carburant, expert-comptable, licences de logiciels, téléphone, frais bancaires.</li>
+</ul>
+<p>Une entreprise qui oublie une ligne dans cette liste — l'assurance décennale est le cas le plus fréquent — obtient un taux horaire qui semble correct sur le papier et qui, en réalité, ne couvre pas tout ce qu'elle doit payer dans l'année.</p>
+
+<h2>Deuxième étape : compter les heures qui se vendent vraiment</h2>
+<p>C'est le point qui fait le plus dévier le calcul. La tentation est de partir de la durée légale de référence pour un temps plein, fixée à 1607 heures par an par l'article L3121-41 du Code du travail, et de s'arrêter là. Cette durée mesure un temps de travail théorique, pas un temps facturable : elle inclut, dans les faits, tout ce qu'un artisan fait sans jamais le porter sur une facture.</p>
+<p>Ce temps non facturable recouvre les métrés et les devis, les trajets entre le dépôt et les chantiers, l'entretien du matériel et du véhicule, la gestion administrative et comptable, le service après-vente, et les journées perdues pour intempérie ou attente de fourniture. Il faut retrancher chacun de ces postes du temps de travail réel de l'année pour obtenir le nombre d'heures qui, seules, se posent sur un chantier facturé à un client. Ce nombre n'est pas le même d'une entreprise à l'autre : il dépend de l'organisation, de la taille des chantiers habituels et du temps que chacun consacre lui-même à l'administratif plutôt qu'à un comptable.</p>
+
+<h2>Troisième étape : diviser, puis ajouter la marge</h2>
+<p>Le coût de revient horaire s'obtient en divisant le total des charges annuelles par le nombre d'heures productives ainsi calculé. C'est un seuil d'équilibre, pas un prix de vente : à ce niveau, l'entreprise ne perd pas d'argent sur l'heure travaillée, mais elle n'en gagne pas non plus. Le taux horaire réellement facturé au client doit ajouter, par-dessus ce seuil, une marge bénéficiaire qui permet l'autofinancement et la trésorerie de l'entreprise, ainsi qu'une provision pour les aléas de chantier — un imprévu, un impayé, un arrêt maladie.</p>
+<p>Vendre au coût de revient, sans cette marge, revient à faire fonctionner l'entreprise sans aucune réserve : le premier incident venu, matériel en panne ou client qui ne paie pas, se répercute directement sur la trésorerie personnelle de l'artisan.</p>
+
+<h2>Ce qui différencie ce calcul d'un salaire horaire</h2>
+<p>Une confusion fréquente consiste à reprendre son ancien salaire horaire de salarié comme base du taux de vente. Ce chiffre ne couvre ni les charges de structure de l'entreprise, ni le temps non facturable, ni la marge nécessaire pour financer les périodes creuses. Le coût de revient horaire construit ici part d'une base différente : ce que coûte réellement une heure d'activité de l'entreprise, tout compris, avant même de penser au bénéfice.</p>
+
+<h2>Refaire le calcul régulièrement</h2>
+<p>Les charges de structure évoluent d'une année sur l'autre : une prime d'assurance qui augmente, un véhicule qui change, un logiciel supplémentaire. Le nombre d'heures réellement facturables bouge aussi selon l'activité. Un taux horaire calculé une fois puis jamais revu finit par sous-estimer le coût réel de l'entreprise, sans que personne ne s'en aperçoive avant que la trésorerie ne se tende.</p>
+
+<h2>Pourquoi un taux mal calculé ne se voit pas tout de suite</h2>
+<p>Un taux horaire sous-évalué ne provoque pas de perte visible chantier par chantier : chaque devis semble équilibré, chaque facture est payée. Le problème apparaît ailleurs, dans la trésorerie de fin d'année, quand les charges réelles ont dépassé ce que les heures facturées ont couvert. C'est un décalage lent, difficile à relier à sa cause, ce qui explique pourquoi beaucoup d'entreprises continuent des années avec un taux insuffisant sans jamais identifier pourquoi l'activité ne dégage pas la marge attendue.</p>
+
+<h2>Un repère pour vérifier son propre calcul</h2>
+<p>Une façon simple de tester la cohérence d'un taux horaire consiste à reprendre un chantier terminé récemment : additionner le temps réellement passé, y compris les allers-retours et les imprévus, puis comparer ce total au montant de main-d'œuvre effectivement facturé sur ce chantier. Si le résultat est inférieur au coût de revient horaire calculé plus haut, ce n'est pas nécessairement le chantier qui a mal tourné : c'est souvent le signe que le calcul initial du taux mérite d'être repris, notamment sur le nombre d'heures productives retenu.</p>
+
+<div class="cta-box">
+<p><strong>Une fois le taux horaire calculé, encore faut-il qu'il serve à quelque chose.</strong> BatiSpot applique ce taux à chaque devis chiffré à la voix, pour que la marge d'un chantier se voie avant de le démarrer, pas après.</p>
+<p><a href="https://batispot.pro/application-devis-gratuite" class="cta-btn">Essayer BatiSpot Pro</a></p>
+</div>
+
+<div class="sources-box">
+<h3>Sources</h3>
+<ul>
+<li>Code du travail, article L3121-41 (durée annuelle de référence de 1607 heures) — <a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033020315" target="_blank" rel="noopener">legifrance.gouv.fr</a></li>
+<li>Méthode de calcul du coût de revient horaire (composantes de charges et heures productives) — connaissance métier courante, non sourcée pour les ratios usuels, volontairement absente de cet article</li>
+</ul>
+</div>
+
+<footer class="footer-blog">
+<p>&copy; 2026 BatiSpot &mdash; <a href="https://batispot.pro">batispot.pro</a> &middot;
+<a href="https://batispot.pro/blog-pro/">Blog Artisans</a> &middot;
+<a href="https://batispot.pro/application-devis-gratuite">Devenir partenaire</a></p>
+</footer>
+</article>
+<script>
+(function(){
+ function _loadChat(){
+  if(window._chatLoaded) return; window._chatLoaded=true;
+  var s=document.createElement("script"); s.src="/chat-widget.js?v=8"; document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+  document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body></html>

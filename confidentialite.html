@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Protection des données — BatiSpot</title>
+ <meta name="description" content="Où vivent vos données, qui y a accès, combien de temps nous les gardons, et comment les récupérer ou les effacer. Hébergement en Union européenne.">
+ <link rel="canonical" href="https://batispot.pro/confidentialite">
+ <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+ <meta property="og:type" content="website">
+ <meta property="og:site_name" content="BatiSpot">
+ <meta property="og:locale" content="fr_FR">
+ <meta property="og:title" content="Protection des données — BatiSpot">
+ <meta property="og:description" content="Hébergement en Union européenne, cloisonnement des comptes, vos droits en un email.">
+ <meta property="og:url" content="https://batispot.pro/confidentialite">
+ <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+ <style>
+ :root{
+ --vert:#1A6B45; --vert-vif:#228B5B; --encre:#1C2B22;
+ --gris:#5A7268; --ligne:#E5E7EB; --pale:#EBF7F1;
+ }
+ *{box-sizing:border-box}
+ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;color:var(--encre);
+ background:#fff;line-height:1.75;margin:0;padding:0}
+ .wrap{max-width:820px;margin:0 auto;padding:40px 5% 80px}
+ .back{display:inline-block;margin-bottom:2rem;color:var(--vert-vif);
+ text-decoration:none;font-weight:600;font-size:.9rem}
+ .back:hover{text-decoration:underline}
+ h1{font-size:2.1rem;font-weight:900;color:var(--vert);
+ margin:0 0 .6rem;letter-spacing:-.02em;line-height:1.15}
+ .chapo{font-size:1.05rem;color:var(--gris);margin:0 0 .4rem}
+ .maj{font-size:.82rem;color:#8A9A93;margin:0 0 2.5rem}
+ h2{font-size:1.25rem;font-weight:800;color:var(--vert);
+ margin:2.6rem 0 .6rem;letter-spacing:-.01em}
+ h3{font-size:1rem;font-weight:700;color:var(--encre);margin:1.6rem 0 .4rem}
+ p,li{font-size:.95rem;color:var(--gris)}
+ li{margin-bottom:.35rem}
+ a{color:var(--vert-vif)}
+ strong{color:var(--encre)}
+ /* Les tableaux defilent au lieu de deborder sur mobile */
+ .tw{overflow-x:auto;margin:1rem 0;-webkit-overflow-scrolling:touch}
+ table{width:100%;border-collapse:collapse;min-width:520px}
+ th,td{padding:.65rem .7rem;border:1px solid var(--ligne);
+ font-size:.88rem;text-align:left;vertical-align:top}
+ th{background:var(--pale);color:var(--vert);font-weight:700}
+ .encart{background:var(--pale);border-left:4px solid var(--vert-vif);
+ border-radius:0 10px 10px 0;padding:1.1rem 1.3rem;margin:1.6rem 0}
+ .encart p{color:var(--encre);margin:0}
+ .points{list-style:none;padding:0;margin:1.2rem 0}
+ .points li{position:relative;padding-left:1.9rem;margin-bottom:.7rem;
+ color:var(--encre);font-weight:500}
+ .points li::before{content:"";position:absolute;left:0;top:-1px;
+ width:1.3rem;height:1.3rem;background:var(--vert-vif);color:#fff;
+ border-radius:50%;font-size:.75rem;font-weight:800;
+ display:flex;align-items:center;justify-content:center}
+ .cta{display:inline-block;background:var(--vert-vif);color:#fff;
+ padding:.75rem 1.4rem;border-radius:999px;text-decoration:none;
+ font-weight:700;font-size:.92rem;margin-top:.6rem}
+ footer{border-top:1px solid var(--ligne);margin-top:3.5rem;padding-top:1.5rem;
+ font-size:.85rem;color:var(--gris)}
+ footer a{margin-right:1rem}
+ </style>
+ </head>
+<body>
+<div class="wrap">
+ <a href="/" class="back">← Retour au site</a>
+
+ <h1>Protection de vos données</h1>
+<p class="chapo">Où vivent vos données, qui peut les voir, combien de temps nous les gardons, et comment les récupérer ou les effacer.</p>
+ <p class="maj">Dernière mise à jour : 16 août 2026</p>
+
+ <div class="encart">
+ <p><strong>L'essentiel :</strong> vos données sont hébergées dans l'Union européenne. Chaque compte est cloisonné : un artisan ne voit que ses propres chantiers et ses propres clients. Nous ne vendons aucune donnée. Vous pouvez demander leur suppression à tout moment, par un simple email.</p>
+ </div>
+
+ <h2>1. Qui est responsable</h2>
+ <p>BatiSpot : Moctar Diaby, éditeur du service.<br>
+ Pour toute question sur vos données : <a href="mailto:contact@batispot.pro">contact@batispot.pro</a></p>
+
+ <h2>2. Ce que nous collectons, et pourquoi</h2>
+ <p>Nous ne collectons que ce dont le service a besoin pour fonctionner. Rien n'est demandé « au cas où ».</p>
+
+ <h3>Si vous êtes un particulier</h3>
+ <div class="tw">
+ <table>
+ <tr><th>Donnée</th><th>À quoi elle sert</th><th>Base légale</th></tr>
+ <tr><td>Nom, prénom</td><td>Vous identifier auprès de l'artisan</td><td>Exécution du contrat</td></tr>
+ <tr><td>Email</td><td>Vous envoyer le suivi de vos travaux</td><td>Exécution du contrat</td></tr>
+ <tr><td>Téléphone</td><td>Permettre à l'artisan de vous joindre</td><td>Exécution du contrat</td></tr>
+ <tr><td>Adresse du chantier</td><td>Situer les travaux, établir le devis</td><td>Exécution du contrat</td></tr>
+ <tr><td>Description du projet</td><td>Comprendre votre besoin</td><td>Exécution du contrat</td></tr>
+ </table>
+ </div>
+
+ <h3>Si vous êtes artisan</h3>
+ <div class="tw">
+ <table>
+ <tr><th>Donnée</th><th>À quoi elle sert</th><th>Base légale</th></tr>
+ <tr><td>Nom, email, téléphone</td><td>Votre compte et nos échanges</td><td>Exécution du contrat</td></tr>
+ <tr><td>Entreprise, SIRET</td><td>Vérifier que vous êtes un professionnel</td><td>Intérêt légitime</td></tr>
+ <tr><td>Assurance décennale, KBIS</td><td>Rassurer vos clients sur vos garanties</td><td>Intérêt légitime</td></tr>
+ <tr><td>Devis, chantiers, factures</td><td>Le service que vous utilisez</td><td>Exécution du contrat</td></tr>
+ <tr><td>Coordonnées de vos clients</td><td>Vous permettre de gérer vos chantiers</td><td>Exécution du contrat</td></tr>
+ </table>
+ </div>
+
+ <div class="encart">
+ <p><strong>Les données de vos clients vous appartiennent.</strong> Quand vous saisissez un client dans BatiSpot, vous en restez responsable au sens du RGPD ; nous agissons comme votre sous-traitant. Nous ne les utilisons ni pour notre prospection, ni pour les revendre, ni pour les transmettre à un autre artisan.</p>
+ </div>
+
+ <h2>3. Où vivent vos données</h2>
+ <p>Notre base de données et vos documents sont hébergés par <strong>Supabase</strong>, dans la région <strong>Europe / Irlande</strong> — donc dans l'Union européenne, sous le régime du RGPD. Le stockage de vos données reste dans l'Union européenne.</p>
+      <!-- ⚠️ CORRIGE LE 02/09/2026 : la page affirmait « Aucun transfert hors UE
+           n'est nécessaire », alors que l'assistant et le Photo Studio envoient
+           des contenus à Google (Gemini) et que la mesure d'audience passe par
+           Google et Microsoft. Ne pas déclarer un transfert est une
+           non-conformité aux art. 13(1)(f) et 44 du RGPD. -->
+      <p><strong>Certains traitements impliquent toutefois un transfert hors UE&nbsp;:</strong>
+      notre assistant et le Photo Studio s'appuient sur <strong>Google (Gemini)</strong>,
+      auquel sont transmis le texte de votre demande et, le cas échéant, la photo
+      que vous envoyez. La mesure d'audience passe par <strong>Google</strong> et
+      <strong>Microsoft</strong>, l'envoi d'e-mails par <strong>Brevo</strong>, et la
+      protection anti-robot par <strong>Cloudflare</strong>. Ces transferts sont
+      encadrés par les clauses contractuelles types de la Commission européenne.</p>
+ <ul class="points">
+ <li>Connexions chiffrées de bout en bout (HTTPS)</li>
+ <li>Chaque compte est cloisonné : personne ne voit les données d'un autre</li>
+ <li>Vos documents (assurance, KBIS, photos de chantier) ne sont accessibles que par des liens temporaires, jamais par une adresse publique</li>
+ <li>Un contrôle de sécurité automatique est exécuté chaque nuit</li>
+ <li>Vos coordonnées bancaires ne transitent jamais par nos serveurs : elles sont traitées directement par Stripe</li>
+ </ul>
+
+ <h2>4. Combien de temps nous les gardons</h2>
+ <div class="tw">
+ <table>
+ <tr><th>Donnée</th><th>Durée</th><th>Pourquoi</th></tr>
+ <tr><td>Compte actif</td><td>Tant que le compte existe</td><td>Le service ne peut pas fonctionner sans</td></tr>
+ <tr><td>Après fermeture du compte</td><td>Suppression sous 30 jours</td><td>Délai pour changer d'avis ou récupérer vos données</td></tr>
+ <tr><td>Devis et factures</td><td>10 ans</td><td>Obligation comptable et fiscale</td></tr>
+ <tr><td>Demande sans suite</td><td>3 ans après le dernier contact</td><td>Recommandation CNIL</td></tr>
+ <tr><td>Journaux techniques</td><td>90 jours</td><td>Sécurité et diagnostic de pannes</td></tr>
+ </table>
+ </div>
+
+ <h2>5. Qui d'autre y a accès</h2>
+ <p>Nous ne vendons aucune donnée et n'en cédons à aucun courtier. Pour fonctionner, le service s'appuie sur des prestataires qui traitent certaines données pour notre compte :</p>
+ <div class="tw">
+ <table>
+ <tr><th>Prestataire</th><th>Rôle</th><th>Données concernées</th><th>Hébergement</th></tr>
+ <tr><td>Supabase</td><td>Base de données, comptes, documents</td><td>Toutes les données du service</td><td>Union européenne (Irlande)</td></tr>
+ <tr><td>Brevo</td><td>Envoi des emails</td><td>Email, nom</td><td>Union européenne (France)</td></tr>
+ <tr><td>Stripe</td><td>Paiement des abonnements</td><td>Email, facturation</td><td>Union européenne + États-Unis</td></tr>
+ <tr><td>GitHub Pages</td><td>Hébergement des pages du site</td><td>Adresse IP (journaux techniques)</td><td>États-Unis</td></tr>
+ <tr><td>Google Analytics</td><td>Mesure d'audience, après votre accord</td><td>Navigation anonymisée</td><td>États-Unis</td></tr>
+ <tr><td>Microsoft Clarity</td><td>Analyse d'usage, <strong>dans l'application seulement</strong></td><td>Navigation anonymisée</td><td>États-Unis</td></tr>
+ <tr><td>Formspree</td><td>Trois formulaires du site (simulateur d'aides, estimateur, guide)</td><td>Contenu du formulaire</td><td>États-Unis</td></tr>
+ </table>
+ </div>
+ <p><strong>Cloudflare</strong> gère notre nom de domaine. Le trafic ne transite pas par ses serveurs : Cloudflare ne voit donc aucune donnée de visite.</p>
+ <p>Les transferts vers les États-Unis reposent sur les <strong>clauses contractuelles types</strong> de la Commission européenne, seul cadre valable depuis l'invalidation du Privacy Shield en 2020.</p>
+
+ <h2>6. Cookies et mesure d'audience</h2>
+ <!-- ⚠️ CORRIGE LE 02/09/2026. La page affirmait qu'aucun cookie de mesure
+       n'était déposé avant accord. C'était l'intention, pas la réalité : le
+       bandeau est chargé en `defer` alors que les scripts de mesure sont en
+       ligne dans le <head>, donc ils s'exécutent AVANT lui. On décrit ce qui
+       est, et le correctif technique est en cours. -->
+      <p>Un bandeau vous permet d'accepter ou de refuser la mesure d'audience dès
+      votre arrivée, et refuser n'enlève rien au fonctionnement du site.
+      <strong>En toute transparence&nbsp;:</strong> nous corrigeons actuellement l'ordre
+      de chargement de nos scripts, car certains outils de mesure peuvent se
+      déclencher très brièvement avant l'enregistrement de votre choix. Votre
+      refus est ensuite respecté et conservé.</p>
+ <ul>
+ <li><strong>Nécessaires</strong> — votre session de connexion et votre choix sur les cookies. Toujours actifs, sans consentement requis.</li>
+ <li><strong>Mesure d'audience</strong> — pour savoir quelles pages sont utiles. Déposés seulement si vous acceptez.</li>
+ </ul>
+ <p>Vous pouvez revenir sur votre choix à tout moment en effaçant les cookies de votre navigateur.</p>
+
+ <h2>7. Vos droits</h2>
+ <p>Le RGPD vous donne des droits sur vos données. Nous y répondons sous <strong>30 jours maximum</strong>, gratuitement.</p>
+ <ul>
+ <li><strong>Accès</strong> — obtenir la copie de tout ce que nous avons sur vous</li>
+ <li><strong>Rectification</strong> — corriger une information inexacte</li>
+ <li><strong>Effacement</strong> — demander la suppression de vos données</li>
+ <li><strong>Portabilité</strong> — récupérer vos données dans un format réutilisable</li>
+ <li><strong>Opposition</strong> — refuser un traitement fondé sur notre intérêt légitime</li>
+ <li><strong>Limitation</strong> — geler l'usage de vos données le temps d'une contestation</li>
+ </ul>
+ <p>Un seul email suffit, aucune formalité :</p>
+ <a class="cta" href="mailto:contact@batispot.pro?subject=Demande%20RGPD">Exercer mes droits</a>
+
+ <div class="encart" style="margin-top:1.8rem">
+ <p><strong>Artisan qui ferme son compte :</strong> écrivez-nous et nous vous transmettons l'ensemble de vos devis, chantiers et factures avant suppression. Vos données ne sont pas retenues en otage.</p>
+ </div>
+
+ <h2>8. En cas de désaccord</h2>
+ <p>Si notre réponse ne vous satisfait pas, vous pouvez saisir la <strong>CNIL</strong>, l'autorité française de protection des données : <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">cnil.fr/fr/plaintes</a>.</p>
+
+ <h2>9. Modifications</h2>
+ <p>Cette page est datée. Toute évolution significative, nouveau prestataire, nouvelle donnée collectée, sera signalée aux utilisateurs concernés par email.</p>
+
+ <footer>
+ <a href="/mentions-legales">Mentions légales</a>
+ <a href="/cgu">CGU</a>
+ <a href="/contact">Contact</a>
+ </footer>
+</div>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

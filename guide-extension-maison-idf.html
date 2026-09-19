@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+<script src="/js/analytics.js" defer></script>
+<meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Extension maison IDF : prix, permis, types | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/guide-extension-maison-idf">
+ <meta name="description" content="Extension de maison en Ile-de-France : veranda, surelevation, extension laterale. Prix au m2, permis de construire, PLU et budget complet 2026." />
+ <meta property="og:title" content="Extension maison IDF : guide complet 2026" />
+ <meta property="og:description" content="Prix au m2, permis, PLU, types d'extension. Guide complet pour agrandir votre maison en Ile-de-France." />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="https://batispot.pro/og/guide-extension-maison-idf.png" />
+ <meta property="og:url" content="https://batispot.pro/guide-extension-maison-idf" />
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ html { scroll-behavior: smooth; }
+ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+ :root { --g1: #1A6B45; --g2: #228B5B; --g3: #4CAF82; --g-soft: #EBF7F1; --cta: #2A9D6E; --cta-h: #1A6B45; --text: #1C2B22; --sub: #5A7268; --border: rgba(34,139,91,0.12); --white: #ffffff; --orange: #F97316; }
+ nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 5%; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+ .logo { font-size: 1.4rem; font-weight: 900; color: var(--g1); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+ .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--g2), var(--g3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+ .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+ .nav-links a { color: var(--sub); text-decoration: none; font-size: .85rem; font-weight: 500; }
+ .nav-links a:hover { color: var(--g2); }
+ .hero { background: linear-gradient(135deg, var(--g1), var(--g2)); padding: 3rem 5% 2.5rem; text-align: center; color: white; }
+ .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .75rem; }
+ .hero p { opacity: .85; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+ .breadcrumb { font-size: .8rem; opacity: .7; margin-bottom: .75rem; }
+ .breadcrumb a { color: rgba(255,255,255,.8); text-decoration: none; }
+ .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.2rem 3rem; }
+ .card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1.8rem; }
+ .card h2 { font-size: 1.25rem; font-weight: 800; color: var(--g1); margin-bottom: 1rem; }
+ .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--g1); margin: 1.2rem 0 .6rem; }
+ .card p, .card li { font-size: .92rem; color: var(--text); margin-bottom: .5rem; }
+ .price-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
+ .price-table th { background: var(--g-soft); color: var(--g1); padding: .7rem 1rem; text-align: left; font-weight: 700; }
+ .price-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+ .price-table tr:last-child td { border-bottom: none; }
+ .price-table .low { color: #16a34a; font-weight: 600; }
+ .price-table .mid { color: var(--g1); font-weight: 700; }
+ .price-table .high { color: var(--orange); font-weight: 600; }
+ .badge { display: inline-block; background: var(--g-soft); color: var(--g1); border-radius: 20px; padding: .2rem .7rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; }
+ .cta-section { background: linear-gradient(135deg, var(--g1), var(--g2)); border-radius: 16px; padding: 2.2rem; text-align: center; color: white; margin-bottom: 1.8rem; }
+ .cta-section h2 { font-size: 1.4rem; font-weight: 900; margin-bottom: .5rem; }
+ .cta-section p { opacity: .85; margin-bottom: 1.4rem; font-size: .95rem; }
+ .cta-btn { display: inline-block; background: var(--orange); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn:hover { transform: translateY(-2px); opacity: .92; }
+ .cta-btn-green { display: inline-block; background: var(--cta); color: white; padding: .85rem 2rem; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: transform .15s, opacity .15s; }
+ .cta-btn-green:hover { background: var(--cta-h); transform: translateY(-2px); }
+ .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: .8rem; }
+ .info-item { background: var(--g-soft); border-radius: 12px; padding: 1rem; }
+ .info-item .label { font-size: .78rem; color: var(--sub); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+ .info-item .value { font-size: 1.1rem; font-weight: 800; color: var(--g1); margin-top: .2rem; }
+ .factor-list { list-style: none; padding: 0; }
+ .factor-list li { padding: .5rem 0; border-bottom: 1px solid var(--border); font-size: .9rem; display: flex; gap: .6rem; }
+ .factor-list li:last-child { border-bottom: none; }
+ .factor-list li::before { content: "\2192"; color: var(--g2); font-weight: 700; flex-shrink: 0; }
+ .trust-box { border: 2px solid var(--g3); border-radius: 16px; padding: 1.6rem; text-align: center; margin-bottom: 1.8rem; }
+ .trust-box h2 { color: var(--g1); font-size: 1.15rem; margin-bottom: .5rem; }
+ .trust-box p { color: var(--sub); font-size: .9rem; margin-bottom: 1.2rem; }
+ footer { background: var(--g1); color: rgba(255,255,255,.7); text-align: center; padding: 1.5rem; font-size: .8rem; }
+ footer a { color: rgba(255,255,255,.9); text-decoration: none; }
+ @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .card { padding: 1.3rem; } .price-table th, .price-table td { padding: .5rem .6rem; font-size: .82rem; } }
+ </style>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {
+ "@type": "Question",
+ "name": "Quel est le prix moyen d'une extension de maison en Ile-de-France ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "Le prix varie selon le type : extension laterale en parpaing de 1 200 a 2 500 euros/m2, ossature bois de 1 500 a 2 800 euros/m2, surelevation de 2 000 a 3 500 euros/m2, et veranda de 800 a 2 000 euros/m2. Pour 20 m2 supplementaires, comptez entre 30 000 et 70 000 euros." }
+ },
+ {
+ "@type": "Question",
+ "name": "Faut-il un permis de construire pour une extension de maison ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "Si l'extension fait moins de 20 m2 (ou 40 m2 en zone PLU avec un total apres travaux inferieur a 150 m2), une declaration prealable suffit. Au-dela, un permis de construire est obligatoire, et le recours a un architecte est impose si la surface totale depasse 150 m2." }
+ },
+ {
+ "@type": "Question",
+ "name": "Quelle est la meilleure extension pour une maison en IDF ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "L'extension laterale en ossature bois offre le meilleur rapport qualite/prix, avec un chantier rapide (8 a 12 semaines) et de bonnes performances thermiques. La surelevation est ideale quand le terrain est trop petit pour s'etendre au sol. La veranda est la plus economique mais offre un confort thermique moindre." }
+ },
+ {
+ "@type": "Question",
+ "name": "Combien de temps durent les travaux d'extension ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "Comptez 3 a 4 mois pour une extension laterale classique, 4 a 6 mois pour une surelevation, et 6 a 10 semaines pour une veranda. Les delais administratifs (declaration prealable ou permis de construire) s'ajoutent : 1 a 3 mois." }
+ },
+ {
+ "@type": "Question",
+ "name": "Le PLU peut-il empecher une extension de maison ?",
+ "acceptedAnswer": { "@type": "Answer", "text": "Oui. Le Plan Local d'Urbanisme fixe l'emprise au sol maximale, le coefficient de pleine terre, les distances aux limites separatives et la hauteur maximale. Certaines communes d'IDF imposent un retrait de 3 metres minimum. Consultez le PLU en mairie avant tout projet." }
+ }
+ ]
+ }
+ </script>
+</head>
+<body>
+
+<nav>
+ <a href="/" class="logo" aria-label="BatiSpot">
+ <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs><rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/><path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/><rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/><text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#0A1D14" letter-spacing="-0.5">Bati<tspan fill="#0A1D14">Spot</tspan></text></svg>
+ </a>
+ <div class="nav-links">
+ <a href="/">Accueil</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <div class="breadcrumb"><a href="/">Accueil</a> &rsaquo; <a href="/guide-extension-maison-idf">Guides travaux</a> &rsaquo; Extension maison IDF</div>
+ <h1>Extension de maison en Ile-de-France : guide complet 2026</h1>
+<p>Permis de construire, PLU, prix au m2 par type d'extension, et selection d'artisans. Tout pour agrandir votre maison en IDF.</p>
+</div>
+
+<div class="container">
+
+ <div class="card">
+ <span class="badge">Mis a jour avril 2026</span>
+ <h2>Pourquoi agrandir plutot que demenager en IDF</h2>
+ <p>Avec un prix moyen de 5 200 euros/m2 en grande couronne et plus de 10 000 euros/m2 en petite couronne, demenager pour gagner 20 m2 coute souvent plus cher qu'une extension. A surface egale, une extension bien concue ajoute entre 15 et 25 % a la valeur de votre bien, tout en evitant les frais de notaire (7 a 8 % du prix d'achat dans l'ancien).</p>
+ <p>L'Ile-de-France concentre pres de 2 millions de maisons individuelles, dont beaucoup disposent d'un potentiel d'extension inexploite : jardin lateral, combles perdus, ou possibilite de surelevation. Avant de lancer un projet, trois elements a verifier en priorite : le PLU de votre commune, la nature du sol, et les servitudes de voisinage.</p>
+ </div>
+
+ <div class="card">
+ <h2>Prix d'une extension de maison en IDF par type</h2>
+ <table class="price-table">
+ <thead>
+ <tr><th>Type d'extension</th><th>Prix bas / m2</th><th>Prix moyen / m2</th><th>Prix haut / m2</th></tr>
+ </thead>
+ <tbody>
+ <tr><td>Extension laterale parpaing</td><td class="low">1 200 &euro;</td><td class="mid">1 800 &euro;</td><td class="high">2 500 &euro;</td></tr>
+ <tr><td>Extension ossature bois</td><td class="low">1 500 &euro;</td><td class="mid">2 200 &euro;</td><td class="high">2 800 &euro;</td></tr>
+ <tr><td>Surelevation (etage supplementaire)</td><td class="low">2 000 &euro;</td><td class="mid">2 800 &euro;</td><td class="high">3 500 &euro;</td></tr>
+ <tr><td>Veranda aluminium</td><td class="low">800 &euro;</td><td class="mid">1 400 &euro;</td><td class="high">2 000 &euro;</td></tr>
+ <tr><td>Extension container</td><td class="low">900 &euro;</td><td class="mid">1 300 &euro;</td><td class="high">1 800 &euro;</td></tr>
+ <tr><td>Extension acier/verre (architecture contemporaine)</td><td class="low">2 500 &euro;</td><td class="mid">3 200 &euro;</td><td class="high">4 500 &euro;</td></tr>
+ </tbody>
+ </table>
+ <p style="font-size:.78rem;color:var(--sub);margin-top:.8rem;">* Prix TTC incluant fondations, structure, couverture, isolation et finitions standard. Hors raccordements reseaux et amenagement interieur.</p>
+ </div>
+
+ <div class="card">
+ <h2>Les chiffres cles</h2>
+ <div class="info-grid">
+ <div class="info-item"><div class="label">Budget moyen 20 m2</div><div class="value">36 000 - 56 000 &euro;</div></div>
+ <div class="info-item"><div class="label">Duree chantier</div><div class="value">3 a 6 mois</div></div>
+ <div class="info-item"><div class="label">Permis obligatoire</div><div class="value">> 20 m2 (ou 40 m2 en PLU)</div></div>
+ <div class="info-item"><div class="label">Architecte obligatoire</div><div class="value">> 150 m2 total</div></div>
+ </div>
+ </div>
+
+ <div class="cta-section">
+ <h2>Decrivez votre projet, recevez des devis sous 48h</h2>
+ <p>Comparez jusqu'a 3 devis d'artisans verifies pour votre extension en Ile-de-France.</p>
+ <a href="/estimateur" class="cta-btn">Estimer le prix de mon extension &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Les 4 types d'extension en detail</h2>
+
+ <h3>Extension laterale (la plus courante)</h3>
+ <p>L'extension laterale consiste a construire un volume supplementaire au rez-de-chaussee, adosse a un mur existant. C'est la solution la plus repandue en IDF car la plupart des maisons disposent d'un espace au sol. Deux techniques principales : le parpaing (economique, robuste, mais lent a poser) et l'ossature bois (chantier sec, rapide, excellente isolation). Le bois permet de gagner 2 a 3 semaines sur le planning.</p>
+
+ <h3>Surelevation (quand le terrain est trop petit)</h3>
+ <p>La surelevation ajoute un etage partiel ou complet sur la toiture existante. C'est la solution la plus technique : il faut verifier la capacite portante des fondations et des murs, renforcer si necessaire (longrines, micropieux), puis construire l'etage en ossature legere (bois ou acier). Le budget est 30 a 50 % plus eleve qu'une extension au sol, mais la plus-value immobiliere est maximale.</p>
+
+ <h3>Veranda (la plus economique)</h3>
+ <p>La veranda en aluminium offre un excellent rapport cout/surface. En IDF, les modeles a toiture isolee (polycarbonate 32 mm ou panneaux sandwich) permettent une utilisation toute l'annee. Attention cependant : sans chauffage au sol ou pompe a chaleur dediee, le confort hivernal reste limite. Le vitrage a controle solaire est indispensable pour eviter la surchauffe estivale.</p>
+
+ <h3>Extension container (le choix alternatif)</h3>
+ <p>Les containers maritimes reconvertis offrent un rapport prix/surface interessant et un chantier tres rapide (4 a 6 semaines hors fondations). L'isolation par l'exterieur est obligatoire pour eviter la condensation. Verifiez que le PLU de votre commune autorise ce type de construction : certains imposent un aspect exterieur traditionnel.</p>
+ </div>
+
+ <div class="card">
+ <h2>Demarches administratives en IDF</h2>
+ <ul class="factor-list">
+ <li><strong>Consulter le PLU :</strong> chaque commune d'IDF a son propre PLU. Il fixe l'emprise au sol maximale (CES), la hauteur, les retraits aux limites. Disponible en mairie ou sur le Geoportail de l'urbanisme.</li>
+ <li><strong>Declaration prealable (DP) :</strong> obligatoire pour une extension de 5 a 20 m2 (ou 40 m2 en zone urbaine couverte par un PLU, si le total reste sous 150 m2). Delai d'instruction : 1 mois.</li>
+ <li><strong>Permis de construire (PC) :</strong> obligatoire au-dela de 20 m2 (ou 40 m2 en zone PLU) ou si la surface totale depasse 150 m2. Delai : 2 a 3 mois. Architecte DPLG obligatoire si la surface totale depasse 150 m2.</li>
+ <li><strong>Taxe d'amenagement :</strong> calculee sur la surface taxable creee. En IDF, le taux communal varie de 1 a 5 %, et la part departementale est de 2,5 %. Pour 20 m2, comptez 1 500 a 4 000 euros.</li>
+ <li><strong>Assurance dommages-ouvrage :</strong> obligatoire pour toute construction neuve. Cout : 2 a 4 % du montant des travaux. Elle couvre les desordres structurels pendant 10 ans.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Ce qui influence le prix de votre extension</h2>
+ <ul class="factor-list">
+ <li><strong>La nature du sol :</strong> un sol argileux (frequent en IDF, notamment dans les Yvelines et l'Essonne) impose des fondations profondes ou des micropieux. Surcout : 5 000 a 15 000 euros.</li>
+ <li><strong>L'accessibilite du chantier :</strong> une maison en mitoyennete sans acces lateral necessite des moyens de levage speciaux. Surcout : 10 a 20 %.</li>
+ <li><strong>Les raccordements :</strong> eau, electricite, assainissement. Si l'extension accueille une salle de bain ou une cuisine, le raccordement peut couter 2 000 a 5 000 euros supplementaires.</li>
+ <li><strong>Le niveau de finition :</strong> une extension brute (clos et couvert) coute 40 % de moins qu'une extension cles en main avec amenagement interieur complet.</li>
+ <li><strong>La RT 2020 (RE 2020) :</strong> toute extension de plus de 50 m2 doit respecter la RE 2020. En dessous, la RT existant s'applique, avec des exigences d'isolation minimales.</li>
+ </ul>
+ </div>
+
+ <div class="card">
+ <h2>Planning type d'une extension 20 m2</h2>
+ <table class="price-table">
+ <thead><tr><th>Phase</th><th>Duree</th></tr></thead>
+ <tbody>
+ <tr><td>Etude + plans + devis</td><td>2 a 4 semaines</td></tr>
+ <tr><td>Instruction administrative (DP ou PC)</td><td>1 a 3 mois</td></tr>
+ <tr><td>Terrassement + fondations</td><td>1 a 2 semaines</td></tr>
+ <tr><td>Gros oeuvre (murs, charpente, couverture)</td><td>4 a 8 semaines</td></tr>
+ <tr><td>Second oeuvre (isolation, electricite, plomberie)</td><td>3 a 4 semaines</td></tr>
+ <tr><td>Finitions (peinture, sols, menuiseries)</td><td>2 a 3 semaines</td></tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="cta-section">
+ <h2>Pret a agrandir votre maison ?</h2>
+ <p>Decrivez votre projet en 2 minutes et recevez jusqu'a 3 devis d'artisans verifies.</p>
+ <a href="/estimateur" class="cta-btn">Recevoir mes devis gratuits &rarr;</a>
+ </div>
+
+ <div class="trust-box">
+ <h2>Trouvez vos artisans pour votre extension</h2>
+ <p>BatiSpot reference uniquement des artisans verifies en Ile-de-France. Comparez 3 devis gratuits en toute serenite.</p>
+ <a href="/" class="cta-btn-green">Voir les artisans BatiSpot &rarr;</a>
+ </div>
+
+ <div class="card">
+ <h2>Articles lies</h2>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-top:.3rem;">
+ <a href="/prix-extension-maison" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);"><div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Cout extension maison au m2</div><div style="font-size:.76rem;color:var(--sub);">Budget 2026 par type d'extension</div></a>
+ <a href="/guide-amenagement-combles-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Amenagement combles IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Faisabilite, budget et artisans</div>
+ </a>
+ <a href="/combien-coute-architecte-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Prix architecte IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Honoraires, missions, obligations</div>
+ </a>
+ <a href="/quand-renover-vs-demolir-reconstruire" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Renover ou demolir-reconstruire ?</div>
+ <div style="font-size:.76rem;color:var(--sub);">Criteres de decision et couts</div>
+ </a>
+ <a href="/guide-refection-toiture-idf" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Refection toiture IDF</div>
+ <div style="font-size:.76rem;color:var(--sub);">Materiaux, prix au m2, charpente</div>
+ </a>
+ <a href="/estimateur" style="display:block;background:var(--g-soft);border-radius:10px;padding:.9rem 1rem;text-decoration:none;border:1px solid var(--border);">
+ <div style="font-size:.85rem;font-weight:800;color:var(--g1);margin-bottom:.2rem;">Estimer le prix de mes travaux</div>
+ <div style="font-size:.76rem;color:var(--sub);">Calculateur gratuit en 2 minutes</div>
+ </a>
+ </div>
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> — Artisans verifies en Ile-de-France &nbsp;|&nbsp;
+ <a href="/mentions-legales">Mentions legales</a> &nbsp;|&nbsp;
+ <a href="/confidentialite">Confidentialite</a>
+</footer>
+
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

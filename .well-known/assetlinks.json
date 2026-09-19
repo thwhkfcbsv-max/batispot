@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "pro.batispot.app",
+        "sha256_cert_fingerprints": ["E5:EE:34:7E:4F:72:B1:AE:74:1E:A0:B8:56:0C:BF:16:00:D9:39:29:00:79:38:90:FB:C7:DC:A1:18:EB:2A:EB"]
+      }
+    }]

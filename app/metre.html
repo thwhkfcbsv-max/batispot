@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>BatiSpot Studio — Métré</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <link rel="stylesheet" href="./css/app.css?v=v89_2026_09_12_ios16">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background:#FFFFFF; color:#1C2B22; font-family:"Inter",system-ui,sans-serif; margin:0; }
+    .phone-screen { max-width:480px; margin:0 auto; min-height:100vh;
+      min-height: 100svh;
+      min-height: 100dvh;   /* Android : 100vh ignore la barre d URL, la barre du bas passait sous le systeme */ display:flex; flex-direction:column; background:#FFFFFF; }
+    .app-h { background:#FFFFFF; border-bottom:1.5px solid #E7EEEA; padding:10px 16px;
+             display:flex; flex-direction:column; gap:6px; position:sticky; top:0; z-index:50; }
+    .h-row { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .h-back { background:none; border:none; color:#1C2B22; cursor:pointer; padding:4px; display:flex; }
+    .h-title { font-size:15px; font-weight:800; color:#1C2B22; }
+    .scr-body { flex:1; padding:16px; padding-bottom:96px; display:flex; flex-direction:column; gap:14px; }
+    .carte { background:#F7FBF8; border:1px solid #E7EEEA; border-radius:12px; padding:14px; }
+    .btn-x { background:#228B5B; border:1.5px solid #228B5B; color:#FFF; font-weight:800; font-size:14px;
+             padding:14px 16px; border-radius:12px; cursor:pointer; width:100%; font-family:inherit; }
+    .btn-x[disabled] { opacity:.45; cursor:not-allowed; }
+    .btn-sec { background:#FFF; border:1.5px solid #D3E3DA; color:#1C2B22; font-weight:700; font-size:13px;
+               padding:11px 14px; border-radius:10px; cursor:pointer; font-family:inherit; }
+    .stat { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0;
+            border-bottom:1px solid #E7EEEA; }
+    .stat:last-child { border-bottom:none; }
+    .stat b { font-size:20px; font-weight:900; color:#0F5132; }
+    .avert { background:#FFF8E6; border:1px solid #F0D89B; border-radius:10px; padding:12px;
+             font-size:12.5px; line-height:1.5; color:#7A5A10; }
+    .bloque { background:#FDECEC; border:1px solid #F2C2C2; border-radius:10px; padding:14px;
+              font-size:13px; line-height:1.55; color:#8A2B2B; }
+
+    /* Surcouche affichee PAR-DESSUS la camera pendant la session AR.
+       WebXR la rend via dom-overlay : c'est du vrai DOM, pas du WebGL. */
+    #ar-ui { position:fixed; inset:0; display:none; pointer-events:none; z-index:9999;
+             flex-direction:column; justify-content:space-between; }
+    #ar-ui.on { display:flex; }
+    #ar-haut { padding:16px; }
+    #ar-info { background:rgba(15,81,50,.92); color:#FFF; border-radius:12px; padding:12px 14px;
+               font-size:14px; font-weight:700; line-height:1.45; }
+    #ar-bas { padding:16px; display:flex; flex-direction:column; gap:10px; pointer-events:auto; }
+    #ar-mesure { background:rgba(255,255,255,.96); border-radius:12px; padding:12px 14px;
+                 font-size:15px; font-weight:800; color:#0F5132; text-align:center; }
+    .ar-btns { display:flex; gap:10px; }
+    .ar-btns button { flex:1; border:none; border-radius:12px; padding:15px 10px;
+                      font-size:14px; font-weight:800; font-family:inherit; cursor:pointer; }
+    #ar-pose { background:#228B5B; color:#FFF; }
+    #ar-annule { background:rgba(255,255,255,.96); color:#1C2B22; }
+    #ar-fin { background:#0F5132; color:#FFF; }
+    #ar-quit { background:rgba(0,0,0,.55); color:#FFF; }
+  </style>
+</head>
+<body>
+  <div class="phone-screen">
+    <div class="app-h">
+      <div class="h-row">
+        <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;" aria-label="Accueil BatiSpot">
+          <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="lg-m" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+            <rect width="40" height="40" rx="10" y="4" fill="url(#lg-m)"/>
+            <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+            <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+            <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+            <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+            <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+          </svg>
+        </a>
+      </div>
+      <div class="h-row">
+        <button class="h-back" onclick="history.back()" aria-label="Retour">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="h-title" style="flex:1">Studio · Métré</span>
+      </div>
+    </div>
+
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+    <div class="scr-body">
+
+      <!-- Etat 1 : appareil non compatible. (19/09, Moctar) Plus de repli « métré
+           par photo » : une cote estimée n'irait pas dans un devis. On le dit, et
+           on garde le reste de Studio — le ticket et les photos de chantier. -->
+      <div id="etat-non-dispo" style="display:none;">
+        <div class="bloque">
+          <b>Le métré n'est pas disponible sur ce téléphone.</b><br><br>
+          Il demande la réalité augmentée : <b>Chrome sur un Android compatible</b> (certifié par Google),
+          ou <b>l'application BatiSpot sur iPhone</b>. Safari ne la propose pas.<br><br>
+          On ne propose pas d'à-peu-près : une cote estimée n'irait pas dans un devis.
+        </div>
+        <div style="height:14px"></div>
+        <div class="mq-sec" style="margin-bottom:8px;">Ce que vous pouvez faire ici</div>
+        <a href="./finances.html" class="btn-sec" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px;">
+          Photographier un ticket
+        </a>
+        <a href="./photos.html" class="btn-sec" style="display:block;text-align:center;text-decoration:none;">
+          Photos de chantier
+        </a>
+      </div>
+
+      <!-- Etat 2 : pret a mesurer -->
+      <div id="etat-pret" style="display:none;">
+        <div class="carte">
+          <b style="font-size:15px;">Mesurer une pièce</b>
+          <p style="font-size:13px;line-height:1.55;color:#3D5A4E;margin:8px 0 0;">
+            Vous allez viser le sol et poser un point dans chaque angle, puis viser le plafond.
+            Rien à taper : surface, périmètre, hauteur et surface des murs sont mesurés.
+          </p>
+        </div>
+
+        <div class="carte">
+          <b style="font-size:13px;">Pour une mesure juste</b>
+          <ul style="font-size:12.5px;line-height:1.65;color:#3D5A4E;margin:8px 0 0;padding-left:18px;">
+            <li>Balayez d'abord le sol quelques secondes, en bougeant un peu</li>
+            <li>Posez les points <b>dans les angles, au sol</b> — pas sur les murs</li>
+            <li>Un point par angle — inutile de revenir au départ</li>
+            <li>Un sol très uni et sombre est plus difficile à suivre</li>
+          </ul>
+        </div>
+
+        <!-- (19/09, Moctar) Plus de champ « hauteur sous plafond » : elle se mesure au
+             viseur, étape 2 du relevé. La saisie n'existe plus que comme issue de
+             secours explicite (« Terminer sans la hauteur »), marquée non mesurée. -->
+        <button class="btn-x" id="btn-demarrer">Démarrer la mesure</button>
+
+        <!-- Les pièces déjà relevées (13/09/2026). C'est le cœur de la valeur :
+             le client rappelle des mois plus tard pour un autre ouvrage, les
+             cotes sont là, l'artisan ne se redéplace pas. -->
+        <div id="deja-releve" style="display:none;margin-top:22px;">
+          <div class="mq-sec" style="margin-bottom:8px;">Pièces déjà relevées</div>
+          <div id="liste-releves" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+        <div id="ar-diagnostic" style="display:none;margin-top:12px;background:#FDECEC;border:1px solid #F2C2C2;border-radius:10px;padding:12px;font-size:12px;color:#8A2B2B;word-break:break-word"></div>
+      </div>
+
+      <!-- Etat 3 : resultat -->
+      <div id="etat-resultat" style="display:none;">
+        <div class="carte">
+          <div class="stat"><span>Surface au sol</span><b id="r-sol">—</b></div>
+          <div class="stat"><span>Périmètre</span><b id="r-perim">—</b></div>
+          <div class="stat"><span>Surface des murs</span><b id="r-murs">—</b></div>
+          <div class="stat"><span>Plinthes</span><b id="r-plinthes">—</b></div>
+        </div>
+        <div id="r-avert" class="avert" style="display:none;"></div>
+        <p style="font-size:12px;color:#5A7268;line-height:1.5;margin:0;">
+          Vérifiez ces chiffres avant de chiffrer. Vous êtes dans la pièce — vous voyez ce que l'appareil ne voit pas.
+        </p>
+        <!-- Nommer et ranger (13/09/2026). Un relevé qui n'est rattaché à
+             personne se perd : c'est le chantier qui en fait une pièce du
+             dossier client, relisible des mois plus tard. -->
+        <div class="carte" style="margin-top:4px;">
+          <label style="font-size:12px;font-weight:800;color:#0F5132;display:block;">Quelle pièce ?</label>
+          <input type="text" id="piece-nom" value="Pièce" class="form-input"
+                 style="font-size:16px;font-weight:700;margin-top:4px;" placeholder="Salle de bain, séjour, cuisine…">
+          <label style="font-size:12px;font-weight:800;color:#0F5132;display:block;margin-top:12px;">Dossier client</label>
+          <select id="piece-chantier" class="form-input" style="font-size:16px;margin-top:4px;">
+            <option value="">Sans chantier pour l'instant</option>
+          </select>
+          <p style="font-size:12px;color:#5A7268;margin:6px 0 0;line-height:1.5;">
+            Rangé dans le dossier, le relevé se retrouve pour un devis de travaux supplémentaires.
+          </p>
+        </div>
+
+        <button class="btn-x" id="btn-enregistrer">Enregistrer dans le dossier client</button>
+        <div id="msg-enregistre" style="display:none;font-size:13px;font-weight:700;color:#1B7049;text-align:center;margin:-4px 0 0;"></div>
+        <button class="btn-sec" id="btn-utiliser">Utiliser dans un devis</button>
+        <button class="btn-sec" id="btn-refaire">Refaire la mesure</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Surcouche AR -->
+  <div id="ar-ui">
+    <div id="ar-haut"><div id="ar-info">Balayez lentement le sol…</div></div>
+    <div id="ar-bas">
+      <div id="ar-mesure">0 point posé</div>
+      <div class="ar-btns">
+        <button id="ar-annule" type="button">Annuler le dernier</button>
+        <button id="ar-pose" type="button">Poser un point</button>
+      </div>
+      <div class="ar-btns">
+        <button id="ar-hauteur" type="button" style="background:rgba(255,255,255,.96);color:#0F5132">Poser le point du plafond</button>
+      </div>
+      <div class="ar-btns" id="ar-bloc-sans-hauteur" style="display:none;">
+        <button id="ar-sans-hauteur" type="button" style="background:transparent;color:#FFF;font-weight:600;text-decoration:underline;">Terminer sans la hauteur (2,50 m, non mesurée)</button>
+      </div>
+      <div class="ar-btns">
+        <button id="ar-quit" type="button">Quitter</button>
+        <button id="ar-fin" type="button">Terminer</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { aireAuSol, perimetreAuSol, surfaceMurs, qualifierReleve, fmtM, fmtM2 }
+      from './js/metre-geometrie.js';
+
+    const $ = (id) => document.getElementById(id);
+    const montrer = (id) => {
+      ['etat-non-dispo', 'etat-pret', 'etat-resultat'].forEach((e) => {
+        $(e).style.display = e === id ? 'block' : 'none';
+      });
+    };
+
+    // ── Detection de compatibilite ────────────────────────────────────────
+    // WebXR immersive-ar n'existe aujourd'hui que sur Chrome Android (ARCore).
+    // Safari iOS ne l'implemente pas : on le dit franchement plutot que de
+    // laisser l'artisan appuyer sur un bouton qui echouerait.
+    let arDispo = false;
+    (async () => {
+      try {
+        arDispo = !!(navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));
+      } catch (_) { arDispo = false; }
+      montrer(arDispo ? 'etat-pret' : 'etat-non-dispo');
+      // (19/09) Recensement : cet écran détecte lui-même, donc il journalise
+      // lui-même — sinon un artisan qui arrive ici directement n'est jamais compté.
+      import('./js/metre-ar.js').then((M) => M.capacitesMetre()).catch(() => {});
+    })();
+
+    // ── Session AR ────────────────────────────────────────────────────────
+    let session = null, refSpace = null, hitSource = null, gl = null;
+    let dernierHit = null;           // pose du reticule a l'image courante
+    const points = [];               // points poses, en metres, repere monde
+    let suiviPerdu = false;
+    let hauteurMesuree = null;   // renseignee si l'artisan a vise le plafond          // vrai si le hit-test a decroche APRES la 1re pose
+
+    function majAffichage() {
+      const n = points.length;
+      if (n === 0)      $('ar-mesure').textContent = '0 point posé';
+      else if (n < 3)   $('ar-mesure').textContent = `${n} point${n > 1 ? 's' : ''} posé${n > 1 ? 's' : ''} — il en faut 3 minimum`;
+      else if (!hauteurMesuree) $('ar-mesure').textContent = `${n} points — ${fmtM2(aireAuSol(points))} · étape 2 : le plafond`;
+      else              $('ar-mesure').textContent = `${n} points — ${fmtM2(aireAuSol(points))} — hauteur ${hauteurMesuree.toFixed(2)} m`;
+      // (19/09) Terminer attend la hauteur MESURÉE. L'issue de secours reste
+      // visible et nommée : « sans la hauteur », donc non mesurée, et le devis le dira.
+      $('ar-fin').disabled = n < 3 || !hauteurMesuree;
+      $('ar-bloc-sans-hauteur').style.display = (n >= 3 && !hauteurMesuree) ? '' : 'none';
+      $('ar-annule').disabled = n === 0;
+    }
+
+    async function demarrer() {
+      try {
+        session = await navigator.xr.requestSession('immersive-ar', {
+          requiredFeatures: ['hit-test'],
+          optionalFeatures: ['dom-overlay'],
+          domOverlay: { root: $('ar-ui') },
+        });
+      } catch (e) {
+        // Message HONNETE : l'ancien parlait d'autorisation alors que la cause
+        // la plus frequente est l'absence de « Google Play Services pour la RA »
+        // (ARCore). Dans ce cas Chrome refuse la session SANS demander la camera,
+        // et l'utilisateur cherche un refus d'autorisation qui n'existe pas.
+        const nom = (e && e.name) || '';
+        let msg;
+        if (nom === 'NotSupportedError') {
+          msg = "Votre téléphone ne propose pas la mesure en réalité augmentée.\n\n"
+              + "Le plus souvent, il manque « Google Play Services pour la RA » (ARCore). "
+              + "Cherchez-le dans le Play Store, installez-le, puis revenez ici.";
+        } else if (nom === 'NotAllowedError' || nom === 'SecurityError') {
+          msg = "L'accès à la caméra a été refusé.\n\n"
+              + "Dans Chrome : menu ⋮ → Paramètres → Paramètres des sites → Caméra, "
+              + "puis autorisez batispot.pro.";
+        } else if (nom === 'InvalidStateError') {
+          msg = "Une session de mesure est déjà ouverte. Fermez-la puis réessayez.";
+        } else {
+          msg = "La mesure n'a pas pu démarrer.\n\nDétail technique : " + (nom || 'inconnu')
+              + "\n" + ((e && e.message) || '');
+        }
+        alert(msg);
+        // On affiche aussi le detail a l'ecran : un utilisateur ne peut pas
+        // nous recopier une alerte, mais il peut nous envoyer une capture.
+        const z = document.getElementById('ar-diagnostic');
+        if (z) { z.style.display = 'block'; z.textContent = 'Diagnostic : ' + (nom || '?') + ' — ' + ((e && e.message) || ''); }
+        return;
+      }
+
+      points.length = 0;
+      suiviPerdu = false;
+      hauteurMesuree = null;
+      majAffichage();
+      $('ar-ui').classList.add('on');
+
+      const canvas = document.createElement('canvas');
+      gl = canvas.getContext('webgl', { xrCompatible: true });
+      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
+
+      refSpace = await session.requestReferenceSpace('local');
+      const viewerSpace = await session.requestReferenceSpace('viewer');
+      hitSource = await session.requestHitTestSource({ space: viewerSpace });
+
+      session.addEventListener('end', () => {
+        $('ar-ui').classList.remove('on');
+        session = null; hitSource = null; dernierHit = null;
+      });
+
+      session.requestAnimationFrame(boucle);
+    }
+
+    function boucle(t, frame) {
+      if (!session) return;
+      session.requestAnimationFrame(boucle);
+
+      const hits = frame.getHitTestResults(hitSource);
+      if (hits.length > 0) {
+        const pose = hits[0].getPose(refSpace);
+        dernierHit = pose ? pose.transform.position : null;
+        $('ar-pose').disabled = false;
+        $('ar-info').textContent = points.length === 0
+          ? 'Visez le premier angle, au sol, puis posez un point.'
+          : (points.length < 3 || hauteurMesuree)
+            ? 'Angle suivant. Un point par angle, inutile de revenir au départ.'
+            : 'Tous les angles ? Maintenant visez le plafond, à l\'aplomb, et posez son point.';
+      } else {
+        // Pas de surface detectee : on le dit tout de suite plutot que de
+        // laisser croire que l'appareil mesure. Sol uni, sombre ou trop pres.
+        dernierHit = null;
+        // Un decrochage APRES la premiere pose invalide le releve : les points
+        // d'avant et d'apres ne sont plus dans le meme repere.
+        if (points.length > 0) suiviPerdu = true;
+        $('ar-pose').disabled = true;
+        $('ar-info').textContent = 'Aucune surface détectée — bougez lentement et visez le sol.';
+      }
+    }
+
+    $('ar-pose').addEventListener('click', () => {
+      if (!dernierHit) return;
+      points.push({ x: dernierHit.x, y: dernierHit.y, z: dernierHit.z });
+      majAffichage();
+    });
+
+    // Hauteur sous plafond mesuree, plutot que saisie a la main.
+    // On prend l'altitude (Y) du dernier point pose au sol comme reference,
+    // et l'altitude du point vise au plafond. La difference est la hauteur.
+    // Y est l'axe vertical du repere WebXR : c'est une soustraction, pas une
+    // estimation.
+    $('ar-hauteur').addEventListener('click', () => {
+      if (!dernierHit) { $('ar-info').textContent = 'Visez le plafond, puis appuyez.'; return; }
+      if (!points.length) { $('ar-info').textContent = "Posez d'abord un point au sol."; return; }
+      const solY = points.reduce((s, p) => s + p.y, 0) / points.length;
+      const h = Math.abs(dernierHit.y - solY);
+      if (h < 1.5 || h > 6) {
+        $('ar-info').textContent = `Mesure douteuse (${h.toFixed(2)} m). Visez bien le plafond, à l'aplomb.`;
+        return;
+      }
+      hauteurMesuree = h;
+      $('ar-info').textContent = `Hauteur sous plafond : ${h.toFixed(2)} m`;
+      $('ar-mesure').textContent = `${points.length} points — hauteur ${h.toFixed(2)} m`;
+    });
+
+    $('ar-annule').addEventListener('click', () => { points.pop(); majAffichage(); });
+    $('ar-quit').addEventListener('click', () => session && session.end());
+
+    $('ar-fin').addEventListener('click', () => {
+      if (points.length < 3 || !hauteurMesuree) return;
+      const releve = points.map((p) => ({ ...p }));
+      if (session) session.end();
+      afficherResultat(releve);
+    });
+    // Issue de secours (19/09) : on termine sans hauteur mesurée. `hauteurMesuree`
+    // reste null → le résultat et le devis portent « saisie, non mesurée ».
+    $('ar-sans-hauteur').addEventListener('click', () => {
+      if (points.length < 3) return;
+      const releve = points.map((p) => ({ ...p }));
+      if (session) session.end();
+      afficherResultat(releve);
+    });
+
+    // Le relevé affiché, gardé pour l'enregistrement et le devis.
+    let releveCourant = null;
+
+    // ── Resultat ──────────────────────────────────────────────────────────
+    function afficherResultat(pts) {
+      // La hauteur mesuree prime sur la saisie manuelle.
+      const hauteur = hauteurMesuree || 2.5;   // 2,50 = issue de secours, marquée non mesurée
+      const sol = aireAuSol(pts);
+      const perim = perimetreAuSol(pts);
+      const murs = surfaceMurs(perim, hauteur);
+
+      $('r-sol').textContent = fmtM2(sol);
+      $('r-perim').textContent = fmtM(perim);
+      $('r-murs').textContent = fmtM2(murs);
+      const lbl = document.querySelector('#r-murs')?.closest('.stat')?.querySelector('span');
+      if (lbl) lbl.textContent = hauteurMesuree
+        ? `Surface des murs (hauteur mesurée ${hauteur.toFixed(2)} m)`
+        : `Surface des murs (hauteur saisie ${hauteur.toFixed(2)} m)`;
+      $('r-plinthes').textContent = fmtM(perim);
+
+      // On n'annonce jamais un chiffre faux en silence : si le contour ne se
+      // referme pas, la derive du suivi s'est accumulee et la surface est
+      // douteuse. L'artisan doit le savoir avant de chiffrer.
+      const f = qualifierReleve(pts.length, suiviPerdu, sol);
+      const av = $('r-avert');
+      if (f.message) {
+        av.style.display = 'block';
+        av.innerHTML = (f.fiable ? '' : '<b>Mesure à vérifier.</b> ') + f.message;
+      } else {
+        av.style.display = 'none';
+      }
+
+      // Ce que le devis lit, et ce qu'on archivera : même objet, deux usages.
+      releveCourant = {
+        surfaceSol: +sol.toFixed(2),
+        perimetre: +perim.toFixed(2),
+        hauteurSousPlafond: +hauteur.toFixed(2),
+        hauteurSupposee: !hauteurMesuree,
+        surfaceMurs: +murs.toFixed(2),
+        plinthes: +perim.toFixed(2),
+        points: pts.map((q) => ({ x: q.x, y: q.y, z: q.z })),
+        source: 'points',
+        fiabilite: f.fiable ? 'bonne' : 'douteuse',
+        suiviPerdu,
+      };
+
+      sessionStorage.setItem('batispot_metre', JSON.stringify({
+        surface_sol: releveCourant.surfaceSol,
+        perimetre: releveCourant.perimetre,
+        hauteur,
+        hauteur_mesuree: !!hauteurMesuree,
+        surface_murs: releveCourant.surfaceMurs,
+        plinthes: releveCourant.plinthes,
+        points: pts.length,
+        fiable: f.fiable,
+        suivi_perdu: suiviPerdu,
+      }));
+
+      const nom = document.getElementById('piece-nom');
+      if (nom && !nom.value.trim()) nom.value = 'Pièce';
+      const m = document.getElementById('msg-enregistre');
+      if (m) m.style.display = 'none';
+      const be = document.getElementById('btn-enregistrer');
+      if (be) { be.disabled = false; be.textContent = 'Enregistrer dans le dossier client'; }
+
+      montrer('etat-resultat');
+    }
+
+    // ── Archiver : le relevé devient une pièce du dossier client ──────────
+    // Même écriture que le chemin natif iOS (app-actions.js:releverPiece) :
+    // table releves_piece, plan 2D coté en SVG. Le plan est en SVG et pas en
+    // 3D parce qu'il finit chez le client, souvent sur son téléphone — un SVG
+    // s'affiche partout et s'imprime.
+    async function chargerChantiers() {
+      try {
+        const { listChantiers } = await import('./js/supabase.js');
+        const l = await listChantiers();
+        const sel = document.getElementById('piece-chantier');
+        if (!sel || !l) return;
+        l.slice(0, 60).forEach((c) => {
+          const o = document.createElement('option');
+          o.value = c.id;
+          o.textContent = (c.client_name || 'Client') + (c.adresse ? ' — ' + c.adresse : '');
+          sel.appendChild(o);
+        });
+      } catch (e) { console.warn('[metre] chantiers non chargés', e); }
+    }
+
+    async function enregistrerReleve() {
+      if (!releveCourant) return;
+      const btn = document.getElementById('btn-enregistrer');
+      const msg = document.getElementById('msg-enregistre');
+      btn.disabled = true; btn.textContent = 'Enregistrement…';
+      try {
+        const { supabase } = await import('./js/supabase.js');
+        const { planSVG } = await import('./js/metre-plan.js');
+        const { data: proId } = await supabase.rpc('mon_entreprise');
+        const chantierId = document.getElementById('piece-chantier').value || null;
+        const piece = (document.getElementById('piece-nom').value || 'Pièce').trim();
+        const { error } = await supabase.from('releves_piece').insert({
+          pro_id: proId,
+          chantier_id: chantierId,
+          piece,
+          methode: 'points',
+          surface_sol: releveCourant.surfaceSol,
+          perimetre: releveCourant.perimetre,
+          hauteur: releveCourant.hauteurSousPlafond,
+          hauteur_supposee: releveCourant.hauteurSupposee,
+          donnees: releveCourant,
+          plan_svg: planSVG(releveCourant),
+        });
+        if (error) throw error;
+        msg.textContent = chantierId
+          ? '✓ ' + piece + ' rangée dans le dossier client.'
+          : '✓ ' + piece + ' enregistrée. Rattachez-la à un chantier plus tard.';
+        msg.style.display = 'block';
+        btn.textContent = 'Enregistré';
+        chargerReleves();
+      } catch (e) {
+        // Le relevé est déjà fait : on ne fait pas refaire le tour de la pièce.
+        btn.disabled = false; btn.textContent = 'Réessayer l\'enregistrement';
+        msg.textContent = "Pas pu enregistrer — notez les cotes, elles restent à l'écran.";
+        msg.style.color = '#B45309'; msg.style.display = 'block';
+        console.warn('[metre] enregistrement impossible', e);
+      }
+    }
+
+    // ── Relire : les pièces déjà relevées, réutilisables ──────────────────
+    async function chargerReleves() {
+      try {
+        const { supabase } = await import('./js/supabase.js');
+        const { data, error } = await supabase
+          .from('releves_piece')
+          .select('id, piece, surface_sol, perimetre, hauteur, created_at, chantier_id, donnees, chantiers(client_name)')
+          .order('created_at', { ascending: false })
+          .limit(12);
+        if (error || !data || !data.length) return;
+        const zone = document.getElementById('liste-releves');
+        const bloc = document.getElementById('deja-releve');
+        zone.replaceChildren();
+        data.forEach((r) => {
+          const c = document.createElement('div');
+          c.className = 'carte';
+          c.style.cssText = 'display:flex;align-items:center;gap:12px;padding:11px 13px;';
+          const g = document.createElement('div');
+          g.style.cssText = 'flex:1;min-width:0;';
+          const t = document.createElement('b');
+          t.style.cssText = 'display:block;font-size:14px;';
+          t.textContent = r.piece || 'Pièce';
+          const d = document.createElement('small');
+          d.style.cssText = 'display:block;color:#5A7268;font-size:12px;margin-top:2px;';
+          const qui = (r.chantiers && r.chantiers.client_name) ? r.chantiers.client_name : 'sans chantier';
+          d.textContent = `${Number(r.surface_sol || 0).toFixed(2).replace('.', ',')} m² · ${qui} · `
+            + new Date(r.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+          g.append(t, d);
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'btn-sec';
+          b.style.cssText = 'flex:none;padding:8px 12px;font-size:12.5px;margin:0;';
+          b.textContent = 'Chiffrer';
+          b.addEventListener('click', () => {
+            // Réutilisation pour des travaux supplémentaires : on repart des
+            // cotes archivées, sans retourner sur place.
+            const o = r.donnees || {};
+            sessionStorage.setItem('batispot_metre', JSON.stringify({
+              surface_sol: Number(r.surface_sol) || o.surfaceSol || 0,
+              perimetre: Number(r.perimetre) || o.perimetre || 0,
+              hauteur: Number(r.hauteur) || o.hauteurSousPlafond || 2.5,
+              hauteur_mesuree: !o.hauteurSupposee,
+              surface_murs: o.surfaceMurs || 0,
+              plinthes: o.plinthes || Number(r.perimetre) || 0,
+              points: (o.points || []).length,
+              fiable: o.fiabilite !== 'douteuse',
+              suivi_perdu: !!o.suiviPerdu,
+              piece: r.piece || 'Pièce',
+            }));
+            window.location.href = './devis.html?source=metre';
+          });
+          c.append(g, b);
+          zone.appendChild(c);
+        });
+        bloc.style.display = 'block';
+      } catch (e) { console.warn('[metre] relevés non chargés', e); }
+    }
+
+    $('btn-enregistrer').addEventListener('click', enregistrerReleve);
+    chargerChantiers();
+    chargerReleves();
+
+    $('btn-demarrer').addEventListener('click', demarrer);
+    $('btn-refaire').addEventListener('click', () => montrer('etat-pret'));
+    $('btn-utiliser').addEventListener('click', () => {
+      // Le devis lit sessionStorage : meme principe que le scan de ticket.
+      window.location.href = './devis.html?source=metre';
+    });
+  </script>
+  <!-- Barre du bas : app-nav.js la remplit (Devis · Chantiers · Planning ·
+       Finances · Messages). Elle manquait, l'écran datant du 04/09. -->
+  <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+
+  <script src="/js/update-detector.js" defer></script>
+  <!-- Restauré le 13/09/2026 — l'écran avait disparu le 04/09 dans un commit
+       d'interface. Même ordre que devis.html : app-nav.js pose la barre et la
+       bibliothèque d'icônes, nav-roles.js filtre ensuite selon le rôle, donc
+       APRÈS lui. -->
+  <script src="./js/config.js"></script>
+  <!-- Correcteur d'orthographe natif sur tous les champs de saisie (15/09/2026). -->
+  <script src="./js/app-saisie.js?v=2026_09_15"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_08a" defer></script>
+  <script src="./js/app-assistant.js?v=2026_09_12e"></script>
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_16_course"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_09_16_course"></script>
+</body>
+</html>
