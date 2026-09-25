@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<!-- Google tag (gtag.js) -->
+<script>/*bs-internal*/(function(){try{var q=new URLSearchParams(location.search);if(q.get('internal')==='1')localStorage.setItem('bs-internal','1');else if(q.get('internal')==='0')localStorage.removeItem('bs-internal');if(localStorage.getItem('bs-internal')==='1')window['ga-disable-G-5Z1GK4VJ4E']=true;}catch(e){}})();</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5Z1GK4VJ4E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5Z1GK4VJ4E');
+</script>
+
+<script src="/js/analytics.js" defer></script>
+<script src="/js/geo-ip.js" defer></script>
+<script src="/js/attribution.js"></script>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="icon" type="image/svg+xml" href="favicon.svg">
+ <title>Baromètre des passoires thermiques en Île-de-France — juillet 2026 | BatiSpot</title>
+ <link rel="canonical" href="https://batispot.pro/barometre-passoires-thermiques-idf">
+ <meta name="description" content="Données originales BatiSpot : à Paris, une passoire thermique G se vend 9 % moins cher au m² qu'une F (9 222 € vs 10 142 €/m², 284 ventes analysées). Profil type, périodes de construction, surfaces — chiffres ADEME et DVF, juillet 2026." />
+ <meta property="og:title" content="Baromètre des passoires thermiques en Île-de-France — juillet 2026" />
+ <meta property="og:description" content="À Paris, une passoire G se vend 9 % moins cher au m² qu'une F. 284 ventes réelles analysées (DVF × DPE ADEME). Le baromètre BatiSpot." />
+ <meta property="og:type" content="article" />
+ <meta property="og:url" content="https://batispot.pro/barometre-passoires-thermiques-idf" />
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "Dataset",
+ "name": "Baromètre des Passoires Thermiques en Île-de-France (DPE F & G)",
+ "description": "Jeu de données original croisant les transactions immobilières réelles de la DGFIP (DVF) et la base des diagnostics de performance énergétique de l'ADEME pour mesurer la décote des passoires thermiques à Paris et en Île-de-France.",
+ "url": "https://batispot.pro/barometre-passoires-thermiques-idf",
+ "keywords": ["passoires thermiques", "DPE F G", "prix m2 paris DVF", "décote immobilière DPE", "rénovation énergétique IDF"],
+ "creator": {
+ "@type": "Organization",
+ "name": "BatiSpot",
+ "url": "https://batispot.pro"
+ },
+ "spatialCoverage": "Île-de-France, France",
+ "temporalCoverage": "2024/2026",
+ "isAccessibleForFree": true
+ }
+ </script>
+ <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1F2937; background: #F8FAFA; line-height: 1.6; }
+:root { --g1:#1A6B45; --g2:#228B5B; --g3:#4CAF82; --g-soft:#EBF7F1; --cta:#2A9D6E; --cta-h:#1A6B45; --text:#1C2B22; --sub:#5A7268; --border:rgba(34,139,91,0.12); --white:#fff; --orange:#F97316; }
+nav { background:var(--white); border-bottom:1px solid var(--border); padding:0 5%; height:60px; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-size:1.4rem; font-weight:900; color:var(--g1); text-decoration:none; display:flex; align-items:center; gap:.5rem; }
+.nav-links { display:flex; gap:1.5rem; align-items:center; }
+.nav-links a { color:var(--sub); text-decoration:none; font-size:.85rem; font-weight:500; }
+.nav-links a:hover { color:var(--g2); }
+.hero { background:linear-gradient(135deg,var(--g1),var(--g2)); padding:3rem 5% 2.5rem; text-align:center; color:#fff; }
+.hero h1 { font-size:1.85rem; font-weight:900; margin-bottom:.75rem; }
+.hero p { opacity:.9; font-size:1rem; max-width:660px; margin:0 auto; }
+.container { max-width:840px; margin:0 auto; padding:2.5rem 1.2rem 3rem; }
+.answer { background:var(--g-soft); border-left:4px solid var(--g2); border-radius:0 12px 12px 0; padding:1.2rem 1.4rem; margin-bottom:1.8rem; font-size:1.02rem; }
+.answer strong { color:var(--g1); }
+.card { background:var(--white); border-radius:16px; padding:2rem; box-shadow:0 4px 24px rgba(0,0,0,0.06); margin-bottom:1.8rem; }
+.card h2 { font-size:1.25rem; font-weight:800; color:var(--g1); margin-bottom:1rem; }
+.price-table { width:100%; border-collapse:collapse; font-size:.9rem; margin:.5rem 0; }
+.price-table th { background:var(--g-soft); color:var(--g1); padding:.7rem 1rem; text-align:left; font-weight:700; }
+.price-table td { padding:.6rem 1rem; border-bottom:1px solid var(--border); }
+.price-table tr:last-child td { border-bottom:none; }
+.info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; margin-top:.8rem; }
+.info-item { background:var(--g-soft); border-radius:12px; padding:1rem; }
+.info-item .label { font-size:.78rem; color:var(--sub); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+.info-item .value { font-size:1.35rem; font-weight:800; color:var(--g1); margin-top:.2rem; }
+.cta-section { background:linear-gradient(135deg,var(--g1),var(--g2)); border-radius:16px; padding:2.2rem; text-align:center; color:#fff; margin-bottom:1.8rem; }
+.cta-section h2 { font-size:1.4rem; font-weight:900; margin-bottom:.5rem; color:#fff; }
+.cta-section p { opacity:.9; margin-bottom:1.4rem; font-size:.95rem; }
+.cta-btn { display:inline-block; background:var(--orange); color:#fff; padding:.85rem 2rem; border-radius:12px; font-size:1rem; font-weight:800; text-decoration:none; }
+.methodo { font-size:.82rem; color:var(--sub); background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1rem 1.2rem; margin-bottom:1.8rem; }
+footer { background:#12271C; color:rgba(255,255,255,.75); text-align:center; padding:1.4rem 5%; font-size:.8rem; }
+footer a { color:#7ED4A8; text-decoration:none; margin:0 .4rem; }
+</style>
+</head>
+<body>
+<nav>
+ <a class="logo" href="/"> BatiSpot</a>
+ <div class="nav-links">
+ <a href="/simulateur-aides">Simulateur d'aides</a>
+ <a href="/estimateur">Estimateur</a>
+ <a href="/">Espace artisan</a>
+ </div>
+</nav>
+
+<div class="hero">
+ <h1>Baromètre BatiSpot des passoires thermiques en Île-de-France</h1>
+<p>Ce que les données officielles disent vraiment des logements classés F et G : à quel prix ils se vendent, qui ils sont, où ils se concentrent. Édition juillet 2026.</p>
+</div>
+
+<div class="container">
+
+ <p style="font-size:.78rem;color:var(--sub);margin:0 0 1rem">Dernière mise à jour : <strong>14 juillet 2026</strong> · Données : ADEME (observatoire DPE) &amp; DVF (data.gouv.fr) · Analyse : BatiSpot</p>
+
+ <div class="answer">
+ <strong>Le chiffre clé :</strong> à Paris, une passoire thermique classée <strong>G se vend 9&nbsp;% moins cher au m² qu'une classée F</strong> — 9&nbsp;222&nbsp;€/m² contre 10&nbsp;142&nbsp;€/m² (médianes calculées sur 284 ventes réelles enregistrées entre juillet et décembre 2025, croisement DVF × DPE ADEME par BatiSpot).
+ </div>
+
+ <div class="card">
+ <h2>À quel prix se vend une passoire thermique à Paris ?</h2>
+ <div class="info-grid">
+ <div class="info-item"><div class="label">Prix médian au m² (étiquette F)</div><div class="value">10 142 €/m²</div></div>
+ <div class="info-item"><div class="label">Prix médian au m² (étiquette G)</div><div class="value">9 222 €/m²</div></div>
+ <div class="info-item"><div class="label">Décote G vs F</div><div class="value">−9 %</div></div>
+ <div class="info-item"><div class="label">Prix de vente médian</div><div class="value">320 150 €</div></div>
+ <div class="info-item"><div class="label">Surface médiane vendue</div><div class="value">34 m²</div></div>
+ <div class="info-item"><div class="label">Part de surfaces &lt; 30 m²</div><div class="value">41 %</div></div>
+ </div>
+ <p style="font-size:.88rem;color:var(--sub);margin-top:1rem">Sur les 284 ventes parisiennes analysées, les arrondissements les plus représentés sont le 18e (40 ventes), le 15e (34) et le 17e (25). La passoire thermique vendue à Paris est très majoritairement un <strong>petit appartement ancien</strong> — le profil type du studio locatif touché par l'interdiction de location des logements G (loi Climat et Résilience).</p>
+ </div>
+
+ <div class="card">
+ <h2>Quel est le profil type d'une passoire thermique en Île-de-France ?</h2>
+ <p style="font-size:.92rem;margin-bottom:.8rem">Sur un échantillon de 8&nbsp;000 diagnostics F et G d'Île-de-France (1&nbsp;000 par département, données ADEME) :</p>
+ <table class="price-table">
+ <tr><th>Période de construction</th><th>Part des passoires F/G</th></tr>
+ <tr><td>Avant 1948</td><td><strong>56 %</strong></td></tr>
+ <tr><td>1948 – 1974</td><td><strong>38 %</strong></td></tr>
+ <tr><td>Après 1975</td><td>6 %</td></tr>
+ </table>
+ <p style="font-size:.92rem;margin-top:.8rem"><strong>94 % des passoires thermiques franciliennes datent d'avant 1975</strong>, c'est-à-dire d'avant la première réglementation thermique française. La surface habitable médiane est de <strong>49 m²</strong>, et <strong>39 % font moins de 40 m²</strong> : la passoire francilienne est d'abord un petit logement ancien, pas une maison.</p>
+ </div>
+
+ <div class="card">
+ <h2>Pourquoi ces chiffres comptent pour les propriétaires</h2>
+ <p style="font-size:.92rem">Depuis le 1er janvier 2025, les logements classés G sont interdits à la location (loi Climat et Résilience) ; les F suivront au 1er janvier 2028. La décote observée de 9&nbsp;% entre F et G à Paris donne un ordre de grandeur de ce que le marché retranche déjà : sur un bien à 320&nbsp;000&nbsp;€ (notre prix médian), cela représente près de <strong>29&nbsp;000&nbsp;€</strong>. Une rénovation énergétique bien menée coûte souvent moins que cette décote, et elle est finançable par MaPrimeRénov', les CEE et l'éco-PTZ.</p>
+ </div>
+
+ <div class="cta-section">
+ <h2>Propriétaire d'un logement F ou G en Île-de-France ?</h2>
+ <p>Calculez vos aides MaPrimeRénov' 2026 en 2 minutes, puis recevez jusqu'à 3 devis d'artisans RGE vérifiés, gratuit et sans engagement.</p>
+ <a class="cta-btn" href="/simulateur-aides">Simuler mes aides →</a>
+ </div>
+
+ <div class="methodo">
+ <strong>Méthodologie.</strong> Prix de vente : base DVF (Demandes de Valeurs Foncières, data.gouv.fr), mutations de juillet à décembre 2025, croisées par adresse avec les DPE de l'observatoire ADEME ; 284 ventes parisiennes exploitables après filtrage (prix au m² entre 500 et 25&nbsp;000&nbsp;€). Profil des passoires : échantillon ADEME de 8&nbsp;000 DPE F/G d'Île-de-France (tirage équilibré de 1&nbsp;000 diagnostics par département, 500&nbsp;F + 500&nbsp;G, extraction mai 2026), les répartitions par période et surface sont calculées sur cet échantillon, pas sur le parc exhaustif. Les médianes limitent l'effet des valeurs extrêmes. Ces chiffres sont librement citables avec la mention « Baromètre BatiSpot, juillet 2026 ».
+ </div>
+
+</div>
+
+
+<footer>
+ <a href="/">BatiSpot</a> · <a href="/simulateur-aides">Simulateur d'aides 2026</a> · <a href="/prix-peintre">Prix travaux IDF</a> · <a href="/mentions-legales">Mentions légales</a><br>
+ © 2026 BatiSpot · Île-de-France
+</footer>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Baromètre des passoires thermiques en Île-de-France — juillet 2026","datePublished":"2026-07-14","dateModified":"2026-07-14","author":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"publisher":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"description":"À Paris, une passoire thermique G se vend 9 % moins cher au m² qu'une F (9 222 € vs 10 142 €/m², 284 ventes analysées). Données originales BatiSpot croisant DVF et DPE ADEME.","mainEntityOfPage":"https://batispot.pro/barometre-passoires-thermiques-idf"},{"@type":"Dataset","name":"Baromètre BatiSpot des passoires thermiques en Île-de-France (juillet 2026)","description":"Croisement des ventes immobilières DVF (juillet-décembre 2025) avec les DPE F/G de l'observatoire ADEME : prix médians au m² des passoires thermiques vendues à Paris, profil par période de construction et surface sur 8 000 DPE d'Île-de-France.","creator":{"@type":"Organization","name":"BatiSpot","url":"https://batispot.pro"},"temporalCoverage":"2025-07/2025-12","spatialCoverage":"Île-de-France, France","license":"https://creativecommons.org/licenses/by/4.0/","isBasedOn":["https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/","https://observatoire-dpe-audit.ademe.fr/"]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"À quel prix se vend une passoire thermique à Paris en 2025-2026 ?","acceptedAnswer":{"@type":"Answer","text":"Sur 284 ventes réelles analysées (juillet-décembre 2025), le prix médian est de 10 142 €/m² pour un logement classé F et 9 222 €/m² pour un logement classé G, soit une décote de 9 % pour le G. Le prix de vente médian est de 320 150 € pour une surface médiane de 34 m². Source : Baromètre BatiSpot, croisement DVF × DPE ADEME."}},{"@type":"Question","name":"Quel est le profil type d'une passoire thermique en Île-de-France ?","acceptedAnswer":{"@type":"Answer","text":"Un petit logement ancien : 56 % des passoires F/G ont été construites avant 1948 et 38 % entre 1948 et 1974, soit 94 % avant la première réglementation thermique. La surface médiane est de 49 m² et 39 % font moins de 40 m². Échantillon : 8 000 DPE F/G d'Île-de-France (ADEME)."}},{"@type":"Question","name":"Un logement G perd-il de la valeur par rapport à un F ?","acceptedAnswer":{"@type":"Answer","text":"Oui, le marché parisien applique déjà une décote : −9 % au m² en médiane entre un G et un F (9 222 € vs 10 142 €/m² sur les ventes de juillet à décembre 2025). Sur un bien au prix médian de 320 000 €, cela représente environ 29 000 € — souvent plus que le coût d'une rénovation énergétique financée par MaPrimeRénov'."}}]}]}</script>
+<script>
+(function(){
+ function _loadChat(){
+ if(window._chatLoaded) return; window._chatLoaded=true;
+ var s=document.createElement("script");
+ s.src="/chat-widget.js?v=8";
+ document.body.appendChild(s);
+ }
+ ["click","scroll","keydown","touchstart"].forEach(function(e){
+ document.addEventListener(e,_loadChat,{once:true,passive:true});
+ });
+ setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/clarity-init.js" defer></script>
+</body>
+</html>

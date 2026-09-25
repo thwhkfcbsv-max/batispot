@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "BatiSpot Pro - Chiffrage & Devis BTP",
+  "name_for_model": "batispot_btp_estimator",
+  "description_for_human": "Estimez vos travaux du bâtiment, vérifiez les normes DTU et générez des devis détaillés au juste prix.",
+  "description_for_model": "Assistant expert BTP pour chiffrer des chantiers (peinture, salle de bain, électricité, carrelage, isolation), vérifier la conformité aux normes DTU / NF C 15-100 et trouver des artisans certifiés en France.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://batispot.pro/.well-known/openapi.yaml"
+  },
+  "logo_url": "https://batispot.pro/favicon.svg",
+  "contact_email": "contact@batispot.pro",
+  "legal_info_url": "https://batispot.pro/mentions-legales.html"
+}

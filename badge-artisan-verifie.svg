@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="Artisan vérifié BatiSpot">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#228B5B"/>
+      <stop offset="100%" stop-color="#4CAF82"/>
+    </linearGradient>
+  </defs>
+  <rect width="220" height="56" rx="12" fill="#ffffff" stroke="#228B5B" stroke-opacity="0.25"/>
+  <rect x="8" y="8" width="40" height="40" rx="9" fill="url(#g)"/>
+  <path d="M28 21 L21.5 26 L21.5 34 L34.5 34 L34.5 26 Z" fill="none" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+  <rect x="26.4" y="30" width="3.2" height="4" rx="0.8" fill="white" opacity="0.92"/>
+  <path d="M40.5 12.5 l2.2 2.2 4.3-4.4" fill="none" stroke="#ffffff" stroke-width="0" />
+  <text x="58" y="25" font-family="Inter, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="800" fill="#0F5132">ARTISAN VÉRIFIÉ</text>
+  <text x="58" y="42" font-family="Inter, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#4B6B5A">Kbis · Assurance · Décennale</text>
+  <g transform="translate(196, 20)">
+    <circle cx="8" cy="8" r="9" fill="#228B5B"/>
+    <path d="M4.5 8.5 l2.4 2.4 4.6-5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
