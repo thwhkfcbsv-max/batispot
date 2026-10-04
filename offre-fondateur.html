@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="fr"><head>
+<!-- ⚠️ EN TOUT PREMIER, ET SANS `defer` (02/09/2026).
+     Deux defauts cumules le rendaient inoperant : `defer` le faisait
+     s'executer APRES le parsing, et il etait place APRES le bloc gtag.
+     Le garde-fou de consentement arrivait donc systematiquement trop tard,
+     ce qui rendait fausse la phrase « aucun cookie de mesure n'est depose
+     avant votre accord ». Il doit poser son mode de consentement AVANT que
+     le moindre traceur ne s'execute — donc ici, premiere ligne du <head>. -->
+<script src="/js/consent.js"></script>
+<meta charset="UTF-8"><title>Tarifs BatiSpot Pro</title>
+<meta http-equiv="refresh" content="0; url=/tarifs"><link rel="canonical" href="https://batispot.pro/tarifs">
+<meta name="robots" content="noindex"><script src="/js/analytics.js" defer></script>
+</head><body><p>Nos tarifs ont évolué : <a href="/tarifs">batispot.pro/tarifs</a></p><script src="/js/clarity-init.js" defer></script>
+</body></html>

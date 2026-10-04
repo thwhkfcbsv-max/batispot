@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<title>BatiSpot — Vos travaux entre de bonnes mains | Île-de-France</title>
+<meta name="description" content="Plateforme vérifiée pour vos travaux en Île-de-France. Artisans certifiés (KBIS, RC Pro, Décennale), devis gratuits sous 48h, suivi de chantier sur smartphone.">
+
+<!-- PWA install (iOS + Android) -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0F5132">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BatiSpot">
+<meta name="application-name" content="BatiSpot">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<!-- Inter (depuis fichiers locaux téléchargés via Claude Design export) -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var.woff2" crossorigin>
+
+<style>
+@font-face { font-family: 'Inter'; src: url('/fonts/inter-var.woff2') format('woff2-variations'), url('/fonts/inter-var.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+/* === Tokens charte BatiSpot — palette client (cohérente avec site live #1A6B45) === */
+:root {
+  --g1:#1A6B45; --g2:#228B5B; --g3:#4CAF82;
+  --g-soft:#EBF7F1; --g-cream:#F7FBF8;
+  --cta:#166534; --cta-h:#0f4a2f;
+  --text:#1C2B22; --sub:#3D5A4E;
+  --border:rgba(34,139,91,0.12);
+  --shadow:rgba(26,107,69,0.08);
+  --white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1F2937;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid #228B5B;outline-offset:3px;border-radius:4px}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* NAV */
+.bs-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 3%;height:72px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.bs-nav .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+.bs-nav .nav-links{display:flex;gap:1.6rem;list-style:none;flex-shrink:0}
+.bs-nav .nav-links a{text-decoration:none;color:var(--sub);font-weight:500;font-size:.92rem;transition:color .2s;white-space:nowrap}
+.bs-nav .nav-links a:hover{color:var(--g1)}
+.bs-nav .nav-switch{display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.bs-nav .nav-pro-link{font-size:.85rem;font-weight:600;color:var(--sub);text-decoration:none;transition:color .2s;white-space:nowrap}
+.bs-nav .nav-pro-link:hover{color:var(--g2)}
+.bs-nav .nav-cta{background:var(--cta);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:10px;font-weight:800;font-size:.9rem;cursor:pointer;text-decoration:none;transition:background .2s,transform .1s;white-space:nowrap}
+.bs-nav .nav-cta:hover{background:var(--cta-h);transform:translateY(-1px)}
+@media(max-width:1100px){
+  .bs-nav .nav-pro-link{display:none}
+}
+@media(max-width:900px){
+  .bs-nav .nav-links li:nth-child(n+4){display:none}
+}
+
+/* HERO */
+.bs-hero{min-height:88vh;background:radial-gradient(ellipse at 80% 20%,rgba(34,139,91,0.08) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(76,175,130,0.06) 0%,transparent 50%),linear-gradient(180deg,var(--g-cream) 0%,#fff 100%);display:flex;align-items:center;padding:80px 5% 70px}
+.bs-hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.bs-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:var(--g-soft);color:var(--g1);padding:.35rem 1rem;border-radius:20px;font-size:.78rem;font-weight:700;border:1px solid var(--border);margin-bottom:1.2rem}
+.bs-eyebrow::before{content:'●';color:var(--g3);font-size:.5rem}
+.bs-hero-text h1{font-size:clamp(2rem,3.8vw,3.1rem);font-weight:900;color:var(--text);line-height:1.12;margin-bottom:1rem;letter-spacing:-.02em}
+.bs-hero-text h1 em{font-style:normal;color:var(--g2)}
+.bs-hero-text>p{font-size:1.05rem;color:var(--sub);margin-bottom:2rem;max-width:440px;line-height:1.7}
+.bs-hero-trust{display:flex;flex-direction:column;gap:.55rem;margin-bottom:2.2rem}
+.trust-item{display:flex;align-items:center;gap:.7rem;font-size:.88rem;color:var(--sub)}
+.trust-check{width:22px;height:22px;border-radius:50%;background:var(--g-soft);border:1.5px solid var(--g3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g2);font-size:.7rem;font-weight:900}
+.bs-hero-stats{display:flex;gap:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.stat .num{display:block;font-size:1.6rem;font-weight:900;color:var(--g2)}
+.stat .lbl{font-size:.75rem;color:var(--sub);text-transform:uppercase;letter-spacing:.5px}
+
+/* FORM CARD */
+.form-card{background:#fff;border-radius:24px;padding:2.2rem 2rem;box-shadow:0 20px 60px rgba(26,107,69,0.10),0 2px 8px rgba(0,0,0,0.04);border:1px solid var(--border)}
+.form-card-header{margin-bottom:1.4rem}
+.form-card-header .pulse{display:inline-flex;align-items:center;gap:.4rem;background:#F0FDF4;border:1px solid rgba(34,139,91,0.2);padding:.25rem .7rem;border-radius:999px;font-size:.75rem;font-weight:700;color:#0F5132;margin-bottom:.6rem}
+.form-card-header .pulse span{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,0.18);display:inline-block;animation:bs-pulse 2s infinite}
+@keyframes bs-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.65;transform:scale(.92)}}
+.form-card-header h2{font-size:1.3rem;font-weight:900;color:var(--text);margin-bottom:.2rem}
+.form-card-header p{font-size:.83rem;color:var(--sub)}
+.fg{margin-bottom:.8rem}
+.fg label{display:block;font-size:.76rem;font-weight:700;color:var(--text);margin-bottom:.3rem;letter-spacing:.2px}
+.fg input,.fg select,.fg textarea{width:100%;padding:.65rem .95rem;border:1.5px solid #E5E7EB;border-radius:10px;font-size:.88rem;color:var(--text);background:#FAFAF9;transition:border-color .2s,box-shadow .2s;outline:none;font-family:inherit}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--g3);box-shadow:0 0 0 3px rgba(76,175,130,0.12);background:#fff}
+.fg textarea{resize:vertical;min-height:72px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.btn-submit{width:100%;padding:.9rem;background:var(--cta);color:#fff;border:none;border-radius:12px;font-size:.97rem;font-weight:900;cursor:pointer;transition:background .2s,transform .1s;box-shadow:0 6px 20px rgba(42,157,110,0.25);margin-top:.3rem}
+.btn-submit:hover{background:var(--cta-h);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.55;cursor:wait}
+.form-note{text-align:center;font-size:.75rem;color:var(--sub);margin-top:.7rem}
+.form-success{background:var(--g-soft);color:var(--g1);border:1.5px solid rgba(76,175,130,0.3);padding:1rem;border-radius:10px;text-align:center;font-weight:800;font-size:.95rem;display:none}
+.form-success.active{display:block}
+.form-card.submitted form{display:none}
+
+/* SECTIONS */
+section{padding:88px 5%}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-head{text-align:center;max-width:580px;margin:0 auto 3.5rem}
+.tag{display:inline-block;background:var(--g-soft);color:var(--g1);padding:.28rem .85rem;border-radius:20px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.7rem;border:1px solid var(--border)}
+.section-head h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:900;color:var(--text);line-height:1.2;margin-bottom:.7rem;letter-spacing:-.015em}
+.section-head p{color:var(--sub);font-size:.96rem}
+
+/* POURQUOI */
+.bs-pourquoi{background:var(--g-soft)}
+.pourquoi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.pourquoi-card{background:#fff;border-radius:20px;padding:2rem 1.5rem;box-shadow:0 4px 20px var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.pourquoi-card:hover{transform:translateY(-5px);box-shadow:0 14px 38px rgba(26,107,69,0.12)}
+.p-icon{width:56px;height:56px;border-radius:16px;background:var(--g-soft);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem}
+.pourquoi-card h3{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.45rem}
+.pourquoi-card p{font-size:.85rem;color:var(--sub);line-height:1.6}
+
+/* SERVICES */
+.bs-services{background:#fff}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem}
+.svc{background:var(--g-cream);border-radius:16px;padding:1.4rem 1.2rem;text-align:center;border:1px solid var(--border);transition:background .2s,transform .2s;text-decoration:none;color:inherit;display:block}
+.svc:hover{background:var(--g-soft);transform:translateY(-3px)}
+.svc-ico{margin-bottom:.6rem;display:block}
+.svc h3{font-size:.88rem;font-weight:800;color:var(--text);margin-bottom:.3rem}
+.svc p{font-size:.78rem;color:var(--sub)}
+
+/* PARCOURS */
+.bs-parcours{background:var(--g-soft)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem}
+.step{text-align:center;padding:1rem}
+.step-num{width:50px;height:50px;border-radius:50%;background:var(--cta);color:#fff;font-size:1.1rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 6px 18px rgba(42,157,110,0.28)}
+.step h3{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
+.step p{font-size:.83rem;color:var(--sub)}
+
+/* CTA FINAL */
+.bs-cta-final{background:linear-gradient(135deg,#0d3320 0%,var(--g1) 50%,var(--g2) 100%);text-align:center;padding:88px 5%;color:#fff}
+.bs-cta-final h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:#fff;margin-bottom:1rem;letter-spacing:-.015em}
+.bs-cta-final p{font-size:.98rem;color:rgba(255,255,255,0.75);max-width:460px;margin:0 auto 2rem}
+.cta-final-btn{display:inline-block;background:#fff;color:var(--g1);padding:.95rem 2.6rem;border-radius:14px;font-size:1rem;font-weight:900;text-decoration:none;transition:transform .15s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.cta-final-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,0.2)}
+
+/* FOOTER */
+.bs-footer{background:#0a1c10;color:rgba(255,255,255,0.72);padding:2.5rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.8rem}
+.bs-footer .f-logo{font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none}
+.bs-footer a{color:rgba(255,255,255,0.65);text-decoration:none}
+.bs-footer a:hover{color:#fff}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+
+/* Hamburger mobile + dropdown menu */
+.nav-burger{display:none;background:none;border:none;cursor:pointer;width:42px;height:42px;align-items:center;justify-content:center;color:var(--g1);border-radius:8px;flex-shrink:0}
+.nav-burger:hover{background:var(--g-soft)}
+.nav-burger svg{width:26px;height:26px}
+.nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(15,31,23,.08);z-index:99;animation:nav-slide-down .2s ease}
+.nav-mobile.open{display:block}
+.nav-mobile a{display:block;padding:14px 20px;font-size:15px;font-weight:600;color:var(--text);text-decoration:none;border-bottom:1px solid var(--border)}
+.nav-mobile a:hover{background:var(--g-cream);color:var(--g1)}
+.nav-mobile a.nav-mobile-cta{background:var(--cta);color:#fff;font-weight:800;text-align:center;border-bottom:none;margin:14px 20px;padding:14px 20px;border-radius:10px}
+.nav-mobile a.nav-mobile-cta:hover{background:var(--cta-h);color:#fff}
+@keyframes nav-slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){
+  .bs-hero-inner{grid-template-columns:1fr;gap:2.5rem}
+  .form-row{grid-template-columns:1fr}
+  .bs-nav{padding:0 4%;height:60px;gap:.5rem}
+  .bs-nav .nav-links,.bs-nav .nav-switch{display:none}
+  .bs-nav .logo svg{width:130px;height:34px}
+  .nav-burger{display:flex}
+}
+</style>
+  <!-- Open Graph + Twitter Card -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BatiSpot">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="BatiSpot — Vos travaux entre de bonnes mains">
+  <meta property="og:description" content="Plateforme de mise en relation : décrivez votre projet, recevez 3 propositions d'artisans IDF en 48h. Gratuit, sans engagement.">
+  <meta property="og:url" content="https://batispot.pro/">
+  <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BatiSpot — Vos travaux entre de bonnes mains">
+  <meta name="twitter:description" content="Plateforme de mise en relation : décrivez votre projet, recevez 3 propositions d'artisans IDF en 48h. Gratuit, sans engagement.">
+  <meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+<script src="/js/consent.js" defer></script>
+<script src="/js/analytics.js" defer></script>
+<script src="/js/clarity-init.js" defer></script>
+<script src="/js/cro-widgets.js" defer></script>
+<script src="/js/abtest.js" defer></script>
+  <!-- Meta Pixel (BatiSpot) -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','27074948062111464');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=27074948062111464&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://batispot.pro/#org",
+      "name": "BatiSpot",
+      "url": "https://batispot.pro",
+      "logo": "https://batispot.pro/og/og-default.png",
+      "description": "BatiSpot est une plateforme française qui met en relation les particuliers ayant un projet de travaux avec des artisans vérifiés (Kbis, RC Pro, décennale) en Île-de-France. Devis gratuits sous 48h pour les particuliers ; abonnement artisan 39 € TTC/mois sans commission.",
+      "email": "contact@batispot.pro",
+      "areaServed": { "@type": "AdministrativeArea", "name": "Île-de-France" },
+      "sameAs": ["https://www.instagram.com/batispot", "https://www.facebook.com/batispot"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://batispot.pro/#site",
+      "url": "https://batispot.pro",
+      "name": "BatiSpot",
+      "publisher": { "@id": "https://batispot.pro/#org" },
+      "inLanguage": "fr-FR"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que BatiSpot ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "BatiSpot est une plateforme française de mise en relation entre particuliers et artisans vérifiés en Île-de-France. Les particuliers déposent gratuitement leur projet de travaux et reçoivent jusqu'à 3 devis d'artisans contrôlés sous 48h." }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien coûte BatiSpot pour un particulier ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "0 €. Le service est entièrement gratuit pour les particuliers : dépôt de la demande, réception des devis et suivi de chantier, sans engagement." }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien coûte BatiSpot pour un artisan ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "39 € TTC par mois (tarif fondateur), avec 0 % de commission sur les chantiers signés, contre 10 à 20 % de commission chez la plupart des plateformes concurrentes." }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment les artisans BatiSpot sont-ils vérifiés ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Chaque artisan doit fournir un extrait Kbis de moins de 3 mois, une attestation RC Pro et une garantie décennale en cours de validité. Les documents sont contrôlés manuellement." }
+        },
+        {
+          "@type": "Question",
+          "name": "BatiSpot couvre-t-il toute la France ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Non, BatiSpot opère exclusivement en Île-de-France (75, 77, 78, 91, 92, 93, 94, 95) pour garantir la proximité et la qualité des mises en relation." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="bs-nav">
+  <a href="/" class="logo" aria-label="BatiSpot — Accueil">
+    <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/>
+      </linearGradient></defs>
+      <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+      <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+      <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#1A6B45" letter-spacing="-0.5">Bati<tspan fill="#4CAF82">Spot</tspan></text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#pourquoi">Pourquoi BatiSpot</a></li>
+    <li><a href="#parcours">Comment ça marche</a></li>
+    <li><a href="/estimateur">Estimer mes travaux</a></li>
+    <li><a href="/blog/">Guides &amp; conseils</a></li>
+  </ul>
+  <div class="nav-switch">
+    <a href="/app/client-login.html" class="nav-pro-link">Mon espace</a>
+    <a href="/artisan" class="nav-pro-link" style="font-size:.8rem;color:#9CA3AF">Artisan ?</a>
+    <a href="#devis" class="nav-cta">Déposer mon projet</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile" aria-label="Menu mobile">
+  <a href="#pourquoi">Pourquoi BatiSpot</a>
+  <a href="#parcours">Comment ça marche</a>
+  <a href="/estimateur">Estimer mes travaux</a>
+  <a href="/dpe-f-g-louer-renovation-idf">DPE F ou G : louer en 2026</a>
+  <a href="/blog/">Guides &amp; conseils</a>
+  <a href="/app/client-login.html">Mon espace client</a>
+  <a href="/artisan">Vous êtes artisan ?</a>
+  <a href="/app/login.html" style="color:#6B7280">Mon espace artisan</a>
+  <a href="#devis" class="nav-mobile-cta">Déposer mon projet</a>
+</div>
+
+<script>
+  (function(){
+    const btn = document.getElementById('nav-burger');
+    const menu = document.getElementById('nav-mobile');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') { menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+    });
+  })();
+</script>
+
+<main>
+<!-- ── HERO + FORM ── -->
+<section id="hero" class="bs-hero">
+  <div class="bs-hero-inner">
+    <div class="bs-hero-text">
+      <div class="bs-eyebrow">Plateforme vérifiée — artisans certifiés</div>
+      <h1>Vos travaux entre<br>de <em>bonnes mains</em></h1>
+      <p>Décrivez votre projet, recevez des devis d'artisans vérifiés près de chez vous et suivez votre chantier en temps réel depuis votre téléphone.</p>
+      <div class="bs-hero-trust">
+        <div class="trust-item"><div class="trust-check">✓</div>Artisans vérifiés — KBIS, RC Pro, Décennale</div>
+        <div class="trust-item"><div class="trust-check">✓</div>Devis gratuit, sans engagement</div>
+        <div class="trust-item"><div class="trust-check">✓</div>Réponse sous 48h dans votre département</div>
+        <div class="trust-item"><div class="trust-check">✓</div>Suivi chantier par photos dans l'application</div>
+        <div class="trust-item"><div class="trust-check">✓</div>Coffre-fort numérique — devis &amp; factures</div>
+      </div>
+      <div class="bs-hero-stats">
+        <div class="stat"><span class="num">0 €</span><span class="lbl">Service gratuit</span></div>
+        <div class="stat"><span class="num">&lt; 48h</span><span class="lbl">Premiers devis</span></div>
+        <div class="stat"><span class="num">260+</span><span class="lbl">Guides experts</span></div>
+      </div>
+    </div>
+    <div class="form-card" id="devis">
+      <div class="form-card-header">
+        <div class="pulse"><span></span>Artisans en ligne · Île-de-France</div>
+        <h2>Déposez votre projet gratuitement</h2>
+        <p>Recevez vos premiers devis sous 48h</p>
+      </div>
+      <form id="devis-form" autocomplete="on">
+        <div class="form-row">
+          <div class="fg"><label>Prénom *</label><input name="prenom" placeholder="Jean" required></div>
+          <div class="fg"><label>Nom *</label><input name="nom" placeholder="Dupont" required></div>
+        </div>
+        <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="jean@email.com" required></div>
+        <div class="fg"><label>Téléphone *</label><input type="tel" name="tel" placeholder="06 00 00 00 00" required></div>
+        <div class="fg">
+          <label>Type de travaux *</label>
+          <select name="type" id="type-select" aria-label="Type de travaux" required>
+            <option value="">— Choisir votre projet —</option>
+            <option>Rénovation complète</option>
+            <option>Plomberie</option>
+            <option>Salle de bain</option>
+            <option>Électricité</option>
+            <option>Cuisine (pose)</option>
+            <option>Peinture</option>
+            <option>Isolation</option>
+            <option>Fuite d'eau</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Code postal *</label><input name="cp" placeholder="75001" maxlength="5" required></div>
+          <div class="fg">
+            <label>Budget estimé</label>
+            <select name="budget" id="budget-select" aria-label="Budget estimé">
+              <option value="">— Fourchette —</option>
+              <option>Moins de 1 000 €</option>
+              <option>1 000 – 5 000 €</option>
+              <option>5 000 – 15 000 €</option>
+              <option>15 000 – 50 000 €</option>
+              <option>Plus de 50 000 €</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Décrivez votre projet</label><textarea name="desc" placeholder="Superficie, état actuel, délai souhaité…"></textarea></div>
+        <button type="submit" class="btn-submit" id="btn-submit">Recevoir mes devis gratuits →</button>
+        <p class="form-note">Données sécurisées · Aucun engagement · Gratuit</p>
+      </form>
+      <div class="form-success" id="form-success">
+        ✓ Parfait ! Des artisans de votre zone vous contactent sous 48h.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── POURQUOI ── -->
+<section id="pourquoi" class="bs-pourquoi">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Pourquoi BatiSpot</span>
+      <h2>La sérénité, du début à la fin</h2>
+      <p>BatiSpot cadre votre projet, sélectionne les bons artisans et vous accompagne jusqu'à la réception des travaux.</p>
+    </div>
+    <div class="pourquoi-grid">
+      <div class="pourquoi-card">
+        <div class="p-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Artisans certifiés</h3>
+        <p>Chaque artisan est vérifié avant d'accéder à la plateforme : KBIS, assurance RC Pro, Décennale et pièce d'identité du gérant.</p>
+      </div>
+      <div class="pourquoi-card">
+        <div class="p-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Réponse en 48h</h3>
+        <p>Votre demande est transmise aux artisans de votre secteur. Vous recevez vos premiers devis sous 24 heures.</p>
+      </div>
+      <div class="pourquoi-card">
+        <div class="p-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <h3>Suivi en temps réel</h3>
+        <p>Votre artisan poste des photos à chaque étape clé du chantier directement dans l'application BatiSpot.</p>
+      </div>
+      <div class="pourquoi-card">
+        <div class="p-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
+        <h3>Coffre-fort numérique</h3>
+        <p>Tous vos documents — devis, factures, plans, attestations — sont centralisés et accessibles 48h/24.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services" class="bs-services">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Tous types de travaux</span>
+      <h2>Un artisan pour chaque besoin</h2>
+      <p>Du dépannage d'urgence à la rénovation complète — BatiSpot couvre l'ensemble des corps de métier.</p>
+    </div>
+    <div class="services-grid">
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="16" rx="1"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/><path d="M1 14h22"/></svg></span><h3>Gros œuvre</h3><p>Construction, extension, maçonnerie</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><h3>Rénovation</h3><p>Peinture, cloisons, revêtements</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span><h3>Salle de bain</h3><p>Plomberie, carrelage, agencement</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><h3>Électricité</h3><p>Mise aux normes, tableau, domotique</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg></span><h3>Isolation / Chauffage</h3><p>Combles, PAC, chaudière, clim</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><polyline points="4 22 12 16 20 22"/></svg></span><h3>Toiture</h3><p>Réfection, charpente, zinguerie</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg></span><h3>Extérieur</h3><p>Terrasse, clôture, portail, allée</p></a>
+      <a href="#devis" class="svc"><span class="svc-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#228B5B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span><h3>Dépannage</h3><p>Fuite, panne, urgences</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PARCOURS ── -->
+<section id="parcours" class="bs-parcours">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Simple &amp; rapide</span>
+      <h2>3 étapes, et c'est parti</h2>
+      <p>De la demande à la réception des travaux, BatiSpot gère tout depuis l'application.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Décrivez votre projet</h3><p>Type de travaux, photos du chantier, adresse et délais — en moins de 2 minutes.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Comparez les devis</h3><p>Des artisans certifiés de votre région vous envoient leurs offres sous 48h.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Suivez votre chantier</h3><p>Photos d'avancement, messagerie, documents — tout dans votre poche.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section class="bs-cta-final">
+  <h2>Prêt à démarrer votre projet ?</h2>
+  <p>Décrivez vos travaux en 2 minutes, recevez vos premiers devis sous 48h.</p>
+  <a href="#devis" class="cta-final-btn">Déposer mon projet gratuitement →</a>
+</section>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="bs-footer">
+  <a href="/" class="f-logo">BatiSpot</a>
+  <div class="footer-links">
+    <a href="/cgu">CGU</a>
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/confidentialite">Confidentialité</a>
+    <a href="mailto:contact@batispot.pro">contact@batispot.pro</a>
+  </div>
+  <span style="color:rgba(255,255,255,0.5)">© 2026 BatiSpot · Île-de-France</span>
+</footer>
+
+<script>
+// Form submit → Edge Function notify-admin (capture fiable du lead + email admin)
+// (remplace l'ancien /api/discovery-lead inexistant qui perdait les leads)
+document.getElementById('devis-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Envoi…';
+  const p = Object.fromEntries(new FormData(e.target).entries());
+  const SB = 'https://cisniwhaiydazdpzvino.supabase.co';
+  const KEY = 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1';
+  try {
+    await fetch(`${SB}/functions/v1/notify-admin`, {
+      method: 'POST',
+      headers: { 'apikey': KEY, 'authorization': `Bearer ${KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        subject: `Nouveau lead HOME — ${p.type || 'travaux'} — ${p.cp || ''}`,
+        data: {
+          prenom: p.prenom || '', nom: p.nom || '',
+          telephone: p.tel || '', email: p.email || '',
+          type_travaux: p.type || '', code_postal: p.cp || '',
+          budget: p.budget || '', description: p.desc || '',
+          source: 'formulaire accueil',
+        },
+        reply_to: p.email || undefined,
+      }),
+    });
+  } catch (err) {}
+  // + CAPTURE dans demandes_devis (le lead n'est plus perdu ; dispatch auto vers les artisans ACTIFS)
+  try {
+    await fetch(`${SB}/rest/v1/demandes_devis`, {
+      method: 'POST',
+      headers: { 'apikey': KEY, 'authorization': `Bearer ${KEY}`, 'content-type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        client_id: null,
+        adresse: 'Non précisée',
+        client_name: ((p.prenom || '') + ' ' + (p.nom || '')).trim() || null,
+        client_email: (p.email || '').trim().toLowerCase() || null,
+        client_phone: (p.tel || '').trim() || null,
+        code_postal: (p.cp || '').trim() || null,
+        type_travaux: p.type || null,
+        description: p.desc || null,
+        budget_estime: p.budget || null,
+      }),
+    });
+  } catch (err) {}
+  if (window.fbq) fbq('track', 'Lead');  // conversion Meta Pixel
+  document.querySelector('.form-card').classList.add('submitted');
+  document.getElementById('form-success').classList.add('active');
+});
+</script>
+
+<!-- Chat widget BatiSpot (lazy load 5s ou au 1er event) -->
+<script>
+(function(){
+  function _loadChat(){
+    if(window._chatLoaded) return; window._chatLoaded=true;
+    var s=document.createElement("script");
+    s.src="/chat-widget.js?v=3";
+    document.body.appendChild(s);
+  }
+  ["click","scroll","keydown","touchstart"].forEach(function(e){
+    document.addEventListener(e,_loadChat,{once:true,passive:true});
+  });
+  setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/update-detector.js" defer></script>
+</body>
+</html>

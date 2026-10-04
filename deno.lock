@@ -1,0 +1,25 @@
+{
+  "version": "5",
+  "redirects": {
+    "https://esm.sh/@supabase/supabase-js@2": "https://esm.sh/@supabase/supabase-js@2.112.3"
+  },
+  "remote": {
+    "https://deno.land/std@0.203.0/async/delay.ts": "a6142eb44cdd856b645086af2b811b1fcce08ec06bb7d50969e6a872ee9b8659",
+    "https://deno.land/std@0.203.0/http/server.ts": "1b2403b3c544c0624ad23e8ca4e05877e65380d9e0d75d04957432d65c3d5f41",
+    "https://deno.land/x/zipjs@v2.7.32/index.js": "7c71926e0c9618e48a22d9dce701131704fd3148a1d2eefd5dba1d786c846a5f",
+    "https://esm.sh/@supabase/supabase-js@2.112.3": "f6b9130984301066587e8917dfab3b3d60be47dc966bd3d04c733bc9423c1cf9",
+    "https://esm.sh/@supabase/supabase-js@2.45.0": "36ae57c3f2dc3f94fd122a846b40a87114d29bb2f47e910cb46bee5575febf2e"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:better-sqlite3@^12.9.0",
+        "npm:cors@^2.8.6",
+        "npm:express@^4.22.1",
+        "npm:helmet@^7.2.0",
+        "npm:morgan@^1.10.1",
+        "npm:nodemon@^3.1.0"
+      ]
+    }
+  }
+}

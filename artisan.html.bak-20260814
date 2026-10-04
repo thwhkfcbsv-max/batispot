@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>BatiSpot Pro — Des chantiers qualifiés, sans commission | Île-de-France</title>
+<link rel="canonical" href="https://batispot.pro/artisan">
+<meta name="description" content="Rejoignez BatiSpot Pro : chantiers qualifiés en IDF, 0% de commission, paiement sécurisé, satisfait ou remboursé 15 jours. 39€/mois, sans engagement.">
+
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var.woff2" crossorigin>
+
+<style>
+@font-face { font-family: 'Inter'; src: url('/fonts/inter-var.woff2') format('woff2-variations'), url('/fonts/inter-var.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+
+:root {
+  --g1:#1A6B45; --g2:#228B5B; --g3:#4CAF82;
+  --g-soft:#EBF7F1; --g-cream:#F7FBF8;
+  --cta:#166534; --cta-h:#0f4a2f;
+  --text:#1C2B22; --sub:#3D5A4E;
+  --border:rgba(34,139,91,0.12);
+  --shadow:rgba(26,107,69,0.08);
+  --white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1F2937;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* === NAV === */
+.bs-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 3%;height:72px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.bs-nav .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+.bs-nav .pro-tag{background:var(--g1);color:#fff;font-size:.6rem;font-weight:900;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;margin-left:.4rem;vertical-align:middle}
+.bs-nav .nav-links{display:flex;gap:1.6rem;list-style:none;flex-shrink:0}
+.bs-nav .nav-links a{text-decoration:none;color:var(--sub);font-weight:500;font-size:.92rem;white-space:nowrap;transition:color .2s}
+.bs-nav .nav-links a:hover{color:var(--g1)}
+.bs-nav .nav-switch{display:flex;align-items:center;gap:1rem;flex-shrink:0}
+.bs-nav .nav-pro-link{font-size:.85rem;font-weight:600;color:var(--sub);text-decoration:none;white-space:nowrap}
+.bs-nav .nav-cta{background:var(--cta);color:#fff;padding:.6rem 1.4rem;border-radius:10px;font-weight:800;font-size:.9rem;text-decoration:none;white-space:nowrap;transition:background .2s,transform .1s}
+.bs-nav .nav-cta:hover{background:var(--cta-h);transform:translateY(-1px)}
+@media(max-width:1100px){.bs-nav .nav-pro-link{display:none}}
+@media(max-width:900px){.bs-nav .nav-links li:nth-child(n+4){display:none}}
+
+/* === HERO PRO === */
+.pro-hero{position:relative;background:linear-gradient(135deg,#0d3320 0%,var(--g1) 50%,var(--g2) 100%);padding:80px 5% 90px;color:#fff;overflow:hidden}
+.pro-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,0.06) 0%,transparent 50%),radial-gradient(circle at 20% 80%,rgba(76,175,130,0.15) 0%,transparent 50%);pointer-events:none}
+.pro-hero-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;position:relative;z-index:2}
+.pro-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(8px);padding:.4rem 1rem;border-radius:20px;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:1.4rem}
+.pro-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,0.3);animation:bs-pulse 2s infinite}
+@keyframes bs-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.65;transform:scale(.92)}}
+.pro-hero h1{font-size:clamp(2rem,4vw,3.4rem);font-weight:900;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.2rem}
+.pro-hero h1 em{font-style:normal;color:#FCD34D}
+.pro-hero-text > p{font-size:1.1rem;color:rgba(255,255,255,0.85);margin-bottom:2rem;max-width:480px}
+.pro-hero-trust{display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
+.pro-trust-item{display:flex;align-items:center;gap:.7rem;font-size:.92rem;color:rgba(255,255,255,0.92)}
+.pro-trust-check{width:24px;height:24px;border-radius:50%;background:#FCD34D;color:#0d3320;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;flex-shrink:0}
+.pro-hero-cta{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn-pro-primary{background:#FCD34D;color:#0d3320;padding:.95rem 2rem;border-radius:12px;font-weight:900;font-size:1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:transform .15s,box-shadow .2s;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+.btn-pro-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,0.3)}
+.btn-pro-secondary{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);backdrop-filter:blur(8px);color:#fff;padding:.95rem 1.6rem;border-radius:12px;font-weight:800;font-size:.95rem;text-decoration:none;transition:background .2s}
+.btn-pro-secondary:hover{background:rgba(255,255,255,0.18)}
+
+/* === Pro form card === */
+.pro-form-card{background:#fff;border-radius:24px;padding:2.2rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,0.18);color:var(--text)}
+.pro-form-header{margin-bottom:1.4rem}
+.pro-form-header h2{font-size:1.3rem;font-weight:900;color:var(--g1);margin-bottom:.3rem}
+.pro-form-header p{font-size:.88rem;color:var(--sub)}
+.pro-form-header .pulse-tag{display:inline-flex;align-items:center;gap:.4rem;background:#F0FDF4;border:1px solid rgba(34,139,91,0.2);padding:.25rem .7rem;border-radius:999px;font-size:.7rem;font-weight:700;color:var(--g1);margin-bottom:.6rem}
+.pro-form-header .pulse-tag::before{content:'';width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,0.18);animation:bs-pulse 2s infinite}
+.fg{margin-bottom:.85rem}
+.fg label{display:block;font-size:.76rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.fg input,.fg select{width:100%;padding:.7rem 1rem;border:1.5px solid #E5E7EB;border-radius:10px;font-size:.9rem;color:var(--text);background:#FAFAF9;outline:none;font-family:inherit;transition:border-color .2s,box-shadow .2s}
+.fg input:focus,.fg select:focus{border-color:var(--g3);box-shadow:0 0 0 3px rgba(76,175,130,0.12);background:#fff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.btn-submit{width:100%;padding:.95rem;background:var(--cta);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 6px 20px rgba(42,157,110,0.25);transition:background .2s,transform .1s;margin-top:.4rem}
+.btn-submit:hover{background:var(--cta-h);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.55;cursor:wait}
+.form-note{text-align:center;font-size:.74rem;color:var(--sub);margin-top:.6rem}
+
+/* === Sections === */
+section.bs-section{padding:96px 5%}
+.section-inner{max-width:1180px;margin:0 auto}
+.section-head{text-align:center;max-width:640px;margin:0 auto 4rem}
+.tag{display:inline-block;background:var(--g-soft);color:var(--g1);padding:.28rem .85rem;border-radius:20px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.8rem;border:1px solid var(--border)}
+.section-head h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:var(--text);line-height:1.2;margin-bottom:.8rem;letter-spacing:-.015em}
+.section-head p{color:var(--sub);font-size:1rem}
+
+/* === Avantages === */
+.bs-avantages{background:var(--g-soft)}
+.avantages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.avantage-card{background:#fff;border-radius:18px;padding:2rem 1.6rem;box-shadow:0 4px 20px var(--shadow);border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.avantage-card:hover{transform:translateY(-4px);box-shadow:0 14px 38px rgba(26,107,69,0.12)}
+.av-icon{width:56px;height:56px;border-radius:16px;background:var(--g-soft);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;color:var(--g1)}
+.avantage-card h3{font-size:1.05rem;font-weight:900;color:var(--text);margin-bottom:.5rem}
+.avantage-card p{font-size:.88rem;color:var(--sub);line-height:1.6}
+
+/* === Étapes === */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem}
+.step-card{text-align:center}
+.step-num{width:54px;height:54px;border-radius:50%;background:var(--cta);color:#fff;font-size:1.2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;box-shadow:0 6px 18px rgba(42,157,110,0.28)}
+.step-card h3{font-size:1rem;font-weight:900;color:var(--text);margin-bottom:.5rem}
+.step-card p{font-size:.88rem;color:var(--sub);line-height:1.6}
+
+/* === Garanties (dark) === */
+.bs-garanties{background:#0a1c10;color:#fff;padding:96px 5%}
+.bs-garanties .section-head h2{color:#fff}
+.bs-garanties .section-head p{color:rgba(255,255,255,0.65)}
+.bs-garanties .tag{background:rgba(255,255,255,0.08);color:#FCD34D;border-color:rgba(255,255,255,0.18)}
+.garanties-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
+.garantie-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.6rem 1.5rem;backdrop-filter:blur(6px)}
+.gr-icon{width:42px;height:42px;border-radius:12px;background:rgba(252,211,77,0.15);display:flex;align-items:center;justify-content:center;color:#FCD34D;margin-bottom:1rem}
+.garantie-card h3{font-size:1rem;font-weight:800;color:#fff;margin-bottom:.4rem}
+.garantie-card p{font-size:.85rem;color:rgba(255,255,255,0.7);line-height:1.6}
+
+/* === Pricing === */
+.bs-pricing{background:#fff;text-align:center}
+.pricing-card{max-width:480px;margin:0 auto;background:linear-gradient(135deg,var(--g-cream) 0%,#fff 100%);border:2px solid var(--g3);border-radius:24px;padding:2.5rem 2rem;box-shadow:0 20px 60px rgba(26,107,69,0.10);position:relative}
+.pricing-card .ribbon{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g1);color:#fff;font-size:.7rem;font-weight:900;padding:.4rem 1rem;border-radius:6px;text-transform:uppercase;letter-spacing:1px}
+.price-amount{font-size:3.2rem;font-weight:900;color:var(--g1);line-height:1;margin:.6rem 0 .2rem;letter-spacing:-.02em}
+.price-amount .currency{font-size:2rem;vertical-align:top;font-weight:800}
+.price-amount .period{font-size:1rem;color:var(--sub);font-weight:700;margin-left:.3rem}
+.price-tag{font-size:.85rem;color:var(--sub);margin-bottom:1.5rem}
+.price-features{list-style:none;text-align:left;max-width:340px;margin:1.6rem auto 2rem;display:flex;flex-direction:column;gap:.7rem}
+.price-features li{display:flex;align-items:start;gap:.7rem;font-size:.92rem;color:var(--text)}
+.price-features svg{flex-shrink:0;color:var(--g2);margin-top:2px}
+.btn-pricing{display:inline-block;background:var(--cta);color:#fff;padding:1rem 2.6rem;border-radius:12px;font-size:1rem;font-weight:900;text-decoration:none;box-shadow:0 8px 24px rgba(42,157,110,0.28);transition:background .2s,transform .15s}
+.btn-pricing:hover{background:var(--cta-h);transform:translateY(-2px)}
+
+/* === Témoignages === */
+.bs-temoignages{background:var(--g-soft)}
+.temoignages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem}
+.temoignage-card{background:#fff;border-radius:18px;padding:1.8rem 1.6rem;box-shadow:0 4px 20px var(--shadow);border:1px solid var(--border)}
+.temoignage-card blockquote{font-size:.95rem;color:var(--text);line-height:1.6;margin-bottom:1.2rem;font-style:italic;position:relative;padding-left:1.4rem}
+.temoignage-card blockquote::before{content:'"';position:absolute;left:0;top:-12px;font-size:3.5rem;color:var(--g3);font-family:Georgia,serif;line-height:1}
+.temoignage-author{display:flex;align-items:center;gap:.8rem}
+.temoignage-author .avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem}
+.temoignage-author .info{font-size:.85rem}
+.temoignage-author .info strong{display:block;color:var(--text);font-weight:800}
+.temoignage-author .info span{color:var(--sub);font-size:.78rem}
+
+/* === CTA Final === */
+.bs-cta-final{background:linear-gradient(135deg,#0d3320 0%,var(--g1) 50%,var(--g2) 100%);text-align:center;padding:96px 5%;color:#fff}
+.bs-cta-final h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:#fff;margin-bottom:1rem;letter-spacing:-.015em}
+.bs-cta-final p{font-size:1rem;color:rgba(255,255,255,0.8);max-width:520px;margin:0 auto 2rem}
+.cta-final-btn{display:inline-block;background:#FCD34D;color:#0d3320;padding:1rem 2.8rem;border-radius:14px;font-size:1.05rem;font-weight:900;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,0.2);transition:transform .15s}
+.cta-final-btn:hover{transform:translateY(-2px)}
+
+/* === Footer === */
+.bs-footer{background:#0a1c10;color:rgba(255,255,255,0.72);padding:2.5rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.8rem}
+.bs-footer .f-logo{font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none}
+.bs-footer a{color:rgba(255,255,255,0.65);text-decoration:none}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+
+@media(max-width:900px){
+  .pro-hero-inner{grid-template-columns:1fr;gap:2.5rem}
+  .form-row{grid-template-columns:1fr}
+}
+/* Hamburger mobile + dropdown menu */
+.nav-burger{display:none;background:none;border:none;cursor:pointer;width:42px;height:42px;align-items:center;justify-content:center;color:var(--g1);border-radius:8px;flex-shrink:0}
+.nav-burger:hover{background:var(--g-soft)}
+.nav-burger svg{width:26px;height:26px}
+.nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(15,31,23,.08);z-index:99;animation:nav-slide-down .2s ease}
+.nav-mobile.open{display:block}
+.nav-mobile a{display:block;padding:14px 20px;font-size:15px;font-weight:600;color:var(--text);text-decoration:none;border-bottom:1px solid var(--border)}
+.nav-mobile a:hover{background:var(--g-cream);color:var(--g1)}
+.nav-mobile a.nav-mobile-cta{background:var(--cta);color:#fff;font-weight:800;text-align:center;border-bottom:none;margin:14px 20px;padding:14px 20px;border-radius:10px}
+.nav-mobile a.nav-mobile-cta:hover{background:var(--cta-h);color:#fff}
+@keyframes nav-slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){
+  .bs-nav{padding:0 4%;height:60px;gap:.5rem}
+  .bs-nav .nav-links,.bs-nav .nav-switch{display:none}
+  .bs-nav .pro-tag{display:none}
+  .bs-nav .logo svg{width:130px;height:34px}
+  .nav-burger{display:flex}
+}
+</style>
+  <!-- Open Graph + Twitter Card -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BatiSpot">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="BatiSpot Pro — 39€/mois fixe, 0% commission">
+  <meta property="og:description" content="Recevez vos chantiers IDF avec un abonnement fixe. Plus de commission Travaux.com 30%. 100 places fondateurs.">
+  <meta property="og:url" content="https://batispot.pro/artisan">
+  <meta property="og:image" content="https://batispot.pro/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BatiSpot Pro — 39€/mois fixe, 0% commission">
+  <meta name="twitter:description" content="Recevez vos chantiers IDF avec un abonnement fixe. Plus de commission Travaux.com 30%. 100 places fondateurs.">
+  <meta name="twitter:image" content="https://batispot.pro/og/og-default.png">
+<script src="/js/consent.js" defer></script>
+<script src="/js/analytics.js" defer></script>
+<script src="/js/clarity-init.js" defer></script>
+<script src="/js/cro-widgets.js" defer></script>
+<script src="/js/abtest.js" defer></script>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="bs-nav">
+  <a href="/" class="logo" aria-label="BatiSpot — Accueil">
+    <svg width="160" height="42" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+      <rect width="40" height="40" rx="10" y="4" fill="url(#lg)"/>
+      <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
+      <text x="50" y="32" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="26" fill="#1A6B45" letter-spacing="-0.5">Bati<tspan fill="#4CAF82">Spot</tspan></text>
+    </svg>
+    <span class="pro-tag">Pro</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/devis/">Outil de devis</a></li>
+    <li><a href="#avantages">Avantages</a></li>
+    <li><a href="#etapes">Comment ça marche</a></li>
+    <li><a href="#pricing">Tarif</a></li>
+  </ul>
+  <div class="nav-switch">
+    <a href="./app/dashboard.html" class="nav-pro-link">Mon espace</a>
+    <a href="./app/inscription-pro.html" class="nav-cta" data-bs-test="hero_headline_v1" data-bs-conversion="cta_nav">S'inscrire</a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile" aria-label="Menu mobile">
+  <a href="/devis/">Outil de devis</a>
+  <a href="#avantages">Avantages</a>
+  <a href="#etapes">Comment ça marche</a>
+  <a href="#pricing">Tarif</a>
+  <a href="#temoignages">Témoignages</a>
+  <a href="./app/dashboard.html">Mon espace</a>
+  <a href="./app/inscription-pro.html" class="nav-mobile-cta">S'inscrire</a>
+</div>
+
+<script>
+  (function(){
+    const btn = document.getElementById('nav-burger');
+    const menu = document.getElementById('nav-mobile');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+    menu.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') { menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+    });
+  })();
+</script>
+
+<main>
+<!-- ── HERO PRO ── -->
+<section class="pro-hero">
+  <div class="pro-hero-inner">
+    <div class="pro-hero-text">
+      <div class="pro-eyebrow"><span id="dynamic-chantiers-count">14</span> chantiers IDF en attente d'artisan</div>
+      <h1 data-bs-test="hero_headline_v1" data-bs-variant="A">Des chantiers qualifiés,<br><em>sans commission</em></h1>
+      <h1 data-bs-test="hero_headline_v1" data-bs-variant="B" hidden>Gardez <em>100%</em> de vos devis.<br>39€/mois fixe.</h1>
+      <p>Recevez chaque semaine 3 à 5 chantiers vérifiés (contact client, photos du chantier, budget cadré, code postal IDF). Vous acceptez ceux qui vous correspondent. Pas de mise en concurrence à 5 artisans.</p>
+      <div class="pro-hero-trust">
+        <div class="pro-trust-item"><div class="pro-trust-check">✓</div>0% de commission sur les travaux signés</div>
+        <div class="pro-trust-item"><div class="pro-trust-check">✓</div>Satisfait ou remboursé 15 jours, sans engagement</div>
+        <div class="pro-trust-item"><div class="pro-trust-check">✓</div>3-5 chantiers IDF qualifiés/semaine</div>
+        <div class="pro-trust-item"><div class="pro-trust-check">✓</div>Paiement Stripe sécurisé, résiliation 1 clic</div>
+      </div>
+      <div class="pro-hero-cta">
+        <a href="./app/inscription-pro.html" class="btn-pro-primary" data-bs-test="hero_headline_v1" data-bs-conversion="cta_hero">
+          Démarrer mon abonnement
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="/devis/" class="btn-pro-secondary">Faire mes devis en 30s →</a>
+        <a href="#avantages" class="btn-pro-secondary">Voir les avantages</a>
+      </div>
+    </div>
+
+    <!-- Form découverte rapide -->
+    <div class="pro-form-card" id="discovery">
+      <div class="pro-form-header">
+        <div class="pulse-tag">Réponse sous 48h</div>
+        <h2>Voir les chantiers disponibles près de chez vous</h2>
+        <p>Pas d'inscription complète. Juste 3 infos pour qu'on vous montre les chantiers IDF qui matchent.</p>
+      </div>
+      <form id="discovery-form" autocomplete="on">
+        <div class="form-row">
+          <div class="fg"><label>Prénom *</label><input name="prenom" required placeholder="Jean"></div>
+          <div class="fg"><label>Téléphone *</label><input name="tel" type="tel" required placeholder="06 00 00 00 00"></div>
+        </div>
+        <div class="fg">
+          <label>Email pro *</label>
+          <input name="email" type="email" required placeholder="contact@votre-entreprise.fr" autocomplete="email">
+        </div>
+        <div class="fg">
+          <label>Métier principal *</label>
+          <select name="metier" id="metier-select" aria-label="Métier principal" required>
+            <option value="">— Sélectionner —</option>
+            <option>Plomberie / Chauffage</option>
+            <option>Électricité</option>
+            <option>Maçonnerie / Gros œuvre</option>
+            <option>Menuiserie</option>
+            <option>Peinture / Revêtements</option>
+            <option>Couverture / Toiture</option>
+            <option>Carrelage</option>
+            <option>Climatisation / PAC</option>
+            <option>Isolation / ITE</option>
+            <option>Multi-services BTP</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit" id="btn-submit">Voir les chantiers près de chez moi →</button>
+        <p class="form-note">Sans engagement · 14j d'essai · Résiliation 1 clic</p>
+      </form>
+
+      <!-- Écran vérification email (affiché après soumission) -->
+      <div id="form-verify" style="display:none;text-align:center;padding:.5rem 0">
+        <div style="width:56px;height:56px;border-radius:50%;background:#EBF7F1;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1A6B45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <p style="font-size:1rem;font-weight:900;color:var(--g1);margin:0 0 6px">Vérifiez votre boîte mail</p>
+        <p style="font-size:.85rem;color:var(--sub);margin:0 0 10px">Un lien de connexion a été envoyé à</p>
+        <span id="verify-email-display" style="display:inline-block;background:#EBF7F1;color:#1A6B45;font-size:.82rem;font-weight:800;padding:.3rem .9rem;border-radius:999px;margin-bottom:14px"></span>
+        <p style="font-size:.82rem;color:var(--sub);line-height:1.55;margin:0 0 14px">Cliquez sur le lien dans l'email pour accéder à vos chantiers disponibles.</p>
+        <p style="font-size:.75rem;color:var(--sub)">💡 Si vous ne le voyez pas, vérifiez vos <strong>courriers indésirables</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AVANTAGES ── -->
+<!-- ── OUTIL DE DEVIS (inclus dans l'abo) ── -->
+<section class="dvs-sec">
+  <style>
+    .dvs-sec{background:#F7FBF8;padding:72px 5%;border-top:1px solid #E7EEE9}
+    .dvs-in{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1.05fr;gap:3.5rem;align-items:center}
+    @media(max-width:820px){.dvs-in{grid-template-columns:1fr;gap:2.5rem}}
+    .dvs-ey{display:inline-block;font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#228B5B;background:rgba(34,139,91,.1);padding:6px 12px;border-radius:999px}
+    .dvs-t{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:900;line-height:1.08;letter-spacing:-.02em;color:#1C2B22;margin:16px 0 0}
+    .dvs-t em{font-style:normal;color:#1A6B45}
+    .dvs-p{font-size:1.05rem;color:#3D5A4E;margin:16px 0 0;max-width:44ch;line-height:1.6}
+    .dvs-ul{list-style:none;padding:0;margin:18px 0 0}
+    .dvs-ul li{display:flex;gap:10px;align-items:flex-start;font-size:.96rem;color:#1C2B22;padding:6px 0}
+    .dvs-ul .c{color:#228B5B;font-weight:900;flex:none}
+    .dvs-cta{display:inline-flex;align-items:center;gap:8px;margin-top:22px;background:#1A6B45;color:#fff;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:12px;font-size:1rem;transition:transform .12s}
+    .dvs-cta:hover{transform:translateY(-1px)}
+    .dvs-note{font-size:.85rem;color:#3D5A4E;margin-top:12px}
+    .dvs-doc{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(20,25,22,.25);border:1px solid #E7E8E7}
+    .dvs-band{background:linear-gradient(135deg,#1A6B45,#228B5B);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+    .dvs-band .n{font-weight:800;font-size:1.02rem}
+    .dvs-band .s{font-size:.7rem;color:rgba(255,255,255,.82)}
+    .dvs-band .k{text-align:right;font-weight:800;font-size:.7rem;letter-spacing:.1em}
+    .dvs-band .k b{display:block;font-size:.98rem;letter-spacing:0}
+    .dvs-b{padding:15px 20px 18px}
+    .dvs-parties{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+    .dvs-card{background:#F5F5F4;border:1px solid #E7E8E7;border-radius:10px;padding:9px 11px}
+    .dvs-card .l{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:#228B5B;font-weight:800}
+    .dvs-card b{display:block;font-size:.83rem;color:#1C2B22;margin-top:2px}
+    .dvs-card span{font-size:.72rem;color:#6B726F}
+    .dvs-grp{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#228B5B;font-weight:800;padding:7px 0 2px}
+    .dvs-li{display:flex;justify-content:space-between;font-size:.84rem;color:#3D5A4E;padding:6px 0;border-top:1px solid #EEE}
+    .dvs-li b{color:#1C2B22;font-weight:600}
+    .dvs-ttc{display:flex;justify-content:space-between;align-items:center;margin-top:11px;background:linear-gradient(135deg,#1A6B45,#228B5B);color:#fff;border-radius:11px;padding:11px 15px}
+    .dvs-ttc .v{font-weight:900;font-size:1.18rem}
+    .dvs-voice{display:flex;align-items:center;gap:9px;background:#FEF7DE;border:1px solid #F0DFA0;border-radius:10px;padding:8px 11px;margin-bottom:12px;min-height:40px}
+    .dvs-voice .m{width:22px;height:22px;border-radius:50%;background:#F4C430;display:grid;place-items:center;flex:none}
+    .dvs-voice .m svg{width:12px;height:12px}
+    .dvs-voice .ph{font-size:.8rem;font-style:italic;color:#3D5A4E}
+    .dvs-doc.anim .dvs-grp,.dvs-doc.anim .dvs-li,.dvs-doc.anim .dvs-ttc{opacity:0}
+    .dvs-doc.anim .dvs-li{transform:translateY(6px)}
+    .dvs-doc.anim .dvs-grp.in,.dvs-doc.anim .dvs-ttc.in{opacity:1;transition:opacity .3s}
+    .dvs-doc.anim .dvs-li.in{opacity:1;transform:none;transition:opacity .34s,transform .34s cubic-bezier(.2,.8,.2,1)}
+    @media(prefers-reduced-motion:reduce){.dvs-doc.anim .dvs-grp,.dvs-doc.anim .dvs-li,.dvs-doc.anim .dvs-ttc{opacity:1!important;transform:none!important}}
+  </style>
+  <div class="dvs-in">
+    <div>
+      <span class="dvs-ey">Inclus dans votre abonnement</span>
+      <h2 class="dvs-t">Vos devis, <em>dictés en 30 secondes</em></h2>
+      <p class="dvs-p">Décrivez le chantier à voix haute — BatiSpot le transforme en devis pro, chiffré au prix du marché, à vos couleurs. Le client signe à l'écran, et vous êtes prêt pour la facture.</p>
+      <ul class="dvs-ul">
+        <li><span class="c">✓</span> Dicté à la voix, chiffré automatiquement (peinture, plomberie, élec, couverture)</li>
+        <li><span class="c">✓</span> Signature électronique du client, bon pour accord horodaté</li>
+        <li><span class="c">✓</span> À vos couleurs, avec votre logo — devis → facture en un clic</li>
+      </ul>
+      <a href="/devis/" class="dvs-cta">Ouvrir l'outil de devis →</a>
+      <div class="dvs-note">Gratuit à l'essai · fonctionne sur téléphone, même hors-ligne.</div>
+    </div>
+    <div>
+      <div class="dvs-doc">
+        <div class="dvs-band"><div><div class="n">Peinture Martin</div><div class="s">SIRET 812 456 789 · Décennale AXA</div></div><div class="k">DEVIS<b>DEV-0128</b></div></div>
+        <div class="dvs-b">
+          <div class="dvs-voice"><span class="m"><svg viewBox="0 0 24 24" fill="none" stroke="#221a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="ph" id="dvsPhrase"></span></div>
+          <div class="dvs-parties">
+            <div class="dvs-card"><span class="l">Client</span><b>M. et Mme Durand</b><span>42 av. de la République · 75011</span></div>
+            <div class="dvs-card"><span class="l">Chantier</span><b>Rénovation peinture</b><span>Salon &amp; séjour · ~29 m²</span></div>
+          </div>
+          <div class="dvs-grp">Peinture</div>
+          <div class="dvs-li"><b>Peinture murs (2 couches)</b><span>812,00 €</span></div>
+          <div class="dvs-li"><b>Peinture plafond</b><span>384,00 €</span></div>
+          <div class="dvs-grp">Préparation</div>
+          <div class="dvs-li"><b>Rebouchage &amp; sous-couche</b><span>383,00 €</span></div>
+          <div class="dvs-ttc"><span>Total TTC</span><span class="v" id="dvsTtc">1 824,90 €</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var doc=document.querySelector('.dvs-doc'); if(!doc) return;
+    var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var phrase='« rénovation peinture salon 24 m², murs et plafond, avec sous-couche »';
+    var ph=document.getElementById('dvsPhrase');
+    var rows=doc.querySelectorAll('.dvs-grp,.dvs-li');
+    var ttc=doc.querySelector('.dvs-ttc'), ttcV=document.getElementById('dvsTtc');
+    var run=0;
+    if(!reduce) doc.classList.add('anim'); else { ph.textContent=phrase; return; }
+    function sleep(ms,id){return new Promise(function(r){setTimeout(function(){r(id===run)},ms)})}
+    function eur(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'}
+    async function play(){
+      var id=++run;
+      ph.textContent=''; rows.forEach(function(r){r.classList.remove('in')}); ttc.classList.remove('in'); ttcV.textContent='0,00 €';
+      if(!(await sleep(400,id)))return;
+      for(var i=0;i<=phrase.length;i+=2){ if(id!==run)return; ph.textContent=phrase.slice(0,i); if(!(await sleep(15,id)))return; }
+      ph.textContent=phrase;
+      if(!(await sleep(250,id)))return;
+      for(var j=0;j<rows.length;j++){ if(id!==run)return; rows[j].classList.add('in'); if(!(await sleep(170,id)))return; }
+      ttc.classList.add('in');
+      var target=1824.90, start=null;
+      requestAnimationFrame(function frame(t){ if(id!==run)return; if(start===null)start=t; var p=Math.min((t-start)/700,1); ttcV.textContent=eur(target*(1-Math.pow(1-p,3))); if(p<1)requestAnimationFrame(frame); });
+      if(!(await sleep(4800,id)))return;
+      play();
+    }
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){ play(); } else { run++; } })},{threshold:.4}).observe(doc);
+    } else { ph.textContent=phrase; rows.forEach(function(r){r.classList.add('in')}); ttc.classList.add('in'); }
+  })();
+  </script>
+</section>
+
+<section id="avantages" class="bs-section bs-avantages">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Pourquoi BatiSpot Pro</span>
+      <h2>Conçu par et pour les artisans BTP</h2>
+      <p>Une plateforme qui respecte votre temps, votre marge, et votre indépendance.</p>
+    </div>
+    <div class="avantages-grid">
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7a8 8 0 1 0 0 10"/><path d="M3 11h13"/><path d="M3 15h11"/></svg></div>
+        <h3>0% de commission</h3>
+        <p>Vous facturez 100% de votre devis au client. BatiSpot ne prend pas de pourcentage sur vos travaux. Abonnement fixe 39€/mois, point.</p>
+      </div>
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Chantiers vérifiés</h3>
+        <p>Chaque demande passe par notre équipe : contact client vérifié, faisabilité du projet validée, budget cohérent, photos du chantier. Vous chiffrez précisément.</p>
+      </div>
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Pas de mise en concurrence à 5</h3>
+        <p>Maximum 3 artisans par demande. Le client choisit, vous n'êtes pas en guerre des prix avec 5 concurrents qui tirent le devis vers le bas.</p>
+      </div>
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <h3>Tout depuis le smartphone</h3>
+        <p>Recevez les chantiers, acceptez en 1 clic, échangez avec le client par messagerie intégrée, postez les photos d'avancement. Pas de paperasse.</p>
+      </div>
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3>Paiement Stripe sécurisé</h3>
+        <p>Abonnement mensuel via Stripe (CB chiffrée côté Stripe, jamais stockée chez nous). Résiliez en 1 clic depuis votre espace, sans pénalité, sans préavis.</p>
+      </div>
+      <div class="avantage-card">
+        <div class="av-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Support humain réactif</h3>
+        <p>Une équipe française basée à Paris. Réponse sous 4h en semaine, 12h le week-end. Pas de chatbot, pas de tickets perdus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ÉTAPES ── -->
+<section id="etapes" class="bs-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Comment ça marche</span>
+      <h2>4 étapes, 48h pour démarrer</h2>
+      <p>De la candidature à votre premier chantier en moins d'une semaine.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">1</div><h3>Candidature en ligne</h3><p>3 minutes. Vos coordonnées, KBIS, attestation décennale, métiers et zones d'intervention.</p></div>
+      <div class="step-card"><div class="step-num">2</div><h3>Validation 24-48h</h3><p>Notre équipe vérifie votre KBIS, votre RC pro, votre décennale. Vous êtes appelé pour un brief de 15 min.</p></div>
+      <div class="step-card"><div class="step-num">3</div><h3>Satisfait ou remboursé 15 jours</h3><p>Vous recevez les chantiers immédiatement. Si vous n'êtes pas satisfait dans les 15 jours, on vous rembourse intégralement.</p></div>
+      <div class="step-card"><div class="step-num">4</div><h3>Abonnement 39€/mois</h3><p>Prélèvement automatique 39€/mois (HT). Résiliation 1 clic, à tout moment.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GARANTIES (dark) ── -->
+<section class="bs-garanties">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Vos garanties</span>
+      <h2>Des engagements concrets, pas du marketing</h2>
+      <p>Si on ne tient pas ces engagements, vous nous quittez. Sans frais.</p>
+    </div>
+    <div class="garanties-grid">
+      <div class="garantie-card">
+        <div class="gr-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>Min 2 chantiers/mois</h3>
+        <p>Avec l'offre de base, garantie 2 chantiers qualifiés minimum par mois. Si on ne tient pas : abonnement remboursé. C'est écrit dans nos CGV.</p>
+      </div>
+      <div class="garantie-card">
+        <div class="gr-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Réponse client sous 48h</h3>
+        <p>Le client doit vous recontacter dans les 48h après votre devis. Si pas de retour : on lui relance. Sinon on annule la mise en relation.</p>
+      </div>
+      <div class="garantie-card">
+        <div class="gr-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5"/></svg></div>
+        <h3>0% commission, jamais</h3>
+        <p>Engagement écrit. Vous facturez votre client à 100% du devis. BatiSpot ne touche aucun pourcentage sur vos travaux, ni avant, ni après.</p>
+      </div>
+      <div class="garantie-card">
+        <div class="gr-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Vos données vous appartiennent</h3>
+        <p>Coordonnées clients, photos chantiers, échanges : tout est exportable en 1 clic. RGPD respecté, serveurs européens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing" class="bs-section bs-pricing">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Tarif unique, transparent</span>
+      <h2>Une seule formule. Pas de complexité.</h2>
+      <p>On a fait le choix d'un tarif unique pour rester honnête. Pas d'upsell, pas de "pack premium" qui change tout.</p>
+    </div>
+    <div class="pricing-card">
+      <div class="ribbon">Lancement BatiSpot Pro</div>
+      <div style="font-weight:800;color:var(--sub);font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-top:.6rem">Abonnement mensuel</div>
+      <div class="price-amount"><span class="currency">€</span>39<span class="period">/mois HT</span></div>
+      <div class="price-tag">Satisfait ou remboursé 15 jours · Sans engagement · Résiliation 1 clic</div>
+      <ul class="price-features">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Chantiers IDF illimités, qualifiés et vérifiés</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>0% de commission sur les travaux signés</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Messagerie client + photos chantier</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Support humain &lt; 4h en semaine</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Garantie min 2 chantiers/mois (sinon remboursé)</li>
+      </ul>
+      <a href="./app/inscription-pro.html" class="btn-pricing" data-bs-test="hero_headline_v1" data-bs-conversion="cta_pricing">Démarrer mon abonnement</a>
+      <p style="font-size:.75rem;color:var(--sub);margin-top:1rem">Satisfait ou remboursé 15 jours · Annulation 1 clic</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TÉMOIGNAGES ── -->
+<section id="temoignages" class="bs-section bs-temoignages">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="tag">Programme fondateur</span>
+      <h2>Vous serez parmi les premiers</h2>
+    </div>
+    <div class="temoignages-grid">
+      <div class="temoignage-card">
+        <blockquote>BatiSpot démarre. Pas de faux avis ici — juste une place rare : les 100 premiers artisans gardent le tarif fondateur à vie.</blockquote>
+        <div class="temoignage-author">
+          <div class="info"><strong>Tarif fondateur</strong><span>39 €/mois bloqué à vie · 100 places</span></div>
+        </div>
+      </div>
+      <div class="temoignage-card">
+        <blockquote>1 demande = 1 artisan. Jamais revendue à 5 ou 10 concurrents comme ailleurs. Vous traitez le client en direct.</blockquote>
+        <div class="temoignage-author">
+          <div class="info"><strong>Lead exclusif</strong><span>0 % commission · sans engagement</span></div>
+        </div>
+      </div>
+      <div class="temoignage-card">
+        <blockquote>Satisfait ou remboursé 15 jours, annulation en 1 clic. Vous testez sans risque, vous restez si ça vous apporte des chantiers.</blockquote>
+        <div class="temoignage-author">
+          <div class="info"><strong>Sans risque</strong><span>15 jours remboursés · résiliable</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INSCRIPTION (CTA Final) ── -->
+<section id="inscription" class="bs-cta-final">
+  <h2>Prêt à recevoir vos premiers chantiers ?</h2>
+  <p>Inscrivez-vous en 3 minutes. Validation 24-48h. Satisfait ou remboursé 15 jours.</p>
+  <a href="./app/inscription-pro.html" class="cta-final-btn">Démarrer mon abonnement →</a>
+  <p style="margin-top:1.6rem;font-size:.82rem;color:rgba(255,255,255,0.7)">Satisfait ou remboursé 15 jours · Annulation 1 clic · Support 7j/7 · Stripe sécurisé</p>
+</section>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="bs-footer">
+  <a href="/" class="f-logo">BatiSpot</a>
+  <div class="footer-links">
+    <a href="/cgu">CGU</a>
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/confidentialite">Confidentialité</a>
+    <a href="mailto:contact@batispot.pro">contact@batispot.pro</a>
+  </div>
+  <span style="color:rgba(255,255,255,0.5)">© 2026 BatiSpot · Île-de-France</span>
+</footer>
+
+<script>
+// Compteur dynamique chantiers en attente (pseudo-réel : seed sur date + variation horaire)
+(function(){
+  const el = document.getElementById('dynamic-chantiers-count');
+  if (!el) return;
+  const now = new Date();
+  // Seed quotidien : YYYY-MM-DD → chiffre stable dans la journée
+  const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+  const hash = (seed * 9301 + 49297) % 233280;
+  let base = 8 + (hash % 15); // 8 à 22 selon le jour
+  // Petite variation horaire (-2 à +3) pour effet "ça bouge" si l'artisan revient quelques heures plus tard
+  const hourMod = ((now.getHours() * 17 + now.getMinutes() * 3) % 6) - 2;
+  const total = Math.max(5, base + hourMod);
+  el.textContent = total;
+})();
+
+document.getElementById('discovery-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+  const fd = new FormData(e.target);
+  const email = (fd.get('email') || '').trim().toLowerCase();
+  const payload = { prenom: fd.get('prenom'), tel: fd.get('tel'), email, metier: fd.get('metier') };
+
+  // Sauvegarder le lead via Edge Function notify-admin (remplace /api/discovery-lead inexistant)
+  try {
+    const SB = 'https://cisniwhaiydazdpzvino.supabase.co';
+    const KEY = 'sb_publishable_LUXdyprriDy-_wcr7-r8Yw_3N8AP_s1';
+    await fetch(`${SB}/functions/v1/notify-admin`, {
+      method: 'POST',
+      headers: { 'apikey': KEY, 'authorization': `Bearer ${KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        subject: `Nouveau lead ARTISAN — ${payload.metier || ''}`,
+        data: { prenom: payload.prenom || '', telephone: payload.tel || '', email: payload.email || '', metier: payload.metier || '', source: 'page artisan' },
+        reply_to: payload.email || undefined,
+      }),
+    });
+  } catch(_){}
+  if (window.fbq) fbq('track', 'Lead');  // conversion Meta Pixel (lead artisan)
+
+  // Envoyer OTP magic link pour créer/connecter le compte artisan
+  if (email) {
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      const cfg = window.__BATISPOT_CONFIG__ || {};
+      const sb = createClient(cfg.SUPABASE_URL || 'https://cisniwhaiydazdpzvino.supabase.co', cfg.SUPABASE_ANON_KEY || '');
+      await sb.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.origin + '/app/inscription-pro.html',
+          shouldCreateUser: true,
+        },
+      });
+    } catch(_){}
+  }
+
+  // Afficher écran vérification email
+  e.target.style.display = 'none';
+  const verifyEl = document.getElementById('form-verify');
+  document.getElementById('verify-email-display').textContent = email;
+  verifyEl.style.display = 'block';
+});
+</script>
+
+<!-- Chat widget BatiSpot (lazy load 5s ou au 1er event) -->
+<script>
+(function(){
+  function _loadChat(){
+    if(window._chatLoaded) return; window._chatLoaded=true;
+    var s=document.createElement("script");
+    s.src="/chat-widget.js?v=5";
+    document.body.appendChild(s);
+  }
+  ["click","scroll","keydown","touchstart"].forEach(function(e){
+    document.addEventListener(e,_loadChat,{once:true,passive:true});
+  });
+  setTimeout(_loadChat,5000);
+})();
+</script>
+<script src="/js/update-detector.js" defer></script>
+</body>
+</html>

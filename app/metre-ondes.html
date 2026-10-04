@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="color-scheme" content="only light">
+  <style>:root{color-scheme:only light}</style>
+  <title>BatiSpot Studio — Sonde de mesure</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    /* (04/10/2026, Moctar : « approfondis sonar et lampe torche, ça peut vraiment être notre atout tech »)
+       Page de MESURE, pas de produit. Deux expériences sur CE téléphone, dans Chrome :
+       1. SONAR : le haut-parleur émet un chirp 16-21 kHz, le micro écoute l'écho, la distance au mur
+          en face = (écho − trajet direct) × 343 m/s ÷ 2. On répète, on garde la médiane.
+       2. TORCHE : deux images, torche éteinte puis allumée ; la différence de luminosité décroît en 1/d².
+          Sur un mur blanc sans texture, la carte de différence dit la forme (plus clair = plus près).
+       Le rapport dit ce que le matériel permet (capacités) et ce qu'on mesure, pour décider. */
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter, system-ui, -apple-system, sans-serif; background:#FFF; color:#1C2B22; min-height:100dvh; }
+    .wrap { padding:18px 16px 40px; max-width:520px; margin:0 auto; }
+    h1 { font-size:22px; margin:0 0 6px; }
+    h2 { font-size:16px; margin:22px 0 4px; }
+    p { font-size:14px; line-height:1.5; color:#3D5A4E; margin:8px 0; }
+    label { font-size:14px; display:flex; align-items:center; gap:8px; margin-top:8px; }
+    input[type=number] { font:inherit; font-size:16px; padding:8px 10px; border:1.5px solid #D3E3DA; border-radius:10px; width:110px; }
+    .btn { display:block; width:100%; padding:14px 16px; border-radius:12px; border:1.5px solid #228B5B; background:#228B5B; color:#FFF;
+           font-weight:800; font-size:15px; font-family:inherit; cursor:pointer; margin-top:10px; }
+    .btn.sec { background:#FFF; color:#1C2B22; border-color:#D3E3DA; }
+    .btn[disabled] { opacity:.45; }
+    .carte { background:#F7FBF8; border:1px solid #E7EEEA; border-radius:12px; padding:12px 14px; margin-top:12px; font-size:13.5px; line-height:1.55; }
+    .ko { background:#FDECEC; border-color:#F2C2C2; color:#8A2B2B; }
+    .grand { font-size:28px; font-weight:900; color:#0F5132; }
+    canvas { width:100%; border-radius:10px; background:#F0F5F2; display:block; margin-top:8px; }
+    video { width:100%; border-radius:10px; background:#000; display:block; margin-top:8px; max-height:40vh; object-fit:cover; }
+    pre { white-space:pre-wrap; word-break:break-word; font-size:12px; background:#0F5132; color:#E7F5EE; padding:12px; border-radius:12px; margin-top:12px; max-height:40vh; overflow:auto; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Sonde de mesure</h1>
+  <p>Deux essais pour savoir ce que ce téléphone sait mesurer. Mettez-vous face à un mur nu, à une distance que vous connaissez, et notez-la ici.</p>
+  <label>Distance réelle au mur (m) <input type="number" id="dref" step="0.01" min="0.3" max="8" placeholder="ex. 1.50"></label>
+
+  <h2>Mesure 1</h2>
+  <p>Tenez le téléphone dos au mur, bord du bas vers le mur, bras tendu, dans le silence. Dix signaux brefs, à peine audibles.</p>
+  <button class="btn" id="sonar">Mesure 1</button>
+  <button class="btn sec" id="sonar-grave">Mesure 1 bis (bip audible)</button>
+  <div class="carte" id="sonar-res" style="display:none"></div>
+  <canvas id="sonar-c" width="600" height="160"></canvas>
+
+  <h2>Mesure 2</h2>
+  <p>Visez le mur, sans bouger pendant deux secondes. La carte montre où le mur est le plus proche.</p>
+  <button class="btn" id="torche">Mesure 2</button>
+  <video id="v" playsinline muted style="display:none"></video>
+  <div class="carte" id="torche-res" style="display:none"></div>
+  <canvas id="torche-c" width="600" height="200" style="display:none"></canvas>
+
+  <div id="rapport" style="display:none;">
+    <button class="btn" id="partager">Partager le rapport</button>
+    <button class="btn sec" id="copier">Copier le rapport</button>
+    <pre id="json"></pre>
+  </div>
+</div>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const C = 343; // m/s à 20 °C
+  const rapport = { page: 'metre-ondes v3', ua: navigator.userAgent, date: new Date().toISOString(), sonar: null, torche: null };
+  const montrer = () => { $('json').textContent = JSON.stringify(rapport, null, 1); $('rapport').style.display = ''; };
+  const dref = () => { const v = parseFloat($('dref').value); return isFinite(v) ? v : null; };
+
+  // ─────────────────────────────────────────────── SONAR
+  function chirp(sr, f0, f1, dur) {
+    const n = Math.round(sr * dur), out = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const t = i / sr, k = (f1 - f0) / dur;
+      const w = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / (n - 1));           // fenêtre de Hann : pas de clic
+      out[i] = w * Math.sin(2 * Math.PI * (f0 * t + 0.5 * k * t * t));
+    }
+    return out;
+  }
+  // Corrélation (filtre adapté) de x avec le chirp, enveloppe par valeur absolue lissée
+  function correler(x, h) {
+    const n = x.length - h.length, out = new Float32Array(Math.max(0, n));
+    for (let i = 0; i < n; i++) { let s = 0; for (let j = 0; j < h.length; j++) s += x[i + j] * h[j]; out[i] = Math.abs(s); }
+    // Lissage par moyenne glissante (±4 échantillons ≈ ±1,4 cm) : un filtre max créerait des plateaux
+    // où la détection de pics (comparaisons strictes) ne trouve plus rien.
+    const liss = new Float32Array(out.length), r = 4;
+    for (let i = 0; i < out.length; i++) { let m = 0, n = 0; for (let j = -r; j <= r; j++) { const k = i + j; if (k >= 0 && k < out.length) { m += out[k]; n++; } } liss[i] = m / n; }
+    return liss;
+  }
+  async function sonar(grave = false) {
+    const btn = $(grave ? 'sonar-grave' : 'sonar'); btn.disabled = true; btn.textContent = 'Mesure…';
+    const res = $('sonar-res'); res.style.display = ''; res.className = 'carte'; res.textContent = 'Micro…';
+    let flux;
+    try {
+      flux = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 } });
+    } catch (e) { res.className = 'carte ko'; res.textContent = 'Micro refusé : ' + e.message; btn.disabled = false; btn.textContent = 'Mesure 1'; return; }
+    const ctx = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'interactive' });
+    await ctx.resume();
+    const sr = ctx.sampleRate, piste = flux.getAudioTracks()[0], regl = piste.getSettings();
+    // Inaudible 17-21 kHz, 10 ms (SAMS 2018 : 1,5 cm médian sur mur nu) ; variante grave 8-16 kHz, 3 ms
+    // (BatMapper 2017 : 1-2 cm à ≤ 3,5 m), audible mais sûre si le haut-parleur plafonne sous 20 kHz.
+    const f0 = grave ? 8000 : 15000, f1 = grave ? 16000 : 19500, dur = grave ? 0.025 : 0.012;
+    const h = chirp(sr, f0, f1, dur);
+    const src = ctx.createMediaStreamSource(flux);
+    // Enregistrement brut par ScriptProcessor (simple, suffisant pour une sonde ; AudioWorklet pour la prod)
+    const tampon = []; const proc = ctx.createScriptProcessor(2048, 1, 1);
+    proc.onaudioprocess = (e) => { tampon.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+    src.connect(proc); proc.connect(ctx.destination);
+    const buf = ctx.createBuffer(1, h.length, sr); buf.getChannelData(0).set(h);
+    // Les dix tirs sont programmés d'avance sur l'horloge audio (exactement 120 ms d'écart) : la gigue de
+    // setTimeout sur un téléphone dépasse les ±4 ms que tolère la recherche du trajet direct.
+    const tirs = [], instants = [], t0 = ctx.currentTime + 0.1;
+    for (let k = 0; k < 10; k++) {
+      const s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+      s.start(t0 + k * 0.12); instants.push(t0 + k * 0.12);
+    }
+    await new Promise((r) => setTimeout(r, 100 + 10 * 120 + 150));
+    src.disconnect(); proc.disconnect(); piste.stop();
+    // Assemblage et analyse par fenêtre : pour chaque tir, on cherche le trajet direct (pic max dans les 15 ms
+    // qui suivent l'émission, latence incluse) puis les échos entre 0,3 et 8 m, corrigés en d² (l'écho décroît).
+    let n = 0; for (const b of tampon) n += b.length; const x = new Float32Array(n); let o = 0; for (const b of tampon) { x.set(b, o); o += b.length; }
+    const corr = correler(x, h);
+    // Les tirs sont espacés de 120 ms : on découpe la corrélation en tranches de 120 ms, calées sur le pic direct le plus fort
+    const pas = Math.round(0.12 * sr), fen = Math.round(0.06 * sr);
+    let meilleur = 0, i0 = 0; for (let i = 0; i < Math.min(corr.length, pas * 2); i++) if (corr[i] > meilleur) { meilleur = corr[i]; i0 = i; }
+    const profil = new Float32Array(fen); let nTirs = 0;
+    for (let k = 0; k < 10; k++) {
+      let base = i0 + k * pas, pic = 0, ib = base;
+      for (let i = Math.max(0, base - 200); i < Math.min(corr.length, base + 200); i++) if (corr[i] > pic) { pic = corr[i]; ib = i; }
+      if (ib + fen >= corr.length || pic <= 0) continue;
+      for (let i = 0; i < fen; i++) profil[i] += corr[ib + i] / pic; nTirs++;
+      tirs.push({ tir: k, direct: ib });
+    }
+    const dist = (i) => Math.max(0, (i / sr) * C / 2);
+    // Pics d'écho : au-delà de 0,3 m, pondération en d (compense en partie la décroissance sans amplifier le bruit
+    // lointain comme le ferait d²), et seuil = 4 × la médiane du profil (plancher de bruit) ; écart ≥ 20 cm entre pics
+    const cand = [], iDeb = Math.round(0.3 / C * 2 * sr);
+    const tri = Array.from(profil.slice(iDeb, fen)).sort((a, b) => a - b), plancher = tri[tri.length >> 1] || 0;
+    for (let i = Math.max(2, iDeb); i < fen - 2; i++) {
+      const d = dist(i); if (d > 8) continue;
+      if (profil[i] < 4 * plancher) continue;
+      const v = profil[i] / nTirs * d;
+      if (profil[i] >= profil[i - 1] && profil[i] >= profil[i + 1] && profil[i] > profil[i - 2] && profil[i] > profil[i + 2]) cand.push({ d: +d.toFixed(3), force: +v.toFixed(4), brut: +(profil[i] / nTirs).toFixed(4), rapportBruit: +(profil[i] / (plancher || 1e-9)).toFixed(1) });
+    }
+    cand.sort((a, b) => b.force - a.force);
+    const pics = []; for (const c of cand) { if (pics.every((p) => Math.abs(p.d - c.d) > 0.2)) pics.push(c); if (pics.length >= 5) break; }
+    rapport[grave ? 'sonarGrave' : 'sonar'] = { sampleRate: sr, baseLatency: ctx.baseLatency, outputLatency: ctx.outputLatency, reglagesMicro: regl, chirp: { f0, f1, dur_ms: dur * 1000 }, tirs: nTirs, pics, distance_reelle: dref() };
+    // Tracé du profil 0–6 m
+    const c = $('sonar-c'), g = c.getContext('2d'); g.clearRect(0, 0, c.width, c.height);
+    const iMax = Math.min(fen, Math.round(6 / C * 2 * sr)); let vMax = 0;
+    for (let i = Math.round(0.3 / C * 2 * sr); i < iMax; i++) vMax = Math.max(vMax, profil[i] / nTirs * dist(i));
+    g.strokeStyle = '#0F5132'; g.lineWidth = 1.5; g.beginPath();
+    for (let i = 0; i < iMax; i++) { const d = dist(i), v = d < 0.3 ? 0 : profil[i] / nTirs * d / (vMax || 1); const X = d / 6 * c.width, Y = c.height - 10 - v * (c.height - 30); i ? g.lineTo(X, Y) : g.moveTo(X, Y); }
+    g.stroke(); g.fillStyle = '#3D5A4E'; g.font = '12px system-ui';
+    for (let m = 1; m <= 5; m++) { const X = m / 6 * c.width; g.fillRect(X, c.height - 8, 1, 8); g.fillText(m + ' m', X - 10, c.height - 12); }
+    if (dref()) { const X = dref() / 6 * c.width; g.fillStyle = '#C0392B'; g.fillRect(X, 0, 2, c.height - 10); }
+    const p0 = pics[0];
+    res.innerHTML = p0 ? `<span class="grand">${p0.d.toFixed(2)} m</span><br>écho le plus fort${dref() ? ` (réel ${dref().toFixed(2)} m, écart ${((p0.d - dref()) * 100).toFixed(0)} cm)` : ''}.<br>Autres échos : ${pics.slice(1).map((p) => p.d.toFixed(2) + ' m').join(', ') || 'aucun'}.<br><small>${sr} Hz, ${nTirs} tirs, trajet direct trouvé ${tirs.length}/10.</small>`
+                         : 'Aucun écho net. Rapprochez-vous d\'un mur nu (1 à 3 m) et refaites, sans bruit.';
+    btn.disabled = false; btn.textContent = grave ? 'Refaire la mesure 1 bis' : 'Refaire la mesure 1'; montrer();
+  }
+
+  // ─────────────────────────────────────────────── TORCHE
+  function luminance(ctx2, w, h, nx, ny) {
+    const d = ctx2.getImageData(0, 0, w, h).data, out = new Float32Array(nx * ny), cnt = new Float32Array(nx * ny);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4, L = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+      const k = Math.min(ny - 1, (y * ny / h) | 0) * nx + Math.min(nx - 1, (x * nx / w) | 0);
+      out[k] += L; cnt[k]++;
+    }
+    for (let k = 0; k < out.length; k++) out[k] /= cnt[k] || 1;
+    return out;
+  }
+  async function torche() {
+    const btn = $('torche'); btn.disabled = true; btn.textContent = 'Mesure…';
+    const res = $('torche-res'); res.style.display = ''; res.className = 'carte'; res.textContent = 'Caméra…';
+    let flux;
+    try { flux = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } }, audio: false }); }
+    catch (e) { res.className = 'carte ko'; res.textContent = 'Caméra refusée : ' + e.message; btn.disabled = false; return; }
+    const v = $('v'); v.style.display = ''; v.srcObject = flux; await v.play();
+    const piste = flux.getVideoTracks()[0], cap = piste.getCapabilities ? piste.getCapabilities() : {};
+    const info = { torch: !!cap.torch, exposureMode: cap.exposureMode || null, exposureTime: cap.exposureTime || null, iso: cap.iso || null, whiteBalanceMode: cap.whiteBalanceMode || null, focusMode: cap.focusMode || null, taille: [v.videoWidth, v.videoHeight] };
+    let expoBloquee = false;
+    try { if ((cap.exposureMode || []).includes('manual') && cap.exposureTime) { const s = piste.getSettings(); await piste.applyConstraints({ advanced: [{ exposureMode: 'manual', exposureTime: s.exposureTime || cap.exposureTime.max / 4 }] }); expoBloquee = true; } } catch (_) {}
+    try { if ((cap.whiteBalanceMode || []).includes('manual')) await piste.applyConstraints({ advanced: [{ whiteBalanceMode: 'manual' }] }); } catch (_) {}
+    const w = v.videoWidth, h = v.videoHeight, cv = document.createElement('canvas'); cv.width = w; cv.height = h; const g = cv.getContext('2d', { willReadFrequently: true });
+    const nx = 12, ny = 20;
+    const prendre = async (n) => { const acc = new Float32Array(nx * ny); for (let k = 0; k < n; k++) { await new Promise((r) => setTimeout(r, 120)); g.drawImage(v, 0, 0, w, h); const L = luminance(g, w, h, nx, ny); for (let i = 0; i < acc.length; i++) acc[i] += L[i] / n; } return acc; };
+    await new Promise((r) => setTimeout(r, 800));
+    const sans = await prendre(3);
+    let torcheOk = false;
+    try { await piste.applyConstraints({ advanced: [{ torch: true }] }); torcheOk = true; } catch (e) { info.torcheErreur = e.message; }
+    await new Promise((r) => setTimeout(r, 700));
+    const avec = await prendre(3);
+    try { await piste.applyConstraints({ advanced: [{ torch: false }] }); } catch (_) {}
+    piste.stop(); v.style.display = 'none';
+    const diff = new Float32Array(nx * ny); let dMax = 0, dMoy = 0;
+    for (let i = 0; i < diff.length; i++) { diff[i] = Math.max(0, avec[i] - sans[i]); dMax = Math.max(dMax, diff[i]); dMoy += diff[i] / diff.length; }
+    // Distance relative : d ∝ 1/sqrt(ΔI). Référence = cellule centrale (si la distance réelle est connue, elle la cale).
+    const ic = ((ny / 2) | 0) * nx + ((nx / 2) | 0), dc = diff[ic] || dMoy || 1;
+    const rel = Array.from(diff, (x) => x > 2 ? Math.sqrt(dc / x) : null);
+    const gauche = rel.slice(0).filter((_, i) => i % nx < 3 && rel[i] != null), droite = rel.filter((_, i) => i % nx >= nx - 3 && rel[i] != null);
+    const haut = rel.filter((_, i) => (i / nx | 0) < 4 && rel[i] != null), bas = rel.filter((_, i) => (i / nx | 0) >= ny - 4 && rel[i] != null);
+    const med = (a) => { if (!a.length) return null; const t = a.slice().sort((p, q) => p - q); return +t[t.length >> 1].toFixed(3); };
+    rapport.torche = { capacites: info, torcheAllumee: torcheOk, expositionBloquee: expoBloquee, diff: { centre: +dc.toFixed(1), moyenne: +dMoy.toFixed(1), max: +dMax.toFixed(1) },
+                       distanceRelative: { gauche: med(gauche), droite: med(droite), haut: med(haut), bas: med(bas) }, distance_reelle: dref(), grille: Array.from(diff, (x) => +x.toFixed(1)) };
+    // Carte : plus clair = plus proche
+    const c = $('torche-c'); c.style.display = ''; const gc = c.getContext('2d'); const cw = c.width / nx, ch = c.height / ny;
+    for (let i = 0; i < diff.length; i++) { const t = dMax ? diff[i] / dMax : 0; gc.fillStyle = `rgb(${(30 + 225 * t) | 0},${(70 + 170 * t) | 0},${(50 + 120 * t) | 0})`; gc.fillRect((i % nx) * cw, ((i / nx) | 0) * ch, cw + 0.5, ch + 0.5); }
+    res.innerHTML = torcheOk
+      ? `<span class="grand">${dMoy.toFixed(0)}</span> de différence moyenne (sur 255) ; centre ${dc.toFixed(0)}, max ${dMax.toFixed(0)}.<br>Distance relative au centre : gauche ${med(gauche) ?? '—'}, droite ${med(droite) ?? '—'}, haut ${med(haut) ?? '—'}, bas ${med(bas) ?? '—'} (1 = même distance).<br><small>Exposition ${expoBloquee ? 'bloquée' : 'AUTOMATIQUE (la différence est faussée)'} · torche ${info.torch ? 'disponible' : 'non déclarée'}.</small>`
+      : `<span class="ko">La torche ne s'allume pas depuis Chrome : ${info.torcheErreur || 'non disponible'}.</span> Capacités : ${JSON.stringify(info)}`;
+    btn.disabled = false; btn.textContent = 'Refaire la mesure 2'; montrer();
+  }
+
+  $('sonar-grave').addEventListener('click', () => sonar(true).catch((e) => { $('sonar-res').className = 'carte ko'; $('sonar-res').textContent = 'Erreur : ' + e.message; $('sonar-grave').disabled = false; }));
+  $('sonar').addEventListener('click', () => sonar().catch((e) => { $('sonar-res').className = 'carte ko'; $('sonar-res').textContent = 'Erreur : ' + e.message; $('sonar').disabled = false; }));
+  $('torche').addEventListener('click', () => torche().catch((e) => { $('torche-res').className = 'carte ko'; $('torche-res').textContent = 'Erreur : ' + e.message; $('torche').disabled = false; }));
+  $('copier').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('json').textContent); $('copier').textContent = 'Copié'; } catch (_) { $('copier').textContent = 'Sélectionnez le texte et copiez-le'; } });
+  $('partager').addEventListener('click', async () => { const t = $('json').textContent; if (navigator.share) { try { await navigator.share({ title: 'Sonde de mesure BatiSpot', text: t }); } catch (_) {} } else { try { await navigator.clipboard.writeText(t); $('partager').textContent = 'Copié'; } catch (_) {} } });
+})();
+</script>
+</body>
+</html>

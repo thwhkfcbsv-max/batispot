@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="color-scheme" content="only light">
+  <style>:root{color-scheme:only light}</style>
+  <title>BatiSpot Studio — Sonde métré</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    /* (01/10/2026, Moctar : « lance la sonde, l'idée : faire comme un LiDAR »)
+       Page de MESURE, pas de produit : elle dit ce que CE téléphone sait voir dans
+       Chrome — plans ARCore, profondeur, murs visés — et combien d'angles de la
+       pièce on peut en déduire sans que l'artisan pose un point. Son rapport
+       décide si le mode « angles automatiques » vaut une demi-journée. */
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter, system-ui, -apple-system, sans-serif; background:#FFF; color:#1C2B22; min-height:100dvh; }
+    .wrap { padding:18px 16px 40px; max-width:520px; margin:0 auto; }
+    h1 { font-size:22px; margin:0 0 6px; }
+    p { font-size:14px; line-height:1.5; color:#3D5A4E; margin:8px 0; }
+    .btn { display:block; width:100%; padding:14px 16px; border-radius:12px; border:1.5px solid #228B5B; background:#228B5B; color:#FFF;
+           font-weight:800; font-size:15px; font-family:inherit; cursor:pointer; margin-top:10px; }
+    .btn.sec { background:#FFF; color:#1C2B22; border-color:#D3E3DA; }
+    .btn[disabled] { opacity:.45; }
+    .carte { background:#F7FBF8; border:1px solid #E7EEEA; border-radius:12px; padding:12px 14px; margin-top:12px; font-size:13.5px; line-height:1.55; }
+    .ko { background:#FDECEC; border-color:#F2C2C2; color:#8A2B2B; }
+    pre { white-space:pre-wrap; word-break:break-word; font-size:12px; background:#0F5132; color:#E7F5EE; padding:12px; border-radius:12px; margin-top:12px; max-height:50vh; overflow:auto; }
+    /* Surcouche sur la caméra (dom-overlay) */
+    #ui { position:fixed; inset:0; display:none; pointer-events:none; z-index:9999; flex-direction:column; justify-content:space-between; }
+    #ui.on { display:flex; }
+    #stats { margin:12px; background:rgba(15,81,50,.94); color:#FFF; border-radius:12px; padding:10px 12px; font-size:14px; font-weight:700; line-height:1.5; }
+    #stats small { display:block; font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.8; }
+    #bas { padding:12px; display:flex; gap:10px; pointer-events:auto; padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+    #bas button { flex:1; padding:14px; border-radius:12px; border:none; font-weight:800; font-size:14px; font-family:inherit; }
+    #fin { background:#0F5132; color:#FFF; } #quit { background:rgba(0,0,0,.55); color:#FFF; }
+    #nums { position:absolute; inset:0; pointer-events:none; }
+    .num { position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%; background:#0F5132; color:#FFF; font-weight:900; font-size:13px;
+           display:flex; align-items:center; justify-content:center; border:2px solid #FFF; box-shadow:0 1px 6px rgba(0,0,0,.45); }
+    #cible { position:absolute; left:50%; top:50%; width:76px; height:76px; margin:-38px 0 0 -38px; border-radius:50%; border:3px dashed rgba(255,255,255,.9); display:none; }
+    #ui.sans #cible { display:block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Sonde métré</h1>
+    <p><b>Ce que ce téléphone sait voir, mesuré.</b> La sonde ouvre la caméra et note : les plans
+      qu'ARCore détecte (sol, murs), la profondeur si Chrome la donne, et les angles de la pièce
+      qu'on peut déduire des murs <b>sans poser de point</b>.</p>
+    <p>Balayez lentement toute la pièce, 30 à 60 secondes : le sol, puis chaque mur de haut en bas,
+      puis les angles. Ensuite « Terminer » et partagez le rapport.</p>
+    <div id="pre" class="carte">Vérification du téléphone…</div>
+    <button class="btn" id="go" disabled>Lancer la sonde</button>
+    <div id="rapport" style="display:none;">
+      <div class="carte" id="resume"></div>
+      <pre id="json"></pre>
+      <button class="btn" id="partager">Partager le rapport</button>
+      <button class="btn sec" id="copier">Copier le rapport</button>
+      <button class="btn sec" id="encore">Refaire</button>
+    </div>
+    <p style="margin-top:18px;"><a href="./metre.html" style="color:#228B5B;font-weight:700;">← Retour au métré</a></p>
+  </div>
+
+  <div id="ui">
+    <div id="nums" aria-hidden="true"></div>
+    <div id="cible" aria-hidden="true"></div>
+    <div id="stats"><small>Sonde · balayez la pièce</small><span id="stats-txt">Démarrage…</span></div>
+    <div id="bas"><button id="quit" type="button">Quitter</button><button id="fin" type="button">Terminer</button></div>
+  </div>
+
+  <script type="module">
+    import { anneau, disque, bande, projeter } from './js/metre-reperes.js';
+    import { requireAuth } from './js/supabase.js';
+    // Page de l'appli : réservée aux artisans connectés, comme tous les écrans (audit « page_non_protegee »).
+    await requireAuth();
+    const $ = (id) => document.getElementById(id);
+
+    // ── Pré-vérification sans caméra ───────────────────────────────────────
+    const R = { quand: new Date().toISOString(), ua: navigator.userAgent, page: 'metre-sonde', version: 'sonde-3',
+                xr: !!navigator.xr, ar_supporte: null, demandees: [], accordees: [], erreurs: [], duree_s: 0, images: 0,
+                hits: { sol: 0, mur: 0, plafond: 0, aucun: 0 }, murs: [], angles: [], plans_max: { horizontaux: 0, verticaux: 0 },
+                plans_api: false, profondeur: { api: false, dispo: false, largeur: 0, hauteur: 0, centre_m: null, hit_m: null, echantillons: 0 },
+                camera_brute: false, ancres_api: false,
+                camera: { largeur: 0, hauteur: 0, lue: false, essais: 0, erreur: null, viewport: null, p0: 0, p5: 0 } };
+    (async () => {
+      const pre = $('pre');
+      if (!navigator.xr) { pre.className = 'carte ko'; pre.textContent = 'navigator.xr absent : pas de WebXR dans ce navigateur. Sur Android, utilisez Chrome.'; return; }
+      try { R.ar_supporte = await navigator.xr.isSessionSupported('immersive-ar'); } catch (e) { R.ar_supporte = false; R.erreurs.push('isSessionSupported: ' + e.message); }
+      if (!R.ar_supporte) { pre.className = 'carte ko'; pre.textContent = 'immersive-ar non supporté : il manque sans doute « Google Play Services pour la RA » (ARCore), ou ce téléphone n\'est pas dans la liste ARCore.'; return; }
+      pre.textContent = 'WebXR présent, réalité augmentée disponible. Prêt.';
+      $('go').disabled = false;
+    })();
+
+    // ── Session ────────────────────────────────────────────────────────────
+    let session = null, gl = null, refSpace = null, hitSource = null, glProg = null, glBuf = null, glPos = -1, glMat = null, glCol = null;
+    let debut = 0, matriceEcran = null, solY = [], dernierHit = null, dernierType = 'aucun';
+    const murs = [];    // { nx, nz, d, x, z, y, n } — plan vertical : nx*x + nz*z = d
+    let angles = [];    // { x, z, y, murs: [i, j] }
+
+    async function demarrer() {
+      if (session) { try { await session.end(); } catch (_) {} session = null; }
+      // Paliers : sur certains Android, demander `plane-detection` MÊME en option fait
+      // échouer la session (retour terrain 09/2026). On descend palier par palier et le
+      // rapport dit lequel a tenu.
+      const PALIERS = [
+        ['dom-overlay', 'plane-detection', 'depth-sensing', 'anchors', 'light-estimation', 'camera-access'],
+        ['dom-overlay', 'depth-sensing', 'anchors', 'light-estimation', 'camera-access'],
+        ['dom-overlay', 'depth-sensing', 'anchors', 'light-estimation'],
+        ['dom-overlay'],
+      ];
+      R.demandees = ['hit-test', ...PALIERS[0]];
+      R.palier = null;
+      for (let i = 0; i < PALIERS.length && !session; i++) {
+        try {
+          session = await navigator.xr.requestSession('immersive-ar', {
+            requiredFeatures: ['hit-test'],
+            optionalFeatures: PALIERS[i],
+            domOverlay: { root: $('ui') },
+            depthSensing: { usagePreference: ['cpu-optimized', 'gpu-optimized'], dataFormatPreference: ['luminance-alpha', 'float32'] },
+          });
+          R.palier = i + 1;
+        } catch (e) { R.erreurs.push(`requestSession palier ${i + 1} (${PALIERS[i].join(',')}): ${e.name} ${e.message}`); }
+      }
+      if (!session) { afficherRapport(); return; }
+      try { R.accordees = Array.from(session.enabledFeatures || []); } catch (_) {}
+      R.plans_api = 'detectedPlanes' in XRFrame.prototype;
+      R.profondeur.api = 'getDepthInformation' in XRFrame.prototype;
+      R.ancres_api = 'createAnchor' in XRFrame.prototype;
+      R.camera_brute = typeof XRWebGLBinding !== 'undefined' && 'getCameraImage' in XRWebGLBinding.prototype;
+      $('ui').classList.add('on');
+      const canvas = document.createElement('canvas');
+      gl = canvas.getContext('webgl', { xrCompatible: true, alpha: true });
+      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
+      try { glInit(); } catch (e) { R.erreurs.push('glInit: ' + e.message); }
+      // (sonde-3) Liaison WebGL pour lire l'image caméra brute : sa taille réelle n'est documentée nulle part.
+      try { glBinding = (typeof XRWebGLBinding !== 'undefined') ? new XRWebGLBinding(session, gl) : null; } catch (e) { R.camera.erreur = 'XRWebGLBinding: ' + e.message; }
+      refSpace = await session.requestReferenceSpace('local');
+      const viewerSpace = await session.requestReferenceSpace('viewer');
+      hitSource = await session.requestHitTestSource({ space: viewerSpace });
+      debut = performance.now();
+      session.addEventListener('end', () => { session = null; $('ui').classList.remove('on'); afficherRapport(); });
+      session.requestAnimationFrame(boucle);
+    }
+
+    // ── WebGL minimal (comme metre.html) ───────────────────────────────────
+    function glInit() {
+      const vs = 'attribute vec3 p;uniform mat4 m;void main(){gl_Position=m*vec4(p,1.0);gl_PointSize=10.0;}';
+      const fs = 'precision mediump float;uniform vec4 c;void main(){gl_FragColor=c;}';
+      const mk = (t, s) => { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); return sh; };
+      glProg = gl.createProgram(); gl.attachShader(glProg, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(glProg, mk(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(glProg);
+      if (!gl.getProgramParameter(glProg, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(glProg));
+      glPos = gl.getAttribLocation(glProg, 'p'); glMat = gl.getUniformLocation(glProg, 'm'); glCol = gl.getUniformLocation(glProg, 'c'); glBuf = gl.createBuffer();
+    }
+    function mat4Mul(a, b) { const o = new Float32Array(16); for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let v = 0; for (let k = 0; k < 4; k++) v += a[k * 4 + j] * b[i * 4 + k]; o[i * 4 + j] = v; } return o; }
+    function glTrace(mode, coords, rgba) {
+      if (!coords.length) return;
+      gl.bindBuffer(gl.ARRAY_BUFFER, glBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(coords), gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(glPos); gl.vertexAttribPointer(glPos, 3, gl.FLOAT, false, 0, 0); gl.uniform4fv(glCol, rgba); gl.drawArrays(mode, 0, coords.length / 3);
+    }
+    // Quadrilatère vertical dans le plan d'un mur, centré sur son échantillon.
+    function panneauMur(m, demiLargeur, hauteur) {
+      const tx = -m.nz, tz = m.nx; // tangente horizontale au mur
+      return [m.x + tx * demiLargeur, m.y, m.z + tz * demiLargeur, m.x - tx * demiLargeur, m.y, m.z - tz * demiLargeur,
+              m.x + tx * demiLargeur, m.y + hauteur, m.z + tz * demiLargeur, m.x - tx * demiLargeur, m.y + hauteur, m.z - tz * demiLargeur];
+    }
+    let glBinding = null;
+    const polysPlans = []; // polygones des plans ARCore de l'image courante, en monde
+    function glRendre(frame) {
+      const layer = session.renderState.baseLayer;
+      gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      if (!glProg) return;
+      const pose = frame.getViewerPose(refSpace); if (!pose) return;
+      gl.useProgram(glProg); gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      const BLANC = [1, 1, 1, .95], BLEU = [.25, .55, 1, .35], VERT = [.3, .69, .51, .3], JAUNE = [1, .85, .2, .95], HALO = [0, 0, 0, .38];
+      for (const view of pose.views) {
+        const vp = layer.getViewport(view); gl.viewport(vp.x, vp.y, vp.width, vp.height);
+        matriceEcran = mat4Mul(view.projectionMatrix, view.transform.inverse.matrix);
+        // (sonde-3) Toutes les 30 images : lire l'image caméra brute et noter sa taille, le viewport et la focale (p[0], p[5]).
+        if (glBinding && view.camera && R.images % 30 === 0 && R.camera.essais < 20) {
+          R.camera.essais++;
+          try {
+            const tex = glBinding.getCameraImage(view.camera);
+            if (tex) { R.camera.lue = true; R.camera.largeur = view.camera.width; R.camera.hauteur = view.camera.height;
+              R.camera.viewport = [vp.width, vp.height]; R.camera.p0 = +view.projectionMatrix[0].toFixed(4); R.camera.p5 = +view.projectionMatrix[5].toFixed(4); }
+          } catch (e) { R.camera.erreur = e.name + ' ' + e.message; }
+        }
+        gl.uniformMatrix4fv(glMat, false, matriceEcran);
+        // Plans ARCore : horizontaux en vert, verticaux en bleu.
+        polysPlans.forEach((p) => glTrace(gl.TRIANGLE_FAN, p.coords, p.vertical ? BLEU : VERT));
+        // Murs retenus (depuis les surfaces visées) : un panneau bleu de 1,2 m × 0,8 m.
+        murs.forEach((m) => glTrace(gl.TRIANGLE_STRIP, panneauMur(m, 0.6, 0.8), [.25, .55, 1, .45]));
+        // Angles déduits : disque blanc + halo, reliés par des bandes.
+        for (let i = 0; i + 1 < angles.length; i++) glTrace(gl.TRIANGLE_STRIP, bande(angles[i], angles[i + 1], 0.03), BLANC);
+        angles.forEach((a) => { glTrace(gl.TRIANGLE_FAN, disque(a, 0.065), HALO); glTrace(gl.TRIANGLE_FAN, disque(a, 0.045), BLANC); });
+        // Réticule coloré selon la surface visée : sol blanc, mur bleu, plafond jaune.
+        if (dernierHit) {
+          const c = dernierType === 'mur' ? [.25, .55, 1, .95] : dernierType === 'plafond' ? JAUNE : BLANC;
+          glTrace(gl.TRIANGLE_STRIP, anneau(dernierHit, 0.045, 0.082), HALO); glTrace(gl.TRIANGLE_STRIP, anneau(dernierHit, 0.052, 0.072), c);
+        }
+      }
+    }
+
+    // ── Géométrie : normale d'un hit, murs, angles ─────────────────────────
+    function normaleY(q) { // axe Y local (0,1,0) tourné par le quaternion → composante monde
+      const { x, y, z, w } = q;
+      return { nx: 2 * (x * y - w * z), ny: 1 - 2 * (x * x + z * z), nz: 2 * (y * z + w * x) };
+    }
+    function classer(ny) { return ny > 0.8 ? 'sol' : ny < -0.8 ? 'plafond' : Math.abs(ny) < 0.35 ? 'mur' : 'aucun'; }
+    function retenirMur(p, n) {
+      // Normale horizontale normalisée, plan nx*x + nz*z = d.
+      let nx = n.nx, nz = n.nz; const l = Math.hypot(nx, nz); if (l < 1e-6) return; nx /= l; nz /= l;
+      const d = nx * p.x + nz * p.z;
+      for (const m of murs) {
+        const cos = m.nx * nx + m.nz * nz;
+        if (Math.abs(cos) > Math.cos(25 * Math.PI / 180) && Math.abs(Math.abs(m.d) - Math.abs(d)) < 0.25 && (cos > 0 ? Math.abs(m.d - d) < 0.25 : true)) {
+          m.n++; m.x = (m.x * (m.n - 1) + p.x) / m.n; m.z = (m.z * (m.n - 1) + p.z) / m.n; m.y = Math.min(m.y, p.y); return;
+        }
+      }
+      murs.push({ nx, nz, d, x: p.x, z: p.z, y: p.y, n: 1 });
+    }
+    function deduireAngles() {
+      const out = []; const y = solY.length ? solY.slice().sort((a, b) => a - b)[Math.floor(solY.length / 2)] : (murs[0] ? murs[0].y : 0);
+      for (let i = 0; i < murs.length; i++) for (let j = i + 1; j < murs.length; j++) {
+        const a = murs[i], b = murs[j]; const cos = a.nx * b.nx + a.nz * b.nz;
+        if (Math.abs(cos) > Math.cos(60 * Math.PI / 180)) continue; // pas assez perpendiculaires
+        const det = a.nx * b.nz - a.nz * b.nx; if (Math.abs(det) < 1e-6) continue;
+        const x = (a.d * b.nz - b.d * a.nz) / det, z = (a.nx * b.d - b.nx * a.d) / det;
+        if (Math.hypot(x - a.x, z - a.z) > 7 || Math.hypot(x - b.x, z - b.z) > 7) continue;
+        out.push({ x, y, z, murs: [i, j] });
+      }
+      // Ordre par angle autour du centre : pour relier et mesurer les côtés.
+      if (out.length >= 2) { const cx = out.reduce((s, p) => s + p.x, 0) / out.length, cz = out.reduce((s, p) => s + p.z, 0) / out.length; out.sort((p, q) => Math.atan2(p.z - cz, p.x - cx) - Math.atan2(q.z - cz, q.x - cx)); }
+      return out;
+    }
+
+    // ── Boucle ─────────────────────────────────────────────────────────────
+    function boucle(t, frame) {
+      if (!session) return;
+      session.requestAnimationFrame(boucle);
+      R.images++;
+      // Plans ARCore (si l'API existe et si la session l'a accordée).
+      polysPlans.length = 0;
+      try {
+        const set = frame.detectedPlanes;
+        if (set) {
+          let h = 0, v = 0;
+          set.forEach((plan) => {
+            const pose = frame.getPose(plan.planeSpace, refSpace); if (!pose) return;
+            const vertical = plan.orientation === 'vertical'; vertical ? v++ : h++;
+            const m = pose.transform.matrix, coords = [];
+            plan.polygon.forEach((pt) => { coords.push(m[0] * pt.x + m[4] * pt.y + m[8] * pt.z + m[12], m[1] * pt.x + m[5] * pt.y + m[9] * pt.z + m[13] + 0.005, m[2] * pt.x + m[6] * pt.y + m[10] * pt.z + m[14]); });
+            polysPlans.push({ coords, vertical });
+            if (vertical) retenirMur({ x: m[12], y: m[13], z: m[14] }, normaleY(pose.transform.orientation));
+            else solY.push(m[13]);
+          });
+          R.plans_max.horizontaux = Math.max(R.plans_max.horizontaux, h); R.plans_max.verticaux = Math.max(R.plans_max.verticaux, v);
+        }
+      } catch (e) { if (R.erreurs.length < 10) R.erreurs.push('plans: ' + e.message); }
+      // Surface visée.
+      const hits = frame.getHitTestResults(hitSource);
+      if (hits.length) {
+        const pose = hits[0].getPose(refSpace);
+        if (pose) {
+          dernierHit = pose.transform.position; const n = normaleY(pose.transform.orientation); dernierType = classer(n.ny); R.hits[dernierType]++;
+          if (dernierType === 'sol') solY.push(dernierHit.y);
+          if (dernierType === 'mur') retenirMur(dernierHit, n);
+        }
+      } else { dernierHit = null; dernierType = 'aucun'; R.hits.aucun++; }
+      $('ui').classList.toggle('sans', !dernierHit);
+      // Profondeur (API depth-sensing).
+      try {
+        const pose = frame.getViewerPose(refSpace);
+        if (pose && R.profondeur.api && R.images % 15 === 0) {
+          const info = frame.getDepthInformation(pose.views[0]);
+          if (info) {
+            R.profondeur.dispo = true; R.profondeur.largeur = info.width; R.profondeur.hauteur = info.height; R.profondeur.echantillons++;
+            const d = info.getDepthInMeters(0.5, 0.5); if (Number.isFinite(d)) R.profondeur.centre_m = +d.toFixed(2);
+            if (dernierHit) { const c = pose.transform.position; R.profondeur.hit_m = +Math.hypot(dernierHit.x - c.x, dernierHit.y - c.y, dernierHit.z - c.z).toFixed(2); }
+          }
+        }
+      } catch (e) { if (R.erreurs.length < 10) R.erreurs.push('profondeur: ' + e.message); }
+      if (R.images % 10 === 0) angles = deduireAngles();
+      try { glRendre(frame); } catch (e) { if (R.erreurs.length < 10) R.erreurs.push('rendu: ' + e.message); }
+      try { numeros(); } catch (_) {}
+      if (R.images % 6 === 0) {
+        $('stats-txt').textContent = `Visé : ${dernierType.toUpperCase()} · murs ${murs.length} · angles ${angles.length} · plans ARCore ${R.plans_max.horizontaux}h/${R.plans_max.verticaux}v · profondeur ${R.profondeur.dispo ? R.profondeur.largeur + '×' + R.profondeur.hauteur : 'non'}`;
+      }
+    }
+    function numeros() {
+      const box = $('nums'); if (!matriceEcran) return;
+      while (box.children.length > angles.length) box.lastChild.remove();
+      while (box.children.length < angles.length) { const e = document.createElement('span'); e.className = 'num'; e.textContent = box.children.length + 1; box.appendChild(e); }
+      angles.forEach((a, i) => { const p = projeter(matriceEcran, { x: a.x, y: a.y + 0.1, z: a.z }, innerWidth, innerHeight); const e = box.children[i]; e.style.display = p.devant ? '' : 'none'; if (p.devant) e.style.transform = `translate(${p.x | 0}px, ${p.y | 0}px) translate(-50%,-100%)`; });
+    }
+
+    // ── Rapport ────────────────────────────────────────────────────────────
+    function afficherRapport() {
+      R.duree_s = debut ? +((performance.now() - debut) / 1000).toFixed(1) : 0;
+      R.murs = murs.map((m) => ({ n: m.n, d: +m.d.toFixed(2), nx: +m.nx.toFixed(2), nz: +m.nz.toFixed(2) }));
+      R.angles = angles.map((a, i) => { const b = angles[(i + 1) % angles.length]; return { x: +a.x.toFixed(2), z: +a.z.toFixed(2), cote_suivant_m: angles.length > 1 ? +Math.hypot(b.x - a.x, b.z - a.z).toFixed(2) : null }; });
+      const txt = JSON.stringify(R, null, 1);
+      $('json').textContent = txt;
+      const ok = angles.length >= 3;
+      $('resume').className = 'carte' + (ok ? '' : ' ko');
+      $('resume').innerHTML = `<b>${angles.length} angle(s) déduit(s)</b> à partir de ${murs.length} mur(s) en ${R.duree_s} s · surfaces visées : sol ${R.hits.sol}, mur ${R.hits.mur}, plafond ${R.hits.plafond}, aucune ${R.hits.aucun}<br>`
+        + `Plans ARCore : ${R.plans_api ? (R.accordees.includes('plane-detection') ? 'accordés' : 'API présente, non accordés') : 'API absente'} (max ${R.plans_max.horizontaux} horizontaux / ${R.plans_max.verticaux} verticaux) · `
+        + `Profondeur : ${R.profondeur.api ? (R.profondeur.dispo ? R.profondeur.largeur + '×' + R.profondeur.hauteur : 'API présente, aucune image') : 'API absente'} · `
+        + `Caméra brute : ${R.camera.lue ? R.camera.largeur + '×' + R.camera.hauteur + ' (viewport ' + R.camera.viewport.join('×') + ')' : (R.camera_brute ? 'API présente, image non lue' + (R.camera.erreur ? ' — ' + R.camera.erreur : '') : 'absente')}<br>Fonctions accordées : ${R.accordees.join(', ') || '?'}`
+        + (R.erreurs.length ? `<br>Erreurs : ${R.erreurs.join(' · ')}` : '');
+      $('rapport').style.display = ''; $('go').style.display = 'none';
+      window.scrollTo(0, 0);
+    }
+    $('go').addEventListener('click', demarrer);
+    $('fin').addEventListener('click', () => { if (session) session.end(); });
+    $('quit').addEventListener('click', () => { if (session) session.end(); });
+    $('encore').addEventListener('click', () => location.reload());
+    $('copier').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('json').textContent); $('copier').textContent = 'Copié ✓'; } catch (_) { $('copier').textContent = 'Sélectionnez le texte et copiez-le'; } });
+    $('partager').addEventListener('click', async () => {
+      const text = 'Sonde métré BatiSpot\n' + $('json').textContent;
+      if (navigator.share) { try { await navigator.share({ title: 'Sonde métré BatiSpot', text }); } catch (_) {} }
+      else { $('partager').textContent = 'Partage indisponible : utilisez Copier'; }
+    });
+  </script>
+  <script src="./js/config.js"></script>
+</body>
+</html>

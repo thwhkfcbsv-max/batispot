@@ -1,0 +1,49 @@
+<div class="lm-block" id="lm-block">
+ <div class="lm-badge"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12L10 20v16h12V28h4v8h12V20Z"/></svg> Guide gratuit</div>
+ <div class="lm-title">T&#233;l&#233;chargez ce guide en PDF</div>
+ <div class="lm-subtitle">Recevez ce guide complet + nos prochains conseils exclusifs directement dans votre bo&#238;te mail.</div>
+ <form class="lm-form" id="lm-form">
+ <div class="lm-row">
+ <input class="lm-input" type="text" id="lm-prenom" placeholder="Pr&#233;nom" required>
+ <input class="lm-input" type="tel" id="lm-tel" placeholder="06 12 34 56 78">
+ </div>
+ <input class="lm-input" type="email" id="lm-email" placeholder="votre@email.fr" required>
+ <button type="submit" class="lm-btn" id="lm-btn">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+ T&#233;l&#233;charger le PDF gratuitement
+ </button>
+ <p class="lm-privacy">&#128274; Vos donn&#233;es restent confidentielles. Aucun spam.</p>
+ </form>
+ <div class="lm-success" id="lm-success">
+ <div class="lm-success-icon">&#9989;</div>
+ <div class="lm-success-title">C&#8217;est parti !</div>
+ <div class="lm-success-msg">Dans la boîte d'impression qui s'ouvre → choisissez <strong>Enregistrer en PDF</strong>. Vous recevrez aussi nos prochains conseils par email.</div>
+ <button onclick="window.print()" style="margin-top:14px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:white;padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Télécharger à nouveau</button>
+ </div>
+</div>
+<script>
+(function(){
+ var form=document.getElementById('lm-form');
+ if(!form)return;
+ form.addEventListener('submit',async function(e){
+ e.preventDefault();
+ var btn=document.getElementById('lm-btn');
+ btn.textContent='Envoi en cours…';btn.disabled=true;
+ var prenom=document.getElementById('lm-prenom').value.trim();
+ var email=document.getElementById('lm-email').value.trim();
+ var tel=document.getElementById('lm-tel').value.trim();
+ try{
+ await fetch('https://cisniwhaiydazdpzvino.supabase.co/functions/v1/subscribe-lead',{
+ method:'POST',
+ headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({email:email,attributes:{PRENOM:prenom,SMS:tel,SOURCE:'blog_lead_magnet',PAGE:window.location.pathname},listIds:[3],updateEnabled:true})
+ });
+ }catch(err){}
+ if(typeof gtag==='function'){gtag('event','lead_magnet_download',{page:window.location.pathname});}
+ document.getElementById('lm-form').style.display='none';
+ document.getElementById('lm-success').style.display='block';
+ setTimeout(function(){window.print();},600);
+ });
+})();
+</script>
+</article>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="color-scheme" content="only light">
+  <style>:root{color-scheme:only light}</style>
+  <!-- Page atteinte par e-mail uniquement : elle ne doit pas concurrencer
+       l'inscription publique dans l'index. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Réserver ma place dans la bêta · BatiSpot Pro</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="./css/app.css?v=v92_2026_09_29b">
+  <style>
+    body { background:var(--bg,#F7FBF8); color:var(--text,#1C2B22); font-family:"Inter",system-ui,-apple-system,sans-serif; margin:0; -webkit-font-smoothing:antialiased; }
+    .ecran { max-width:460px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:26px 18px; box-sizing:border-box; gap:14px; }
+    .marque { display:flex; justify-content:center; margin-bottom:2px; }
+    h1 { font-size:21px; font-weight:900; margin:0; line-height:1.3; }
+    p { font-size:13.5px; color:var(--muted,#5A7268); line-height:1.6; margin:0; }
+    label { display:block; font-size:12.5px; font-weight:700; color:var(--text,#1C2B22); margin:0 0 5px; }
+    /* 16 px minimum : en dessous, iOS zoome sur le champ au focus. */
+    .champ { width:100%; padding:13px 14px; border:1.5px solid var(--border,#D3E3DA); border-radius:10px; font-size:16px; font-family:inherit; color:var(--text,#1C2B22); background:#FFFFFF; outline:none; box-sizing:border-box; }
+    .champ:focus { border-color:var(--g1,#228B5B); }
+    .deux { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .bloc { margin-bottom:11px; }
+    .mq-btn[disabled] { opacity:.55; cursor:default; }
+    .discret { font-size:12px; color:var(--muted,#5A7268); text-align:center; }
+    .cache { display:none !important; }
+    .atouts { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:7px; }
+    .atouts li { font-size:13px; line-height:1.5; padding-left:22px; position:relative; color:var(--text,#1C2B22); }
+    .atouts li::before { content:"✓"; position:absolute; left:0; color:var(--g1,#228B5B); font-weight:900; }
+    .err { color:#DC2626; font-size:12.5px; font-weight:600; }
+    .jalon { font-size:12px; color:var(--muted,#5A7268); margin:2px 0 0; letter-spacing:.01em; }
+    .jalon b { color:var(--text,#12211A); }
+    .aide { display:block; margin-top:5px; font-size:12px; color:var(--muted,#5A7268); }
+  </style>
+  <script src="/js/turnstile-helper.js" defer></script>
+<script src="/js/analytics.js" defer></script>
+</head>
+<body>
+  <div class="ecran">
+    <div class="marque">
+      <svg width="160" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BatiSpot Pro">
+        <defs><linearGradient id="lg-bt" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+        <rect width="40" height="40" rx="10" y="4" fill="url(#lg-bt)"/>
+        <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+        <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+        <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+        <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+        <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+      </svg>
+    </div>
+
+    <!-- Le formulaire -->
+    <div class="mq-card" id="etatFormulaire" style="flex-direction:column;align-items:stretch;gap:13px;padding:24px 20px">
+      <h1>Réservez votre place pour la bêta BatiSpot</h1>
+      <p>La plateforme est en phase de validation auprès d'un premier groupe d'artisans. Confirmez vos coordonnées : un membre de l'équipe vous appellera dès l'ouverture de votre accès.</p>
+      <ul class="atouts">
+        <li>Gratuit pendant toute la bêta, sans engagement</li>
+        <li>Aucune carte bancaire demandée</li>
+      </ul>
+
+      <p class="jalon" id="jalon">Étape <b>1</b> sur 2 &middot; <span id="jalonQuoi">deux champs, trente secondes</span></p>
+
+      <form id="form" novalidate style="margin-top:4px">
+
+        <!-- Étape 1 : le strict nécessaire. La fiche est enregistrée dès ici. -->
+        <div id="etape1">
+          <div class="bloc">
+            <label for="email">Votre e-mail</label>
+            <input class="champ" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="vous@exemple.fr" required>
+          </div>
+          <div class="bloc">
+            <label for="metier">Votre métier</label>
+            <select class="champ" id="metier" name="metier" required>
+              <option value="">Choisir&hellip;</option>
+              <option>Maçon</option>
+              <option>Plombier / Chauffagiste</option>
+              <option>Électricien</option>
+              <option>Peintre</option>
+              <option>Carreleur</option>
+              <option>Menuisier</option>
+              <option>Couvreur / Charpentier</option>
+              <option>Plaquiste / Plâtrier</option>
+              <option>Serrurier / Métallier</option>
+              <option>Façadier / Isolation</option>
+              <option>Terrassier / VRD</option>
+              <option>Tous corps d&rsquo;état / Rénovation</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div id="blocAutre" class="bloc cache">
+            <label for="metierAutre">Précisez votre métier</label>
+            <input class="champ" id="metierAutre" name="metierAutre" type="text">
+          </div>
+        </div>
+
+        <!-- Étape 2 : de quoi vous rappeler. -->
+        <div id="etape2" class="cache">
+          <div class="deux bloc">
+            <div>
+              <label for="prenom">Prénom</label>
+              <input class="champ" id="prenom" name="prenom" type="text" autocomplete="given-name">
+            </div>
+            <div>
+              <label for="ville">Ville</label>
+              <input class="champ" id="ville" name="ville" type="text" autocomplete="address-level2">
+            </div>
+          </div>
+          <div class="bloc">
+            <label for="entreprise">Nom de votre entreprise</label>
+            <input class="champ" id="entreprise" name="entreprise" type="text" autocomplete="organization">
+          </div>
+          <div class="bloc">
+            <label for="telephone">Téléphone</label>
+            <input class="champ" id="telephone" name="telephone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">
+            <span class="aide">C&rsquo;est le numéro qu&rsquo;on compose le jour de l&rsquo;ouverture.</span>
+          </div>
+        </div>
+
+        <div class="bs-turnstile" data-action="candidature_beta" style="margin:10px 0"></div>
+        <div id="err" class="err cache"></div>
+        <button class="mq-btn mq-primary" id="envoyer" type="submit" style="width:100%">Continuer &rarr;</button>
+      </form>
+      <p class="discret">Vos coordonnées servent uniquement à ouvrir votre accès. Elles ne sont ni revendues ni transmises.</p>
+    </div>
+
+    <!-- Succès -->
+    <div class="mq-card cache" id="etatSucces" style="flex-direction:column;align-items:stretch;gap:12px;padding:26px 22px">
+      <h1>C'est noté, votre place est confirmée</h1>
+      <p>Merci. Dès l'ouverture de votre accès, un membre de l'équipe vous appelle pour une courte présentation — quinze minutes, pour que vous en tiriez le meilleur dès votre premier devis.</p>
+      <p id="rappelConfirmation">Un e-mail de confirmation vient de partir vers <strong id="rappelEmail"></strong> ; votre lien de connexion arrivera à la même adresse.</p>
+      <a class="mq-btn mq-ghost" href="https://batispot.pro/" style="text-align:center">Découvrir BatiSpot en attendant</a>
+    </div>
+  </div>
+
+  <script src="./js/config.js"></script>
+  <!-- Correcteur d'orthographe natif sur tous les champs de saisie (15/09/2026). -->
+  <script src="./js/app-saisie.js?v=2026_09_15"></script>
+  <script type="module">
+    import { supabase } from './js/supabase.js';
+
+    const el = (id) => document.getElementById(id);
+    const form = el('form');
+    const btn = el('envoyer');
+    const err = el('err');
+
+    // L'adresse arrive par l'e-mail auto (?e=). On la pré-remplit mais on la
+    // laisse MODIFIABLE : l'artisan a pu essayer avec une adresse perso et
+    // vouloir son adresse pro, et c'est cette adresse-là qui recevra le lien.
+    const params = new URLSearchParams(location.search);
+    const emailUrl = (params.get('e') || '').trim();
+    if (emailUrl) el('email').value = emailUrl;
+
+    el('metier').addEventListener('change', () => {
+      el('blocAutre').classList.toggle('cache', el('metier').value !== 'Autre');
+    });
+
+    function probleme(message) {
+      err.textContent = message;
+      err.classList.remove('cache');
+      btn.disabled = false;
+      // Le libellé suit l'étape : après une erreur à l'étape 1, « Réserver ma
+      // place » promettrait une inscription qui n'est pas encore là.
+      btn.textContent = etape === 2 ? 'Réserver ma place →' : 'Continuer →';
+    }
+
+    // ── Le formulaire en deux temps ─────────────────────────────────────────
+    //
+    // Avant le 28/09/2026 : sept champs obligatoires d'un coup, téléphone
+    // compris, pour un visiteur arrivé d'une fiche guide. On demande maintenant
+    // l'adresse et le métier, on ENREGISTRE, puis on demande de quoi rappeler.
+    // Un abandon à l'étape 2 laisse donc un contact joignable au lieu de rien.
+    let etape = 1;
+
+    // Turnstile délivre un jeton à usage unique : il faut le réarmer entre
+    // les deux envois, sinon l'étape 2 est refusée pour antispam.
+    async function jetonFrais() {
+      if (!window.bsTurnstile) return '';
+      return window.bsTurnstile.waitForToken
+        ? await window.bsTurnstile.waitForToken(null, 8000)
+        : window.bsTurnstile.getToken(null);
+    }
+
+    function passerAEtape2() {
+      etape = 2;
+      el('etape1').classList.add('cache');
+      el('etape2').classList.remove('cache');
+      el('jalon').innerHTML = 'Étape <b>2</b> sur 2 &middot; <span id="jalonQuoi">de quoi vous rappeler</span>';
+      btn.textContent = 'Réserver ma place →';
+      btn.disabled = false;
+      if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+      el('prenom').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      err.classList.add('cache');
+
+      const v = (id) => el(id).value.trim();
+      const email = v('email').toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return probleme('Vérifiez votre adresse e-mail.');
+
+      let metier = el('metier').value;
+      if (!metier) return probleme('Choisissez votre métier.');
+      if (metier === 'Autre') {
+        if (!v('metierAutre')) return probleme('Précisez votre métier.');
+        metier = v('metierAutre');
+      }
+
+      if (etape === 2) {
+        for (const [id, nom] of [['prenom', 'votre prénom'], ['entreprise', "le nom de l'entreprise"],
+                                 ['telephone', 'votre téléphone'], ['ville', 'votre ville']]) {
+          if (!v(id)) return probleme(`Il manque ${nom}.`);
+        }
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Envoi…';
+
+      const jeton = await jetonFrais();
+      if (!jeton) {
+        if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+        return probleme("La vérification antispam n'a pas abouti. Patientez deux secondes et réessayez.");
+      }
+
+      const corps = etape === 1
+        ? { email, metier, etape: 1, turnstile: jeton }
+        : {
+            email, metier,
+            prenom: v('prenom'), entreprise: v('entreprise'),
+            telephone: v('telephone'), ville: v('ville'),
+            turnstile: jeton,
+          };
+
+      let rep;
+      try {
+        rep = await supabase.functions.invoke('candidature-beta', { body: corps });
+      } catch (_) {
+        return probleme("L'envoi n'a pas abouti. Réessayez, ou répondez simplement à notre e-mail.");
+      }
+      const reponse = rep && rep.data;
+      if (!reponse || !reponse.ok) {
+        const code = (reponse && reponse.erreur) || '';
+        if (window.bsTurnstile && window.bsTurnstile.reset) window.bsTurnstile.reset();
+        if (code === 'antispam') return probleme("La vérification antispam n'a pas abouti. Réessayez dans un instant.");
+        if (code === 'quota_depasse') return probleme('Trop de demandes depuis cette connexion. Réessayez dans quelques minutes.');
+        console.error('candidature-beta:', code || rep);
+        return probleme("L'envoi n'a pas abouti. Réessayez, ou répondez simplement à notre e-mail.");
+      }
+
+      // Deux événements distincts : sans eux, on ne saura jamais combien de
+      // gens s'arrêtent ENTRE les deux étapes — c'est toute la raison du découpage.
+      if (etape === 1) {
+        try { gtag('event', 'beta_etape_1', { metier }); } catch (_) {}
+        return passerAEtape2();
+      }
+
+      el('rappelEmail').textContent = email;
+      if (reponse.envoye === false) {
+        el('rappelConfirmation').textContent =
+          "Votre place est enregistrée. L'e-mail de confirmation n'a pas pu partir — ce n'est pas grave, votre inscription, elle, est bien prise.";
+      }
+
+      try { gtag('event', 'beta_candidature', { metier }); } catch (_) {}
+      el('etatFormulaire').classList.add('cache');
+      el('etatSucces').classList.remove('cache');
+      window.scrollTo({ top: 0 });
+    });
+  </script>
+</body>
+</html>

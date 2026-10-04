@@ -1,0 +1,367 @@
+<!doctype html><html lang="fr" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><title>BatiSpot Pro : Devis</title>
+<style>
+  :root{
+    --paper:#F4F1EC; --card:#FFFFFF; --raise:#FBFAF7;
+    --ink:#191C1A; --ink-soft:#3D423E; --muted:#71766F; --faint:#9AA097;
+    --line:#E8E4DC; --line-2:#DAD5CB;
+    --brand:#127A46;                 /* vert = marque + validé, usage rare */
+    --brand-soft:#E4F3EA;
+    --amber:#E38A15; --amber-deep:#C0710A; --amber-soft:#FBEAD2; /* action / énergie */
+    --steel:#3B5A72; --steel-soft:#E4EBF1;   /* catégories / liens */
+    --ok:#1C9A57; --warn:#C9820C; --danger:#C4483B;
+    --shadow:0 1px 2px rgba(25,28,26,.05),0 14px 30px -14px rgba(25,28,26,.22);
+    --shadow-lg:0 30px 70px -24px rgba(25,28,26,.45);
+    --r:16px; --r-sm:11px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0E100E; --card:#171A17; --raise:#1D211D;
+      --ink:#ECEFE9; --ink-soft:#C4C9C0; --muted:#949A8F; --faint:#6C7268;
+      --line:#262B25; --line-2:#333A32;
+      --brand:#38B26E; --brand-soft:#12271A;
+      --amber:#F0A23E; --amber-deep:#F0A23E; --amber-soft:#2A1E0C;
+      --steel:#7BA0BE; --steel-soft:#16222B;
+      --ok:#3FD089; --warn:#E8A93B; --danger:#E4796B;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 40px -16px rgba(0,0,0,.7);
+      --shadow-lg:0 34px 80px -24px rgba(0,0,0,.85);
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#F4F1EC;--card:#FFFFFF;--raise:#FBFAF7;--ink:#191C1A;--ink-soft:#3D423E;--muted:#71766F;--faint:#9AA097;
+    --line:#E8E4DC;--line-2:#DAD5CB;--brand:#127A46;--brand-soft:#E4F3EA;--amber:#E38A15;--amber-deep:#C0710A;
+    --amber-soft:#FBEAD2;--steel:#3B5A72;--steel-soft:#E4EBF1;--ok:#1C9A57;--warn:#C9820C;--danger:#C4483B;
+    --shadow:0 1px 2px rgba(25,28,26,.05),0 14px 30px -14px rgba(25,28,26,.22);--shadow-lg:0 30px 70px -24px rgba(25,28,26,.45);
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E100E;--card:#171A17;--raise:#1D211D;--ink:#ECEFE9;--ink-soft:#C4C9C0;--muted:#949A8F;--faint:#6C7268;
+    --line:#262B25;--line-2:#333A32;--brand:#38B26E;--brand-soft:#12271A;--amber:#F0A23E;--amber-deep:#F0A23E;
+    --amber-soft:#2A1E0C;--steel:#7BA0BE;--steel-soft:#16222B;--ok:#3FD089;--warn:#E8A93B;--danger:#E4796B;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 40px -16px rgba(0,0,0,.7);--shadow-lg:0 34px 80px -24px rgba(0,0,0,.85);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;
+    min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 16px 70px}
+  .num{font-variant-numeric:tabular-nums}
+  .phone{width:100%;max-width:414px;background:var(--card);border-radius:34px;overflow:hidden;
+    box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:10px;padding:16px 16px 13px;border-bottom:1px solid var(--line);background:var(--card)}
+  .mark{width:30px;height:30px;border-radius:8px;background:var(--brand);display:grid;place-items:center;flex:none}
+  .mark svg{width:17px;height:17px}
+  .wordmark{font-weight:800;font-size:16px;letter-spacing:-.02em}
+  .wordmark .pro{font-size:10px;font-weight:700;color:var(--amber-deep);vertical-align:super;margin-left:2px;letter-spacing:.04em}
+  .top .sp{flex:1}
+  .ibtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);display:grid;place-items:center;color:var(--muted);cursor:pointer}
+  .ibtn svg{width:17px;height:17px}
+
+  .scroll{max-height:730px;overflow-y:auto;padding:14px 15px 18px;background:var(--paper)}
+  .scroll::-webkit-scrollbar{width:0}
+
+  /* creation modes */
+  .modes{display:flex;gap:7px;margin-bottom:13px}
+  .mode{flex:1;border:1px solid var(--line-2);background:var(--card);border-radius:12px;padding:9px 4px;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--ink-soft);transition:.13s}
+  .mode svg{width:17px;height:17px;color:var(--muted)}
+  .mode.active{border-color:var(--amber);background:var(--amber-soft);color:var(--amber-deep)}
+  .mode.active svg{color:var(--amber-deep)}
+
+  /* assistant */
+  .assist{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px;box-shadow:var(--shadow)}
+  .assist-head{display:flex;align-items:center;gap:10px}
+  .spark{width:33px;height:33px;border-radius:9px;background:var(--brand);display:grid;place-items:center;flex:none}
+  .spark svg{width:18px;height:18px}
+  .assist-head b{font-size:14px;letter-spacing:-.01em}
+  .assist-head p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+  .inbar{margin-top:12px;display:flex;align-items:center;gap:8px;background:var(--raise);border:1.5px solid var(--line-2);
+    border-radius:12px;padding:5px 5px 5px 13px}
+  .inbar input{flex:1;border:0;background:transparent;color:var(--ink);font-family:inherit;font-size:13px;padding:9px 0;outline:none}
+  .inbar input::placeholder{color:var(--faint)}
+  .mic{width:39px;height:39px;border-radius:10px;flex:none;border:0;cursor:pointer;color:#fff;
+    background:var(--amber);display:grid;place-items:center;box-shadow:0 5px 13px -5px var(--amber-deep)}
+  .mic svg{width:17px;height:17px}
+  .chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .chip{font-size:11px;font-weight:600;color:var(--steel);background:var(--steel-soft);border:1px solid transparent;
+    border-radius:999px;padding:6px 11px;cursor:pointer;transition:.13s}
+  .chip:hover{filter:brightness(.97)}
+
+  /* doc */
+  .doc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+    margin-top:12px;overflow:hidden;opacity:0;transform:translateY(10px);transition:.45s}
+  .doc.show{opacity:1;transform:none}
+  .doc-head{padding:14px 15px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:10px}
+  .doc-head .n{font-size:11.5px;color:var(--muted);font-weight:600}
+  .doc-head h3{margin:3px 0 0;font-size:15.5px;letter-spacing:-.02em;line-height:1.2}
+  .status{margin-left:auto;font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:999px;white-space:nowrap;
+    background:var(--amber-soft);color:var(--amber-deep)}
+  .client{padding:11px 15px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+  .ava{width:33px;height:33px;border-radius:50%;background:var(--steel);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12.5px;flex:none}
+  .client b{font-size:13px}
+  .client p{margin:1px 0 0;font-size:11px;color:var(--muted)}
+
+  /* lines — editable */
+  .lines{padding:5px 7px}
+  .row{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:10px 8px;border-radius:11px;align-items:center}
+  .row:hover{background:var(--raise)}
+  .row+.row{border-top:1px solid var(--line)}
+  .row .desig{font-size:13px;font-weight:600;letter-spacing:-.01em;grid-column:1}
+  .row .sub{grid-column:1;display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11.5px;color:var(--muted)}
+  .qty{width:52px;border:1px solid var(--line-2);background:var(--card);border-radius:7px;padding:3px 6px;font:inherit;
+    font-size:11.5px;color:var(--ink);text-align:right}
+  .qty:focus{outline:none;border-color:var(--amber)}
+  .pu{width:56px;border:1px solid var(--line-2);background:var(--card);border-radius:7px;padding:3px 6px;font:inherit;
+    font-size:11.5px;color:var(--ink);text-align:right}
+  .pu:focus{outline:none;border-color:var(--amber)}
+  .unit{color:var(--faint)}
+  .tva{font-size:10px;font-weight:700;color:var(--steel);background:var(--steel-soft);border-radius:5px;padding:1px 5px}
+  .amt{grid-row:1/3;align-self:center;font-size:14px;font-weight:700;text-align:right;white-space:nowrap;color:var(--ink)}
+  .del{grid-row:1/3;align-self:center;border:0;background:transparent;color:var(--faint);cursor:pointer;padding:2px 0 2px 6px}
+  .del:hover{color:var(--danger)}
+  .del svg{width:15px;height:15px;display:block}
+  .addline{display:flex;align-items:center;justify-content:center;gap:7px;width:calc(100% - 14px);margin:5px 7px 9px;
+    padding:10px;border:1.5px dashed var(--line-2);border-radius:11px;background:transparent;color:var(--muted);
+    font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+  .addline svg{width:15px;height:15px}
+  .addline:hover{border-color:var(--amber);color:var(--amber-deep)}
+
+  /* totals */
+  .totals{margin:2px 13px 12px;background:var(--raise);border:1px solid var(--line);border-radius:13px;padding:12px 14px}
+  .t{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:3px 0}
+  .t b{color:var(--ink);font-weight:600}
+  .ttc{margin-top:8px;padding-top:10px;border-top:1px dashed var(--line-2);display:flex;justify-content:space-between;align-items:baseline}
+  .ttc span{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .ttc b{font-size:23px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .marge{margin-top:9px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;
+    background:var(--brand-soft);color:var(--brand);border-radius:9px;padding:7px 11px;font-weight:600}
+  .acompte{margin-top:6px;font-size:11.5px;color:var(--amber-deep);background:var(--amber-soft);border-radius:9px;
+    padding:7px 11px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+
+  /* actions */
+  .acts{display:flex;gap:9px;padding:2px 13px 15px}
+  .btn{flex:1;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;font-size:13px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:7px}
+  .btn svg{width:16px;height:16px}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line-2)}
+  .btn-primary{color:#fff;background:var(--amber);box-shadow:0 9px 20px -9px var(--amber-deep)}
+
+  .empty{text-align:center;color:var(--faint);font-size:12.5px;padding:22px 20px 8px;line-height:1.6}
+
+  /* bottom nav */
+  .nav{position:sticky;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding:8px 6px 11px}
+  .nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--faint);text-decoration:none;cursor:pointer}
+  .nav a svg{width:20px;height:20px}
+  .nav a.on{color:var(--amber-deep)}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s;
+    background:var(--ink);color:var(--paper);font-size:12.5px;font-weight:600;padding:11px 16px;border-radius:11px;
+    box-shadow:var(--shadow-lg);z-index:50;border-left:3px solid var(--amber);max-width:90vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  .hint{max-width:414px;margin:16px auto 0;text-align:center;color:var(--muted);font-size:12px;line-height:1.6}
+  .palettes{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 auto 16px;max-width:440px}
+  .pal{display:flex;align-items:center;gap:7px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:var(--shadow)}
+  .pal::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--sw)}
+  .pal.on{border-color:var(--sw);box-shadow:0 0 0 2px var(--sw) inset,var(--shadow)}
+  .pal-lab{max-width:440px;margin:0 auto 8px;text-align:center;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="pal-lab">Choisis une palette</div>
+<div class="palettes" role="group" aria-label="Palettes">
+  <button class="pal" data-pal="ambre" style="--sw:#D97706">Ambre chantier</button>
+  <button class="pal" data-pal="acier" style="--sw:#2D6CDF">Bleu acier</button>
+  <button class="pal" data-pal="emeraude" style="--sw:#0BA85C">Émeraude</button>
+  <button class="pal" data-pal="indigo" style="--sw:#5B4BE6">Indigo</button>
+  <button class="pal" data-pal="brique" style="--sw:#C1502E">Brique</button>
+</div>
+
+<div class="phone">
+  <div class="top">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z" fill="#fff"/></svg></span>
+    <span class="wordmark">BatiSpot<span class="pro">PRO</span></span>
+    <span class="sp"></span>
+    <button class="ibtn" id="themeBtn" aria-label="Thème"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></button>
+    <button class="ibtn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+  </div>
+
+  <div class="scroll">
+    <!-- creation modes -->
+    <div class="modes">
+      <button class="mode active" data-mode="assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>Assistant</button>
+      <button class="mode" data-mode="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Note</button>
+      <button class="mode" data-mode="photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Photo</button>
+      <button class="mode" data-mode="voix"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0"/></svg>Vocal</button>
+    </div>
+
+    <!-- assistant -->
+    <div class="assist">
+      <div class="assist-head">
+        <span class="spark"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l1.9 5.1L19 9l-5.1 1.9L12 16l-1.9-5.1L5 9l5.1-1.9z"/></svg></span>
+        <div><b>Décrivez le chantier</b><p id="assistSub">Je monte le devis, postes, quantités, prix marché IDF.</p></div>
+      </div>
+      <div class="inbar">
+        <input id="prompt" placeholder="Ex : peinture 2 chambres 40 m², murs + plafonds…" />
+        <button class="mic" id="go" aria-label="Générer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+      </div>
+      <div class="chips">
+        <button class="chip" data-fill="Peinture 2 chambres 40 m²">Peinture 2 chambres</button>
+        <button class="chip" data-fill="Réfection salle de bain complète">Réfection SDB</button>
+        <button class="chip" data-fill="Pose parquet 25 m²">Parquet 25 m²</button>
+      </div>
+    </div>
+
+    <!-- doc -->
+    <div class="doc" id="doc">
+      <div class="doc-head">
+        <div><div class="n num">DEV-2026-0042</div><h3 id="docTitle">Rénovation peinture — 2 chambres</h3></div>
+        <span class="status">Brouillon</span>
+      </div>
+      <div class="client">
+        <span class="ava">SM</span>
+        <div><b>Sophie Marchand</b><p>18 rue des Lilas, 93100 Montreuil</p></div>
+      </div>
+
+      <div class="lines" id="lines"></div>
+      <button class="addline" id="addLine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Ajouter une ligne</button>
+
+      <div class="totals">
+        <div class="t">Total HT <b class="num" id="ht">—</b></div>
+        <div class="t">TVA 10 % <b class="num" id="tva">—</b></div>
+        <div class="ttc"><span>Total TTC</span><b class="num" id="ttc">—</b></div>
+        <div class="marge">Marge estimée <b class="num" id="marge">—</b></div>
+        <div class="acompte">Acompte à la signature (30 %) <b class="num" id="acompte">—</b></div>
+      </div>
+
+      <div class="acts">
+        <button class="btn btn-ghost" id="pdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Aperçu PDF</button>
+        <button class="btn btn-primary" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>Envoyer</button>
+      </div>
+    </div>
+
+    <div class="empty" id="empty">Choisis un mode ou décris le chantier, l'assistant remplit le devis, prêt à ajuster puis envoyer.</div>
+  </div>
+
+  <nav class="nav">
+    <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Accueil</a>
+    <a class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h4"/></svg>Devis</a>
+    <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Planning</a>
+    <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>Photos</a>
+    <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Finances</a>
+  </nav>
+</div>
+
+<div id="toast"></div>
+<p class="hint">Template vivant, les modes en haut, l'assistant qui remplit, et les lignes sont <b>éditables</b> (change les quantités, ajoute/supprime : les totaux se recalculent). Boutons Aperçu/Envoyer actifs. Vert = marque, ambre = action.</p>
+
+<script>
+(function(){
+  var root=document.documentElement, toastEl=document.getElementById('toast'), toastT;
+  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show');},2200);}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var dark=cur? cur==='dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+    root.setAttribute('data-theme', dark?'light':'dark');
+  });
+
+  // ── Sélecteur de palettes : swap la couleur d'ACTION (le vert marque reste sauf Émeraude) ──
+  var PALS={
+    ambre:   {a:'#D97706',ad:'#B45309',as:'#FBEAD2', b:'#127A46',bs:'#E4F3EA'},
+    acier:   {a:'#2D6CDF',ad:'#1E52B0',as:'#E4EDFB', b:'#127A46',bs:'#E4F3EA'},
+    emeraude:{a:'#0BA85C',ad:'#087F45',as:'#DBF5E8', b:'#0E5A38',bs:'#DBF5E8'},
+    indigo:  {a:'#5B4BE6',ad:'#4436C4',as:'#E9E6FB', b:'#127A46',bs:'#E4F3EA'},
+    brique:  {a:'#C1502E',ad:'#9C3F22',as:'#F6E1D8', b:'#127A46',bs:'#E4F3EA'}
+  };
+  function applyPal(name){
+    var p=PALS[name]||PALS.ambre, s=root.style;
+    s.setProperty('--amber',p.a); s.setProperty('--amber-deep',p.ad); s.setProperty('--amber-soft',p.as);
+    s.setProperty('--steel', name==='acier'?'#1E52B0':'#3B5A72');
+    s.setProperty('--brand',p.b); s.setProperty('--brand-soft',p.bs);
+    document.querySelectorAll('.pal').forEach(function(x){x.classList.toggle('on', x.getAttribute('data-pal')===name);});
+  }
+  document.querySelectorAll('.pal').forEach(function(x){x.addEventListener('click',function(){applyPal(x.getAttribute('data-pal'));});});
+  applyPal('ambre');
+
+  var euro=function(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';};
+  var doc=document.getElementById('doc'), empty=document.getElementById('empty'), linesEl=document.getElementById('lines');
+  var TVA=0.10;
+  var PRESETS={
+    "peinture 2 chambres 40 m²":[
+      ["Préparation murs (rebouchage, ponçage)",40,12],
+      ["Peinture murs — 2 couches acrylique",40,18],
+      ["Peinture plafonds",28,16],
+      ["Protection sols + finitions",1,190]
+    ],
+    "réfection salle de bain complète":[
+      ["Dépose ancienne salle de bain + évacuation",1,480],
+      ["Étanchéité SPEC + pose carrelage sol 60x60",9,95],
+      ["Faïence murale + joints hydrofuges",22,65],
+      ["Bâti-support WC suspendu Geberit",1,480],
+      ["Receveur douche + colonne thermostatique",1,1050]
+    ],
+    "pose parquet 25 m²":[
+      ["Ragréage autolissant fibré P4",25,18],
+      ["Pose parquet contrecollé chêne + sous-couche",25,42],
+      ["Plinthes assorties + finitions",22,14]
+    ]
+  };
+  var lines=[];
+
+  function render(){
+    linesEl.innerHTML='';
+    lines.forEach(function(l,i){
+      var row=document.createElement('div'); row.className='row';
+      row.innerHTML=''
+       +'<div class="desig">'+l.d+'</div>'
+       +'<div class="sub"><input class="qty num" type="number" value="'+l.q+'" min="0" step="0.5" aria-label="Quantité"> <span class="unit">'+(l.u||'u')+'</span> × <input class="pu num" type="number" value="'+l.pu+'" min="0" aria-label="Prix unitaire"> € <span class="tva">TVA 10%</span></div>'
+       +'<div class="amt num">'+euro(l.q*l.pu)+'</div>'
+       +'<button class="del" aria-label="Supprimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>';
+      row.querySelector('.qty').addEventListener('input',function(e){l.q=parseFloat(e.target.value)||0;row.querySelector('.amt').textContent=euro(l.q*l.pu);totals();});
+      row.querySelector('.pu').addEventListener('input',function(e){l.pu=parseFloat(e.target.value)||0;row.querySelector('.amt').textContent=euro(l.q*l.pu);totals();});
+      row.querySelector('.del').addEventListener('click',function(){lines.splice(i,1);render();totals();});
+      linesEl.appendChild(row);
+    });
+  }
+  function totals(){
+    var ht=lines.reduce(function(a,l){return a+l.q*l.pu;},0);
+    var tva=ht*TVA, ttc=ht+tva;
+    document.getElementById('ht').textContent=euro(ht);
+    document.getElementById('tva').textContent=euro(tva);
+    document.getElementById('ttc').textContent=euro(ttc);
+    document.getElementById('acompte').textContent=euro(ttc*0.30);
+    var marge=ht*0.52; // estimation fournitures ~ HT-marge
+    document.getElementById('marge').textContent=euro(marge)+' · 52%';
+  }
+  function generate(txt){
+    var key=(txt||'').trim().toLowerCase();
+    var preset=PRESETS[key]||PRESETS["peinture 2 chambres 40 m²"];
+    document.getElementById('docTitle').textContent = key.charAt(0).toUpperCase()+key.slice(1) || 'Devis';
+    lines=preset.map(function(p){return {d:p[0],q:p[1],pu:p[2],u:p[1]>3?'m²':'forfait'};});
+    render(); totals();
+    empty.style.display='none';
+    doc.classList.remove('show'); void doc.offsetWidth; doc.classList.add('show');
+    doc.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  document.querySelectorAll('[data-fill]').forEach(function(c){c.addEventListener('click',function(){document.getElementById('prompt').value=c.getAttribute('data-fill');generate(c.getAttribute('data-fill'));});});
+  document.getElementById('go').addEventListener('click',function(){generate(document.getElementById('prompt').value||'Peinture 2 chambres 40 m²');});
+  document.getElementById('prompt').addEventListener('keydown',function(e){if(e.key==='Enter')generate(e.target.value);});
+  document.getElementById('addLine').addEventListener('click',function(){lines.push({d:'Nouvelle prestation',q:1,pu:50,u:'u'});render();totals();
+    var last=linesEl.lastElementChild; if(last){last.scrollIntoView({block:'nearest'}); last.querySelector('.pu').focus();}});
+  document.getElementById('pdfBtn').addEventListener('click',function(){toast('Aperçu PDF — devis officiel généré');});
+  document.getElementById('sendBtn').addEventListener('click',function(){toast('Devis envoyé au client + lien de suivi ✓');});
+
+  var subs={assistant:"Je monte le devis — postes, quantités, prix marché IDF.",
+    note:"Collez vos notes de visite, je structure les lignes.",
+    photo:"Prenez la pièce en photo, je déduis les surfaces.",
+    voix:"Dictez le chantier, je transcris et chiffre."};
+  document.querySelectorAll('.mode').forEach(function(m){m.addEventListener('click',function(){
+    document.querySelectorAll('.mode').forEach(function(x){x.classList.remove('active');});m.classList.add('active');
+    document.getElementById('assistSub').textContent=subs[m.getAttribute('data-mode')];
+    document.getElementById('prompt').focus();
+  });});
+})();
+</script>
+</body></html>

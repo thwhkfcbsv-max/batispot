@@ -1,0 +1,14 @@
+# Cloudflare Pages redirects
+# Legacy URL → propre URL sans extension
+/app.html       /installer    301
+
+# Lien court campagne SMS artisans → app devis, tracké (utm capté dans devis_events)
+/sms    https://devis.batispot.pro/?utm_source=sms&utm_medium=sms&utm_campaign=sms_artisans_713    302
+
+# Tracking SMS — path court (rewrite 200 vers r.html avec id en query)
+# Ex: batispot.pro/k/a514bfb  →  r.html?id=a514bfb (URL visible reste /k/...)
+/k/*    /r.html?id=:splat   200
+
+# Cleanup global : toute URL .html redirect vers URL sans extension
+# Splat pattern : /xxx.html → /xxx (gère les 243 pages en une règle)
+/*.html  /:splat  301

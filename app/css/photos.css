@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Photos de chantier en trois temps — Début · Pendant · Fin (06/09/2026)
+   ───────────────────────────────────────────────────────────────────────
+   Proposition validée par le fondateur : un seul vocabulaire, le temps
+   choisi visible (trois cases avec leur compte), prise en rafale, et
+   RIEN ne part chez le client sans un geste de l'artisan (sélection →
+   « Envoyer au client »). Feuille liée depuis chantier.html, photos.html
+   et suivi.html — css/app.css n'est pas touché. Couleurs de la charte :
+   vert #228B5B / #1B7049, ambre #B45309, encre #1C2B22.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Trois temps : Début · Pendant · Fin ─────────────────────────────── */
+.ph-temps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 12px; }
+.ph-temps button {
+  border: 1.5px solid #DCE6E0; border-radius: 12px; padding: 9px 4px; min-height: 54px;
+  text-align: center; background: #FFFFFF; font-family: inherit; cursor: pointer;
+}
+.ph-temps .n { display: block; font-size: 13px; font-weight: 900; color: #1C2B22; letter-spacing: -.1px; }
+.ph-temps .s { display: block; font-size: 10.5px; font-weight: 600; color: #6B7F76; margin-top: 2px; white-space: nowrap; }
+.ph-temps button.on { border-color: #228B5B; background: #E6F4EC; }
+.ph-temps button.on .n, .ph-temps button.on .s { color: #1B7049; }
+.ph-temps button:focus-visible { outline: 2px solid #1B7049; outline-offset: 2px; }
+
+/* Bouton secondaire « Depuis la galerie » : plus bas que le principal,
+   c'est un complément. */
+.mq-screen .mq-btn.ph-btn-galerie { min-height: 40px; font-size: 13px; margin-top: 8px; }
+
+/* ── Galerie : en-tête de section avec poignée « Sélectionner » ─────── */
+.ph-sec-ligne { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 12px; }
+.ph-sec-ligne .mq-sec { margin-top: 0; }
+.ph-poignee {
+  border: none; background: none; padding: 4px 0; cursor: pointer;
+  font-family: inherit; font-size: 11px; font-weight: 800; color: #1B7049; white-space: nowrap;
+}
+.ph-galerie .mq-ph-grid { margin-top: 6px; }
+
+/* ── Tuile photo ─────────────────────────────────────────────────────── */
+.ph-tuile {
+  cursor: pointer; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none;
+  touch-action: manipulation; border: 0; padding: 0; font-family: inherit;
+}
+.ph-tuile.ph-sel { outline: 3px solid #228B5B; outline-offset: -3px; }
+.ph-tuile .ph-badge {
+  position: absolute; top: 6px; left: 6px; max-width: calc(100% - 34px);
+  font-size: 9.5px; font-weight: 800; border-radius: 6px; padding: 2px 6px;
+  background: #228B5B; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ph-tuile .ph-check {
+  position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #FFFFFF; background: rgba(28, 43, 34, .45); color: #FFFFFF;
+  display: none; align-items: center; justify-content: center;
+}
+.ph-galerie.ph-selection .ph-check { display: flex; }
+.ph-tuile.ph-sel .ph-check { background: #228B5B; border-color: #228B5B; }
+.ph-galerie.ph-selection .mq-ph.mq-add { display: none; }
+/* Réserve la place de la barre d'actions fixe pendant la sélection. */
+.ph-galerie.ph-selection::after { content: ''; display: block; height: 128px; }
+
+/* ── Barre d'actions de la sélection (fixe, bas d'écran) ─────────────── */
+/* Au-dessus de la barre de navigation du bas (.bn, 60 px) et de la zone
+   de sécurité iOS : la barre d'actions ne doit jamais la recouvrir. */
+.ph-barre {
+  position: fixed; left: 12px; right: 12px; bottom: calc(72px + env(safe-area-inset-bottom));
+  z-index: 60; display: none; flex-direction: column; gap: 8px;
+  background: #1C2B22; color: #FFFFFF; border-radius: 14px; padding: 10px 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .28); max-width: 560px; margin: 0 auto;
+}
+.ph-barre.on { display: flex; }
+.ph-barre-tete { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 700; }
+.ph-barre-tete button {
+  background: none; border: none; color: #FFFFFF; cursor: pointer; padding: 4px 0;
+  font-family: inherit; font-size: 12px; font-weight: 800; text-decoration: underline;
+}
+.ph-barre-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.ph-barre-actions button {
+  min-height: 48px; border-radius: 10px; cursor: pointer; font-family: inherit;
+  border: 1.5px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .08); color: #FFFFFF;
+  font-size: 11px; font-weight: 800; line-height: 1.1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 4px 2px;
+}
+.ph-barre-actions button svg { width: 18px; height: 18px; }
+.ph-barre-actions button.ph-principal { background: #228B5B; border-color: #228B5B; }
+.ph-barre-actions button.ph-danger { color: #FCA5A5; }
+.ph-barre-actions button:disabled { opacity: .35; cursor: default; }
+
+/* ── Avant / après ───────────────────────────────────────────────────── */
+/* Case du comparateur tant que l'artisan n'a pas choisi ses deux photos :
+   on dit « Chantier en cours », on ne réclame rien. */
+.ph-avap-vide { padding: 14px 12px; text-align: center; font-size: 12.5px; font-weight: 600; color: #6B7F76; line-height: 1.45; width: 100%; }
+.ph-avap-vide b { display: block; color: #1C2B22; font-size: 14px; font-weight: 900; margin-bottom: 3px; }
+/* Une seule des deux photos choisie : on la montre, l'autre case attend. */
+.ph-avap-demi { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 14px; width: 100%; }
+.ph-avap-demi .mq-avap-cell { position: relative; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; }
+.ph-avap-demi .mq-avap-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph-avap-attente {
+  aspect-ratio: 4/3; border-radius: 10px; border: 1.5px dashed #DCE6E0; background: #F7FBF8;
+  display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px;
+  font-size: 11.5px; font-weight: 700; color: #6B7F76; line-height: 1.35;
+}
+/* Ligne d'aide sous le comparateur (artisan). */
+.ph-note { font-size: 11.5px; color: #6B7F76; font-weight: 600; line-height: 1.4; margin-top: 8px; }
+.ph-note.ph-note-amb { color: #B45309; }
+
+/* Vide de galerie : même ton que le reste de l'appli. */
+.ph-vide { padding: 18px 12px; text-align: center; font-size: 13px; color: #6B7F76; font-weight: 600; line-height: 1.5; }

@@ -1,0 +1,53 @@
+{
+  "name": "BatiSpot Pro — L'Assistant & Gestionnaire BTP",
+  "short_name": "BatiSpot Pro",
+  "description": "Gérez vos chantiers, devis et clients depuis votre téléphone.",
+  "start_url": "./welcome.html?source=pwa",
+  "scope": "./",
+  "id": "/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFBF9",
+  "theme_color": "#FFFFFF",
+  "lang": "fr",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png?v=6",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nouveau chantier",
+      "short_name": "Nouveau",
+      "url": "./dashboard.html?new=1",
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
+}

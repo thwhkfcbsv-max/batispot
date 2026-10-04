@@ -1,0 +1,2503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="color-scheme" content="only light">
+  <style>:root{color-scheme:only light}</style>
+  <title>BatiSpot Studio — Métré</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BatiSpot">
+  <link rel="stylesheet" href="./css/app.css?v=v92_2026_09_29b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { background:#FFFFFF; color:#1C2B22; font-family:"Inter",system-ui,sans-serif; margin:0; }
+    .phone-screen { max-width:480px; margin:0 auto; min-height:100vh;
+      min-height: 100svh;
+      min-height: 100dvh;   /* Android : 100vh ignore la barre d URL, la barre du bas passait sous le systeme */ display:flex; flex-direction:column; background:#FFFFFF; }
+    /* (01/10/2026, capture Moctar) Même bandeau que les autres écrans : une seule
+       rangée — flèche Retour, date + titre (posés par l'en-tête compact d'app-nav.js),
+       avatar Menu à droite. Avant : trois rangées empilées et centrées, et le bouton
+       Retour transformé en ≡ par l'en-tête compact. */
+    .app-h { background:#FFFFFF; border-bottom:1.5px solid #E7EEEA; padding:10px 16px;
+             display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:50; }
+    .h-back { order:-1; flex:none; width:44px; height:44px; margin-left:-12px; background:none; border:none;
+              color:#1C2B22; cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center; border-radius:12px; }
+    .h-back:active { background:#F0F6F2; }
+    .scr-body { flex:1; padding:16px; padding-bottom:96px; display:flex; flex-direction:column; gap:14px; }
+    .carte { background:#F7FBF8; border:1px solid #E7EEEA; border-radius:12px; padding:14px; }
+    .btn-x { background:#228B5B; border:1.5px solid #228B5B; color:#FFF; font-weight:800; font-size:14px;
+             padding:14px 16px; border-radius:12px; cursor:pointer; width:100%; font-family:inherit; }
+    .btn-x[disabled] { opacity:.45; cursor:not-allowed; }
+    .btn-sec { background:#FFF; border:1.5px solid #D3E3DA; color:#1C2B22; font-weight:700; font-size:13px;
+               padding:11px 14px; border-radius:10px; cursor:pointer; font-family:inherit; }
+    /* (01/10, Moctar : « améliore visuellement cette page ») Le chiffre qui compte en
+       grand, les trois autres en grille, puis le rangement. */
+    /* (04/10) Une ligne de mur se touche pour corriger sa cote au mètre. Celles à vérifier
+       portent un liseré orange à gauche : on voit en un coup d'œil ce qui demande une main. */
+    .res-mur { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:7px 8px 7px 10px;
+      border-radius:9px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    .res-mur:hover, .res-mur:focus-visible { background:#F2F7F4; outline:none; }
+    .res-mur.douteux { border-left:3px solid #D08A2C; background:#FDF6EC; }
+    .res-corr { display:flex; gap:8px; margin:6px 0 10px; }
+    .res-corr input { flex:1; font-size:16px; }
+    .res-corr .btn-sec { flex:0 0 auto; padding:10px 14px; }
+    .res-corr-aide { font-size:12px; color:#5A7268; margin:6px 0 0; line-height:1.45; }
+    .res-hero { background:#0F5132; color:#FFF; border-radius:14px; padding:12px 16px; }
+    .res-hero small { display:block; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; opacity:.8; }
+    .res-hero b { display:block; font-size:34px; font-weight:900; line-height:1.05; margin-top:2px; }
+    .res-hero span { font-size:13px; opacity:.85; }
+    /* (04/10) Cotes qui n'ont pas passé le contrôle : elles restent lisibles, mais le bandeau
+       n'est plus vert — et il porte « À vérifier ». On ne cache jamais un chiffre à l'artisan. */
+    .res-hero { position:relative; }
+    .res-hero.a-verifier { background:#5A6B62; }
+    /* (04/10) `.res-hero b` (le chiffre en 38px) et `.res-etat` ciblent le même <b> — sans le
+       sélecteur composé, `.res-hero b` gagnait (même spécificité, déclaré après) et la pastille
+       « À vérifier » s'affichait en 38px, par-dessus le chiffre. Repéré sur la 1re capture réelle
+       d'une pièce douteuse : personne n'avait encore vu cet état à l'écran. */
+    .res-hero b.res-etat { position:absolute; top:14px; right:16px; font-size:11px; font-weight:900; letter-spacing:.06em;
+                text-transform:uppercase; background:rgba(255,255,255,.18); border-radius:999px; padding:4px 10px; line-height:normal; margin-top:0; }
+    .res-etat:empty { display:none; }
+    .res-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .res-stat { background:#F7FBF8; border:1px solid #E7EEEA; border-radius:12px; padding:10px 12px; min-width:0; }
+    .res-stat span { display:block; font-size:12px; color:#5A7268; line-height:1.3; }
+    .res-stat b { display:block; font-size:19px; font-weight:900; color:#0F5132; margin-top:2px; }
+    .res-wide { grid-column:1 / -1; }
+    .photos-grille { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:6px; }
+    .photos-grille figure { margin:0; position:relative; }
+    .photos-grille img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:10px; border:1px solid #E7EEEA; display:block; }
+    .photos-grille input { width:100%; box-sizing:border-box; margin-top:4px; font-size:12px; padding:6px 8px; border:1px solid #D3E3DA; border-radius:8px; font-family:inherit; }
+    .photos-grille button { position:absolute; top:4px; right:4px; width:26px; height:26px; border-radius:50%; border:none; background:rgba(0,0,0,.6); color:#FFF; font-weight:900; cursor:pointer; }
+    .res-pieces { display:flex; flex-direction:column; gap:6px; }
+    .res-pieces div { display:flex; justify-content:space-between; font-size:14px; }
+    .res-pieces .total { border-top:1.5px solid #D3E3DA; padding-top:6px; font-weight:900; color:#0F5132; }
+    .stat { display:flex; justify-content:space-between; align-items:baseline; padding:8px 0;
+            border-bottom:1px solid #E7EEEA; }
+    .stat:last-child { border-bottom:none; }
+    .stat b { font-size:20px; font-weight:900; color:#0F5132; }
+    .avert { background:#FFF8E6; border:1px solid #F0D89B; border-radius:10px; padding:12px;
+             font-size:12.5px; line-height:1.5; color:#7A5A10; }
+    .bloque { background:#FDECEC; border:1px solid #F2C2C2; border-radius:10px; padding:14px;
+              font-size:13px; line-height:1.55; color:#8A2B2B; }
+
+    /* Surcouche affichee PAR-DESSUS la camera pendant la session AR.
+       WebXR la rend via dom-overlay : c'est du vrai DOM, pas du WebGL. */
+    #ar-ui { position:fixed; inset:0; display:none; pointer-events:none; z-index:9999;
+             flex-direction:column; justify-content:space-between; }
+    #ar-ui.on { display:flex; }
+    #ar-haut { padding:16px; position:relative; }
+    /* (03/10, Moctar : « le message gris gêne… laisse un moyen de revenir ») Le toast plein
+       écran de Chrome couvre la rangée du bas : un « Quitter » en haut à droite, toujours
+       accessible, et de l'air sous les boutons du bas. */
+    /* (04/10) Même langage de verre que la consigne : ce bouton est un recours, pas une action. */
+    #ar-quit-haut { position:absolute; top:16px; right:16px; pointer-events:auto; background:rgba(10,26,19,.5);
+      -webkit-backdrop-filter:blur(16px) saturate(150%); backdrop-filter:blur(16px) saturate(150%); color:#FFF;
+      border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:9px 15px; font-weight:700; font-size:13px;
+      font-family:inherit; cursor:pointer; z-index:2; box-shadow:0 6px 18px rgba(0,0,0,.3); }
+    #ar-etapes { margin-right:84px; }
+    #ar-etapes { display:flex; gap:6px; margin-bottom:8px; }
+    #ar-etapes span { flex:1; height:30px; border-radius:8px; background:rgba(255,255,255,.28); color:#FFF;
+      font-weight:900; font-size:14px; display:flex; align-items:center; justify-content:center;
+      border:2px solid transparent; transition:background .2s; }
+    #ar-etapes span.fait { background:#4CAF82; }
+    #ar-etapes span.encours { border-color:#FFF; background:rgba(255,255,255,.12); animation:ar-pulse 1s ease-in-out infinite alternate; }
+    /* (04/10, Moctar : « je trouve cela léger ») La flèche n'est plus un caractère au milieu de
+       l'écran : deux chevrons DESSINÉS, posés sur le BORD vers lequel il faut tourner, qui
+       défilent de l'intérieur vers l'extérieur. On regarde le bord, on tourne de ce côté. */
+    #ar-fleche { position:fixed; top:50%; right:10px; transform:translateY(-50%); width:38px; height:72px;
+      pointer-events:none; filter:drop-shadow(0 2px 10px rgba(0,0,0,.55)); }
+    #ar-fleche svg { width:100%; height:100%; display:block; overflow:visible; }
+    #ar-fleche path { fill:none; stroke:#FFF; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
+    #ar-fleche path:nth-child(1) { animation:ar-chev 1.25s ease-in-out infinite; }
+    #ar-fleche path:nth-child(2) { animation:ar-chev 1.25s ease-in-out infinite .18s; }
+    #ar-fleche.gauche { right:auto; left:10px; transform:translateY(-50%) scaleX(-1); }
+    #ar-fleche.bas { top:auto; bottom:168px; left:50%; right:auto; transform:translateX(-50%) rotate(90deg); }
+    #ar-fleche.haut { top:132px; bottom:auto; left:50%; right:auto; transform:translateX(-50%) rotate(-90deg); }
+    @keyframes ar-chev { 0%,100% { opacity:.22; transform:translateX(-4px); } 45% { opacity:1; transform:translateX(4px); } }
+    @keyframes ar-pulse { from { box-shadow:0 0 0 0 rgba(255,255,255,.5); } to { box-shadow:0 0 0 6px rgba(255,255,255,0); } }
+    @keyframes ar-glisse { from { transform:translateX(-10px); } to { transform:translateX(10px); } }
+    @media (prefers-reduced-motion: reduce) { #ar-etapes span.encours, #ar-fleche { animation:none; } }
+    /* (29/09, Moctar : « un wizard vidéo pour Studio ») La consigne est une carte
+       nommée par-dessus l'image : l'étape, puis le geste à faire. Comme Face ID. */
+    /* (04/10, Moctar : « quelque chose de top niveau ») La consigne n'est plus une carte verte
+       opaque qui mange le cinquième de l'écran : une CAPSULE de verre, à la largeur du texte,
+       posée au-dessus de l'image. L'image de la pièce est le sujet, la consigne la survole. */
+    #ar-info { display:inline-flex; align-items:center; gap:10px; max-width:calc(100% - 92px);
+               background:rgba(10,26,19,.55); -webkit-backdrop-filter:blur(18px) saturate(150%);
+               backdrop-filter:blur(18px) saturate(150%); color:#FFF; border:1px solid rgba(255,255,255,.16);
+               border-radius:999px; padding:10px 17px 10px 13px; font-size:16.5px; font-weight:700;
+               line-height:1.3; letter-spacing:-.005em; box-shadow:0 8px 26px rgba(0,0,0,.34); }
+    #ar-info small { display:none; }                                  /* l'étape ne sert qu'au mode manuel */
+    #ar-ui.manuel #ar-info { display:block; border-radius:14px; padding:12px 15px; }
+    #ar-ui.manuel #ar-info small { display:block; font-size:11px; font-weight:800; letter-spacing:.08em;
+               text-transform:uppercase; opacity:.8; margin-bottom:4px; }
+    #ar-ui.manuel #ar-ico { display:none; }
+    #ar-ico { flex:0 0 auto; width:22px; height:22px; stroke:#FFF; fill:none; stroke-width:2;
+              stroke-linecap:round; stroke-linejoin:round; opacity:.95; }
+    #ar-ico.pleine { fill:#FFF; stroke:none; }
+    /* Le texte se remplace en fondu, jamais d'un coup : l'œil suit le changement. */
+    #ar-info.maj { animation:ar-maj .34s ease-out; }
+    @keyframes ar-maj { from { opacity:.25; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+    /* (04/10) Le tour est une ROTATION : sa progression est un anneau, pas une barre. Douze
+       secteurs, l'arc qui se remplit, le nombre de murs au centre, une coche à la fermeture. */
+    #ar-progres { display:flex; align-items:center; gap:10px; align-self:flex-start; padding:6px 14px 6px 7px;
+      background:rgba(10,26,19,.5); -webkit-backdrop-filter:blur(16px) saturate(150%);
+      backdrop-filter:blur(16px) saturate(150%); border:1px solid rgba(255,255,255,.14);
+      border-radius:999px; box-shadow:0 8px 24px rgba(0,0,0,.3); }
+    #ar-progres[hidden] { display:none; }
+    #ar-anneau { width:62px; height:62px; flex:0 0 auto; display:block; }
+    /* (04/10, Moctar : « tu ne peux pas savoir en amont combien il reste à faire ») L'anneau n'est
+       pas un score : c'est un RADAR. Douze secteurs, un par direction du tour ; celui qu'on a
+       balayé s'allume, le TROU montre où il reste à aller — là où pointent les chevrons. */
+    #ar-anneau .sect { fill:none; stroke:rgba(255,255,255,.20); stroke-width:4.5; stroke-linecap:round;
+      transition:stroke .45s ease; }
+    #ar-anneau .sect.on { stroke:#4CAF82; }
+    /* Le repère fixe du haut : « vous regardez par ici ». C'est le RADAR qui tourne sous lui, par
+       pas de 30° : le trou se lit alors directement — à gauche, à droite, derrière. */
+    #ar-anneau .cap { fill:none; stroke:#FFF; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+    #ar-secteurs { transform-origin:31px 31px; transition:transform .3s ease; }
+    #ar-anneau .cnt { fill:#FFF; font:800 15px/1 Inter, system-ui, sans-serif; text-anchor:middle; }
+    #ar-anneau .coche { fill:none; stroke:#FFF; stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round;
+      opacity:0; transform:scale(.6); transform-origin:31px 31px; transition:opacity .25s, transform .25s cubic-bezier(.2,1.4,.4,1); }
+    #ar-progres.fini .sect { stroke:#FFF; }
+    #ar-progres.fini .cap { opacity:0; }
+    #ar-progres.fini .cnt { opacity:0; }
+    #ar-progres.fini .coche { opacity:1; transform:scale(1); }
+    #ar-progres-txt { font-size:12px; font-weight:700; letter-spacing:.01em; color:#FFF; line-height:1.3; }
+    /* Le plan vu de dessus se construit DANS la bande, sans cadre à lui : la bande est son cadre. */
+    #ar-plan { width:62px; height:62px; flex:0 0 auto; }
+
+    /* (04/10, Moctar : « un repère qui dise exactement où filmer », puis « le faire passer au
+       plafond ajoute de la confusion ») Le repère ne vise donc PAS une ligne : il CADRE le mur.
+       Deux traits fins, fixes, qui ne bougent jamais ; l'appli lit ensuite le pied du mur, ou la
+       ligne du plafond si un meuble cache le bas — l'artisan n'a pas à savoir laquelle. Cadrer un
+       mur entier oblige à reculer à deux ou trois mètres : la bonne distance, justement. */
+    #ar-cadre { position:absolute; left:8%; right:8%; top:15%; bottom:37%; display:none; pointer-events:none; }
+    #ar-ui.cadre #ar-cadre { display:block; }
+    #ar-cadre i { position:absolute; left:0; right:0; height:2px; background:rgba(255,255,255,.72);
+      box-shadow:0 0 0 1px rgba(0,0,0,.35); transition:background .3s ease, box-shadow .3s ease; }
+    #ar-cadre i:first-child { top:0; } #ar-cadre i:last-child { bottom:0; }
+    #ar-cadre b { position:absolute; width:17px; height:17px; border:2px solid rgba(255,255,255,.72);
+      transition:border-color .3s ease; }
+    #ar-cadre b:nth-of-type(1) { top:0; left:0; border-right:0; border-bottom:0; }
+    #ar-cadre b:nth-of-type(2) { top:0; right:0; border-left:0; border-bottom:0; }
+    #ar-cadre b:nth-of-type(3) { bottom:0; left:0; border-right:0; border-top:0; }
+    #ar-cadre b:nth-of-type(4) { bottom:0; right:0; border-left:0; border-top:0; }
+    /* Vert dès que l'image sert vraiment : l'artisan voit que ce qu'il cadre est exploité. */
+    #ar-cadre.pris i { background:#4CAF82; box-shadow:0 0 10px rgba(76,175,130,.5); }
+    #ar-cadre.pris b { border-color:#4CAF82; }
+    #ar-etiquettes { position:absolute; inset:0; pointer-events:none; }
+    .ar-num { position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%; background:#0F5132; color:#FFF;
+      font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center;
+      border:2px solid #FFF; box-shadow:0 1px 6px rgba(0,0,0,.45); will-change:transform; }
+    #ar-cible { position:absolute; left:50%; top:50%; width:76px; height:76px; margin:-38px 0 0 -38px; border-radius:50%;
+      border:3px dashed rgba(255,255,255,.9); box-shadow:0 0 0 2px rgba(0,0,0,.25), inset 0 0 0 2px rgba(0,0,0,.25);
+      display:none; animation:ar-tourne 4s linear infinite; }
+    #ar-ui.sans-sol #ar-cible { display:block; }
+    @keyframes ar-tourne { to { transform:rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { #ar-cible { animation:none; } }
+    /* Le clip : 3 scènes de 6 s, la pièce vue de dessus — viser le sol, tourner
+       sur soi en filmant, la pièce qui se ferme. Aucune vidéo à charger : un
+       SVG animé. (04/10 : le métré se fait en filmant, plus point par point.) */
+    #studio-clip { position:fixed; inset:0; z-index:9800; background:rgba(10,30,20,.72);
+       display:flex; align-items:center; justify-content:center; padding:16px; }
+    #studio-clip[hidden] { display:none; }
+    .clip-cadre { background:#0F2A1E; color:#FFF; border-radius:20px; width:100%; max-width:400px;
+       padding:16px 16px 14px; box-shadow:0 16px 40px rgba(0,0,0,.45); }
+    .clip-cadre svg { width:100%; height:auto; display:block; border-radius:14px; background:#173B2B; }
+    .clip-etape { font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; opacity:.75; margin-top:12px; }
+    .clip-txt { font-size:16px; font-weight:800; line-height:1.4; min-height:46px; margin-top:4px; }
+    .clip-barre { height:4px; background:rgba(255,255,255,.18); border-radius:2px; margin:12px 0 14px; overflow:hidden; }
+    .clip-barre i { display:block; height:100%; width:0; background:#4CAF82; transition:width .3s linear; }
+    .clip-btns { display:flex; gap:10px; }
+    .clip-btns .btn-x { margin:0; flex:1; }
+    .clip-btns .btn-sec { margin:0; flex:none; background:transparent; color:#FFF; border-color:rgba(255,255,255,.4); }
+    .clip-ring { animation:clip-pulse 1s ease-in-out infinite alternate; transform-box:fill-box; transform-origin:center; }
+    @keyframes clip-pulse { from { transform:scale(.85); opacity:.7; } to { transform:scale(1.1); opacity:1; } }
+    .clip-fleche { animation:clip-monte .8s ease-in-out infinite alternate; }
+    @keyframes clip-monte { from { transform:translateY(4px); } to { transform:translateY(-4px); } }
+    /* La flèche courbe de l'étape « Filmer la pièce » : elle tourne sur elle-même,
+       comme le geste demandé. */
+    .clip-tour { animation:clip-tourne 3s linear infinite; transform-box:fill-box; transform-origin:center; }
+    @keyframes clip-tourne { to { transform:rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .clip-ring, .clip-fleche, .clip-tour { animation:none; } }
+    #ar-bas { padding:16px 16px calc(16px + 56px + env(safe-area-inset-bottom, 0px)); display:flex; flex-direction:column; gap:10px; pointer-events:auto; }
+    /* (04/10, Moctar : « pourquoi 2 boutons prêt à filmer et filmer la pièce ? ») La ligne d'état
+       n'est PAS un bouton : texte blanc sur l'image, sans fond ni bordure. */
+    #ar-mesure { background:transparent; padding:2px 6px; font-size:14px; font-weight:700; color:#FFF;
+                 text-align:center; text-shadow:0 1px 6px rgba(0,0,0,.6); line-height:1.35; }
+    .ar-btns { display:flex; gap:10px; }
+    .ar-btns button { flex:1; border:none; border-radius:12px; padding:15px 10px;
+                      font-size:14px; font-weight:800; font-family:inherit; cursor:pointer; }
+    #ar-pose { background:#228B5B; color:#FFF; }
+    /* (01/10, Moctar sur le A57 : « poser un point, rien ne se passe quand j'appuie ») Le
+       bouton était désactivé sans surface détectée, mais avait le même aspect qu'actif.
+       Tant que le sol n'est pas trouvé : grisé, texte explicite, et un appui répond
+       (vibration + consigne) au lieu d'être avalé. */
+    #ar-pose.inactif { background:rgba(255,255,255,.28); color:rgba(255,255,255,.85); }
+    #ar-annule { background:rgba(255,255,255,.96); color:#1C2B22; }
+    /* (03/10, Moctar : « go pour la capture ») Le film : la session AR tourne, et
+       l'appli garde une image nette par seconde avec la position du téléphone. */
+    #ar-film { background:rgba(255,255,255,.96); color:#0F5132; }
+    /* (03/10, Moctar : « pourquoi on doit encore poser des points ? ») Le FILM est la
+       façon de mesurer. La pose à la main reste un secours, derrière un lien. */
+    .ar-manuel { display:none !important; }
+    #ar-ui.manuel .ar-manuel { display:flex !important; }
+    #ar-ui.manuel #ar-film { display:none; }
+    /* (04/10) Arrêter le film n'est pas une action dangereuse : même verre que le reste, pas de
+       rouge qui domine l'écran. L'action qui compte, une fois la pièce fermée, c'est « Terminer ». */
+    #ar-film.actif { background:rgba(10,26,19,.5); color:#FFF; border:1px solid rgba(255,255,255,.22);
+      -webkit-backdrop-filter:blur(16px) saturate(150%); backdrop-filter:blur(16px) saturate(150%); font-weight:700; }
+    #ar-fin:not(:disabled) { box-shadow:0 0 0 2px rgba(255,255,255,.55), 0 10px 26px rgba(0,0,0,.35); }
+    #ar-fin:not(:disabled) { animation:ar-pret .45s cubic-bezier(.2,1.5,.4,1); }
+    @keyframes ar-pret { from { transform:scale(.94); } to { transform:none; } }
+    @media (prefers-reduced-motion: reduce) { #ar-fin:not(:disabled) { animation:none; } }
+    #ar-film.indispo { background:rgba(255,255,255,.28); color:rgba(255,255,255,.85); }
+    /* (03/10, Moctar : « pas le nombre d'images, juste un guide qui montre que l'outil
+       a pris toute la pièce ») Le cercle de couverture : 12 secteurs autour de
+       l'artisan, l'anneau extérieur pour les murs, l'intérieur pour le sol. Ils se
+       remplissent quand la caméra les a vus. Plein = la pièce est prise. */
+    #ar-couverture { display:none; margin:10px auto 0; width:132px; height:132px; }
+    /* (04/10, RoomPlan) La mini-maquette 3D de la pièce, en bas à droite, qui se construit. */
+    #ar-maquette { position:absolute; right:16px; bottom:100%; margin-bottom:8px; width:150px; height:112px; border-radius:12px; background:rgba(15,81,50,.78); display:none; }
+    #ar-maquette.on { display:block; }
+    #ar-couverture.on { display:block; }
+    #ar-fin { background:#0F5132; color:#FFF; }
+    /* (04/10) Estompé et non cliquable tant que la pièce n'est pas fermée ou que le film a
+       moins de 10 images utiles — avant, il gardait la même couleur, actif ou non. */
+    #ar-fin:disabled { opacity:.45; pointer-events:none; }
+    #ar-quit { background:rgba(0,0,0,.55); color:#FFF; }
+  </style>
+</head>
+<body>
+  <div class="phone-screen">
+    <div class="app-h">
+      <button class="h-back" type="button" onclick="history.back()" aria-label="Retour" title="Retour">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <a href="./dashboard.html" style="text-decoration:none;display:flex;align-items:center;flex:1;" aria-label="Accueil BatiSpot">
+        <svg width="158" height="38" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lg-m" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#228B5B"/><stop offset="100%" stop-color="#4CAF82"/></linearGradient></defs>
+          <rect width="40" height="40" rx="10" y="4" fill="url(#lg-m)"/>
+          <path d="M20 12 L10 20 L10 32 L30 32 L30 20 Z" fill="none" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="17" y="24" width="6" height="8" rx="1" fill="white" opacity="0.95"/>
+          <text x="48" y="31" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="23" fill="#0A1D14" letter-spacing="-0.5">BatiSpot</text>
+          <rect x="146" y="14" width="46" height="20" rx="6" fill="#228B5B"/>
+          <text x="169" y="28" font-family="Inter,system-ui,sans-serif" font-weight="900" font-size="11" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">PRO</text>
+        </svg>
+      </a>
+      <button type="button" onclick="openAppDrawer()" title="Menu &amp; Profil Artisan" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;background:#F7FBF8;border:1.5px solid #D3E3DA;display:flex;align-items:center;justify-content:center;color:#1C2B22;cursor:pointer;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+
+<div id="sous-nav" style="padding:8px 16px;background:#FFFFFF;border-bottom:1.5px solid #E7EEEA;"></div>
+    <div class="scr-body">
+
+      <!-- Etat 1 : appareil non compatible. (19/09, Moctar) Plus de repli « métré
+           par photo » : une cote estimée n'irait pas dans un devis. On le dit, et
+           on garde le reste de Studio — le ticket et les photos de chantier. -->
+      <div id="etat-non-dispo" style="display:none;">
+        <div class="bloque">
+          <b>Le métré n'est pas disponible sur ce téléphone.</b><br><br>
+          Il demande la réalité augmentée : <b>Chrome sur un Android compatible</b> (certifié par Google),
+          ou <b>l'application BatiSpot sur iPhone</b>. Safari ne la propose pas.<br><br>
+          On ne propose pas d'à-peu-près : une cote estimée n'irait pas dans un devis.
+        </div>
+        <div style="height:14px"></div>
+        <div class="mq-sec" style="margin-bottom:8px;">Ce que vous pouvez faire ici</div>
+        <a href="./finances.html" class="btn-sec" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px;">
+          Photographier un ticket
+        </a>
+        <a href="./photos.html" class="btn-sec" style="display:block;text-align:center;text-decoration:none;">
+          Photos de chantier
+        </a>
+      </div>
+
+      <!-- Etat 2 : pret a mesurer -->
+      <div id="etat-pret" style="display:none;">
+        <!-- (29/09, Moctar sur le A57 : « il y a trop de consignes ») Une ligne et un
+             bouton. Le viseur guide pas à pas une fois la caméra ouverte. -->
+        <div class="carte">
+          <b style="font-size:15px;">Mesurer la pièce</b>
+          <p style="font-size:13.5px;line-height:1.55;color:#3D5A4E;margin:8px 0 0;">
+            Visez le sol, puis filmez la pièce en tournant lentement sur vous-même. Le reste se calcule.
+          </p>
+        </div>
+
+        <!-- (19/09, Moctar) Plus de champ « hauteur sous plafond » : elle se mesure au
+             viseur, étape 2 du relevé. La saisie n'existe plus que comme issue de
+             secours explicite (« Terminer sans la hauteur »), marquée non mesurée. -->
+        <!-- (04/10) La caméra s'est mise en veille toute seule : le téléphone chauffe quand le
+             module reste ouvert sans rien faire. Un seul geste pour repartir. -->
+        <button type="button" id="btn-veille" class="avert"
+                style="display:none;width:100%;text-align:left;font-family:inherit;font-weight:700;cursor:pointer;">
+          Caméra mise en veille, touchez pour reprendre
+        </button>
+        <button class="btn-x" id="btn-demarrer">Ouvrir la caméra</button>
+        <button class="btn-sec" id="btn-clip" type="button" style="width:100%;">Voir comment faire · 40 s</button>
+
+        <!-- Les pièces déjà relevées (13/09/2026). C'est le cœur de la valeur :
+             le client rappelle des mois plus tard pour un autre ouvrage, les
+             cotes sont là, l'artisan ne se redéplace pas. -->
+        <div id="deja-releve" style="display:none;margin-top:22px;">
+          <div class="mq-sec" style="margin-bottom:8px;">Pièces déjà relevées</div>
+          <div id="liste-releves" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+        <div id="ar-diagnostic" style="display:none;margin-top:12px;background:#FDECEC;border:1px solid #F2C2C2;border-radius:10px;padding:12px;font-size:12px;color:#8A2B2B;word-break:break-word"></div>
+      </div>
+
+      <!-- Etat 3 : resultat -->
+      <div id="etat-resultat" style="display:none;">
+        <div class="res-hero" id="r-hero">
+          <b id="r-hero-etat" class="res-etat"></b>
+          <small id="r-piece-titre">Pièce</small>
+          <b id="r-sol">—</b>
+          <span>de surface au sol</span>
+        </div>
+        <div class="res-grid">
+          <div class="res-stat"><span>Périmètre et plinthes</span><b id="r-perim">—</b></div>
+          <div class="res-stat"><span id="r-murs-lbl">Surface des murs</span><b id="r-murs">—</b></div>
+          <div class="res-stat res-wide" id="r-film-bloc" style="display:none;"><span>Film de la pièce</span><b id="r-film">—</b></div>
+        </div>
+        <!-- (04/10, étude : la relecture obligatoire de Hover, en mieux : ciblée) Chaque mur avec sa
+             confiance ; « à vérifier » quand elle est basse, avec la raison. -->
+        <div class="carte" id="r-murs-carte" style="display:none;">
+          <b style="font-size:12px;display:block;margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase;color:#5A7268;">Les murs</b>
+          <div class="res-pieces" id="r-murs-liste"></div>
+          <p id="r-murs-note" style="font-size:12px;color:#5A7268;margin:8px 0 0;line-height:1.5;display:none;">Touchez un mur pour saisir sa longueur au mètre : tout le relevé se recale.</p>
+          <p id="msg-corrige" style="display:none;font-size:12px;font-weight:700;color:#1B7049;margin:8px 0 0;line-height:1.5;"></p>
+        </div>
+        <!-- (04/10) La pièce en 3D, en grand, qu'on fait pivoter au doigt. -->
+        <div id="r-3d-bloc" style="display:none;background:#0F2A1E;border-radius:14px;padding:6px;">
+          <canvas id="r-3d" width="900" height="560" style="width:100%;height:auto;display:block;border-radius:10px;touch-action:none;" aria-label="La pièce en 3D"></canvas>
+          <p style="font-size:12px;color:rgba(255,255,255,.75);margin:6px 8px 4px;">Faites pivoter du doigt. Murs confirmés en blanc, à vérifier en pointillé, ouvertures en contour.</p>
+        </div>
+        <div id="r-avert" class="avert" style="display:none;"></div>
+        <p style="font-size:12px;color:#5A7268;line-height:1.5;margin:0;">
+          Vérifiez ces chiffres avant de chiffrer. Vous êtes dans la pièce — vous voyez ce que l'appareil ne voit pas.
+        </p>
+        <!-- Nommer et ranger (13/09/2026). Un relevé qui n'est rattaché à
+             personne se perd : c'est le chantier qui en fait une pièce du
+             dossier client, relisible des mois plus tard. -->
+        <div class="carte" style="margin-top:4px;">
+          <label style="font-size:12px;font-weight:800;color:#0F5132;display:block;">Quelle pièce ?</label>
+          <input type="text" id="piece-nom" value="Pièce" class="form-input"
+                 style="font-size:16px;font-weight:700;margin-top:4px;width:100%;box-sizing:border-box;" placeholder="Salle de bain, séjour, cuisine…">
+          <!-- (01/10, Moctar : « après chaque relevé, un endroit où noter ce qu'il y a à faire
+               dans la pièce, transmis à l'assistant pour le devis ») -->
+          <label for="piece-travaux" style="font-size:12px;font-weight:800;color:#0F5132;display:block;margin-top:12px;">À faire dans cette pièce</label>
+          <textarea id="piece-travaux" class="form-input" rows="3"
+                    style="font-size:16px;margin-top:4px;width:100%;box-sizing:border-box;line-height:1.4;resize:vertical;"
+                    placeholder="Peinture murs et plafond, remplacer le carrelage au sol, déposer la cloison…"></textarea>
+          <p style="font-size:12px;color:#5A7268;margin:4px 0 0;line-height:1.5;">L'assistant reçoit les cotes et ces travaux pour préparer le devis.</p>
+          <!-- (01/10, Moctar : « que ça prenne des photos et les enregistre dans le dossier pour
+               voir l'état des murs ou des réparations spécifiques ») Photos de la pièce, rangées
+               dans le chantier avec le relevé, chacune avec ce qu'on y voit. -->
+          <!-- Photos et dossier client : utiles, mais jamais entre l'artisan et son devis. -->
+          <details id="piece-plus" style="margin-top:12px;">
+            <summary style="font-size:13px;font-weight:800;color:#0F5132;cursor:pointer;list-style:none;">Photos et dossier client</summary>
+            <label style="font-size:12px;font-weight:800;color:#0F5132;display:block;margin-top:10px;">Photos de la pièce</label>
+            <div id="piece-photos" class="photos-grille"></div>
+            <button type="button" class="btn-sec" id="btn-photo" style="width:100%;margin-top:6px;">Photographier l'état des murs, une réparation…</button>
+            <input type="file" id="piece-photo-input" accept="image/*" capture="environment" multiple hidden>
+            <label style="font-size:12px;font-weight:800;color:#0F5132;display:block;margin-top:12px;">Dossier client</label>
+            <select id="piece-chantier" class="form-input" style="font-size:16px;margin-top:4px;">
+              <option value="">Sans chantier pour l'instant</option>
+            </select>
+            <p style="font-size:12px;color:#5A7268;margin:6px 0 0;line-height:1.5;">Rangé dans un dossier, le relevé se retrouve des mois plus tard.</p>
+          </details>
+        </div>
+
+        <!-- (01/10, Moctar : « un bouton ajouter une autre pièce ») Les pièces mesurées
+             dans la foulée s'empilent ici, avec le total ; l'enregistrement et le devis
+             les prennent toutes. -->
+        <div class="carte" id="r-pieces-carte" style="display:none;">
+          <b style="font-size:13px;display:block;margin-bottom:8px;">Pièces de ce relevé</b>
+          <div class="res-pieces" id="r-pieces"></div>
+        </div>
+        <!-- Une seule action principale : elle range le relevé ET ouvre le devis. -->
+        <button class="btn-x" id="btn-devis-suite">Créer le devis avec ces cotes</button>
+        <div id="msg-enregistre" style="display:none;font-size:13px;font-weight:700;color:#1B7049;text-align:center;margin:-4px 0 0;"></div>
+        <button class="btn-sec" id="btn-autre-piece" style="width:100%;">+ Mesurer une autre pièce</button>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-sec" id="btn-enregistrer" style="flex:1;">Enregistrer seulement</button>
+          <button class="btn-sec" id="btn-refaire" style="flex:1;">Refaire cette pièce</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Le wizard vidéo de Studio (29/09, Moctar ; refait le 04/10 pour le métré
+       par le film) : vu une fois avant la première capture, revu depuis « Voir
+       comment faire ». Trois scènes, ~18 s, en boucle. -->
+  <div id="studio-clip" hidden role="dialog" aria-modal="true" aria-labelledby="clip-titre">
+    <div class="clip-cadre">
+      <b id="clip-titre" style="display:block;font-size:15px;margin-bottom:10px;">Mesurer une pièce, en 3 étapes</b>
+      <svg id="clip-svg" viewBox="0 0 200 250" aria-hidden="true">
+        <defs><linearGradient id="clip-sol" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C5A45"/><stop offset="1" stop-color="#1E4433"/></linearGradient></defs>
+        <!-- la pièce, vue de dessus -->
+        <rect id="clip-plancher" x="50" y="70" width="100" height="130" rx="6" fill="url(#clip-sol)"/>
+        <!-- murs en pointillé (avant/pendant le tour), puis en trait plein (une fois filmés) -->
+        <rect id="clip-mur-pointille" x="50" y="70" width="100" height="130" rx="6" fill="none" stroke="#9FD9BC" stroke-width="3" stroke-dasharray="7,6"/>
+        <rect id="clip-mur-plein" x="50" y="70" width="100" height="130" rx="6" fill="none" stroke="#FFF" stroke-width="3" style="opacity:0"/>
+        <!-- étape 1 : viser le sol, à un ou deux mètres -->
+        <g id="clip-aim">
+          <line x1="100" y1="221" x2="100" y2="198" stroke="#FFF" stroke-width="1.5" stroke-dasharray="3,4" opacity=".8"/>
+          <circle cx="100" cy="226" r="5" fill="#4CAF82" stroke="#FFF" stroke-width="1.5"/>
+          <g class="clip-ring"><ellipse cx="100" cy="190" rx="13" ry="6" fill="none" stroke="#FFF" stroke-width="2.5"/><circle cx="100" cy="190" r="2" fill="#FFF"/></g>
+        </g>
+        <!-- étape 2 : le tour sur soi, en filmant -->
+        <g id="clip-tour" class="clip-tour" style="display:none">
+          <circle cx="100" cy="135" r="24" fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-dasharray="113,38"/>
+          <path d="M104 112 L117 115 L107 124 Z" fill="#FFF"/>
+        </g>
+        <!-- étape 3 : la pièce se ferme -->
+        <g id="clip-resultat" style="display:none"><rect x="35" y="95" width="130" height="60" rx="10" fill="#FFF"/><text x="100" y="121" text-anchor="middle" font-size="16" font-weight="900" fill="#0F5132" font-family="Inter,system-ui,sans-serif">Pièce fermée</text><text x="100" y="142" text-anchor="middle" font-size="11" font-weight="700" fill="#3D5A4E" font-family="Inter,system-ui,sans-serif">Vérifiez, nommez, enregistrez</text></g>
+      </svg>
+      <div class="clip-etape" id="clip-etape">Étape 1 sur 3 · Ouvrir la caméra</div>
+      <div class="clip-txt" id="clip-txt">Tenez le téléphone debout et visez le sol, à un ou deux mètres devant vous, jusqu'à ce que l'anneau se remplisse.</div>
+      <div class="clip-barre"><i id="clip-prog"></i></div>
+      <div class="clip-btns">
+        <button class="btn-x" id="clip-go" type="button">C'est parti</button>
+        <button class="btn-sec" id="clip-fermer" type="button">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Surcouche AR -->
+  <div id="ar-ui">
+    <!-- (01/10) Numéros au-dessus des angles posés, et cible centrale tant qu'aucune
+         surface n'est détectée (le réticule WebGL prend le relais dès qu'il y en a une). -->
+    <div id="ar-cadre" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b><i></i></div>
+    <div id="ar-etiquettes" aria-hidden="true"></div>
+    <div id="ar-cible" aria-hidden="true"></div>
+    <div id="ar-haut">
+      <button id="ar-quit-haut" type="button" aria-label="Quitter la mesure">Quitter</button>
+      <!-- (29/09, Moctar : « des flèches blanches qui te guident jusqu'à ce que tu
+           complètes, comme Face ID ») Cinq cases qui se remplissent, et une flèche
+           qui dit où tourner le téléphone pour la prochaine. -->
+      <div id="ar-etapes" aria-hidden="true">
+        <span data-i="0">1</span><span data-i="1">2</span><span data-i="2">3</span><span data-i="3">4</span><span data-i="4">↑</span>
+      </div>
+      <!-- (04/10, Moctar : « que tout soit compréhensible ») Trois choses, et pas une de
+           plus : où on en est (l'étape), ce qu'il faut faire (une consigne de 4 mots), et
+           la progression du tour (la jauge). Ce qui est PRIS se lit au sol, dans l'image. -->
+      <div id="ar-info" role="status" aria-live="polite"><svg id="ar-ico" viewBox="0 0 24 24" aria-hidden="true"></svg><small id="ar-etape-nom">Angle 1</small><span id="ar-info-txt">Visez le sol et bougez lentement le téléphone.</span></div>
+      <div id="ar-fleche" style="display:none;" aria-hidden="true"><svg viewBox="0 0 38 72"><path d="M6 12 L24 36 L6 60"/><path d="M19 12 L37 36 L19 60"/></svg></div>
+      <svg id="ar-couverture" viewBox="0 0 132 132" aria-hidden="true"></svg>
+      <!-- (29/09) Vue de dessus qui se dessine point par point : c'est là que
+           l'artisan voit s'il a bien pris les angles. -->
+    </div>
+    <div id="ar-bas" style="position:relative;">
+      <canvas id="ar-maquette" width="300" height="224" aria-hidden="true"></canvas>
+      <!-- (04/10) Le tour de la pièce est une rotation : sa progression est un anneau à douze
+           secteurs, le nombre de murs au centre, une coche quand la pièce se ferme. -->
+      <div id="ar-progres" hidden>
+        <svg id="ar-anneau" viewBox="0 0 62 62" aria-hidden="true">
+          <g id="ar-secteurs"><path class="sect" data-s="0" d="M31.87 6.02 A25.0 25.0 0 0 1 42.74 8.93"/><path class="sect" data-s="1" d="M44.25 9.80 A25.0 25.0 0 0 1 52.20 17.75"/><path class="sect" data-s="2" d="M53.07 19.26 A25.0 25.0 0 0 1 55.98 30.13"/><path class="sect" data-s="3" d="M55.98 31.87 A25.0 25.0 0 0 1 53.07 42.74"/><path class="sect" data-s="4" d="M52.20 44.25 A25.0 25.0 0 0 1 44.25 52.20"/><path class="sect" data-s="5" d="M42.74 53.07 A25.0 25.0 0 0 1 31.87 55.98"/><path class="sect" data-s="6" d="M30.13 55.98 A25.0 25.0 0 0 1 19.26 53.07"/><path class="sect" data-s="7" d="M17.75 52.20 A25.0 25.0 0 0 1 9.80 44.25"/><path class="sect" data-s="8" d="M8.93 42.74 A25.0 25.0 0 0 1 6.02 31.87"/><path class="sect" data-s="9" d="M6.02 30.13 A25.0 25.0 0 0 1 8.93 19.26"/><path class="sect" data-s="10" d="M9.80 17.75 A25.0 25.0 0 0 1 17.75 9.80"/><path class="sect" data-s="11" d="M19.26 8.93 A25.0 25.0 0 0 1 30.13 6.02"/></g>
+          <path class="cap" d="M28.6 7.4L31 4.4l2.4 3"/>
+          <text class="cnt" x="31" y="36.5">0</text>
+          <path class="coche" d="M22.5 31.5 l5.5 5.5 L40 25.5"/>
+        </svg>
+        <span id="ar-progres-txt"></span>
+        <svg id="ar-plan" viewBox="0 0 120 120" width="120" height="120" style="display:none;" aria-hidden="true"></svg>
+      </div>
+      <div id="ar-mesure">0 point posé</div>
+      <div class="ar-btns">
+        <button id="ar-film" type="button">Filmer la pièce</button>
+      </div>
+      <div class="ar-btns ar-manuel">
+        <button id="ar-annule" type="button">Annuler le dernier</button>
+        <button id="ar-pose" type="button">Poser un point</button>
+      </div>
+      <div class="ar-btns ar-manuel">
+        <button id="ar-fermer" type="button" style="display:none;background:rgba(255,255,255,.96);color:#0F5132">Fermer la pièce ici</button>
+        <button id="ar-hauteur" type="button" style="display:none;background:rgba(255,255,255,.96);color:#0F5132">Poser le point du plafond</button>
+      </div>
+      <div class="ar-btns ar-manuel" id="ar-bloc-sans-hauteur" style="display:none;">
+        <button id="ar-sans-hauteur" type="button" style="background:transparent;color:#FFF;font-weight:600;text-decoration:underline;">Terminer sans la hauteur (2,50 m, non mesurée)</button>
+      </div>
+      <div class="ar-btns">
+        <button id="ar-quit" type="button">Quitter</button>
+        <button id="ar-fin" type="button">Terminer</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { aireAuSol, perimetreAuSol, surfaceMurs, qualifierReleve, fmtM, fmtM2 }
+      from './js/metre-geometrie.js';
+    // (01/10) Les repères dessinés sur la caméra : des surfaces, pas des lignes d'un pixel.
+    // (04/10) `Trainee` : ce qui est pris se voit au sol, sans rien attendre du suivi.
+    import { anneau, disque, bande, bandePointillee, projeter, filAPlomb, Trainee }
+      from './js/metre-reperes.js';
+    // (03/10, axe 3) Qualité des images du film : une image floue est jetée à la capture.
+    import { nettete, estFloue, conseils } from './js/metre-qualite.js';
+    // (04/10) Une consigne à la fois, choisie par priorité, et le diagnostic de fin.
+    import { choisirConsigne, texteProgression, diagnosticFilm, enVeille, ICONES } from './js/metre-consignes.js';
+    // (03/10, « tout sur le téléphone ») Le film → la pièce : les frontières sol/mur et
+    // mur/plafond de chaque image (segmentation dans le navigateur, segmenter.js, SeaFormer-S
+    // 8 Mo Apache-2.0) deviennent des points au sol en mètres, puis des murs et des angles.
+    import { Accumulateur, distanceMurCentral, controlerCoherence } from './js/metre-film.js';
+    // (04/10, étude) Le SUIVI des murs : grille d'occupation + split-and-merge + hystérésis.
+    // Un mur reconnu reste reconnu, et il se reconnaît en un passage.
+    import { SuiviMurs } from './js/metre-suivi.js';
+    import { Sonar, murEnFace } from './js/metre-sonar.js';
+
+    const $ = (id) => document.getElementById(id);
+    // (03/10) La mise à jour de l'appli demande d'abord si un travail est en cours ici :
+    // une mesure ouverte, ou un relevé affiché pas encore enregistré.
+    window.bsTravailEnCours = () => {
+      if (session) return 'une mesure en cours';
+      const be = document.getElementById('btn-enregistrer');
+      if (typeof releveCourant !== 'undefined' && releveCourant && be && be.textContent !== 'Enregistré') return 'un relevé non enregistré';
+      return null;
+    };
+
+    // (29/09) Le wizard sur la caméra : chaque étape a un nom, chaque geste une
+    // phrase. `consigne()` écrit les deux ; `etapeCourante()` se lit dans l'état.
+    // (01/10, Moctar : « il y a des pièces où tu as des débords, retours, etc. ») Le
+    // nombre d'angles est LIBRE : on suit les murs, on pose chaque angle, rentrant ou
+    // sortant, et on ferme la pièce en revenant sur le premier. Les étapes sont donc
+    // « Angle n » tant que la pièce n'est pas fermée, puis « Le plafond ».
+    // etapeCourante() : un nombre (angle en cours, 0 = premier), 'plafond', ou 'fini'.
+    function etapeCourante() { return hauteurMesuree ? 'fini' : (ferme ? 'plafond' : points.length); }
+    let cleConsigne = null;
+    function consigne(txt, etape, cle) {
+      const s = $('ar-etape-nom'), t = $('ar-info-txt'), ico = $('ar-ico'), boite = $('ar-info');
+      if (s && etape != null) s.textContent = etape === 'fini' ? 'Relevé terminé' : etape === 'amorce' ? 'Avant de commencer' : etape === 'film' ? 'Film de la pièce' : etape === 'plafond' ? 'Dernière étape · Le plafond' : `Angle ${etape + 1}${points.length >= 3 ? ' · ou fermez la pièce' : ''}`;
+      if (ico && cle !== cleConsigne) {
+        cleConsigne = cle;
+        const d = ICONES[cle];
+        ico.style.display = d ? '' : 'none';
+        if (d) ico.innerHTML = d.split(' M').map((q, i) => `<path d="${i ? 'M' + q : q}"/>`).join('');
+      }
+      if (t && txt != null && t.textContent !== txt) {
+        t.textContent = txt;
+        // Le texte se remplace en fondu : on relance l'animation en la retirant puis la remettant.
+        if (boite) { boite.classList.remove('maj'); void boite.offsetWidth; boite.classList.add('maj'); }
+      }
+    }
+    // (04/10) La progression : la jauge du tour et trois mots, sous la consigne. Elle n'apparaît
+    // que pendant le film — avant, il n'y a rien à mesurer ; le libellé vient de
+    // `texteProgression` (fonction pure, testée).
+    function majProgression() {
+      const box = $('ar-progres'); if (!box) return;
+      const enFilm = film.actif || film.images.length > 0;
+      if (box.hidden !== !enFilm) box.hidden = !enFilm;
+      if (!enFilm) return;
+      const fermee = !!(film.analyse && film.analyse.statut === 'ok');
+      const pct = fermee ? 100 : couverturePct();
+      const murs = film.analyse ? film.analyse.murs.length : 0;
+      // Le radar : un secteur s'allume dès qu'on a regardé dans cette direction, sol OU murs.
+      let vus = 0;
+      const secteurs = box.querySelectorAll('.sect');
+      for (let k = 0; k < secteurs.length; k++) {
+        const on = !!(couverture.sol[k] || couverture.murs[k]); if (on) vus++;
+        secteurs[k].classList.toggle('on', on);
+      }
+      // Le radar tourne pour que la direction visée soit toujours en haut, sous le repère fixe.
+      const g = box.querySelector('#ar-secteurs');
+      if (g) g.style.transform = film.capSecteur == null ? 'none' : `rotate(${-film.capSecteur * 30}deg)`;
+      const cnt = box.querySelector('.cnt');
+      if (cnt && cnt.textContent !== String(murs)) cnt.textContent = String(murs);
+      const txt = texteProgression({ secteursVus: vus, murs, pieceFermee: fermee });
+      const el = $('ar-progres-txt');
+      if (el && el.textContent !== txt) el.textContent = txt;
+      box.classList.toggle('fini', fermee);
+    }
+    // Proche du premier angle (pour fermer) : 25 cm.
+    const RAYON_FERMETURE = 0.25;
+    function pretAFermer() { return !ferme && points.length >= 3 && dernierHit && Math.hypot(dernierHit.x - points[0].x, dernierHit.z - points[0].z) < RAYON_FERMETURE; }
+    const montrer = (id) => {
+      ['etat-non-dispo', 'etat-pret', 'etat-resultat'].forEach((e) => {
+        $(e).style.display = e === id ? 'block' : 'none';
+      });
+    };
+
+    // ── Detection de compatibilite ────────────────────────────────────────
+    // WebXR immersive-ar n'existe aujourd'hui que sur Chrome Android (ARCore).
+    // Safari iOS ne l'implemente pas : on le dit franchement plutot que de
+    // laisser l'artisan appuyer sur un bouton qui echouerait.
+    let arDispo = false;
+    (async () => {
+      try {
+        arDispo = !!(navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'));
+      } catch (_) { arDispo = false; }
+      montrer(arDispo ? 'etat-pret' : 'etat-non-dispo');
+      // (19/09) Recensement : cet écran détecte lui-même, donc il journalise
+      // lui-même — sinon un artisan qui arrive ici directement n'est jamais compté.
+      import('./js/metre-ar.js').then((M) => M.capacitesMetre()).catch(() => {});
+    })();
+
+    // ── Session AR ────────────────────────────────────────────────────────
+    let session = null, refSpace = null, hitSource = null, gl = null;
+    let dernierHit = null;
+    let matriceEcran = null;         // projection × vue de la derniere image : sert aux numeros DOM           // pose du reticule a l'image courante
+    const points = [];               // points poses, en metres, repere monde
+    // (01/10, Moctar sur le A57 : « les points bougent quand je me déplace ») Un point
+    // en coordonnées brutes dérive quand ARCore affine sa carte du monde. Chaque point
+    // posé devient une ANCRE WebXR attachée à la surface détectée, et sa position est
+    // relue à chaque image : il reste collé au sol réel.
+    let dernierHitResult = null;     // le XRHitTestResult de l'image courante, pour createAnchor()
+    let suiviPerdu = false;
+    let sansPose = 0;                // images consécutives sans pose caméra (vrai décrochage)
+    const tampon = [];               // dernières positions du réticule immobile, pour lisser la pose
+    let ecartFermeture = null;       // distance réticule → premier angle au moment de fermer (dérive)
+    let anglesRedresses = 0;         // angles ramenés à 90° (quand ils en étaient à moins de 7°)
+    // (03/10, Moctar sur le A57 : « c'est au niveau des retours ») Dans un retour de
+    // cloison, le rayon de visée touche la paroi blanche (jamais détectée) avant le
+    // sol : plus de surface, plus de point. Dès qu'un premier point est posé, la
+    // hauteur du sol est connue : on coupe alors le rayon de visée avec ce plan.
+    // Le réticule passe en « sol déduit » (anneau en pointillés) pour le dire.
+    let solDeduit = false;
+    let ancreAPoser = null;          // point posé sur un sol déduit : son ancre se crée à l'image suivante
+    let amorceFin = 0;               // (03/10, précision) geste d'amorce : 6 s après l'ouverture
+    let veilleDepuis = 0, veilleActive = false;   // (04/10) mise en veille de la caméra après 3 min sans film
+    // (03/10, Moctar : « ok go pour la capture ») Le FILM. Pendant que la session
+    // tourne, on garde une image nette dès que le téléphone a bougé de 35 cm ou tourné
+    // de 20°, avec sa position, sa focale (matrice de projection), la hauteur du sol et
+    // la carte de profondeur brute si Chrome la donne. C'est la matière première de
+    // l'inventaire par l'assistant et de la reconstruction 3D (serveur, à venir).
+    // L'artisan ne fait rien d'autre que tourner dans la pièce.
+    const film = { sonar: null, sonarT: 0, sonars: [], sonarErreur: null, actif: false, images: [], dernierePos: null, derniereQuat: null, dernierT: 0, enCours: false, dispo: false, floues: 0, flouesRecentes: [], vuesRecentes: [], segmentees: 0, analyse: null, derniereAnalyseT: 0,
+                   luminance: null, vitesseAng: 0, derniereQuatVit: null, derniereTVit: 0, sansHitDepuis: 0, confirmes: new Map(),
+                   // (04/10) Ce qui sert au guidage et au diagnostic : images où le pied des murs a été vu,
+                   // images d'affilée sans rien vu, pied du mur visé au centre, durée du film.
+                   avecFrontiere: 0, sansFrontiere: 0, centrale: null, duree: 0, debutT: 0, fermetureT: 0 };
+    // La traînée au sol : tout ce que l'outil a pris, qu'un mur soit reconnu ou pas.
+    const trainee = new Trainee();
+    // (04/10, Moctar : « voir la délimitation plafond, angle, mur ») La même traînée, mais sur la
+    // ligne où les murs rencontrent le PLAFOND : c'est elle qui dessine le haut de la pièce pendant
+    // le tour, bien avant qu'un mur soit confirmé. Cellules plus larges : la ligne est plus loin.
+    const traineePlafond = new Trainee({ cellule: 0.09, seuil: 0.3, max: 800, rayon: 0.11 });
+    // Fenêtre glissante des images examinées (5 s) : sert à la part d'images floues.
+    const FENETRE_RECENTE_MS = 5000;
+    const FILM_MAX = 180, FILM_DIST = 0.30, FILM_ANGLE = 14 * Math.PI / 180, FILM_DELAI_MS = 500, FILM_COTE_MAX = 1280;
+    // Couverture : 12 secteurs de 30° autour de l'artisan, pour le sol et pour les murs.
+    const couverture = { sol: new Array(12).fill(false), murs: new Array(12).fill(false), cle: '' };
+    function couverturePct() { const n = couverture.sol.filter(Boolean).length + couverture.murs.filter(Boolean).length; return Math.round(n / 24 * 100); }
+    function couvertureComplete() { return couverture.sol.filter(Boolean).length >= 11 && couverture.murs.filter(Boolean).length >= 11; }
+    function majCouverture(frame) {
+      try {
+        const vp = frame.getViewerPose(refSpace); if (!vp) return;
+        const q = vp.transform.orientation;
+        const d = { x: -2 * (q.x * q.z + q.w * q.y), y: -2 * (q.y * q.z - q.w * q.x), z: -(1 - 2 * (q.x * q.x + q.y * q.y)) };
+        const l = Math.hypot(d.x, d.y, d.z) || 1;
+        const tangage = Math.asin(d.y / l);                       // < 0 : vers le sol
+        const cap = Math.atan2(d.x, -d.z);                        // 0 = devant au départ
+        const secteur = ((Math.round(cap / (Math.PI / 6)) % 12) + 12) % 12;
+        film.capSecteur = secteur;
+        if (tangage < -0.45) couverture.sol[secteur] = true;      // plus de 26° vers le bas : le sol
+        else if (tangage > -0.35 && tangage < 0.6) couverture.murs[secteur] = true;   // de -20° à +35° : les murs
+        // (1er film réel) Beaucoup d'images visaient les murs à mi-hauteur, sans le pied du mur :
+        // aucune frontière sol/mur à en tirer. On note le tangage pour le dire à l'artisan.
+        film.tangage = tangage;
+        film.regard = { x: d.x, z: d.z }; film.position = { x: vp.transform.position.x, z: vp.transform.position.z };
+        dessinerCouverture();
+      } catch (_) {}
+    }
+    function dessinerCouverture() {
+      const svg = $('ar-couverture'); if (!svg || svg.style.display !== 'block') return;   // plus affiché (03/10)
+      const cle = couverture.sol.map((v) => +v).join('') + couverture.murs.map((v) => +v).join('');
+      if (cle === couverture.cle) return; couverture.cle = cle;
+      const arc = (r0, r1, i, plein) => {
+        const a0 = (i - 0.5) * Math.PI / 6 - Math.PI / 2 + 0.03, a1 = (i + 0.5) * Math.PI / 6 - Math.PI / 2 - 0.03;
+        const P = (r, a) => `${(66 + r * Math.cos(a)).toFixed(1)} ${(66 + r * Math.sin(a)).toFixed(1)}`;
+        return `<path d="M${P(r1, a0)} A${r1} ${r1} 0 0 1 ${P(r1, a1)} L${P(r0, a1)} A${r0} ${r0} 0 0 0 ${P(r0, a0)} Z" fill="${plein ? '#4CAF82' : 'rgba(255,255,255,.22)'}"/>`;
+      };
+      let h = '<circle cx="66" cy="66" r="64" fill="rgba(15,81,50,.6)"/>';
+      for (let i = 0; i < 12; i++) h += arc(40, 60, i, couverture.murs[i]) + arc(18, 36, i, couverture.sol[i]);
+      h += `<circle cx="66" cy="66" r="12" fill="${couvertureComplete() ? '#4CAF82' : 'rgba(255,255,255,.9)'}"/>`;
+      if (couvertureComplete()) h += '<path d="M60 66 l4 4 l8 -9" fill="none" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      svg.innerHTML = h;
+    }
+    let glBinding = null, R_FRAME = 0;
+    // (04/10, Moctar : « suivre et conserver l'activité de ce que je filme ») Le JOURNAL DU MÉTRÉ :
+    // chaque étape part en base au moment où elle se produit (table metre_journal), même si
+    // l'enregistrement du relevé rate ensuite. Jamais bloquant, jamais d'erreur visible.
+    // (04/10) La version était écrite EN DUR (« v256 ») et avait 15 versions de retard : toutes
+    // les lignes du journal de la nuit portaient une version fausse. Elle se lit maintenant à la
+    // source, dans le service worker — le seul endroit que la publication incrémente toujours.
+    let versionLue = null, versionEnCours = null;
+    function versionAppli() {
+      if (versionLue) return Promise.resolve(versionLue);
+      if (versionEnCours) return versionEnCours;
+      versionEnCours = fetch('./sw.js', { cache: 'no-store' })
+        .then((r) => r.text())
+        .then((t) => { const m = t.match(/const VERSION\s*=\s*'([^']+)'/); versionLue = (m && m[1]) || 'inconnue'; return versionLue; })
+        .catch(() => { versionLue = 'inconnue'; return versionLue; });
+      return versionEnCours;
+    }
+    async function journal(etape, detail = {}) {
+      try {
+        const [{ supabase }, version] = await Promise.all([import('./js/supabase.js'), versionAppli()]);
+        await supabase.from('metre_journal').insert({ etape, detail: Object.assign({ version, ua: navigator.userAgent.slice(0, 120) }, detail) });
+      } catch (_) { /* silencieux */ }
+    }
+    let seg = null, segChargement = null, segErreur = null;   // le segmenteur (chargé à l'ouverture de la caméra)
+    let acc = null;                                            // l'accumulateur du film courant
+    let suivi = null;                                          // le suivi des murs pendant le film
+    let resultatFilm = null;                                   // résultat calculé à « Terminer »
+    let controleFilm = null;                                   // le contrôle de cohérence de ce résultat
+    let sourceReleve = 'points';                               // 'points' (angles posés) ou 'film'
+    // (04/10) La segmentation tourne dans un WEB WORKER (segmenter-worker.js) : l'inférence ne
+    // bloque plus la caméra. `seg` devient un petit objet { segmenter(canvas), fournisseur,
+    // tempsChargement } qui parle au worker ; repli dans la page si le worker échoue.
+    let segWorker = null, segAttentes = new Map(), segId = 0;
+    function chargerSegmenteur() {
+      if (seg || segChargement) return segChargement;
+      // URL ABSOLUE : dans le worker, un chemin relatif se résout depuis /app/js/ (le 1er essai chargeait une page 404 → « protobuf parsing failed »).
+      const URL_MODELE = new URL('./modeles/seaformer-S_832x384_fp16.onnx', location.href).href;   // portrait 832×384 : les images caméra font 591×1280
+      segChargement = (async () => {
+        try {
+          if (typeof Worker !== 'undefined' && typeof createImageBitmap === 'function') {
+            segWorker = new Worker('./js/segmenter-worker.js', { type: 'module' });
+            const pret = await new Promise((resolve, reject) => {
+              const id = ++segId; segAttentes.set(id, { resolve, reject });
+              segWorker.onmessage = (e) => { const m = e.data || {}; const a = segAttentes.get(m.id); if (!a) return; segAttentes.delete(m.id); if (m.type === 'erreur') a.reject(new Error(m.message)); else a.resolve(m); };
+              segWorker.onerror = (e) => { reject(new Error(e.message || 'worker')); };
+              segWorker.postMessage({ type: 'charger', url: URL_MODELE, id });
+              setTimeout(() => { if (segAttentes.has(id)) { segAttentes.delete(id); reject(new Error('worker trop lent à charger')); } }, 60000);
+            });
+            seg = {
+              fournisseur: pret.fournisseur + ' (worker)', tempsChargement: pret.chargement_ms, taille: pret.taille,
+              async segmenter(canvas) {
+                const bitmap = await createImageBitmap(canvas);
+                return new Promise((resolve, reject) => {
+                  const id = ++segId; segAttentes.set(id, { resolve, reject });
+                  segWorker.postMessage({ type: 'segmenter', bitmap, id }, [bitmap]);
+                  setTimeout(() => { if (segAttentes.has(id)) { segAttentes.delete(id); reject(new Error('segmentation trop lente')); } }, 8000);
+                });
+              },
+            };
+          } else {
+            const M = await import('./js/segmenter.js');
+            seg = await M.Segmenteur.charger(URL_MODELE);
+          }
+          console.info('[film] segmentation prête', seg.fournisseur, Math.round(seg.tempsChargement) + ' ms');
+        } catch (e) {
+          // (04/10, capture 17h18 : « aucun bouton ne fonctionne ») PAS de repli dans la page : charger et
+          // faire tourner le modèle sur le fil principal gelait l'écran, boutons compris. Sans worker,
+          // la reconnaissance est indisponible, le film reste enregistré, et on le dit.
+          try { if (segWorker) { segWorker.terminate(); segWorker = null; } } catch (_) {}
+          segErreur = e; console.warn('[film] segmentation indisponible (worker)', e);
+        }
+      })();
+      return segChargement;
+    }
+    // Segmente une image du film (canvas réduit) et verse ses frontières dans l'accumulateur.
+    async function segmenterImage(fiche, canvas, id) {
+      const r = await seg.segmenter(canvas);
+      const w = canvas.width, h = canvas.height;
+      const sol = r.frontieres.solMur.filter((q) => q[1] >= 0).map((q) => ({ u: q[0], v: q[1] }));
+      const plaf = r.frontieres.murPlafond.filter((q) => q[1] >= 0).map((q) => ({ u: q[0], v: q[1] }));
+      fiche.frontieres = { solMur: r.frontieres.solMur.map((q) => [+q[0].toFixed(1), +q[1].toFixed(1)]), murPlafond: r.frontieres.murPlafond.map((q) => [+q[0].toFixed(1), +q[1].toFixed(1)]) };
+      fiche.segTemps = Math.round(r.temps.total);
+      fiche.ouvertures = (r.ouvertures || []).map((o) => ({ u0: +o.u0.toFixed(1), u1: +o.u1.toFixed(1), type: o.type, vBas: +o.vBas.toFixed(1), vHaut: +o.vHaut.toFixed(1) }));
+      if (acc && fiche.ouvertures.length) acc.ajouterOuvertures({ position: fiche.position, orientation: fiche.orientation, projection: fiche.projection, taille: [w, h] }, fiche.ouvertures);
+      // Luminance de l'image réduite : la frontière se colle à l'arête de contraste réelle.
+      const px = (id || canvas.getContext('2d').getImageData(0, 0, w, h)).data;
+      const lire = (x, y) => { const i = (y * w + x) * 4; return 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]; };
+      if (acc) acc.ajouter({ position: fiche.position, orientation: fiche.orientation, projection: fiche.projection, taille: [w, h], solY: fiche.solY }, sol, plaf, lire);
+      film.segmentees++;
+      // (04/10) Deux choses qui ne dépendent PAS du suivi des murs — c'est tout l'objet du
+      // correctif : le suivi ne converge pas sur une vraie pièce, le reste doit marcher sans lui.
+      //   1. la traînée au sol : l'artisan voit ce qui est pris, image après image ;
+      //   2. la distance au pied du mur visé au centre : elle déclenche la mesure par le son.
+      if (sol.length) { film.avecFrontiere++; film.sansFrontiere = 0; } else film.sansFrontiere++;
+      // Le cadre passe au vert quand l'image a donné une ligne exploitable — le pied du mur, ou
+      // la ligne du plafond quand un meuble cache le bas. Une seule information : « c'est pris ».
+      film.cadrePris = sol.length > 0 || plaf.length > 0;
+      film.cadrePrisT = performance.now();
+      if (acc && acc.derniers && acc.derniers.length) trainee.ajouter(acc.derniers);
+      if (acc && acc.derniersPlafond && acc.derniersPlafond.length) traineePlafond.ajouter(acc.derniersPlafond);
+      try {
+        const meta = { position: fiche.position, orientation: fiche.orientation, projection: fiche.projection, taille: [w, h], solY: fiche.solY };
+        const dc = sol.length ? distanceMurCentral(meta, sol) : null;
+        film.centrale = dc ? Object.assign({ t: performance.now() }, dc) : null;
+      } catch (_) { film.centrale = null; }
+      // (04/10) La pièce se DESSINE pendant le film, en un passage : les points de cette image
+      // entrent dans la grille d'occupation, le suivi met les murs à jour (naissance après 3
+      // images, pas de clignotement), et le dessin suit. Quelques millisecondes par image.
+      try {
+        if (suivi && acc && ((acc.derniers && acc.derniers.length) || (acc.derniersPlafond && acc.derniersPlafond.length))) {
+          // Sol ET plafond : la ligne du plafond, projetée à la hauteur estimée, ne voit pas les meubles.
+          suivi.ajouterImage((acc.derniers || []).concat(acc.derniersPlafond || []), fiche.t, { x: fiche.position.x, z: fiche.position.z });
+          if (film.segmentees % 10 === 0 && film.analyse && film.analyse.murs && film.analyse.murs.length) {
+            try { const { toutes } = acc.hauteurs(film.analyse.murs, acc.solY || 0); const hs = toutes.filter((h) => h > 1.8 && h < 4.5).sort((u, v) => u - v); if (hs.length >= 10) acc.hauteurEstimee = hs[Math.floor(hs.length / 2)]; } catch (_) {}
+          }
+          const a = suivi.resultat();
+          if (a.murs.length) {
+            // Portes et fenêtres posées sur les murs suivis (léger : quelques observations).
+            try { a.ouvertures = acc.ouvertures(a.murs, acc.solY || 0); } catch (_) { a.ouvertures = []; }
+            film.analyse = a; dessinerPlanFilm(a);
+          }
+        }
+      } catch (e) { /* on garde l'analyse précédente */ }
+    }
+    // (04/10) La mini-maquette 3D : les murs montent à la hauteur mesurée, vue isométrique qui tourne.
+    let maqAngle = 0;
+    function dessinerMaquette(r) {
+      const c = $('ar-maquette'); if (!c) return;
+      if (!r || !r.murs || !r.murs.length) { c.classList.remove('on'); return; }
+      c.classList.add('on');
+      const ctx = c.getContext('2d'); const W = c.width, H = c.height; ctx.clearRect(0, 0, W, H);
+      const pts = r.murs.flatMap((m) => [m.a, m.b]).concat(r.angles || []);
+      const cx = pts.reduce((s, p) => s + p.x, 0) / pts.length, cz = pts.reduce((s, p) => s + p.z, 0) / pts.length;
+      const span = Math.max(0.5, ...pts.map((p) => Math.hypot(p.x - cx, p.z - cz))) * 2.2;
+      const h = Math.min(3, r.hauteur || 2.5);
+      maqAngle += 0.004;
+      const ca = Math.cos(maqAngle), sa = Math.sin(maqAngle), k = (W * 0.9) / span, tilt = 0.5;
+      const P = (x, y, z) => { const rx = (x - cx) * ca - (z - cz) * sa, rz = (x - cx) * sa + (z - cz) * ca; return [W / 2 + rx * k, H * 0.62 + rz * k * tilt - y * k * 0.55]; };
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      // Sol
+      if (r.statut === 'ok' && r.angles.length >= 3) { ctx.beginPath(); r.angles.forEach((a, i) => { const q = P(a.x, 0, a.z); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.closePath(); ctx.fillStyle = 'rgba(76,175,130,.35)'; ctx.fill(); }
+      // Murs : trait au sol, arêtes, ligne haute ; blanc si confirmé, pointillé sinon.
+      for (const m of r.murs) {
+        const conf = m.confiance == null ? 1 : m.confiance;
+        ctx.strokeStyle = conf >= 0.6 ? '#FFFFFF' : 'rgba(255,255,255,.55)'; ctx.lineWidth = conf >= 0.6 ? 2 : 1.5; ctx.setLineDash(conf >= 0.6 ? [] : [4, 3]);
+        const a0 = P(m.a.x, 0, m.a.z), b0 = P(m.b.x, 0, m.b.z), a1 = P(m.a.x, h, m.a.z), b1 = P(m.b.x, h, m.b.z);
+        ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(b0[0], b0[1]); ctx.stroke();
+        if (conf >= 0.6) { ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(a1[0], a1[1]); ctx.moveTo(b0[0], b0[1]); ctx.lineTo(b1[0], b1[1]); ctx.moveTo(a1[0], a1[1]); ctx.lineTo(b1[0], b1[1]); ctx.globalAlpha = 0.7; ctx.stroke(); ctx.globalAlpha = 1; }
+      }
+      ctx.setLineDash([]);
+      // Coche quand la pièce est fermée.
+      if (r.statut === 'ok') { ctx.fillStyle = '#4CAF82'; ctx.beginPath(); ctx.arc(W - 18, 18, 11, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#FFF'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(W - 23, 18); ctx.lineTo(W - 19, 22); ctx.lineTo(W - 12, 13); ctx.stroke(); }
+    }
+    // (04/10) La maquette en grand, au résultat : même dessin que la mini, avec rotation au doigt et ouvertures.
+    let r3dAngle = 0.6, r3dDrag = null, r3dDonnees = null;
+    function dessiner3D() {
+      const c = $('r-3d'), r = r3dDonnees; if (!c || !r) return;
+      const ctx = c.getContext('2d'); const W = c.width, H = c.height; ctx.clearRect(0, 0, W, H);
+      const pts = r.murs.flatMap((m) => [m.a, m.b]).concat(r.angles || []);
+      const cx = pts.reduce((s, p) => s + p.x, 0) / pts.length, cz = pts.reduce((s, p) => s + p.z, 0) / pts.length;
+      const span = Math.max(0.5, ...pts.map((p) => Math.hypot(p.x - cx, p.z - cz))) * 2.3;
+      const h = Math.min(3.5, r.hauteur || 2.5);
+      const ca = Math.cos(r3dAngle), sa = Math.sin(r3dAngle), k = (W * 0.86) / span, tilt = 0.5;
+      const P = (x, y, z) => { const rx = (x - cx) * ca - (z - cz) * sa, rz = (x - cx) * sa + (z - cz) * ca; return [W / 2 + rx * k, H * 0.66 + rz * k * tilt - y * k * 0.55]; };
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      if (r.statut === 'ok' && (r.angles || []).length >= 3) { ctx.beginPath(); r.angles.forEach((a, i) => { const q = P(a.x, 0, a.z); i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.closePath(); ctx.fillStyle = 'rgba(76,175,130,.30)'; ctx.fill(); }
+      // Murs du fond d'abord (plus loin de la caméra = rz plus petit), pour que les proches passent devant.
+      const ordre = r.murs.map((m, i) => ({ m, i, prof: ((m.a.x + m.b.x) / 2 - cx) * sa + ((m.a.z + m.b.z) / 2 - cz) * ca })).sort((u, v) => u.prof - v.prof);
+      for (const { m, i } of ordre) {
+        const conf = m.confiance == null ? 1 : m.confiance, ok = conf >= 0.6 && m.trouve !== 'deduit';
+        const a0 = P(m.a.x, 0, m.a.z), b0 = P(m.b.x, 0, m.b.z), a1 = P(m.a.x, h, m.a.z), b1 = P(m.b.x, h, m.b.z);
+        ctx.beginPath(); ctx.moveTo(a0[0], a0[1]); ctx.lineTo(b0[0], b0[1]); ctx.lineTo(b1[0], b1[1]); ctx.lineTo(a1[0], a1[1]); ctx.closePath();
+        ctx.fillStyle = ok ? 'rgba(255,255,255,.10)' : 'rgba(255,255,255,.05)'; ctx.fill();
+        ctx.strokeStyle = ok ? '#FFFFFF' : 'rgba(255,255,255,.6)'; ctx.lineWidth = ok ? 3 : 2; ctx.setLineDash(ok ? [] : [8, 6]); ctx.stroke(); ctx.setLineDash([]);
+        for (const o of (r.ouvertures || []).filter((q) => q.mur === i)) {
+          const ex = m.b.x - m.a.x, ez = m.b.z - m.a.z;
+          const c0 = P(m.a.x + ex * o.u0, o.bas, m.a.z + ez * o.u0), c1 = P(m.a.x + ex * o.u1, o.bas, m.a.z + ez * o.u1), c2 = P(m.a.x + ex * o.u1, o.haut, m.a.z + ez * o.u1), c3 = P(m.a.x + ex * o.u0, o.haut, m.a.z + ez * o.u0);
+          ctx.beginPath(); ctx.moveTo(c0[0], c0[1]); ctx.lineTo(c1[0], c1[1]); ctx.lineTo(c2[0], c2[1]); ctx.lineTo(c3[0], c3[1]); ctx.closePath();
+          ctx.fillStyle = o.type === 'fenetre' ? 'rgba(120,200,255,.25)' : 'rgba(76,175,130,.25)'; ctx.fill(); ctx.strokeStyle = '#FFF'; ctx.lineWidth = 2; ctx.stroke();
+        }
+        // Longueur du mur, au milieu du pied.
+        const mx = (a0[0] + b0[0]) / 2, my = (a0[1] + b0[1]) / 2;
+        ctx.font = '700 22px Inter, system-ui, sans-serif'; ctx.fillStyle = '#FFF'; ctx.textAlign = 'center'; ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(15,42,30,.9)';
+        const txt = Number(m.longueur).toFixed(2).replace('.', ',') + ' m'; ctx.strokeText(txt, mx, my + 26); ctx.fillText(txt, mx, my + 26);
+      }
+    }
+    function montrer3D(r) {
+      const bloc = $('r-3d-bloc'); if (!bloc) return;
+      r3dDonnees = (r && r.murs && r.murs.length) ? r : null; bloc.style.display = r3dDonnees ? '' : 'none';
+      if (r3dDonnees) dessiner3D();
+    }
+    (() => {
+      const c = $('r-3d'); if (!c) return;
+      c.addEventListener('pointerdown', (e) => { r3dDrag = { x: e.clientX, a: r3dAngle }; c.setPointerCapture(e.pointerId); });
+      c.addEventListener('pointermove', (e) => { if (!r3dDrag) return; r3dAngle = r3dDrag.a + (e.clientX - r3dDrag.x) * 0.012; dessiner3D(); });
+      c.addEventListener('pointerup', () => { r3dDrag = null; }); c.addEventListener('pointercancel', () => { r3dDrag = null; });
+    })();
+    // Le petit plan en haut, construit depuis l'analyse du film : murs en traits, angles en points.
+    function dessinerPlanFilm(r) {
+      const svg = $('ar-plan'); if (!svg || !r || !r.murs || !r.murs.length) return;
+      svg.style.display = 'block';
+      const pts = r.murs.flatMap((m) => [m.a, m.b]).concat(r.angles || []);
+      const xs = pts.map((q) => q.x), zs = pts.map((q) => q.z);
+      const minX = Math.min(...xs), maxX = Math.max(...xs), minZ = Math.min(...zs), maxZ = Math.max(...zs);
+      const span = Math.max(maxX - minX, maxZ - minZ, 0.5);
+      const k = 96 / span, ox = 12 + (96 - (maxX - minX) * k) / 2, oz = 12 + (96 - (maxZ - minZ) * k) / 2;
+      const P = (q) => [ox + (q.x - minX) * k, oz + (q.z - minZ) * k];
+      let h = '';
+      if (r.statut === 'ok' && r.angles.length >= 3) {
+        h += '<path d="M' + r.angles.map((a) => P(a).map((v) => v.toFixed(1)).join(' ')).join(' L') + ' Z" fill="rgba(76,175,130,.35)" stroke="#FFF" stroke-width="2" stroke-linejoin="round"/>';
+      }
+      for (const m of r.murs) { const a = P(m.a), b = P(m.b); h += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${m.trouve === 'deduit' ? 'rgba(255,255,255,.5)' : '#4CAF82'}" stroke-width="3" stroke-linecap="round"${m.trouve === 'deduit' ? ' stroke-dasharray="4 3"' : ''}/>`; }
+      for (const a of (r.angles || [])) { const c = P(a); h += `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="3" fill="#FFF"/>`; }
+      // (04/10, étude action 6) La coche quand la pièce se referme : le signal que l'artisan
+      // attend pour s'arrêter, au même endroit que le plan qu'il regarde.
+      if (r.statut === 'ok') h += '<circle cx="104" cy="16" r="11" fill="#4CAF82"/><path d="M99 16 l4 4 l8 -9" fill="none" stroke="#FFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      svg.innerHTML = h;
+    }
+    let ferme = false;               // la pièce est fermée (retour sur le premier angle)
+    let hauteurVisee = null;         // hauteur lue sur la ligne mur/plafond visée, à l'image courante
+    let jonction = null;             // { p, tx, tz } : point visé sur le mur et tangente du mur
+    let hauteurMesuree = null;   // renseignee si l'artisan a vise le plafond          // vrai si le hit-test a decroche APRES la 1re pose
+
+    function majAffichage() {
+      const n = points.length;
+      if (n === 0)      $('ar-mesure').textContent = film.images.length ? 'Film gardé' : 'Prêt à filmer';
+      else if (n < 3)   $('ar-mesure').textContent = `${n} point${n > 1 ? 's' : ''} posé${n > 1 ? 's' : ''} — il en faut 3 minimum`;
+      else if (!ferme)  $('ar-mesure').textContent = `${n} angles — ${fmtM2(aireAuSol(points))} · continuez, ou revenez au premier angle pour fermer`;
+      else if (!hauteurMesuree) $('ar-mesure').textContent = `Pièce fermée, ${n} angles — ${fmtM2(aireAuSol(points))} · reste le plafond`;
+      else              $('ar-mesure').textContent = `${n} angles — ${fmtM2(aireAuSol(points))} — hauteur ${hauteurMesuree.toFixed(2)} m`;
+      // (19/09) Terminer attend la hauteur MESURÉE. L'issue de secours reste
+      // visible et nommée : « sans la hauteur », donc non mesurée, et le devis le dira.
+      // Un film de 5 images et plus peut se terminer seul : pas de cotes, mais la matière de l'inventaire et du 3D.
+      $('ar-fin').disabled = !(ferme && hauteurMesuree) && !(film.images.length >= 5 && points.length < 3);
+      $('ar-bloc-sans-hauteur').style.display = (ferme && !hauteurMesuree) ? '' : 'none';
+      $('ar-annule').disabled = n === 0;
+      // Boutons selon la phase : angles (poser / fermer ici), puis plafond.
+      $('ar-pose').style.display = ferme ? 'none' : '';
+      $('ar-fermer').style.display = (!ferme && n >= 3) ? '' : 'none';
+      $('ar-hauteur').style.display = (ferme && !hauteurMesuree) ? '' : 'none';
+      dessinerMiniPlan();
+      // Progression : les angles posés en vert, l'étape en cours qui pulse.
+      const etape = etapeCourante();
+      consigne(null, etape);
+      // Cases : un numéro par angle posé, l'angle en cours, puis ↑ le plafond.
+      // Au-delà de 7 angles, on ne garde que les 6 derniers à l'écran.
+      const cases = [];
+      const total = Math.max(ferme ? n : n + 1, 4);
+      for (let i = 0; i < total; i++) cases.push({ txt: String(i + 1), fait: i < n, encours: !ferme && i === n });
+      cases.push({ txt: '↑', fait: !!hauteurMesuree, encours: ferme && !hauteurMesuree });
+      const visibles = cases.length > 8 ? cases.slice(cases.length - 8) : cases;
+      const box = $('ar-etapes');
+      box.replaceChildren(...visibles.map((c) => { const el = document.createElement('span'); el.textContent = c.txt; el.classList.toggle('fait', c.fait); el.classList.toggle('encours', c.encours); return el; }));
+      // Flèche : après le premier angle, « tournez dans le même sens » ; après
+      // le quatrième, « levez vers le plafond ».
+      const fl = $('ar-fleche');
+      if (n === 0 || hauteurMesuree) fl.style.display = 'none';
+      else { fl.style.display = 'block'; fl.classList.toggle('haut', ferme); }
+    }
+
+    // Mini-plan (vue de dessus) : x → droite, z → bas, ajusté à la boîte.
+    function dessinerMiniPlan() {
+      const svg = $('ar-plan'); if (!svg) return;
+      const n = points.length;
+      if (n < 2) { svg.style.display = 'none'; return; }
+      svg.style.display = 'block';
+      const xs = points.map((q) => q.x), zs = points.map((q) => q.z);
+      const minX = Math.min(...xs), maxX = Math.max(...xs), minZ = Math.min(...zs), maxZ = Math.max(...zs);
+      const span = Math.max(maxX - minX, maxZ - minZ, 0.5);
+      const k = 96 / span, ox = 12 + (96 - (maxX - minX) * k) / 2, oz = 12 + (96 - (maxZ - minZ) * k) / 2;
+      const P = points.map((q) => [ox + (q.x - minX) * k, oz + (q.z - minZ) * k]);
+      let h = '';
+      h += '<path d="M' + P.map((c) => c[0].toFixed(1) + ' ' + c[1].toFixed(1)).join(' L') + (ferme ? ' Z' : '') + '" fill="' + (ferme ? 'rgba(76,175,130,.35)' : 'none') + '" stroke="#FFF" stroke-width="2" stroke-linejoin="round"/>';
+      const segs = ferme ? n : n - 1;
+      for (let i = 0; i < segs; i++) {
+        const a = points[i], b = points[(i + 1) % n];
+        const d = Math.hypot(b.x - a.x, b.z - a.z);
+        const mx = (P[i][0] + P[(i + 1) % n][0]) / 2, mz = (P[i][1] + P[(i + 1) % n][1]) / 2;
+        h += '<text x="' + mx.toFixed(1) + '" y="' + mz.toFixed(1) + '" font-size="9" font-weight="700" fill="#FFF" text-anchor="middle" dominant-baseline="middle" paint-order="stroke" stroke="rgba(15,81,50,.9)" stroke-width="3">' + d.toFixed(2) + '</text>';
+      }
+      P.forEach((c, i) => { h += '<circle cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="3" fill="' + (i === 0 ? '#4CAF82' : '#FFF') + '"/>'; });
+      svg.innerHTML = h;
+    }
+
+    async function demarrer() {
+      // (29/09, A57 : « ça me dit une session de mesure est déjà ouverte ») Une
+      // session sortie par le geste retour d'Android n'est pas toujours finie :
+      // on ferme ce qui traîne avant d'en ouvrir une autre.
+      if (session) { try { await session.end(); } catch (_) {} session = null; }
+      try {
+        session = await navigator.xr.requestSession('immersive-ar', {
+          requiredFeatures: ['hit-test'],
+          // camera-access et depth-sensing : pour le film (sonde du 03/10 : accordés sur le A57).
+          optionalFeatures: ['dom-overlay', 'anchors', 'camera-access', 'depth-sensing', 'plane-detection'],
+          domOverlay: { root: $('ar-ui') },
+          depthSensing: { usagePreference: ['cpu-optimized', 'gpu-optimized'], dataFormatPreference: ['luminance-alpha', 'float32'], depthTypeRequest: ['raw', 'smooth'] },
+        });
+      } catch (e) {
+        // Message HONNETE : l'ancien parlait d'autorisation alors que la cause
+        // la plus frequente est l'absence de « Google Play Services pour la RA »
+        // (ARCore). Dans ce cas Chrome refuse la session SANS demander la camera,
+        // et l'utilisateur cherche un refus d'autorisation qui n'existe pas.
+        const nom = (e && e.name) || '';
+        let msg;
+        if (nom === 'NotSupportedError') {
+          msg = "Votre téléphone ne propose pas la mesure en réalité augmentée.\n\n"
+              + "Le plus souvent, il manque « Google Play Services pour la RA » (ARCore). "
+              + "Cherchez-le dans le Play Store, installez-le, puis revenez ici.";
+        } else if (nom === 'NotAllowedError' || nom === 'SecurityError') {
+          msg = "L'accès à la caméra a été refusé.\n\n"
+              + "Dans Chrome : menu ⋮ → Paramètres → Paramètres des sites → Caméra, "
+              + "puis autorisez batispot.pro.";
+        } else if (nom === 'InvalidStateError') {
+          // Une session fantôme que même end() n'a pas rendue : la page repart à zéro.
+          location.reload();
+          return;
+        } else {
+          msg = "La mesure n'a pas pu démarrer.\n\nDétail technique : " + (nom || 'inconnu')
+              + "\n" + ((e && e.message) || '');
+        }
+        alert(msg);
+        // On affiche aussi le detail a l'ecran : un utilisateur ne peut pas
+        // nous recopier une alerte, mais il peut nous envoyer une capture.
+        const z = document.getElementById('ar-diagnostic');
+        if (z) { z.style.display = 'block'; z.textContent = 'Diagnostic : ' + (nom || '?') + ' — ' + ((e && e.message) || ''); }
+        return;
+      }
+
+      points.length = 0;
+      suiviPerdu = false; sansPose = 0; tampon.length = 0; ecartFermeture = null; anglesRedresses = 0;
+      ferme = false; hauteurVisee = null; jonction = null;
+      hauteurMesuree = null;
+      solDeduit = false; ancreAPoser = null;
+      film.sonars = []; film.sonarErreur = null; film.sonarT = 0;
+      if (!film.sonar) Sonar.ouvrir().then((so) => { film.sonar = so; journal('sonar_ouvert', { sr: so.sr, reglages: so.reglages }); }).catch((e) => { film.sonarErreur = String(e && e.message || e); journal('sonar_indisponible', { erreur: film.sonarErreur }); });
+      film.actif = false; film.images = []; film.dernierePos = null; film.derniereQuat = null; film.dernierT = 0; film.enCours = false; film.dispo = false; film.floues = 0; film.flouesRecentes = []; film.vuesRecentes = []; film.segmentees = 0;
+      film.avecFrontiere = 0; film.sansFrontiere = 0; film.centrale = null; film.duree = 0; film.debutT = 0;
+      trainee.vider(); traineePlafond.vider(); glTr.forEach((e) => { e.v = -1; });
+      acc = new Accumulateur(); suivi = new SuiviMurs(); resultatFilm = null; controleFilm = null; sourceReleve = 'points'; film.analyse = null; film.derniereAnalyseT = 0; derniereImageT = 0; gels = 0;
+      film.confirmes = new Map(); film.luminance = null; film.vitesseAng = 0; film.derniereQuatVit = null; film.sansHitDepuis = 0; film.fermetureT = 0; $('ar-maquette').classList.remove('on');
+      $('ar-ui').classList.remove('manuel');
+      chargerSegmenteur();   // 8 Mo + le moteur : part maintenant, prêt avant le premier film
+      couverture.sol.fill(false); couverture.murs.fill(false); couverture.cle = '';
+      // L'échelle du monde ne vient que des accélérations du téléphone : six secondes de
+      // va-et-vient vers le sol avant de viser, et elle est fixée (sinon elle se stabilise
+      // mal pendant la pose des premiers angles).
+      amorceFin = performance.now() + 6000;
+      veilleDepuis = performance.now(); veilleActive = false;
+      const bv = $('btn-veille'); if (bv) bv.style.display = 'none';
+      majAffichage();
+      $('ar-ui').classList.add('on');
+
+      const canvas = document.createElement('canvas');
+      gl = canvas.getContext('webgl', { xrCompatible: true, alpha: true });
+      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
+      // (29/09) Sans vider le tampon à chaque image, son contenu est indéfini —
+      // sur le Galaxy A57 de Moctar : un écran NOIR devant la caméra. glInit
+      // prépare aussi le réticule et les traits au sol (l'esprit « Visuary » :
+      // on voit où le point va tomber et la forme qui se referme).
+      try { glInit(); } catch (e) { console.warn('[métré] WebGL : réticule indisponible', e); }
+      // Le film a besoin de lire l'image caméra : une liaison WebGL et un petit programme de copie.
+      glBinding = null;
+      try {
+        let accordees = []; try { accordees = Array.from(session.enabledFeatures || []); } catch (_) {}
+        if (typeof XRWebGLBinding !== 'undefined' && accordees.includes('camera-access')) { glBinding = new XRWebGLBinding(session, gl); glInitCopie(); film.dispo = true; }
+      } catch (e) { console.warn('[métré] film indisponible', e); glBinding = null; film.dispo = false; }
+      majBoutonFilm();
+
+      refSpace = await session.requestReferenceSpace('local');
+      const viewerSpace = await session.requestReferenceSpace('viewer');
+      hitSource = await session.requestHitTestSource({ space: viewerSpace });
+
+      session.addEventListener('end', () => {
+        $('ar-ui').classList.remove('on');
+        session = null; hitSource = null; dernierHit = null;
+        // Veille : on le DIT, et on laisse un seul geste pour repartir.
+        const b = $('btn-veille'); if (b) b.style.display = veilleActive ? 'block' : 'none';
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && session) { try { session.end(); } catch (_) {} }
+      }, { once: true });
+
+      session.requestAnimationFrame(boucle);
+      journal('camera_ouverte', { accordees: (() => { try { return Array.from(session.enabledFeatures || []); } catch (_) { return null; } })() });
+    }
+
+    // ── Rendu WebGL minimal : vider le tampon, réticule, traits, points ───────
+    let glProg = null, glBuf = null, glPos = -1, glMat = null, glCol = null;
+    function glInit() {
+      // (04/10, étude) Alpha PAR SOMMET : les surfaces peintes ont un bord adouci (feather 20 cm,
+      // comme ARCore), les bandes des murs un cœur net et des côtés fondus. Sommets : x y z a.
+      const vs = 'attribute vec4 p;uniform mat4 m;varying float va;void main(){gl_Position=m*vec4(p.xyz,1.0);va=p.w;gl_PointSize=14.0;}';
+      const fs = 'precision mediump float;uniform vec4 c;varying float va;void main(){gl_FragColor=vec4(c.rgb,c.a*va);}';
+      const mk = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); return sh; };
+      glProg = gl.createProgram();
+      gl.attachShader(glProg, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(glProg, mk(gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(glProg);
+      if (!gl.getProgramParameter(glProg, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(glProg));
+      glPos = gl.getAttribLocation(glProg, 'p'); glMat = gl.getUniformLocation(glProg, 'm'); glCol = gl.getUniformLocation(glProg, 'c');
+      glBuf = gl.createBuffer();
+      glTr.forEach((e) => { e.buf = null; e.v = -1; e.n = 0; e.y = null; });
+    }
+    // La traînée a ses PROPRES tampons : elle ne change que deux fois par seconde (à chaque image
+    // segmentée), elle ne doit pas être renvoyée à la carte 60 fois par seconde. Deux passes :
+    // un halo sombre un peu plus large, puis le ruban clair — sinon il s'efface sur un sol clair.
+    const glTr = [{ buf: null, v: -1, y: null, n: 0 }, { buf: null, v: -1, y: null, n: 0 },
+                  { buf: null, v: -1, y: null, n: 0 }, { buf: null, v: -1, y: null, n: 0 }];
+    function glTraineeDessiner(i, y, facteur, rgba, tr) {
+      const source = tr || trainee;
+      if (!glProg || !source.taille) return;
+      const e = glTr[i];
+      if (!e.buf) e.buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, e.buf);
+      if (e.v !== source.version || e.y !== y) {
+        const v = source.sommets(y, facteur);
+        gl.bufferData(gl.ARRAY_BUFFER, v, gl.DYNAMIC_DRAW);
+        e.v = source.version; e.y = y; e.n = v.length / 4;
+      }
+      if (!e.n) return;
+      gl.enableVertexAttribArray(glPos);
+      gl.vertexAttribPointer(glPos, 4, gl.FLOAT, false, 0, 0);
+      gl.uniform4fv(glCol, rgba);
+      gl.drawArrays(gl.TRIANGLES, 0, e.n);
+    }
+    // ── Le film : copie de l'image caméra, critère de capture, encodage ───────
+    let cpProg = null, cpBuf = null, cpPos = -1, cpTex = null, cpFbo = null, cpTexDest = null, cpW = 0, cpH = 0;
+    function glInitCopie() {
+      const vs = 'attribute vec2 p;varying vec2 t;void main(){t=p*0.5+0.5;gl_Position=vec4(p,0.0,1.0);}';
+      const fs = 'precision mediump float;uniform sampler2D s;varying vec2 t;void main(){gl_FragColor=texture2D(s,t);}';
+      const mk = (type, src) => { const sh = gl.createShader(type); gl.shaderSource(sh, src); gl.compileShader(sh); if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); return sh; };
+      cpProg = gl.createProgram();
+      gl.attachShader(cpProg, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(cpProg, mk(gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(cpProg);
+      if (!gl.getProgramParameter(cpProg, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(cpProg));
+      cpPos = gl.getAttribLocation(cpProg, 'p'); cpTex = gl.getUniformLocation(cpProg, 's');
+      cpBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, cpBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      cpFbo = gl.createFramebuffer();
+    }
+    // Rend { w, h, pixels } (RGBA, lignes de bas en haut comme WebGL), ou null.
+    function copierImageCamera(view) {
+      if (!glBinding || !cpProg || !view.camera) return null;
+      const tex = glBinding.getCameraImage(view.camera);
+      if (!tex) return null;
+      const w = view.camera.width, h = view.camera.height;
+      if (!w || !h) return null;
+      if (!cpTexDest || cpW !== w || cpH !== h) {
+        if (cpTexDest) gl.deleteTexture(cpTexDest);
+        cpTexDest = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, cpTexDest);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        cpW = w; cpH = h;
+      }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, cpFbo);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, cpTexDest, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) { gl.bindFramebuffer(gl.FRAMEBUFFER, null); return null; }
+      gl.viewport(0, 0, w, h);
+      gl.disable(gl.BLEND);
+      gl.useProgram(cpProg);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(cpTex, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, cpBuf); gl.enableVertexAttribArray(cpPos); gl.vertexAttribPointer(cpPos, 2, gl.FLOAT, false, 0, 0);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      const pixels = new Uint8Array(w * h * 4);
+      gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      return { w, h, pixels };
+    }
+    // Pixels WebGL → JPEG (réduit à 1280 px de côté), hors de l'image en cours.
+    function pixelsVersBlob(img) {
+      return new Promise((resolve) => {
+        const c = document.createElement('canvas'); c.width = img.w; c.height = img.h;
+        const ctx = c.getContext('2d');
+        const id = ctx.createImageData(img.w, img.h);
+        const ligne = img.w * 4;
+        for (let y = 0; y < img.h; y++) id.data.set(img.pixels.subarray((img.h - 1 - y) * ligne, (img.h - y) * ligne), y * ligne);
+        ctx.putImageData(id, 0, 0);
+        let out = c;
+        const k = FILM_COTE_MAX / Math.max(img.w, img.h);
+        if (k < 1) { out = document.createElement('canvas'); out.width = Math.round(img.w * k); out.height = Math.round(img.h * k); out.getContext('2d').drawImage(c, 0, 0, out.width, out.height); }
+        out.toBlob((b) => resolve({ blob: b, w: out.width, h: out.height, canvas: out }), 'image/jpeg', 0.85);
+      });
+    }
+    function angleEntre(q1, q2) {
+      const d = Math.abs(q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w);
+      return 2 * Math.acos(Math.min(1, d));
+    }
+    // Appelée à chaque image rendue, pendant le film : garde une image si le téléphone a bougé.
+    function tenterCapture(frame, view, vp) {
+      if (!film.actif || film.enCours || film.images.length >= FILM_MAX) return;
+      const t = performance.now();
+      if (t - film.dernierT < FILM_DELAI_MS) return;
+      const pos = view.transform.position, quat = view.transform.orientation;
+      if (film.dernierePos) {
+        const d = Math.hypot(pos.x - film.dernierePos.x, pos.y - film.dernierePos.y, pos.z - film.dernierePos.z);
+        if (d < FILM_DIST && angleEntre(quat, film.derniereQuat) < FILM_ANGLE) return;
+      }
+      const img = copierImageCamera(view);
+      if (!img) return;
+      film.enCours = true; film.dernierT = t;
+      film.dernierePos = { x: pos.x, y: pos.y, z: pos.z }; film.derniereQuat = { x: quat.x, y: quat.y, z: quat.z, w: quat.w };
+      // Profondeur brute (160×90 sur le A57), si Chrome la donne : petite, on la garde telle quelle.
+      let profondeur = null;
+      try {
+        const di = frame.getDepthInformation && frame.getDepthInformation(view);
+        if (di && di.data) profondeur = { w: di.width, h: di.height, brutVersMetres: di.rawValueToMeters, matrice: Array.from(di.normDepthBufferFromNormView.matrix), octets: new Uint8Array(di.data.slice(0)) };
+      } catch (_) { /* pas de profondeur à cette image */ }
+      const solY = points.length ? points.reduce((a, p) => a + p.y, 0) / points.length : (dernierHit ? dernierHit.y : null);
+      const meta = { t: +(t / 1000).toFixed(3), position: film.dernierePos, orientation: film.derniereQuat, projection: Array.from(view.projectionMatrix), viewport: [vp.width, vp.height], camera: [img.w, img.h], solY, profondeur };
+      pixelsVersBlob(img).then(async ({ blob, w, h, canvas }) => {
+        // Image floue (téléphone qui bouge trop vite) : jetée, et l'artisan le sait. Mesurée sur
+        // l'image RÉDUITE, à la même échelle que les JPEG du 1er film réel (floues < 300, nettes > 700).
+        const id = canvas.getContext('2d').getImageData(0, 0, w, h);
+        const score = nettete(id.data, w, h, 4);
+        // Luminance moyenne (RoomPlan : turnOnLight) — un pixel sur 64.
+        { let sm = 0, nn = 0; const d = id.data; for (let i = 0; i < d.length; i += 256) { sm += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]; nn++; } film.luminance = nn ? sm / nn : null; }
+        // Fenêtre glissante : toutes les images examinées, et parmi elles les floues. Leur
+        // RAPPORT déclenche « Plus de lumière, plus lentement » sans attendre (04/10 : 47 images
+        // floues sur 64 et aucune consigne à l'écran).
+        film.vuesRecentes.push(t);
+        film.flouesRecentes = film.flouesRecentes.filter((tt) => t - tt < FENETRE_RECENTE_MS);
+        film.vuesRecentes = film.vuesRecentes.filter((tt) => t - tt < FENETRE_RECENTE_MS);
+        if (estFloue(score, 350)) { film.floues++; film.flouesRecentes.push(t); film.dernierT = t - FILM_DELAI_MS / 2; film.enCours = false; return; }
+        const fiche = Object.assign(meta, { blob, w, h, nettete: Math.round(score) });
+        film.images.push(fiche);
+        // Segmentation pendant le film, image par image : le plan est prêt à l'arrêt.
+        if (seg) { try { await segmenterImage(fiche, canvas, id); } catch (e) { /* une image sans frontière n'arrête pas le film */ } }
+        film.enCours = false;
+        majBoutonFilm();
+      }).catch(() => { film.enCours = false; });
+    }
+    function majBoutonFilm() {
+      const b = $('ar-film'); if (!b) return;
+      if (!film.dispo) { b.className = 'indispo'; b.textContent = 'Film indisponible sur ce téléphone'; return; }
+      b.className = film.actif ? 'actif' : '';
+      b.textContent = film.actif ? 'Arrêter le film' : (film.images.length ? 'Reprendre le film' : 'Filmer la pièce');
+      // (03/10, Moctar : « le cercle en appoint ne servirait plus à rien ») Plus de cercle à
+      // l'écran : la pièce qui se dessine est le guide. La couverture reste calculée pour
+      // « Tout est filmé » et pour la fiche du film.
+      if ((film.actif || film.images.length) && points.length === 0) {
+        const n = film.images.length;
+        const a = film.analyse;
+        const pieceFermee = !!(a && a.statut === 'ok' && a.angles && a.angles.length >= 3);
+        // (04/10) La ligne du bas ne répète plus la consigne du haut (« Continuez le tour. »,
+        // « Pièce fermée. Vous pouvez arrêter. », déjà affichées par `choisirConsigne`) :
+        // uniquement les chiffres, par `texteProgression` (fonction pure, testée), ou rien
+        // tant qu'aucun mur n'est encore reconnu.
+        // (04/10) L'anneau du bas porte déjà « 2 murs · tour 54 % » : cette ligne ne le répète pas.
+        $('ar-mesure').textContent = '';
+        // (04/10) « Terminer » reste estompé (CSS #ar-fin:disabled) tant que la pièce n'est pas
+        // fermée ou que le film a moins de 10 images utiles — avant, 5 images suffisaient même
+        // pièce ouverte.
+        $('ar-fin').disabled = !(pieceFermee && n >= 10);
+      }
+    }
+    // Durée réellement filmée (le film peut être arrêté puis repris) : elle entre dans le
+    // diagnostic de fin (« le film a duré 8 s »).
+    function arreterChrono() {
+      if (film.debutT) { film.duree += (performance.now() - film.debutT) / 1000; film.debutT = 0; }
+    }
+    $('ar-film').addEventListener('click', () => {
+      if (!film.dispo) { try { navigator.vibrate && navigator.vibrate(60); } catch (_) {} return; }
+      film.actif = !film.actif;
+      if (film.actif) { film.dernierePos = null; film.derniereQuat = null; film.debutT = performance.now(); film.tangage = null; }
+      else arreterChrono();
+      journal(film.actif ? 'film_debut' : 'film_fin', { images: film.images.length, segmentees: film.segmentees, floues: film.floues, avecFrontiere: film.avecFrontiere, duree: Math.round(film.duree), gels, segmenteur: seg ? seg.fournisseur : (segErreur ? 'erreur: ' + String(segErreur.message || segErreur).slice(0, 160) : 'non chargé'), murs: film.analyse ? film.analyse.murs.length : 0, statut: film.analyse ? film.analyse.statut : null });
+      try { navigator.vibrate && navigator.vibrate(30); } catch (_) {}
+      majBoutonFilm();
+    });
+
+    // produit de matrices 4×4 en colonne-major (Float32Array), out = a·b
+    function mat4Mul(a, b) {
+      const o = new Float32Array(16);
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) {
+        let v = 0; for (let k = 0; k < 4; k++) v += a[k * 4 + j] * b[i * 4 + k];
+        o[i * 4 + j] = v;
+      }
+      return o;
+    }
+    function glTrace(mode, coords, rgba) {
+      // Sommets xyz (alpha 1 partout) : on intercale a = 1.
+      const n = coords.length / 3, out = new Float32Array(n * 4);
+      for (let i = 0; i < n; i++) { out[i * 4] = coords[i * 3]; out[i * 4 + 1] = coords[i * 3 + 1]; out[i * 4 + 2] = coords[i * 3 + 2]; out[i * 4 + 3] = 1; }
+      glTrace4(mode, out, rgba);
+    }
+    // Sommets x y z a (alpha par sommet).
+    function glTrace4(mode, coords, rgba) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, glBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, coords instanceof Float32Array ? coords : new Float32Array(coords), gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(glPos);
+      gl.vertexAttribPointer(glPos, 4, gl.FLOAT, false, 0, 0);
+      gl.uniform4fv(glCol, rgba);
+      gl.drawArrays(mode, 0, coords.length / 4);
+    }
+    // Bande au sol à bords FONDUS : cœur net de largeur `coeur`, côtés qui s'éteignent sur `fondu` (TRIANGLE_STRIP ×2).
+    function bandeDouce(a, b, coeur, fondu, rgba) {
+      const dx = b.x - a.x, dz = b.z - a.z, l = Math.hypot(dx, dz); if (l < 1e-6) return;
+      const px = -dz / l, pz = dx / l, y0 = a.y + 0.005, y1 = b.y + 0.005;
+      const strip = (w0, w1, a0, a1) => [a.x + px * w0, y0, a.z + pz * w0, a0, b.x + px * w0, y1, b.z + pz * w0, a0, a.x + px * w1, y0, a.z + pz * w1, a1, b.x + px * w1, y1, b.z + pz * w1, a1];
+      const c = coeur / 2, f = c + fondu;
+      glTrace4(gl.TRIANGLE_STRIP, strip(-f, -c, 0, 1), rgba); glTrace4(gl.TRIANGLE_STRIP, strip(-c, c, 1, 1), rgba); glTrace4(gl.TRIANGLE_STRIP, strip(c, f, 1, 0), rgba);
+    }
+    function glRendre(frame) {
+      const layer = session.renderState.baseLayer;
+      gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      if (!glProg) return;
+      const pose = frame.getViewerPose(refSpace); if (!pose) return;
+      gl.useProgram(glProg);
+      gl.disable(gl.DEPTH_TEST);
+      gl.enable(gl.BLEND);
+      gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      for (const view of pose.views) {
+        const vp = layer.getViewport(view);
+        // Le film d'abord (il change le framebuffer et le programme), puis on remet l'état du rendu.
+        if (film.actif) {
+          try { tenterCapture(frame, view, vp); } catch (e) { /* une image ratée n'arrête pas le film */ }
+          gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer); gl.useProgram(glProg); gl.enable(gl.BLEND);
+        }
+        gl.viewport(vp.x, vp.y, vp.width, vp.height);
+        gl.uniformMatrix4fv(glMat, false, mat4Mul(view.projectionMatrix, view.transform.inverse.matrix));
+        matriceEcran = mat4Mul(view.projectionMatrix, view.transform.inverse.matrix);
+        // (01/10, Moctar : « est-ce qu'on peut ajouter ces repères visuels dans la
+        // caméra ? ») Tout ce qui suit est une SURFACE : LINES et POINTS font un
+        // pixel sur Android, invisibles sur l'image de la caméra en plein jour.
+        // Chaque repère a un halo sombre dessous pour se lire sur un sol clair.
+        const BLANC = [1, 1, 1, 0.95], VERT = [0.3, 0.69, 0.51, 1], HALO = [0, 0, 0, 0.38], TIRET = [1, 1, 1, 0.8];
+        const cam = view.transform.position;
+        const n = points.length;
+        // Traits entre les angles posés : bande de 3 cm ; le trait de fermeture
+        // n'apparaît que quand la pièce est fermée.
+        const segs = ferme ? n : n - 1;
+        for (let i = 0; i < segs; i++) {
+          const a = points[i], b = points[(i + 1) % n];
+          glTrace(gl.TRIANGLE_STRIP, bande(a, b, 0.05), HALO);
+          glTrace(gl.TRIANGLE_STRIP, bande(a, b, 0.03), VERT);
+        }
+        // Trait en attente : du dernier angle posé au réticule, en pointillés,
+        // tant qu'il reste des angles à poser. L'artisan voit le mur qu'il trace.
+        if (dernierHit && n >= 1 && !ferme) {
+          bandePointillee(points[n - 1], dernierHit, 0.02).forEach((t) => glTrace(gl.TRIANGLE_STRIP, t, TIRET));
+        }
+        // (04/10) LA TRAÎNÉE, avant tout le reste : chaque pied de mur déjà pris laisse une
+        // trace au sol, blanc légèrement verdi, bords fondus, opacité qui monte avec le nombre
+        // de passages. C'est le seul retour qui ne dépend pas du suivi — l'artisan voit « c'est
+        // pris » dès la première seconde, et les traits blancs pleins viennent par-dessus quand
+        // un mur est confirmé.
+        if (trainee.taille && acc && acc.solY != null) {
+          glTraineeDessiner(0, acc.solY + 0.002, 1.3, [0, 0, 0, 0.26]);
+          glTraineeDessiner(1, acc.solY + 0.003, 1, [0.84, 0.97, 0.90, 1]);
+        }
+        // (04/10, Moctar : « voir la délimitation plafond ») La même trace sur la ligne où les murs
+        // rencontrent le plafond : le haut de la pièce se dessine pendant le tour, bien avant qu'un
+        // mur soit confirmé. Hauteur : celle mesurée si elle l'est, sinon l'estimation courante.
+        if (traineePlafond.taille && acc && acc.solY != null) {
+          const hp = acc.solY + ((film.analyse && film.analyse.hauteur) || acc.hauteurEstimee || 2.5);
+          glTraineeDessiner(2, hp - 0.003, 1.3, [0, 0, 0, 0.24], traineePlafond);
+          glTraineeDessiner(3, hp - 0.002, 1, [0.84, 0.97, 0.90, 0.92], traineePlafond);
+        }
+        // Pendant le film : les murs reconnus s'allument au sol, les angles calculés en points.
+        // (03/10, Moctar : « la pièce, sol et murs, qui deviennent verts ») Ce qui est pris se
+        // PEINT : le sol reconnu en vert translucide, et chaque mur reconnu en panneau vert
+        // qui monte jusqu'à la hauteur mesurée (2,50 m tant qu'elle ne l'est pas).
+        if (film.analyse && film.analyse.murs && acc && acc.solY != null) {
+          const y = acc.solY;
+          const VOILE_SOL = [0.3, 0.69, 0.51, 0.22], VOILE_MUR = [0.3, 0.69, 0.51, 0.18];
+          const ang = film.analyse.angles || [];
+          if (film.analyse.statut === 'ok' && ang.length >= 3) {
+            // Sol : éventail depuis le centre (pièces en étoile, c'est-à-dire presque toutes), avec un bord
+            // ADOUCI de 20 cm : les sommets du contour ont alpha 0, un contour rétréci de 20 cm alpha 1.
+            const cx = ang.reduce((t, q) => t + q.x, 0) / ang.length, cz = ang.reduce((t, q) => t + q.z, 0) / ang.length;
+            const retrait = (q) => { const dx = q.x - cx, dz = q.z - cz, d = Math.hypot(dx, dz) || 1, r = Math.max(0, d - 0.2) / d; return { x: cx + dx * r, z: cz + dz * r }; };
+            const fan = [cx, y + 0.004, cz, 1];
+            for (let i = 0; i <= ang.length; i++) { const q = retrait(ang[i % ang.length]); fan.push(q.x, y + 0.004, q.z, 1); }
+            // (04/10) « C'est bon, vous pouvez arrêter » mérite un éclair plus franc qu'un voile
+            // fixe à 22 % : à la fermeture, l'opacité démarre à 52 % et redescend à 22 % en 900 ms.
+            if (!film.fermetureT) film.fermetureT = performance.now();
+            const depuisFermeture = performance.now() - film.fermetureT;
+            // (04/10, Moctar) Un éclair bref vaut mieux qu'un aplat vert permanent sur tout le bas
+            // de l'écran : 55 % à l'instant où la pièce se ferme, 10 % une seconde plus tard.
+            const aSol = 0.10 + 0.45 * Math.max(0, 1 - depuisFermeture / 1000);
+            const VOILE_FERMETURE = [VOILE_SOL[0], VOILE_SOL[1], VOILE_SOL[2], aSol];
+            glTrace4(gl.TRIANGLE_FAN, fan, VOILE_FERMETURE);
+            const bord = [];
+            for (let i = 0; i <= ang.length; i++) { const q = ang[i % ang.length], r = retrait(q); bord.push(r.x, y + 0.004, r.z, 1, q.x, y + 0.004, q.z, 0); }
+            glTrace4(gl.TRIANGLE_STRIP, bord, VOILE_FERMETURE);
+          } else if (film.fermetureT) film.fermetureT = 0;
+          const hMur = film.analyse.hauteur || 2.5;
+          // Le mur VISÉ (celui que le regard rencontre) à 100 %, les autres à 60 % (étude : « n'éclairer que ce qu'on vise »).
+          let vise = -1;
+          try {
+            const q = view.transform.orientation, C = view.transform.position;
+            const dd = { x: -2 * (q.x * q.z + q.w * q.y), z: -(1 - 2 * (q.x * q.x + q.y * q.y)) };
+            let tMin = Infinity;
+            film.analyse.murs.forEach((m, k) => {
+              const ex = m.b.x - m.a.x, ez = m.b.z - m.a.z, L = Math.hypot(ex, ez); if (L < 1e-6) return;
+              const nx = -ez / L, nz = ex / L, den = nx * dd.x + nz * dd.z; if (Math.abs(den) < 1e-6) return;
+              const t = (nx * (m.a.x - C.x) + nz * (m.a.z - C.z)) / den; if (t <= 0.2 || t >= tMin) return;
+              const px = C.x + dd.x * t, pz = C.z + dd.z * t, u = ((px - m.a.x) * ex + (pz - m.a.z) * ez) / (L * L);
+              if (u >= -0.1 && u <= 1.1) { tMin = t; vise = k; }
+            });
+          } catch (_) {}
+          const nowR = performance.now();
+          film.analyse.murs.forEach((m, k) => {
+            const conf = m.confiance == null ? 1 : m.confiance, focus = (k === vise || vise < 0) ? 1 : 0.6;
+            // Apparition animée (RoomPlan : les traits se DESSINENT) : 0,8 s depuis la confirmation du mur.
+            const cle = Math.round(m.a.x * 10) + ',' + Math.round(m.a.z * 10) + ',' + Math.round(m.b.x * 10) + ',' + Math.round(m.b.z * 10);
+            let t0 = film.confirmes.get(cle); if (conf >= 0.6 && t0 == null) { t0 = nowR; film.confirmes.set(cle, t0); }
+            const prog = t0 == null ? 0 : Math.min(1, (nowR - t0) / 800);
+            const cx = (m.a.x + m.b.x) / 2, cz = (m.a.z + m.b.z) / 2;
+            const a = { x: cx + (m.a.x - cx) * (prog || 1), y, z: cz + (m.a.z - cz) * (prog || 1) }, b = { x: cx + (m.b.x - cx) * (prog || 1), y, z: cz + (m.b.z - cz) * (prog || 1) };
+            // Ouvertures de ce mur : rectangle en contour blanc (porte posée au sol, fenêtre en hauteur).
+            for (const o of (film.analyse.ouvertures || []).filter((q) => q.mur === k)) {
+              const ex = m.b.x - m.a.x, ez = m.b.z - m.a.z;
+              const P = (u, hh) => ({ x: m.a.x + ex * u, y: y + hh, z: m.a.z + ez * u });
+              const c0 = P(o.u0, o.bas), c1 = P(o.u1, o.bas), c2 = P(o.u1, o.haut), c3 = P(o.u0, o.haut);
+              for (const [p1, p2] of [[c0, c1], [c1, c2], [c2, c3], [c3, c0]]) glTrace(gl.TRIANGLE_STRIP, [p1.x + 0.015 * (p2.z - p1.z) / (Math.hypot(p2.x - p1.x, p2.z - p1.z) || 1), p1.y, p1.z - 0.015 * (p2.x - p1.x) / (Math.hypot(p2.x - p1.x, p2.z - p1.z) || 1), p1.x, p1.y + 0.0, p1.z, p2.x + 0.015 * (p2.z - p1.z) / (Math.hypot(p2.x - p1.x, p2.z - p1.z) || 1), p2.y, p2.z - 0.015 * (p2.x - p1.x) / (Math.hypot(p2.x - p1.x, p2.z - p1.z) || 1), p2.x, p2.y, p2.z], [1, 1, 1, 0.85 * focus]);
+            }
+            if (conf >= 0.6 && m.trouve !== 'deduit') {
+              // Arêtes verticales aux deux bouts et ligne du plafond : le mur en contour blanc.
+              const hTop = hMur * prog;
+              for (const e of [m.a, m.b]) glTrace(gl.TRIANGLE_STRIP, filAPlomb({ x: e.x, y, z: e.z }, hTop, 0.02, cam), [1, 1, 1, 0.8 * focus]);
+              if (prog >= 1) { const at = { x: m.a.x, y: y + hMur, z: m.a.z }, bt = { x: m.b.x, y: y + hMur, z: m.b.z }; glTrace(gl.TRIANGLE_STRIP, bande(at, bt, 0.025), [1, 1, 1, 0.8 * focus]); }
+            }
+            // Panneau vertical léger (ce qui est pris se peint), plus présent quand le mur est confirmé.
+            glTrace(gl.TRIANGLE_STRIP, [m.a.x, y, m.a.z, m.b.x, y, m.b.z, m.a.x, y + hMur, m.a.z, m.b.x, y + hMur, m.b.z], [VOILE_MUR[0], VOILE_MUR[1], VOILE_MUR[2], VOILE_MUR[3] * focus * (0.4 + 0.6 * conf)]);
+            // Au sol : POINTILLÉ tant que le mur se confirme, trait BLANC PLEIN une fois confirmé.
+            bandeDouce(a, b, 0.05, 0.03, [0, 0, 0, 0.38 * focus]);
+            if (conf >= 0.6 && m.trouve !== 'deduit') bandeDouce(a, b, 0.025, 0.012, [1, 1, 1, 0.95 * focus]);
+            else bandePointillee(a, b, 0.03).forEach((tr) => glTrace(gl.TRIANGLE_STRIP, tr, [1, 1, 1, 0.75 * focus]));
+          });
+          // (04/10, Moctar : « que le polygone se construise au fur et à mesure ») La pièce en FIL
+          // DE FER dès le deuxième angle : le contour au plafond et l'arête verticale de chaque
+          // angle (le contour au sol est déjà tracé mur par mur). Tant que la pièce n'est pas
+          // fermée, la chaîne reste OUVERTE : on ne referme pas un côté qu'on n'a pas vu.
+          const angles = film.analyse.angles || [];
+          if (angles.length >= 2) {
+            const hCeil = y + hMur, bouclee = film.analyse.statut === 'ok' && angles.length >= 3;
+            const nSeg = bouclee ? angles.length : angles.length - 1;
+            for (let i = 0; i < nSeg; i++) {
+              const q = angles[i], r = angles[(i + 1) % angles.length];
+              const at = { x: q.x, y: hCeil, z: q.z }, bt = { x: r.x, y: hCeil, z: r.z };
+              glTrace(gl.TRIANGLE_STRIP, bande(at, bt, 0.03), [0, 0, 0, 0.30]);
+              glTrace(gl.TRIANGLE_STRIP, bande(at, bt, 0.018), [1, 1, 1, 0.78]);
+            }
+            for (const q of angles) {
+              const bas = { x: q.x, y, z: q.z };
+              glTrace(gl.TRIANGLE_STRIP, filAPlomb(bas, hMur, 0.03, cam), [0, 0, 0, 0.30]);
+              glTrace(gl.TRIANGLE_STRIP, filAPlomb(bas, hMur, 0.016, cam), [1, 1, 1, 0.82]);
+            }
+          }
+          for (const q of angles) { const c = { x: q.x, y, z: q.z }; glTrace(gl.TRIANGLE_FAN, disque(c, 0.07), HALO); glTrace(gl.TRIANGLE_FAN, disque(c, 0.045), BLANC); }
+        }
+        // Prêt à fermer : le premier angle s'allume en blanc.
+        if (pretAFermer()) { glTrace(gl.TRIANGLE_STRIP, anneau(points[0], 0.07, 0.11), HALO); glTrace(gl.TRIANGLE_STRIP, anneau(points[0], 0.08, 0.10), BLANC); }
+        // Angles posés : disque vert, liseré blanc, halo.
+        points.forEach((q) => {
+          glTrace(gl.TRIANGLE_FAN, disque(q, 0.065), HALO);
+          glTrace(gl.TRIANGLE_STRIP, anneau(q, 0.04, 0.055), BLANC);
+          glTrace(gl.TRIANGLE_FAN, disque(q, 0.04), VERT);
+        });
+        // Étape du plafond : la marque sur le mur, là où le regard croise le mur
+        // posé — un trait horizontal à aligner sur la ligne mur/plafond, et un
+        // petit trait vertical. La hauteur s'affiche dans la consigne.
+        if (ferme && !hauteurMesuree && jonction) {
+          const { p, tx, tz } = jonction;
+          const quad = (demiL, demiH) => [p.x + tx * demiL, p.y - demiH, p.z + tz * demiL, p.x - tx * demiL, p.y - demiH, p.z - tz * demiL,
+                                          p.x + tx * demiL, p.y + demiH, p.z + tz * demiL, p.x - tx * demiL, p.y + demiH, p.z - tz * demiL];
+          glTrace(gl.TRIANGLE_STRIP, quad(0.32, 0.03), HALO);
+          glTrace(gl.TRIANGLE_STRIP, quad(0.30, 0.015), BLANC);
+          glTrace(gl.TRIANGLE_STRIP, quad(0.012, 0.12), BLANC);
+        }
+        // Réticule au sol : anneau plein de 14 cm, halo, point au centre — là où
+        // le point tombera. Pas pendant l'étape du plafond (la marque sur le mur
+        // le remplace).
+        if (dernierHit && !(ferme && !hauteurMesuree)) {
+          glTrace(gl.TRIANGLE_STRIP, anneau(dernierHit, 0.045, 0.082), HALO);
+          if (solDeduit) {
+            // Sol déduit : anneau en 12 tirets, pour dire « calculé, pas détecté ».
+            for (let k = 0; k < 12; k++) {
+              const a0 = k / 12 * Math.PI * 2, a1 = (k + 0.55) / 12 * Math.PI * 2, out = [];
+              for (let j = 0; j <= 4; j++) { const a = a0 + (a1 - a0) * j / 4; out.push(dernierHit.x + Math.cos(a) * 0.072, dernierHit.y + 0.005, dernierHit.z + Math.sin(a) * 0.072, dernierHit.x + Math.cos(a) * 0.052, dernierHit.y + 0.005, dernierHit.z + Math.sin(a) * 0.052); }
+              glTrace(gl.TRIANGLE_STRIP, out, BLANC);
+            }
+          } else glTrace(gl.TRIANGLE_STRIP, anneau(dernierHit, 0.052, 0.072), BLANC);
+          glTrace(gl.TRIANGLE_FAN, disque(dernierHit, 0.012), BLANC);
+        }
+      }
+    }
+
+    // Numéros « 1 2 3 4 » posés en DOM au-dessus de chaque angle (dom-overlay) :
+    // l'artisan relie ce qu'il voit au sol aux cases de l'en-tête.
+    function etiquettes() {
+      const box = $('ar-etiquettes'); if (!box || !matriceEcran) return;
+      const W = window.innerWidth, H = window.innerHeight;
+      while (box.children.length > points.length) box.lastChild.remove();
+      while (box.children.length < points.length) {
+        const e = document.createElement('span'); e.className = 'ar-num'; e.textContent = box.children.length + 1; box.appendChild(e);
+      }
+      points.forEach((q, i) => {
+        const p = projeter(matriceEcran, { x: q.x, y: q.y + 0.10, z: q.z }, W, H);
+        const e = box.children[i];
+        e.style.display = p.devant ? '' : 'none';
+        if (p.devant) e.style.transform = `translate(${p.x.toFixed(0)}px, ${p.y.toFixed(0)}px) translate(-50%, -100%)`;
+      });
+    }
+
+    let derniereImageT = 0, gels = 0;
+    function boucle(t, frame) {
+      if (!session) return;
+      session.requestAnimationFrame(boucle);
+      // Gel du fil principal : plus de 400 ms entre deux images rendues. Compté, écrit dans la fiche.
+      if (derniereImageT && t - derniereImageT > 400) gels++;
+      derniereImageT = t;
+      try { glRendre(frame); } catch (e) { /* jamais bloquant : au pire la caméra sans traits */ }
+      try { etiquettes(); } catch (e) { /* idem */ }
+      if (film.actif) {
+        majCouverture(frame); if (R_FRAME++ % 15 === 0) majBoutonFilm(); if (acc && dernierHit && !solDeduit && R_FRAME % 5 === 0) acc.ajouterHitSol(dernierHit);
+        if (R_FRAME % 2 === 0) dessinerMaquette(film.analyse);
+        // Le cadre passe au vert tant que les images servent (1,4 s après la dernière utile) :
+        // l'artisan voit, sans un mot, que ce qu'il cadre est exploité.
+        const cadre = $('ar-cadre');
+        if (cadre) cadre.classList.toggle('pris', !!film.cadrePris && t - (film.cadrePrisT || 0) < 1400);
+        // (03/10) SONAR : quand un mur suivi est en face (regard à < 25° de sa normale, 0,5–3,5 m), le téléphone
+        // siffle et cherche l'écho à ±30 cm de la distance que la caméra annonce. Écho net → la cote du mur glisse
+        // vers la mesure (témoin fort). Jamais bloquant, tout est journalisé. Une mesure toutes les 1,5 s au plus.
+        // (04/10) DEUX sources pour savoir où attendre l'écho. La première était la seule, et
+        // elle exigeait un mur déjà reconnu par le suivi : comme le suivi ne converge pas sur une
+        // vraie pièce, AUCUNE mesure n'était jamais tirée (journal de la nuit : `sonar_ouvert`
+        // présent, pas une ligne `sonar`). La seconde ne dépend de rien d'autre que de la
+        // dernière image : le pied du mur visé au centre.
+        if (film.sonar && !film.sonar.occupe && film.position && t - film.sonarT > 1500) {
+          let cible = null;
+          const face = (suivi && film.regard) ? murEnFace(suivi.murs().filter((m) => m.confiance >= 0.5), film.position, film.regard) : null;
+          if (face) cible = { attendu: face.distance, mur: face.mur, indice: face.indice, source: 'suivi' };
+          else if (film.centrale && t - film.centrale.t < 2500) {
+            // La distance est recalculée depuis la position ACTUELLE : le téléphone a pu avancer
+            // depuis l'image, le point au sol lui n'a pas bougé.
+            const d = Math.hypot(film.centrale.point.x - film.position.x, film.centrale.point.z - film.position.z);
+            if (d >= 0.5 && d <= 7) cible = { attendu: +d.toFixed(3), mur: null, indice: null, source: 'frontiere' };
+          }
+          if (cible) {
+            film.sonarT = t;
+            const p = { x: film.position.x, z: film.position.z };
+            // (04/10) La distance au mur visé, à l'instant où on l'appelle : le sonar s'en sert au
+            // début et à la fin de la mesure pour recaler ses tirs sur le déplacement du téléphone.
+            const distanceMaintenant = () => {
+              if (!film.position) return null;
+              if (cible.source === 'suivi' && cible.mur) {
+                const m = cible.mur;
+                return Math.abs(m.n.x * film.position.x + m.n.z * film.position.z - m.d);
+              }
+              if (film.centrale) return Math.hypot(film.centrale.point.x - film.position.x, film.centrale.point.z - film.position.z);
+              return null;
+            };
+            film.sonar.mesurer(cible.attendu, null, null, distanceMaintenant).then((r) => {
+              if (!r) return;
+              const e = r.echo, net = !!(e && e.snr >= 6);
+              // `temoinDistance` ne s'applique QUE si un mur du suivi correspond : sans mur, la
+              // mesure sert quand même l'échelle de la caméra (calibration à la fin).
+              let applique = false;
+              if (net && cible.mur && suivi) {
+                const m = cible.mur;
+                // ρ signé : le mur est à `e.d` de p, du côté où il était déjà (signe de (n·p − d)).
+                const cote = (m.n.x * p.x + m.n.z * p.z - m.d) >= 0 ? -1 : 1;
+                applique = suivi.temoinDistance(m, m.n.x * p.x + m.n.z * p.z + cote * e.d, 60) != null;
+              }
+              film.sonars.push({ recale: r.recale, vitesse: r.vitesse, t: +(t / 1000).toFixed(2), attendu: cible.attendu, echo: e, libre: r.libre, tirs: r.tirs, applique, source: cible.source, mur: cible.indice });
+              journal('sonar', { attendu: cible.attendu, depart: r.depart, vitesse: r.vitesse, recale: r.recale, echo: e, libre: r.libre, tirs: r.tirs, portee: r.portee, applique, source: cible.source, n: film.sonars.length });
+            }).catch((err) => { film.sonarErreur = String(err && err.message || err); });
+          }
+        }
+        // (04/10, étude) Prior XRPlane (Chrome ≥ 147) : les arêtes du polygone du SOL détecté sont des
+        // candidats murs à poids faible (0,5 : le polygone s'arrête aux meubles), un plan VERTICAL
+        // détecté donne directement un mur à poids fort (2). Toutes les 10 images, pour rester léger.
+        if (suivi && acc && R_FRAME % 10 === 0 && frame.detectedPlanes && acc.solY != null) {
+          try {
+            const t = performance.now() / 1000, votes = [];
+            frame.detectedPlanes.forEach((plan) => {
+              const pose = frame.getPose(plan.planeSpace, refSpace); if (!pose || !plan.polygon || plan.polygon.length < 3) return;
+              const M = pose.transform.matrix;
+              const monde = plan.polygon.map((q) => ({ x: M[0] * q.x + M[4] * q.y + M[8] * q.z + M[12], y: M[1] * q.x + M[5] * q.y + M[9] * q.z + M[13], z: M[2] * q.x + M[6] * q.y + M[10] * q.z + M[14] }));
+              if (plan.orientation === 'horizontal') {
+                if (Math.abs(monde[0].y - acc.solY) > 0.25) return;   // pas le sol (table, lit)
+                for (let i = 0; i < monde.length; i++) { const a = monde[i], b = monde[(i + 1) % monde.length]; const L = Math.hypot(b.x - a.x, b.z - a.z); const n = Math.max(1, Math.round(L / 0.05)); for (let k = 0; k < n; k++) votes.push({ x: a.x + (b.x - a.x) * k / n, z: a.z + (b.z - a.z) * k / n, poids: 0.5 }); }
+              } else if (plan.orientation === 'vertical') {
+                // Intersection du plan vertical avec le sol : les sommets ramenés à y = solY, densifiés.
+                for (let i = 0; i < monde.length; i++) { const a = monde[i], b = monde[(i + 1) % monde.length]; if (Math.abs(a.y - b.y) > 0.3) continue; const L = Math.hypot(b.x - a.x, b.z - a.z); const n = Math.max(1, Math.round(L / 0.05)); for (let k = 0; k < n; k++) votes.push({ x: a.x + (b.x - a.x) * k / n, z: a.z + (b.z - a.z) * k / n, poids: 2 }); }
+              }
+            });
+            if (votes.length) { const vp = frame.getViewerPose(refSpace); const C = vp ? vp.transform.position : null; suivi.grille.ajouter(votes, t, C ? { x: C.x, z: C.z } : null); film.votesPlans = (film.votesPlans || 0) + votes.length; }
+          } catch (_) { /* pas de plans sur cet appareil */ }
+        }
+        // Vitesse angulaire (RoomPlan : slowDown) et temps sans surface (lowTexture).
+        try {
+          const vp = frame.getViewerPose(refSpace);
+          if (vp) {
+            const q = vp.transform.orientation, tt = performance.now();
+            if (film.derniereQuatVit && tt > film.derniereTVit) { const a = angleEntre(q, film.derniereQuatVit) * 180 / Math.PI; film.vitesseAng = 0.7 * film.vitesseAng + 0.3 * (a / ((tt - film.derniereTVit) / 1000)); }
+            film.derniereQuatVit = { x: q.x, y: q.y, z: q.z, w: q.w }; film.derniereTVit = tt;
+          }
+          film.sansHitDepuis = dernierHit && !solDeduit ? 0 : (film.sansHitDepuis || performance.now());
+        } catch (_) {}
+      }
+
+      // (04/10) VEILLE : trois minutes sans qu'un film soit commencé, la caméra se coupe. Le
+      // module ouvert fait tourner caméra, reconnaissance et rendu pour rien, et le téléphone
+      // chauffe. Un film en cours, des images gardées ou un angle posé l'en empêchent.
+      if (!veilleActive && enVeille({ filmActif: film.actif, images: film.images.length, points: points.length, inactifMs: performance.now() - veilleDepuis })) {
+        veilleActive = true;
+        journal('veille_camera', { minutes: 3, images: film.images.length });
+        try { session.end(); } catch (_) {}
+        return;
+      }
+      // Ancres : chaque point relit sa position réelle.
+      try {
+        const suivies = frame.trackedAnchors;
+        points.forEach((q) => {
+          if (!q.ancre || (suivies && !suivies.has(q.ancre))) return;
+          const pa = frame.getPose(q.ancre.anchorSpace, refSpace);
+          if (pa) { q.x = pa.transform.position.x + (q.dx || 0); q.y = pa.transform.position.y + (q.dy || 0); q.z = pa.transform.position.z + (q.dz || 0); }
+        });
+      } catch (_) { /* pas d'ancres sur cet appareil : coordonnées brutes, comme avant */ }
+      // Étape du plafond : où le regard croise un mur posé, et à quelle hauteur.
+      // Plus besoin que la caméra « détecte » le plafond (un plafond blanc ne l'est
+      // presque jamais) : la ligne mur/plafond suffit, et le mur est connu.
+      hauteurVisee = null; jonction = null;
+      if (ferme && !hauteurMesuree && points.length >= 3) {
+        try {
+          const vp = frame.getViewerPose(refSpace);
+          if (vp) {
+            const C = vp.transform.position, q = vp.transform.orientation;
+            // Avant de la caméra = -Z local, tourné par l'orientation.
+            const d = { x: -2 * (q.x * q.z + q.w * q.y), y: -2 * (q.y * q.z - q.w * q.x), z: -(1 - 2 * (q.x * q.x + q.y * q.y)) };
+            const solY = points.reduce((s, p) => s + p.y, 0) / points.length;
+            let meilleur = null;
+            for (let i = 0; i < points.length; i++) {
+              const a = points[i], b = points[(i + 1) % points.length];
+              const ex = b.x - a.x, ez = b.z - a.z, L = Math.hypot(ex, ez); if (L < 0.2) continue;
+              const nx = -ez / L, nz = ex / L;                       // normale horizontale du mur
+              const den = nx * d.x + nz * d.z; if (Math.abs(den) < 1e-4) continue;
+              const t = (nx * (a.x - C.x) + nz * (a.z - C.z)) / den; if (t < 0.3) continue;
+              const p = { x: C.x + d.x * t, y: C.y + d.y * t, z: C.z + d.z * t };
+              const u = ((p.x - a.x) * ex + (p.z - a.z) * ez) / (L * L); if (u < -0.05 || u > 1.05) continue;
+              if (p.y - solY < 1.0) continue;                          // on vise bien en hauteur
+              if (!meilleur || t < meilleur.t) meilleur = { t, p, tx: ex / L, tz: ez / L, h: p.y - solY };
+            }
+            if (meilleur) { jonction = { p: meilleur.p, tx: meilleur.tx, tz: meilleur.tz }; hauteurVisee = meilleur.h; }
+          }
+        } catch (_) { /* sans pose : pas de hauteur à cette image */ }
+      }
+      const hits = frame.getHitTestResults(hitSource);
+      solDeduit = false;
+      if (hits.length > 0) {
+        const pose = hits[0].getPose(refSpace);
+        dernierHitResult = hits[0];
+        dernierHit = pose ? pose.transform.position : null;
+      } else {
+        dernierHit = null; dernierHitResult = null;
+        // Sol déduit : rayon de visée ∩ plan du sol connu (moyenne des angles posés).
+        if (points.length > 0 && !ferme) {
+          try {
+            const vp = frame.getViewerPose(refSpace);
+            if (vp) {
+              const C = vp.transform.position, q = vp.transform.orientation;
+              const d = { x: -2 * (q.x * q.z + q.w * q.y), y: -2 * (q.y * q.z - q.w * q.x), z: -(1 - 2 * (q.x * q.x + q.y * q.y)) };
+              const solY = points.reduce((s, p) => s + p.y, 0) / points.length;
+              if (d.y < -0.05) {
+                const t = (solY - C.y) / d.y;
+                if (t > 0.2 && t < 8) { dernierHit = { x: C.x + d.x * t, y: solY, z: C.z + d.z * t }; solDeduit = true; }
+              }
+            }
+          } catch (_) { /* sans pose : pas de sol déduit */ }
+        }
+      }
+      $('ar-ui').classList.toggle('sans-sol', !dernierHit);
+      poseActif(!!dernierHit);
+      // Un point posé sur un sol déduit n'a pas de surface à laquelle s'ancrer :
+      // on l'ancre à sa position, à l'image suivante (createAnchor veut une image vivante).
+      if (ancreAPoser) {
+        const q = ancreAPoser; ancreAPoser = null;
+        try {
+          if (typeof frame.createAnchor === 'function') frame.createAnchor(new XRRigidTransform({ x: q.x, y: q.y, z: q.z }), refSpace).then((a) => { q.ancre = a; q.dx = 0; q.dy = 0; q.dz = 0; }).catch(() => {});
+        } catch (_) {}
+      }
+      {
+        const n = points.length;
+        let txt, cle = null, amorce = false;
+        if (film.actif && film.images.length === 0 && film.debutT && performance.now() - film.debutT > 10000) {
+          txt = film.floues > 3 ? 'Toutes les images sont floues : tenez le téléphone à deux mains et tournez lentement.' : 'Aucune image gardée : ce téléphone ne donne pas l\'image caméra à l\'application. Posez les angles à la main.';
+        } else if (film.actif) {
+          // (04/10) UNE consigne à la fois, choisie par priorité dans `metre-consignes.js`
+          // (fonction pure, testée) : images floues · vitesse · lumière · pied des murs ·
+          // baissez · levez · relief · distance · pièce fermée · progression. Jamais « rien ».
+          const now = performance.now();
+          film.flouesRecentes = film.flouesRecentes.filter((tt) => now - tt < FENETRE_RECENTE_MS);
+          film.vuesRecentes = film.vuesRecentes.filter((tt) => now - tt < FENETRE_RECENTE_MS);
+          const choix = choisirConsigne({
+            imagesRecentes: film.vuesRecentes.length, flouesRecentes: film.flouesRecentes.length,
+            vitesseAng: film.vitesseAng, luminance: film.luminance,
+            sansFrontiere: film.sansFrontiere,
+            sansHitMs: film.sansHitDepuis ? now - film.sansHitDepuis : 0,
+            distance: acc ? acc.derniereDistance : null,
+            tangage: film.tangage, solComplet: couverture.sol.filter(Boolean).length >= 11,
+            plafondRecent: acc ? acc.plafondRecent : 0, images: film.images.length,
+            pieceFermee: !!(film.analyse && film.analyse.statut === 'ok'),
+            murs: film.analyse ? film.analyse.murs.length : 0,
+            segmenteurKo: !!segErreur && !seg,
+          });
+          txt = choix.texte; cle = choix.cle;
+        }
+        else if (hauteurMesuree) txt = 'C\'est mesuré. Vérifiez le plan en haut, puis « Terminer ».';
+        else if (ferme) txt = hauteurVisee
+          ? `Hauteur visée : ${hauteurVisee.toFixed(2)} m. Alignez le trait sur la ligne mur/plafond, puis « Poser le point du plafond ».`
+          : 'Visez la ligne où un mur rencontre le plafond, au-dessus d\'un mur que vous avez posé.';
+        else if (n === 0 && performance.now() < amorceFin) { txt = 'Avancez le téléphone de 50 cm vers le sol et revenez, deux fois, lentement. Ça fixe l\'échelle des mesures.'; amorce = true; }
+        else if (!dernierHit) txt = $('ar-ui').classList.contains('manuel') || points.length ? 'Aucune surface détectée : bougez lentement et visez le sol.' : 'Visez le sol à un ou deux mètres devant vous, jusqu\'à ce que l\'anneau soit plein. Puis « Filmer la pièce ».';
+        else if (solDeduit) txt = 'Sol déduit : le rond est calculé depuis les angles déjà posés. Visez le pied du mur et posez.';
+        else if (n === 0 && !$('ar-ui').classList.contains('manuel')) txt = segErreur ? 'La reconnaissance des murs n\'a pas pu démarrer sur ce téléphone : le film sera enregistré, sans cotes.' : film.images.length ? 'Film gardé. « Terminer » calcule la pièce, ou reprenez le film.' : 'Le sol est reconnu. Appuyez sur « Filmer la pièce » et tournez lentement sur vous-même.';
+        else if (n === 0) txt = 'Placez le rond sur le premier angle de la pièce, au sol, puis « Poser un point ».';
+        else if (pretAFermer()) txt = 'Vous êtes revenu au premier angle : « Fermer la pièce ».';
+        else txt = 'Suivez le mur jusqu\'à l\'angle suivant, rentrant ou sortant, et posez un point. Revenez au premier angle pour fermer.';
+        consigne(txt, amorce ? 'amorce' : (!$('ar-ui').classList.contains('manuel') && !ferme && points.length === 0) ? 'film' : etapeCourante(), cle);
+        majProgression();
+        // Pendant le film : plus de cases « 1 2 3 4 ↑ » ni de flèche, le plan qui se dessine prend la place.
+        // (03/10, Moctar : « c'est quoi les étapes 1, 2, 3, 4 ? ») Les cases d'angles n'existent
+        // qu'en mode manuel ; le film est le mode principal, sans cases ni flèche.
+        const manuel = $('ar-ui').classList.contains('manuel');
+        $('ar-etapes').style.display = manuel ? '' : 'none';
+        // Le cadre de visée n'existe que pendant le film : avant, il n'y a rien à cadrer.
+        $('ar-ui').classList.toggle('cadre', film.actif && !manuel);
+        if (!manuel) {
+          // (04/10, Moctar : « une flèche de guidage pour le balayage ») Pendant le film, la flèche
+          // montre où tourner : vers le bas si le pied des murs sort de l'image, sinon vers le secteur
+          // pas encore vu le plus proche (à gauche ou à droite, le plus court). Pièce fermée : rien.
+          const fl = $('ar-fleche');
+          let dir = null;
+          if (film.actif && !(film.analyse && film.analyse.statut === 'ok')) {
+            if (film.tangage != null && film.tangage > -0.12 && film.images.length > 3) dir = 'bas';
+            else if (film.capSecteur != null) {
+              const vus = couverture.sol.filter(Boolean).length >= 11 ? couverture.murs : couverture.sol;
+              let meilleur = null;
+              for (let k = 1; k <= 6; k++) {
+                const g = (film.capSecteur - k + 12) % 12, d = (film.capSecteur + k) % 12;
+                if (!vus[d]) { meilleur = 'droite'; break; }
+                if (!vus[g]) { meilleur = 'gauche'; break; }
+              }
+              dir = meilleur;
+            }
+          }
+          fl.style.display = dir ? 'block' : 'none';
+          fl.classList.toggle('bas', dir === 'bas'); fl.classList.toggle('gauche', dir === 'gauche'); fl.classList.toggle('haut', false);
+        }
+      }
+      $('ar-ui').classList.toggle('sans-sol', !dernierHit && !(ferme && !hauteurMesuree));
+      // Pas de surface detectee pendant la pose des angles : un decrochage APRES la
+      // premiere pose invalide le releve (les points d'avant et d'apres ne sont plus
+      // dans le meme repere). Pendant l'étape du plafond, on ne vise plus le sol.
+      if (!dernierHit && !ferme) poseActif(false);
+      // (01/10, précision) Le vrai décrochage, c'est la caméra qui perd sa pose, pas
+      // une image sans surface sous le réticule (viser un mur en marchant en fait
+      // des dizaines). 10 images sans pose après le premier point = suivi perdu.
+      try {
+        if (frame.getViewerPose(refSpace)) sansPose = 0;
+        else if (++sansPose >= 10 && points.length > 0) suiviPerdu = true;
+      } catch (_) {}
+      // Tampon de lissage : les positions du réticule tant qu'il reste immobile (< 3 cm).
+      if (dernierHit) {
+        const d = tampon.length ? Math.hypot(dernierHit.x - tampon[tampon.length - 1].x, dernierHit.z - tampon[tampon.length - 1].z) : 0;
+        if (d > 0.03) tampon.length = 0;
+        tampon.push({ x: dernierHit.x, y: dernierHit.y, z: dernierHit.z });
+        if (tampon.length > 10) tampon.shift();
+      } else tampon.length = 0;
+    }
+
+    // Le bouton n'est jamais « disabled » : un appui sans surface doit répondre.
+    function poseActif(oui) {
+      const b = $('ar-pose');
+      const txt = oui ? (pretAFermer() ? 'Fermer la pièce' : 'Poser un point') : 'Cherche le sol…';
+      if (b.classList.contains('inactif') === oui) b.classList.toggle('inactif', !oui);
+      if (b.textContent !== txt) b.textContent = txt;
+    }
+    $('ar-pose').addEventListener('click', () => {
+      if (!dernierHit) {
+        try { navigator.vibrate && navigator.vibrate(60); } catch (_) {}
+        consigne('Aucune surface détectée : bougez lentement et visez le sol, à 1 ou 2 m devant vous.', etapeCourante());
+        return;
+      }
+      if (pretAFermer()) {
+        ecartFermeture = Math.hypot(dernierHit.x - points[0].x, dernierHit.z - points[0].z);
+        ferme = true; majAffichage(); return;
+      }
+      // Position posée = moyenne du réticule immobile (≥ 4 images), sinon la dernière.
+      let px = dernierHit.x, py = dernierHit.y, pz = dernierHit.z;
+      if (tampon.length >= 4) { px = tampon.reduce((t, p) => t + p.x, 0) / tampon.length; py = tampon.reduce((t, p) => t + p.y, 0) / tampon.length; pz = tampon.reduce((t, p) => t + p.z, 0) / tampon.length; }
+      // Angle droit : si l'angle au point précédent est à moins de 7° de 90°, on le
+      // ramène à 90° exactement (les pièces le sont ; un pan coupé à 45° reste libre).
+      const n0 = points.length;
+      if (n0 >= 2) {
+        const a = points[n0 - 2], b = points[n0 - 1];
+        const ux = a.x - b.x, uz = a.z - b.z, vx = px - b.x, vz = pz - b.z;
+        const lu = Math.hypot(ux, uz), lv = Math.hypot(vx, vz);
+        if (lu > 0.2 && lv > 0.2) {
+          const cos = (ux * vx + uz * vz) / (lu * lv);
+          const ecart = Math.abs(Math.acos(Math.max(-1, Math.min(1, cos))) * 180 / Math.PI - 90);
+          if (ecart <= 7) {
+            const signe = (ux * vz - uz * vx) >= 0 ? 1 : -1;   // de quel côté part le nouveau mur
+            const wx = -uz / lu * signe, wz = ux / lu * signe;  // perpendiculaire à u, du bon côté
+            px = b.x + wx * lv; pz = b.z + wz * lv; anglesRedresses++;
+          }
+        }
+      }
+      const q = { x: px, y: py, z: pz, ancre: null, dx: px - dernierHit.x, dy: py - dernierHit.y, dz: pz - dernierHit.z };
+      points.push(q);
+      // Ancre sur la surface visée (la plus stable) ; si l'appareil ne sait pas, le point reste brut.
+      try {
+        if (dernierHitResult && typeof dernierHitResult.createAnchor === 'function') {
+          dernierHitResult.createAnchor().then((a) => { q.ancre = a; }).catch(() => {});
+        } else if (solDeduit) { ancreAPoser = q; }
+      } catch (_) {}
+      majAffichage();
+    });
+
+    // Hauteur sous plafond mesuree, plutot que saisie a la main.
+    // On prend l'altitude (Y) du dernier point pose au sol comme reference,
+    // et l'altitude du point vise au plafond. La difference est la hauteur.
+    // Y est l'axe vertical du repere WebXR : c'est une soustraction, pas une
+    // estimation.
+    // Fermer la pièce « ici » : sans revenir physiquement au premier angle.
+    $('ar-fermer').addEventListener('click', () => { if (points.length >= 3 && !ferme) { ferme = true; majAffichage(); } });
+    // Hauteur sous plafond : lue sur la ligne mur/plafond visée (hauteurVisee).
+    // Repli : un plafond réellement détecté par le hit-test (rare, plafond blanc).
+    $('ar-hauteur').addEventListener('click', () => {
+      const solY = points.length ? points.reduce((s, p) => s + p.y, 0) / points.length : 0;
+      let h = hauteurVisee;
+      if (h == null && dernierHit && points.length) h = Math.abs(dernierHit.y - solY);
+      if (h == null) {
+        try { navigator.vibrate && navigator.vibrate(60); } catch (_) {}
+        consigne('Visez la ligne où un mur rencontre le plafond, au-dessus d\'un mur posé, puis appuyez.', etapeCourante());
+        return;
+      }
+      if (h < 1.5 || h > 6) {
+        consigne(`Mesure douteuse (${h.toFixed(2)} m). Alignez le trait sur la ligne mur/plafond, pas sur un meuble ni un luminaire.`, etapeCourante());
+        return;
+      }
+      hauteurMesuree = h;
+      majAffichage();
+      consigne(`Hauteur sous plafond : ${h.toFixed(2)} m. Vérifiez le plan, puis « Terminer ».`, 'fini');
+    });
+
+    $('ar-annule').addEventListener('click', () => {
+      // Pièce fermée : « Annuler » rouvre d'abord la pièce (et oublie la hauteur), sans retirer d'angle.
+      if (ferme) { ferme = false; hauteurMesuree = null; majAffichage(); return; }
+      const q = points.pop(); try { q && q.ancre && q.ancre.delete(); } catch (_) {} majAffichage();
+    });
+    $('ar-quit').addEventListener('click', () => session && session.end());
+    $('ar-quit-haut').addEventListener('click', () => session && session.end());
+    // (03/10, Moctar : « pas de mode manuel, ça va ajouter de la complexité ») Un seul chemin : le film.
+    // Les fonctions de pose à la main restent dans le code, sans aucun bouton pour y arriver.
+
+    $('ar-fin').addEventListener('click', () => {
+      film.actif = false; arreterChrono();
+      if (!ferme || points.length < 3 || !hauteurMesuree) {
+        if (film.images.length >= 5 && points.length < 3) {
+          // Le film → les cotes : murs et angles calculés depuis les frontières accumulées.
+          try {
+            // Le suivi (ce que l'artisan a vu se dessiner) d'abord ; l'analyse complète apporte
+            // la hauteur, le niveau, l'aplomb, les combles — et sert de repli pour le plan.
+            let complet = acc ? acc.resultat() : null;
+            const vu = suivi ? suivi.resultat() : null;
+            // (04/10, expérience h) LA CALIBRATION PAR LA FOCALE EST RETIRÉE. Mesurée sur 84 films :
+            // le facteur ne passe ses garde-fous que 13 fois, et quand il passe il DÉTRUIT le résultat
+            // (surface fausse de 92 à 154 %). Sur le salon de Moctar, le même facteur vaut 1,164 à
+            // h = 2,485, 1,079 à h = 2,53 et 1,344 à h = 2,56 : il n'y a PAS de facteur d'échelle
+            // unique, parce que ce qui est faux n'est pas l'échelle mais la POSITION DE CHAQUE MUR.
+            // C'est ce que `SuiviMurs.temoinDistance` fait déjà, mur par mur, et qui gagne. On garde
+            // donc le son comme témoin de ρ, et on journalise le rapport écho/caméra sans l'appliquer.
+            film.echelle = null;
+            try {
+              const nettes = (film.sonars || []).filter((m) => m.echo && m.echo.snr >= 8 && m.attendu > 0.5);
+              const rapports = nettes.map((m) => m.echo.d / m.attendu).sort((a, b) => a - b);
+              const med = rapports.length ? rapports[rapports.length >> 1] : null;
+              journal('sonar_rho', {
+                murs_recales: (suivi ? suivi.murs() : []).filter((m) => m.sonar).length,
+                echos: (film.sonars || []).length, nets: nettes.length, appliques: (film.sonars || []).filter((m) => m.applique).length,
+                rapport_median: med == null ? null : +med.toFixed(4),
+                sources: { suivi: nettes.filter((m) => m.source === 'suivi').length, frontiere: nettes.filter((m) => m.source === 'frontiere').length },
+              });
+            } catch (e) { console.warn('[film] journal du son', e); }
+            // (04/10) LE CALCUL COMPLET PRIME, toujours. Jusqu'ici, quand le suivi en direct avait
+            // fermé la pièce, c'étaient SES murs qui étaient affichés — donc sans la hauteur
+            // recoupée, sans l'assemblage par arrangement et sans le contrôle de cohérence, et
+            // surtout sans que le banc de rejeu mesure jamais ce qui était réellement montré.
+            // Le suivi reste le dessin en direct et le repli quand le calcul complet échoue.
+            if (complet && complet.statut !== 'echec' && (complet.angles || []).length >= 3) resultatFilm = complet;
+            else if (vu && vu.statut === 'ok' && vu.angles.length >= 3) resultatFilm = Object.assign({}, complet || {}, { statut: 'ok', murs: vu.murs, angles: vu.angles, surface_sol: vu.surface_sol, perimetre: vu.perimetre, anglesRedresses: vu.anglesRedresses, avertissements: (complet && complet.avertissements || []).filter((a) => !/mur|angle/.test(a)) });
+            else resultatFilm = complet;
+            // Le CONTRÔLE DE COHÉRENCE : six vérifications sans vérité terrain. Une cote qui ne
+            // passe pas est affichée « à vérifier », jamais comme sûre, et jamais cachée.
+            try {
+              const echos = (film.sonars || []).filter((m) => m.echo && m.echo.snr >= 6).map((m) => ({ sonar: m.echo.d, camera: m.attendu }));
+              controleFilm = resultatFilm && acc ? controlerCoherence(resultatFilm, acc, { echos }) : null;
+              if (controleFilm) journal('controle_coherence', { affichable: controleFilm.affichable, controles: controleFilm.controles, surface: resultatFilm.surface_sol, hauteur: resultatFilm.hauteur, etendue: resultatFilm.hauteurEtendue, dispersion: resultatFilm.dispersionGraine });
+            } catch (e) { console.warn('[film] contrôle', e); controleFilm = null; }
+          } catch (e) { console.warn('[film] analyse', e); resultatFilm = null; }
+          if (session) session.end();
+          journal('terminer', { images: film.images.length, segmentees: film.segmentees, floues: film.floues, avecFrontiere: film.avecFrontiere, duree: Math.round(film.duree), sonars: (film.sonars || []).length, gels, statut: resultatFilm ? resultatFilm.statut : null, murs: resultatFilm ? (resultatFilm.murs || []).length : 0, surface: resultatFilm ? resultatFilm.surface_sol : null, hauteur: resultatFilm ? resultatFilm.hauteur : null, message: resultatFilm ? resultatFilm.message : null, avertissements: resultatFilm ? resultatFilm.avertissements : null });
+          if (resultatFilm && resultatFilm.statut !== 'echec' && resultatFilm.angles.length >= 3) {
+            const solY = acc.solY || 0;
+            const pts = resultatFilm.angles.map((a) => ({ x: a.x, y: solY, z: a.z }));
+            hauteurMesuree = resultatFilm.hauteur || null; ferme = true; sourceReleve = 'film';
+            ecartFermeture = null; anglesRedresses = resultatFilm.anglesRedresses || 0;
+            afficherResultat(pts);
+          } else afficherResultat(null);
+        }
+        return;
+      }
+      sourceReleve = 'points';
+      const releve = points.map((p) => ({ ...p }));
+      if (session) session.end();
+      afficherResultat(releve);
+    });
+    // Issue de secours (19/09) : on termine sans hauteur mesurée. `hauteurMesuree`
+    // reste null → le résultat et le devis portent « saisie, non mesurée ».
+    $('ar-sans-hauteur').addEventListener('click', () => {
+      film.actif = false; arreterChrono();
+      if (!ferme || points.length < 3) return;
+      sourceReleve = 'points';
+      const releve = points.map((p) => ({ ...p }));
+      if (session) session.end();
+      afficherResultat(releve);
+    });
+
+    // Le relevé affiché, gardé pour l'enregistrement et le devis.
+    let releveCourant = null;
+    // Les pièces déjà mesurées dans cette série (« Mesurer une autre pièce »).
+    const pieces = [];   // { nom, releve, enregistre }
+    function nomPieceCourante() { return (document.getElementById('piece-nom').value || `Pièce ${pieces.length + 1}`).trim(); }
+    function travauxCourants() { return (document.getElementById('piece-travaux').value || '').trim().slice(0, 600); }
+    // Photos de la pièce courante : en mémoire jusqu'à « Enregistrer » (elles se rangent dans le chantier).
+    let photosCourantes = [];   // { file, url, note, envoyee }
+    function rendrePhotos() {
+      const g = $('piece-photos'); g.replaceChildren();
+      photosCourantes.forEach((p, i) => {
+        const f = document.createElement('figure');
+        const img = document.createElement('img'); img.src = p.url; img.alt = p.note || 'Photo de la pièce';
+        const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = 'Ce qu\'on voit : fissure, humidité…'; inp.value = p.note || ''; inp.maxLength = 120;
+        inp.addEventListener('input', () => { p.note = inp.value.trim(); });
+        const x = document.createElement('button'); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Retirer cette photo');
+        x.addEventListener('click', () => { try { URL.revokeObjectURL(p.url); } catch (_) {} photosCourantes.splice(i, 1); rendrePhotos(); });
+        f.append(img, x, inp); g.appendChild(f);
+      });
+    }
+    $('btn-photo').addEventListener('click', () => $('piece-photo-input').click());
+    $('piece-photo-input').addEventListener('change', (e) => {
+      Array.from(e.target.files || []).forEach((file) => photosCourantes.push({ file, url: URL.createObjectURL(file), note: '', envoyee: false }));
+      e.target.value = ''; rendrePhotos();
+    });
+    function majPieces() {
+      const carte = $('r-pieces-carte'), zone = $('r-pieces');
+      $('r-piece-titre').textContent = pieces.length ? `Pièce ${pieces.length + 1}` : 'Cette pièce';
+      if (!pieces.length) { carte.style.display = 'none'; return; }
+      carte.style.display = '';
+      zone.replaceChildren();
+      let tSol = 0, tMurs = 0, tPlinthes = 0;
+      const ligne = (a, b, cls) => { const d = document.createElement('div'); if (cls) d.className = cls; const l = document.createElement('span'); l.textContent = a; const v = document.createElement('b'); v.textContent = b; d.append(l, v); zone.appendChild(d); };
+      pieces.forEach((p) => { tSol += p.releve.surfaceSol; tMurs += p.releve.surfaceMurs; tPlinthes += p.releve.plinthes; const nph = (p.photos || []).length; ligne(p.nom + (nph ? ` · ${nph} photo${nph > 1 ? 's' : ''}` : '') + (p.enregistre ? ' ✓' : ''), fmtM2(p.releve.surfaceSol)); });
+      if (releveCourant) { tSol += releveCourant.surfaceSol; tMurs += releveCourant.surfaceMurs; tPlinthes += releveCourant.plinthes; ligne(nomPieceCourante() + ' (celle-ci)', fmtM2(releveCourant.surfaceSol)); }
+      ligne('Total au sol', fmtM2(tSol), 'total');
+      const det = document.createElement('div'); det.style.cssText = 'font-size:12px;color:#5A7268;justify-content:flex-start;';
+      det.textContent = `Murs ${fmtM2(tMurs)} · plinthes ${fmtM(tPlinthes)} (toutes les pièces)`; zone.appendChild(det);
+    }
+
+    // ── Resultat ──────────────────────────────────────────────────────────
+    let filmCourant = [];   // les images du film de la pièce courante, jusqu'à « Enregistrer »
+    function afficherResultat(pts) {
+      filmCourant = film.images.slice();
+      montrer3D(sourceReleve === 'film' ? resultatFilm : null);
+      // Relecture : les murs un par un, avec leur confiance.
+      const mc = $('r-murs-carte'), ml = $('r-murs-liste');
+      if (mc && ml) {
+        const murs = (resultatFilm && resultatFilm.murs) || [];
+        let aVerifier = false;
+        mc.style.display = murs.length ? '' : 'none'; ml.replaceChildren();
+        murs.forEach((m, i) => {
+          const d = document.createElement('div'); const l = document.createElement('span'); const v = document.createElement('b');
+          const conf = m.confiance == null ? 1 : m.confiance;
+          l.textContent = `Mur ${i + 1}` + (m.trouve === 'deduit' ? ' (déduit)' : '');
+          // (04/10, Moctar : « le rapport est très lourd ») Un mur juste n'a rien à dire : seule
+          // la mention « à vérifier » mérite d'être lue, et la note en bas n'apparaît qu'alors.
+          const douteuxMur = !(conf >= 0.6) || m.trouve === 'deduit';
+          v.textContent = `${Number(m.longueur).toFixed(2).replace('.', ',')} m` + (douteuxMur ? ' · à vérifier' : '');
+          if (douteuxMur) aVerifier = true;
+          if (douteuxMur) v.style.color = '#B45309';
+          // (04/10, Moctar : « j'arrive pas à corriger les cotes à vérifier ») Un mur se corrige
+          // au mètre : on touche la ligne, on saisit la longueur vraie. Comme l'erreur est une
+          // erreur d'ÉCHELLE (toutes les longueurs se trompent du même facteur), une seule cote
+          // vraie recale tout le relevé — et il cesse d'être « douteux », puisqu'il est désormais
+          // tenu par un mètre ruban.
+          d.className = 'res-mur' + (douteuxMur ? ' douteux' : '');
+          d.tabIndex = 0; d.setAttribute('role', 'button');
+          d.title = 'Corriger au mètre';
+          const ouvrir = () => ouvrirCorrection(i, m, d, v);
+          d.addEventListener('click', ouvrir);
+          d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(); } });
+          d.append(l, v); ml.appendChild(d);
+        });
+        const note = $('r-murs-note'); if (note) note.style.display = aVerifier ? '' : 'none';
+        for (const o of ((resultatFilm && resultatFilm.ouvertures) || [])) {
+          const m = murs[o.mur]; if (!m) continue; const L = Math.hypot(m.b.x - m.a.x, m.b.z - m.a.z);
+          const d = document.createElement('div'); const l = document.createElement('span'); const v = document.createElement('b');
+          l.textContent = `${o.type === 'porte' ? 'Porte' : 'Fenêtre'} sur le mur ${o.mur + 1}`;
+          v.textContent = `${((o.u1 - o.u0) * L).toFixed(2).replace('.', ',')} × ${(o.haut - o.bas).toFixed(2).replace('.', ',')} m`;
+          d.append(l, v); ml.appendChild(d);
+        }
+      }
+      const fb = $('r-film-bloc');
+      if (fb) {
+        fb.style.display = filmCourant.length ? '' : 'none';
+        // (03/10, Moctar : « des fonctionnalités de laser : inclinaison des murs et des sols »)
+        const rf = resultatFilm || {};
+        const bouts = [couvertureComplete() ? 'Film complet' : `Film incomplet (${couverturePct()} % de la pièce)`];
+        if (rf.niveauSol) bouts.push(rf.niveauSol.pente_mm_par_m < 2 ? 'Sol de niveau' : `Sol : pente ${rf.niveauSol.pente_mm_par_m} mm/m`);
+        const ap = (rf.aplombs || []).filter(Boolean);
+        if (ap.length) { const pire = ap.reduce((m, a) => (Math.abs(a.devers_mm) > Math.abs(m.devers_mm) ? a : m), ap[0]); bouts.push(Math.abs(pire.devers_mm) < 8 ? 'Murs d\'aplomb' : `Dévers jusqu'à ${Math.abs(pire.devers_mm)} mm sur ${pire.hauteur} m`); }
+        $('r-film').textContent = bouts.join(' · ');
+      }
+      // Film seul (pas d'angles posés) : pas de cotes, mais un relevé qui garde le film.
+      if (!pts) {
+        $('r-sol').textContent = '—'; $('r-perim').textContent = '—'; $('r-murs').textContent = '—';
+        const lbl0 = $('r-murs-lbl'); if (lbl0) lbl0.textContent = 'Surface des murs';
+        const av0 = $('r-avert'); av0.style.display = 'block';
+        // (04/10) À la place de « Trop peu de points » : ce qui s'est passé pendant CE film, en
+        // chiffres, et le geste à changer (part d'images floues, images où le pied des murs a été
+        // vu, durée). Le détail technique du calcul reste dans le journal et la fiche.
+        const pourquoi = diagnosticFilm({
+          images: film.images.length, floues: film.floues, avecFrontiere: film.avecFrontiere,
+          dureeS: film.duree, segmentation: seg ? true : false,
+        });
+        av0.innerHTML = '<b>Pas de cotes depuis ce film.</b> ' + pourquoi + ' Le film est gardé dans le dossier.';
+        releveCourant = { surfaceSol: 0, perimetre: 0, hauteurSousPlafond: 0, hauteurSupposee: true, surfaceMurs: 0, plinthes: 0, points: [], source: 'film', fiabilite: 'douteuse', suiviPerdu, ecartFermeture: null, anglesRedresses: 0, film: { images: filmCourant.length, resultat: resultatFilm ? { statut: resultatFilm.statut, message: resultatFilm.message, avertissements: resultatFilm.avertissements, murs: resultatFilm.murs, images: resultatFilm.images, pointsSol: resultatFilm.pointsSol } : null } };
+        const nom0 = document.getElementById('piece-nom');
+        if (nom0 && (!nom0.value.trim() || /^Pièce( \d+)?$/.test(nom0.value.trim()))) nom0.value = `Pièce ${pieces.length + 1}`;
+        majPieces();
+        const m0 = document.getElementById('msg-enregistre'); if (m0) m0.style.display = 'none';
+        const be0 = document.getElementById('btn-enregistrer'); if (be0) { be0.disabled = false; be0.textContent = 'Enregistrer dans le dossier client'; }
+        montrer('etat-resultat');
+        return;
+      }
+      // La hauteur mesuree prime sur la saisie manuelle.
+      const hauteur = hauteurMesuree || 2.5;   // 2,50 = issue de secours, marquée non mesurée
+      const sol = aireAuSol(pts);
+      const perim = perimetreAuSol(pts);
+      // Ouvertures du film : déduites de la surface des murs (quantités nettes pour peinture, faïence).
+      const ouv = (sourceReleve === 'film' && resultatFilm && resultatFilm.ouvertures) ? resultatFilm.ouvertures.map((o) => { const m = resultatFilm.murs[o.mur]; const L = m ? Math.hypot(m.b.x - m.a.x, m.b.z - m.a.z) : 0; return { largeur: (o.u1 - o.u0) * L, hauteur: o.haut - o.bas, type: o.type }; }) : [];
+      const murs = surfaceMurs(perim, hauteur, ouv);
+
+      $('r-sol').textContent = fmtM2(sol);
+      $('r-perim').textContent = fmtM(perim);
+      $('r-murs').textContent = fmtM2(murs);
+      const lbl = $('r-murs-lbl');
+      if (lbl) lbl.textContent = (hauteurMesuree
+        ? `Surface des murs (hauteur mesurée ${hauteur.toFixed(2)} m)`
+        : `Surface des murs (hauteur saisie ${hauteur.toFixed(2)} m)`) + (ouv.length ? `, moins ${ouv.length} ouverture${ouv.length > 1 ? 's' : ''} (${fmtM2(ouv.reduce((t, o) => t + o.largeur * o.hauteur, 0))})` : '');
+
+      // On n'annonce jamais un chiffre faux en silence : si le contour ne se
+      // referme pas, la derive du suivi s'est accumulee et la surface est
+      // douteuse. L'artisan doit le savoir avant de chiffrer.
+      const f = qualifierReleve(pts.length, suiviPerdu, sol);
+      if (sourceReleve === 'film' && resultatFilm) {
+        // Cotes calculées depuis le film : on dit d'où elles viennent, et ce qui reste à vérifier.
+        if (resultatFilm.statut !== 'ok' || resultatFilm.fiabilite === 'douteuse') f.fiable = false;
+        f.message = ['Cotes calculées depuis le film : vérifiez le plan avant de chiffrer.'].concat(resultatFilm.avertissements || []).join(' ');
+      }
+      // (04/10, expérience h) LE CONTRÔLE DE COHÉRENCE : quand une des six vérifications échoue,
+      // les cotes restent LISIBLES mais ne sont plus présentées comme sûres — bandeau gris,
+      // mention « à vérifier », et la raison en clair. Un métré faux et affirmé coûte plus cher
+      // qu'un métré annoncé douteux.
+      const douteux = sourceReleve === 'film' && controleFilm && !controleFilm.affichable;
+      $('r-hero').classList.toggle('a-verifier', !!douteux);
+      $('r-hero-etat').textContent = douteux ? 'À vérifier' : '';
+      if (douteux) {
+        f.fiable = false;
+        f.message = (controleFilm.raisons[0] || '') + ' ' + (f.message || '');
+      }
+      if (f.fiable && ecartFermeture != null && ecartFermeture > 0.10) {
+        f.fiable = false;
+        f.message = `L'écart de fermeture est de ${Math.round(ecartFermeture * 100)} cm : le repère a glissé pendant le tour de la pièce. Refaites le relevé en marchant lentement.`;
+      }
+      const av = $('r-avert');
+      if (f.message) {
+        av.style.display = 'block';
+        av.innerHTML = (f.fiable ? '' : '<b>Mesure à vérifier.</b> ') + f.message;
+      } else {
+        av.style.display = 'none';
+      }
+
+      // Ce que le devis lit, et ce qu'on archivera : même objet, deux usages.
+      releveCourant = {
+        surfaceSol: +sol.toFixed(2),
+        perimetre: +perim.toFixed(2),
+        hauteurSousPlafond: +hauteur.toFixed(2),
+        hauteurSupposee: !hauteurMesuree,
+        surfaceMurs: +murs.toFixed(2),
+        plinthes: +perim.toFixed(2),
+        points: pts.map((q) => ({ x: q.x, y: q.y, z: q.z })),
+        source: sourceReleve,
+        fiabilite: f.fiable ? 'bonne' : 'douteuse',
+        suiviPerdu,
+        ecartFermeture: ecartFermeture == null ? null : +ecartFermeture.toFixed(3),
+        anglesRedresses,
+        film: filmCourant.length ? { images: filmCourant.length, resultat: resultatFilm ? { statut: resultatFilm.statut, surface_sol: resultatFilm.surface_sol, perimetre: resultatFilm.perimetre, hauteur: resultatFilm.hauteur, hauteurs: resultatFilm.hauteurs, murs: resultatFilm.murs, angles: resultatFilm.angles, avertissements: resultatFilm.avertissements, images: resultatFilm.images, pointsSol: resultatFilm.pointsSol, niveauSol: resultatFilm.niveauSol || null, aplombs: resultatFilm.aplombs || null, combles: resultatFilm.combles || null, ouvertures: resultatFilm.ouvertures || [] } : null } : undefined,
+      };
+
+      ecrireSessionDevis(f.fiable);
+
+      const nom = document.getElementById('piece-nom');
+      if (nom && (!nom.value.trim() || /^Pièce( \d+)?$/.test(nom.value.trim()))) nom.value = `Pièce ${pieces.length + 1}`;
+      majPieces();
+      const m = document.getElementById('msg-enregistre');
+      if (m) m.style.display = 'none';
+      const be = document.getElementById('btn-enregistrer');
+      if (be) { be.disabled = false; be.textContent = 'Enregistrer dans le dossier client'; }
+
+      montrer('etat-resultat');
+    }
+
+    // ── Archiver : le relevé devient une pièce du dossier client ──────────
+    // Même écriture que le chemin natif iOS (app-actions.js:releverPiece) :
+    // table releves_piece, plan 2D coté en SVG. Le plan est en SVG et pas en
+    // 3D parce qu'il finit chez le client, souvent sur son téléphone — un SVG
+    // s'affiche partout et s'imprime.
+    async function chargerChantiers() {
+      try {
+        const { listChantiers } = await import('./js/supabase.js');
+        const l = await listChantiers();
+        const sel = document.getElementById('piece-chantier');
+        if (!sel || !l) return;
+        l.slice(0, 60).forEach((c) => {
+          const o = document.createElement('option');
+          o.value = c.id;
+          o.textContent = (c.client_name || 'Client') + (c.adresse ? ' — ' + c.adresse : '');
+          sel.appendChild(o);
+        });
+      } catch (e) { console.warn('[metre] chantiers non chargés', e); }
+    }
+
+    async function enregistrerReleve() {
+      if (!releveCourant) return;
+      const btn = document.getElementById('btn-enregistrer');
+      const msg = document.getElementById('msg-enregistre');
+      btn.disabled = true; btn.textContent = 'Enregistrement…';
+      try {
+        const { supabase } = await import('./js/supabase.js');
+        const { planSVG } = await import('./js/metre-plan.js');
+        const { data: proId } = await supabase.rpc('mon_entreprise');
+        const chantierId = document.getElementById('piece-chantier').value || null;
+        const piece = nomPieceCourante();
+        // Toutes les pièces de la série pas encore enregistrées, puis celle-ci.
+        const aFaire = pieces.filter((p) => !p.enregistre).map((p) => ({ nom: p.nom, releve: p.releve, ref: p, photos: p.photos || [], film: p.film || [] })).concat([{ nom: piece, releve: releveCourant, ref: null, photos: photosCourantes, film: filmCourant }]);
+        const nbPhotos = aFaire.reduce((t, it) => t + it.photos.filter((p) => !p.envoyee).length, 0);
+        if (nbPhotos && !chantierId) {
+          btn.disabled = false; btn.textContent = 'Enregistrer dans le dossier client';
+          msg.textContent = `Choisissez un dossier client : ${nbPhotos > 1 ? 'les photos se rangent' : 'la photo se range'} dans le chantier.`;
+          msg.style.color = '#B45309'; msg.style.display = 'block';
+          document.getElementById('piece-chantier').focus();
+          return;
+        }
+        const { uploadPhoto } = await import('./js/supabase.js');
+        for (const it of aFaire) {
+          // Les photos d'abord : leurs chemins entrent dans le relevé.
+          for (const ph of it.photos) {
+            if (ph.envoyee) continue;
+            const legende = `${it.nom} — ${ph.note || 'état des lieux au métré'}`.slice(0, 200);
+            const data = await uploadPhoto(chantierId, ph.file, legende, 'avant');
+            ph.envoyee = true; ph.storage_path = data && data.storage_path;
+          }
+          const chemins = it.photos.map((p) => p.storage_path).filter(Boolean);
+          if (chemins.length) it.releve.photos = chemins;
+          // Le film : les images et leur fiche (positions, focale, sol, profondeur) dans le
+          // dossier de l'artisan — bucket chantiers, dossier <uid>/scans/<id>/ (policy : 1er dossier = uid).
+          if (it.film && it.film.length && !(it.releve.film && it.releve.film.chemin)) {
+            const { getSession } = await import('./js/supabase.js');
+            const sess = await getSession();
+            const scanId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
+            const dossier = `${sess.user.id}/scans/${scanId}`;
+            const fiche = { version: 'film-1', quand: new Date().toISOString(), piece: it.nom, chantier_id: chantierId, ua: navigator.userAgent, angles: (it.releve.points || []), couverture: { sol: couverture.sol.slice(), murs: couverture.murs.slice(), pct: couverturePct() }, floues: film.floues, votesPlans: film.votesPlans || 0, gels, sonar: { mesures: film.sonars || [], erreur: film.sonarErreur || null, reglages: film.sonar ? film.sonar.reglages : null, echelle: film.echelle || null }, segmenteur: seg ? { fournisseur: seg.fournisseur, chargement_ms: Math.round(seg.tempsChargement || 0) } : (segErreur ? { erreur: String(segErreur && segErreur.message || segErreur) } : null), resultat: (it.releve.film && it.releve.film.resultat) || null, images: [] };
+            for (let k = 0; k < it.film.length; k++) {
+              const im = it.film[k]; const nomF = `f${String(k).padStart(3, '0')}.jpg`;
+              let prof = null;
+              if (im.profondeur) { let b = ''; const o = im.profondeur.octets; for (let i = 0; i < o.length; i++) b += String.fromCharCode(o[i]); prof = { w: im.profondeur.w, h: im.profondeur.h, brutVersMetres: im.profondeur.brutVersMetres, matrice: im.profondeur.matrice, base64: btoa(b) }; }
+              fiche.images.push({ fichier: nomF, t: im.t, position: im.position, orientation: im.orientation, projection: im.projection, viewport: im.viewport, camera: im.camera, taille: [im.w, im.h], solY: im.solY, profondeur: prof, frontieres: im.frontieres || null, segTemps: im.segTemps || null, nettete: im.nettete || null, ouvertures: im.ouvertures || null });
+            }
+            // (03/10, 1er film réel) La fiche PART EN PREMIER : si le stockage la refuse, aucune
+            // image orpheline. (Le bucket refusait application/json : corrigé en base le 03/10.)
+            const { error: e2 } = await supabase.storage.from('chantiers').upload(`${dossier}/scan.json`, new Blob([JSON.stringify(fiche)], { type: 'application/json' }), { contentType: 'application/json', cacheControl: '3600' });
+            if (e2) throw e2;
+            for (let k = 0; k < it.film.length; k++) {
+              const im = it.film[k]; const nomF = `f${String(k).padStart(3, '0')}.jpg`;
+              const { error: e1 } = await supabase.storage.from('chantiers').upload(`${dossier}/${nomF}`, im.blob, { contentType: 'image/jpeg', cacheControl: '3600' });
+              if (e1) throw e1;
+              btn.textContent = `Envoi du film… ${k + 1}/${it.film.length}`;
+            }
+            it.releve.film = { images: it.film.length, chemin: dossier };
+          }
+          const { error } = await supabase.from('releves_piece').insert({
+            pro_id: proId,
+            chantier_id: chantierId,
+            piece: it.nom,
+            methode: it.releve.source || 'points',
+            surface_sol: it.releve.surfaceSol,
+            perimetre: it.releve.perimetre,
+            hauteur: it.releve.hauteurSousPlafond,
+            hauteur_supposee: it.releve.hauteurSupposee,
+            donnees: Object.assign({}, it.releve, { travaux: it.ref ? (it.ref.travaux || '') : travauxCourants() }),
+            plan_svg: planSVG(it.releve),
+          });
+          if (error) throw error;
+          if (it.ref) it.ref.enregistre = true;
+        }
+        const nb = aFaire.length;
+        journal('enregistre', { pieces: nb, chantier: !!chantierId, film: aFaire.map((it) => it.releve.film ? it.releve.film.chemin : null) });
+        msg.style.color = '#1B7049';
+        msg.textContent = chantierId
+          ? '✓ ' + (nb > 1 ? `${nb} pièces rangées` : piece + ' rangée') + ' dans le dossier client' + (nbPhotos ? ` avec ${nbPhotos} photo${nbPhotos > 1 ? 's' : ''}` : '') + '.'
+          : '✓ ' + (nb > 1 ? `${nb} pièces enregistrées` : piece + ' enregistrée') + '. Rattachez-les à un chantier plus tard.';
+        majPieces();
+        msg.style.display = 'block';
+        btn.textContent = 'Enregistré';
+        chargerReleves();
+      } catch (e) {
+        // Le relevé est déjà fait : on ne fait pas refaire le tour de la pièce.
+        btn.disabled = false; btn.textContent = 'Réessayer l\'enregistrement';
+        journal('enregistrement_echec', { erreur: String(e && (e.message || e.error_description || e)).slice(0, 300), code: e && e.statusCode || e && e.code || null });
+        msg.textContent = "Pas pu enregistrer — notez les cotes, elles restent à l'écran.";
+        msg.style.color = '#B45309'; msg.style.display = 'block';
+        console.warn('[metre] enregistrement impossible', e);
+      }
+    }
+
+    // ── Corriger une cote au mètre ────────────────────────────────────────
+    // L'erreur d'un relevé est presque toujours une erreur d'ÉCHELLE : toutes les longueurs se
+    // trompent du même facteur (mesuré sur le salon du 04/10 : −12 % partout). Une seule cote
+    // vraie suffit donc à recaler la pièce entière, et c'est ce que fait HOVER avec une porte.
+    function ouvrirCorrection(i, m, ligne, valeur) {
+      if (ligne.querySelector('input')) return;
+      const mesure = Number(m.longueur);
+      const boite = document.createElement('div'); boite.className = 'res-corr';
+      const champ = document.createElement('input');
+      champ.type = 'number'; champ.step = '0.01'; champ.min = '0.1'; champ.inputMode = 'decimal';
+      champ.className = 'form-input'; champ.placeholder = mesure.toFixed(2); champ.setAttribute('aria-label', `Longueur réelle du mur ${i + 1}, en mètres`);
+      const ok = document.createElement('button'); ok.type = 'button'; ok.className = 'btn-sec'; ok.textContent = 'Appliquer';
+      const non = document.createElement('button'); non.type = 'button'; non.className = 'btn-sec'; non.textContent = 'Annuler';
+      const aide = document.createElement('p'); aide.className = 'res-corr-aide';
+      aide.textContent = `Mesuré ${mesure.toFixed(2).replace('.', ',')} m. Saisissez la longueur au mètre : tout le relevé se recale.`;
+      boite.append(champ, ok, non); ligne.after(aide, boite); champ.focus();
+      const fermer = () => { boite.remove(); aide.remove(); };
+      non.addEventListener('click', (e) => { e.stopPropagation(); fermer(); });
+      champ.addEventListener('click', (e) => e.stopPropagation());
+      champ.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); ok.click(); } });
+      ok.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const vraie = parseFloat(String(champ.value).replace(',', '.'));
+        if (!isFinite(vraie) || vraie <= 0.1 || !isFinite(mesure) || mesure <= 0.01) { champ.focus(); return; }
+        const k = vraie / mesure;
+        if (k < 0.5 || k > 2) { aide.textContent = 'Écart trop grand pour un recalage : vérifiez la saisie, ou refilmez la pièce.'; return; }
+        fermer(); appliquerEchelle(k, { mur: i + 1, mesure: +mesure.toFixed(2), saisi: +vraie.toFixed(2) });
+      });
+    }
+    /** Recale tout le relevé d'un facteur `k` : longueurs × k, surfaces × k². */
+    function appliquerEchelle(k, origine) {
+      if (!releveCourant || !(k > 0)) return;
+      const r = releveCourant;
+      r.surfaceSol = +(r.surfaceSol * k * k).toFixed(2);
+      r.perimetre = +(r.perimetre * k).toFixed(2);
+      r.plinthes = +(r.plinthes * k).toFixed(2);
+      r.surfaceMurs = +(r.surfaceMurs * k).toFixed(2);     // périmètre × hauteur : la hauteur ne change pas
+      r.corrigeAuMetre = origine;
+      r.fiabilite = 'bonne';                                // une cote au mètre tient désormais l'échelle
+      if (resultatFilm) {
+        resultatFilm.surface_sol = +(resultatFilm.surface_sol * k * k).toFixed(2);
+        resultatFilm.perimetre = +(resultatFilm.perimetre * k).toFixed(2);
+        (resultatFilm.murs || []).forEach((w) => { w.longueur = w.longueur * k; w.confiance = 1; });
+        (resultatFilm.angles || []).forEach((q) => { q.x *= k; q.z *= k; });
+        resultatFilm.corrigeAuMetre = origine;
+      }
+      journal('correction_metre', Object.assign({ facteur: +k.toFixed(4) }, origine));
+      afficherResultat();
+      const msg = $('msg-corrige');
+      if (msg) {
+        const pct = Math.round((k - 1) * 100);
+        msg.textContent = `Relevé recalé sur le mur ${origine.mur} mesuré au mètre : toutes les cotes ${pct >= 0 ? '+' : ''}${pct} %.`;
+        msg.style.display = '';
+      }
+    }
+
+    // ── Relire : les pièces déjà relevées, réutilisables ──────────────────
+    async function chargerReleves() {
+      try {
+        const { supabase } = await import('./js/supabase.js');
+        const { data, error } = await supabase
+          .from('releves_piece')
+          .select('id, piece, surface_sol, perimetre, hauteur, created_at, chantier_id, donnees, chantiers(client_name)')
+          .order('created_at', { ascending: false })
+          .limit(12);
+        if (error || !data || !data.length) return;
+        const zone = document.getElementById('liste-releves');
+        const bloc = document.getElementById('deja-releve');
+        zone.replaceChildren();
+        data.forEach((r) => {
+          const c = document.createElement('div');
+          c.className = 'carte';
+          c.style.cssText = 'display:flex;align-items:center;gap:12px;padding:11px 13px;';
+          const g = document.createElement('div');
+          g.style.cssText = 'flex:1;min-width:0;';
+          const t = document.createElement('b');
+          t.style.cssText = 'display:block;font-size:14px;';
+          t.textContent = r.piece || 'Pièce';
+          const d = document.createElement('small');
+          d.style.cssText = 'display:block;color:#5A7268;font-size:12px;margin-top:2px;';
+          const qui = (r.chantiers && r.chantiers.client_name) ? r.chantiers.client_name : 'sans chantier';
+          d.textContent = `${Number(r.surface_sol || 0).toFixed(2).replace('.', ',')} m² · ${qui} · `
+            + new Date(r.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+          g.append(t, d);
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'btn-sec';
+          b.style.cssText = 'flex:none;padding:8px 12px;font-size:12.5px;margin:0;';
+          b.textContent = 'Chiffrer';
+          b.addEventListener('click', () => {
+            // Réutilisation pour des travaux supplémentaires : on repart des
+            // cotes archivées, sans retourner sur place.
+            const o = r.donnees || {};
+            sessionStorage.setItem('batispot_metre', JSON.stringify({
+              surface_sol: Number(r.surface_sol) || o.surfaceSol || 0,
+              perimetre: Number(r.perimetre) || o.perimetre || 0,
+              hauteur: Number(r.hauteur) || o.hauteurSousPlafond || 2.5,
+              hauteur_mesuree: !o.hauteurSupposee,
+              surface_murs: o.surfaceMurs || 0,
+              plinthes: o.plinthes || Number(r.perimetre) || 0,
+              points: (o.points || []).length,
+              fiable: o.fiabilite !== 'douteuse',
+              suivi_perdu: !!o.suiviPerdu,
+              piece: r.piece || 'Pièce',
+            }));
+            window.location.href = './devis.html?source=metre';
+          });
+          c.append(g, b);
+          zone.appendChild(c);
+        });
+        bloc.style.display = 'block';
+      } catch (e) { console.warn('[metre] relevés non chargés', e); }
+    }
+
+    $('btn-enregistrer').addEventListener('click', enregistrerReleve);
+    chargerChantiers();
+    chargerReleves();
+
+    // ── Le wizard vidéo (29/09 ; refait le 04/10) ────────────────────────
+    // Trois scènes de 6 s : viser le sol, tourner sur soi en filmant, la
+    // pièce qui se ferme. Vu une fois avant la première capture ; revu à la
+    // demande. Le métré se fait désormais en filmant, plus point par point.
+    const CLIP_VU = 'bs_studio_clip_vu';
+    const SCENES = [
+      { etape: 'Étape 1 sur 3 · Ouvrir la caméra', txt: 'Tenez le téléphone debout et visez le sol, à un ou deux mètres devant vous, jusqu\'à ce que l\'anneau se remplisse.', phase: 'viser' },
+      { etape: 'Étape 2 sur 3 · Filmer la pièce', txt: 'Faites un tour lent sur vous-même, le pied des murs dans l\'image, et avancez de quelques pas pendant le tour. Les murs passent du pointillé au trait plein ; de brefs bips sont normaux.', phase: 'tourner' },
+      { etape: 'Étape 3 sur 3 · Terminer', txt: 'La pièce se ferme à l\'écran : vérifiez les cotes marquées « à vérifier », nommez la pièce, puis enregistrez.', phase: 'terminer' },
+    ];
+    let clipTimer = null, clipScene = 0, clipDebut = 0, clipRaf = null;
+    function clipRendre(i) {
+      const sc = SCENES[i];
+      $('clip-etape').textContent = sc.etape;
+      $('clip-txt').textContent = sc.txt;
+      $('clip-aim').style.display = sc.phase === 'viser' ? '' : 'none';
+      $('clip-tour').style.display = sc.phase === 'tourner' ? '' : 'none';
+      $('clip-mur-pointille').style.opacity = sc.phase === 'terminer' ? '0' : '1';
+      $('clip-mur-plein').style.opacity = sc.phase === 'terminer' ? '1' : '0';
+      $('clip-resultat').style.display = sc.phase === 'terminer' ? '' : 'none';
+    }
+    function clipAvancer() {
+      const t = (Date.now() - clipDebut) / 6000;
+      $('clip-prog').style.width = Math.min(100, t * 100).toFixed(1) + '%';
+      // Les murs se « remplissent » pendant le tour : du pointillé vers le
+      // trait plein, au rythme de l'étape plutôt que d'un coup.
+      if (SCENES[clipScene].phase === 'tourner') {
+        $('clip-mur-plein').style.opacity = Math.min(1, t).toFixed(2);
+        $('clip-mur-pointille').style.opacity = Math.max(0, 1 - t).toFixed(2);
+      }
+      if (t >= 1) { clipScene = (clipScene + 1) % SCENES.length; clipDebut = Date.now(); clipRendre(clipScene); }
+      clipRaf = requestAnimationFrame(clipAvancer);
+    }
+    function ouvrirClip() {
+      clipScene = 0; clipDebut = Date.now(); clipRendre(0);
+      $('studio-clip').hidden = false;
+      cancelAnimationFrame(clipRaf); clipRaf = requestAnimationFrame(clipAvancer);
+    }
+    function fermerClip() {
+      cancelAnimationFrame(clipRaf); clipRaf = null;
+      $('studio-clip').hidden = true;
+      try { localStorage.setItem(CLIP_VU, '1'); } catch (_) {}
+    }
+    $('btn-clip').addEventListener('click', ouvrirClip);
+    $('clip-fermer').addEventListener('click', fermerClip);
+    // « C'est parti » est un vrai geste de l'utilisateur : la session AR peut démarrer.
+    $('clip-go').addEventListener('click', () => { fermerClip(); demarrer(); });
+    $('btn-demarrer').addEventListener('click', () => {
+      let vu = false; try { vu = localStorage.getItem(CLIP_VU) === '1'; } catch (_) {}
+      if (vu) demarrer(); else ouvrirClip();
+    });
+    // Reprise après la mise en veille : un seul geste, pas de clip à revoir.
+    $('btn-veille').addEventListener('click', () => { $('btn-veille').style.display = 'none'; demarrer(); });
+    $('btn-refaire').addEventListener('click', () => { releveCourant = null; montrer('etat-pret'); });
+    // Ce que le devis lit : la pièce courante, et toutes celles de la série (totaux inclus).
+    function ecrireSessionDevis(fiable) {
+      if (!releveCourant) return;
+      const toutes = pieces.map((p) => ({ piece: p.nom, releve: p.releve, travaux: p.travaux || '' })).concat([{ piece: nomPieceCourante(), releve: releveCourant, travaux: travauxCourants() }]);
+      const somme = (k) => +toutes.reduce((t, p) => t + (p.releve[k] || 0), 0).toFixed(2);
+      sessionStorage.setItem('batispot_metre', JSON.stringify({
+        piece: toutes.length > 1 ? toutes.map((p) => p.piece).join(' + ') : nomPieceCourante(),
+        surface_sol: somme('surfaceSol'),
+        perimetre: somme('perimetre'),
+        hauteur: releveCourant.hauteurSousPlafond,
+        hauteur_mesuree: !releveCourant.hauteurSupposee,
+        surface_murs: somme('surfaceMurs'),
+        plinthes: somme('plinthes'),
+        points: releveCourant.points.length,
+        fiable: fiable !== false && !toutes.some((p) => p.releve.fiabilite === 'douteuse'),
+        suivi_perdu: toutes.some((p) => p.releve.suiviPerdu),
+        travaux: toutes.map((p) => p.travaux).filter(Boolean).join(' ; '),
+        pieces: toutes.map((p) => ({ piece: p.piece, travaux: p.travaux, surface_sol: p.releve.surfaceSol, perimetre: p.releve.perimetre, hauteur: p.releve.hauteurSousPlafond,
+                                     hauteur_mesuree: !p.releve.hauteurSupposee, surface_murs: p.releve.surfaceMurs, plinthes: p.releve.plinthes, fiable: p.releve.fiabilite !== 'douteuse' })),
+      }));
+    }
+    // Le devis lit sessionStorage : même principe que le scan de ticket.
+    const versDevis = () => { ecrireSessionDevis(); window.location.href = './devis.html?source=metre'; };
+    $('btn-devis-suite').addEventListener('click', async (ev) => {
+      const b = ev.currentTarget, dejaRange = $('btn-enregistrer').textContent === 'Enregistré';
+      if (!dejaRange) {
+        // Ranger d'abord : un devis dont le relevé n'est pas gardé se perd à la première reprise.
+        b.disabled = true; b.textContent = 'Enregistrement…';
+        try { await enregistrerReleve(); } catch (_) { /* le message d'erreur est déjà affiché */ }
+        b.disabled = false; b.textContent = 'Créer le devis avec ces cotes';
+      }
+      versDevis();
+    });
+    // « Mesurer une autre pièce » : la pièce courante rejoint la série, la caméra se rouvre.
+    $('btn-autre-piece').addEventListener('click', () => {
+      if (!releveCourant) return;
+      const dejaEnregistree = document.getElementById('btn-enregistrer').textContent === 'Enregistré';
+      pieces.push({ nom: nomPieceCourante(), releve: releveCourant, travaux: travauxCourants(), photos: photosCourantes, film: filmCourant, enregistre: dejaEnregistree, chantierId: document.getElementById('piece-chantier').value || null });
+      photosCourantes = []; rendrePhotos(); filmCourant = [];
+      releveCourant = null;
+      document.getElementById('piece-nom').value = `Pièce ${pieces.length + 1}`;
+      document.getElementById('piece-travaux').value = '';
+      demarrer();
+    });
+  </script>
+  <!-- Barre du bas : app-nav.js la remplit (Devis · Chantiers · Planning ·
+       Finances · Messages). Elle manquait, l'écran datant du 04/09. -->
+  <nav class="bn" id="bottom-nav" aria-label="Navigation"></nav>
+
+  <script src="/js/update-detector.js" defer></script>
+  <!-- Restauré le 13/09/2026 — l'écran avait disparu le 04/09 dans un commit
+       d'interface. Même ordre que devis.html : app-nav.js pose la barre et la
+       bibliothèque d'icônes, nav-roles.js filtre ensuite selon le rôle, donc
+       APRÈS lui. -->
+  <script src="./js/config.js"></script>
+  <!-- Correcteur d'orthographe natif sur tous les champs de saisie (15/09/2026). -->
+  <script src="./js/app-saisie.js?v=2026_09_15"></script>
+  <script src="./js/app-refresh.js?v=2026_09_03b"></script>
+  <script src="./js/app-anim.js?v=2026_09_07"></script>
+  <script src="./js/app-menu.js?v=menu_2026_09_08a" defer></script>
+  <script src="./js/app-prevision.js?v=2026_09_24b"></script>
+<script src="./js/app-assistant.js?v=2026_09_24c"></script>
+  <script type="module" src="./js/app-barre-assistant.js?v=2026_09_06e"></script>
+  <script src="./js/app-nav.js?v=2026_09_16_course"></script>
+  <script type="module" src="./js/nav-roles.js?v=2026_09_16_course"></script>
+</body>
+</html>

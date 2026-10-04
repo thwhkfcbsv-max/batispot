@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: BatiSpot BTP Estimation & Technical API
+  description: API de calcul d'estimation de travaux BTP et consultation des normes DTU 2026.
+  version: 1.0.0
+servers:
+  - url: https://batispot.pro
+paths:
+  /api/v1/estimate:
+    get:
+      summary: Chiffrer un chantier BTP selon les normes professionnelles
+      operationId: estimateWorks
+      parameters:
+        - name: trade
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [peinture, carrelage, salle_de_bain, electricite, plomberie, parquet, isolation, fenetres, mur_porteur, facade]
+          description: Corps d'état concerné
+        - name: surface
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Surface en m² ou quantité
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Ville du chantier pour localisation des prix
+      responses:
+        '200':
+          description: Estimation détaillée avec fournitures, main-d'œuvre et conformité DTU
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalHt:
+                    type: number
+                  fournituresHt:
+                    type: number
+                  mainOeuvreHt:
+                    type: number
+                  tvaRate:
+                    type: number
+                  totalTtc:
+                    type: number
+                  dtuNorme:
+                    type: string
